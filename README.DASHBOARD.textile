@@ -21,3 +21,24 @@ h3. Dock
 The dock lets you see at a glance what cards are on your stage. You can also add new cards using the quick-add list and the card menu buttons.
 
 h2. Detailed Features
+
+h2. Dependencies
+
+* famfamfam silk icons
+* jQuery
+* jQuery UI
+* YUI
+* jQuery Colorbox
+* jQuery Uploadify
+* jQuery Transfer
+* jQuery UI TableEdit
+* jQuery Color
+* SWF Object
+* Underscore.js
+* SASS
+
+h2. Requirements
+
+* Works best when rendered using up-to-date Webkit based browsers like Safari, Chrome, Appcelerator Titanium, Adobe AIR, and Mobile Safari.
+* Operational in recent versions of Firefox.
+* Not functional in Internet Explorer.
