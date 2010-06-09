@@ -57,6 +57,118 @@ Pre-load data, or set-up custom functionality before the Dashboard is loaded by 
   })
 </code></pre>
 
+h3. Real-Time Update Notification System
+
+h3. Dashboard Switcher
+
+h3. Dashboard Manager
+
+h3. Addressable Cards, Single Card Mode
+
+h3. Dock Quick Links
+
+h3. <code>.fluxx-card-close-parent</code>
+
+h3. Details Meta Tray
+
+h3. <code>.fluxx_add_new_element_form</code>
+
+h3. <code>.fluxx-delete-div</code>
+
+h3. Change Card Title
+
+h3. Minimize Card
+
+h3. Maximize Card
+
+h3. Close Card Details
+
+h3. <code>a[href].fluxx-card-link-with-note</code>
+
+h3. Listing Actions Toolbar
+
+h3. <code>a[href].fluxx-card-link-to-detail</code>
+
+h3. <code>a[href].fluxx-card-link-to-self</code>
+
+h3. <code>a[href].fluxx-card-link-to-new-card</code>
+
+h3. <code>a[href].fluxx-card-link-to-new-card-listing</code>
+
+h3. <code>a[href].fluxx-card-link-to-modal</code>
+
+h3. Close Modals
+
+h3. <code>form.fluxx-card-form-on-complete-refresh</code>
+
+h3. <code>form.fluxx-card-form-on-complete-refresh-partial</code>
+
+h3. <code>form.fluxx-card-form-with-note</code>
+
+h3. <code>form.fluxx-card-form-to-self</code>
+
+h3. <code>form.fluxx-card-form-to-settings</code>
+
+h3. Dock/Minimized Informational Overview of Card Contents
+
+h3. <code>$.fn.fluxxCardAdd()</code> Add New Card
+
+h3. <code>$.fn.fluxxCard()</code> Get Element's Card
+
+h3. <code>$.fn.fluxxCardBox()</code> Get Element's Card Containment Box
+
+h3. <code>$.fn.fluxxCardArea()</code> Get Element's Card Content Area
+
+h3. <code>$.fn.fluxxCardAreaReload()</code> Reload Element's Card Content Area
+
+h3. <code>$.fn.fluxxCardPartial()</code> Get Element's Partial Content Area
+
+h3. <code>$.fn.fluxxCardPartialReload()</code> Reload Element's Partial Content Area
+
+h3. <code>$.fn.fluxxCardStage()</code> Get Element's Stage
+
+h3. <code>$.fn.fluxxCardAreaHistorySlider()</code> Create History Slider for Area's Content
+
+h3. Auto-resize Width of Card
+
+h3. Close Card
+
+h3. Open and Configure Card Settings
+
+h3. Position Settings
+
+h3. Position Metadata Tray
+
+h3. <code>$.fn.fluxxCardListing(url)</code> Load URL in Card's Listing Area
+
+h3. <code>$.fn.fluxxCardDetail(url)</code> Load URL in Card's Detail Area
+
+h3. Auto-resize Height of Card
+
+h3. Load Partial Content in Card Areas
+
+h3. Open and Position Modals for Cards
+
+h3. Auto-resize Height of Stage
+
+h3. Freeze Dashboard Configuration and Store on Backend
+
+h3. Thaw Dashboard Configuration from Backend and Restore
+
+h3. Load a Default Dashboard
+
+h3. Scroll to Focus on Card
+
+h3. Get Card Width
+
+h3. Auto-resize Width of Stage
+
+h3. <code>input.date_field</code> jQuery UI Date Picker
+
+h3. YUI Auto Complete
+
+
+
 h2. Dependencies
 
 * famfamfam silk icons
