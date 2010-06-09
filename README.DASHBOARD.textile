@@ -1,8 +1,12 @@
 h1. FLUXX Dashboard
 
-h2. Purpose
+h2. Description
 
-The FLUXX Dashboard is an independent User Interface Framework. It's a multi-tasking, multi-windowed environment modeled after a typical operating system interface. Flagship elements of the UI include:
+The FLUXX Dashboard is an independent User Interface Framework. It's a multi-tasking, multi-windowed environment modeled after a typical operating system interface. The FLUXX Dashboard is built on cutting edge web development techniques using standards like HTML5 and CSS3, and sophisticated JavaScript programming using jQuery.
+
+h2. Constructs
+
+Flagship elements of the UI include:
 
 h3. Dashboards
 
@@ -22,6 +26,8 @@ The dock lets you see at a glance what cards are on your stage. You can also add
 
 h2. Detailed Functionality
 
+*This documentation describes the desired functionality and operation of the Open Source FLUXX Dashboard (a work in progress).*
+
 h3. Card Icons
 
 The Dashboard can use a server-side provided Icon mapping to make sure cards are supplied with specific icons pertaining to the URLs that are loaded into the card. The icon map uses this structure:
@@ -40,6 +46,16 @@ The Dashboard can use a server-side provided Icon mapping to make sure cards are
 </code></pre>
 
 The URL of content loaded into a card when its first rendered will determine which icon is mapped to it. The key of the icon map is a URL fragment which is considered the beginning of the URL being loaded into a card.
+
+h3. Dashboard Initialization Event
+
+Pre-load data, or set-up custom functionality before the Dashboard is loaded by listening to the <code>fluxxDashboardInit</code> event.
+
+<pre><code>
+  $.fluxxDashboard().bind('fluxxDashboardInit', function(e) {
+    // Initialize the dashboard.
+  })
+</code></pre>
 
 h2. Dependencies
 
