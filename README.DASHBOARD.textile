@@ -1,0 +1,23 @@
+h1. FLUXX Dashboard
+
+h2. Purpose
+
+The FLUXX Dashboard is an independent User Interface Framework. It's a multi-tasking, multi-windowed environment modeled after a typical operating system interface. Flagship elements of the UI include:
+
+h3. Dashboards
+
+Re-usable, configurable dashboards let you control FLUXX so it works the way you do. Create dashboards modeled for specific tasks, reports, and environments. Switching between dashboards is easy.
+
+h3. Stage
+
+The FLUXX Dashboard has one stage. This is where the cards for your currently loaded dashboards are organized. Cards are placed horizontally and you can scroll through them left to right.
+
+h3. Cards
+
+Cards are the content-type specific windows you use to interact with information in your FLUXX instance. A card can have a list of entries, filters for a listing, a detailed view of one entry, a metadata tray related to the detailed view, and a popup modal specific to that card. You can rename, close, minimize, hide details, and re-arrange cards on your stage.
+
+h3. Dock
+
+The dock lets you see at a glance what cards are on your stage. You can also add new cards using the quick-add list and the card menu buttons.
+
+h2. Detailed Features
