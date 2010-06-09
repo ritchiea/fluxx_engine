@@ -20,7 +20,26 @@ h3. Dock
 
 The dock lets you see at a glance what cards are on your stage. You can also add new cards using the quick-add list and the card menu buttons.
 
-h2. Detailed Features
+h2. Detailed Functionality
+
+h3. Card Icons
+
+The Dashboard can use a server-side provided Icon mapping to make sure cards are supplied with specific icons pertaining to the URLs that are loaded into the card. The icon map uses this structure:
+
+<pre><code>
+  {
+    '/people': {
+      dock: '/images/cards/icons/people.dock.png',
+      card: '/images/cards/icons/people.card.png'
+    },
+    '/': {
+      dock: '/images/cards/icons/default.dock.png',
+      card: '/images/cards/icons/default.card.png'
+    }
+  }
+</code></pre>
+
+The URL of content loaded into a card when its first rendered will determine which icon is mapped to it. The key of the icon map is a URL fragment which is considered the beginning of the URL being loaded into a card.
 
 h2. Dependencies
 
