@@ -167,7 +167,19 @@ h3. <code>input.date_field</code> jQuery UI Date Picker
 
 h3. YUI Auto Complete
 
+h3. Generate a Looking Glass Showing Current Field of View on Stage
 
+h3. Update Position of Looking Glass
+
+h3. Make Card (via Dock Icons) Sortable with Drag and Drop
+
+h3. Remove Icon from Dock When Card Leaves Stage
+
+h3. Show Quick Info About Card when Hovering on Icon
+
+h3. Add Icon to Dock When Card Enters Stage
+
+h3. Size Dock Card List with Scroll for Overflow
 
 h2. Dependencies
 
