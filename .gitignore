@@ -1,0 +1,12 @@
+config/database.yml
+config/*.sphinx.conf
+coverage
+db/sphinx
+log/*
+public/documents
+tmp/*
+*DS_Store
+public/stylesheets/compiled/*.css
+tmp/sass-cache
+pkg/
+*.gemspec
