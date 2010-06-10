@@ -1,5 +1,9 @@
-module Authr
-  require 'authr/engine' if defined?(Rails)
-end
-
-require 'extensions/action_controller/base'
+require "formtastic" 
+require "active_support" 
+require "will_paginate" 
+require "extensions/array_extension" 
+require "extensions/fixnum_extensions" 
+require "extensions/formtastic_override" 
+require "extensions/inflections" 
+require "extensions/time_formats" 
+require "extensions/will_paginate_override" 
