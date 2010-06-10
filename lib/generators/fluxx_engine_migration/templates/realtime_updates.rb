@@ -1,4 +1,4 @@
-class CreateRealtimeUpdatesTable < ActiveRecord::Migration
+class FluxxEngineCreateRealtimeUpdatesTable < ActiveRecord::Migration
   def self.up
     create_table :realtime_updates do |t|
       t.timestamps

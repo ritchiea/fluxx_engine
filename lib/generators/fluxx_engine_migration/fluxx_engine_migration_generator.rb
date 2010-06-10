@@ -19,7 +19,7 @@ class FluxxEngineMigrationGenerator < Rails::Generators::Base
   end
 
   def create_realtime_updates
-    handle_migration 'realtime_updates.rb', 'db/migrate/create_fluxx_engine_realtime_updates_table.rb'
+    handle_migration 'realtime_updates.rb', 'db/migrate/fluxx_engine_create_realtime_updates_table.rb'
   end
   
   private
