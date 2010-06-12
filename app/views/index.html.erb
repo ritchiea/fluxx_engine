@@ -1,0 +1,31 @@
+<h1>Listing <%= @plural_model_name %></h1>
+
+<div class="fluxx-card-header">
+      <%= render :partial => 'insta/list_actions' %>
+      <% form_for :q, :url => url_for(:action => :index), :html => { :method => :get, :class => 'fluxx-card-form-to-self' } do |f| %>
+        <%= f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'fluxx-card-listing-filter', :placeholder => 'Search...' %>
+      <% end %>
+</div>
+
+<div class="fluxx-card-content">
+<ul class="fluxx-card-listing-list" fluxx:delta_type="<%= @delta_type %>">
+<% @models.compact.each do |model| %>
+  <li class="fluxx-card-listing-list-entry">
+      <a href='<%= url_for(model) %>' class ='fluxx-card-link-to-detail' fluxx:ts='<%= model.updated_at.to_i + 5.hours.to_i %>'>
+      <%- view_attrs = if @view_attr_block
+        @view_attr_block.call model, params
+      else
+        @view_attrs
+      end
+      view_attrs.each do |view_fieldset| -%>
+        <<%= view_fieldset[:type] || 'span' %> class='<%= view_fieldset[:class] %>'>
+          <%= process_index_fields model, view_fieldset %>
+        </<%= view_fieldset[:type] || span%>>
+      <%- end -%>
+      </a>
+  </li>
+<% end %>
+
+</ul>
+</div>
+<div class="fluxx-card-footer"><%= fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>' %></div>

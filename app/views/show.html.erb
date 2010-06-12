@@ -1,0 +1,56 @@
+<div class="fluxx-card-header"><%= flash_info %><%= flash_error %></div>
+<div class="fluxx-card-footer">
+  <%- 
+  if @view_footer_definition -%>
+    <%= render :partial => "insta/display_fields", :locals => { :view_fields => @view_footer_definition, :model => @model} %>
+  <%- else -%>
+    <%= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'fluxx-card-link-to-self', :link_class => 'btn' %>
+  <%- end -%>
+  <%- if @model.respond_to?(:is_favorite_for?) && !@skip_favorites
+        if @model.is_favorite_for?(current_user)
+        -%>
+        <%- link_to_delete 'Remove Favorite', @model.is_favorite_for?(current_user), {:class => 'fluxx-card-form-on-complete-refresh', :link_class => 'btn', :style => 'display: none'}, false -%>
+     <%- else -%>
+       <%- link_to_create 'Make Favorite', Favorite.new, {:class => 'fluxx-card-form-on-complete-refresh', :link_class => 'btn'} do |form| -%>
+         <%= form.hidden_field :favorable_type, :value => @model.class.name %>
+         <%= form.hidden_field :favorable_id, :value => @model.id %>
+         <%= form.hidden_field :user_id, :value => current_user.id %>
+       <%- end 
+         end
+       end -%>
+    <%= link_to 'Printable', '#', :onclick => '$(this).attr("href", $(this).fluxxCardArea().data("url"))', :target => "_blank", :class => 'btn' %>
+</div>
+
+<div class="fluxx-card-content">
+<div class="fluxx-card-show">
+  <%= render :partial => 'insta/insta_show', :locals => { :model => @model, :view_fields => @view_definition } %>
+</div></div>
+
+<%- if @model.respond_to?(:load_related_data) && ! @exclude_related_data -%>
+<div class="fluxx-card-content-metadata">
+<div class="fluxx-card-content-metadata-sections-scroll"><span>Scroll Tabs</span><a href="#" class="sections-scroll-left">&laquo;</a><a href="#" class="sections-scroll-right">&raquo;</a></div>
+  <ol class="fluxx-card-content-metadata-sections">
+    <%- @model.load_related_data.each do |rd|
+     -%>
+     <li><%= rd[:display_name] %>
+     <div class="fluxx-card-content-metadata-section"><ol>
+       <%- rd[:formatted_data].each do |element| 
+        section_title = if element[:display_template] 
+          render :partial => element[:display_template], :locals => {:model => element[:model]}
+        else
+          element[:display].values.join ' '
+        end
+       -%><li>
+          <% link_to(element[:model], :class => 'fluxx-card-link-to-new-card', :title => element[:title].values.map{|v| v.to_s}.join(' '), :dock_icon => '/images/ql-icons/48x48-grants.png') do %>
+            <span class="fluxx-card-content-metadata-section-title"><%= section_title %></span>
+          <% end %>
+        </li>
+       <%- end -%>
+     </ol></div>
+     </li>
+    <%- end -%>
+  </ol>
+  <div class="fluxx-card-content-metadata-info"></div>
+</div>
+<%- end -%>
+

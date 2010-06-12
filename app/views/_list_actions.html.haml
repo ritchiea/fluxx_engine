@@ -1,0 +1,17 @@
+.listing-actions
+  %a.listing-actions-toggle{:href => '#'}
+    +
+  .listing-action-items
+    - form_for :q, :url => url_for(:action => :index, :format => :xls), :html => { :method => :get } do |f|
+      = f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'fluxx-card-listing-filter', :style => 'display: none', :placeholder => 'CSV...'
+      - link_to '#', :title => 'Download Listing as Spreadsheet (Excel)', :class => 'fluxx-card-listing-filter-csv', :onclick => 'var link=$(this).parent().attr("action") + "?" + $(this).fluxxCard().find(".fluxx-card-listing").data("settings") + "&" + $(this).parent().serialize(); console.log(link); window.location = link;return false;' do
+        = image_tag 'icons/page_white_excel.png'
+    - form_for :q, :url => url_for(:action => :index, :format => :csv), :html => { :method => :get } do |f|
+      = f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'fluxx-card-listing-filter', :style => 'display: none', :placeholder => 'CSV...'
+      - link_to '#', :title => 'Download Listing as Spreadsheet (CSV)', :class => 'fluxx-card-listing-filter-csv', :onclick => 'var link=$(this).parent().attr("action") + "?" + $(this).fluxxCard().find(".fluxx-card-listing").data("settings") + "&" + $(this).parent().serialize(); console.log(link); window.location = link;return false;' do
+        = image_tag 'icons/page_white_put.png'
+    - if controller.is_a?(GrantRequestsController) || controller.is_a?(FipRequestsController)
+      - form_for(:q, :url => url_for(:action => :funnel, :id => 0), :html => { :method => :get }) do |f|
+        = f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'fluxx-card-listing-filter', :style => 'display: none', :placeholder => 'Funnel...'
+        - link_to '#', :title => 'Conversion Funnel', :class => 'fluxx-card-listing-filter-funnel non-printable fluxx-card-link-to-new-card', :onclick => 'var link=$(this).parent().attr("action") + "?" + $(this).fluxxCard().find(".fluxx-card-listing").data("settings") + "&" + $(this).parent().serialize(); $(this).attr("href", link)' do
+          = image_tag 'icons/arrow_join.png'

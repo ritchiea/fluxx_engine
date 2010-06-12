@@ -1,9 +1,12 @@
 require "formtastic" 
 require "active_support" 
 require "will_paginate" 
-require "extensions/array_extension" 
-require "extensions/fixnum_extensions" 
-require "extensions/formtastic_override" 
-require "extensions/inflections" 
-require "extensions/time_formats" 
-require "extensions/will_paginate_override" 
+require "action_controller"
+
+Dir.glob("#{File.dirname(__FILE__).to_s}/extensions/**/*.rb").each do |extension_rb|
+  require extension_rb.gsub /\.rb$/, ''
+end
+
+Dir.glob("#{File.dirname(__FILE__).to_s}/fluxx_engine/**/*.rb").each do |fluxx_engine_rb|
+  require fluxx_engine_rb.gsub /\.rb$/, ''
+end

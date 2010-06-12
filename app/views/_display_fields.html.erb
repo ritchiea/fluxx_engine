@@ -1,0 +1,21 @@
+<%- if view_fields
+  view_fields.each do |descriptor| 
+    name_values = process_show_fields model, descriptor[:fields]
+    unless name_values.empty?
+  -%>
+    <%- if descriptor[:description] -%>
+    <h2><%= descriptor[:description] %></h2>
+    <%- end -%>
+      <%- name_values.each do |name, value|
+            unless value.blank?
+  	  -%>
+  	  <%-     if name.blank? -%><%= value %><%- else -%>
+    <dl>
+          <dt><%- unless name.blank? -%><%= name %>:<%- end -%></dt><dd><%= value %></dd>
+    </dl>
+    <%-       end
+            end
+         end -%>
+<%  end
+  end 
+end %>

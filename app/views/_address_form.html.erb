@@ -1,0 +1,26 @@
+<%- street_address, street_address2, city, state, country, postal_code = ["#{address_prefix}street_address".to_sym, "#{address_prefix}street_address2".to_sym, "#{address_prefix}city".to_sym, "#{address_prefix}country_state".to_sym, 
+  "#{address_prefix}country".to_sym, "#{address_prefix}postal_code".to_sym]
+  chosen_country = model.send(country)
+  chosen_state = model.send(state)
+  chosen_country_id = chosen_country ? chosen_country.id : nil
+  chosen_state_id = chosen_state ? chosen_state.id : nil
+-%>
+<%= form.input street_address, :label => address_label || 'Street Address:', :input_html => {:disabled => !editable} %>
+<%= form.input street_address2, :label => '&nbsp;', :input_html => {:disabled => !editable} %>
+<%= form.input city, :label => 'City:', :input_html => {:disabled => !editable} %>
+
+<%- rand_id = generate_random_id -%>
+
+<%= form.input country, :label => 'Country:', :as => :select, :collection => [chosen_country].compact, :selected => chosen_country_id, :input_html => {:id => "geo_country_#{rand_id}_id", :disabled => !editable} %>
+
+<%= form.input state, :label => 'State/Province: ', :as => :select, :collection => [chosen_state].compact, :selected => chosen_state_id, :input_html => {:id => "geo_state_#{rand_id}_id", :disabled => !editable} %>
+
+<%= javascript_tag "
+  $('body').one('fluxxCardLoadContent',function(e, $area){
+    var countrySelect = $('#geo_country_#{rand_id}_id');
+    var stateSelect = $('#geo_state_#{rand_id}_id');
+    populate_countries(countrySelect, stateSelect, '#{chosen_country_id}', '#{chosen_state_id}');
+  });
+" %>
+
+<%= form.input postal_code, :label => 'Zip/Postal Code:', :input_html => {:disabled => !editable} %>

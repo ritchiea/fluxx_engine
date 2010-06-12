@@ -1,0 +1,23 @@
+<div class="fluxx-card-header"><%= flash_info %><%= flash_error %></div>
+<div class="fluxx-card-content">
+  <div class="fluxx-card-edit">
+	<% semantic_form_for @model, :url => {:action => "create"}, :html => {:class => ('fluxx-card-form-to-self ' + (@form_class || ''))} do |form| %>
+    <%= render :partial => (@form_name || "insta/semantic_form"), :locals => { :form => form, :form_definition =>  @form_definition, :model => @model, :button_verb => (@button_verb || 'Create'), :button_definition => @button_definition} %>
+	<% end %>
+</div></div>
+
+<div class="fluxx-card-footer">
+  <script>
+  $('body').one('fluxxCardLoadContent',function(e, $area){
+    var $submit = $('.fluxx-card-edit form input[type="submit"]', $area);
+    $('.fluxx-card-detail-footer,.fluxx-card-modal-footer', $area).append(
+      $('<a></a>').attr('href','#').text($submit.val()).click(function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        $submit.parents('form:first').trigger('submit');
+      }).addClass('fluxx-card-link-to-workflow btn green')
+    );
+    $submit.hide();
+  });
+  </script>
+</div>

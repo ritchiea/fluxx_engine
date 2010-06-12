@@ -1,0 +1,7 @@
+/= link_to 'RF', '#', :onclick => '$(this).fluxxCardAreaReload();return false;'
+.fluxx-card-history-slider
+.fluxx-card-history-display
+%script{:type => 'text/javascript'}
+  = "var model_history = #{@full_model.audits.delete_if{|a| !a.full_model}.map{|a| {:author => a.user.full_name, :url => url_for(:id => @model.to_param, :audit_id => a.id), :date => a.created_at.full, :time => a.created_at.ampm_time, :audit_id => a.id}}.to_json};"
+  = "var current_audit_id = #{params[:audit_id]};"
+  $('body').one('fluxxCardLoadContent', function(e, $area) {$('.fluxx-card-history-slider', $area).fluxxCardAreaHistorySlider({history: model_history, current: current_audit_id});});
