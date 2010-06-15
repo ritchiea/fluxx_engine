@@ -124,12 +124,14 @@ class ActionController::Base
         format.html do 
           if @model
             if params[:audit_id]
+              # Allows the user to load up a history record
               @full_model = model_class.find(@model.id)
-              audit_options = options.merge(:view_definition => options[:audit_view_definition]) unless options[:audit_view_definition].blank?
-              audit_options = audit_options.merge(:footer_definition => options[:audit_footer_definition]) unless options[:audit_footer_definition].blank?
+              audit_options = options.merge(:template => options[:audit_template]) unless options[:audit_template].blank?
+              audit_options = audit_options.merge(:footer_template => options[:audit_footer_template]) unless options[:audit_footer_template].blank?
               fluxx_show_card audit_options
             elsif params[:mode]
-              mode_options = options.merge(:view_definition => options[:mode_view_definition][params[:mode].to_s]) unless options[:mode_view_definition].blank? || options[:mode_view_definition][params[:mode].to_s].blank?
+              # Allows the user to load up an alternate view (mode) based on a hash
+              mode_options = options.merge(:template => options[:mode_template][params[:mode].to_s]) unless options[:mode_template].blank? || options[:mode_template][params[:mode].to_s].blank?
               fluxx_show_card mode_options
             else
               fluxx_show_card options
@@ -480,8 +482,7 @@ class ActionController::Base
   
   def fluxx_show_card options
     @template = options[:template]
-    @view_footer_definition = options[:footer_definition]
-    @skip_favorites = options[:skip_favorites]
+    @footer_template = options[:footer_template]
     @exclude_related_data = options[:exclude_related_data]
     @layout = options[:layout]
     render((options[:view] || "#{insta_path}/show").to_s, :layout => @layout)
