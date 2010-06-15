@@ -5,7 +5,10 @@ SOURCES   = FileList['src/fluxx.*.js']
 LIBRARIES = FileList['lib/*.js', 'lib/jquery-ui-1/js/*.js']
 
 SASS = FileList['theme/*/sass/*.sass']
-puts '>>> ' + SASS.to_s
+
+def sass2css(source, destination)
+  sh "sass --style compact #{source} #{destination}"
+end
 
 def compile_sources(sources)
   sources.map{ |src|
@@ -54,8 +57,23 @@ task :demo => ['server:start'] do
 end
 
 desc 'Build All Sources'
-task :build => ['dist/fluxx.engine.full.min.js'] do
-  puts ">>> Building Sources"
+task :build => ['build:js', 'build:css'] do
+end
+
+namespace "build" do
+  desc 'Build JavaScript'
+  task :js => ['dist/fluxx.engine.full.min.js'] do
+    puts ">>> Built JavaScript Sources"
+  end
+  
+  desc 'Build Stylesheets'
+  task :css do
+    SASS.each{ |source|
+      destination = source.gsub(/sass/, 'css')
+      puts ">>> #{source} -> #{destination}"
+      sass2css source, destination
+    }
+  end
 end
 
 desc 'Clean All Sources'

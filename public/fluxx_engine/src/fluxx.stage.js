@@ -1,7 +1,7 @@
 (function($){
   $.fn.extend({
     fluxxStage: function() {
-      alert("hi hi");
+//      alert("hi hi");
     }
   });
 })(jQuery);

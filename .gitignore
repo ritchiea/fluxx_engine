@@ -10,3 +10,7 @@ public/stylesheets/compiled/*.css
 tmp/sass-cache
 pkg/
 *.gemspec
+public/fluxx_engine/.sass-cache
+public/fluxx_engine/dist/*
+public/fluxx_engine/tmp
+public/fluxx_engine/theme/*/css/*
