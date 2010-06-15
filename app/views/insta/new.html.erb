@@ -2,7 +2,7 @@
 <div class="fluxx-card-content">
   <div class="fluxx-card-edit">
 	<% semantic_form_for @model, :url => {:action => "create"}, :html => {:class => ('fluxx-card-form-to-self ' + (@form_class || ''))} do |form| %>
-    <%= render :partial => (@form_name || "#{insta_path}/semantic_form"), :locals => { :form => form, :form_definition =>  @form_definition, :model => @model, :button_verb => (@button_verb || 'Create'), :button_definition => @button_definition} %>
+    <%= render :partial => @template, :locals => { :form => form, :model => @model, :button_verb => (@button_verb || 'Create'), :button_definition => @button_definition} %>
 	<% end %>
 </div></div>
 
