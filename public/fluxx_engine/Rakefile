@@ -1,0 +1,86 @@
+require 'rubygems'
+require 'jsmin'
+
+SOURCES   = FileList['src/fluxx.*.js']
+LIBRARIES = FileList['lib/*.js', 'lib/jquery-ui-1/js/*.js']
+
+SASS = FileList['theme/*/sass/*.sass']
+
+def sass2css(source, destination)
+  sh "sass --style compact #{source} #{destination}"
+end
+
+def compile_sources(sources)
+  sources.map{ |src|
+    File.open(src, 'r') {|f| f.read }
+  }.join('')
+end
+
+def minify_source(source)
+  minified = nil
+  File.open(source, 'r') { |input|
+    minified = JSMin.minify(input)
+  }
+  minified
+end
+
+file 'dist/fluxx.engine.js' => SOURCES do |t|
+  File.open(t.name, 'w') {|f| f.write(compile_sources t.prerequisites)}
+end
+
+file 'dist/fluxx.engine.full.js' => [LIBRARIES, 'dist/fluxx.engine.js'].flatten do |t|
+  File.open(t.name, 'w') {|f| f.write(compile_sources t.prerequisites)}
+end
+
+file 'dist/fluxx.engine.min.js' => ['dist/fluxx.engine.js'] do |t|
+  File.open(t.name, 'w') {|f| f.write(minify_source t.prerequisites.first)}
+end
+
+file 'dist/fluxx.engine.full.min.js' => ['dist/fluxx.engine.full.js'] do |t|
+  File.open(t.name, 'w') {|f| f.write(minify_source t.prerequisites.first)}
+end
+
+namespace "server" do
+  desc 'Start Fluxx Dashboard Development Server'
+  task :start do
+    `thin -p 2424 -s5 -R config.ru restart`
+  end
+  desc 'Stop Fluxx Dashboard Development Server'
+  task :stop do
+    `thin -p 2424 -s5 -R config.ru stop`
+  end
+end
+
+desc "Open Fluxx Dashboard Demo"
+task :demo => ['server:start'] do
+  `open http://127.0.0.1:2424/demo/wireframe.html`
+end
+
+desc 'Build All Sources'
+task :build => ['build:js', 'build:css'] do
+end
+
+namespace "build" do
+  desc 'Build JavaScript'
+  task :js => ['dist/fluxx.engine.full.min.js'] do
+    puts ">>> Built JavaScript Sources"
+  end
+  
+  desc 'Build Stylesheets'
+  task :css do
+    SASS.each{ |source|
+      destination = source.gsub(/sass/, 'css')
+      puts ">>> #{source} -> #{destination}"
+      sass2css source, destination
+    }
+  end
+end
+
+desc 'Clean All Sources'
+task :clean do
+  FileList['dist/*.js'].each{
+    |f| File.delete(f)
+  }
+end
+
+
