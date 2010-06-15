@@ -13,6 +13,7 @@ begin
 
     # http://github.com/rgrove/jsmin/
     gem.add_development_dependency('jsmin', '>= 1.0.1')
+    gem.add_development_dependency('thin', '>= 1.2.7')
   end
 rescue
   puts "Jeweler or dependency not available."
