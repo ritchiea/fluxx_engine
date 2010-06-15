@@ -17,7 +17,7 @@
              address_prefix = field[:type][:prefix]
   		       address_prefix = address_prefix.to_s if address_prefix
   		  -%>
-	           <%= render :partial => 'insta/address_form', :locals => { :form => form, :model => model, :address_prefix => address_prefix, :address_label => address_label, :editable => field_editable?(model, field)} %>
+	           <%= render :partial => "#{insta_path}/address_form", :locals => { :form => form, :model => model, :address_prefix => address_prefix, :address_label => address_label, :editable => field_editable?(model, field)} %>
  		   <%- elsif field[:type] && field[:type][:name] == :file -%>
              <%= form.input field[:name], :as => :file, :value => '', :input_html => {:disabled => disabled_value(model, field), :class => field[:class]} %>
  		   <%- elsif field[:type] && field[:type][:name] == :select_transfer 

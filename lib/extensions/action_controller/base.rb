@@ -6,6 +6,7 @@ class ActionController::Base
   helper_method :grab_param if respond_to?(:helper_method)
   helper_method :grab_param_or_model if respond_to?(:helper_method)
   
+  
   def grab_param form_name, param_name
     params[param_name] || (params[form_name] ? params[form_name][param_name] : '')
   end
@@ -75,10 +76,9 @@ class ActionController::Base
         end
       end
       
-      @view_attr_block = options[:view_attr_block]
-      @view_attrs = options[:view_attrs] || [:name]
+      @template = options[:template]
       respond_to do |format|
-        format.html { render((options[:view] || "/insta/index").to_s, :layout => false) }
+        format.html { render((options[:view] || "#{insta_path}/index").to_s, :layout => false) }
         format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
         format.xls do
           stream_extract model_class, unpaged_models, search_conditions, :xls
@@ -143,7 +143,6 @@ class ActionController::Base
           end
         end
         format.xml  { render :xml => @model }
-        format.pdf  { render :layout => false }
       end
     end
   end
@@ -171,7 +170,7 @@ class ActionController::Base
       @button_definition = options[:button_definition] || @model_human_name
       @button_verb = options[:button_verb]
       respond_to do |format|
-        format.html { render((options[:view] || "/insta/new").to_s, :layout => false)}
+        format.html { render((options[:view] || "#{insta_path}/new").to_s, :layout => false)}
         format.xml  { render :xml => @model }
       end
     end
@@ -250,7 +249,7 @@ class ActionController::Base
           p "ESH: error saving record #{@model.errors.inspect}"
           flash[:error] = t(:errors_were_found)
           logger.debug("Unable to create "+@singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
-          format.html { render((options[:view] || "/insta/new").to_s, :layout => false) }
+          format.html { render((options[:view] || "#{insta_path}/new").to_s, :layout => false) }
           format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
         end
       end
@@ -304,7 +303,7 @@ class ActionController::Base
             add_lock @model
             flash[:error] = t(:errors_were_found)
             logger.debug("Unable to save "+@singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
-            format.html { render((options[:view] || "/insta/edit").to_s, :layout => false) }
+            format.html { render((options[:view] || "#{insta_path}/edit").to_s, :layout => false) }
             format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
           end
         end
@@ -312,7 +311,7 @@ class ActionController::Base
         respond_to do |format|
           # Provide a locked error message
           flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.full_name : ''), :lock_expiration => @model.locked_until.mdy_time)
-          format.html { render((options[:view] || "/insta/edit").to_s, :layout => false) }
+          format.html { render((options[:view] || "#{insta_path}/edit").to_s, :layout => false) }
           format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
           @not_editable=true
         end
@@ -474,4 +473,28 @@ class ActionController::Base
       end
     end
   end
+  
+  def insta_path
+    "#{File.dirname(__FILE__).to_s}/../../../app/views/insta"
+  end
+  
+  def fluxx_show_card options
+    @template = options[:template]
+    @view_footer_definition = options[:footer_definition]
+    @skip_favorites = options[:skip_favorites]
+    @exclude_related_data = options[:exclude_related_data]
+    @layout = options[:layout]
+    render((options[:view] || "#{insta_path}/show").to_s, :layout => @layout)
+  end
+  
+  def fluxx_edit_card options
+    @form_name = options[:form_name]
+    @form_definition = options[:form_definition]
+    @button_definition = options[:button_definition]
+    @button_verb = options[:button_verb]
+    @form_url = options[:form_url]
+    render((options[:view] || "#{insta_path}/edit").to_s, :layout => false)
+  end
+  
+
 end

@@ -2,28 +2,16 @@
 <div class="fluxx-card-footer">
   <%- 
   if @view_footer_definition -%>
-    <%= render :partial => "insta/display_fields", :locals => { :view_fields => @view_footer_definition, :model => @model} %>
+    <%#= render :partial => "#{insta_path}/display_fields", :locals => { :view_fields => @view_footer_definition, :model => @model} %>
   <%- else -%>
     <%= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'fluxx-card-link-to-self', :link_class => 'btn' %>
   <%- end -%>
-  <%- if @model.respond_to?(:is_favorite_for?) && !@skip_favorites
-        if @model.is_favorite_for?(current_user)
-        -%>
-        <%- link_to_delete 'Remove Favorite', @model.is_favorite_for?(current_user), {:class => 'fluxx-card-form-on-complete-refresh', :link_class => 'btn', :style => 'display: none'}, false -%>
-     <%- else -%>
-       <%- link_to_create 'Make Favorite', Favorite.new, {:class => 'fluxx-card-form-on-complete-refresh', :link_class => 'btn'} do |form| -%>
-         <%= form.hidden_field :favorable_type, :value => @model.class.name %>
-         <%= form.hidden_field :favorable_id, :value => @model.id %>
-         <%= form.hidden_field :user_id, :value => current_user.id %>
-       <%- end 
-         end
-       end -%>
-    <%= link_to 'Printable', '#', :onclick => '$(this).attr("href", $(this).fluxxCardArea().data("url"))', :target => "_blank", :class => 'btn' %>
+  <%= link_to 'Printable', '#', :onclick => '$(this).attr("href", $(this).fluxxCardArea().data("url"))', :target => "_blank", :class => 'btn' %>
 </div>
 
 <div class="fluxx-card-content">
 <div class="fluxx-card-show">
-  <%= render :partial => 'insta/insta_show', :locals => { :model => @model, :view_fields => @view_definition } %>
+  <%= render :partial => @template, :locals => { :model => @model } %>
 </div></div>
 
 <%- if @model.respond_to?(:load_related_data) && ! @exclude_related_data -%>

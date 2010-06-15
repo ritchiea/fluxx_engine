@@ -8,8 +8,8 @@ begin
     gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*"]
     gem.add_dependency('fastercsv', '>= 1.5.3')
     gem.add_dependency('formtastic-rails3', '>= 0.9.10.0')
-# TODO ESH: add in the 3 version when available
-#    gem.add_dependency('will_paginate', '>= 2.3.14')
+    gem.add_dependency('haml', '>= 3')
+    gem.add_dependency "agnostic-will_paginate", '>= 3'
   end
 rescue
   puts "Jeweler or dependency not available."
