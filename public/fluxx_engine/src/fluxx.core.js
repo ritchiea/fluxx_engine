@@ -9,9 +9,13 @@
           } else if ($.isPlainObject(options) && $.isFunction(callback)) {
             options['callback'] = callback;
           }
-          return $.extend(defaults || {callback: $.noop}, options || {});
+          return $.extend({callback: $.noop}, defaults || {}, options || {});
         }
       }
     }
   });
 })(jQuery);
+
+jQuery(function($){
+  $my['body'] = $('body');
+});

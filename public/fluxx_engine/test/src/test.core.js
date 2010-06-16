@@ -5,7 +5,7 @@ jQuery(function($){
     ok($.isPlainObject($my), "jQuery Selector Cache Initialized")
   });
   
-  test("$.fluxx.util.options_with_callback", function(){
+  test("$.fluxx.util.options_with_callback", 13, function(){
     var empty = $.fluxx.util.options_with_callback();
     ok($.isPlainObject(empty), "recieved an object");
     same(empty.callback, $.noop, "callback is a noop");

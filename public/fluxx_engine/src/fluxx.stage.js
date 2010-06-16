@@ -1,14 +1,21 @@
 (function($){
   $.fn.extend({
     fluxxStage: function(options, onComplete) {
-      console.log(options, onComplete)
       var options = $.fluxx.util.options_with_callback({}, options, onComplete);
       return this.each(function(){
         $my['fluxx']  = $(this);
-        $my['stage'] = $.fluxx.stage.ui.call(this);
-        $my.fluxx.html($my.stage);
-        $my.stage.bind('onComplete', options.callback);
-        $my.stage.trigger('onComplete');
+        $my['stage']  = $.fluxx.stage.ui.call(this);
+        $my.stage.bind('onComplete', options.callback)
+          .appendTo($my.fluxx.empty())
+          .trigger('onComplete');
+      });
+    },
+    removeFluxxStage: function(onComplete) {
+      var options = $.fluxx.util.options_with_callback({}, onComplete);
+      return this.each(function(){
+        $(this).remove;
+        $my.stage = undefined;
+        options.callback.call(this);
       });
     }
   });
