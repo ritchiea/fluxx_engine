@@ -2,15 +2,18 @@ jQuery(function($){
   module("stage");
 
   asyncTest("load stage", 2, function(){
-    $('<div/>').hide().appendTo($('body')).fluxxStage(function(){
+    $div = $('<div/>');
+    $div.hide().appendTo($('body')).fluxxStage(function(){
       equals($my.stage.length, 1, "stage was loaded with callback");
-    }).remove();
-    $('<div/>').hide().appendTo($('body')).fluxxStage({
-      onComplete: function(){
+      $div.remove();
+    });
+    $div.hide().appendTo($('body')).fluxxStage({
+      callback: function(){
         equals($my.stage.length, 1, "stage was loaded with options");
+        $div.remove();
       }
-    }).remove();
+    });
     
-    setTimeout(function(){start()},1000)
+    setTimeout(function(){start()},250)
   });
 });

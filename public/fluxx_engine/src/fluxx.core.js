@@ -8,10 +8,8 @@
             options = {callback: options};
           } else if ($.isPlainObject(options) && $.isFunction(callback)) {
             options['callback'] = callback;
-          } else if (! options){
-            options = {};
           }
-          return $.extend(defaults, options);
+          return $.extend(defaults || {callback: $.noop}, options || {});
         }
       }
     }

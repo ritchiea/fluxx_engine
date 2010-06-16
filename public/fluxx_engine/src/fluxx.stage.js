@@ -1,15 +1,13 @@
 (function($){
   $.fn.extend({
     fluxxStage: function(options, onComplete) {
-      var options = $.fluxx.util.options_with_callback(
-        {},        // Defaults
-        options,   // Supplied Options
-        onComplete // Supplied Callback
-      )
+      console.log(options, onComplete)
+      var options = $.fluxx.util.options_with_callback({}, options, onComplete);
       return this.each(function(){
         $my['fluxx']  = $(this);
-        $my['stage'] = $.fluxx.stage.ui.call(this).bind('onComplete', options.callback);
+        $my['stage'] = $.fluxx.stage.ui.call(this);
         $my.fluxx.html($my.stage);
+        $my.stage.bind('onComplete', options.callback);
         $my.stage.trigger('onComplete');
       });
     }
