@@ -1,9 +1,25 @@
 (function($){
   $.fn.extend({
-    fluxxStage: function() {
-      $my['fluxx']  = $(this);
-      $my['stage'] = $.fluxx.stage.ui.call(this).trigger('load');
-      $my.fluxx.html($my.stage);
+    fluxxStage: function(options, onComplete) {
+      var options = $.fluxx.options_with_callback(
+        {},        // Defaults
+        options,   // Supplied Options
+        onComplete // Supplied Callback
+      )
+      if ($.isFunction(options)) {
+        options = {onComplete: options};
+      } else if ($.isPlainObject(options) && $.isFunction(onComplete)) {
+        options['onComplete'] = onComplete;
+      } else if (! options){
+        options = {};
+      }
+      var options = $.extend(defaults, options);
+      return this.each(function(){
+        $my['fluxx']  = $(this);
+        $my['stage'] = $.fluxx.stage.ui.call(this).bind('onComplete', options.onComplete);
+        $my.fluxx.html($my.stage);
+        $my.stage.trigger('onComplete');
+      });
     }
   });
   

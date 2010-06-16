@@ -1,7 +1,16 @@
-module("stage");
+jQuery(function($){
+  module("stage");
 
-test("load stage", function(){
-  var div = $('<div/>').hide();
-  div.appendTo($('body')).fluxxStage();
-  is($('#stage').length, 1, "stage loaded");
+  asyncTest("load stage", 2, function(){
+    $('<div/>').hide().appendTo($('body')).fluxxStage(function(){
+      equals($my.stage.length, 1, "stage was loaded with callback");
+    }).remove();
+    $('<div/>').hide().appendTo($('body')).fluxxStage({
+      onComplete: function(){
+        equals($my.stage.length, 1, "stage was loaded with options");
+      }
+    }).remove();
+    
+    setTimeout(function(){start()},1000)
+  });
 });
