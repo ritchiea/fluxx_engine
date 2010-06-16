@@ -78,7 +78,7 @@ class ActionView::Base
     if flash[:info] 
       msg = "<div class='fluxx-card-notice fluxx-card-info'><a class='fluxx-card-close-parent fluxx-card-auto-fade' href='#fluxx-card-notice'><img src='/images/icons/cancel.png' /></a>#{flash[:info]}</div>"
       flash[:info] = nil
-      msg
+      raw msg
     end
   end
 
@@ -86,7 +86,7 @@ class ActionView::Base
     if flash[:error] 
       msg = "<div class='fluxx-card-notice fluxx-card-error'><a class='fluxx-card-close-parent' href='#fluxx-card-notice'><img src='/images/icons/cancel.png' /></a>#{flash[:error]}</div>"
       flash[:error] = nil
-      msg
+      raw msg
     end
   end
   

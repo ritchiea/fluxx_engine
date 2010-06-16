@@ -124,12 +124,14 @@ class ActionController::Base
         format.html do 
           if @model
             if params[:audit_id]
+              # Allows the user to load up a history record
               @full_model = model_class.find(@model.id)
-              audit_options = options.merge(:view_definition => options[:audit_view_definition]) unless options[:audit_view_definition].blank?
-              audit_options = audit_options.merge(:footer_definition => options[:audit_footer_definition]) unless options[:audit_footer_definition].blank?
+              audit_options = options.merge(:template => options[:audit_template]) unless options[:audit_template].blank?
+              audit_options = audit_options.merge(:footer_template => options[:audit_footer_template]) unless options[:audit_footer_template].blank?
               fluxx_show_card audit_options
             elsif params[:mode]
-              mode_options = options.merge(:view_definition => options[:mode_view_definition][params[:mode].to_s]) unless options[:mode_view_definition].blank? || options[:mode_view_definition][params[:mode].to_s].blank?
+              # Allows the user to load up an alternate view (mode) based on a hash
+              mode_options = options.merge(:template => options[:mode_template][params[:mode].to_s]) unless options[:mode_template].blank? || options[:mode_template][params[:mode].to_s].blank?
               fluxx_show_card mode_options
             else
               fluxx_show_card options
@@ -163,10 +165,10 @@ class ActionController::Base
       end
       
       instance_variable_set @singular_model_instance_name, @model
+      @template = options[:template]
       @multipart = options[:multi_part]
       @form_class = options[:form_class]
       @form_name = options[:form_name]
-      @form_definition = options[:form_definition]
       @button_definition = options[:button_definition] || @model_human_name
       @button_verb = options[:button_verb]
       respond_to do |format|
@@ -216,21 +218,21 @@ class ActionController::Base
       else
         model_class.new(params[model_class.name.underscore.downcase.to_sym])
       end
-      if @model.respond_to?(:created_by_id) && current_user
-        @model.created_by_id = current_user.id
+      if @model.respond_to?(:created_by_id) && fluxx_current_user
+        @model.created_by_id = fluxx_current_user.id
       end
-      if @model.respond_to?(:modified_by_id) && current_user
-        @model.modified_by_id = current_user.id
+      if @model.respond_to?(:modified_by_id) && fluxx_current_user
+        @model.modified_by_id = fluxx_current_user.id
       end
 
       @model = instance_variable_set @singular_model_instance_name, @model
       @form_name = options[:form_name]
-      @form_definition = options[:form_definition]
+      @template = options[:template]
       @button_definition = options[:button_definition] || @model_human_name
       @button_verb = options[:button_verb]
       @link_to_method = options[:link_to_method]
-      post_save_call = options[:post_save_call] || lambda{|current_user, model, params|true}
-      if @model.save && post_save_call.call(current_user, @model, params)
+      post_save_call = options[:post_save_call] || lambda{|fluxx_current_user, model, params|true}
+      if @model.save && post_save_call.call(fluxx_current_user, @model, params)
         respond_to do |format|
           flash[:info] = t(:insta_successful_create, :name => model_class.name)
           format.html do
@@ -272,21 +274,21 @@ class ActionController::Base
       end
       
       modified_by_map = {}
-      if @model.respond_to?(:modified_by_id) && current_user
-        modified_by_map[:modified_by_id] = current_user.id
+      if @model.respond_to?(:modified_by_id) && fluxx_current_user
+        modified_by_map[:modified_by_id] = fluxx_current_user.id
       end
       @form_name = options[:form_name]
-      @form_definition = options[:form_definition]
+      @template = options[:template]
       @button_definition = options[:button_definition] || @model_human_name
       @button_verb = options[:button_verb]
-      post_save_call = options[:post_save_call] || lambda{|current_user, model, params|true}
+      post_save_call = options[:post_save_call] || lambda{|fluxx_current_user, model, params|true}
 
       if editable? @model
         remove_lock @model
       
 
         respond_to do |format|
-          if @model.update_attributes(modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})) && post_save_call.call(current_user, @model, params)
+          if @model.update_attributes(modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})) && post_save_call.call(fluxx_current_user, @model, params)
             flash[:info] = t(:insta_successful_update, :name => model_class.name)
             format.html do
               if options[:render_inline] 
@@ -334,8 +336,8 @@ class ActionController::Base
       else 
         instance_variable_set @singular_model_instance_name, model_class.find(params[:id], :conditions => deleted_at_condition)
       end
-      if @model.respond_to?(:modified_by_id) && current_user
-        @model.modified_by_id = current_user.id
+      if @model.respond_to?(:modified_by_id) && fluxx_current_user
+        @model.modified_by_id = fluxx_current_user.id
       end
       unless really_delete
         @model.deleted_at = Time.now
@@ -367,7 +369,7 @@ class ActionController::Base
   end
   
   def editable? model
-    !(@model.respond_to?(:locked_until) && @model.respond_to?(:locked_by)) || @model.locked_until.nil? || @model.locked_until < Time.now || @model.locked_by == current_user
+    !(@model.respond_to?(:locked_until) && @model.respond_to?(:locked_by)) || @model.locked_until.nil? || @model.locked_until < Time.now || @model.locked_by == fluxx_current_user
   end
   
   def add_lock model
@@ -387,7 +389,7 @@ class ActionController::Base
       model = model.class.find model.id
       model.class.suspended_delta(false) do
         model.update_attribute :locked_until, Time.now + LOCK_TIME_INTERVAL
-        model.update_attribute :locked_by_id, current_user.id
+        model.update_attribute :locked_by_id, fluxx_current_user.id
       end
     end
   end
@@ -418,8 +420,8 @@ class ActionController::Base
           model.update_attribute :locked_until, interval
           model.locked_until = interval
         end
-        model.update_attribute :locked_by_id, current_user.id
-        model.locked_by_id = current_user.id
+        model.update_attribute :locked_by_id, fluxx_current_user.id
+        model.locked_by_id = fluxx_current_user.id
       end
     end
   end
@@ -480,8 +482,7 @@ class ActionController::Base
   
   def fluxx_show_card options
     @template = options[:template]
-    @view_footer_definition = options[:footer_definition]
-    @skip_favorites = options[:skip_favorites]
+    @footer_template = options[:footer_template]
     @exclude_related_data = options[:exclude_related_data]
     @layout = options[:layout]
     render((options[:view] || "#{insta_path}/show").to_s, :layout => @layout)
@@ -489,12 +490,15 @@ class ActionController::Base
   
   def fluxx_edit_card options
     @form_name = options[:form_name]
-    @form_definition = options[:form_definition]
+    @template = options[:template]
     @button_definition = options[:button_definition]
     @button_verb = options[:button_verb]
     @form_url = options[:form_url]
     render((options[:view] || "#{insta_path}/edit").to_s, :layout => false)
   end
   
-
+  protected
+  def fluxx_current_user
+    current_user if respond_to?(:current_user)
+  end
 end
