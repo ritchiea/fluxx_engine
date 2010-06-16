@@ -24,7 +24,9 @@ def minify_source(source)
   minified
 end
 
-file 'dist/fluxx.engine.js' => SOURCES do |t|
+directory 'dist'
+
+file 'dist/fluxx.engine.js' => [SOURCES].flatten do |t|
   File.open(t.name, 'w') {|f| f.write(compile_sources t.prerequisites)}
 end
 
@@ -62,7 +64,7 @@ end
 
 namespace "build" do
   desc 'Build JavaScript'
-  task :js => ['dist/fluxx.engine.full.min.js'] do
+  task :js => ['dist', 'dist/fluxx.engine.min.js', 'dist/fluxx.engine.full.min.js'] do
     puts ">>> Built JavaScript Sources"
   end
   

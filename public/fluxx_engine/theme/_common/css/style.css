@@ -1,0 +1,18 @@
+@font-face { font-family: "QuicksandBoldRegular"; src: url("../../_common/css/quicksand_bold-webfont.eot"); src: local("☺"), url("../../_common/css/quicksand_bold-webfont.woff") format("woff"), url("../../_common/css/quicksand_bold-webfont.ttf") format("truetype"), url("../../_common/css/quicksand_bold-webfont.svg#webfontollWhP2k") format("svg"); font-weight: normal; font-style: normal; }
+
+body, table { font-family: Helvetica, sans-serif; }
+
+div, ul, ol, li, table, td, th, dl, dt, dd { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; border: 1px solid #999999; }
+
+html, body { margin: 0px; padding: 0px; height: 100%; background: white; color: black; }
+
+body { overflow-x: scroll; }
+
+#fluxx #stage { position: relative; height: auto; height: 100%; min-height: 100%; }
+#fluxx #stage #header { height: 100px; position: fixed; top: 0px; width: 100%; }
+#fluxx #stage #header #logo { display: inline-block; *display: inline; zoom: 1; }
+#fluxx #stage #header .actions { display: inline-block; *display: inline; zoom: 1; list-style: none; padding: 0; margin: 0; float: right; }
+#fluxx #stage #header .actions li { display: inline-block; *display: inline; zoom: 1; margin-right: 10px; vertical-align: top; }
+#fluxx #stage #card-table { margin-top: 100px; margin-bottom: 75px; position: absolute; top: 0px; bottom: 0px; overflow: hidden; }
+#fluxx #stage #card-table #hand { list-style: none; padding: 0; margin: 0; }
+#fluxx #stage #footer { height: 75px; position: fixed; bottom: 0; width: 100%; }
