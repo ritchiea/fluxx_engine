@@ -41,14 +41,14 @@ class ActionView::Base
     form.gsub!('\n',' ');
     form = "$('#{form}').submit(#{refresh_function}).appendTo($(this).#{append_to}()).submit();return false;"
 
-    concat link_to(label, model, :onclick => (
+    raw link_to(label, model, :onclick => (
         use_onclick ? "if(confirm('This record will be deleted. Are you sure?')) {#{form}}; return false;" : "#{form}"), :class => link_class)
   end
   
   def link_to_update label, model, options = {}
     options[:method] = :put
     link_class = options.delete(:link_class)
-    concat link_to(label, model, :onclick => "$(this).next().submit();return false;", :class => link_class)
+    raw link_to(label, model, :onclick => "$(this).next().submit();return false;", :class => link_class)
     form_for model, :html => options do |form| 
       yield form
     end
@@ -58,7 +58,7 @@ class ActionView::Base
     options[:method] = :post
     options[:style] = 'display: none'
     link_class = options.delete(:link_class)
-    concat link_to(label, url, :onclick => "$(this).next().submit();return false;", :class => link_class)
+    raw link_to(label, url, :onclick => "$(this).next().submit();return false;", :class => link_class)
     form_for model, :url => url, :html => options do |form| 
       yield form
     end
@@ -68,7 +68,7 @@ class ActionView::Base
     options[:method] = :post
     options[:style] = 'display: none'
     link_class = options.delete(:link_class)
-    concat link_to(label, model, :onclick => "$(this).next().submit();return false;", :class => link_class)
+    raw link_to(label, model, :onclick => "$(this).next().submit();return false;", :class => link_class)
     form_for model, :html => options do |form| 
       yield form
     end
