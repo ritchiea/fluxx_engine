@@ -3,7 +3,7 @@
     addFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults,options,onComplete);
       return this.each(function(){
-        var $card = $.fluxx.card.ui.call($.my.hand);
+        var $card = $.fluxx.card.ui.call($.my.hand, options);
         $card.appendTo($.my.hand);
       });
     }
@@ -13,17 +13,26 @@
     fluxx: {
       card: {
         defaults: {
-          
+          title: 'New Card'
         },
         attrs: {
           'class': 'card',
           id: function(){return $.fluxx.card.nextId();}
         },
-        ui: function() {
+        ui: function(options) {
           return $('<li>')
             .attr($.fluxx.card.attrs)
             .html([
-              'hi'
+              '<div class="card-box">',
+                '<div class="card-header">',
+                  $.fluxx.util.resultOf($.fluxx.card.ui.toolbar,  options),
+                  $.fluxx.util.resultOf($.fluxx.card.ui.titlebar, options),
+                '</div>',
+                '<div class="card-body">',
+                '</div>',
+                '<div class="card-footer">',
+                '</div>',
+              '</div>'
             ].join(''));
         },
         nextIdNumber: 0,
@@ -34,11 +43,17 @@
     }
   });
   $.fluxx.card.ui.toolbar = [
-    '<div id="header">',
-      '<div id="logo"><a href=".">FLUXX</a></div>',
-      '<ul class="actions">',
-      '</ul>',
+    '<div class="toolbar">',
+      'min, close, etc',
     '</div>'
   ].join('');
+  $.fluxx.card.ui.titlebar = function(options) {
+    console.log(arguments);
+    return [
+      '<div class="titlebar">',
+        options.title,
+      '</div>'
+    ];
+  };
 
 })(jQuery);
