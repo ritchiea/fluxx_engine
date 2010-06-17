@@ -3,18 +3,21 @@
     fluxxStage: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({}, options, onComplete);
       return this.each(function(){
-        $my['fluxx']  = $(this);
-        $my['stage']  = $.fluxx.stage.ui.call(this);
-        $my.stage.bind('onComplete', options.callback)
-          .appendTo($my.fluxx.empty())
-          .trigger('onComplete');
+        $.my.fluxx  = $(this);
+        $.my.stage  = $.fluxx.stage.ui.call(this).appendTo($.my.fluxx.empty());
+        $.my.hand   = $('#hand');
+        $.my.stage
+          .bind('complete', options.callback)
+          .trigger('complete');
       });
     },
     removeFluxxStage: function(onComplete) {
       var options = $.fluxx.util.options_with_callback({}, onComplete);
       return this.each(function(){
-        $(this).remove;
-        $my.stage = undefined;
+        $(this).remove();
+        $.my.stage.trigger('unload');
+        $.my.stage = undefined;
+        $.my.hand  = undefined;
         options.callback.call(this);
       });
     }

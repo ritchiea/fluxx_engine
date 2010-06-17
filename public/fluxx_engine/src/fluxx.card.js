@@ -1,21 +1,34 @@
 (function($){
   $.fn.extend({
-    addFluxxCard: function() {
+    addFluxxCard: function(options, onComplete) {
+      var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults,options,onComplete);
+      return this.each(function(){
+        var $card = $.fluxx.card.ui.call($.my.hand);
+        $card.appendTo($.my.hand);
+      });
     }
   });
   
   $.extend(true, {
     fluxx: {
       card: {
+        defaults: {
+          
+        },
         attrs: {
           'class': 'card',
-          id: function(){}
+          id: function(){return $.fluxx.card.nextId();}
         },
         ui: function() {
-          return $('<div>')
+          return $('<li>')
             .attr($.fluxx.card.attrs)
             .html([
+              'hi'
             ].join(''));
+        },
+        nextIdNumber: 0,
+        nextId: function() {
+          return 'fluxx-card-' + $.fluxx.card.nextIdNumber++;
         }
       }
     }

@@ -1,8 +1,8 @@
 jQuery(function($){
   module("core");
 
-  test("$my", 1, function(){
-    ok($.isPlainObject($my), "jQuery Selector Cache Initialized")
+  test("$.my", 1, function(){
+    ok($.isPlainObject($.my), "jQuery Selector Cache Initialized")
   });
   
   test("$.fluxx.util.options_with_callback", 13, function(){
