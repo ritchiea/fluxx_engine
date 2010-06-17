@@ -8,7 +8,7 @@ class FluxxEngineLocaleGenerator < Rails::Generators::Base
   end
 
   def add_fluxx_localize_path
-    environment "config.i18n.load_path << Dir[File.join(RAILS_ROOT, 'config', 'fluxx_locales', '*.{rb,yml}')]"
+    environment "config.i18n.load_path << Dir[File.join(Rails.root, 'config', 'fluxx_locales', '*.{rb,yml}')]"
   end
 
   def copy_fluxx_localization_files

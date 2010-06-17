@@ -50,3 +50,7 @@ h2. Installation
 h3. Generator
 rails generate fluxx_engine_migration
 
+
+h2. Tests
+
+h3. Jose Valim's EngineX (http://github.com/josevalim/enginex) was used to generate a dummy application that uses the rails engine to test it
