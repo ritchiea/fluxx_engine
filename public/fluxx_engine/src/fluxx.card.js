@@ -49,9 +49,9 @@
         data: options.data,
         success: function (data, status, xhr) {
           var $document = $('<div/>').html(data);
-          $('.header', options.area).html($('#card-header', $document));
-          $('.body',   options.area).html($('#card-body',   $document));
-          $('.footer', options.area).html($('#card-footer', $document));
+          $('.header', options.area).html($('#card-header', $document).html());
+          $('.body',   options.area).html($('#card-body',   $document).html());
+          $('.footer', options.area).html($('#card-footer', $document).html());
         }
       });
       
