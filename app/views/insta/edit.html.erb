@@ -1,5 +1,5 @@
-<div class="fluxx-card-header"><%= flash_info %><%= flash_error %></div>
-<div class="fluxx-card-content">
+<div id="card-header"><%= flash_info %><%= flash_error %></div>
+<div id="card-body">
   <div class="fluxx-card-edit">
 
 	<% semantic_form_for @model, :url => @form_url, :html => {:class => 'fluxx-card-form-to-self'} do |form| %>
@@ -10,7 +10,7 @@
 
 </div>
 
-<div class="fluxx-card-footer">
+<div id="card-footer">
 <%= link_to 'Cancel', @model, :class => 'fluxx-card-link-to-self btn' %>
 <%- unless @not_editable -%>
 <script>

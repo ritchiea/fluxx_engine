@@ -1,15 +1,6 @@
-<div class="fluxx-card-header"><%= flash_info %><%= flash_error %></div>
-<div class="fluxx-card-footer">
-  <%- 
-  if @footer_template -%>
-    <%= render :partial => @footer_template, :locals => { :model => @model} %>
-  <%- else -%>
-    <%= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'fluxx-card-link-to-self', :link_class => 'btn' %>
-  <%- end -%>
-  <%= link_to 'Printable', '#', :onclick => '$(this).attr("href", $(this).fluxxCardArea().data("url"))', :target => "_blank", :class => 'btn' %>
-</div>
+<div id="card-header"><%= flash_info %><%= flash_error %></div>
 
-<div class="fluxx-card-content">
+<div id="card-body">
 <div class="fluxx-card-show">
   <%= render :partial => @template, :locals => { :model => @model } %>
 </div></div>
@@ -42,3 +33,12 @@
 </div>
 <%- end -%>
 
+<div id="card-footer">
+  <%- 
+  if @footer_template -%>
+    <%= render :partial => @footer_template, :locals => { :model => @model} %>
+  <%- else -%>
+    <%= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'fluxx-card-link-to-self', :link_class => 'btn' %>
+  <%- end -%>
+  <%= link_to 'Printable', '#', :onclick => '$(this).attr("href", $(this).fluxxCardArea().data("url"))', :target => "_blank", :class => 'btn' %>
+</div>

@@ -10,6 +10,7 @@ gem "agnostic-will_paginate", '>= 3'
 gem 'jsmin', '>= 1.0.1'
 gem 'thin', '>= 1.2.7'
 gem 'machinist', '>=1.0.6'
+gem 'faker', '>=0.3.1'
 
 if RUBY_VERSION < '1.9'
   gem "ruby-debug", ">= 0.10.3"

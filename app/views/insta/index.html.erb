@@ -1,13 +1,13 @@
 <h1>Listing <%= @plural_model_name %></h1>
 
-<div class="fluxx-card-header">
+<div id="card-header">
       <%#= render :partial => "#{insta_path}/list_actions" %>
       <% form_for :q, :url => url_for(:action => :index), :html => { :method => :get, :class => 'fluxx-card-form-to-self' } do |f| %>
         <%= f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'fluxx-card-listing-filter', :placeholder => 'Search...' %>
       <% end %>
 </div>
 
-<div class="fluxx-card-content">
+<div id="card-body">
 <ul class="fluxx-card-listing-list" fluxx:delta_type="<%= @delta_type %>">
 <% @models.compact.each do |model| %>
   <li class="fluxx-card-listing-list-entry">
@@ -19,4 +19,4 @@
 
 </ul>
 </div>
-<div class="fluxx-card-footer"><%= fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>' %></div>
+<div id="card-footer"><%= fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>' %></div>
