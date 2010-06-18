@@ -19,4 +19,4 @@
 
 </ul>
 </div>
-<div id="card-footer"><%= fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>' %></div>
+<div id="card-footer"><%= raw(fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>') %></div>

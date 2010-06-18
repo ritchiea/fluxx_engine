@@ -5,7 +5,7 @@ class ActionView::Base
   require "will_paginate"
   def fluxx_paginate models
     # TODO ESH: there is a classloading issue around getting WillPaginate initialized.  Get an uninitialized constant WillPaginate::LinkRenderer if we try to put FluxxlinkRenderer in a class of its own
-    unless Object.const_defined? 'FluxxLinkRenderer'
+    raw(unless Object.const_defined? 'FluxxLinkRenderer'
       klass = Object.const_set('FluxxLinkRenderer',Class.new(WillPaginate::ViewHelpers::LinkRenderer))
       
       klass.class_eval do
@@ -27,7 +27,7 @@ class ActionView::Base
           @options[:container] ? @template.content_tag(:div, html, html_attributes) : html
         end
       end
-    end
+    end)
 
     will_paginate models, :page_links => false, :renderer => FluxxLinkRenderer
   end
