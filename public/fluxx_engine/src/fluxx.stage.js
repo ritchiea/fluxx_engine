@@ -64,6 +64,6 @@
     '</div>'
   ].join('');
   $.fluxx.stage.ui.footer = [
-    '<div id="footer"></div>'
+    '<div id="footer">Footer</div>'
   ].join('');
 })(jQuery);

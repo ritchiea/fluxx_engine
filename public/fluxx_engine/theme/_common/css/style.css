@@ -23,7 +23,7 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .header { min-height: 50px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .body { min-height: 80px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .footer { min-height: 30px; }
-#fluxx #stage #card-table #hand .card .card-box .card-body .listing { width: 100px; }
-#fluxx #stage #card-table #hand .card .card-box .card-body .detail { width: 250px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing { width: 200px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .detail { width: 400px; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer { position: absolute; right: 0px; left: 0px; bottom: 0px; height: 50px; border-color: lime; }
 #fluxx #stage #footer { height: 75px; position: fixed; bottom: 0; width: 100%; }
