@@ -49,6 +49,47 @@ body
       overflow: hidden
       #hand
         +non-list
+        height: 100%
+        .card
+          +inline-block
+          margin: 5px
+          height: 100%
+          .card-box
+            height: 100%
+            position: relative
+            .card-header
+              position: absolute
+              right: 0px
+              left: 0px
+              height: 50px
+              border-color: #0f0
+              .toolbar
+              .titlebar
+            .card-body
+              position: relative
+              height: 100%
+              margin-top: 50px
+              margin-bottom: 50px
+              border-color: black
+              .listing,.detail
+                +inline-block
+                .header
+                  min-height: 50px
+                .body
+                  min-height: 80px
+                .footer
+                  min-height: 30px
+              .listing
+                width: 100px
+              .detail
+                width: 250px
+            .card-footer
+              position: absolute
+              right: 0px
+              left: 0px
+              bottom: 0px
+              height: 50px
+              border-color: #0f0
     #footer
       height: $footer_height
       position: fixed

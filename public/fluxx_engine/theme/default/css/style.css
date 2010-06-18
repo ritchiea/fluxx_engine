@@ -14,7 +14,18 @@ body { overflow-x: scroll; }
 #fluxx #stage #header .actions { display: inline-block; *display: inline; zoom: 1; list-style: none; padding: 0; margin: 0; float: right; }
 #fluxx #stage #header .actions li { display: inline-block; *display: inline; zoom: 1; margin-right: 10px; vertical-align: top; }
 #fluxx #stage #card-table { margin-top: 100px; margin-bottom: 75px; position: absolute; top: 0px; bottom: 0px; overflow: hidden; }
-#fluxx #stage #card-table #hand { list-style: none; padding: 0; margin: 0; }
+#fluxx #stage #card-table #hand { list-style: none; padding: 0; margin: 0; height: 100%; }
+#fluxx #stage #card-table #hand .card { display: inline-block; *display: inline; zoom: 1; margin: 5px; height: 100%; }
+#fluxx #stage #card-table #hand .card .card-box { height: 100%; position: relative; }
+#fluxx #stage #card-table #hand .card .card-box .card-header { position: absolute; right: 0px; left: 0px; height: 50px; border-color: lime; }
+#fluxx #stage #card-table #hand .card .card-box .card-body { position: relative; height: 100%; margin-top: 50px; margin-bottom: 50px; border-color: black; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing, #fluxx #stage #card-table #hand .card .card-box .card-body .detail { display: inline-block; *display: inline; zoom: 1; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .header, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .header { min-height: 50px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .body, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .body { min-height: 80px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .footer { min-height: 30px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing { width: 100px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .detail { width: 250px; }
+#fluxx #stage #card-table #hand .card .card-box .card-footer { position: absolute; right: 0px; left: 0px; bottom: 0px; height: 50px; border-color: lime; }
 #fluxx #stage #footer { height: 75px; position: fixed; bottom: 0; width: 100%; }
 
 #header { font-family: "QuicksandBoldRegular", Helvetica, sans-serif; }

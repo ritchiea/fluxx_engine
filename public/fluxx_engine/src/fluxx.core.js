@@ -15,10 +15,17 @@
           return $.extend({callback: $.noop}, defaults || {}, options || {});
         },
         resultOf: function (value) {
-          if ($.isArray(value))    return value.join('');
-          if ($.isFunction(value)) return arguments.callee(value(_.tail(arguments)));
+          if (_.isString(value))   return value;
+          if ($.isArray(value))    return _.map(value,function(x){return $.fluxx.util.resultOf(x)}).join('');
+          if ($.isFunction(value)) return arguments.callee(value.apply(value, _.tail(arguments)));
           return value;
         }
+      },
+      logOn: true,
+      log: function () {
+        if (!$.fluxx.logOn) return;
+        if (! this.logger) this.logger = (console && console.log ? _.bind(console.log, console) : $.noop);
+        _.each(arguments, _.bind(function(a) { this.logger(a) }, this));
       }
     }
   });

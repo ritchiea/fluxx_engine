@@ -5,13 +5,13 @@ jQuery(function($){
     $div = $('<div/>');
     $div.hide().appendTo($.my.body).fluxxStage(function(){
       equals($.my.stage.length, 1, "stage was loaded with callback");
-      $div.removeFluxxStage();
+      setTimeout(function(){$div.removeFluxxStage()},50);
     });
 
     $div.hide().appendTo($.my.body).fluxxStage({
       callback: function(){
         equals($.my.stage.length, 1, "stage was loaded with options");
-        $div.removeFluxxStage();
+        setTimeout(function(){$div.removeFluxxStage()},50);
       }
     });
     
@@ -25,6 +25,6 @@ jQuery(function($){
     $div.hide().appendTo($.my.body).fluxxStage();
     $('#' + $.fluxx.stage.attrs.id).die('complete');
     
-    setTimeout(function(){start()},250)
+    setTimeout(function(){delete $div; start()},250)
   });
 });

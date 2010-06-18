@@ -7,16 +7,17 @@
         $.my.stage  = $.fluxx.stage.ui.call(this, options).appendTo($.my.fluxx.empty());
         $.my.hand   = $('#hand');
         $.my.stage
-          .bind('complete', options.callback)
-          .bind('complete', function(){ $.my.hand.addFluxxCards({cards: $.fluxx.config.cards}) })
-          .trigger('complete');
+          .bind('fluxx.stage.complete', options.callback)
+          .bind('fluxx.stage.complete', function(){ $.my.hand.addFluxxCards({cards: $.fluxx.config.cards});});
+        $.my.stage.triggerHandler('fluxx.stage.complete');
       });
     },
     removeFluxxStage: function(onComplete) {
       var options = $.fluxx.util.options_with_callback({}, onComplete);
       return this.each(function(){
+        if (!$.my.stage) return;
         $(this).remove();
-        $.my.stage.trigger('unload');
+        $.my.stage.trigger('fluxx.stage.unload');
         $.my.stage = undefined;
         $.my.hand  = undefined;
         options.callback.call(this);
@@ -25,9 +26,9 @@
     
     addFluxxCards: function(options) {
       var options = $.fluxx.util.options_with_callback({}, options);
-      return this.each(function(){
-        $.each(options.cards, function() { $.my.hand.addFluxxCard(this) });
-      });
+      if (!options.cards.length) return this;
+      $.each(options.cards, function() { $.my.hand.addFluxxCard(this) });
+      return this;
     }
   });
   
@@ -40,11 +41,11 @@
         ui: function(optoins) {
           return $('<div>')
             .attr($.fluxx.stage.attrs)
-            .html([
+            .html($.fluxx.util.resultOf([
               $.fluxx.stage.ui.header,
               $.fluxx.stage.ui.cardTable,
               $.fluxx.stage.ui.footer
-            ].join(''));
+            ]));
         }
       }
     }
