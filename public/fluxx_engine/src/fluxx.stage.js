@@ -3,12 +3,13 @@
     fluxxStage: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({}, options, onComplete);
       return this.each(function(){
-        $.my.fluxx  = $(this);
+        $.my.fluxx  = $(this).attr('id', 'fluxx');
         $.my.stage  = $.fluxx.stage.ui.call(this, options).appendTo($.my.fluxx.empty());
         $.my.hand   = $('#hand');
         $.my.stage
+          .bind('fluxx.stage.complete', function(){ $.my.hand.addFluxxCards({cards: $.fluxx.config.cards});})
           .bind('fluxx.stage.complete', options.callback)
-          .bind('fluxx.stage.complete', function(){ $.my.hand.addFluxxCards({cards: $.fluxx.config.cards});});
+          ;
         $.my.stage.triggerHandler('fluxx.stage.complete');
       });
     },
@@ -17,7 +18,7 @@
       return this.each(function(){
         if (!$.my.stage) return;
         $(this).remove();
-        $.my.stage.trigger('fluxx.stage.unload');
+        $.my.stage.triggerHandler('fluxx.stage.unload');
         $.my.stage = undefined;
         $.my.hand  = undefined;
         options.callback.call(this);
