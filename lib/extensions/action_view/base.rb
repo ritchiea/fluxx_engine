@@ -5,7 +5,7 @@ class ActionView::Base
   require "will_paginate"
   def fluxx_paginate models
     # TODO ESH: there is a classloading issue around getting WillPaginate initialized.  Get an uninitialized constant WillPaginate::LinkRenderer if we try to put FluxxlinkRenderer in a class of its own
-    raw(unless Object.const_defined? 'FluxxLinkRenderer'
+    unless Object.const_defined? 'FluxxLinkRenderer'
       klass = Object.const_set('FluxxLinkRenderer',Class.new(WillPaginate::ViewHelpers::LinkRenderer))
       
       klass.class_eval do
@@ -13,8 +13,8 @@ class ActionView::Base
       
         def to_html
           # previous/next buttons
-          prev_button = page_link_or_span(@collection.previous_page, 'disabled prev_page', @options[:previous_label])
-          next_button = page_link_or_span(@collection.next_page,     'disabled next_page', @options[:next_label])
+          prev_button = previous_or_next_page(@collection.previous_page, 'disabled prev_page', @options[:previous_label])
+          next_button = previous_or_next_page(@collection.next_page,     'disabled next_page', @options[:next_label])
           
           info_message = %{%s - %s of %s} % [
             number_with_delimiter(@collection.offset + 1),
@@ -24,12 +24,14 @@ class ActionView::Base
           
           
           html = "#{prev_button} #{info_message} #{next_button}"
-          @options[:container] ? @template.content_tag(:div, html, html_attributes) : html
+          html_container(html)
+          # result = @options[:container] ? @template.content_tag(:div, html, container_attributes) : html
+          # @template.raw(result)
         end
       end
-    end)
+    end
 
-    will_paginate models, :page_links => false, :renderer => FluxxLinkRenderer
+    raw(will_paginate models, :page_links => false, :renderer => FluxxLinkRenderer)
   end
   def link_to_delete label, model, options = {}, use_onclick=true
     options[:method] = :delete

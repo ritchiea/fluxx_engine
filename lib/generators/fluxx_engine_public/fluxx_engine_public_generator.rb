@@ -15,7 +15,7 @@ class FluxxEnginePublicGenerator < Rails::Generators::Base
     run "/bin/rm -f -r #{Rails.root}/public/fluxx_engine/theme"
     run "cd #{public_dir} && rake build"
     
-    directory("#{public_dir}/fluxx_engine/dist", 'public/fluxx_engine/')
-    directory("#{public_dir}/fluxx_engine/theme", 'public/fluxx_engine/')
+    directory("#{public_dir}/fluxx_engine/dist", 'public/fluxx_engine/dist')
+    directory("#{public_dir}/fluxx_engine/theme", 'public/fluxx_engine/theme')
   end
 end
