@@ -14,7 +14,7 @@ class ActionController::ControllerDsl
     
     self.model_name = model_class.name.underscore.downcase
     @model_human_name = @model_name.gsub('_', ' ').titlecase
-    @plural_model_name = "#{@model_name}s"
+    @plural_model_name = @model_name.pluralize
     self.singular_model_instance_name = "@#{@model_name}".to_sym
     self.plural_model_instance_name = "@#{@plural_model_name}".to_sym
   end
