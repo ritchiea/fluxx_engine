@@ -41,107 +41,49 @@ class ActionController::Base
   #   results_per_page: the number of results allowed per page; defaults to 25
   #   partial_new: the name of the new partial.  Defaults to 'partial_new'
   #
-  def self.insta_index model_class, options={}
-    really_delete = !(model_class.columns.map(&:name).include? 'deleted_at')
-  
-    # GET /model
-    # GET /model.xml
+  def self.insta_index model_class
+    index_object = ActionController::ControllerDslIndex.new model_class
+    yield index_object if block_given?
+
     define_method :index do
-      derive_model_instance_names model_class
-      
-      @delta_type = if options[:delta_type]
-        options[:delta_type]
+      @delta_type = if index_object.delta_type
+        index_object.delta_type
       else
         model_class.name
       end
       
-      results_per_page = if request.format.csv? || request.format.xls?
-        MAX_SPHINX_RESULTS
-      else
-        options[:results_per_page] || 25
-      end
+      @template = index_object.template
+      @models = index_object.load_results request, params
+      instance_variable_set index_object.plural_model_instance_name, @models
       
-      p "ESH: have a model class = #{model_class.inspect}"
-
-      model_ids = instance_variable_set @plural_model_instance_name, model_class.model_search(params, results_per_page, options, really_delete)
-      search_conditions = (options[:search_conditions] || {}).clone
-      if request.format.csv? || request.format.xls?
-        unpaged_models = model_class.connection.execute model_class.send(:sanitize_sql, [model_class.csv_sql_query(search_conditions), model_ids])
-      else
-        unpaged_models = model_class.find :all, :conditions => ['id in (?)', model_ids]
-        model_map = unpaged_models.inject({}) {|acc, model| acc[model.id] = model; acc}
-        ordered_list = model_ids.map {|model_id| model_map[model_id]}
-        @models = WillPaginate::Collection.create model_ids.current_page, model_ids.per_page, model_ids.total_entries do |pager|
-          pager.replace ordered_list
-        end
-      end
-      
-      @template = options[:template]
       respond_to do |format|
-        format.html { render((options[:view] || "#{insta_path}/index").to_s, :layout => false) }
+        format.html { render((index_object.view || "#{insta_path}/index").to_s, :layout => false) }
         format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
         format.xls do
-          stream_extract model_class, unpaged_models, search_conditions, :xls
+          stream_extract model_class, @models, search_conditions, :xls
         end
         format.csv do
-          stream_extract model_class, unpaged_models, search_conditions, :csv
+          stream_extract model_class, @models, search_conditions, :csv
         end
       end
     end
   end
   
-
-  def self.insta_show model_class, options={}
-    really_delete = !(model_class.columns.map(&:name).include? 'deleted_at')
+  def self.insta_show model_class
+    show_object = ActionController::ControllerDslShow.new model_class
+    yield show_object if block_given?
 
     # GET /models/1
     # GET /models/1.xml
     define_method :show do
-      derive_model_instance_names model_class
-      
-      @model = if params[:audit_id]
-        new_model = model_class.new
-        audit = Audit.find params[:audit_id] rescue nil
-        if audit
-          m2 = YAML::load audit.full_model if audit.full_model
-          if m2
-            m2.keys.each do |k|
-              k2 = "#{k.to_s}="
-              new_model.send k2.to_sym, m2[k] rescue nil
-            end
-            new_model.id = audit.auditable_id
-            new_model
-          end
-        end
-      else
-        show_condition = ['id = ?', params[:id]]
-        show_condition = ['id = ? AND deleted_at IS NULL', params[:id]] unless really_delete
-        models = instance_variable_set @singular_model_instance_name, model_class.find(:all, :conditions => show_condition)
-        models.first
-      end
-      
+      @model = show_object.perform_show request, params
+      @model_name = show_object.model_name
       respond_to do |format|
         format.html do 
           if @model
-            if params[:audit_id]
-              # Allows the user to load up a history record
-              @full_model = model_class.find(@model.id)
-              audit_options = options.merge(:template => options[:audit_template]) unless options[:audit_template].blank?
-              audit_options = audit_options.merge(:footer_template => options[:audit_footer_template]) unless options[:audit_footer_template].blank?
-              fluxx_show_card audit_options
-            elsif params[:mode]
-              # Allows the user to load up an alternate view (mode) based on a hash
-              mode_options = options.merge(:template => options[:mode_template][params[:mode].to_s]) unless options[:mode_template].blank? || options[:mode_template][params[:mode].to_s].blank?
-              fluxx_show_card mode_options
-            else
-              fluxx_show_card options
-            end
+            fluxx_show_card show_object, show_object.calculate_show_options(request, params)
           else
-            if params[:audit_id]
-              render :inline => t(:insta_no_audit_record_found, :model_id => params[:id])
-            else
-              render :inline => t(:insta_no_record_found, :model_id => params[:id])
-            end
+            render :inline => show_object.calculate_error_options(request, params)
           end
         end
         format.xml  { render :xml => @model }
@@ -150,98 +92,72 @@ class ActionController::Base
   end
 
   def self.insta_new model_class, options={}
-    really_delete = !(model_class.columns.map(&:name).include? 'deleted_at')
+    new_object = ActionController::ControllerDslNew.new model_class
+    yield new_object if block_given?
 
     # GET /models/new
     # GET /models/new.xml
     define_method :new do
-      derive_model_instance_names model_class
-      @model = if @model
-        @model
-      elsif options[:new_block] && options[:new_block].is_a?(Proc)
-        options[:new_block].call params
-      else
-        model_class.new
-      end
+      @model = new_object.perform_new request, params, @model
       
-      instance_variable_set @singular_model_instance_name, @model
-      @template = options[:template]
-      @multipart = options[:multi_part]
-      @form_class = options[:form_class]
-      @form_name = options[:form_name]
-      @button_definition = options[:button_definition] || @model_human_name
-      @button_verb = options[:button_verb]
+      instance_variable_set new_object.singular_model_instance_name, @model
+      @template = new_object.template
+      @multipart = new_object.multi_part
+      @form_class = new_object.form_class
+      @form_name = new_object.form_name
+      @button_definition = new_object.button_definition || @model_human_name
+      @button_verb = new_object.button_verb
       respond_to do |format|
-        format.html { render((options[:view] || "#{insta_path}/new").to_s, :layout => false)}
+        format.html { render((new_object.view || "#{insta_path}/new").to_s, :layout => false)}
         format.xml  { render :xml => @model }
       end
     end
   end
 
-  def self.insta_edit model_class, options={}
-    really_delete = !(model_class.columns.map(&:name).include? 'deleted_at')
+  def self.insta_edit model_class
+    edit_object = ActionController::ControllerDslEdit.new model_class
+    yield edit_object if block_given?
 
     # GET /models/1/edit
     define_method :edit do
-      derive_model_instance_names model_class
-      edit_condition = nil
-      edit_condition = 'deleted_at IS NULL' unless really_delete
+      edit_object.button_definition = @model_human_name unless edit_object.button_definition
       
-      @model = if @model
-        @model
-      else
-        instance_variable_set @singular_model_instance_name, model_class.find(params[:id], :conditions => edit_condition)
-      end
-      options[:button_definition] = @model_human_name unless options[:button_definition]
       respond_to do |format|
-        if editable? @model
-          add_lock @model
-        else
+        @model = edit_object.perform_edit request, params, @model
+        unless edit_object.editable? @model
           # Provide a locked error message
           flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.full_name : ''), :lock_expiration => @model.locked_until.mdy_time)
           @not_editable=true
         end
-        format.html { fluxx_edit_card options }
+        format.html { fluxx_edit_card edit_object }
       end
     end
   end
 
-  def self.insta_post model_class, options={}
-    really_delete = !(model_class.columns.map(&:name).include? 'deleted_at')
+  def self.insta_post model_class
+    create_object = ActionController::ControllerDslCreate.new model_class
+    yield create_object if block_given?
 
     # POST /models
     # POST /models.xml
     define_method :create do
-      derive_model_instance_names model_class
-      @model = if @model
-        @model
-      else
-        model_class.new(params[model_class.name.underscore.downcase.to_sym])
-      end
-      if @model.respond_to?(:created_by_id) && fluxx_current_user
-        @model.created_by_id = fluxx_current_user.id
-      end
-      if @model.respond_to?(:modified_by_id) && fluxx_current_user
-        @model.modified_by_id = fluxx_current_user.id
-      end
-
-      @model = instance_variable_set @singular_model_instance_name, @model
-      @form_name = options[:form_name]
-      @template = options[:template]
-      @button_definition = options[:button_definition] || @model_human_name
-      @button_verb = options[:button_verb]
-      @link_to_method = options[:link_to_method]
-      post_save_call = options[:post_save_call] || lambda{|fluxx_current_user, model, params|true}
-      if @model.save && post_save_call.call(fluxx_current_user, @model, params)
+      @model = create_object.load_model request, params, @model
+      @model = instance_variable_set create_object.singular_model_instance_name, @model
+      @form_name = create_object.form_name
+      @template = create_object.template
+      @button_definition = create_object.button_definition || @model_human_name
+      @button_verb = create_object.button_verb
+      @link_to_method = create_object.link_to_method
+      if create_object.perform_create request, params, @model, fluxx_current_user
         respond_to do |format|
           flash[:info] = t(:insta_successful_create, :name => model_class.name)
           format.html do
-            if options[:render_inline] 
-              render :inline => options[:render_inline]
+            if create_object.render_inline
+              render :inline => create_object.render_inline
             else
               extra_options = {:id => @model.id}
-              extra_options[:controller] = options[:controller] if options[:controller]
-              head 201, :location => options[:redirect] ? self.send(options[:redirect], extra_options) : url_for(@model)
+              extra_options[:controller] = create_object.controller if create_object.controller
+              head 201, :location => create_object.redirect ? self.send(create_object.redirect, extra_options) : url_for(@model)
             end
           end
           format.xml  { render :xml => @model, :status => :created, :location => @model }
@@ -250,62 +166,47 @@ class ActionController::Base
         respond_to do |format|
           p "ESH: error saving record #{@model.errors.inspect}"
           flash[:error] = t(:errors_were_found)
-          logger.debug("Unable to create "+@singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
-          format.html { render((options[:view] || "#{insta_path}/new").to_s, :layout => false) }
+          logger.debug("Unable to create "+create_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
+          format.html { render((create_object.view || "#{insta_path}/new").to_s, :layout => false) }
           format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
         end
       end
     end
   end
 
-  def self.insta_put model_class, options={}
-    really_delete = !(model_class.columns.map(&:name).include? 'deleted_at')
+  def self.insta_put model_class
+    update_object = ActionController::ControllerDslUpdate.new model_class
+    yield update_object if block_given?
 
     # PUT /models/1
     # PUT /models/1.xml
     define_method :update do
-      derive_model_instance_names model_class
-      update_condition = nil
-      update_condition = 'deleted_at IS NULL' unless really_delete
-      @model = if @model
-        @model
-      else 
-        instance_variable_set @singular_model_instance_name, model_class.find(params[:id], :conditions => update_condition)
-      end
+      @form_name = update_object.form_name
+      @template = update_object.template
+      @button_definition = update_object.button_definition || @model_human_name
+      @button_verb = update_object.button_verb
       
-      modified_by_map = {}
-      if @model.respond_to?(:modified_by_id) && fluxx_current_user
-        modified_by_map[:modified_by_id] = fluxx_current_user.id
-      end
-      @form_name = options[:form_name]
-      @template = options[:template]
-      @button_definition = options[:button_definition] || @model_human_name
-      @button_verb = options[:button_verb]
-      post_save_call = options[:post_save_call] || lambda{|fluxx_current_user, model, params|true}
+      @model = update_object.load_model request, params, @model
+      instance_variable_set update_object.singular_model_instance_name, @model
 
-      if editable? @model
-        remove_lock @model
-      
-
+      if update_object.editable? @model
         respond_to do |format|
-          if @model.update_attributes(modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})) && post_save_call.call(fluxx_current_user, @model, params)
+          if update_object.perform_update request, params, @model, fluxx_current_user
             flash[:info] = t(:insta_successful_update, :name => model_class.name)
             format.html do
-              if options[:render_inline] 
-                render :inline => options[:render_inline]
+              if update_object.render_inline 
+                render :inline => update_object.render_inline
               else
                 extra_options = {:id => @model.id}
-                extra_options[:controller] = options[:controller] if options[:controller]
-                redirect_to(options[:redirect] ? self.send(options[:redirect], extra_options) : @model) 
+                extra_options[:controller] = update_object.controller if update_object.controller
+                redirect_to(update_object.redirect ? self.send(update_object.redirect, extra_options) : @model) 
               end
             end
             format.xml  { head :ok }
           else
-            
-            add_lock @model
             flash[:error] = t(:errors_were_found)
-            logger.debug("Unable to save "+@singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
-            format.html { render((options[:view] || "#{insta_path}/edit").to_s, :layout => false) }
+            logger.debug("Unable to save "+update_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
+            format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => false) }
             format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
           end
         end
@@ -313,7 +214,7 @@ class ActionController::Base
         respond_to do |format|
           # Provide a locked error message
           flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.full_name : ''), :lock_expiration => @model.locked_until.mdy_time)
-          format.html { render((options[:view] || "#{insta_path}/edit").to_s, :layout => false) }
+          format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => false) }
           format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
           @not_editable=true
         end
@@ -321,136 +222,28 @@ class ActionController::Base
     end
   end
 
-  def self.insta_delete model_class, options={}
-    really_delete = !(model_class.columns.map(&:name).include? 'deleted_at')
+  def self.insta_delete model_class
+    delete_object = ActionController::ControllerDslDelete.new model_class
+    yield delete_object if block_given?
 
     # DELETE /models/1
     # DELETE /models/1.xml
     define_method :destroy do
-      derive_model_instance_names model_class
-      deleted_at_condition = nil
-      deleted_at_condition = 'deleted_at IS NULL' unless really_delete
-        
-      @model = if @model
-        @model
-      else 
-        instance_variable_set @singular_model_instance_name, model_class.find(params[:id], :conditions => deleted_at_condition)
-      end
-      if @model.respond_to?(:modified_by_id) && fluxx_current_user
-        @model.modified_by_id = fluxx_current_user.id
-      end
-      unless really_delete
-        @model.deleted_at = Time.now
-        @model.save_without_validation
+      @model = delete_object.load_model request, params, @model
+      instance_variable_set delete_object.singular_model_instance_name, @model
+      if delete_object.perform_delete request, params, @model, fluxx_current_user
+        flash[:info] = t(:insta_successful_delete, :name => model_class.name)
       else
-        @model.destroy
+        flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name)
       end
-      flash[:info] = t(:insta_successful_delete, :name => model_class.name)
 
       respond_to do |format|
-        format.html { redirect_to(self.send(options[:redirect] || "#{model_class.name.underscore.downcase}_path")) }
+        format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || "#{model_class.name.underscore.downcase}_path") }
         format.xml  { head :ok }
       end
     end
   end
 
-  def derive_model_instance_names model_class
-    @model_name = model_class.name.underscore.downcase
-    @model_human_name = @model_name.gsub('_', ' ').titlecase
-    @plural_model_name = "#{@model_name}s"
-    @singular_model_instance_name = "@#{@model_name}".to_sym
-    @plural_model_instance_name = "@#{@plural_model_name}".to_sym
-  end
-  
-  def clean_search_conditions options
-    ret_options = options.clone
-    [:extra_conditions, :name_fields, :extra_block].each {|opt| ret_options.delete opt}
-    ret_options
-  end
-  
-  def editable? model
-    !(@model.respond_to?(:locked_until) && @model.respond_to?(:locked_by)) || @model.locked_until.nil? || @model.locked_until < Time.now || @model.locked_by == fluxx_current_user
-  end
-  
-  def add_lock model
-    if editable?(model)
-      if model.respond_to? :without_delta
-        model.class.without_delta do
-          add_lock_update_attributes model
-        end
-      else
-        add_lock_update_attributes model
-      end
-    end
-  end
-  
-  def add_lock_update_attributes model
-    if is_lockable?(model)
-      model = model.class.find model.id
-      model.class.suspended_delta(false) do
-        model.update_attribute :locked_until, Time.now + LOCK_TIME_INTERVAL
-        model.update_attribute :locked_by_id, fluxx_current_user.id
-      end
-    end
-  end
-
-  def extend_lock model
-    if editable?(model)
-      if model.respond_to? :without_delta
-        model.class.without_delta do
-          extend_lock_update_attributes model
-        end
-      else
-        extend_lock_update_attributes model
-      end
-    end
-  end
-  
-  # Either extend the current lock by LOCK_TIME_INTERVAL minutes or add a lock LOCK_TIME_INTERVAL from Time.now
-  def extend_lock_update_attributes model
-    if is_lockable?(model)
-      model = model.class.find model.id
-      model.class.suspended_delta(false) do
-        if model.locked_until && model.locked_until > Time.now
-          interval = model.locked_until + LOCK_TIME_INTERVAL
-          model.update_attribute :locked_until, interval
-          model.locked_until = interval
-        else
-          interval = model.locked_until + LOCK_TIME_INTERVAL
-          model.update_attribute :locked_until, interval
-          model.locked_until = interval
-        end
-        model.update_attribute :locked_by_id, fluxx_current_user.id
-        model.locked_by_id = fluxx_current_user.id
-      end
-    end
-  end
-  
-  def remove_lock model
-    if editable?(model)
-      if model.respond_to? :without_delta
-        model.class.without_delta do
-          remove_lock_update_attributes model
-        end
-      else
-        remove_lock_update_attributes model
-      end
-    end
-  end
-  
-  def remove_lock_update_attributes model
-    if is_lockable?(model)
-      model.class.suspended_delta(false) do
-        model.update_attributes :locked_until => nil, :locked_by => nil
-        model.locked_until = nil
-        model.locked_by = nil
-      end
-    end
-  end
-  
-  def is_lockable? model
-    model.respond_to?(:locked_until) && model.respond_to?(:locked_by)
-  end
   
   def stream_extract model_class, unpaged_models, search_conditions, extract_type
     filename = 'fluxx_' + model_class.csv_filename(search_conditions) + '_' + Time.now.strftime("%m%d%y") + ".#{extract_type.to_s}"
@@ -480,21 +273,21 @@ class ActionController::Base
     "#{File.dirname(__FILE__).to_s}/../../../app/views/insta"
   end
   
-  def fluxx_show_card options
+  def fluxx_show_card show_object, options
     @template = options[:template]
     @footer_template = options[:footer_template]
-    @exclude_related_data = options[:exclude_related_data]
-    @layout = options[:layout]
-    render((options[:view] || "#{insta_path}/show").to_s, :layout => @layout)
+    @exclude_related_data = show_object.exclude_related_data
+    @layout = show_object.layout
+    render((show_object.view || "#{insta_path}/show").to_s, :layout => @layout)
   end
   
-  def fluxx_edit_card options
-    @form_name = options[:form_name]
-    @template = options[:template]
-    @button_definition = options[:button_definition]
-    @button_verb = options[:button_verb]
-    @form_url = options[:form_url]
-    render((options[:view] || "#{insta_path}/edit").to_s, :layout => false)
+  def fluxx_edit_card edit_object
+    @form_name = edit_object.form_name
+    @template = edit_object.template
+    @button_definition = edit_object.button_definition
+    @button_verb = edit_object.button_verb
+    @form_url = edit_object.form_url
+    render((edit_object.view || "#{insta_path}/edit").to_s, :layout => false)
   end
   
   protected

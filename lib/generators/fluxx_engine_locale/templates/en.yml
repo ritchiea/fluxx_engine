@@ -11,6 +11,7 @@ en:
   failed_to_promote_error_messages: "Unable to promote this request.  You may need to change some fields in the request.  These error messages were found: "
   failed_to_send_back: "Unable to send this request back."
   insta_successful_delete: "{{name}} was successfully deleted."
+  insta_unsuccessful_delete: "{{name}} could not be deleted."
   errors_were_found: "Errors were found.  Error messages are displayed near each form field below."
   request_report_approved: "Request report is approved."
   failed_to_approve_request_report: "Failed to approve request report."

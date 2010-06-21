@@ -1,9 +1,23 @@
 class MusiciansController < ApplicationController
-  insta_index Musician, :template => 'musician_list'
-  insta_show Musician, :template => 'musician_show'
-  insta_new Musician, :template => 'musician_form'
-  insta_edit Musician, :template => 'musician_form'
-  insta_post Musician, :template => 'musician_form'
-  insta_put Musician, :template => 'musician_form'
-  insta_delete Musician
+  insta_index Musician do |insta|
+    insta.template = 'musician_list'
+  end
+  insta_show Musician do |insta|
+    insta.template = 'musician_show'
+  end
+  insta_new Musician do |insta|
+    insta.template = 'musician_form'
+  end
+  insta_edit Musician do |insta|
+    insta.template = 'musician_form'
+  end
+  insta_post Musician do |insta|
+    insta.template = 'musician_form'
+  end
+  insta_put Musician do |insta|
+    insta.template = 'musician_form'
+  end
+  insta_delete Musician do |insta|
+    insta.template = 'musician_form'
+  end
 end
