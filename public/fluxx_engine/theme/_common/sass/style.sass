@@ -1,14 +1,25 @@
 @import _helpers.sass
 
-$footer_height: 75px
-$header_height: 100px
+$footer_height: 50px
+$header_height: 50px
+
+=bg($bg: rgb(255,255,255), $fg:  rgb(0,0,0))
+  background-color: $bg
+  color: $fg
+  a
+    color: $fg
+=header-bg($bg: #333, $fg: #fff)
+  +bg($bg, $fg)
+=footer-bg($bg: #333, $fg: #fff)
+  +bg($bg, $fg)
+=body-bg($bg: #eee, $fg: #000)
+  +bg($bg, $fg)
 
 body,table
   +default-font
 
 div,ul,ol,li,table,td,th,dl,dt,dd
   +border-box
-  border: 1px solid #999
 
 html,body
   margin: 0px
@@ -26,6 +37,7 @@ body
     height: 100%
     min-height: 100%
     #header
+      +header-bg
       height: $header_height
       position: fixed
       top: 0px
@@ -41,6 +53,7 @@ body
           margin-right: 10px
           vertical-align: top
     #card-table
+      +body-bg(#ccc)
       margin-top: $header_height
       margin-bottom: $footer_height
       position: absolute
@@ -52,45 +65,32 @@ body
         height: 100%
         .card
           +inline-block
-          margin: 5px
-          height: 100%
+          margin: 10px
           .card-box
-            height: 100%
-            position: relative
             .card-header
-              position: absolute
-              right: 0px
-              left: 0px
-              height: 50px
-              border-color: #0f0
+              +header-bg
               .toolbar
               .titlebar
             .card-body
-              position: relative
-              height: 100%
-              margin-top: 50px
-              margin-bottom: 50px
-              border-color: black
               .listing,.detail
                 +inline-block
                 .header
-                  min-height: 50px
+                  +header-bg(#666)
                 .body
-                  min-height: 80px
+                  +bg
+                  overflow: auto
                 .footer
-                  min-height: 30px
+                  +footer-bg(#666)
               .listing
                 width: 200px
+                .body
+                  +bg(#f9f9f9)
               .detail
                 width: 400px
             .card-footer
-              position: absolute
-              right: 0px
-              left: 0px
-              bottom: 0px
-              height: 50px
-              border-color: #0f0
+              +footer-bg
     #footer
+      +footer-bg
       height: $footer_height
       position: fixed
       bottom: 0

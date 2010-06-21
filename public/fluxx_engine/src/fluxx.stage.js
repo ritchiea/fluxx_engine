@@ -6,10 +6,12 @@
         $.my.fluxx  = $(this).attr('id', 'fluxx');
         $.my.stage  = $.fluxx.stage.ui.call(this, options).appendTo($.my.fluxx.empty());
         $.my.hand   = $('#hand');
-        $.my.stage
-          .bind('fluxx.stage.complete', function(){ $.my.hand.addFluxxCards({cards: $.fluxx.config.cards});})
-          .bind('fluxx.stage.complete', options.callback)
-          ;
+        $.my.stage.bind({
+          'fluxx.stage.complete': _.callAll(
+            function(){ $.my.hand.addFluxxCards({cards: $.fluxx.config.cards});},
+            options.callback
+          )
+        });
         $.my.stage.triggerHandler('fluxx.stage.complete');
       });
     },
@@ -21,8 +23,19 @@
         $.my.stage.triggerHandler('fluxx.stage.unload');
         $.my.stage = undefined;
         $.my.hand  = undefined;
+        $.my.cards = $();
         options.callback.call(this);
       });
+    },
+    resizeFluxxStage: function(options, onComplete) {
+      if (!this.length) return this;
+      var options = $.fluxx.util.options_with_callback({}, options, onComplete);
+      var allCards = _.addUp($.my.cards, 'outerWidth', true);
+      $.my.stage
+        .width(allCards)
+        .bind('fluxx.stage.resize', options.callback)
+        .triggerHandler('fluxx.stage.resize');
+      return this;
     },
     
     addFluxxCards: function(options) {
@@ -67,4 +80,8 @@
   $.fluxx.stage.ui.footer = [
     '<div id="footer">Footer</div>'
   ].join('');
+  
+  $(window).resize(function(e){
+    $.my.stage.resizeFluxxStage();
+  });
 })(jQuery);

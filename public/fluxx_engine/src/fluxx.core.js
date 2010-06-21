@@ -1,6 +1,25 @@
 (function($){
+  _.mixin({
+    addUp: function (set, property) {
+      var args = _.toArray(arguments).slice(2);
+      return _.reduce($(set).get(), 0, function(m,i){
+        return m + $(i)[property].call($(i), args);
+      });
+    },
+    callAll: function () {
+      var functions = _.toArray(arguments);
+      return function() {
+        var this_ = this;
+        var args  = arguments;
+        _.each(functions, function(f){f.call(this_, args)});
+      }
+    }
+  });
+  
   $.extend(true, {
-    my: {}, /* Selector Cache */
+    my: {
+      cards: $()
+    },
     fluxx: {
       config: {
         cards: []
@@ -19,6 +38,9 @@
           if ($.isArray(value))    return _.map(value,function(x){return $.fluxx.util.resultOf(x)}).join('');
           if ($.isFunction(value)) return arguments.callee(value.apply(value, _.tail(arguments)));
           return value;
+        },
+        marginHeight: function($selector) {
+          return parseInt($selector.css('marginTop')) + parseInt($selector.css('marginBottom'));
         }
       },
       logOn: true,
