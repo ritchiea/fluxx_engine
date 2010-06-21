@@ -62,3 +62,74 @@ Migrating to CreateMusicians (20100616232433)
 Migrating to CreateMusicians (20100616232433)
   [1m[35mSQL (0.7ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES (NULL, '2010-06-18 02:06:58.721937', NULL, 'Fern', 'Block', NULL, NULL, NULL, '2010-06-18 02:06:58.721937', NULL)
   [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  [1m[36mSQL (22.8ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.3ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[36mSQL (0.7ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (22.6ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES (NULL, '2010-06-21 13:15:01.136006', NULL, 'Fern', 'Block', NULL, NULL, NULL, '2010-06-21 13:15:01.136006', NULL)
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES (NULL, '2010-06-21 13:15:01.253036', NULL, 'Aric', 'Kunde', NULL, NULL, NULL, '2010-06-21 13:15:01.253036', NULL)
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  SELECT COUNT(*) AS count_id FROM "musicians"
+  Processing by MusiciansController#create as HTML
+  Parameters: {"musician"=>{"city"=>nil, "zip"=>nil, "created_at"=>Mon Jun 21 13:15:01 UTC 2010, "updated_at"=>Mon Jun 21 13:15:01 UTC 2010, "id"=>1, "street_address"=>nil, "last_name"=>"Kunde", "date_of_birth"=>nil, "music_type"=>nil, "state"=>nil, "first_name"=>"Aric"}}
+WARNING: Can't mass-assign these protected attributes: id
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES (NULL, '2010-06-21 13:15:01.253035', NULL, 'Aric', 'Kunde', NULL, NULL, NULL, '2010-06-21 13:15:01.253035', NULL)[0m
+Redirected to http://test.host/musicians/2
+Completed 302 Found in 45ms
+  [1m[35mSQL (0.2ms)[0m  SELECT COUNT(*) AS count_id FROM "musicians"
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES (NULL, '2010-06-21 13:15:01.353451', NULL, 'Fred', 'Smith', NULL, NULL, NULL, '2010-06-21 13:15:01.353451', NULL)[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT COUNT(*) AS count_id FROM "musicians"[0m
+  Processing by MusiciansController#destroy as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mDELETE FROM "musicians" WHERE ("musicians"."id" = 1)[0m
+Redirected to http://test.host/musicians
+Completed 302 Found in 5ms
+  [1m[35mSQL (0.2ms)[0m  SELECT COUNT(*) AS count_id FROM "musicians"
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES (NULL, '2010-06-21 13:15:01.373097', NULL, 'Eliseo', 'Cremin', NULL, NULL, NULL, '2010-06-21 13:15:01.373097', NULL)[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  Processing by MusiciansController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+Rendered musicians/_form.html.erb (56.5ms)
+Completed 200 OK in 108ms (Views: 106.4ms | ActiveRecord: 26.6ms)
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES (NULL, '2010-06-21 13:15:01.491755', NULL, 'Tess', 'Leuschke', NULL, NULL, NULL, '2010-06-21 13:15:01.491755', NULL)
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as HTML
+  [1m[35mMusician Load (0.4ms)[0m  SELECT "musicians".* FROM "musicians"
+Completed 200 OK in 12ms (Views: 9.1ms | ActiveRecord: 0.9ms)
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES (NULL, '2010-06-21 13:15:01.517552', NULL, 'Vincent', 'Simonis', NULL, NULL, NULL, '2010-06-21 13:15:01.517552', NULL)[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  Processing by MusiciansController#new as HTML
+Rendered musicians/_form.html.erb (2.4ms)
+Completed 200 OK in 9ms (Views: 8.1ms | ActiveRecord: 0.5ms)
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES (NULL, '2010-06-21 13:15:01.536181', NULL, 'Emmanuel', 'Kautzer', NULL, NULL, NULL, '2010-06-21 13:15:01.536181', NULL)[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  Processing by MusiciansController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+Completed 200 OK in 9ms (Views: 6.5ms | ActiveRecord: 0.7ms)
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES (NULL, '2010-06-21 13:15:01.554794', NULL, 'Alysson', 'Goyette', NULL, NULL, NULL, '2010-06-21 13:15:01.554794', NULL)
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#update as HTML
+  Parameters: {"id"=>"1", "musician"=>{"city"=>nil, "zip"=>nil, "created_at"=>Mon Jun 21 13:15:01 UTC 2010, "updated_at"=>Mon Jun 21 13:15:01 UTC 2010, "id"=>1, "street_address"=>nil, "last_name"=>"Goyette", "date_of_birth"=>nil, "music_type"=>nil, "state"=>nil, "first_name"=>"Alysson"}}
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+WARNING: Can't mass-assign these protected attributes: id
+Redirected to http://test.host/musicians/1
+Completed 302 Found in 5ms
