@@ -52,14 +52,14 @@
           $('.area', $cardBody).height(
             $cardBody.height(
               $cardBody.parent().innerHeight() -
-              _.addUp($cardBody.siblings(), 'outerHeight')
+              _.addUp($cardBody.siblings(), 'outerHeight', true)
             ).innerHeight()
           ).each(function(){
             var $area     = $(this),
                 $areaBody = $('.body', $area);
             $areaBody.height(
               $areaBody.parent().innerHeight() -
-              _.addUp($areaBody.siblings(), 'outerHeight')
+              _.addUp($areaBody.siblings(), 'outerHeight', true)
             )
           });
         });
@@ -104,9 +104,9 @@
         data: options.data,
         success: function (data, status, xhr) {
           var $document = $('<div/>').html(data);
-          $('.header', options.area).html($('#card-header', $document).html());
-          $('.body',   options.area).html($('#card-body',   $document).html());
-          $('.footer', options.area).html($('#card-footer', $document).html());
+          $('.header', options.area).html($('#card-header', $document).html() || '&nbsp;');
+          $('.body',   options.area).html($('#card-body',   $document).html() || '&nbsp;');
+          $('.footer', options.area).html($('#card-footer', $document).html() || '&nbsp;');
           options.area.triggerHandler('fluxx.area.complete');
         },
         error: function(xhr, status, error) {
