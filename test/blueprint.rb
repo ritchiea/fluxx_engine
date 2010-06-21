@@ -23,4 +23,10 @@ Sham.url { "http://#{Faker::Internet.domain_name}/#{Faker::Lorem.words(1).first}
 Musician.blueprint do
   first_name Sham.first_name
   last_name Sham.last_name
+  music_type Sham.word
+  street_address Sham.word
+  city Sham.word
+  state Sham.word
+  zip Sham.word
+  date_of_birth Time.now
 end
