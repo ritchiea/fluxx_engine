@@ -13,7 +13,7 @@
           })
           .bind({
             'fluxx.card.complete': _.callAll(
-              function(){$card.show().resizeFluxxCard()},
+              function(){$card.show().resizeFluxxCard(); $.my.stage.resizeFluxxStage()},
               options.callback
             ),
             'fluxx.card.load': options.onload
