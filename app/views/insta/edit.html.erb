@@ -11,7 +11,7 @@
 </div>
 
 <div id="card-footer">
-<%= link_to 'Cancel', @model, :class => 'fluxx-card-link-to-self btn' %>
+<%= link_to 'Cancel', @model, :class => 'to-self btn' %>
 <%- unless @not_editable -%>
 <script>
   $('body').one('fluxxCardLoadContent',function(e, $area){

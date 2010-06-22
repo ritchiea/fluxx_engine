@@ -38,7 +38,7 @@
   if @footer_template -%>
     <%= render :partial => @footer_template, :locals => { :model => @model} %>
   <%- else -%>
-    <%= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'fluxx-card-link-to-self', :link_class => 'btn' %>
+    <%= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'to-self', :link_class => 'btn' %>
   <%- end -%>
-  <%= link_to 'Printable', '#', :onclick => '$(this).attr("href", $(this).fluxxCardArea().data("url"))', :target => "_blank", :class => 'btn' %>
+  <%= link_to 'Printable', '#', :target => "_blank", :class => 'btn area-url' %>
 </div>

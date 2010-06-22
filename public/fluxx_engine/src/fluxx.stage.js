@@ -87,7 +87,7 @@
                 url: $elem.attr('href')
               });
           }],
-          'a.my-url': [
+          'a.area-url': [
             'click', function(e) {
               var $elem = $(this);
               $elem.attr('href', $elem.fluxxCardAreaURL());
