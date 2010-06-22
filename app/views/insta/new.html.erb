@@ -1,7 +1,7 @@
 <div id="card-header"><%= flash_info %><%= flash_error %></div>
 <div id="card-body">
   <div class="fluxx-card-edit">
-	<% semantic_form_for @model, :url => {:action => "create"}, :html => {:class => ('fluxx-card-form-to-self ' + (@form_class || ''))} do |form| %>
+	<%= semantic_form_for @model, :url => {:action => "create"}, :html => {:class => ('fluxx-card-form-to-self ' + (@form_class || ''))} do |form| %>
     <%= render :partial => @template, :locals => { :form => form, :model => @model, :button_verb => (@button_verb || 'Create'), :button_definition => @button_definition} %>
 	<% end %>
 </div></div>

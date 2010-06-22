@@ -10,9 +10,9 @@ class ActiveRecord::Base
     end
 
     if self.respond_to? :sphinx_indexes
-      sphinx_model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
+      sphinx_model_search q_search, request_params, results_per_page=25, options, really_delete=false
     else
-      sql_model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
+      sql_model_search q_search, request_params, results_per_page=25, options, really_delete=false
     end
   end
   
