@@ -72,6 +72,13 @@
       return this.data('card')
         || this.data('card', this.parents('.card:eq(0)').andSelf()).data('card');
     },
+    fluxxCardArea: function() {
+      return this.data('area')
+        || this.data('area', this.parents('.area:eq(0)').andSelf()).data('area');
+    },
+    fluxxCardAreaURL: function() {
+      return this.fluxxCardArea().data('history')[0].url;
+    },
     fluxxCardListing: function() {
       return this.fluxxCard().data('listing');
     },
@@ -97,7 +104,12 @@
         options.area.trigger('fluxxArea.complete');
         return this;
       }
-      
+      if (!options.area.data('history')) {
+        options.area.data('history', [options]);
+      } else {
+        options.area.data('history').unshift(options);
+      }
+
       $.ajax({
         url: options.url,
         type: options.type,

@@ -41,6 +41,14 @@
         },
         marginHeight: function($selector) {
           return parseInt($selector.css('marginTop')) + parseInt($selector.css('marginBottom'));
+        },
+        itEndsWithMe: function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+        },
+        itEndsHere: function (e) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
         }
       },
       logOn: true,

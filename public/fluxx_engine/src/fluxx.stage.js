@@ -8,6 +8,7 @@
         $.my.hand   = $('#hand');
         $.my.stage.bind({
           'fluxxStage.complete': _.callAll(
+            function(){ $.my.stage.installFluxxDecorators(); },
             function(){ $.my.hand.addFluxxCards({cards: $.fluxx.config.cards});},
             options.callback
           )
@@ -44,6 +45,12 @@
       if (!options.cards.length) return this;
       $.each(options.cards, function() { $.my.hand.addFluxxCard(this) });
       return this;
+    },
+    
+    installFluxxDecorators: function() {
+      _.each($.fluxx.stage.decorators, function(val,key) {
+        $(key).live(val[0], val[1]);
+      });
     }
   });
   
@@ -61,6 +68,31 @@
               $.fluxx.stage.ui.cardTable,
               $.fluxx.stage.ui.footer
             ]));
+        },
+        decorators: {
+          'a.to-self':   [
+            'click', function (e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $elem.fluxxCardLoadContent({
+                url: $elem.attr('href'),
+                area: $elem.fluxxCardArea()
+              });
+            }
+          ],
+          'a.to-detail': ['click', function (e) {
+            $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $elem.fluxxCardLoadDetail({
+                url: $elem.attr('href')
+              });
+          }],
+          'a.my-url': [
+            'click', function(e) {
+              var $elem = $(this);
+              $elem.attr('href', $elem.fluxxCardAreaURL());
+            }
+          ]
         }
       }
     }
@@ -85,4 +117,5 @@
   $(window).resize(function(e){
     $.my.stage.resizeFluxxStage();
   });
+
 })(jQuery);
