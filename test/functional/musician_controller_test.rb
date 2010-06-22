@@ -11,7 +11,7 @@ class MusiciansControllerTest < ActionController::TestCase
     assert_not_nil assigns(:musicians)
   end
   
-  test "should get CSV index" do
+  test "should get default CSV index" do
     musicians = (1..9).map {Musician.make}
     musicians << @musician
     get :index, :format => 'csv'
@@ -24,7 +24,7 @@ class MusiciansControllerTest < ActionController::TestCase
     end
   end
   
-  test "should get XLS index" do
+  test "should get default XLS index" do
     musicians = (1..9).map {Musician.make}
     musicians << @musician
     get :index, :format => 'xls'

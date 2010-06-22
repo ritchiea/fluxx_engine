@@ -20,7 +20,7 @@ class ActionController::ControllerDslDelete < ActionController::ControllerDsl
     end
     unless really_delete
       model.deleted_at = Time.now
-      model.save_without_validation
+      model.save(:validate => false)
     else
       model.destroy
     end

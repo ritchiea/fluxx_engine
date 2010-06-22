@@ -30,3 +30,8 @@ Musician.blueprint do
   zip Sham.word
   date_of_birth Time.now
 end
+
+Instrument.blueprint do
+  name Sham.word
+  date_of_birth Time.now
+end
