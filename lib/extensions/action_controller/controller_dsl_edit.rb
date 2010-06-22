@@ -1,7 +1,7 @@
 class ActionController::ControllerDslEdit < ActionController::ControllerDsl
-  attr_accessor :form_name
-  attr_accessor :button_definition
-  attr_accessor :button_verb
+  # add a class to the form element
+  attr_accessor :form_class
+  # specify the URL for the form
   attr_accessor :form_url
   
   def perform_edit request, params, model

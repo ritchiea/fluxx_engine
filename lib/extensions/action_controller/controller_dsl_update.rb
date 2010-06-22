@@ -1,12 +1,21 @@
 class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
-  attr_accessor :form_name
+  # Name to go on submit button
   attr_accessor :button_definition
+  # Verb to go on submit button (create/update)
   attr_accessor :button_verb
+  # 
   attr_accessor :link_to_method
+  # A call to make after the save occurs
   attr_accessor :post_save_call
+  # A message to send back after a successful completion of the creation
   attr_accessor :render_inline
-  attr_accessor :controller
+  # A redirect to issue after a successful completion of the creation
   attr_accessor :redirect
+  # add a class to the form element
+  attr_accessor :form_class
+  # specify the URL for the form
+  attr_accessor :form_url
+  
   
   def load_model request, params, model
     update_condition = nil

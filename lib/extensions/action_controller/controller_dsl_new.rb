@@ -1,10 +1,12 @@
 class ActionController::ControllerDslNew < ActionController::ControllerDsl
+  # Allow you to pass in a block to initialize a new model object
   attr_accessor :new_block
-  attr_accessor :multi_part
-  attr_accessor :form_class
-  attr_accessor :form_name
   attr_accessor :button_definition
   attr_accessor :button_verb
+  # add a class to the form element
+  attr_accessor :form_class
+  # specify the URL for the form
+  attr_accessor :form_url
   
   def perform_new request, params, model=nil
     if model

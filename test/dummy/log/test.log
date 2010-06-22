@@ -1542,3 +1542,147 @@ Migrating to CreateMusicians (20100616232433)
   [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
 Rendered text template (0.0ms)
 Completed 200 OK in 20ms (Views: 13.9ms | ActiveRecord: 26.3ms)
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.3ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.3ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-22 18:33:04.856368', '2010-06-22 18:33:04.855410', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-22 18:33:04.856368', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('quiaaliquam', '2010-06-22 18:33:04.977171', '2010-06-22 18:33:04.976343', 'Aric', 'Kunde', 'iustonihil', 'errorhic', 'molestiaevelit', '2010-06-22 18:33:04.977171', 'etfugit')
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  SELECT COUNT(*) AS count_id FROM "musicians"
+  Processing by MusiciansController#create as HTML
+  Parameters: {"musician"=>{"city"=>"quiaaliquam", "zip"=>"etfugit", "created_at"=>Tue Jun 22 18:33:04 UTC 2010, "updated_at"=>Tue Jun 22 18:33:04 UTC 2010, "id"=>1, "street_address"=>"molestiaevelit", "last_name"=>"Kunde", "date_of_birth"=>Tue, 22 Jun 2010, "music_type"=>"iustonihil", "state"=>"errorhic", "first_name"=>"Aric"}}
+WARNING: Can't mass-assign these protected attributes: id
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('quiaaliquam', '2010-06-22 18:33:04.977171', '2010-06-22', 'Aric', 'Kunde', 'iustonihil', 'errorhic', 'molestiaevelit', '2010-06-22 18:33:04.977171', 'etfugit')[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+Completed   in 90ms
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('magniculpa', '2010-06-22 18:33:05.143954', '2010-06-22 18:33:05.143070', 'Fred', 'Smith', 'odioqui', 'etut', 'eligendiomnis', '2010-06-22 18:33:05.143954', 'blanditiisfacilis')[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT COUNT(*) AS count_id FROM "musicians"[0m
+  Processing by MusiciansController#destroy as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mDELETE FROM "musicians" WHERE ("musicians"."id" = 1)[0m
+Redirected to http://test.hostmusician_path
+Completed 302 Found in 5ms
+  [1m[35mSQL (0.2ms)[0m  SELECT COUNT(*) AS count_id FROM "musicians"
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('temporaamet', '2010-06-22 18:33:05.161946', '2010-06-22 18:33:05.161184', 'Eliseo', 'Cremin', 'repudiandaein', 'quasioccaecati', 'nostrumet', '2010-06-22 18:33:05.161946', 'sapienteet')[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  Processing by MusiciansController#index as CSV
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT id FROM "musicians" LIMIT 25 OFFSET 0[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+Completed 200 OK in 39ms (Views: 34.9ms | ActiveRecord: 5.0ms)
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('occaecatiut', '2010-06-22 18:33:05.240254', '2010-06-22 18:33:05.239389', 'Tess', 'Leuschke', 'voluptatumipsum', 'hicaspernatur', 'quiet', '2010-06-22 18:33:05.240254', 'harumqui')[0m
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  Processing by MusiciansController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+Rendered musicians/_musician_form.html.haml (9.7ms)
+Completed 200 OK in 26ms (Views: 22.8ms | ActiveRecord: 0.9ms)
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('possimusrerum', '2010-06-22 18:33:05.277685', '2010-06-22 18:33:05.276925', 'Vincent', 'Simonis', 'sitaut', 'quiaquisquam', 'utnon', '2010-06-22 18:33:05.277685', 'beataedolor')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as HTML
+  [1m[35mMusician Load (0.2ms)[0m  SELECT id FROM "musicians" LIMIT 25 OFFSET 0
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE (id in (1))[0m
+Rendered musicians/_musician_list.html.haml (1.1ms)
+Completed 200 OK in 17ms (Views: 12.7ms | ActiveRecord: 0.9ms)
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('blanditiiseum', '2010-06-22 18:33:05.305259', '2010-06-22 18:33:05.304470', 'Emmanuel', 'Kautzer', 'quaeratvoluptas', 'doloremesse', 'temporibusexplicabo', '2010-06-22 18:33:05.305259', 'impeditdistinctio')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#new as HTML
+Rendered musicians/_musician_form.html.haml (7.3ms)
+Completed 200 OK in 16ms (Views: 15.6ms | ActiveRecord: 0.6ms)
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('eafugiat', '2010-06-22 18:33:05.333039', '2010-06-22 18:33:05.332288', 'Alysson', 'Goyette', 'delectuset', 'nonvoluptatem', 'voluptatumcommodi', '2010-06-22 18:33:05.333039', 'estasperiores')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE (id = '1')
+Rendered musicians/_musician_show.html.haml (2.5ms)
+Completed 200 OK in 15ms (Views: 13.0ms | ActiveRecord: 0.7ms)
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('esselaboriosam', '2010-06-22 18:33:05.359269', '2010-06-22 18:33:05.358511', 'Alphonso', 'Quigley', 'nonsed', 'illumnatus', 'ettempore', '2010-06-22 18:33:05.359269', 'etunde')[0m
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  Processing by MusiciansController#update as HTML
+  Parameters: {"id"=>"1", "musician"=>{"city"=>"esselaboriosam", "zip"=>"etunde", "created_at"=>Tue Jun 22 18:33:05 UTC 2010, "updated_at"=>Tue Jun 22 18:33:05 UTC 2010, "id"=>1, "street_address"=>"ettempore", "last_name"=>"Quigley", "date_of_birth"=>Tue, 22 Jun 2010, "music_type"=>"nonsed", "state"=>"illumnatus", "first_name"=>"Alphonso"}}
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+WARNING: Can't mass-assign these protected attributes: id
+Unable to save @musician with errors=#<OrderedHash {}>
+Rendered musicians/_musician_form.html.haml (7.6ms)
+Completed 200 OK in 19ms (Views: 12.9ms | ActiveRecord: 0.8ms)
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-22 18:36:48.377163', '2010-06-22 18:36:48.375497', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-22 18:36:48.377163', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('quiaaliquam', '2010-06-22 18:36:48.415596', '2010-06-22 18:36:48.414499', 'Aric', 'Kunde', 'iustonihil', 'errorhic', 'molestiaevelit', '2010-06-22 18:36:48.415596', 'etfugit')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  [1m[35mSQL (0.1ms)[0m  SELECT COUNT(*) AS count_id FROM "musicians"
+  Processing by MusiciansController#create as HTML
+  Parameters: {"musician"=>{"city"=>"quiaaliquam", "zip"=>"etfugit", "created_at"=>Tue Jun 22 18:36:48 UTC 2010, "updated_at"=>Tue Jun 22 18:36:48 UTC 2010, "id"=>1, "street_address"=>"molestiaevelit", "last_name"=>"Kunde", "date_of_birth"=>Tue, 22 Jun 2010, "music_type"=>"iustonihil", "state"=>"errorhic", "first_name"=>"Aric"}}
+WARNING: Can't mass-assign these protected attributes: id
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('quiaaliquam', '2010-06-22 18:36:48.415596', '2010-06-22', 'Aric', 'Kunde', 'iustonihil', 'errorhic', 'molestiaevelit', '2010-06-22 18:36:48.415596', 'etfugit')[0m
+Completed 201 Created in 12ms
+  [1m[35mSQL (0.2ms)[0m  SELECT COUNT(*) AS count_id FROM "musicians"
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('magniculpa', '2010-06-22 18:36:48.481713', '2010-06-22 18:36:48.480568', 'Fred', 'Smith', 'odioqui', 'etut', 'eligendiomnis', '2010-06-22 18:36:48.481713', 'blanditiisfacilis')[0m
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mSELECT COUNT(*) AS count_id FROM "musicians"[0m
+  Processing by MusiciansController#destroy as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mDELETE FROM "musicians" WHERE ("musicians"."id" = 1)[0m
+Redirected to http://test.hostmusician_path
+Completed 302 Found in 7ms
+  [1m[35mSQL (0.2ms)[0m  SELECT COUNT(*) AS count_id FROM "musicians"
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('temporaamet', '2010-06-22 18:36:48.505542', '2010-06-22 18:36:48.504783', 'Eliseo', 'Cremin', 'repudiandaein', 'quasioccaecati', 'nostrumet', '2010-06-22 18:36:48.505542', 'sapienteet')[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  Processing by MusiciansController#index as CSV
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT id FROM "musicians" LIMIT 25 OFFSET 0[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+Completed 200 OK in 6ms (Views: 2.0ms | ActiveRecord: 4.7ms)
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('occaecatiut', '2010-06-22 18:36:48.551455', '2010-06-22 18:36:48.550583', 'Tess', 'Leuschke', 'voluptatumipsum', 'hicaspernatur', 'quiet', '2010-06-22 18:36:48.551455', 'harumqui')[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  Processing by MusiciansController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+Rendered musicians/_musician_form.html.haml (9.7ms)
+Completed 200 OK in 26ms (Views: 22.6ms | ActiveRecord: 0.8ms)
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('possimusrerum', '2010-06-22 18:36:48.588372', '2010-06-22 18:36:48.587628', 'Vincent', 'Simonis', 'sitaut', 'quiaquisquam', 'utnon', '2010-06-22 18:36:48.588372', 'beataedolor')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as HTML
+  [1m[35mMusician Load (0.2ms)[0m  SELECT id FROM "musicians" LIMIT 25 OFFSET 0
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE (id in (1))[0m
+Rendered musicians/_musician_list.html.haml (1.1ms)
+Completed 200 OK in 16ms (Views: 12.6ms | ActiveRecord: 0.9ms)
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('blanditiiseum', '2010-06-22 18:36:48.615842', '2010-06-22 18:36:48.615079', 'Emmanuel', 'Kautzer', 'quaeratvoluptas', 'doloremesse', 'temporibusexplicabo', '2010-06-22 18:36:48.615842', 'impeditdistinctio')
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#new as HTML
+Rendered musicians/_musician_form.html.haml (7.3ms)
+Completed 200 OK in 17ms (Views: 16.4ms | ActiveRecord: 0.6ms)
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('eafugiat', '2010-06-22 18:36:48.644543', '2010-06-22 18:36:48.643775', 'Alysson', 'Goyette', 'delectuset', 'nonvoluptatem', 'voluptatumcommodi', '2010-06-22 18:36:48.644543', 'estasperiores')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE (id = '1')
+Rendered musicians/_musician_show.html.haml (2.3ms)
+Completed 200 OK in 16ms (Views: 13.1ms | ActiveRecord: 0.8ms)
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('esselaboriosam', '2010-06-22 18:36:48.670930', '2010-06-22 18:36:48.670181', 'Alphonso', 'Quigley', 'nonsed', 'illumnatus', 'ettempore', '2010-06-22 18:36:48.670930', 'etunde')[0m
+  [1m[35mMusician Load (0.2ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+  Processing by MusiciansController#update as HTML
+  Parameters: {"id"=>"1", "musician"=>{"city"=>"esselaboriosam", "zip"=>"etunde", "created_at"=>Tue Jun 22 18:36:48 UTC 2010, "updated_at"=>Tue Jun 22 18:36:48 UTC 2010, "id"=>1, "street_address"=>"ettempore", "last_name"=>"Quigley", "date_of_birth"=>Tue, 22 Jun 2010, "music_type"=>"nonsed", "state"=>"illumnatus", "first_name"=>"Alphonso"}}
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+WARNING: Can't mass-assign these protected attributes: id
+Unable to save @musician with errors=#<OrderedHash {}>
+Rendered musicians/_musician_form.html.haml (7.7ms)
+Completed 200 OK in 19ms (Views: 12.9ms | ActiveRecord: 0.8ms)

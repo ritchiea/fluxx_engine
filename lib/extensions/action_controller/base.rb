@@ -102,11 +102,8 @@ class ActionController::Base
       
       instance_variable_set new_object.singular_model_instance_name, @model
       @template = new_object.template
-      @multipart = new_object.multi_part
       @form_class = new_object.form_class
-      @form_name = new_object.form_name
-      @button_definition = new_object.button_definition || @model_human_name
-      @button_verb = new_object.button_verb
+      @form_url = new_object.form_url
       respond_to do |format|
         format.html { render((new_object.view || "#{insta_path}/new").to_s, :layout => false)}
         format.xml  { render :xml => @model }
@@ -120,8 +117,6 @@ class ActionController::Base
 
     # GET /models/1/edit
     define_method :edit do
-      edit_object.button_definition = @model_human_name unless edit_object.button_definition
-      
       respond_to do |format|
         @model = edit_object.perform_edit request, params, @model
         unless edit_object.editable? @model
@@ -142,11 +137,10 @@ class ActionController::Base
     # POST /models.xml
     define_method :create do
       @model = create_object.load_model request, params, @model
-      @model = instance_variable_set create_object.singular_model_instance_name, @model
-      @form_name = create_object.form_name
+      instance_variable_set create_object.singular_model_instance_name, @model
       @template = create_object.template
-      @button_definition = create_object.button_definition || @model_human_name
-      @button_verb = create_object.button_verb
+      @form_class = create_object.form_class
+      @form_url = create_object.form_url
       @link_to_method = create_object.link_to_method
       if create_object.perform_create request, params, @model, fluxx_current_user
         respond_to do |format|
@@ -156,7 +150,6 @@ class ActionController::Base
               render :inline => create_object.render_inline
             else
               extra_options = {:id => @model.id}
-              extra_options[:controller] = create_object.controller if create_object.controller
               head 201, :location => create_object.redirect ? self.send(create_object.redirect, extra_options) : url_for(@model)
             end
           end
@@ -181,10 +174,9 @@ class ActionController::Base
     # PUT /models/1
     # PUT /models/1.xml
     define_method :update do
-      @form_name = update_object.form_name
       @template = update_object.template
-      @button_definition = update_object.button_definition || @model_human_name
-      @button_verb = update_object.button_verb
+      @form_class = update_object.form_class
+      @form_url = update_object.form_url
       
       @model = update_object.load_model request, params, @model
       instance_variable_set update_object.singular_model_instance_name, @model
@@ -198,7 +190,6 @@ class ActionController::Base
                 render :inline => update_object.render_inline
               else
                 extra_options = {:id => @model.id}
-                extra_options[:controller] = update_object.controller if update_object.controller
                 redirect_to(update_object.redirect ? self.send(update_object.redirect, extra_options) : @model) 
               end
             end
@@ -285,10 +276,8 @@ class ActionController::Base
   end
   
   def fluxx_edit_card edit_object
-    @form_name = edit_object.form_name
     @template = edit_object.template
-    @button_definition = edit_object.button_definition
-    @button_verb = edit_object.button_verb
+    @form_class = edit_object.form_class
     @form_url = edit_object.form_url
     render((edit_object.view || "#{insta_path}/edit").to_s, :layout => false)
   end

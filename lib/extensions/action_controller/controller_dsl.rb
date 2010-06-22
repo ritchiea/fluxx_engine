@@ -1,11 +1,19 @@
 class ActionController::ControllerDsl
+  # Layout to be used
   attr_accessor :layout
+  # template to be used
   attr_accessor :template
+  # view to be used
   attr_accessor :view
+  # view to be used
   attr_accessor :really_delete
+  # associated model class
   attr_accessor :model_class
+  # internal singular name of mode
   attr_accessor :singular_model_instance_name
+  # internal plural name of mode
   attr_accessor :plural_model_instance_name
+  # internal name of model
   attr_accessor :model_name
   
   def initialize model_class_param

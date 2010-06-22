@@ -1,4 +1,5 @@
 class ActionController::ControllerDslDelete < ActionController::ControllerDsl
+  # A redirect to issue after a successful completion of the deletion
   attr_accessor :redirect
   
   def load_model request, params, model
