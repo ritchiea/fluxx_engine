@@ -22,7 +22,7 @@
     },
     fluxx: {
       config: {
-        cards: []
+        cards: $('.card')
       },
       util: {
         options_with_callback: function(defaults, options, callback) {

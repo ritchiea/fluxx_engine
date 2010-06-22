@@ -12,16 +12,16 @@
             box:     $('.card-box:eq(0)', $card)
           })
           .bind({
-            'fluxx.card.complete': _.callAll(
+            'fluxxCard.complete': _.callAll(
               function(){$card.show().resizeFluxxCard(); $.my.stage.resizeFluxxStage()},
               options.callback
             ),
-            'fluxx.card.load': options.onload
+            'fluxxCard.load': options.onload
           });
-        $card.triggerHandler('fluxx.card.load')
+        $card.trigger('fluxxCard.load')
         $card.fluxxCardLoadListing({url: options.listing.url}, function(){
           $card.fluxxCardLoadDetail({url: options.detail.url}, function(){
-            $card.triggerHandler('fluxx.card.complete');
+            $card.trigger('fluxxCard.complete');
           })
         });
         $.my.cards = $('.card');
@@ -31,9 +31,9 @@
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       return this.each(function(){
         $(this)
-          .bind('fluxx.card.unload', options.callback)
-          .bind('fluxx.card.unload', function(e){$(e.target).remove(); $.my.cards = $('.card')})
-          .triggerHandler('fluxx.card.unload');
+          .bind('fluxxCard.unload', options.callback)
+          .bind('fluxxCard.unload', function(e){$(e.target).remove(); $.my.cards = $('.card')})
+          .trigger('fluxxCard.unload');
       });
     },
     resizeFluxxCard: function(options, onComplete) {
@@ -91,10 +91,10 @@
         data: {}
       };
       var options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
-      options.area.unbind('fluxx.area.complete').bind('fluxx.area.complete', options.callback);
+      options.area.unbind('fluxxArea.complete').bind('fluxxArea.complete', options.callback);
 
       if (!options.url) {
-        options.area.triggerHandler('fluxx.area.complete');
+        options.area.trigger('fluxxArea.complete');
         return this;
       }
       
@@ -107,10 +107,10 @@
           $('.header', options.area).html($('#card-header', $document).html() || '&nbsp;');
           $('.body',   options.area).html($('#card-body',   $document).html() || '&nbsp;');
           $('.footer', options.area).html($('#card-footer', $document).html() || '&nbsp;');
-          options.area.triggerHandler('fluxx.area.complete');
+          options.area.trigger('fluxxArea.complete');
         },
         error: function(xhr, status, error) {
-          options.area.triggerHandler('fluxx.area.complete');
+          options.area.trigger('fluxxArea.complete');
         }
       });
       

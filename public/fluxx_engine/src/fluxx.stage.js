@@ -7,12 +7,13 @@
         $.my.stage  = $.fluxx.stage.ui.call(this, options).appendTo($.my.fluxx.empty());
         $.my.hand   = $('#hand');
         $.my.stage.bind({
-          'fluxx.stage.complete': _.callAll(
+          'fluxxStage.complete': _.callAll(
             function(){ $.my.hand.addFluxxCards({cards: $.fluxx.config.cards});},
             options.callback
           )
         });
-        $.my.stage.triggerHandler('fluxx.stage.complete');
+        $('.card').live('fluxxCard.complete', function(){$.fluxx.log('live fluxxCard.complete')});
+        $.my.stage.trigger('fluxxStage.complete');
       });
     },
     removeFluxxStage: function(onComplete) {
@@ -20,10 +21,10 @@
       return this.each(function(){
         if (!$.my.stage) return;
         $(this).remove();
-        $.my.stage.triggerHandler('fluxx.stage.unload');
+        $.my.stage.trigger('fluxxStage.unload');
         $.my.stage = undefined;
         $.my.hand  = undefined;
-        $.my.cards = $();
+        $.my.cards = $('.card');
         options.callback.call(this);
       });
     },
@@ -33,8 +34,8 @@
       var allCards = _.addUp($.my.cards, 'outerWidth', true);
       $.my.stage
         .width(allCards)
-        .bind('fluxx.stage.resize', options.callback)
-        .triggerHandler('fluxx.stage.resize');
+        .bind('fluxxStage.resize', options.callback)
+        .trigger('fluxxStage.resize');
       return this;
     },
     
