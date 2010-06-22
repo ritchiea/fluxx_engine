@@ -20,7 +20,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   end
   
   def load_results request, params
-    results_per_page = if request.format.csv? || request.format.xls?
+    results_per_page = if request.format && (request.format.csv? || request.format.xls?)
       ActionController::ControllerDslIndex.max_sphinx_results
     else
       self.results_per_page || 25
@@ -38,7 +38,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       really_delete)
       
     local_search_conditions = (self.search_conditions || {}).clone
-    if request.format.csv? || request.format.xls?
+    if request.format && (request.format.csv? || request.format.xls?)
       unless model_class.csv_sql_query(local_search_conditions).blank?
         unpaged_models = model_class.find_by_sql [model_class.csv_sql_query(local_search_conditions), model_ids]
       else

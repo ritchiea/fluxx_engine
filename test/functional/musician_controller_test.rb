@@ -17,7 +17,12 @@ class MusiciansControllerTest < ActionController::TestCase
     assert_not_nil assigns(:musicians)
   end
   
-
+  test "should get XLS index" do
+    get :index, :format => 'xls'
+    assert_response :success
+    assert_not_nil assigns(:musicians)
+  end
+  
   test "should get new" do
     get :new
     assert_response :success
