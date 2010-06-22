@@ -134,9 +134,12 @@ class ActiveRecord::Base
   end
 
   def self.csv_headers with_clause
-    headers = csv_attributes ? csv_attributes[:headers] : []
+    headers = csv_attributes ? csv_attributes[:headers] : nil
+    
     if headers.is_a?(Proc)
       (headers.call with_clause)
+    elsif headers.blank?
+      headers = self.columns.map(&:name).sort
     else
       headers
     end
