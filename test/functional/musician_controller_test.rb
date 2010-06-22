@@ -10,6 +10,13 @@ class MusiciansControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:musicians)
   end
+  
+  test "should get CSV index" do
+    get :index, :format => 'csv'
+    assert_response :success
+    assert_not_nil assigns(:musicians)
+  end
+  
 
   test "should get new" do
     get :new

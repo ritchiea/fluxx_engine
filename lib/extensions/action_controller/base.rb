@@ -60,10 +60,10 @@ class ActionController::Base
         format.html { render((index_object.view || "#{insta_path}/index").to_s, :layout => false) }
         format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
         format.xls do
-          stream_extract model_class, @models, search_conditions, :xls
+          stream_extract model_class, @models, index_object.search_conditions, :xls
         end
         format.csv do
-          stream_extract model_class, @models, search_conditions, :csv
+          stream_extract model_class, @models, index_object.search_conditions, :csv
         end
       end
     end
@@ -246,13 +246,16 @@ class ActionController::Base
 
   
   def stream_extract model_class, unpaged_models, search_conditions, extract_type
-    filename = 'fluxx_' + model_class.csv_filename(search_conditions) + '_' + Time.now.strftime("%m%d%y") + ".#{extract_type.to_s}"
+    csv_filename = model_class.csv_filename(search_conditions)
+    csv_filename = 'file' if csv_filename.blank?
+    filename = 'fluxx_' + csv_filename + '_' + Time.now.strftime("%m%d%y") + ".#{extract_type.to_s}"
     
+    headers = model_class.csv_headers(search_conditions)
     if extract_type == :xls
-      stream_xls filename, extract_type, model_class.csv_headers(search_conditions), unpaged_models
+      stream_xls filename, extract_type, headers, unpaged_models
     else
       stream_csv( filename, extract_type ) do |csv|
-        headers = model_class.csv_headers(search_conditions).map do |header_record| 
+        headers = headers.map do |header_record| 
           if header_record.is_a?(Array)
             header_record.first
           else
@@ -294,4 +297,106 @@ class ActionController::Base
   def fluxx_current_user
     current_user if respond_to?(:current_user)
   end
+  
+  def stream_csv filename = (params[:action] + ".csv"), extract_type = :csv
+    add_headers filename, extract_type
+    
+    render :text => Proc.new { |response, output|
+      def output.<<(*args)  
+        write(*args)  
+      end  
+      csv = FasterCSV.new(output, :row_sep => "\r\n")
+      yield csv
+    }
+  end
+  
+  # Based on formatting tips in http://forums.asp.net/t/1038105.aspx
+  # Useful reference: http://msdn.microsoft.com/en-us/library/aa140066(office.10).aspx
+  # More reference: http://support.microsoft.com/kb/319180
+  # TODO ESH: generalize a bit and consider contributing to open source as a separate plugin with an API similar to faster_csv
+  def stream_xls filename, extract_type, headers, unpaged_models
+    add_headers filename, extract_type
+    
+    render :text => (lambda do |response, output|
+      # NOTE ESH: be careful to htmlescape quotes with ss:Format strings
+      output.write '<?xml version="1.0" encoding="UTF-8"?>
+      <Workbook xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office">
+      <Styles>
+        <Style ss:ID="s21"><Font x:Family="Swiss" ss:Bold="1"/></Style>
+        <Style ss:ID="s22"><NumberFormat ss:Format="Short Date"/><Font x:Family="Swiss" ss:Bold="0"/></Style>
+        <Style ss:ID="s18"><NumberFormat ss:Format="_(&quot;$&quot;* #,##0.00_);_(&quot;$&quot;* \(#,##0.00\);_(&quot;$&quot;* &quot;-&quot;??_);_(@_)"/><Font x:Family="Swiss" ss:Bold="0"/></Style>
+      </Styles>
+      <Worksheet ss:Name="Sheet1">
+      <Table>'
+      
+      if headers
+        output.write "<Row>"
+        headers.each do |header_record| 
+          header = if header_record.is_a?(Array)
+            header_record.first
+          else
+            header_record
+          end
+          output.write "<Cell ss:StyleID=\"s21\"><Data ss:Type=\"String\">#{header}</Data></Cell>" 
+        end
+        output.write "</Row>"
+      end    
+      (1..unpaged_models.num_rows).each do
+        output.write "<Row>"
+        columns = unpaged_models.fetch_row
+        columns.each_with_index do |value, i|
+          val_type = if headers[i].is_a?(Array)
+            headers[i].second
+          end || 'String'
+          ss_style = ''
+          val_type = case val_type
+          when :date
+            # "mso-number-format:\"mm\/dd\/yy\""
+            cur_date = Time.parse value rescue nil
+            value = if cur_date && cur_date > Time.now - 200.years
+              cur_date.msoft 
+            else
+              ''
+            end
+            ss_style = 'ss:StyleID="s22"'
+            "DateTime"
+          when :currency
+            ss_style = 'ss:StyleID="s18"'
+            "Number"
+          when :integer
+            "Number"
+          else
+            'String'
+          end
+          if value.blank?
+            output.write "<Cell><Data ss:Type=\"String\"/></Cell>"
+          else
+            output.write "<Cell #{ss_style}><Data ss:Type=\"#{val_type.to_s}\">#{CGI::escapeHTML(value)}</Data></Cell>"
+          end
+        end
+        output.write "</Row>"
+      end
+
+      output.write '</Table></Worksheet></Workbook>'
+    end)
+  end
+
+  def add_headers filename, extract_type = :csv
+    if request.env['HTTP_USER_AGENT'] =~ /msie/i
+      #this is required if you want this to work with IE
+     headers['Pragma'] = 'public'
+     headers["Content-type"] = "text/plain"
+     headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+     headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
+     headers['Expires'] = "0"
+    else
+      if extract_type == :xls
+        headers["Content-Type"] ||= 'application/vnd.ms-excel'
+      else
+        headers["Content-Type"] ||= 'text/csv'
+      end
+      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
+    end
+  end
+  
 end

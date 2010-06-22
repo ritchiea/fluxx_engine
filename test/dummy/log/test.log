@@ -1387,3 +1387,158 @@ WARNING: Can't mass-assign these protected attributes: id
 Unable to save @musician with errors=#<OrderedHash {}>
 Rendered musicians/_musician_form.html.haml (7.6ms)
 Completed 200 OK in 19ms (Views: 12.6ms | ActiveRecord: 0.8ms)
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.3ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-21 21:41:25.097603', '2010-06-21 21:41:25.096749', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-21 21:41:25.097603', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as CSV
+Completed   in 4ms
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-21 21:53:15.247566', '2010-06-21 21:53:15.246727', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-21 21:53:15.247566', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as CSV
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT id FROM "musicians" LIMIT 25 OFFSET 0[0m
+Completed   in 3ms
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (1.0ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-21 22:04:13.236893', '2010-06-21 22:04:13.235990', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-21 22:04:13.236893', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as CSV
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT id FROM "musicians" LIMIT 25 OFFSET 0[0m
+Completed   in 4ms
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-21 22:13:41.683838', '2010-06-21 22:13:41.682985', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-21 22:13:41.683838', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as CSV
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT id FROM "musicians" LIMIT 25 OFFSET 0[0m
+Completed   in 4ms
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-21 22:14:43.566660', '2010-06-21 22:14:43.565803', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-21 22:14:43.566660', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as CSV
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mMusician Load (0.4ms)[0m  [1mSELECT id FROM "musicians" LIMIT 25 OFFSET 0[0m
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+Completed   in 9ms
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-21 22:15:08.364855', '2010-06-21 22:15:08.363992', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-21 22:15:08.364855', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as CSV
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT id FROM "musicians" LIMIT 25 OFFSET 0[0m
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+Completed   in 8ms
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-21 22:16:50.770658', '2010-06-21 22:16:50.769799', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-21 22:16:50.770658', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as CSV
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT id FROM "musicians" LIMIT 25 OFFSET 0[0m
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+Completed   in 6ms
+  [1m[36mSQL (0.3ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-21 22:19:16.670809', '2010-06-21 22:19:16.669940', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-21 22:19:16.670809', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as CSV
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT id FROM "musicians" LIMIT 25 OFFSET 0[0m
+  [1m[35mMusician Load (0.4ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+Completed   in 8ms
+  [1m[36mSQL (0.4ms)[0m  [1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [1m[35mSQL (0.3ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mSQL (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations"[0m
+Migrating to CreateMusicians (20100616232433)
+  [1m[35mSQL (24.9ms)[0m  INSERT INTO "musicians" ("city", "created_at", "date_of_birth", "first_name", "last_name", "music_type", "state", "street_address", "updated_at", "zip") VALUES ('estquisquam', '2010-06-22 16:34:11.693181', '2010-06-22 16:34:11.692325', 'Fern', 'Block', 'autqui', 'aliquamarchitecto', 'consequaturdolor', '2010-06-22 16:34:11.693181', 'reiciendismolestiae')
+  [1m[36mMusician Load (0.2ms)[0m  [1mSELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1[0m
+  Processing by MusiciansController#index as CSV
+  [1m[35mSQL (0.2ms)[0m   SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+  [1m[36mMusician Load (0.3ms)[0m  [1mSELECT id FROM "musicians" LIMIT 25 OFFSET 0[0m
+  [1m[35mMusician Load (0.3ms)[0m  SELECT "musicians".* FROM "musicians" WHERE ("musicians"."id" = 1) LIMIT 1
+Rendered text template (0.0ms)
+Completed 200 OK in 20ms (Views: 13.9ms | ActiveRecord: 26.3ms)
