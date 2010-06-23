@@ -2,7 +2,7 @@
 <div id="card-body">
   <div class="fluxx-card-edit">
 
-	<%= semantic_form_for @model, :url => @form_url, :html => {:class => 'fluxx-card-form-to-self' + (@form_class || '')} do |form| %>
+	<%= semantic_form_for @model, :url => @form_url, :html => {:class => 'to-self' + (@form_class || '')} do |form| %>
     <%= render :partial => @template, :locals => { :form => form, :model => @model} %>
 	<% end %>
 

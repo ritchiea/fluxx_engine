@@ -2,7 +2,7 @@
 
 <div id="card-header">
       <%#= render :partial => "#{insta_path}/list_actions" %>
-      <%= form_for :q, :url => url_for(:action => :index), :html => { :method => :get, :class => 'fluxx-card-form-to-self' } do |f| %>
+      <%= form_for :q, :url => url_for(:action => :index), :html => { :method => :get, :class => 'to-self' } do |f| %>
         <%= f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'fluxx-card-listing-filter', :placeholder => 'Search...' %>
       <% end %>
 </div>

@@ -86,11 +86,26 @@
               $elem.fluxxCardLoadDetail({
                 url: $elem.attr('href')
               });
-          }],
+            }
+          ],
           'a.area-url': [
             'click', function(e) {
               var $elem = $(this);
               $elem.attr('href', $elem.fluxxCardAreaURL());
+            }
+          ],
+          'form.to-self': [
+            'submit', function (e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var properties = {
+                area: $elem.fluxxCardArea(),
+                url: $elem.attr('action'),
+                data: $elem.serializeArray()
+              };
+              if ($elem.attr('method'))
+                properties.type = $elem.attr('method');
+              $elem.fluxxCardLoadContent(properties)
             }
           ]
         }
