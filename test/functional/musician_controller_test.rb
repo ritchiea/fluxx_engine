@@ -37,6 +37,29 @@ class MusiciansControllerTest < ActionController::TestCase
     end
   end
   
+  test "should get autocomplete without condition" do
+    get :auto_complete
+    assert_response :success
+    assert @response.body
+    musicians = @response.body.de_json
+    assert_equal 1, musicians.size
+    assert_equal @musician.to_s, musicians.first['name']
+    assert_equal @musician.id, musicians.first['id']
+  end
+  
+
+  test "should get autocomplete with condition" do
+    musicians = (1..9).map {Musician.make}
+    last_musician = musicians.last
+    get :auto_complete, :q => last_musician.first_name
+    assert_response :success
+    assert @response.body
+    musicians = @response.body.de_json
+    assert_equal 1, musicians.size
+    assert_equal last_musician.to_s, musicians.first['name']
+    assert_equal last_musician.id, musicians.first['id']
+  end
+  
   test "should get new" do
     get :new
     assert_response :success

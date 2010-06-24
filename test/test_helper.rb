@@ -23,3 +23,20 @@ ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+
+class SimpleFormat
+  attr_accessor :csv
+  attr_accessor :xls
+  
+  def initialize csv_param=nil, xls_param=nil
+    self.csv = csv_param
+    self.xls = xls_param
+  end
+  
+  def csv?
+    csv
+  end
+  def xls?
+    xls
+  end
+end

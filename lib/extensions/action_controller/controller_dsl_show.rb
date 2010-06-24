@@ -6,7 +6,7 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
   attr_accessor :footer_template
   attr_accessor :exclude_related_data
   
-  def perform_show request, params
+  def perform_show params
     if params[:audit_id]
       new_model = model_class.new
       audit = Audit.find params[:audit_id] rescue nil
@@ -29,7 +29,7 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
     end
   end
   
-  def calculate_show_options request, params
+  def calculate_show_options params
     options = {}
     options[:template] = template
     options[:footer_template] = footer_template
@@ -45,7 +45,7 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
     options
   end
   
-  def calculate_error_options request, params
+  def calculate_error_options params
     if params[:audit_id]
       t(:insta_no_audit_record_found, :model_id => params[:id])
     else

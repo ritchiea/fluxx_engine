@@ -14,24 +14,12 @@ class ActionController::Base
   def grab_param_or_model form_name, param_name, model
     grab_param(form_name, param_name).blank? ? model.send(param_name) : grab_param(form_name, param_name)
   end
-
-  # Add an auto complete method to a controller
-  def self.yui_auto_complete_for(object, method, options = {})
-    define_method("auto_complete_for_#{object}_#{method}") do
-    
-      name_fields = options[:name_fields] || [:name]
-      extra_block = options[:extra_block]
-      extra_conditions = {}
-      extra_conditions[:with] = options[:extra_conditions] if options[:extra_conditions]
-      @items = object.to_s.camelize.constantize.search params[object][method].underscore.downcase, {:order => options[:order_clause], :per_page => (options[:results_per_page] || 10)}.merge(extra_conditions)
-      extras = if extra_block && extra_block.is_a?(Proc)
-        extra_block.call @items
-      end || {}
-      item_map = @items.map do |item| 
-        name = name_fields.map {|field| item.send field}.join ' ' # Build a name based on the name fields
-        {:name => name, :id => item.id, :extra => (extras[item.id] ? extras[item.id].to_json : nil)}
-      end
-      render :inline => {:ResultSet => item_map}.to_json
+  
+  def self.insta_auto_complete model_class
+    autocomplete_object = ActionController::ControllerDslAutocomplete.new model_class
+    yield autocomplete_object if block_given?
+    define_method :auto_complete do
+      render :inline => autocomplete_object.process_autocomplete(params)
     end
   end
   
@@ -53,7 +41,7 @@ class ActionController::Base
       end
       
       @template = index_object.template
-      @models = index_object.load_results request, params
+      @models = index_object.load_results params, request.format
       instance_variable_set index_object.plural_model_instance_name, @models
       
       respond_to do |format|
@@ -76,14 +64,14 @@ class ActionController::Base
     # GET /models/1
     # GET /models/1.xml
     define_method :show do
-      @model = show_object.perform_show request, params
+      @model = show_object.perform_show params
       @model_name = show_object.model_name
       respond_to do |format|
         format.html do 
           if @model
-            fluxx_show_card show_object, show_object.calculate_show_options(request, params)
+            fluxx_show_card show_object, show_object.calculate_show_options(params)
           else
-            render :inline => show_object.calculate_error_options(request, params)
+            render :inline => show_object.calculate_error_options(params)
           end
         end
         format.xml  { render :xml => @model }
@@ -98,7 +86,7 @@ class ActionController::Base
     # GET /models/new
     # GET /models/new.xml
     define_method :new do
-      @model = new_object.perform_new request, params, @model
+      @model = new_object.perform_new params, @model
       
       instance_variable_set new_object.singular_model_instance_name, @model
       @template = new_object.template
@@ -118,7 +106,7 @@ class ActionController::Base
     # GET /models/1/edit
     define_method :edit do
       respond_to do |format|
-        @model = edit_object.perform_edit request, params, @model
+        @model = edit_object.perform_edit params, @model
         unless edit_object.editable? @model
           # Provide a locked error message
           flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.full_name : ''), :lock_expiration => @model.locked_until.mdy_time)
@@ -136,13 +124,13 @@ class ActionController::Base
     # POST /models
     # POST /models.xml
     define_method :create do
-      @model = create_object.load_model request, params, @model
+      @model = create_object.load_model params, @model
       instance_variable_set create_object.singular_model_instance_name, @model
       @template = create_object.template
       @form_class = create_object.form_class
       @form_url = create_object.form_url
       @link_to_method = create_object.link_to_method
-      if create_object.perform_create request, params, @model, fluxx_current_user
+      if create_object.perform_create params, @model, fluxx_current_user
         respond_to do |format|
           flash[:info] = t(:insta_successful_create, :name => model_class.name)
           format.html do
@@ -178,12 +166,12 @@ class ActionController::Base
       @form_class = update_object.form_class
       @form_url = update_object.form_url
       
-      @model = update_object.load_model request, params, @model
+      @model = update_object.load_model params, @model
       instance_variable_set update_object.singular_model_instance_name, @model
 
       if update_object.editable? @model
         respond_to do |format|
-          if update_object.perform_update request, params, @model, fluxx_current_user
+          if update_object.perform_update params, @model, fluxx_current_user
             flash[:info] = t(:insta_successful_update, :name => model_class.name)
             format.html do
               if update_object.render_inline 
@@ -220,9 +208,9 @@ class ActionController::Base
     # DELETE /models/1
     # DELETE /models/1.xml
     define_method :destroy do
-      @model = delete_object.load_model request, params, @model
+      @model = delete_object.load_model params, @model
       instance_variable_set delete_object.singular_model_instance_name, @model
-      if delete_object.perform_delete request, params, @model, fluxx_current_user
+      if delete_object.perform_delete params, @model, fluxx_current_user
         flash[:info] = t(:insta_successful_delete, :name => model_class.name)
       else
         flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name)

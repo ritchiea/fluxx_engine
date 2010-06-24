@@ -1,5 +1,15 @@
 class ActiveRecord::Base
   
+  # Take a paginated collection of IDs and load up the related full objects, maintaining the pagination constants
+  def self.page_by_ids model_ids
+    unpaged_models = self.find model_ids
+    model_map = unpaged_models.inject({}) {|acc, model| acc[model.id] = model; acc}
+    ordered_list = model_ids.map {|model_id| model_map[model_id]}
+    WillPaginate::Collection.create model_ids.current_page, model_ids.per_page, model_ids.total_entries do |pager|
+      pager.replace ordered_list
+    end
+  end
+  
   # Note that this may be overridden on a per model class basis or on an app-wide basis to allow for different search backends
   # q_search is the query the user entered to search for
   # request_params 
@@ -9,9 +19,9 @@ class ActiveRecord::Base
   #   include_relation: any extra relations that should be included
   def self.model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
     if self.respond_to? :sphinx_indexes
-      sphinx_model_search q_search, request_params, results_per_page=25, options, really_delete=false
+      sphinx_model_search q_search, request_params, results_per_page, options, really_delete=false
     else
-      sql_model_search q_search, request_params, results_per_page=25, options, really_delete=false
+      sql_model_search q_search, request_params, results_per_page, options, really_delete=false
     end
   end
   
@@ -22,7 +32,7 @@ class ActiveRecord::Base
     sql_conditions = string_fields.map {|field| queries.map {|q| self.send :sanitize_sql, ["#{field} like ?", "%#{q}%"]} }.flatten.compact.join ' OR '
 
     # Grab a list of models with just the ID, then swap out the list of models with a list of the IDs
-    models = self.paginate :select => :id, :conditions => sql_conditions, :page => request_params[:page], :per_page => results_per_page, 
+    models = self.paginate :select => :id, :conditions => "#{sql_conditions} #{options[:search_conditions]}", :page => request_params[:page], :per_page => results_per_page, 
       :order => options[:order_clause], :include => options[:include_relation]
     models.replace models.map(&:id)
     models

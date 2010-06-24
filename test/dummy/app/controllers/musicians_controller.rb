@@ -1,4 +1,6 @@
 class MusiciansController < ApplicationController
+  insta_auto_complete Musician do |insta|
+  end
   insta_index Musician do |insta|
     insta.template = 'musician_list'
   end

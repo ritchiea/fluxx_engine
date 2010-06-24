@@ -9,7 +9,7 @@ begin
     gem.add_dependency('fastercsv', '>= 1.5.3')
     gem.add_dependency('formtastic-rails3', '>= 0.9.10.0')
     gem.add_dependency('haml', '>= 3')
-    gem.add_dependency "agnostic-will_paginate", '>= 3'
+#gem "will_paginate", :git => "http://github.com/mislav/will_paginate.git", :branch => "rails3"
     gem.add_development_dependency('jsmin', '>= 1.0.1')
     gem.add_development_dependency('thin', '>= 1.2.7')
   end

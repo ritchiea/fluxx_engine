@@ -17,7 +17,7 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
   attr_accessor :form_url
   
   
-  def load_model request, params, model
+  def load_model params, model
     update_condition = nil
     update_condition = 'deleted_at IS NULL' unless really_delete
     model = if model
@@ -27,7 +27,7 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
     end
   end
   
-  def perform_update request, params, model, fluxx_current_user=nil
+  def perform_update params, model, fluxx_current_user=nil
     post_save_call_proc = self.post_save_call || lambda{|fluxx_current_user, model, params|true}
     modified_by_map = {}
     if model.respond_to?(:modified_by_id) && fluxx_current_user

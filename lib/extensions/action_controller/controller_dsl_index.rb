@@ -1,6 +1,6 @@
 class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   # delta_type allows the user to override the class name for the purposes of tracking realtime updates
-  attr_accessor :delta_type        
+  attr_accessor :delta_type
   # results per page; pagination default
   attr_accessor :results_per_page
   # any extra search conditions to be appended to the search string
@@ -19,8 +19,8 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     @search_attributes || 500000
   end
   
-  def load_results request, params
-    results_per_page = if request.format && (request.format.csv? || request.format.xls?)
+  def load_results params, format=nil
+    results_per_page = if format && (format.csv? || format.xls?)
       ActionController::ControllerDslIndex.max_sphinx_results
     else
       self.results_per_page || 25
@@ -38,20 +38,14 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       really_delete)
       
     local_search_conditions = (self.search_conditions || {}).clone
-    if request.format && (request.format.csv? || request.format.xls?)
+    if format && (format.csv? || format.xls?)
       unless model_class.csv_sql_query(local_search_conditions).blank?
         unpaged_models = model_class.find_by_sql [model_class.csv_sql_query(local_search_conditions), model_ids]
       else
         unpaged_models = model_class.find model_ids
       end
     else
-      unpaged_models = model_class.find :all, :conditions => ['id in (?)', model_ids]
-      model_map = unpaged_models.inject({}) {|acc, model| acc[model.id] = model; acc}
-      ordered_list = model_ids.map {|model_id| model_map[model_id]}
-      WillPaginate::Collection.create model_ids.current_page, model_ids.per_page, model_ids.total_entries do |pager|
-        pager.replace ordered_list
-      end
+      model_class.page_by_ids model_ids
     end
-    
   end
 end

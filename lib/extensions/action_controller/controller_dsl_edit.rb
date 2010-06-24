@@ -4,7 +4,7 @@ class ActionController::ControllerDslEdit < ActionController::ControllerDsl
   # specify the URL for the form
   attr_accessor :form_url
   
-  def perform_edit request, params, model
+  def perform_edit params, model
     edit_condition = nil
     edit_condition = 'deleted_at IS NULL' unless really_delete
     

@@ -12,7 +12,7 @@ class ActionController::ControllerDslCreate < ActionController::ControllerDsl
   # specify the URL for the form
   attr_accessor :form_url
 
-  def load_model request, params, model
+  def load_model params, model
     if @model
       model
     else
@@ -20,7 +20,7 @@ class ActionController::ControllerDslCreate < ActionController::ControllerDsl
     end
   end  
   
-  def perform_create request, params, model, fluxx_current_user=nil
+  def perform_create params, model, fluxx_current_user=nil
     post_save_call_proc = self.post_save_call || lambda{|fluxx_current_user, model, params|true}
     
     if model.respond_to?(:created_by_id) && fluxx_current_user

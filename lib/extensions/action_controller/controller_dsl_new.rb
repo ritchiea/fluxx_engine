@@ -8,7 +8,7 @@ class ActionController::ControllerDslNew < ActionController::ControllerDsl
   # specify the URL for the form
   attr_accessor :form_url
   
-  def perform_new request, params, model=nil
+  def perform_new params, model=nil
     if model
       model
     elsif self.new_block && self.new_block.is_a?(Proc)

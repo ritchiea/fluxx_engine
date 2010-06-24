@@ -1,7 +1,14 @@
 Dummy::Application.routes.draw do |map|
-  resources :instruments
-
-  resources :musicians
+  resources :instruments do
+    collection do
+      get  :auto_complete
+    end
+  end
+  resources :musicians do
+    collection do
+      get  :auto_complete
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
