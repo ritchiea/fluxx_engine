@@ -17,6 +17,10 @@ ActiveRecord::Schema.define(:version => 20100622221457) do
     t.string   "name"
     t.date     "date_of_birth"
     t.date     "deleted_at"
+    t.integer  "created_by_id"
+    t.integer  "modified_by_id"
+    t.date     "locked_until"
+    t.integer  "locked_by_id"
   end
 
   create_table "musicians", :force => true do |t|

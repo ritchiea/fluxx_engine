@@ -4,17 +4,11 @@ class ActionController::ControllerDslEdit < ActionController::ControllerDsl
   # specify the URL for the form
   attr_accessor :form_url
   
-  def perform_edit params, model
-    edit_condition = nil
-    edit_condition = 'deleted_at IS NULL' unless really_delete
-    
-    model = if model
-      model
-    else
-      instance_variable_set @singular_model_instance_name, model_class.find(params[:id], :conditions => edit_condition)
-    end
-    if editable? model
-      add_lock model
+  def perform_edit params, model=nil, fluxx_current_user=nil
+    model = load_existing_model params, model
+
+    if editable? model, fluxx_current_user
+      add_lock model, fluxx_current_user
     end
     model
   end

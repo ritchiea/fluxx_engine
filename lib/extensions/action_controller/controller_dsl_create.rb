@@ -1,8 +1,6 @@
 class ActionController::ControllerDslCreate < ActionController::ControllerDsl
-  # 
+# GETTERS/SETTERS stored here:
   attr_accessor :link_to_method
-  # A call to make after the save occurs
-  attr_accessor :post_save_call
   # A message to send back after a successful completion of the creation
   attr_accessor :render_inline
   # A redirect to issue after a successful completion of the creation
@@ -12,14 +10,10 @@ class ActionController::ControllerDslCreate < ActionController::ControllerDsl
   # specify the URL for the form
   attr_accessor :form_url
 
-  def load_model params, model
-    if @model
-      model
-    else
-      model_class.new(params[model_class.name.underscore.downcase.to_sym])
-    end
-  end  
-  
+# ACTUALLY USED IN THIS CLASS
+  # A call to make after the save occurs
+  attr_accessor :post_save_call
+
   def perform_create params, model, fluxx_current_user=nil
     post_save_call_proc = self.post_save_call || lambda{|fluxx_current_user, model, params|true}
     

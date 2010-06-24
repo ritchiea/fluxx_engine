@@ -11,12 +11,12 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :include_relation
   
   ## Use ActionController::ControllerDslIndex.max_sphinx_results= to set a different value
-  def self.max_sphinx_results= max_sphinx_results
-    @search_attributes = {}
+  def self.max_sphinx_results= max_sphinx_results_param
+    @max_sphinx_results = max_sphinx_results_param
   end
   
   def self.max_sphinx_results
-    @search_attributes || 500000
+    @max_sphinx_results || 500000
   end
   
   def load_results params, format=nil

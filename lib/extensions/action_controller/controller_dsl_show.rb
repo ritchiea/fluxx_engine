@@ -22,10 +22,7 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
         end
       end
     else
-      show_condition = ['id = ?', params[:id]]
-      show_condition = ['id = ? AND deleted_at IS NULL', params[:id]] unless really_delete
-      models = instance_variable_set @singular_model_instance_name, model_class.find(:all, :conditions => show_condition)
-      models.first
+      load_existing_model params
     end
   end
   
@@ -35,9 +32,9 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
     options[:footer_template] = footer_template
     if params[:audit_id]
       # Allows the user to load up a history record
-      options[:full_model] = model_class.find(@model.id)
       options[:template] = audit_template if audit_template
       options[:footer_template] = audit_footer_template if audit_footer_template
+      options[:full_model] = load_existing_model @model.id
     elsif params[:mode]
       # Allows the user to load up an alternate view (mode) based on a hash
       options[:template] = options[:mode_template][params[:mode].to_s] unless options[:mode_template].blank? || options[:mode_template][params[:mode].to_s].blank?

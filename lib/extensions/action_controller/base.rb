@@ -1,8 +1,6 @@
 class ActionController::Base
   require 'fastercsv'
 
-  LOCK_TIME_INTERVAL = 5.minutes
-
   helper_method :grab_param if respond_to?(:helper_method)
   helper_method :grab_param_or_model if respond_to?(:helper_method)
   
@@ -86,7 +84,7 @@ class ActionController::Base
     # GET /models/new
     # GET /models/new.xml
     define_method :new do
-      @model = new_object.perform_new params, @model
+      @model = new_object.load_new_model params, @model
       
       instance_variable_set new_object.singular_model_instance_name, @model
       @template = new_object.template
@@ -107,7 +105,7 @@ class ActionController::Base
     define_method :edit do
       respond_to do |format|
         @model = edit_object.perform_edit params, @model
-        unless edit_object.editable? @model
+        unless edit_object.editable? @model, fluxx_current_user
           # Provide a locked error message
           flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.full_name : ''), :lock_expiration => @model.locked_until.mdy_time)
           @not_editable=true
@@ -124,7 +122,7 @@ class ActionController::Base
     # POST /models
     # POST /models.xml
     define_method :create do
-      @model = create_object.load_model params, @model
+      @model = create_object.load_new_model params, @model
       instance_variable_set create_object.singular_model_instance_name, @model
       @template = create_object.template
       @form_class = create_object.form_class
@@ -166,10 +164,10 @@ class ActionController::Base
       @form_class = update_object.form_class
       @form_url = update_object.form_url
       
-      @model = update_object.load_model params, @model
+      @model = update_object.load_existing_model params, @model
       instance_variable_set update_object.singular_model_instance_name, @model
 
-      if update_object.editable? @model
+      if update_object.editable? @model, fluxx_current_user
         respond_to do |format|
           if update_object.perform_update params, @model, fluxx_current_user
             flash[:info] = t(:insta_successful_update, :name => model_class.name)
@@ -208,7 +206,7 @@ class ActionController::Base
     # DELETE /models/1
     # DELETE /models/1.xml
     define_method :destroy do
-      @model = delete_object.load_model params, @model
+      @model = delete_object.load_existing_model params, @model
       instance_variable_set delete_object.singular_model_instance_name, @model
       if delete_object.perform_delete params, @model, fluxx_current_user
         flash[:info] = t(:insta_successful_delete, :name => model_class.name)

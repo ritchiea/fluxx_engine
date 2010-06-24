@@ -54,4 +54,10 @@ class ControllerDslIndexTest < ActiveSupport::TestCase
     assert index_results
     assert_equal @musicians.size, index_results.size
   end
+  
+  # TODO ESH: should be moved to active record or someplace more appropriate
+  test "check that we can set max_sphinx_results" do
+    ActionController::ControllerDslIndex.max_sphinx_results = 1000
+    assert_equal 1000, ActionController::ControllerDslIndex.max_sphinx_results
+  end
 end
