@@ -5,6 +5,10 @@
       <%= form_for :q, :url => url_for(:action => :index), :html => { :method => :get, :class => 'to-self' } do |f| %>
         <%= f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'fluxx-card-listing-filter', :placeholder => 'Search...' %>
       <% end %>
+      <ul class="actions">
+        <li><%= link_to 'CSV',   :format => :csv %></li>
+        <li><%= link_to 'Excel', :format => :xls %></li>
+      </ul>
 </div>
 
 <div id="card-body">
