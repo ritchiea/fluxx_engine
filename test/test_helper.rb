@@ -27,10 +27,12 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 class SimpleFormat
   attr_accessor :csv
   attr_accessor :xls
+  attr_accessor :json
   
-  def initialize csv_param=nil, xls_param=nil
+  def initialize csv_param=nil, xls_param=nil, json_param=nil
     self.csv = csv_param
     self.xls = xls_param
+    self.json = json_param
   end
   
   def csv?

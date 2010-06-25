@@ -55,6 +55,18 @@ class ControllerDslIndexTest < ActiveSupport::TestCase
     assert_equal @musicians.size, index_results.size
   end
   
+  test "check that we can execute the post process autocomplete block" do
+    @dsl_index.postprocess_block = (lambda do |models|
+      assert_equal @musicians.size, models.size
+      'postprocessed'
+    end)
+    
+    autocomplete_reply = @dsl_index.process_autocomplete(@musicians)
+    assert autocomplete_reply
+    assert_equal 'postprocessed', autocomplete_reply
+  end
+  
+  
   # TODO ESH: should be moved to active record or someplace more appropriate
   test "check that we can set max_sphinx_results" do
     ActionController::ControllerDslIndex.max_sphinx_results = 1000
