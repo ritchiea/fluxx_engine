@@ -4,7 +4,7 @@ require "will_paginate"
 require "action_controller"
 require "action_view"
 
-Dir.glob("#{File.dirname(__FILE__).to_s}/extensions/**/*.rb").each do |extension_rb|
+Dir.glob("#{File.dirname(__FILE__).to_s}/extensions/**/*.rb").sort.each do |extension_rb|
   require extension_rb.gsub /\.rb$/, ''
 end
 
