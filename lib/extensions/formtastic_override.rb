@@ -113,6 +113,14 @@ module Formtastic #:nodoc:
         javascript_tag(select_transfer_function)
     end
     
+    def autocomplete_input(method, options)
+      input_name = generate_association_input_name(method)
+      sibling_id = generate_random_id
+      label("#{method}:", :label => options[:label]) + 
+        text_field_tag(method, nil, {"data-sibling".to_sym => sibling_id.to_s, "data-autocomplete".to_sym => options[:autocomplete_url]}) + 
+        hidden_field_tag(input_name, nil, {"data-sibling".to_sym => sibling_id.to_s})
+    end
+    
     def generate_random_id
       (rand * 999999999).to_i
     end

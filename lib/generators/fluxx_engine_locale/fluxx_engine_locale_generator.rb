@@ -14,4 +14,6 @@ class FluxxEngineLocaleGenerator < Rails::Generators::Base
   def copy_fluxx_localization_files
     copy_file 'en.yml', 'config/fluxx_locales/en.yml'
   end
+  
+  # TODO ESH: add mime types
 end

@@ -5,7 +5,7 @@ class ActionController::ControllerDsl
   attr_accessor :template
   # view to be used
   attr_accessor :view
-  # view to be used
+  # whether to really delete or just update a deleted_at column
   attr_accessor :really_delete
   # associated model class
   attr_accessor :model_class

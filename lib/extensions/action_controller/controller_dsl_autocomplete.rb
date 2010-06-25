@@ -11,10 +11,8 @@ class ActionController::ControllerDslAutocomplete < ActionController::Controller
   attr_accessor :include_relation
   
   def process_autocomplete params
-    q_search = if params[:q] && params[:q][:q]
-      params[:q][:q]
-    elsif params[:q]
-      params[:q]
+    q_search = if params[:term]
+      params[:term]
     else
       ''
     end
@@ -32,11 +30,15 @@ class ActionController::ControllerDslAutocomplete < ActionController::Controller
         :autocomplete_to_s
       elsif model_class.public_instance_methods.include?(:view_to_s)
         :view_to_s
+      elsif model_class.public_instance_methods.include?(:value)
+        :value
+      elsif model_class.public_instance_methods.include?(:name)
+        :name
       else
         :to_s
       end
       models.map do |model|
-        {:name => model.send(name_method), :id => model.id}
+        {:label => model.send(name_method), :value => model.id}
       end.to_json
     end
   end
