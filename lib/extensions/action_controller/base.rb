@@ -154,7 +154,7 @@ class ActionController::Base
 
     # PUT /models/1
     # PUT /models/1.xml
-    define_method :update do
+    define_method :update do 
       @template = update_object.template
       @form_class = update_object.form_class
       @form_url = update_object.form_url

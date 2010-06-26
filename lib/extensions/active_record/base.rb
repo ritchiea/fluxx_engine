@@ -1,12 +1,20 @@
 class ActiveRecord::Base
   def self.insta_search
-    @search_object = ActiveRecord::ModelSearchDsl.new(self)
+    local_search_object = @search_object = ActiveRecord::ModelDslSearch.new(self)
     yield @search_object if block_given?
     
     self.instance_eval do
       def model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
         @search_object.model_search q_search, request_params, results_per_page, options, really_delete
       end
+      
+      def safe_find model_id
+        @search_object.safe_find model_id
+      end
+    end
+    
+    define_method :safe_delete do |fluxx_current_user|
+      local_search_object.safe_delete self, fluxx_current_user
     end
   end
   

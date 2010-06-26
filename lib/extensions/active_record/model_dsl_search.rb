@@ -1,4 +1,25 @@
-class ActiveRecord::ModelSearchDsl < ActiveRecord::ModelDsl
+class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
+  
+  def safe_find model_id
+    update_condition = nil
+    update_condition = 'deleted_at IS NULL' unless really_delete
+    model_class.find(model_id, :conditions => update_condition)
+  end
+  
+  def safe_delete model, fluxx_current_user=nil
+    if model.respond_to?(:modified_by_id) && fluxx_current_user
+      model.modified_by_id = fluxx_current_user.id
+    end
+    unless really_delete
+      model.deleted_at = Time.now
+      model.save(:validate => false)
+    else
+      model.destroy
+    end
+    
+    model
+  end
+  
 
   def model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
     if model_class.respond_to? :sphinx_indexes

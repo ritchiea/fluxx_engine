@@ -5,8 +5,6 @@ class ActionController::ControllerDsl
   attr_accessor :template
   # view to be used
   attr_accessor :view
-  # whether to really delete or just update a deleted_at column
-  attr_accessor :really_delete
   # associated model class
   attr_accessor :model_class
   # internal singular name of mode
@@ -21,7 +19,6 @@ class ActionController::ControllerDsl
   
   def initialize model_class_param
     self.model_class = model_class_param
-    self.really_delete = !(model_class.columns.map(&:name).include? 'deleted_at') if self.really_delete.blank?
     
     self.model_name = model_class.name.underscore.downcase
     @model_human_name = @model_name.gsub('_', ' ').titlecase
@@ -31,13 +28,11 @@ class ActionController::ControllerDsl
   end
   
   def load_existing_model params, model=nil
-    update_condition = nil
-    update_condition = 'deleted_at IS NULL' unless really_delete
     model = if model
       model
     else 
       model_id = params.is_a?(Fixnum) ? params : params[:id]
-      model_class.find(model_id, :conditions => update_condition)
+      model_class.safe_find(model_id)
     end
   end
   
@@ -51,9 +46,7 @@ class ActionController::ControllerDsl
     end
   end  
   
-  
-  
-  
+
   ########################
   # TODO ESH: look at moving the locking functionality to an external active_record module; doesn't really belong here
   ########################

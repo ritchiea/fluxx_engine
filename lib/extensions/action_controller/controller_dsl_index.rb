@@ -40,8 +40,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       ''
     end
     model_ids = instance_variable_set @plural_model_instance_name, model_class.model_search(q_search, params, results_per_page, 
-      {:search_conditions => self.search_conditions, :order_clause => self.order_clause, :include_relation => include_relation}, 
-      really_delete)
+      {:search_conditions => self.search_conditions, :order_clause => self.order_clause, :include_relation => include_relation})
       
     local_search_conditions = (self.search_conditions || {}).clone
     if format && (format.csv? || format.xls?)
