@@ -13,7 +13,12 @@
           })
           .bind({
             'complete.fluxx.card': _.callAll(
-              function(e){$.fluxx.util.itEndsHere(e); $card.show().resizeFluxxCard(); $.my.stage.resizeFluxxStage()},
+              $.fluxx.util.itEndsHere,
+              /* DOES NOT WORK -- _.bind($.fn.show, $card), */
+              /* DOES WORK     -- _.bind(function(){_.bind($.fn.show, this)()}, $card), */
+              function(){$card.show();},
+              _.bind($.fn.resizeFluxxCard, $card),
+              _.bind($.fn.resizeFluxxStage, $.my.stage),
               options.callback
             ),
             'load.fluxx.card': options.load,

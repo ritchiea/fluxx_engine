@@ -10,8 +10,8 @@
         $.my.footer = $('#footer');
         $.my.stage.bind({
           'complete.fluxx.stage': _.callAll(
-            function(){ $.my.stage.installFluxxDecorators(); },
-            function(e){$.my.hand.addFluxxCards({cards: $.fluxx.config.cards});},
+            _.bind($.fn.installFluxxDecorators, $.my.stage),
+            _.bind($.fn.addFluxxCards, $.my.hand, {cards: $.fluxx.config.cards}),
             options.callback
           )
         });
