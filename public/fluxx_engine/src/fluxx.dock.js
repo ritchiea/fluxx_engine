@@ -50,11 +50,12 @@
   $(function($){
     $('#stage').live('complete.fluxx.stage', function(e) {
       $.my.footer.addFluxxDock(function(){
-        $('.card').live('load.fluxx.card', function(e){
-          $.fluxx.util.itEndsWithMe(e);
-          var $card = $(this);
-          $.my.dock.addViewPortIcon({card: $card});
-        }).trigger('load.fluxx.card');
+        $('.card')
+          .each(function(){ $.my.dock.addViewPortIcon({card: $(this)}); })
+          .live('load.fluxx.card', function(e){
+            $.fluxx.util.itEndsWithMe(e);
+            $.my.dock.addViewPortIcon({card: $(this)});
+          });
       });
     });
   });
