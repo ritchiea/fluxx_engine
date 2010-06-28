@@ -9,13 +9,13 @@
         $.my.header = $('#header');
         $.my.footer = $('#footer');
         $.my.stage.bind({
-          'fluxxStage.complete': _.callAll(
+          'complete.fluxx.stage': _.callAll(
             function(){ $.my.stage.installFluxxDecorators(); },
-            function(){ $.my.hand.addFluxxCards({cards: $.fluxx.config.cards});},
+            function(e){$.my.hand.addFluxxCards({cards: $.fluxx.config.cards});},
             options.callback
           )
         });
-        $.my.stage.trigger('fluxxStage.complete');
+        $.my.stage.trigger('complete.fluxx.stage');
       });
     },
     removeFluxxStage: function(onComplete) {
@@ -23,7 +23,7 @@
       return this.each(function(){
         if (!$.my.stage) return;
         $(this).remove();
-        $.my.stage.trigger('fluxxStage.unload');
+        $.my.stage.trigger('unload.fluxx.stage');
         $.my.stage = undefined;
         $.my.hand  = undefined;
         $.my.cards = $('.card');
@@ -36,8 +36,8 @@
       var allCards = _.addUp($.my.cards, 'outerWidth', true);
       $.my.stage
         .width(allCards)
-        .bind('fluxxStage.resize', options.callback)
-        .trigger('fluxxStage.resize');
+        .bind('resize.fluxx.stage', options.callback)
+        .trigger('resize.fluxx.stage');
       return this;
     },
     

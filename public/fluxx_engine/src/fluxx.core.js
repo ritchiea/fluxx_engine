@@ -11,7 +11,7 @@
       return function() {
         var this_ = this;
         var args  = arguments;
-        _.each(functions, function(f){f.call(this_, args)});
+        _.each(functions, function(f){f.apply(this_, args)});
       }
     }
   });

@@ -12,16 +12,17 @@
             box:     $('.card-box:eq(0)', $card)
           })
           .bind({
-            'fluxxCard.complete': _.callAll(
-              function(){$card.show().resizeFluxxCard(); $.my.stage.resizeFluxxStage()},
+            'complete.fluxx.card': _.callAll(
+              function(e){$.fluxx.util.itEndsHere(e); $card.show().resizeFluxxCard(); $.my.stage.resizeFluxxStage()},
               options.callback
             ),
-            'fluxxCard.load': options.onload
+            'load.fluxx.card': options.load,
+            'close.fluxx.card': options.close
           });
-        $card.trigger('fluxxCard.load')
+        $card.trigger('load.fluxx.card');
         $card.fluxxCardLoadListing({url: options.listing.url}, function(){
           $card.fluxxCardLoadDetail({url: options.detail.url}, function(){
-            $card.trigger('fluxxCard.complete');
+            $card.trigger('complete.fluxx.card');
           })
         });
         $.my.cards = $('.card');
@@ -31,9 +32,13 @@
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       return this.each(function(){
         $(this)
-          .bind('fluxxCard.unload', options.callback)
-          .bind('fluxxCard.unload', function(e){$(e.target).remove(); $.my.cards = $('.card')})
-          .trigger('fluxxCard.unload');
+          .bind({
+            'close.fluxx.card': _.callAll(
+              options.callback,
+              function(e){ $(e.target).remove(); $.my.cards = $('.card') }
+            )
+          })
+          .trigger('close.fluxx.card');
       });
     },
     resizeFluxxCard: function(options, onComplete) {
@@ -98,10 +103,10 @@
         data: {}
       };
       var options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
-      options.area.unbind('fluxxArea.complete').bind('fluxxArea.complete', options.callback);
+      options.area.unbind('complete.fluxx.area').bind('fluxxArea.complete', options.callback);
 
       if (!options.url) {
-        options.area.trigger('fluxxArea.complete');
+        options.area.trigger('complete.fluxx.area');
         return this;
       }
       if (!options.area.data('history')) {
@@ -119,10 +124,10 @@
           $('.header', options.area).html($('#card-header', $document).html() || '&nbsp;');
           $('.body',   options.area).html($('#card-body',   $document).html() || '&nbsp;');
           $('.footer', options.area).html($('#card-footer', $document).html() || '&nbsp;');
-          options.area.trigger('fluxxArea.complete');
+          options.area.trigger('complete.fluxx.area');
         },
         error: function(xhr, status, error) {
-          options.area.trigger('fluxxArea.complete');
+          options.area.trigger('complete.fluxx.area');
         }
       });
       
@@ -145,7 +150,8 @@
       card: {
         defaults: {
           title: 'New Card',
-          onload: $.noop,
+          load: $.noop,
+          close: $.noop,
           listing: {
             url: null
           },

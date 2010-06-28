@@ -32,4 +32,9 @@ jQuery(function($){
     equals(allOut.url, '/', 'Stayed the same');
     equals(allOut.other, 'Thing', 'Added options remained');
   });
+  
+  test("_.callAll", function(){
+    var func = _.callAll(function(n) {equals(n, 1, "argument passed properly")});
+    func(1);
+  });
 });

@@ -28,9 +28,10 @@
   });
   
   $(function($){
-    $('.card').live('fluxxCard.load', function(){
+    $.fluxx.log("BINDING LIVE EVENT NOW");
+    $('.card').live('load.fluxx.card', function(e){
       var $card = $(this);
-      $.fluxx.log($card.attr('id'), 'card loaded');
+      $.fluxx.log($card.attr('id'), e, 'card loaded');
     });
   });
 })(jQuery);
