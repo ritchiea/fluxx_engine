@@ -33,8 +33,15 @@ jQuery(function($){
     equals(allOut.other, 'Thing', 'Added options remained');
   });
   
-  test("_.callAll", function(){
-    var func = _.callAll(function(n) {equals(n, 1, "argument passed properly")});
-    func(1);
+  test("_.callAll", 1, function(){
+    _.callAll(function(n) {equals(n, 1, "argument passed properly")})(1);
+  });
+  
+  test("_.addUp", function(){
+    $('<div>').addClass('addUpTest').hide().css({width: 200, margin: 20}).appendTo($('body'));
+    $('<div>').addClass('addUpTest').hide().css({width: 200, margin: 10}).appendTo($('body'));
+    var $addUpTest = $('.addUpTest');
+    equals(_.addUp($addUpTest, 'width'), 400);
+    equals(_.addUp($addUpTest, 'outerWidth', true), 460);
   });
 });

@@ -2,8 +2,8 @@
   _.mixin({
     addUp: function (set, property) {
       var args = _.toArray(arguments).slice(2);
-      return _.reduce($(set).get(), 0, function(m,i){
-        return m + $(i)[property].call($(i), args);
+      return _.reduce($(set), 0, function(m,i){
+        return m + $(i)[property].apply($(i), args);
       });
     },
     callAll: function () {
