@@ -216,6 +216,13 @@ class ActionController::Base
     end
   end
   
+  def self.insta_related model_class
+    local_related_object = @related_object = ActiveController::ControllerDslRelated.new(model_class)
+    yield @export_object if block_given?
+    self.instance_eval do
+    end
+  end
+  
   def insta_path
     "#{File.dirname(__FILE__).to_s}/../../../app/views/insta"
   end
