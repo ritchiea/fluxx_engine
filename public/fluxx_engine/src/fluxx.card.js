@@ -22,7 +22,8 @@
               options.callback
             ),
             'load.fluxx.card': options.load,
-            'close.fluxx.card': options.close
+            'close.fluxx.card': options.close,
+            'unload.fluxx.card': options.unload
           });
         $card.trigger('load.fluxx.card');
         $card.fluxxCardLoadListing({url: options.listing.url}, function(){
@@ -38,12 +39,13 @@
       return this.each(function(){
         $(this)
           .bind({
-            'close.fluxx.card': _.callAll(
+            'unload.fluxx.card': _.callAll(
               options.callback,
               function(e){ $(e.target).remove(); $.my.cards = $('.card') }
             )
           })
-          .trigger('close.fluxx.card');
+          .trigger('close.fluxx.card')
+          .trigger('unload.fluxx.card');
       });
     },
     resizeFluxxCard: function(options, onComplete) {
@@ -157,6 +159,7 @@
           title: 'New Card',
           load: $.noop,
           close: $.noop,
+          unload: $.noop,
           listing: {
             url: null
           },

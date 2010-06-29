@@ -19,9 +19,18 @@
       var options = $.fluxx.util.options_with_callback({}, options);
       return this.each(function(){
         if (options.card.data('icon')) return;
-        var $icon = $.fluxx.dock.ui.viewportIcon.call(this, options);
-        $icon.appendTo($.my.iconlist);
-        $.fluxx.log(options.card.attr('id'));
+        var $icon = $.fluxx.dock.ui.viewportIcon.call(this, options).appendTo($.my.iconlist);
+        options.card.data('icon', $icon);
+        $icon.data('card', options.card);
+      });
+    },
+    
+    removeViewPortIcon: function(options) {
+      var options = $.fluxx.util.options_with_callback({}, options);
+      return this.each(function(){
+        if (!options.card.data('icon')) return;
+        options.card.data('icon').remove();
+        options.card.data('icon', null);
       });
     }
 
@@ -69,6 +78,10 @@
           .live('load.fluxx.card', function(e){
             $.fluxx.util.itEndsWithMe(e);
             $.my.dock.addViewPortIcon({card: $(this)});
+          })
+          .live('close.fluxx.card', function(e){
+            $.fluxx.util.itEndsWithMe(e);
+            $.my.dock.removeViewPortIcon({card: $(this)});
           });
       });
     });
