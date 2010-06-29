@@ -6,31 +6,35 @@
 </div></div>
 
 <%- if @model.respond_to?(:load_related_data) && ! @exclude_related_data -%>
-<div class="fluxx-card-content-metadata">
-<div class="fluxx-card-content-metadata-sections-scroll"><span>Scroll Tabs</span><a href="#" class="sections-scroll-left">&laquo;</a><a href="#" class="sections-scroll-right">&raquo;</a></div>
-  <ol class="fluxx-card-content-metadata-sections">
+  <ol id="card-drawer">
     <%- @model.load_related_data.each do |rd|
      -%>
-     <li><%= rd[:display_name] %>
-     <div class="fluxx-card-content-metadata-section"><ol>
-       <%- rd[:formatted_data].each do |element| 
-        section_title = if element[:display_template] 
-          render :partial => element[:display_template], :locals => {:model => element[:model]}
-        else
-          element[:display].values.join ' '
-        end
-       -%><li>
-          <% link_to(element[:model], :class => 'fluxx-card-link-to-new-card', :title => element[:title].values.map{|v| v.to_s}.join(' '), :dock_icon => '/images/ql-icons/48x48-grants.png') do %>
-            <span class="fluxx-card-content-metadata-section-title"><%= section_title %></span>
-          <% end %>
-        </li>
-       <%- end -%>
-     </ol></div>
-     </li>
+      <li class="section">
+        <span class="label"><%= rd[:display_name] %></span>
+        <ol class="entries">
+          <%- rd[:formatted_data].each do |element| 
+
+                section_title = if element[:display_template] 
+                  render :partial => element[:display_template], :locals => {:model => element[:model]}
+                else
+                  element[:display].values.join ' '
+                end
+          -%>
+            <li class="entry">
+              <% link_to(
+                         element[:model],
+                         :class => 'fluxx-card-link-to-new-card',
+                         :title => element[:title].values.map{|v| v.to_s}.join(' '),
+                         :dock_icon => '/images/ql-icons/48x48-grants.png') do
+              %>
+                <span class="fluxx-card-content-metadata-section-title"><%= section_title %></span>
+              <% end %>
+            </li>
+          <%- end -%>
+        </ol>
+      </li>
     <%- end -%>
   </ol>
-  <div class="fluxx-card-content-metadata-info"></div>
-</div>
 <%- end -%>
 
 <div id="card-footer">
