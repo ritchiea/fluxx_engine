@@ -5,9 +5,9 @@
   <%= render :partial => @template, :locals => { :model => @model } %>
 </div></div>
 
-<%- if @model.respond_to?(:load_related_data) && ! @exclude_related_data -%>
+<%- if @related && ! @exclude_related_data -%>
   <ol id="card-drawer">
-    <%- @model.load_related_data.each do |rd|
+    <%- @related.each do |rd|
      -%>
       <li class="section">
         <span class="label"><%= rd[:display_name] %></span>
