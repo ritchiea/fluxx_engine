@@ -35,3 +35,11 @@ Instrument.blueprint do
   name Sham.word
   date_of_birth Time.now
 end
+
+RealtimeUpdate.blueprint do
+  action 'create'
+  model_id 1
+  type_name 'Musician'
+  model_class 'Musician'
+  delta_attributes ''
+end

@@ -1,15 +1,7 @@
 Dummy::Application.routes.draw do |map|
   # TODO ESH: find the extension point to allow us to add in extra routes based on a flag or something
-  resources :instruments do
-    collection do
-      get  :auto_complete
-    end
-  end
-  resources :musicians do
-    collection do
-      get  :auto_complete
-    end
-  end
+  resources :instruments
+  resources :musicians
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

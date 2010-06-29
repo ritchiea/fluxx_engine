@@ -26,6 +26,9 @@ h3. Real time updates
 h3. Related data
 * Track and make available for display related elements.  For example if the model being displayed is a contract, the users or organizations that are named on the contract.
 
+h3. Record locking
+* Records are locked with a timestamp when the user clicks edit.  The lock is released when the time passes or when the user hits cancel or save
+
 h3. Multi Elements
 * Store choices for a fixed set of lists
 * TODO ESH: should we have a specific admin screen to manage these?  Seems like a really good idea...
