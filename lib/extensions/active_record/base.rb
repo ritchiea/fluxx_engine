@@ -52,6 +52,28 @@ class ActiveRecord::Base
     end
   end
   
+  def self.insta_lock
+    local_lock_object = @lock_object = ActiveRecord::ModelDslLock.new(self)
+    yield @lock_object if block_given?
+    
+    define_method 'editable?'.to_sym do |fluxx_current_user|
+      local_lock_object.editable? self, fluxx_current_user
+    end
+    
+    define_method :add_lock do |fluxx_current_user|
+      local_lock_object.add_lock self, fluxx_current_user
+    end
+
+    define_method :remove_lock do |fluxx_current_user|
+      local_lock_object.remove_lock self, fluxx_current_user
+    end
+    
+    define_method :extend_lock do |fluxx_current_user, extend_interval|
+      local_lock_object.extend_lock self, fluxx_current_user, extend_interval
+    end
+    
+  end
+  
   def self.admin_attributes
     @admin_attributes || (superclass.respond_to?(:admin_attributes) ? superclass.admin_attributes : nil)
   end
@@ -111,7 +133,7 @@ class ActiveRecord::Base
     end
   end
   
-  ############ Utility Methods ###############################
+  ############ Utility Helper Methods ###############################
 
   def filter_amount amount
     if amount.is_a? String

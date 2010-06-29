@@ -68,26 +68,26 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
     model_relations.map do |rd|
       formatted_data = if rd.search_id && rd.search_id.is_a?(Array)
         results = rd.search_id.map do |search_id|
-          calculate_related_data_row rd, search_id
+          calculate_related_data_row model, rd, search_id
         end.compact.flatten
         results
       else
-        calculate_related_data_row rd, rd.search_id
+        calculate_related_data_row model, rd, rd.search_id
       end
       {:formatted_data => formatted_data, :display_name => rd.display_name}
     end
   end
   
-  def calculate_related_data_row rd, search_id
+  def calculate_related_data_row model, rd, search_id
     klass = rd.related_class
     display_template = rd.display_template
     max_results = rd.max_results || 50
     order_clause = rd.order || ''
     order_clause = 'id desc' if klass.instance_methods.include?(:id)
     with_clause = if search_id && search_id.is_a?(Proc)
-      search_id.call self
+      search_id.call model
     else
-      {search_id => id}
+      {search_id => model.id}
     end || {}
     with_clause = with_clause.merge rd.extra_condition if rd.extra_condition
     with_clause.keys.each do |k|

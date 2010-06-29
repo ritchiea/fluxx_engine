@@ -1,8 +1,4 @@
 class RealtimeUpdatesController < ApplicationController
-  def delta_ts
-    last_id, last_ts = current_ts
-    render :inline => {:last_id => last_id, :ts => last_ts.to_i}.to_json
-  end
 
   def index
     if params[:ts]
@@ -39,7 +35,12 @@ class RealtimeUpdatesController < ApplicationController
     # Time.now
     last_model_delta = RealtimeUpdate.find(:last, :select => 'created_at, id')
     
+    # Make sure this is always UTC
     last_model_delta ? [last_model_delta.id, (last_model_delta.created_at.to_i)] : [0, (Time.now.to_i + (-1 * Time.now.gmt_offset))]
   end
-  
+
+  def delta_ts
+    last_id, last_ts = current_ts
+    render :inline => {:last_id => last_id, :ts => last_ts.to_i}.to_json
+  end
 end

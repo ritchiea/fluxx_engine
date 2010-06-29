@@ -7,4 +7,6 @@ class Instrument < ActiveRecord::Base
   end
   insta_export do |insta|
   end
+  insta_lock do |insta|
+  end
 end

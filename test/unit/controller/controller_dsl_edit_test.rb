@@ -28,10 +28,4 @@ class ControllerDslEditTest < ActiveSupport::TestCase
     assert edited_instrument.locked_until
     assert edited_instrument.locked_by_id
   end
-  
-  # TODO ESH: should be moved to active record or someplace more appropriate
-  test "check that we can set lock_time_interval" do
-    ActionController::ControllerDsl.lock_time_interval = 1.hour
-    assert_equal 1.hour, ActionController::ControllerDsl.lock_time_interval
-  end
 end

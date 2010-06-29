@@ -46,122 +46,19 @@ class ActionController::ControllerDsl
     end
   end  
   
-
-  ########################
-  # TODO ESH: look at moving the locking functionality to an external active_record module; doesn't really belong here
-  ########################
-  
-  ## Use ActionController::ControllerDsl.lock_time_interval= to set a different value
-  def self.lock_time_interval= lock_time_interval_param
-    @lock_time_interval = lock_time_interval_param
-  end
-  
-  def self.lock_time_interval
-    @lock_time_interval || 5.minutes
-  end
-  
   def editable? model, fluxx_current_user
-    !(@model.respond_to?(:locked_until) && @model.respond_to?(:locked_by)) || @model.locked_until.nil? || @model.locked_until < Time.now || 
-      (fluxx_current_user != null && @model.locked_by == fluxx_current_user)
+    !model.respond_to?(:editable?) || model.editable?(fluxx_current_user)
+  end
+  
+  def extend_lock model, fluxx_current_user, extend_interval
+    model.extend_lock(fluxx_current_user, extend_interval) if model.respond_to?(:add_lock)
   end
   
   def add_lock model, fluxx_current_user
-    if fluxx_current_user && editable?(model, fluxx_current_user)
-      if model.respond_to? :without_delta
-        model.class.without_delta do
-          add_lock_update_attributes model, fluxx_current_user
-        end
-      else
-        add_lock_update_attributes model, fluxx_current_user
-      end
-    end
-  end
-  
-  def add_lock_update_attributes model, fluxx_current_user
-    if is_lockable?(model)
-      if model.class.respond_to? :suspended_delta
-        model.class.suspended_delta(false) do
-          model.update_attribute :locked_until, Time.now + ActionController::ControllerDsl.lock_time_interval
-          model.update_attribute :locked_by_id, fluxx_current_user.id
-        end
-      else
-        model.update_attribute :locked_until, Time.now + ActionController::ControllerDsl.lock_time_interval
-        model.update_attribute :locked_by_id, fluxx_current_user.id
-      end
-    end
-  end
-
-  def extend_lock model, fluxx_current_user
-    if fluxx_current_user && editable?(model)
-      if model.respond_to? :without_delta
-        model.class.without_delta do
-          extend_lock_update_attributes model, fluxx_current_user
-        end
-      else
-        extend_lock_update_attributes model, fluxx_current_user
-      end
-    end
-  end
-  
-  # Either extend the current lock by ActionController::ControllerDsl.lock_time_interval minutes or add a lock ActionController::ControllerDsl.lock_time_interval from Time.now
-  def extend_lock_update_attributes model, fluxx_current_user
-    if is_lockable?(model)
-      model = model.class.find model.id
-      if model.class.respond_to? :suspended_delta
-        model.class.suspended_delta(false) do
-          do_lock_update_attributes model, fluxx_current_user
-        end
-      else
-        do_lock_update_attributes model, fluxx_current_user
-      end
-    end
-  end
-  
-  def do_lock_update_attributes model, fluxx_current_user
-    if model.locked_until && model.locked_until > Time.now
-      interval = model.locked_until + ActionController::ControllerDsl.lock_time_interval
-      model.update_attribute :locked_until, interval
-      model.locked_until = interval
-    else
-      interval = model.locked_until + ActionController::ControllerDsl.lock_time_interval
-      model.update_attribute :locked_until, interval
-      model.locked_until = interval
-    end
-    model.update_attribute :locked_by_id, fluxx_current_user.id
-    model.locked_by_id = fluxx_current_user.id
-    
+    model.add_lock(fluxx_current_user) if model.respond_to?(:add_lock)
   end
   
   def remove_lock model, fluxx_current_user
-    if editable?(model, fluxx_current_user)
-      if model.respond_to? :without_delta
-        model.class.without_delta do
-          remove_lock_update_attributes model
-        end
-      else
-        remove_lock_update_attributes model
-      end
-    end
+    model.remove_lock(fluxx_current_user) if model.respond_to?(:remove_lock)
   end
-  
-  def remove_lock_update_attributes model
-    if is_lockable?(model)
-      if model.class.respond_to? :suspended_delta
-        model.class.suspended_delta(false) do
-          model.update_attributes :locked_until => nil, :locked_by => nil
-          model.locked_until = nil
-          model.locked_by = nil
-        end
-      else
-        model.update_attributes :locked_until => nil, :locked_by => nil
-        model.locked_until = nil
-        model.locked_by = nil
-      end
-    end
-  end
-  
-  def is_lockable? model
-    model.respond_to?(:locked_until) && model.respond_to?(:locked_by)
-  end
-  
 end
