@@ -5,6 +5,8 @@
       return this.each(function(){
         $.my.dock = $.fluxx.dock.ui.call($.my.footer, options)
           .appendTo($.my.footer);
+        $.my.viewport = $('#viewport');
+        $.my.iconlist = $('#iconlist');
         $.my.dock
           .bind({
             'complete.fluxx.dock': _.callAll(options.callback, $.fluxx.util.itEndsWithMe)
@@ -17,12 +19,8 @@
       var options = $.fluxx.util.options_with_callback({}, options);
       return this.each(function(){
         if (options.card.data('icon')) return;
-        var $icon = $('<div>')
-          .text(options.card.attr('id'))
-          .appendTo($.my.dock)
-          .data('card', options.card)
-          .css({display: 'inline-block'});
-        options.card.data('icon', $icon);
+        var $icon = $.fluxx.dock.ui.viewportIcon.call(this, options);
+        $icon.appendTo($.my.iconlist);
         $.fluxx.log(options.card.attr('id'));
       });
     }
@@ -40,12 +38,28 @@
           return $('<div>')
             .attr($.fluxx.dock.attrs)
             .html($.fluxx.util.resultOf([
-              'Hello'
+              $.fluxx.dock.ui.viewport(options)
             ]));
         }
       }
     }
   });
+  $.fluxx.dock.ui.viewport = function (options) {
+    return $.fluxx.util.resultOf([
+      '<div id="viewport">',
+        '<ol id="iconlist"></ol>',
+      '</div>'
+    ]);
+  };
+  $.fluxx.dock.ui.viewportIcon = function (options) {
+    return $($.fluxx.util.resultOf([
+      '<li class="icon">',
+        '<a class="link" href="#', options.card.attr('id'), '">',
+          '<span class="label">Card</span>',
+        '</a>',
+      '</li>'
+    ]));
+  };
   
   $(function($){
     $('#stage').live('complete.fluxx.stage', function(e) {

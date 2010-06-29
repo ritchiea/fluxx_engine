@@ -38,5 +38,9 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: white; }
 #fluxx #stage #footer { background-color: #333333; color: white; height: 50px; position: fixed; bottom: 0; width: 100%; }
 #fluxx #stage #footer a { color: white; }
+#fluxx #stage #footer #viewport #iconlist { list-style: none; padding: 0; margin: 0; }
+#fluxx #stage #footer #viewport #iconlist .icon { display: inline-block; *display: inline; zoom: 1; }
+#fluxx #stage #footer #viewport #iconlist .icon .link { background-color: #666666; color: black; display: inline-block; *display: inline; zoom: 1; height: 50px; width: 50px; margin: 0px 5px; }
+#fluxx #stage #footer #viewport #iconlist .icon .link a { color: black; }
 
 #header { font-family: "QuicksandBoldRegular", Helvetica, sans-serif; }
