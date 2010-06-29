@@ -59,6 +59,7 @@ class ActionController::Base
     define_method :show do
       @model = show_object.perform_show params
       @model_name = show_object.model_name
+      @related = load_related_data(@model) if self.respond_to? :load_related_data
       respond_to do |format|
         format.html do 
           if @model
@@ -217,9 +218,10 @@ class ActionController::Base
   end
   
   def self.insta_related model_class
-    local_related_object = @related_object = ActiveController::ControllerDslRelated.new(model_class)
-    yield @export_object if block_given?
-    self.instance_eval do
+    local_related_object = ActionController::ControllerDslRelated.new(model_class)
+    yield local_related_object if block_given?
+    define_method :load_related_data do |model|
+      local_related_object.load_related_data model
     end
   end
   

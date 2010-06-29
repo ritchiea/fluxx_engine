@@ -6,6 +6,8 @@ class Musician < ActiveRecord::Base
   end
   insta_export do |insta|
   end
+  insta_realtime do |insta|
+  end
 
   def to_s
     "#{first_name} #{last_name}"

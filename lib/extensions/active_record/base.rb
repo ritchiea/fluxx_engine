@@ -24,13 +24,30 @@ class ActiveRecord::Base
     
     self.instance_eval do
       def csv_sql_query with_clause
-        @search_object.csv_sql_query with_clause
+        @export_object.csv_sql_query with_clause
       end
       def csv_headers with_clause
-        @search_object.csv_headers with_clause
+        @export_object.csv_headers with_clause
       end
       def csv_filename with_clause
-        @search_object.csv_filename with_clause
+        @export_object.csv_filename with_clause
+      end
+    end
+  end
+
+  def self.insta_realtime
+    local_realtime_object = @realtime_object = ActiveRecord::ModelDslRealtime.new(self)
+    yield @realtime_object if block_given?
+    
+    after_create {|model| local_realtime_object.realtime_create_callback model }
+    after_update {|model| local_realtime_object.realtime_update_callback model }
+    after_destroy {|model| local_realtime_object.realtime_destroy_callback model }
+    
+    self.instance_eval do
+      def without_realtime(&block)
+        realtime_was_disabled = @realtime_object.realtime_disabled
+        @realtime_object.realtime_disabled = true
+        returning(block.call) { @realtime_object.realtime_disabled = false unless realtime_was_disabled }
       end
     end
   end

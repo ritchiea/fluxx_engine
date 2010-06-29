@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100622221457) do
+ActiveRecord::Schema.define(:version => 20100628231219) do
 
   create_table "instruments", :force => true do |t|
     t.datetime "created_at"
@@ -23,6 +23,13 @@ ActiveRecord::Schema.define(:version => 20100622221457) do
     t.integer  "locked_by_id"
   end
 
+  create_table "musician_instruments", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "musician_id"
+    t.integer  "instrument_id"
+  end
+
   create_table "musicians", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -34,6 +41,17 @@ ActiveRecord::Schema.define(:version => 20100622221457) do
     t.string   "state"
     t.string   "zip"
     t.date     "date_of_birth"
+  end
+
+  create_table "realtime_updates", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "action",                         :null => false
+    t.integer  "user_id",          :limit => 12
+    t.integer  "model_id",         :limit => 12, :null => false
+    t.string   "type_name",                      :null => false
+    t.string   "model_class",                    :null => false
+    t.text     "delta_attributes",               :null => false
   end
 
 end
