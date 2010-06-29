@@ -79,7 +79,7 @@
             $.fluxx.util.itEndsWithMe(e);
             $.my.dock.addViewPortIcon({card: $(this)});
           })
-          .live('close.fluxx.card', function(e){
+         .live('close.fluxx.card', function(e){
             $.fluxx.util.itEndsWithMe(e);
             $.my.dock.removeViewPortIcon({card: $(this)});
           });
