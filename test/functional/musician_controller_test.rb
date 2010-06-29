@@ -74,6 +74,7 @@ class MusiciansControllerTest < ActionController::TestCase
   test "should show musician" do
     get :show, :id => @musician.to_param
     assert_response :success
+    assert_not_nil assigns(:related)
   end
 
   test "should get edit" do

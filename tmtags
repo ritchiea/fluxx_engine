@@ -19,6 +19,8 @@ ActionController	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_control
 ActionController	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_edit.rb	/^class ActionController::ControllerDslEdit < ActionController::ControllerDsl$/;"	class	line:1
 ActionController	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^class ActionController::ControllerDslIndex < ActionController::ControllerDsl$/;"	class	line:1
 ActionController	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_new.rb	/^class ActionController::ControllerDslNew < ActionController::ControllerDsl$/;"	class	line:1
+ActionController	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_related.rb	/^class ActionController::ControllerDslRelated < ActionController::ControllerDsl$/;"	class	line:5
+ActionController	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_related.rb	/^class ActionController::ModelRelationship$/;"	class	line:110
 ActionController	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_show.rb	/^class ActionController::ControllerDslShow < ActionController::ControllerDsl$/;"	class	line:1
 ActionController	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_update.rb	/^class ActionController::ControllerDslUpdate < ActionController::ControllerDsl$/;"	class	line:1
 ActionView	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_view/base.rb	/^class ActionView::Base$/;"	class	line:1
@@ -27,7 +29,6 @@ ActiveRecord	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/mode
 ActiveRecord	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_export.rb	/^class ActiveRecord::ModelDslExport < ActiveRecord::ModelDsl$/;"	class	line:1
 ActiveRecord	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_lock.rb	/^class ActiveRecord::ModelDslLock < ActiveRecord::ModelDsl$/;"	class	line:1
 ActiveRecord	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_realtime.rb	/^class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl$/;"	class	line:1
-ActiveRecord	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_related.rb	/^class ActiveRecord::ModelDslRelated < ActiveRecord::ModelDsl$/;"	class	line:1
 ActiveRecord	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_search.rb	/^class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl$/;"	class	line:1
 ActiveSupport	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/inflections.rb	/^module ActiveSupport::Inflector$/;"	mixin	line:12
 ActiveSupport	/Users/ehansen/fluxx/fluxx_engine/test/support/integration_case.rb	/^class ActiveSupport::IntegrationCase < ActiveSupport::TestCase$/;"	class	line:2
@@ -42,9 +43,11 @@ ControllerDslDeleteTest	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/c
 ControllerDslEditTest	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_edit_test.rb	/^class ControllerDslEditTest < ActiveSupport::TestCase$/;"	class	line:3
 ControllerDslIndexTest	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_index_test.rb	/^class ControllerDslIndexTest < ActiveSupport::TestCase$/;"	class	line:3
 ControllerDslNewTest	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_new_test.rb	/^class ControllerDslNewTest < ActiveSupport::TestCase$/;"	class	line:3
+ControllerDslRelatedTest	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_related_test.rb	/^class ControllerDslRelatedTest < ActiveSupport::TestCase$/;"	class	line:3
 ControllerDslShowTest	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_show_test.rb	/^class ControllerDslShowTest < ActiveSupport::TestCase$/;"	class	line:3
 ControllerDslUpdateTest	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_update_test.rb	/^class ControllerDslUpdateTest < ActiveSupport::TestCase$/;"	class	line:3
 CreateInstruments	/Users/ehansen/fluxx/fluxx_engine/test/dummy/db/migrate/20100622221457_create_instruments.rb	/^class CreateInstruments < ActiveRecord::Migration$/;"	class	line:1
+CreateMusicianInstruments	/Users/ehansen/fluxx/fluxx_engine/test/dummy/db/migrate/20100628185658_create_musician_instruments.rb	/^class CreateMusicianInstruments < ActiveRecord::Migration$/;"	class	line:1
 CreateMusicians	/Users/ehansen/fluxx/fluxx_engine/test/dummy/db/migrate/20100616232433_create_musicians.rb	/^class CreateMusicians < ActiveRecord::Migration$/;"	class	line:1
 Datepicker	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery-ui-1.8.2.custom.js	/^function Datepicker() {$/;"	function	line:7693
 Datepicker	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery.ui.datepicker.js	/^function Datepicker() {$/;"	function	line:26
@@ -67,6 +70,7 @@ InstrumentsHelper	/Users/ehansen/fluxx/fluxx_engine/test/dummy/app/helpers/instr
 LinkRenderer	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/will_paginate_override.rb	/^  class LinkRenderer$/;"	class	line:2
 Localization	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/docs/datepicker.html	/^<div class="editsection" style="float:right;margin-left:5px;">[<a href="http:\/\/docs.jquery.com\/action\/edit\/UI\/API\/1.8\/Datepicker?section=2" title="Edit section: Localization">edit<\/a>]<\/div><a name="Localization"><\/a><h3>Localization<\/h3>$/;"	anchor	line:35
 Musician	/Users/ehansen/fluxx/fluxx_engine/test/dummy/app/models/musician.rb	/^class Musician < ActiveRecord::Base$/;"	class	line:1
+MusicianInstrument	/Users/ehansen/fluxx/fluxx_engine/test/dummy/app/models/musician_instrument.rb	/^class MusicianInstrument < ActiveRecord::Base$/;"	class	line:1
 MusiciansController	/Users/ehansen/fluxx/fluxx_engine/test/dummy/app/controllers/musicians_controller.rb	/^class MusiciansController < ApplicationController$/;"	class	line:1
 MusiciansControllerTest	/Users/ehansen/fluxx/fluxx_engine/test/functional/musician_controller_test.rb	/^class MusiciansControllerTest < ActionController::TestCase$/;"	class	line:3
 MusiciansHelper	/Users/ehansen/fluxx/fluxx_engine/test/dummy/app/helpers/musicians_helper.rb	/^module MusiciansHelper$/;"	mixin	line:1
@@ -97,12 +101,14 @@ addMethods	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/proto
 addTab	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/tabs/manipulation.html	/^		function addTab() {$/;"	function	line:65
 addText	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/controls.js	/^    function addText(mode, condition) {$/;"	function	line:563
 add_fluxx_localize_path	/Users/ehansen/fluxx/fluxx_engine/lib/generators/fluxx_engine_locale/fluxx_engine_locale_generator.rb	/^  def add_fluxx_localize_path$/;"	method	line:10
-add_headers	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def add_headers request, headers, filename, extract_type = :csv$/;"	method	line:220
-add_lock	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def add_lock model, fluxx_current_user$/;"	method	line:75
-add_lock_update_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def add_lock_update_attributes model, fluxx_current_user$/;"	method	line:87
-add_utc_time_validate_error	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def add_utc_time_validate_error name, error$/;"	method	line:108
-add_validate_utc_time	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.add_validate_utc_time$/;"	singleton method	line:104
-admin_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.admin_attributes$/;"	singleton method	line:17
+add_headers	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def add_headers request, headers, filename, extract_type = :csv$/;"	method	line:219
+add_lock	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def add_lock model, fluxx_current_user$/;"	method	line:68
+add_lock_update_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def add_lock_update_attributes model, fluxx_current_user$/;"	method	line:80
+add_related	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_related.rb	/^  def add_related$/;"	method	line:25
+add_related_block	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_related.rb	/^  def add_related_block &block_relation$/;"	method	line:48
+add_utc_time_validate_error	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def add_utc_time_validate_error name, error$/;"	method	line:89
+add_validate_utc_time	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.add_validate_utc_time$/;"	singleton method	line:85
+admin_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.admin_attributes$/;"	singleton method	line:44
 all	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function all(iterator, context) {$/;"	function	line:722
 ampm_time	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/time_formats.rb	/^  def ampm_time$/;"	method	line:29
 animate	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/position/cycler.html	/^		function animate(to) {$/;"	function	line:74
@@ -123,6 +129,7 @@ buildFragment	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-u
 buildParams	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/jquery-1.4.2.js	/^		function buildParams( prefix, obj ) {$/;"	function	line:5404
 build_and_copy_fluxx_public_files	/Users/ehansen/fluxx/fluxx_engine/lib/generators/fluxx_engine_public/fluxx_engine_public_generator.rb	/^  def build_and_copy_fluxx_public_files$/;"	method	line:11
 calculate_error_options	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_show.rb	/^  def calculate_error_options params$/;"	method	line:45
+calculate_related_data_row	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_related.rb	/^  def calculate_related_data_row rd, search_id$/;"	method	line:81
 calculate_show_options	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_show.rb	/^  def calculate_show_options params$/;"	method	line:29
 callback	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/addClass/default.html	/^		function callback(){$/;"	function	line:23
 callback	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/effect/default.html	/^		function callback(){$/;"	function	line:50
@@ -154,12 +161,12 @@ copy_fluxx_localization_files	/Users/ehansen/fluxx/fluxx_engine/lib/generators/f
 create	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function create() {$/;"	function	line:83
 create_realtime_updates	/Users/ehansen/fluxx/fluxx_engine/lib/generators/fluxx_engine_migration/fluxx_engine_migration_generator.rb	/^  def create_realtime_updates$/;"	method	line:21
 csv?	/Users/ehansen/fluxx/fluxx_engine/test/test_helper.rb	/^  def csv?$/;"	method	line:38
-csv_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.csv_attributes$/;"	singleton method	line:13
-csv_field_values	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def csv_field_values$/;"	method	line:122
-csv_fields	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.csv_fields with_clause$/;"	singleton method	line:49
-csv_filename	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.csv_filename with_clause$/;"	singleton method	line:66
-csv_headers	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.csv_headers with_clause$/;"	singleton method	line:54
-csv_sql_query	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.csv_sql_query with_clause$/;"	singleton method	line:44
+csv_filename	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^      def csv_filename with_clause$/;"	method	line:32
+csv_filename	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_export.rb	/^  def csv_filename with_clause$/;"	method	line:23
+csv_headers	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^      def csv_headers with_clause$/;"	method	line:29
+csv_headers	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_export.rb	/^  def csv_headers with_clause$/;"	method	line:13
+csv_sql_query	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^      def csv_sql_query with_clause$/;"	method	line:26
+csv_sql_query	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_export.rb	/^  def csv_sql_query with_clause$/;"	method	line:9
 curry	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function curry() {$/;"	function	line:303
 dasherize	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function dasherize() {$/;"	function	line:566
 date_or_datetime_input	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/formtastic_override.rb	/^    def date_or_datetime_input(method, options)$/;"	method	line:40
@@ -172,7 +179,6 @@ dehumanize	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/inflections.rb	/^  d
 dehumanize	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/inflections.rb	/^  def dehumanize(the_string)$/;"	method	line:15
 delay	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function delay(timeout) {$/;"	function	line:312
 deleteImage	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/droppable/photo-manager.html	/^			function deleteImage($item) {$/;"	function	line:64
-derived_filters	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.derived_filters$/;"	singleton method	line:71
 detect	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function detect(iterator, context) {$/;"	function	line:751
 diff	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/external/qunit.js	/^function diff( a, b ) {$/;"	function	line:635
 diff	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/test/lib/qunit/qunit.js	/^function diff( a, b ) {$/;"	function	line:635
@@ -180,18 +186,19 @@ dirCheck	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/d
 dirNodeCheck	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/jquery-1.4.2.js	/^function dirNodeCheck( dir, cur, doneName, checkSet, nodeCheck, isXML ) {$/;"	function	line:3573
 dispatch	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/effects.js	/^      function dispatch(effect, eventName) {$/;"	function	line:243
 doScrollCheck	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/jquery-1.4.2.js	/^function doScrollCheck() {$/;"	function	line:759
-do_lock_update_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def do_lock_update_attributes model, fluxx_current_user$/;"	method	line:127
+do_lock_update_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def do_lock_update_attributes model, fluxx_current_user$/;"	method	line:120
 done	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/external/qunit.js	/^function done() {$/;"	function	line:501
 done	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/test/lib/qunit/qunit.js	/^function done() {$/;"	function	line:501
 down	/Users/ehansen/fluxx/fluxx_engine/lib/generators/fluxx_engine_migration/templates/realtime_updates.rb	/^  def self.down$/;"	singleton method	line:13
 down	/Users/ehansen/fluxx/fluxx_engine/test/dummy/db/migrate/20100616232433_create_musicians.rb	/^  def self.down$/;"	singleton method	line:16
 down	/Users/ehansen/fluxx/fluxx_engine/test/dummy/db/migrate/20100622221457_create_instruments.rb	/^  def self.down$/;"	singleton method	line:15
+down	/Users/ehansen/fluxx/fluxx_engine/test/dummy/db/migrate/20100628185658_create_musician_instruments.rb	/^  def self.down$/;"	singleton method	line:10
 down_to	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/array_extension.rb	/^  def down_to element$/;"	method	line:12
 dupes_by_field	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/array_extension.rb	/^  def dupes_by_field field_name='name', threshold=5, trunc_size=5$/;"	method	line:22
 each	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function each(iterator) {$/;"	function	line:968
 each	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function each(iterator, context) {$/;"	function	line:702
 eachSlice	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function eachSlice(number, iterator, context) {$/;"	function	line:714
-editable?	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def editable? model, fluxx_current_user$/;"	method	line:70
+editable?	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def editable? model, fluxx_current_user$/;"	method	line:63
 effect.28_effect.2C_.5Boptions.5D.2C_.5Bspeed.5D.2C_.5Bcallback.5D_.29	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/docs/effect.html	/^        <div class="editsection" style="float:right;margin-left:5px;">[<a href="http:\/\/docs.jquery.com\/action\/edit\/UI\/Effects\/effect?section=1" title="Edit section: effect( effect, [options], [speed], [callback] )">edit<\/a>]<\/div><a name="effect.28_effect.2C_.5Boptions.5D.2C_.5Bspeed.5D.2C_.5Bcallback.5D_.29"><\/a><h3>effect( effect, <span class="optional">[<\/span>options<span class="optional">]<\/span>, <span class="optional">[<\/span>speed<span class="optional">]<\/span>, <span class="optional">[<\/span>callback<span class="optional">]<\/span> )<\/h3>$/;"	anchor	line:11
 element	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function element(event) {$/;"	function	line:4315
 empty	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function empty() {$/;"	function	line:617
@@ -209,8 +216,8 @@ extend	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype
 extendElementWith	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function extendElementWith(element, methods) {$/;"	function	line:2900
 extendRemove	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery-ui-1.8.2.custom.js	/^function extendRemove(target, props) {$/;"	function	line:9346
 extendRemove	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery.ui.datepicker.js	/^function extendRemove(target, props) {$/;"	function	line:1679
-extend_lock	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def extend_lock model, fluxx_current_user$/;"	method	line:101
-extend_lock_update_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def extend_lock_update_attributes model, fluxx_current_user$/;"	method	line:114
+extend_lock	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def extend_lock model, fluxx_current_user$/;"	method	line:94
+extend_lock_update_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def extend_lock_update_attributes model, fluxx_current_user$/;"	method	line:107
 extractLast	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/multiple-remote.html	/^		function extractLast(term) {$/;"	function	line:18
 extractLast	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/multiple.html	/^		function extractLast(term) {$/;"	function	line:19
 extractScripts	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function extractScripts() {$/;"	function	line:486
@@ -219,7 +226,7 @@ fail	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/test/lib/qunit/qunit.
 fallback	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/controls.js	/^  function fallback(name, expr) {$/;"	function	line:859
 filterStyles	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery-ui-1.8.2.custom.js	/^function filterStyles(styles) {$/;"	function	line:9695
 filterStyles	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery.effects.core.js	/^function filterStyles(styles) {$/;"	function	line:191
-filter_amount	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def filter_amount amount$/;"	method	line:128
+filter_amount	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def filter_amount amount$/;"	method	line:105
 filteredUi	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery-ui-1.8.2.custom.js	/^		function filteredUi(ui) {$/;"	function	line:5793
 filteredUi	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery-ui-1.8.2.custom.js	/^		function filteredUi(ui) {$/;"	function	line:5834
 filteredUi	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery.ui.dialog.js	/^		function filteredUi(ui) {$/;"	function	line:360
@@ -235,14 +242,14 @@ flash_error	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_view/base.rb
 flash_info	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_view/base.rb	/^  def flash_info $/;"	method	line:79
 flatten	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function flatten() {$/;"	function	line:993
 floor	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function floor() {$/;"	function	line:1260
-fluxx_current_user	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def fluxx_current_user$/;"	method	line:239
-fluxx_edit_card	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def fluxx_edit_card edit_object$/;"	method	line:231
+fluxx_current_user	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def fluxx_current_user$/;"	method	line:250
+fluxx_edit_card	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def fluxx_edit_card edit_object$/;"	method	line:242
 fluxx_paginate	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_view/base.rb	/^  def fluxx_paginate models$/;"	method	line:6
-fluxx_show_card	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def fluxx_show_card show_object, options$/;"	method	line:223
+fluxx_show_card	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def fluxx_show_card show_object, options$/;"	method	line:234
 full	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/time_formats.rb	/^  def full$/;"	method	line:39
 genFx	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/jquery-1.4.2.js	/^function genFx( type, num ) {$/;"	function	line:5915
 generate_random_id	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/formtastic_override.rb	/^    def generate_random_id$/;"	method	line:124
-generate_xls_row	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def generate_xls_row columns, output, headers$/;"	method	line:186
+generate_xls_row	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def generate_xls_row columns, output, headers$/;"	method	line:185
 get	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function get(key) {$/;"	function	line:1132
 getColor	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery-ui-1.8.2.custom.js	/^function getColor(elem, attr) {$/;"	function	line:9578
 getColor	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery.effects.core.js	/^function getColor(elem, attr) {$/;"	function	line:74
@@ -278,7 +285,7 @@ include	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototyp
 include	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function include(value) {$/;"	function	line:1296
 index	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function index(value) {$/;"	function	line:1155
 indexOf	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function indexOf(item, i) {$/;"	function	line:1049
-initialize	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def initialize model_class_param$/;"	method	line:22
+initialize	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def initialize model_class_param$/;"	method	line:20
 initialize	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl.rb	/^  def initialize model_class_param$/;"	method	line:7
 initialize	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function initialize(object) {$/;"	function	line:1115
 initialize	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function initialize(start, end, exclusive) {$/;"	function	line:1282
@@ -290,13 +297,16 @@ inspect	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototyp
 inspect	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function inspect() {$/;"	function	line:901
 inspect	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function inspect(object) {$/;"	function	line:158
 inspect	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function inspect(useDoubleQuotes) {$/;"	function	line:570
-insta_delete	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_delete model_class$/;"	singleton method	line:197
-insta_edit	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_edit model_class$/;"	singleton method	line:95
+insta_delete	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_delete model_class$/;"	singleton method	line:198
+insta_edit	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_edit model_class$/;"	singleton method	line:96
+insta_export	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.insta_export$/;"	singleton method	line:21
 insta_index	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_index model_class$/;"	singleton method	line:22
-insta_new	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_new model_class, options={}$/;"	singleton method	line:75
-insta_path	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def insta_path$/;"	method	line:219
-insta_post	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_post model_class$/;"	singleton method	line:113
-insta_put	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_put model_class$/;"	singleton method	line:151
+insta_new	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_new model_class, options={}$/;"	singleton method	line:76
+insta_path	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def insta_path$/;"	method	line:230
+insta_post	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_post model_class$/;"	singleton method	line:114
+insta_put	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_put model_class$/;"	singleton method	line:152
+insta_realtime	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.insta_realtime$/;"	singleton method	line:38
+insta_related	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_related model_class$/;"	singleton method	line:220
 insta_search	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.insta_search$/;"	singleton method	line:2
 insta_show	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/base.rb	/^  def self.insta_show model_class$/;"	singleton method	line:53
 interpolate	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function interpolate(object, pattern) {$/;"	function	line:625
@@ -316,7 +326,7 @@ isNumber	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototy
 isRightClick	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function isRightClick(event)  { return _isButton(event, 2) }$/;"	function	line:4313
 isString	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function isString(object) {$/;"	function	line:235
 isUndefined	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function isUndefined(object) {$/;"	function	line:243
-is_lockable?	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def is_lockable? model$/;"	method	line:170
+is_lockable?	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def is_lockable? model$/;"	method	line:163
 is_numeric?	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/inflections.rb	/^  def is_numeric?$/;"	method	line:29
 items	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/search.php	/^$items = array($/;"	variable	line:5
 iter	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function iter(name) {$/;"	function	line:4807
@@ -339,11 +349,12 @@ liveConvert	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-
 liveHandler	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/jquery-1.4.2.js	/^function liveHandler( event ) {$/;"	function	line:2528
 loadDemo	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/index.html	/^		function loadDemo(path) {$/;"	function	line:172
 loadPage	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/index.html	/^		function loadPage(path) {			$/;"	function	line:113
-load_existing_model	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def load_existing_model params, model=nil$/;"	method	line:33
-load_new_model	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def load_new_model params, model=nil$/;"	method	line:44
+load_existing_model	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def load_existing_model params, model=nil$/;"	method	line:30
+load_new_model	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def load_new_model params, model=nil$/;"	method	line:39
+load_related_data	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_related.rb	/^  def load_related_data model$/;"	method	line:54
 load_results	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def load_results params, format=nil$/;"	method	line:26
-lock_time_interval	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def self.lock_time_interval$/;"	singleton method	line:66
-lock_time_interval	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def self.lock_time_interval= lock_time_interval_param$/;"	singleton method	line:62
+lock_time_interval	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def self.lock_time_interval$/;"	singleton method	line:59
+lock_time_interval	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def self.lock_time_interval= lock_time_interval_param$/;"	singleton method	line:55
 log	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/remote-jsonp.html	/^		function log(message) {$/;"	function	line:15
 log	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/remote.html	/^		function log(message) {$/;"	function	line:15
 log	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/xml.html	/^		function log(message) {$/;"	function	line:15
@@ -357,7 +368,7 @@ merge	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.
 methodize	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function methodize() {$/;"	function	line:333
 min	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function min(iterator, context) {$/;"	function	line:832
 model_search	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^      def model_search q_search, request_params, results_per_page=25, options={}, really_delete=false$/;"	method	line:7
-model_search	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_search.rb	/^  def model_search q_search, request_params, results_per_page=25, options={}, really_delete=false$/;"	method	line:3
+model_search	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_search.rb	/^  def model_search q_search, request_params, results_per_page=25, options={}, really_delete=false$/;"	method	line:28
 msoft	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/time_formats.rb	/^  def msoft$/;"	method	line:21
 next	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/position/cycler.html	/^		function next() {$/;"	function	line:77
 next_business_day	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/time_formats.rb	/^  def next_business_day$/;"	method	line:52
@@ -365,7 +376,7 @@ next_migration_number	/Users/ehansen/fluxx/fluxx_engine/lib/generators/fluxx_eng
 now	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/jquery-1.4.2.js	/^function now() {$/;"	function	line:822
 observe	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function observe(element, eventName, handler) {$/;"	function	line:4516
 options_for_select	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/formtastic_override.rb	/^    def options_for_select container, selected_list, class_name$/;"	method	line:128
-page_by_ids	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.page_by_ids model_ids$/;"	singleton method	line:137
+page_by_ids	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.page_by_ids model_ids$/;"	singleton method	line:114
 page_link	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/will_paginate_override.rb	/^    def page_link(page, text, attributes = {})$/;"	method	line:4
 parseColor	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/effects.js	/^    function parseColor(color){$/;"	function	line:947
 partition	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function partition(iterator, context) {$/;"	function	line:843
@@ -385,7 +396,7 @@ previous	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/d
 previous_business_day	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/time_formats.rb	/^  def previous_business_day$/;"	method	line:56
 process	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/external/qunit.js	/^function process() {$/;"	function	line:593
 process	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/test/lib/qunit/qunit.js	/^function process() {$/;"	function	line:593
-process_autocomplete	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def process_autocomplete models$/;"	method	line:58
+process_autocomplete	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def process_autocomplete models$/;"	method	line:57
 push	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/external/qunit.js	/^function push(result, actual, expected, message) {$/;"	function	line:580
 push	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/test/lib/qunit/qunit.js	/^function push(result, actual, expected, message) {$/;"	function	line:580
 q	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/search.php	/^$q = strtolower($_GET["term"]);$/;"	variable	line:3
@@ -396,8 +407,8 @@ reflowContent	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-u
 refreshSwatch	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/slider/colorpicker.html	/^	function refreshSwatch() {$/;"	function	line:49
 reject	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function reject(iterator, context) {$/;"	function	line:861
 removeClass.28_.5Bclass.5D.2C_.5Bduration.5D_.29	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/docs/removeClass.html	/^        <div class="editsection" style="float:right;margin-left:5px;">[<a href="http:\/\/docs.jquery.com\/action\/edit\/UI\/Effects\/removeClass?section=1" title="Edit section: removeClass( [class], [duration] )">edit<\/a>]<\/div><a name="removeClass.28_.5Bclass.5D.2C_.5Bduration.5D_.29"><\/a><h3>removeClass( <span class="optional">[<\/span>class<span class="optional">]<\/span>, <span class="optional">[<\/span>duration<span class="optional">]<\/span> )<\/h3>$/;"	anchor	line:11
-remove_lock	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def remove_lock model, fluxx_current_user$/;"	method	line:142
-remove_lock_update_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def remove_lock_update_attributes model$/;"	method	line:154
+remove_lock	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def remove_lock model, fluxx_current_user$/;"	method	line:135
+remove_lock_update_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl.rb	/^  def remove_lock_update_attributes model$/;"	method	line:147
 resetDemos	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/index.html	/^		function resetDemos() {$/;"	function	line:242
 resetStyle	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery-ui-1.8.2.custom.js	/^		function resetStyle($el, fx) {$/;"	function	line:7226
 resetStyle	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/ui/jquery.ui.tabs.js	/^		function resetStyle($el, fx) {$/;"	function	line:288
@@ -414,11 +425,12 @@ runEffect	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/
 runEffect	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/hide/default.html	/^		function runEffect(){$/;"	function	line:31
 runEffect	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/show/default.html	/^		function runEffect(){$/;"	function	line:31
 runEffect	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/toggle/default.html	/^		function runEffect(){$/;"	function	line:30
+safe_delete	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_search.rb	/^  def safe_delete model, fluxx_current_user=nil$/;"	method	line:14
+safe_find	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^      def safe_find model_id$/;"	method	line:11
+safe_find	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_search.rb	/^  def safe_find model_id$/;"	method	line:8
 saveGlobal	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/external/qunit.js	/^function saveGlobal() {$/;"	function	line:607
 saveGlobal	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/test/lib/qunit/qunit.js	/^function saveGlobal() {$/;"	function	line:607
 scan	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function scan(pattern, iterator) {$/;"	function	line:462
-search_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_search.rb	/^  def search_attributes$/;"	method	line:75
-search_fields	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.search_fields$/;"	singleton method	line:40
 select_transfer_input	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/formtastic_override.rb	/^    def select_transfer_input(method, options)$/;"	method	line:59
 set	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function set(key, value) {$/;"	function	line:1128
 setup	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_create_test.rb	/^  def setup$/;"	method	line:4
@@ -426,6 +438,7 @@ setup	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_dele
 setup	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_edit_test.rb	/^  def setup$/;"	method	line:4
 setup	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_index_test.rb	/^  def setup$/;"	method	line:4
 setup	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_new_test.rb	/^  def setup$/;"	method	line:4
+setup	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_related_test.rb	/^  def setup$/;"	method	line:4
 setup	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_show_test.rb	/^  def setup$/;"	method	line:4
 setup	/Users/ehansen/fluxx/fluxx_engine/test/unit/controller/controller_dsl_update_test.rb	/^  def setup$/;"	method	line:4
 show.28_effect.2C_.5Boptions.5D.2C_.5Bspeed.5D.2C_.5Bcallback.5D_.29	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/docs/show.html	/^        <div class="editsection" style="float:right;margin-left:5px;">[<a href="http:\/\/docs.jquery.com\/action\/edit\/UI\/Effects\/show?section=1" title="Edit section: show( effect, [options], [speed], [callback] )">edit<\/a>]<\/div><a name="show.28_effect.2C_.5Boptions.5D.2C_.5Bspeed.5D.2C_.5Bcallback.5D_.29"><\/a><h3>show( effect, <span class="optional">[<\/span>options<span class="optional">]<\/span>, <span class="optional">[<\/span>speed<span class="optional">]<\/span>, <span class="optional">[<\/span>callback<span class="optional">]<\/span> )<\/h3>$/;"	anchor	line:11
@@ -437,18 +450,18 @@ sortBy	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype
 source_root	/Users/ehansen/fluxx/fluxx_engine/lib/generators/fluxx_engine_locale/fluxx_engine_locale_generator.rb	/^  def self.source_root$/;"	singleton method	line:6
 source_root	/Users/ehansen/fluxx/fluxx_engine/lib/generators/fluxx_engine_migration/fluxx_engine_migration_generator.rb	/^  def self.source_root$/;"	singleton method	line:7
 source_root	/Users/ehansen/fluxx/fluxx_engine/lib/generators/fluxx_engine_public/fluxx_engine_public_generator.rb	/^  def self.source_root$/;"	singleton method	line:7
-specify_utc_time_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.specify_utc_time_attributes time_attributes$/;"	singleton method	line:76
-sphinx_model_search	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_search.rb	/^  def sphinx_model_search request_params, results_per_page=25, options={}, really_delete=false$/;"	method	line:24
+specify_utc_time_attributes	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.specify_utc_time_attributes time_attributes$/;"	singleton method	line:57
+sphinx_model_search	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_search.rb	/^  def sphinx_model_search request_params, results_per_page=25, options={}, really_delete=false$/;"	method	line:52
 split	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/multiple-remote.html	/^		function split(val) {$/;"	function	line:15
 split	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/multiple.html	/^		function split(val) {$/;"	function	line:16
 sql	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/time_formats.rb	/^  def sql$/;"	method	line:25
-sql_model_search	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_search.rb	/^  def sql_model_search q_search, request_params, results_per_page=25, options={}, really_delete=false$/;"	method	line:11
+sql_model_search	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/model_dsl_search.rb	/^  def sql_model_search q_search, request_params, results_per_page=25, options={}, really_delete=false$/;"	method	line:36
 startsWith	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function startsWith(pattern) {$/;"	function	line:608
 stop	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function stop(event) {$/;"	function	line:4364
 stopObserving	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function stopObserving(element, eventName, handler) {$/;"	function	line:4542
-stream_csv	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def stream_csv request, headers, filename = (params[:action] + ".csv"), extract_type = :csv$/;"	method	line:113
-stream_extract	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def stream_extract request, request_headers, unpaged_models, search_conditions, extract_type$/;"	method	line:79
-stream_xls	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def stream_xls request, request_headers, filename, extract_type, headers, unpaged_models, model_class$/;"	method	line:134
+stream_csv	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def stream_csv request, headers, filename = (params[:action] + ".csv"), extract_type = :csv$/;"	method	line:112
+stream_extract	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def stream_extract request, request_headers, unpaged_models, search_conditions, extract_type$/;"	method	line:78
+stream_xls	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_controller/controller_dsl_index.rb	/^  def stream_xls request, request_headers, filename, extract_type, headers, unpaged_models, model_class$/;"	method	line:133
 strip	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function strip() {$/;"	function	line:474
 stripAlpha	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^    function stripAlpha(filter){$/;"	function	line:2557
 stripScripts	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function stripScripts() {$/;"	function	line:482
@@ -486,12 +499,10 @@ to_currency	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/fixnum_extensions.r
 to_currency_no_cents	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/fixnum_extensions.rb	/^  def to_currency_no_cents(options = {})$/;"	method	line:9
 to_english	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/fixnum_extensions.rb	/^  def to_english$/;"	method	line:15
 to_html	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/action_view/base.rb	/^        def to_html$/;"	method	line:14
-to_s	/Users/ehansen/fluxx/fluxx_engine/test/dummy/app/models/musician.rb	/^  def to_s$/;"	method	line:5
+to_s	/Users/ehansen/fluxx/fluxx_engine/test/dummy/app/models/musician.rb	/^  def to_s$/;"	method	line:10
 toggle.28_effect.2C_.5Boptions.5D.2C_.5Bspeed.5D.2C_.5Bcallback.5D_.29	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/docs/toggle.html	/^        <div class="editsection" style="float:right;margin-left:5px;">[<a href="http:\/\/docs.jquery.com\/action\/edit\/UI\/Effects\/toggle?section=1" title="Edit section: toggle( effect, [options], [speed], [callback] )">edit<\/a>]<\/div><a name="toggle.28_effect.2C_.5Boptions.5D.2C_.5Bspeed.5D.2C_.5Bcallback.5D_.29"><\/a><h3>toggle( effect, <span class="optional">[<\/span>options<span class="optional">]<\/span>, <span class="optional">[<\/span>speed<span class="optional">]<\/span>, <span class="optional">[<\/span>callback<span class="optional">]<\/span> )<\/h3>$/;"	anchor	line:11
 toggleClass.28_class.2C_.5Bduration.5D_.29	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/docs/toggleClass.html	/^        <div class="editsection" style="float:right;margin-left:5px;">[<a href="http:\/\/docs.jquery.com\/action\/edit\/UI\/Effects\/toggleClass?section=1" title="Edit section: toggleClass( class, [duration] )">edit<\/a>]<\/div><a name="toggleClass.28_class.2C_.5Bduration.5D_.29"><\/a><h3>toggleClass( class, <span class="optional">[<\/span>duration<span class="optional">]<\/span> )<\/h3>$/;"	anchor	line:11
-track_admin	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.track_admin options$/;"	singleton method	line:35
-track_csv	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.track_csv options$/;"	singleton method	line:27
-track_search	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.track_search options$/;"	singleton method	line:21
+track_admin	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.track_admin options$/;"	singleton method	line:49
 trigger	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/jquery-1.4.2.js	/^		function trigger(type, args) {$/;"	function	line:5293
 trigger	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/jquery-1.4.2.js	/^function trigger( type, elem, args ) {$/;"	function	line:2336
 truncate	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function truncate(length, truncation) {$/;"	function	line:467
@@ -503,6 +514,7 @@ unset	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.
 up	/Users/ehansen/fluxx/fluxx_engine/lib/generators/fluxx_engine_migration/templates/realtime_updates.rb	/^  def self.up$/;"	singleton method	line:2
 up	/Users/ehansen/fluxx/fluxx_engine/test/dummy/db/migrate/20100616232433_create_musicians.rb	/^  def self.up$/;"	singleton method	line:2
 up	/Users/ehansen/fluxx/fluxx_engine/test/dummy/db/migrate/20100622221457_create_instruments.rb	/^  def self.up$/;"	singleton method	line:2
+up	/Users/ehansen/fluxx/fluxx_engine/test/dummy/db/migrate/20100628185658_create_musician_instruments.rb	/^  def self.up$/;"	singleton method	line:2
 up_to	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/array_extension.rb	/^  def up_to element$/;"	method	line:2
 update	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^    function update(element, content) {$/;"	function	line:1861
 update	/Users/ehansen/fluxx/fluxx_engine/test/dummy/public/javascripts/prototype.js	/^  function update(array, args) {$/;"	function	line:268
@@ -513,10 +525,10 @@ updateDemoSource	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquer
 updateTips	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/dialog/modal-form.html	/^		function updateTips(t) {$/;"	function	line:43
 useStrictEquality	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/external/qunit.js	/^        function useStrictEquality(b, a) {$/;"	function	line:757
 useStrictEquality	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/test/lib/qunit/qunit.js	/^        function useStrictEquality(b, a) {$/;"	function	line:757
-utc_time_attrs	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.utc_time_attrs$/;"	singleton method	line:100
+utc_time_attrs	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def self.utc_time_attrs$/;"	singleton method	line:81
 validTest	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/external/qunit.js	/^function validTest( name ) {$/;"	function	line:552
 validTest	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/test/lib/qunit/qunit.js	/^function validTest( name ) {$/;"	function	line:552
-validate_utc_time	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def validate_utc_time$/;"	method	line:113
+validate_utc_time	/Users/ehansen/fluxx/fluxx_engine/lib/extensions/active_record/base.rb	/^  def validate_utc_time$/;"	method	line:94
 value	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/search.php	/^                $value = "'".addslashes($value)."'";$/;"	variable	line:616
 value	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/search.php	/^                $value = "\\"".addslashes($value)."\\"";$/;"	variable	line:597
 value	/Users/ehansen/fluxx/fluxx_engine/public/fluxx_engine/lib/jquery-ui-1/development-bundle/demos/autocomplete/search.php	/^                $value = array_to_json( $value );$/;"	variable	line:595

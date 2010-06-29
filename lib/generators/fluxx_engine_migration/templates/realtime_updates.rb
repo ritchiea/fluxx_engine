@@ -5,8 +5,9 @@ class FluxxEngineCreateRealtimeUpdatesTable < ActiveRecord::Migration
       t.string :action,       :null => false  # create/update/delete
       t.integer :user_id,         :limit => 12, :null => true
       t.integer :model_id,        :limit => 12, :null => false
+      t.string :type_name,      :null => false
       t.string :model_class,      :null => false
-      t.text :attributes,   :null => false # describe the attributes (in YAML) which were changed
+      t.text :delta_attributes,   :null => false # describe the attributes (in YAML) which were changed
     end
   end
 
