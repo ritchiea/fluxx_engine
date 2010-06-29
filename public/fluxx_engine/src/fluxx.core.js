@@ -59,6 +59,23 @@
       }
     }
   });
+  
+  $(document).shortkeys({
+    'Space+m': function() {
+      $.fluxx.log('--- $.my CACHE BEGIN ---');
+      _.each($.my, function(val,key) {
+        $.fluxx.log(
+          key +
+          ' [' +
+          val.length +
+          ']: [' +
+          _.map(val, function(i){return $('<div>').html($(i).clone().empty().html('...')).html()}).join(', ') +
+          ']'
+        );
+      });
+      $.fluxx.log('--- $.my CACHE END ---');
+    }
+  })
 })(jQuery);
 
 jQuery(function($){

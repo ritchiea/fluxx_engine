@@ -2,7 +2,7 @@ require 'rubygems'
 require 'jsmin'
 
 SOURCES   = FileList['src/fluxx.*.js']
-LIBRARIES = FileList['lib/*.js', 'lib/jquery-ui-1/js/*.js']
+LIBRARIES = FileList['lib/jquery-ui-1/js/*.js', 'lib/*.js']
 
 SASS = FileList['theme/*/sass/*.sass']
 
