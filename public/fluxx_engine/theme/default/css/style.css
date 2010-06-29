@@ -21,6 +21,7 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card { display: inline-block; *display: inline; zoom: 1; margin: 10px; }
 #fluxx #stage #card-table #hand .card .card-box .card-header { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-header a { color: white; }
+#fluxx #stage #card-table #hand .card .card-box .card-body { width: 800px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing, #fluxx #stage #card-table #hand .card .card-box .card-body .detail { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .header { background-color: #666666; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header a, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .header a { color: white; }
@@ -33,7 +34,9 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header .actions li { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body { background-color: #f9f9f9; color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body a { color: black; }
-#fluxx #stage #card-table #hand .card .card-box .card-body .detail { width: 400px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .detail { width: 400px; position: relative; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .detail .drawer { background-color: #eeeeee; color: black; overflow: auto; width: 200px; position: absolute; top: 0px; left: 400px; bottom: 0px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .detail .drawer a { color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: white; }
 #fluxx #stage #footer { background-color: #333333; color: white; height: 50px; position: fixed; bottom: 0; width: 100%; }

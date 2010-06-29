@@ -71,7 +71,7 @@
                 $areaBody = $('.body', $area);
             $areaBody.height(
               $areaBody.parent().innerHeight() -
-              _.addUp($areaBody.siblings(), 'outerHeight', true)
+              _.addUp($areaBody.siblings().not('.drawer'), 'outerHeight', true)
             )
           });
         });
@@ -110,8 +110,10 @@
         data: {}
       };
       var options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
-      options.area.unbind('complete.fluxx.area').bind('fluxxArea.complete', options.callback);
+      options.area.unbind('complete.fluxx.area').bind('complete.fluxx.area', options.callback);
 
+      $.fluxx.log("loading " + options.area.fluxxCard().attr('id') + "." + options.area.attr('class')
+        + " -> " + options.url);
       if (!options.url) {
         options.area.trigger('complete.fluxx.area');
         return this;
@@ -131,6 +133,7 @@
           $('.header', options.area).html($('#card-header', $document).html() || '&nbsp;');
           $('.body',   options.area).html($('#card-body',   $document).html() || '&nbsp;');
           $('.footer', options.area).html($('#card-footer', $document).html() || '&nbsp;');
+          $('.drawer', options.area).html($('#card-drawer', $document).html() || '&nbsp;');
           options.area.trigger('complete.fluxx.area');
         },
         error: function(xhr, status, error) {
@@ -182,7 +185,7 @@
                 '</div>',
                 '<div class="card-body">',
                   $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'listing'})),
-                  $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'detail'})),
+                  $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'detail', drawer: true})),
                 '</div>',
                 '<div class="card-footer">',
                   'Card Footer',
@@ -213,6 +216,7 @@
         '<div class="header"></div>',
         '<div class="body"></div>',
         '<div class="footer"></div>',
+        (options.drawer ? '<div class="drawer"></div>' : ''),
       '</div>'
     ];
   };

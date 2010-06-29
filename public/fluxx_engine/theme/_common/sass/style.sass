@@ -73,6 +73,7 @@ body
               .toolbar
               .titlebar
             .card-body
+              width: 800px
               .listing,.detail
                 +inline-block
                 .header
@@ -93,6 +94,15 @@ body
                   +bg(#f9f9f9)
               .detail
                 width: 400px
+                position: relative
+                .drawer
+                  +bg(#eee)
+                  overflow: auto
+                  width: 200px
+                  position: absolute
+                  top: 0px
+                  left: 400px
+                  bottom: 0px
             .card-footer
               +footer-bg
     #footer
