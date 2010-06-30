@@ -22,6 +22,14 @@ class FluxxEngineMigrationGenerator < Rails::Generators::Base
     handle_migration 'realtime_updates.rb', 'db/migrate/fluxx_engine_create_realtime_updates_table.rb'
   end
   
+  def create_multi_element_groups
+    handle_migration 'create_multi_element_groups.rb', 'db/migrate/fluxx_engine_create_multi_element_groups.rb'
+    sleep 2
+    handle_migration 'create_multi_element_values.rb', 'db/migrate/fluxx_engine_create_multi_element_values.rb'
+    sleep 2
+    handle_migration 'create_multi_element_choices.rb', 'db/migrate/fluxx_engine_create_multi_element_choices.rb'
+  end
+  
   private
   def handle_migration name, filename
     begin
