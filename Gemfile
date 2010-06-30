@@ -13,6 +13,7 @@ gem 'thin', '>= 1.2.7'
 gem 'machinist', '>=1.0.6'
 gem 'faker', '>=0.3.1'
 
+
 if RUBY_VERSION < '1.9'
   gem "ruby-debug", ">= 0.10.3"
 end
