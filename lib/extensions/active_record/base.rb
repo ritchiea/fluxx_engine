@@ -74,63 +74,16 @@ class ActiveRecord::Base
     
   end
   
-  def self.admin_attributes
-    @admin_attributes || (superclass.respond_to?(:admin_attributes) ? superclass.admin_attributes : nil)
+  def self.insta_multi_element
+    @multi_element_object = ActiveRecord::ModelDslMultiElement.new(self)
+    @multi_element_object.add_multi_elements
   end
   
-
-  def self.track_admin options
-    @admin_attributes = {}
-    @admin_attributes[:admin_attributes] = options[:admin_attributes] || []
-  end
-  
-  
-  
-  # Truncate the hours/min/seconds and store UTC time.  Also retrieve UTC time bereft of hours/minutes/second
-  def self.specify_utc_time_attributes time_attributes
-    @class_time_attributes = time_attributes.clone
-    time_attributes.each do |name|
-      define_method name do
-        value = read_attribute(name.to_sym)
-        Time.utc(value.year,value.month,value.day,0,0,0) if value
-      end
-      
-      define_method "#{name}=" do |date|
-        begin
-          date = Time.parse(date) if date.is_a?(String) && !(date.blank?)
-          if date && (date.is_a?(Time) || date.is_a?(Date))
-            write_attribute(name.to_sym, Time.utc(date.year,date.month,date.day,0,0,0))
-          else
-            write_attribute(name.to_sym, nil)
-          end
-        rescue ArgumentError => e
-          # Errors need to be added at validation time; so we save them in an array for later use
-          self.add_utc_time_validate_error name, I18n.t(:bad_date_format, :date_string => date)
-        end
-      end
-    end
-  end
-  
-  def self.utc_time_attrs
-    @class_time_attributes 
-  end
-  
-  def self.add_validate_utc_time
-    self.validate :validate_utc_time
-  end
-  
-  def add_utc_time_validate_error name, error
-    @utc_time_validate_errors = [] unless @utc_time_validate_errors
-    @utc_time_validate_errors << [name, error]
-  end
-  
-  def validate_utc_time
-    if @utc_time_validate_errors
-      @utc_time_validate_errors.each do |error_array|
-        name, error = error_array
-        self.errors.add name, error
-      end
-    end
+  def self.insta_utc
+    @utc_object = ActiveRecord::ModelDslUtc.new(self)
+    yield @utc_object if block_given?
+    
+    @utc_object.add_utc_time_attributes
   end
   
   ############ Utility Helper Methods ###############################
@@ -150,6 +103,52 @@ class ActiveRecord::Base
     ordered_list = model_ids.map {|model_id| model_map[model_id]}
     WillPaginate::Collection.create model_ids.current_page, model_ids.per_page, model_ids.total_entries do |pager|
       pager.replace ordered_list
+    end
+  end
+
+  # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update
+  def update_attribute_without_log key, value
+    if self.respond_to? :suspended_delta
+      self.class.suspended_delta(false) do
+        if self.respond_to? :without_realtime
+          self.without_realtime do
+            self.update_attribute key, value
+          end
+        else
+          self.update_attribute key, value
+        end
+      end
+    else
+      if self.respond_to? :without_realtime
+        self.class.without_realtime do
+          self.update_attribute key, value
+        end
+      else
+        self.update_attribute key, value
+      end
+    end
+  end
+  
+  # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update
+  def update_attributes_without_log attr_map
+    if self.respond_to? :suspended_delta
+      self.class.suspended_delta(false) do
+        if self.respond_to? :without_realtime
+          self.class.without_realtime do
+            self.update_attributes attr_map
+          end
+        else
+          self.update_attributes attr_map
+        end
+      end
+    else
+      if self.respond_to? :without_realtime
+        self.class.without_realtime do
+          self.update_attributes attr_map
+        end
+      else
+        self.update_attributes attr_map
+      end
     end
   end
 end

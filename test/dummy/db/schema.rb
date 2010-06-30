@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(:version => 20100630001545) do
     t.datetime "updated_at"
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "music_type"
+    t.integer  "music_type_id"
     t.string   "street_address"
     t.string   "city"
     t.string   "state"
