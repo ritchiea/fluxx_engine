@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ModelDslLockTest < ActiveSupport::TestCase
+class ModelDslMultiElementTest < ActiveSupport::TestCase
   def setup
   end
   
