@@ -17,14 +17,14 @@
                 section_title = if element[:display_template] 
                   render :partial => element[:display_template], :locals => {:model => element[:model]}
                 else
-                  element[:display].values.join ' '
+                  element[:model].to_s
                 end
           -%>
             <li class="entry">
               <% link_to(
                          element[:model],
                          :class => 'fluxx-card-link-to-new-card',
-                         :title => element[:title].values.map{|v| v.to_s}.join(' '),
+                         #:title => element[:title].values.map{|v| v.to_s}.join(' '),
                          :dock_icon => '/images/ql-icons/48x48-grants.png') do
               %>
                 <span><%= section_title %></span>
