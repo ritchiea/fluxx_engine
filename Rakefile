@@ -40,3 +40,13 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+
+require 'rcov/rcovtask'
+
+desc "Create a cross-referenced code coverage report."
+Rcov::RcovTask.new do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/**/*_test.rb']
+  t.rcov_opts << "--exclude \"test/*,gems/*,/Library/Ruby/*,config/*\" --rails" 
+end
+
