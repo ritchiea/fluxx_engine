@@ -42,6 +42,7 @@
         marginHeight: function($selector) {
           return parseInt($selector.css('marginTop')) + parseInt($selector.css('marginBottom'));
         },
+
         itEndsWithMe: function(e) {
           e.stopPropagation();
           e.preventDefault();
@@ -49,7 +50,10 @@
         itEndsHere: function (e) {
           e.stopImmediatePropagation();
           e.preventDefault();
-        }
+        },
+        
+        seconds: function (i) { return i * 1000; },
+        minutes: function (i) { return i * 60 * 1000; }
       },
       logOn: true,
       log: function () {

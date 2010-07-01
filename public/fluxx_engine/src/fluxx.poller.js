@@ -7,9 +7,12 @@
   function Poller(options) {
     var options = $.fluxx.util.options_with_callback($.fluxx.poller.defaults,options);
     options.id  = options.id();
+    $.extend(this, $.fluxx.implementations[options.implementation]);
     $.extend(this, options);
-    $.extend(this, $.fluxx.implementations[this.implementation]);
     $.fluxx.pollers.push(this);
+    this.$ = $(this);
+    this.subscribe(this.update);
+    this._init();
   }
   $.extend(Poller.prototype, {
     stateText: function () {
@@ -17,18 +20,43 @@
     },
     start: function () {
       this.state = S_ON;
+      this._start();
+      $(window)
+        .focusin(this.start)
+        .focusout(this.stop);
+      this.$.trigger('start.fluxx.poller');
     },
     stop: function () {
       this.state = S_OFF;
+      this._stop();
+      $(window)
+        .unbind('focusin', this.start)
+        .unbind('focusout', this.stop);
     },
-    message: function () {
-      
+    message: function (data, status) {
+      ('update.fluxx.poller')
+      this.$.trigger('update.fluxx.poller', data, status);
+    },
+    subscribe: function (fn) {
+      this.$.bind('update.fluxx.poller', fn);
+    },
+    destroy: function () {
+      $.fluxx.pollers = _.without($.fluxx.pollers, this);
+      delete this;
     }
   });
   
   $.extend({
     fluxxPoller: function(options) {
       return new Poller(options);
+    },
+    fluxxPollers: function() {
+      return $.fluxx.pollers;
+    },
+    destroyFluxxPollers: function () {
+      _.each($.fluxx.pollers, function (poller) {
+        poller.destroy();
+      });
     }
   });
   
@@ -39,14 +67,35 @@
         defaults: {
           implementation: 'polling',
           state: S_OFF,
+          update: $.noop,
           id: function(){ return _.uniqueId('fluxx-poller-'); }
         }
       },
       implementations: {
         polling: {
-          _intervalID: null,
-          _start: function () {},
-          _stop: function () {}
+          interval: $.fluxx.util.seconds(1),
+          decay: 1.2,
+          maxInterval: $.fluxx.util.minutes(10),
+          
+          _timeoutID: null,
+          _init: function () {
+            _.bindAll(this, 'start', 'stop', '_poll');
+          },
+          _poll: function () {
+            if (this.state == S_OFF) return;
+            this._timeoutID = setTimeout(_.bind(function(){
+              $.getJSON(this.url, _.bind(function(data, status){
+                this.message(data, status);
+                this._poll();
+              }, this));
+            }, this), this.interval);
+          },
+          _start: function () {
+            this.$.bind('start.fluxx.poller.polling', _.bind(this._poll, this))
+          },
+          _stop: function () {
+            clearTimeout(this._timeoutID);
+          }
         }
       }
     }
