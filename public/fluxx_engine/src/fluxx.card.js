@@ -110,10 +110,8 @@
         data: {}
       };
       var options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
-      options.area.unbind('complete.fluxx.area').bind('complete.fluxx.area', options.callback);
+      options.area.unbind('complete.fluxx.area').bind('complete.fluxx.area', _.callAll($.fluxx.util.itEndsWithMe, options.callback));
 
-      $.fluxx.log("loading " + options.area.fluxxCard().attr('id') + "." + options.area.attr('class')
-        + " -> " + options.url);
       if (!options.url) {
         options.area.trigger('complete.fluxx.area');
         return this;

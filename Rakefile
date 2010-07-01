@@ -12,6 +12,7 @@ begin
 #gem "will_paginate", :git => "http://github.com/mislav/will_paginate.git", :branch => "rails3"
     gem.add_development_dependency('jsmin', '>= 1.0.1')
     gem.add_development_dependency('thin', '>= 1.2.7')
+    gem.add_development_dependency('json', '>= 1.4.3')
   end
 rescue
   puts "Jeweler or dependency not available."

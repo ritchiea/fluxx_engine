@@ -81,3 +81,58 @@
 jQuery(function($){
   $.my.body = $('body');
 });
+
+
+/*
+
+Realtime Updates
+================
+
+lifecycle
+---------
+- subscribe
+- connect
+- ping
+- disconnect
+- unsubscribe
+
+config
+------
+fluxx: {
+  realtime_updates: {
+    implementation: 'polling'
+  },
+  implementations: {
+    polling: {
+      config: {
+        interval: 10 * 60 * 1000 // Ten Minutes
+        endpoint: '/realtime_updates',
+        url: function () {
+          return $.fluxx.realtime_updates.endpoint
+               + '?'
+               + $.param({ last_id: $.cookie('realtime_updates_last_id') });
+        }
+      },
+      subscribe: function (){},
+      connect: function () {},
+      ping: function () {},
+      disconnect: function () {},
+      unsubscribe: functino () {}
+    },
+    comet: {
+      config: {
+      },
+      subscribe: function (){},
+      connect: function () {},
+      ping: function () {},
+      disconnect: function () {},
+      unsubscribe: functino () {}
+    }
+  }
+}
+
+polling
+-------
+Only poll when focused.
+
+*/
