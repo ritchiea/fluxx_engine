@@ -3,9 +3,17 @@ require 'test_helper'
 class InstrumentsControllerTest < ActionController::TestCase
   setup do
     @instrument = Instrument.make
+    setup_multi
   end
 
   test "should get index" do
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:instruments)
+  end
+
+  test "should get index with pagination" do
+    musicians = (1..51).map {Instrument.make}
     get :index
     assert_response :success
     assert_not_nil assigns(:instruments)
@@ -60,6 +68,20 @@ class InstrumentsControllerTest < ActionController::TestCase
 
   test "should update instrument" do
     put :update, :id => @instrument.to_param, :instrument => @instrument.attributes
+  end
+
+  test "should not be able to update a locked instrument" do
+    local_current_user = Musician.make
+    ActionController::Base.send :define_method, :fluxx_current_user do
+      local_current_user
+    end
+    
+    
+    locking_musician = Musician.make
+    @instrument.update_attributes :locked_by => locking_musician, :locked_until => (Time.now + 5.minutes)
+    new_name = @instrument.name + "_new"
+    put :update, :id => @instrument.to_param, :instrument => {:name => new_name}
+    assert @instrument.reload.name != new_name
   end
 
   test "should destroy instrument" do

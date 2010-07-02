@@ -9,7 +9,7 @@ class CreateMusicians < ActiveRecord::Migration
       t.string :city
       t.string :state
       t.string :zip
-      t.date :date_of_birth
+      t.datetime :date_of_birth
     end
   end
 

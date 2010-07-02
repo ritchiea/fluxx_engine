@@ -105,11 +105,16 @@ module Formtastic #:nodoc:
       form_name = @object.class.name.tableize.singularize.downcase
       
       select_input_name = "#{form_name}[#{input_name}]"
-      self.label(method, options_for_label(options).merge(:input_name => input_name, :class => label_class)) + "<li class='select-left'>" +
-        self.select_tag("ignored", not_select_options, html_options.merge(:id => not_used_selectbox_id, :class => "#{class_left_selector}  #{extra_class_left_selector}")) + 
-        "</li><li class='#{class_add_button} #{extra_class_add_button}' id='#{add_button_id}'>" + self.image_tag('/images/icon_select_add.png', :width=>'35', :height=>'26', :alt=>'Add') + "<ol>" +
-        "<li class='#{class_remove_button} #{extra_class_remove_button}' id='#{remove_button_id}'>" + self.image_tag('/images/icon_select_remove.png', :width=>'35', :height=>'26', :alt=>'Remove') + "</li></ol></li>" +
-        "<li class='select-right'>" + self.select_tag(select_input_name, selected_options, html_options.merge(:id => used_selectbox_id, :class => "#{class_right_selector} #{extra_class_right_selector}")) + "</li>" +
+      # TODO ESH: refactor this to put more of it on the client side.  Had to hard-code the image path which could pose issues for asset servers
+      label(method, options_for_label(options).merge(:input_name => input_name, :class => label_class)) + "<li class='select-left'>" +
+        select_tag("ignored", not_select_options, html_options.merge(:id => not_used_selectbox_id, :class => "#{class_left_selector}  #{extra_class_left_selector}")) + 
+        "</li><li class='#{class_add_button} #{extra_class_add_button}' id='#{add_button_id}'>" + 
+        "<image src='/images/icon_select_add.png' width='35' height='26', alt='Add'>" + #image_tag('/images/icon_select_add.png', :width=>'35', :height=>'26', :alt=>'Add') + 
+        "<ol>" +
+        "<li class='#{class_remove_button} #{extra_class_remove_button}' id='#{remove_button_id}'>" + 
+        "<image src='/images/icon_select_remove.png' width='35' height='26', alt='Remove'>" #image_tag('/images/icon_select_remove.png', :width=>'35', :height=>'26', :alt=>'Remove') + 
+        "</li></ol></li>" +
+        "<li class='select-right'>" + select_tag(select_input_name, selected_options, html_options.merge(:id => used_selectbox_id, :class => "#{class_right_selector} #{extra_class_right_selector}")) + "</li>" +
         javascript_tag(select_transfer_function)
     end
     

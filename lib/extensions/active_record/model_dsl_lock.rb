@@ -8,7 +8,7 @@ class ActiveRecord::ModelDslLock < ActiveRecord::ModelDsl
   end
   
   def editable? model, fluxx_current_user
-    !(is_lockable?(model)) || model.locked_until.nil? || model.locked_until < Time.now || 
+    !(is_lockable?(model)) || model.locked_until.nil? || model.locked_until.to_i < Time.now.to_i || 
       (fluxx_current_user && model.locked_by == fluxx_current_user)
   end
   

@@ -26,7 +26,7 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
     end
   end
   
-  def calculate_show_options params
+  def calculate_show_options model, params
     options = {}
     options[:template] = template
     options[:footer_template] = footer_template
@@ -34,19 +34,19 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
       # Allows the user to load up a history record
       options[:template] = audit_template if audit_template
       options[:footer_template] = audit_footer_template if audit_footer_template
-      options[:full_model] = load_existing_model @model.id
+      options[:full_model] = load_existing_model model.id
     elsif params[:mode]
       # Allows the user to load up an alternate view (mode) based on a hash
-      options[:template] = options[:mode_template][params[:mode].to_s] unless options[:mode_template].blank? || options[:mode_template][params[:mode].to_s].blank?
+      options[:template] = mode_template[params[:mode].to_s] unless mode_template.blank? || mode_template[params[:mode].to_s].blank?
     end
     options
   end
   
   def calculate_error_options params
     if params[:audit_id]
-      t(:insta_no_audit_record_found, :model_id => params[:id])
+      I18n.t(:insta_no_audit_record_found, :model_id => params[:id])
     else
-      t(:insta_no_record_found, :model_id => params[:id])
+      I18n.t(:insta_no_record_found, :model_id => params[:id])
     end
   end
 end

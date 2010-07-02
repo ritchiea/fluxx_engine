@@ -32,5 +32,6 @@ class ModelDslUtcTest < ActiveSupport::TestCase
     musician.date_of_birth = '12-99-2008'
     assert !musician.date_of_birth
     assert musician.instance_variable_get :@utc_time_validate_errors
+    p "ESH: have #{musician.instance_variable_get(:@utc_time_validate_errors).inspect}"
   end
 end

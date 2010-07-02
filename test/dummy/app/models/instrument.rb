@@ -9,4 +9,5 @@ class Instrument < ActiveRecord::Base
   end
   insta_lock do |insta|
   end
+  insta_multi
 end

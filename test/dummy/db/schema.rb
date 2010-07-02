@@ -15,11 +15,11 @@ ActiveRecord::Schema.define(:version => 20100630001545) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.date     "date_of_birth"
-    t.date     "deleted_at"
+    t.datetime "date_of_birth"
+    t.datetime "deleted_at"
     t.integer  "created_by_id"
     t.integer  "modified_by_id"
-    t.date     "locked_until"
+    t.datetime "locked_until"
     t.integer  "locked_by_id"
   end
 
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(:version => 20100630001545) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
-    t.date     "date_of_birth"
+    t.datetime "date_of_birth"
   end
 
   create_table "realtime_updates", :force => true do |t|

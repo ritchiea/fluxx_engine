@@ -28,7 +28,7 @@ class ControllerDslCreateTest < ActiveSupport::TestCase
 
   test "check that we can create a model" do
     @dsl_create = ActionController::ControllerDslCreate.new Musician
-    musician = @dsl_create.perform_create({}, Musician.new)
+    musician = @dsl_create.perform_create({}, Musician.new(:first_name => 'John', :last_name => 'Smith'))
     assert musician
     assert musician.errors.blank?
     assert musician.id

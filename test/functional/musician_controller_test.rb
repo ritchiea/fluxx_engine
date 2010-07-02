@@ -10,6 +10,13 @@ class MusiciansControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:musicians)
   end
+
+  test "should get index with pagination" do
+    musicians = (1..51).map {Musician.make}
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:musicians)
+  end
   
   test "should get default CSV index" do
     musicians = (1..9).map {Musician.make}
@@ -71,7 +78,22 @@ class MusiciansControllerTest < ActionController::TestCase
     end
   end
 
+  test "should not be able to create musician" do
+    assert_difference('Musician.count', 0) do
+      post :create, :musician => nil
+    end
+    
+    assert !assigns(:model).id
+  end
+
   test "should show musician" do
+    get :show, :id => @musician.to_param
+    assert_response :success
+    assert_not_nil assigns(:related)
+  end
+  
+  test "try to find non-existent musician" do
+    max_musician_id = Musician.maximum :id
     get :show, :id => @musician.to_param
     assert_response :success
     assert_not_nil assigns(:related)
@@ -86,6 +108,11 @@ class MusiciansControllerTest < ActionController::TestCase
     put :update, :id => @musician.to_param, :musician => @musician.attributes
   end
 
+  test "get a validate error when updating musician" do
+    put :update, :id => @musician.to_param, :musician => {:date_of_birth => '12-99-2008'}
+    assert assigns(:model).instance_variable_get :@utc_time_validate_errors
+  end
+  
   test "should destroy musician" do
     assert_difference('Musician.count', -1) do
       delete :destroy, :id => @musician.to_param

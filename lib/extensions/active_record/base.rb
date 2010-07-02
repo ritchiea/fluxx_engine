@@ -74,9 +74,20 @@ class ActiveRecord::Base
     
   end
   
-  def self.insta_multi_element
+  def self.insta_multi
     @multi_element_object = ActiveRecord::ModelDslMultiElement.new(self)
     @multi_element_object.add_multi_elements
+    
+    self.instance_eval do
+      def multi_element_names
+        @multi_element_object.multi_element_attributes || (superclass.respond_to?(:multi_element_names) ? superclass.multi_element_names : nil)
+      end
+
+      def single_multi_element_names
+        @multi_element_object.single_element_attributes || (superclass.respond_to?(:single_multi_element_names) ? superclass.single_multi_element_names : nil)
+      end
+    end
+    
   end
   
   def self.insta_utc
