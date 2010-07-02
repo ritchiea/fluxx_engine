@@ -50,6 +50,7 @@
     },
     resizeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
+      if (!$.my.hand) return this;
 
       $('.card-box', this)
         .height(

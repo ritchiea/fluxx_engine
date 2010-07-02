@@ -166,6 +166,7 @@
   ].join('');
   
   $(window).resize(function(e){
+    if (!$.my.stage) return;
     $.my.stage.resizeFluxxStage();
   });
 
