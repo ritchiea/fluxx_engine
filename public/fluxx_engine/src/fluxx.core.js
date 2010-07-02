@@ -42,6 +42,7 @@
         marginHeight: function($selector) {
           return parseInt($selector.css('marginTop')) + parseInt($selector.css('marginBottom'));
         },
+
         itEndsWithMe: function(e) {
           e.stopPropagation();
           e.preventDefault();
@@ -49,7 +50,10 @@
         itEndsHere: function (e) {
           e.stopImmediatePropagation();
           e.preventDefault();
-        }
+        },
+        
+        seconds: function (i) { return i * 1000; },
+        minutes: function (i) { return i * 60 * 1000; }
       },
       logOn: true,
       log: function () {
@@ -81,3 +85,58 @@
 jQuery(function($){
   $.my.body = $('body');
 });
+
+
+/*
+
+Realtime Updates
+================
+
+lifecycle
+---------
+- subscribe
+- connect
+- ping
+- disconnect
+- unsubscribe
+
+config
+------
+fluxx: {
+  realtime_updates: {
+    implementation: 'polling'
+  },
+  implementations: {
+    polling: {
+      config: {
+        interval: 10 * 60 * 1000 // Ten Minutes
+        endpoint: '/realtime_updates',
+        url: function () {
+          return $.fluxx.realtime_updates.endpoint
+               + '?'
+               + $.param({ last_id: $.cookie('realtime_updates_last_id') });
+        }
+      },
+      subscribe: function (){},
+      connect: function () {},
+      ping: function () {},
+      disconnect: function () {},
+      unsubscribe: functino () {}
+    },
+    comet: {
+      config: {
+      },
+      subscribe: function (){},
+      connect: function () {},
+      ping: function () {},
+      disconnect: function () {},
+      unsubscribe: functino () {}
+    }
+  }
+}
+
+polling
+-------
+Only poll when focused.
+
+*/
