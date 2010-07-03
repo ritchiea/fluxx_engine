@@ -15,6 +15,7 @@ class Musician < ActiveRecord::Base
   insta_realtime do |insta|
   end
   insta_multi
+  insta_lock
   insta_utc do |insta|
     insta.time_attributes = [:date_of_birth]
   end

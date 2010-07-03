@@ -26,7 +26,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   end
 
   def model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
-    if model_class.respond_to? :sphinx_indexes
+    if model_class.respond_to?(:sphinx_indexes) && model_class.sphinx_indexes
       sphinx_model_search q_search, request_params, results_per_page, options, really_delete=false
     else
       sql_model_search q_search, request_params, results_per_page, options, really_delete=false
@@ -49,7 +49,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     models
   end
 
-  def sphinx_model_search request_params, results_per_page=25, options={}, really_delete=false
+  def sphinx_model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
     search_with_attributes = if options[:search_conditions]
       options[:search_conditions].clone 
     end || {}
@@ -90,6 +90,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
       :order => order_clause, :page => request_params[:page], 
       :per_page => results_per_page, :include => options[:include_relation])
     if model_ids.empty? && request_params[:page]
+      p "ESH: Could be we are loading a card listing with pagination that used to work, but now has fewer elements in it, so we should fall back to display the first page"
       # Could be we are loading a card listing with pagination that used to work, but now has fewer elements in it, so we should fall back to display the first page
       model_ids = model_class.search_for_ids(
         q_search, :with => with_clause,

@@ -12,6 +12,13 @@ class ControllerDslShowTest < ActiveSupport::TestCase
     assert new_musician.is_a? Musician
   end
   
+  test "check that we can perform_show with audit_id" do
+    @musician = Musician.make
+    new_musician = @dsl_show.perform_show({:id => @musician.id})
+    assert new_musician
+    assert new_musician.is_a? Musician
+  end
+  
   test "check that we can calculate_show_options" do
     @musician = Musician.make
     @dsl_show.template = 'template'
