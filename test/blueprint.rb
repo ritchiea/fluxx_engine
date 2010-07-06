@@ -47,3 +47,6 @@ MultiElementGroup.blueprint do
 end
 MultiElementValue.blueprint do
 end
+
+Orchestra.blueprint do
+end

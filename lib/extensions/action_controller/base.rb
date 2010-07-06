@@ -63,7 +63,7 @@ class ActionController::Base
       respond_to do |format|
         format.html do 
           if @model
-            fluxx_show_card show_object, show_object.calculate_show_options(params)
+            fluxx_show_card show_object, show_object.calculate_show_options(@model, params)
           else
             render :inline => show_object.calculate_error_options(params)
           end
@@ -186,7 +186,7 @@ class ActionController::Base
       else
         respond_to do |format|
           # Provide a locked error message
-          flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.full_name : ''), :lock_expiration => @model.locked_until.mdy_time)
+          flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
           format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => false) }
           format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
           @not_editable=true

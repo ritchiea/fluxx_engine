@@ -4,7 +4,7 @@ class ActiveRecord::Base
     yield @search_object if block_given?
     
     self.instance_eval do
-      def model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
+      def model_search q_search, request_params={}, results_per_page=25, options={}, really_delete=false
         @search_object.model_search q_search, request_params, results_per_page, options, really_delete
       end
       
@@ -74,9 +74,20 @@ class ActiveRecord::Base
     
   end
   
-  def self.insta_multi_element
+  def self.insta_multi
     @multi_element_object = ActiveRecord::ModelDslMultiElement.new(self)
     @multi_element_object.add_multi_elements
+    
+    self.instance_eval do
+      def multi_element_names
+        @multi_element_object.multi_element_attributes || (superclass.respond_to?(:multi_element_names) ? superclass.multi_element_names : nil)
+      end
+
+      def single_multi_element_names
+        @multi_element_object.single_element_attributes || (superclass.respond_to?(:single_multi_element_names) ? superclass.single_multi_element_names : nil)
+      end
+    end
+    
   end
   
   def self.insta_utc
@@ -108,10 +119,10 @@ class ActiveRecord::Base
 
   # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update
   def update_attribute_without_log key, value
-    if self.respond_to? :suspended_delta
+    if self.class.respond_to?(:sphinx_indexes) && self.class.sphinx_indexes
       self.class.suspended_delta(false) do
-        if self.respond_to? :without_realtime
-          self.without_realtime do
+        if self.class.respond_to? :without_realtime
+          self.class.without_realtime do
             self.update_attribute key, value
           end
         else
@@ -119,7 +130,7 @@ class ActiveRecord::Base
         end
       end
     else
-      if self.respond_to? :without_realtime
+      if self.class.respond_to? :without_realtime
         self.class.without_realtime do
           self.update_attribute key, value
         end
@@ -131,9 +142,9 @@ class ActiveRecord::Base
   
   # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update
   def update_attributes_without_log attr_map
-    if self.respond_to? :suspended_delta
+    if self.class.respond_to?(:sphinx_indexes) && self.class.sphinx_indexes
       self.class.suspended_delta(false) do
-        if self.respond_to? :without_realtime
+        if self.class.respond_to? :without_realtime
           self.class.without_realtime do
             self.update_attributes attr_map
           end
@@ -142,7 +153,7 @@ class ActiveRecord::Base
         end
       end
     else
-      if self.respond_to? :without_realtime
+      if self.class.respond_to? :without_realtime
         self.class.without_realtime do
           self.update_attributes attr_map
         end

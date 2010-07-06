@@ -8,7 +8,7 @@ class ActiveRecord::ModelDslLock < ActiveRecord::ModelDsl
   end
   
   def editable? model, fluxx_current_user
-    !(is_lockable?(model)) || model.locked_until.nil? || model.locked_until < Time.now || 
+    !(is_lockable?(model)) || model.locked_until.nil? || model.locked_until.to_i < Time.now.to_i || 
       (fluxx_current_user && model.locked_by == fluxx_current_user)
   end
   
@@ -35,6 +35,7 @@ class ActiveRecord::ModelDslLock < ActiveRecord::ModelDsl
 
   protected
   def add_lock_update_attributes model, fluxx_current_user, interval=ActiveRecord::ModelDslLock.lock_time_interval
+    
     if is_lockable?(model)
       model.update_attribute_without_log :locked_until, Time.now + interval
       model.update_attribute_without_log :locked_by_id, fluxx_current_user.id
