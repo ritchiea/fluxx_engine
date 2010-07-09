@@ -6,6 +6,9 @@ class InstrumentsController < ApplicationController
     insta.post do |params, request, response|
       response.headers[:post_invoked] = true
     end
+    insta.post do |params, request, response|
+      response.headers[:post_invoked] = true
+    end
   end
 
   insta_index Instrument do |insta|

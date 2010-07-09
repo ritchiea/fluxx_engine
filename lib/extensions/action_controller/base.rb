@@ -36,7 +36,7 @@ class ActionController::Base
       @models = index_object.load_results params, request.format
       instance_variable_set index_object.plural_model_instance_name, @models
       
-      respond_to do |format|
+      insta_respond_to index_object do |format|
         format.html { render((index_object.view || "#{insta_path}/index").to_s, :layout => false) }
         format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
         format.json do
@@ -66,7 +66,7 @@ class ActionController::Base
       @model = show_object.perform_show params
       @model_name = show_object.model_name
       @related = load_related_data(@model) if self.respond_to? :load_related_data
-      respond_to do |format|
+      insta_respond_to show_object do |format|
         format.html do 
           if @model
             fluxx_show_card show_object, show_object.calculate_show_options(@model, params)
@@ -95,7 +95,7 @@ class ActionController::Base
       @template = new_object.template
       @form_class = new_object.form_class
       @form_url = new_object.form_url
-      respond_to do |format|
+      insta_respond_to new_object do |format|
         format.html { render((new_object.view || "#{insta_path}/new").to_s, :layout => false)}
         format.xml  { render :xml => @model }
       end
@@ -112,7 +112,7 @@ class ActionController::Base
     define_method :edit do
       edit_object.invoke_pre params, request, response
       
-      respond_to do |format|
+      insta_respond_to edit_object do |format|
         @model = edit_object.perform_edit params, @model
         unless edit_object.editable? @model, fluxx_current_user
           # Provide a locked error message
@@ -142,7 +142,7 @@ class ActionController::Base
       @form_url = create_object.form_url
       @link_to_method = create_object.link_to_method
       if create_object.perform_create params, @model, fluxx_current_user
-        respond_to do |format|
+        insta_respond_to create_object do |format|
           flash[:info] = t(:insta_successful_create, :name => model_class.name)
           format.html do
             if create_object.render_inline
@@ -155,7 +155,7 @@ class ActionController::Base
           format.xml  { render :xml => @model, :status => :created, :location => @model }
         end
       else
-        respond_to do |format|
+        insta_respond_to create_object do |format|
           p "ESH: error saving record #{@model.errors.inspect}"
           flash[:error] = t(:errors_were_found)
           logger.debug("Unable to create "+create_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
@@ -185,7 +185,7 @@ class ActionController::Base
       instance_variable_set update_object.singular_model_instance_name, @model
 
       if update_object.editable? @model, fluxx_current_user
-        respond_to do |format|
+        insta_respond_to update_object do |format|
           if update_object.perform_update params, @model, fluxx_current_user
             flash[:info] = t(:insta_successful_update, :name => model_class.name)
             format.html do
@@ -205,12 +205,12 @@ class ActionController::Base
           end
         end
       else
-        respond_to do |format|
+        flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
+        @not_editable=true
+        insta_respond_to update_object do |format|
           # Provide a locked error message
-          flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
           format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => false) }
           format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
-          @not_editable=true
         end
       end
 
@@ -235,7 +235,7 @@ class ActionController::Base
         flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name)
       end
 
-      respond_to do |format|
+      insta_respond_to delete_object do |format|
         format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || "#{model_class.name.underscore.downcase}_path") }
         format.xml  { head :ok }
       end
@@ -277,5 +277,24 @@ class ActionController::Base
     current_user if respond_to?(:current_user)
   end
   
-  
+  def insta_respond_to controller_dsl
+    if block_given?
+      format_block_map = BlobStruct.new
+      yield format_block_map
+      
+      format_blocks_merged = if controller_dsl.format_block_map && controller_dsl.format_block_map.is_a?(Hash)
+        controller_dsl.format_block_map.store.merge format_block_map.store
+      else
+        format_block_map.store
+      end
+
+      respond_to do |format|
+        format_blocks_merged.keys.each do |key|
+          format.send key.to_sym do
+            format_blocks_merged[key].call
+          end
+        end
+      end
+    end
+  end
 end

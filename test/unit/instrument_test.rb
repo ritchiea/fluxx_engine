@@ -10,7 +10,6 @@ class InstrumentTest < ActiveSupport::TestCase
   end
   
   test "test locking without sphinx" do
-    p "ESH: in test locking without sphinx"
     user = Instrument.make
     @instrument.add_lock user
     @instrument.remove_lock user
@@ -20,7 +19,5 @@ class InstrumentTest < ActiveSupport::TestCase
     assert_difference('Audit.count') do
       Instrument.make
     end
-    p "ESH: have an audit: #{Audit.find(:first).inspect}"
-    p "ESH: have an audit full_model: #{Audit.find(:first).full_model}"
   end
 end

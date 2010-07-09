@@ -16,6 +16,8 @@ class BlobStruct
       elsif block
         @store[method.to_s.gsub(/=$/, '')] = block
       end
+    elsif block
+      @store[method.to_s] = block
     else
       @store[method.to_s]
     end

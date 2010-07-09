@@ -16,10 +16,18 @@ class BlobStructTest < ActiveSupport::TestCase
     @blob.name = 
     assert_equal nil, @blob.name
   end
-  
 
   test "test adding a new block to blob" do
     @blob.some_block = lambda{ p 'hi there' }
+    
+    assert @blob.some_block
+    assert @blob.some_block.is_a? Proc
+  end
+
+  test "test adding a new block without equals to blob" do
+    @blob.some_block do
+      p 'hi there'
+    end
     
     assert @blob.some_block
     assert @blob.some_block.is_a? Proc
