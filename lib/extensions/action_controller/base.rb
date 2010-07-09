@@ -24,6 +24,8 @@ class ActionController::Base
     yield index_object if block_given?
 
     define_method :index do
+      index_object.invoke_pre params, request, response
+      
       @delta_type = if index_object.delta_type
         index_object.delta_type
       else
@@ -47,6 +49,8 @@ class ActionController::Base
           self.response_body = index_object.stream_extract request, headers, @models, index_object.search_conditions, :csv
         end
       end
+
+      index_object.invoke_post params, request, response
     end
   end
   
@@ -57,6 +61,8 @@ class ActionController::Base
     # GET /models/1
     # GET /models/1.xml
     define_method :show do
+      show_object.invoke_pre params, request, response
+
       @model = show_object.perform_show params
       @model_name = show_object.model_name
       @related = load_related_data(@model) if self.respond_to? :load_related_data
@@ -70,6 +76,8 @@ class ActionController::Base
         end
         format.xml  { render :xml => @model }
       end
+
+      show_object.invoke_post params, request, response
     end
   end
 
@@ -80,6 +88,7 @@ class ActionController::Base
     # GET /models/new
     # GET /models/new.xml
     define_method :new do
+      new_object.invoke_pre params, request, response
       @model = new_object.load_new_model params, @model
       
       instance_variable_set new_object.singular_model_instance_name, @model
@@ -90,6 +99,8 @@ class ActionController::Base
         format.html { render((new_object.view || "#{insta_path}/new").to_s, :layout => false)}
         format.xml  { render :xml => @model }
       end
+
+      new_object.invoke_post params, request, response
     end
   end
 
@@ -99,6 +110,8 @@ class ActionController::Base
 
     # GET /models/1/edit
     define_method :edit do
+      edit_object.invoke_pre params, request, response
+      
       respond_to do |format|
         @model = edit_object.perform_edit params, @model
         unless edit_object.editable? @model, fluxx_current_user
@@ -108,6 +121,8 @@ class ActionController::Base
         end
         format.html { fluxx_edit_card edit_object }
       end
+      
+      edit_object.invoke_post params, request, response
     end
   end
 
@@ -118,6 +133,8 @@ class ActionController::Base
     # POST /models
     # POST /models.xml
     define_method :create do
+      create_object.invoke_pre params, request, response
+
       @model = create_object.load_new_model params, @model
       instance_variable_set create_object.singular_model_instance_name, @model
       @template = create_object.template
@@ -146,6 +163,8 @@ class ActionController::Base
           format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
         end
       end
+      
+      create_object.invoke_post params, request, response
     end
   end
 
@@ -156,6 +175,8 @@ class ActionController::Base
     # PUT /models/1
     # PUT /models/1.xml
     define_method :update do 
+      update_object.invoke_pre params, request, response
+
       @template = update_object.template
       @form_class = update_object.form_class
       @form_url = update_object.form_url
@@ -192,6 +213,8 @@ class ActionController::Base
           @not_editable=true
         end
       end
+
+      update_object.invoke_post params, request, response
     end
   end
 
@@ -202,6 +225,8 @@ class ActionController::Base
     # DELETE /models/1
     # DELETE /models/1.xml
     define_method :destroy do
+      delete_object.invoke_pre params, request, response
+
       @model = delete_object.load_existing_model params, @model
       instance_variable_set delete_object.singular_model_instance_name, @model
       if delete_object.perform_delete params, @model, fluxx_current_user
@@ -214,6 +239,8 @@ class ActionController::Base
         format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || "#{model_class.name.underscore.downcase}_path") }
         format.xml  { head :ok }
       end
+
+      delete_object.invoke_post params, request, response
     end
   end
   
