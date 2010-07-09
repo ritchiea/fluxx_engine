@@ -60,6 +60,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     get :new
     assert response.headers[:pre_invoked]
     assert response.headers[:post_invoked]
+    assert response.headers[:format_invoked]
   end
 
   test "should create instrument" do
@@ -71,6 +72,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     post :create, :instrument => @instrument.attributes
     assert response.headers[:pre_invoked]
     assert response.headers[:post_invoked]
+    assert response.headers[:format_invoked]
   end
 
   test "should show instrument" do
@@ -81,6 +83,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     get :show, :id => @instrument.to_param
     assert response.headers[:pre_invoked]
     assert response.headers[:post_invoked]
+    assert response.headers[:format_invoked]
   end
 
   test "should get edit" do
@@ -91,6 +94,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     get :edit, :id => @instrument.to_param
     assert response.headers[:pre_invoked]
     assert response.headers[:post_invoked]
+    assert response.headers[:format_invoked]
   end
 
   test "should update instrument" do
@@ -100,6 +104,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     put :update, :id => @instrument.to_param, :instrument => @instrument.attributes
     assert response.headers[:pre_invoked]
     assert response.headers[:post_invoked]
+    assert response.headers[:format_invoked]
   end
 
   test "should not be able to update a locked instrument" do
@@ -126,5 +131,6 @@ class InstrumentsControllerTest < ActionController::TestCase
     delete :destroy, :id => @instrument.to_param
     assert response.headers[:pre_invoked]
     assert response.headers[:post_invoked]
+    assert response.headers[:format_invoked]
   end
 end
