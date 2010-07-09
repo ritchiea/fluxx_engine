@@ -81,15 +81,15 @@ class ActionController::ControllerDsl
     yield format_block_map if block_given?
   end
   
-  def invoke_pre params, request, response
+  def invoke_pre controller
     if pre_block && pre_block.is_a?(Proc)
-      pre_block.call params, request, response
+      pre_block.call self, controller
     end
   end
   
-  def invoke_post params, request, response
+  def invoke_post controller
     if post_block && post_block.is_a?(Proc)
-      post_block.call params, request, response
+      post_block.call self, controller
     end
   end
 end

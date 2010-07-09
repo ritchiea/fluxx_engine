@@ -24,7 +24,7 @@ class ActionController::Base
     yield index_object if block_given?
 
     define_method :index do
-      index_object.invoke_pre params, request, response
+      index_object.invoke_pre self
       
       @delta_type = if index_object.delta_type
         index_object.delta_type
@@ -50,7 +50,7 @@ class ActionController::Base
         end
       end
 
-      index_object.invoke_post params, request, response
+      index_object.invoke_post self
     end
   end
   
@@ -61,7 +61,7 @@ class ActionController::Base
     # GET /models/1
     # GET /models/1.xml
     define_method :show do
-      show_object.invoke_pre params, request, response
+      show_object.invoke_pre self
 
       @model = show_object.perform_show params
       @model_name = show_object.model_name
@@ -77,7 +77,7 @@ class ActionController::Base
         format.xml  { render :xml => @model }
       end
 
-      show_object.invoke_post params, request, response
+      show_object.invoke_post self
     end
   end
 
@@ -88,7 +88,7 @@ class ActionController::Base
     # GET /models/new
     # GET /models/new.xml
     define_method :new do
-      new_object.invoke_pre params, request, response
+      new_object.invoke_pre self
       @model = new_object.load_new_model params, @model
       
       instance_variable_set new_object.singular_model_instance_name, @model
@@ -100,7 +100,7 @@ class ActionController::Base
         format.xml  { render :xml => @model }
       end
 
-      new_object.invoke_post params, request, response
+      new_object.invoke_post self
     end
   end
 
@@ -110,7 +110,7 @@ class ActionController::Base
 
     # GET /models/1/edit
     define_method :edit do
-      edit_object.invoke_pre params, request, response
+      edit_object.invoke_pre self
       
       insta_respond_to edit_object do |format|
         @model = edit_object.perform_edit params, @model
@@ -122,7 +122,7 @@ class ActionController::Base
         format.html { fluxx_edit_card edit_object }
       end
       
-      edit_object.invoke_post params, request, response
+      edit_object.invoke_post self
     end
   end
 
@@ -133,7 +133,7 @@ class ActionController::Base
     # POST /models
     # POST /models.xml
     define_method :create do
-      create_object.invoke_pre params, request, response
+      create_object.invoke_pre self
 
       @model = create_object.load_new_model params, @model
       instance_variable_set create_object.singular_model_instance_name, @model
@@ -164,7 +164,7 @@ class ActionController::Base
         end
       end
       
-      create_object.invoke_post params, request, response
+      create_object.invoke_post self
     end
   end
 
@@ -175,7 +175,7 @@ class ActionController::Base
     # PUT /models/1
     # PUT /models/1.xml
     define_method :update do 
-      update_object.invoke_pre params, request, response
+      update_object.invoke_pre self
 
       @template = update_object.template
       @form_class = update_object.form_class
@@ -214,7 +214,7 @@ class ActionController::Base
         end
       end
 
-      update_object.invoke_post params, request, response
+      update_object.invoke_post self
     end
   end
 
@@ -225,7 +225,7 @@ class ActionController::Base
     # DELETE /models/1
     # DELETE /models/1.xml
     define_method :destroy do
-      delete_object.invoke_pre params, request, response
+      delete_object.invoke_pre self
 
       @model = delete_object.load_existing_model params, @model
       instance_variable_set delete_object.singular_model_instance_name, @model
@@ -240,7 +240,7 @@ class ActionController::Base
         format.xml  { head :ok }
       end
 
-      delete_object.invoke_post params, request, response
+      delete_object.invoke_post self
     end
   end
   
@@ -277,21 +277,37 @@ class ActionController::Base
     current_user if respond_to?(:current_user)
   end
   
+  # Find overridden format blocks and prefer those.  Pass in params of:
+  #   * the controller_dsl object
+  #   * params
+  #   * request
+  #   * response
   def insta_respond_to controller_dsl
     if block_given?
       format_block_map = BlobStruct.new
       yield format_block_map
       
-      format_blocks_merged = if controller_dsl.format_block_map && controller_dsl.format_block_map.is_a?(Hash)
-        controller_dsl.format_block_map.store.merge format_block_map.store
-      else
-        format_block_map.store
-      end
+      cloned_controller_block_map = {}
+      cloned_controller_block_map = controller_dsl.format_block_map.store.clone if controller_dsl.format_block_map && controller_dsl.format_block_map.store.is_a?(Hash)
 
       respond_to do |format|
-        format_blocks_merged.keys.each do |key|
-          format.send key.to_sym do
-            format_blocks_merged[key].call
+        format_block_map.store.keys.each do |key|
+          if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
+            format.send key.to_sym do
+              cloned_controller_block_map[key].call controller_dsl, self
+              cloned_controller_block_map.delete key
+            end
+          elsif format_block_map.store[key] && format_block_map.store[key].is_a?(Proc)
+            format.send key.to_sym do
+              format_block_map.store[key].call
+            end
+          end
+        end
+        cloned_controller_block_map.keys.each do |key|
+          if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
+            format.send key.to_sym do
+              cloned_controller_block_map[key].call controller_dsl, self
+            end
           end
         end
       end

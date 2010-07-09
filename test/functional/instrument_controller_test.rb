@@ -12,10 +12,11 @@ class InstrumentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:instruments)
   end
 
-  test "should get index check on pre and post" do
+  test "should get index check on pre and post and format" do
     get :index
     assert response.headers[:pre_invoked]
     assert response.headers[:post_invoked]
+    assert response.headers[:format_invoked]
   end
 
   test "should get index with pagination" do
