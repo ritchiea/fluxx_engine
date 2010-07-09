@@ -30,6 +30,8 @@ class FluxxEngineMigrationGenerator < Rails::Generators::Base
     sleep 1
     handle_migration 'create_multi_element_choices.rb', 'db/migrate/fluxx_engine_create_multi_element_choices.rb'
     sleep 1
+    handle_migration 'create_client_stores.rb', 'db/migrate/fluxx_engine_create_client_stores.rb'
+    sleep 1
   end
   
   private
