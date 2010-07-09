@@ -9,7 +9,26 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100702184319) do
+ActiveRecord::Schema.define(:version => 20100707235002) do
+
+  create_table "audits", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "auditable_id"
+    t.string   "auditable_type"
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.string   "username"
+    t.string   "action"
+    t.text     "audit_changes"
+    t.integer  "version",        :default => 0
+    t.string   "comment"
+    t.text     "full_model"
+  end
+
+  add_index "audits", ["auditable_id", "auditable_type"], :name => "auditable_index"
+  add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
+  add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
   create_table "instruments", :force => true do |t|
     t.datetime "created_at"
@@ -18,7 +37,7 @@ ActiveRecord::Schema.define(:version => 20100702184319) do
     t.datetime "date_of_birth"
     t.datetime "deleted_at"
     t.integer  "created_by_id"
-    t.integer  "modified_by_id"
+    t.integer  "updated_by_id"
     t.datetime "locked_until"
     t.integer  "locked_by_id"
   end

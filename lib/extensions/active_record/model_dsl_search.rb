@@ -12,8 +12,8 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   end
   
   def safe_delete model, fluxx_current_user=nil
-    if model.respond_to?(:modified_by_id) && fluxx_current_user
-      model.modified_by_id = fluxx_current_user.id
+    if model.respond_to?(:updated_by_id) && fluxx_current_user
+      model.updated_by_id = fluxx_current_user.id
     end
     unless really_delete
       model.deleted_at = Time.now

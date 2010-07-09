@@ -44,7 +44,7 @@ class ControllerDslDeleteTest < ActiveSupport::TestCase
       instrument = @dsl_delete.perform_delete({}, instrument)
     end
     assert instrument.deleted_at
-    assert fluxx_user.id, instrument.modified_by_id
+    assert fluxx_user.id, instrument.updated_by_id
   end
   
 end

@@ -13,7 +13,7 @@ class ActsAsAuditedMigration < ActiveRecord::Migration
       t.column :version, :integer, :default => 0
       t.column :comment, :string
     end
-    if connection.adapter_name =~ /mysql/i
+    unless connection.adapter_name =~ /SQLite/i
       execute 'ALTER TABLE audits ADD COLUMN full_model longtext collate utf8_unicode_ci' 
     else
       add_column :audits, :full_model, :text

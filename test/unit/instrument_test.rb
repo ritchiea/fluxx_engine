@@ -15,4 +15,12 @@ class InstrumentTest < ActiveSupport::TestCase
     @instrument.add_lock user
     @instrument.remove_lock user
   end
+  
+  test "test that an audit record is created upon save" do
+    assert_difference('Audit.count') do
+      Instrument.make
+    end
+    p "ESH: have an audit: #{Audit.find(:first).inspect}"
+    p "ESH: have an audit full_model: #{Audit.find(:first).full_model}"
+  end
 end

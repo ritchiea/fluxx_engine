@@ -17,8 +17,8 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
   def perform_update params, model, fluxx_current_user=nil
     post_save_call_proc = self.post_save_call || lambda{|fluxx_current_user, model, params|true}
     modified_by_map = {}
-    if model.respond_to?(:modified_by_id) && fluxx_current_user
-      modified_by_map[:modified_by_id] = fluxx_current_user.id
+    if model.respond_to?(:updated_by_id) && fluxx_current_user
+      modified_by_map[:updated_by_id] = fluxx_current_user.id
     end
     if editable?(model, fluxx_current_user) && model.update_attributes(modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})) && post_save_call_proc.call(fluxx_current_user, model, params)
       remove_lock model, fluxx_current_user
