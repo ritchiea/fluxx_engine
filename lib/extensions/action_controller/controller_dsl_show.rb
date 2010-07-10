@@ -6,8 +6,8 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
   attr_accessor :footer_template
   attr_accessor :exclude_related_data
   
-  def perform_show params
-    @model = if params[:audit_id]
+  def perform_show params, model=nil
+    model = if params[:audit_id]
       new_model = model_class.new
       audit = Audit.find params[:audit_id] rescue nil
       if audit
@@ -22,7 +22,7 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
         end
       end
     end
-    @model = @model || load_existing_model(params)
+    model = model || load_existing_model(params)
   end
   
   def calculate_show_options model, params

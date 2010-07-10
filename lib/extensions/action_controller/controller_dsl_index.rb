@@ -23,34 +23,38 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     @max_sphinx_results || 500000
   end
   
-  def load_results params, format=nil
-    results_per_page = if format && (format.csv? || format.xls?)
-      ActionController::ControllerDslIndex.max_sphinx_results
-    else
-      self.results_per_page || 25
-    end
-    
-    q_search = if params[:q] && params[:q][:q]
-      params[:q][:q]
-    elsif params[:q]
-      params[:q]
-    elsif params[:term]
-      params[:term]
-    else
-      ''
-    end
-    model_ids = instance_variable_set @plural_model_instance_name, model_class.model_search(q_search, params, results_per_page, 
-      {:search_conditions => self.search_conditions, :order_clause => self.order_clause, :include_relation => include_relation})
-      
-    local_search_conditions = (self.search_conditions || {}).clone
-    if format && (format.csv? || format.xls?)
-      unless model_class.csv_sql_query(local_search_conditions).blank?
-        unpaged_models = model_class.find_by_sql [model_class.csv_sql_query(local_search_conditions), model_ids]
+  def load_results params, format=nil, models=nil
+    if models
+      models
+    else 
+      results_per_page = if format && (format.csv? || format.xls?)
+        ActionController::ControllerDslIndex.max_sphinx_results
       else
-        unpaged_models = model_class.find model_ids
+        self.results_per_page || 25
       end
-    else
-      model_class.page_by_ids model_ids
+    
+      q_search = if params[:q] && params[:q][:q]
+        params[:q][:q]
+      elsif params[:q]
+        params[:q]
+      elsif params[:term]
+        params[:term]
+      else
+        ''
+      end
+      model_ids = instance_variable_set @plural_model_instance_name, model_class.model_search(q_search, params, results_per_page, 
+        {:search_conditions => self.search_conditions, :order_clause => self.order_clause, :include_relation => include_relation})
+      
+      local_search_conditions = (self.search_conditions || {}).clone
+      if format && (format.csv? || format.xls?)
+        unless model_class.csv_sql_query(local_search_conditions).blank?
+          unpaged_models = model_class.find_by_sql [model_class.csv_sql_query(local_search_conditions), model_ids]
+        else
+          unpaged_models = model_class.find model_ids
+        end
+      else
+        model_class.page_by_ids model_ids
+      end
     end
   end
   

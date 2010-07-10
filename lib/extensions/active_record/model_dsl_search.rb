@@ -25,31 +25,35 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     model
   end
 
-  def model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
+  def model_search q_search, request_params, results_per_page=25, options={}
     if model_class.respond_to?(:sphinx_indexes) && model_class.sphinx_indexes
-      sphinx_model_search q_search, request_params, results_per_page, options, really_delete=false
+      sphinx_model_search q_search, request_params, results_per_page, options
     else
-      sql_model_search q_search, request_params, results_per_page, options, really_delete=false
+      sql_model_search q_search, request_params, results_per_page, options
     end
   end
 
-  def sql_model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
+  def sql_model_search q_search, request_params, results_per_page=25, options={}
     string_fields = model_class.columns.select {|col| col.type == :string}.map &:name
     queries = q_search.split ' '
     queries = queries.reject {|q| q.blank?}
     sql_conditions = string_fields.map {|field| queries.map {|q| model_class.send :sanitize_sql, ["#{field} like ?", "%#{q}%"]} }.flatten.compact.join ' OR '
+    sql_conditions = "(#{sql_conditions})" unless sql_conditions.blank?
+    sql_conditions += " #{sql_conditions.blank? ? '' : ' AND '} deleted_at IS NULL " unless really_delete
     if options[:with]
       logger.info "Note that sql_model_search does not currently support :with"
     end
 
     # Grab a list of models with just the ID, then swap out the list of models with a list of the IDs
-    models = model_class.paginate :select => :id, :conditions => "#{sql_conditions} #{options[:search_conditions]}", :page => request_params[:page], :per_page => results_per_page, 
+    # TODO ESH: should upgrade to arel syntax
+    models = model_class.paginate :select => :id, :conditions => "#{sql_conditions} #{(!sql_conditions.blank? && !options[:search_conditions].blank?) ? " AND " : ''} #{options[:search_conditions]}", 
+      :page => request_params[:page], :per_page => results_per_page, 
       :order => options[:order_clause], :include => options[:include_relation]
     models.replace models.map(&:id)
     models
   end
 
-  def sphinx_model_search q_search, request_params, results_per_page=25, options={}, really_delete=false
+  def sphinx_model_search q_search, request_params, results_per_page=25, options={}
     search_with_attributes = if options[:search_conditions]
       options[:search_conditions].clone 
     end || {}

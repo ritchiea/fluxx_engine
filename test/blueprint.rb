@@ -50,3 +50,7 @@ end
 
 Orchestra.blueprint do
 end
+
+ClientStore.blueprint do
+  name Sham.word
+end
