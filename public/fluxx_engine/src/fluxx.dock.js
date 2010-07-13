@@ -82,6 +82,9 @@
          .live('close.fluxx.card', function(e){
             $.fluxx.util.itEndsWithMe(e);
             $.my.dock.removeViewPortIcon({card: $(this)});
+          })
+          .live('update.fluxx.card', function (e, nUpdate) {
+            $(e.target).data('icon').text(nUpdate);
           });
       });
     });

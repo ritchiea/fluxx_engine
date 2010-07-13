@@ -10,6 +10,7 @@
         $.my.footer = $('#footer');
         $.my.stage.bind({
           'complete.fluxx.stage': _.callAll(
+            _.bind($.fn.setupFluxxPolling, $.my.stage),
             _.bind($.fn.installFluxxDecorators, $.my.stage),
             _.bind($.fn.addFluxxCards, $.my.hand, {cards: $.fluxx.config.cards}),
             options.callback
@@ -52,6 +53,12 @@
       _.each($.fluxx.stage.decorators, function(val,key) {
         $(key).live(val[0], val[1]);
       });
+    },
+    
+    setupFluxxPolling: function () {
+      if (! $.fluxx.config.realtime_updates.enabled) return;
+      $.fluxx.realtime_updates = $.fluxxPoller($.fluxx.config.realtime_updates.options);
+      $.fluxx.realtime_updates.start();
     }
   });
   

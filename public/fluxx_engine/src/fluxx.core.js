@@ -13,6 +13,21 @@
         var args  = arguments;
         _.each(functions, function(f){f.apply(this_, args)});
       }
+    },
+    intersectProperties: function (one, two) {
+      if (_.isEqual(one, two)) return one;
+
+      var intersect = {};
+      _.each(one, function (val, key) {
+        if (_.isEqual(val, two[key])) intersect[key] = val;
+      });
+      return intersect;
+    },
+    isFilterMatch: function (filter, test) {
+      return _.isEqual(
+        (_.compose(_.size, _.intersectProperties))(filter, test),
+        (_.compose(_.size, _.compact, _.values))(filter)
+      );
     }
   });
   
@@ -22,8 +37,15 @@
     },
     fluxx: {
       config: {
-        cards: $('.card')
+        cards: $('.card'),
+        realtime_updates: {
+          enabled: false,
+          options: {
+            url: null
+          }
+        }
       },
+      realtime_updates: null,
       util: {
         options_with_callback: function(defaults, options, callback) {
           if ($.isFunction(options)) {
@@ -64,8 +86,12 @@
     }
   });
   
-  $(document).shortkeys({
-    'Space+m': function() {
+  $(window).ajaxComplete(function(e, xhr, options) {
+    $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + $.toJSON(options.data) + ')');
+  });
+  
+  var keyboardShortcuts = {
+    'Space+m': ['Show $.my cache', function() {
       $.fluxx.log('--- $.my CACHE BEGIN ---');
       _.each($.my, function(val,key) {
         $.fluxx.log(
@@ -78,8 +104,24 @@
         );
       });
       $.fluxx.log('--- $.my CACHE END ---');
-    }
-  })
+    }],
+    'Space+h': ['This help message', function() {
+      $.fluxx.log.apply($.fluxx.log, _.map(keyboardShortcuts, function(v,k){return [k, v[0]].join(': ')}))
+    }],
+    'p+s': ['start/stop polling', function () {
+      var rtu = $.fluxx.realtime_updates;
+      if (!rtu) return;
+      if (rtu.state) {
+        $.fluxx.log('stoping rtu');
+        rtu.stop();
+      } else {
+        $.fluxx.log('starting rtu');
+        rtu.start();
+      }
+    }]
+  };
+  
+  $(document).shortkeys(_.extend.apply(_, _.map(keyboardShortcuts, function(v,k){var o={}; o[k] = v[1]; return o})));
 })(jQuery);
 
 jQuery(function($){
@@ -87,56 +129,3 @@ jQuery(function($){
 });
 
 
-/*
-
-Realtime Updates
-================
-
-lifecycle
----------
-- subscribe
-- connect
-- ping
-- disconnect
-- unsubscribe
-
-config
-------
-fluxx: {
-  realtime_updates: {
-    implementation: 'polling'
-  },
-  implementations: {
-    polling: {
-      config: {
-        interval: 10 * 60 * 1000 // Ten Minutes
-        endpoint: '/realtime_updates',
-        url: function () {
-          return $.fluxx.realtime_updates.endpoint
-               + '?'
-               + $.param({ last_id: $.cookie('realtime_updates_last_id') });
-        }
-      },
-      subscribe: function (){},
-      connect: function () {},
-      ping: function () {},
-      disconnect: function () {},
-      unsubscribe: functino () {}
-    },
-    comet: {
-      config: {
-      },
-      subscribe: function (){},
-      connect: function () {},
-      ping: function () {},
-      disconnect: function () {},
-      unsubscribe: functino () {}
-    }
-  }
-}
-
-polling
--------
-Only poll when focused.
-
-*/

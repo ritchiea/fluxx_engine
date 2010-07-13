@@ -14,18 +14,25 @@
           .bind({
             'complete.fluxx.card': _.callAll(
               $.fluxx.util.itEndsHere,
-              /* DOES NOT WORK -- _.bind($.fn.show, $card), */
-              /* DOES WORK     -- _.bind(function(){_.bind($.fn.show, this)()}, $card), */
               function(){$card.show();},
               _.bind($.fn.resizeFluxxCard, $card),
               _.bind($.fn.resizeFluxxStage, $.my.stage),
+              _.bind($.fn.subscribeFluxxCardToUpdates, $card),
               options.callback
             ),
             'load.fluxx.card': options.load,
             'close.fluxx.card': options.close,
-            'unload.fluxx.card': options.unload
+            'unload.fluxx.card': options.unload,
+            'update.fluxx.card': _.callAll(
+              _.bind($.fn.updateFluxxCard, $card),
+              options.update
+            )
           });
         $card.trigger('load.fluxx.card');
+        $card.fluxxCardListing().bind(
+          'listing_update.fluxx.area',
+          _.bind($.fn.fluxxListingUpdate, $card.fluxxCardListing())
+        );
         $card.fluxxCardLoadListing({url: options.listing.url}, function(){
           $card.fluxxCardLoadDetail({url: options.detail.url}, function(){
             $card.trigger('complete.fluxx.card');
@@ -33,6 +40,29 @@
         });
         $.my.cards = $('.card');
       });
+    },
+    subscribeFluxxCardToUpdates: function () {
+      return this.each(function(){
+        if (!$.fluxx.realtime_updates) return;
+
+        var $card = $(this);
+        $.fluxx.realtime_updates.subscribe(function(e, data, status) {
+          var poller = e.target;
+          $card.fluxxCardAreas().each(function(){
+            var $area = $(this),
+                model = $area.attr('data-model-class');
+            var matches = _.compact(_.map(data.deltas, function(delta) {
+              return model == delta.model_class ? delta : false
+            }));
+            $.fluxx.log("triggering update: " + matches.length)
+            if (matches.length) $area.trigger('update.fluxx.area', [matches]);
+          });
+        });
+      });
+    },
+    updateFluxxCard: function (e, nUpdates) {
+      var $card = $(this);
+      $('.titlebar', $card).text(nUpdates);
     },
     removeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
@@ -85,12 +115,20 @@
       return this.data('card')
         || this.data('card', this.parents('.card:eq(0)').andSelf()).data('card');
     },
+    fluxxCardAreas: function () {
+      var $card = this.fluxxCard();
+      return $card.data('areas')
+        || $card.data('areas', $card.find('.area'));
+    },
     fluxxCardArea: function() {
       return this.data('area')
         || this.data('area', this.parents('.area:eq(0)').andSelf()).data('area');
     },
     fluxxCardAreaURL: function() {
       return this.fluxxCardArea().data('history')[0].url;
+    },
+    fluxxCardListingFilters: function() {
+      return this.fluxxCardArea().data('history')[0].data;
     },
     fluxxCardListing: function() {
       return this.fluxxCard().data('listing');
@@ -101,6 +139,45 @@
     fluxxCardBox: function () {
       return this.fluxxCard().data('box');
     },
+    fluxxAreaSettings: function (options) {
+      var options = $.fluxx.util.options_with_callback({settings: $()},options);
+      if (options.settings.length < 1) return this;
+      return this.each(function(){
+        var $area = $(this);
+        _.each(options.settings.children(), function (setting) {
+          var key = $(setting).attr('name'),
+              val = $(setting).text();
+          $area.attr('data-' + key, val);
+        })
+      })
+    },
+    fluxxAreaUpdate: function(e, matches) {
+      var $area     = $(e.target),
+          seen      = $area.data('updates_seen') || [],
+          areaType  = $area.attr('data-type'),
+          matches   = _.reject(matches, function(m) {return _.include(seen, m.model_id)}),
+          updates   = {},
+          nextEvent = areaType + '_update.fluxx.area';
+    
+      var updates = {};
+      _.each(matches, function(match) {
+        /* Prefer the last seen update for this object. */
+        updates[match.model_id] = match;
+      });      
+      $area.data('updates_seen', _.flatten([seen, _.pluck(matches, 'model_id')]));
+      $area.trigger(nextEvent, [_.values(updates)]);
+    },
+    fluxxListingUpdate: function(e, updates) {
+      var $area   = $(e.target),
+          filters = $area.fluxxCardListingFilters(),
+          updates = _.select(updates, function(update){
+                        return _.isFilterMatch(filters, update);
+                    });
+      if (!updates.length) return;
+      
+      var model_ids = _.pluck(updates, 'model_id');
+      $area.fluxxCard().trigger('update.fluxx.card', [_.size(model_ids)])
+    },
     
     /* Data Loaders */
     fluxxCardLoadContent: function (options, onComplete) {
@@ -108,10 +185,22 @@
         area: undefined,
         type: 'GET',
         url: null,
-        data: {}
+        data: {},
+        update: $.noop
       };
       var options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
-      options.area.unbind('complete.fluxx.area').bind('complete.fluxx.area', _.callAll($.fluxx.util.itEndsWithMe, options.callback));
+      options.area
+        .unbind('complete.fluxx.area')
+        .bind('complete.fluxx.area', _.callAll(
+          $.fluxx.util.itEndsWithMe,
+          options.callback
+        ));
+      options.area
+        .unbind('update.fluxx.area')
+        .bind('update.fluxx.area', _.callAll(
+          _.bind($.fn.fluxxAreaUpdate, options.area),
+          options.update
+        ));
 
       if (!options.url) {
         options.area.trigger('complete.fluxx.area');
@@ -133,7 +222,7 @@
           $('.body',   options.area).html($('#card-body',   $document).html() || '&nbsp;');
           $('.footer', options.area).html($('#card-footer', $document).html() || '&nbsp;');
           $('.drawer', options.area).html($('#card-drawer', $document).html() || '&nbsp;');
-          options.area.trigger('complete.fluxx.area');
+          options.area.fluxxAreaSettings({settings: $('#card-settings', $document)}).trigger('complete.fluxx.area');
         },
         error: function(xhr, status, error) {
           options.area.trigger('complete.fluxx.area');
@@ -162,6 +251,7 @@
           load: $.noop,
           close: $.noop,
           unload: $.noop,
+          update: $.noop,
           listing: {
             url: null
           },
@@ -211,7 +301,7 @@
     var types = ['area'];
     types.unshift(options.type);
     return [
-      '<div class="', types.join(' '), '">',
+      '<div class="', types.join(' '), '" data-type="', options.type ,'">',
         '<div class="header"></div>',
         '<div class="body"></div>',
         '<div class="footer"></div>',
