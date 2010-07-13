@@ -9,6 +9,27 @@ class InstrumentTest < ActiveSupport::TestCase
     list = Instrument.model_search ''
   end
   
+  test "test instrument search with matching attribute is found" do
+    list = Instrument.model_search '', {:name => @instrument.name}
+    assert_equal @instrument.id, list.first
+  end
+
+  test "test instrument search with non matching attribute is not found" do
+    list = Instrument.model_search '', {:name => "#{@instrument.name}_this_cant_be_found"}
+    assert list.empty?
+  end
+
+  test "test instrument search by ID for some records" do
+    list = Instrument.model_search '', {:name => "#{@instrument.name}_this_cant_be_found"}
+    assert list.empty?
+  end
+
+  test "test instrument search" do
+    instruments = ((1..10).map { Instrument.make }) + [@instrument]
+    list = Instrument.model_search '', {:id => instruments.map(&:id).join(',')}
+    assert_equal instruments.map(&:id).sort, list.sort
+  end
+
   test "test locking without sphinx" do
     user = Instrument.make
     @instrument.add_lock user
