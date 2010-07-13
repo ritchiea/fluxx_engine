@@ -20,8 +20,8 @@ class ActionController::ControllerDslCreate < ActionController::ControllerDsl
     if model.respond_to?(:created_by_id) && fluxx_current_user
       model.created_by_id = fluxx_current_user.id
     end
-    if model.respond_to?(:modified_by_id) && fluxx_current_user
-      model.modified_by_id = fluxx_current_user.id
+    if model.respond_to?(:updated_by_id) && fluxx_current_user
+      model.updated_by_id = fluxx_current_user.id
     end
     
     model.save && post_save_call_proc.call(fluxx_current_user, model, params)

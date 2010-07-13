@@ -1,4 +1,10 @@
 class ActionController::ControllerDsl
+  # pre invocation block
+  attr_accessor :pre_block
+  # a blob_struct of format blocks broken up by the various names
+  attr_accessor :format_block_map
+  # post invocation block
+  attr_accessor :post_block
   # Layout to be used
   attr_accessor :layout
   # template to be used
@@ -60,5 +66,30 @@ class ActionController::ControllerDsl
   
   def remove_lock model, fluxx_current_user
     model.remove_lock(fluxx_current_user) if model.respond_to?(:remove_lock)
+  end
+  
+  def pre &block
+    self.pre_block = block
+  end
+  
+  def post &block
+    self.post_block = block
+  end
+  
+  def format &block
+    self.format_block_map = BlobStruct.new
+    yield format_block_map if block_given?
+  end
+  
+  def invoke_pre controller
+    if pre_block && pre_block.is_a?(Proc)
+      pre_block.call self, controller
+    end
+  end
+  
+  def invoke_post controller
+    if post_block && post_block.is_a?(Proc)
+      post_block.call self, controller
+    end
   end
 end

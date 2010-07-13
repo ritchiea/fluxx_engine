@@ -42,7 +42,7 @@ class ControllerDslCreateTest < ActiveSupport::TestCase
     assert instrument.errors.blank?
     assert !fluxx_user.id.blank?
     assert fluxx_user.id, instrument.created_by_id
-    assert fluxx_user.id, instrument.modified_by_id
+    assert fluxx_user.id, instrument.updated_by_id
   end
   
   test "check that we can execute the post process autocomplete block" do

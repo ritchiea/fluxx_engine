@@ -2,7 +2,7 @@ class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl
   # attributes are the list of fields that should be tracked in the realtime feed
   attr_accessor :delta_attributes
   # the name of the field for modified_by
-  attr_accessor :modified_by_field
+  attr_accessor :updated_by_field
   # Name of the type of class represented by this update; usually the class name.  
   # Note that this name may differ based on the properties of the object (flags might change the properties and thus the way the update should be handled or differing classes
   # might need to be handled as the parent type), so a block may be substituted for a string
@@ -30,7 +30,7 @@ class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl
   end
   
   def realtime_user_id model
-    model.send(modified_by_field) if modified_by_field
+    model.send(updated_by_field) if updated_by_field
   end
   
   def realtime_create_callback model

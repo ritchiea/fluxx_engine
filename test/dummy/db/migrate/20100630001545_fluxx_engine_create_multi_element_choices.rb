@@ -7,7 +7,7 @@ class FluxxEngineCreateMultiElementChoices < ActiveRecord::Migration
     end
     
     add_index :multi_element_choices, [:target_id, :multi_element_value_id], :unique => true, :name => 'multi_element_choices_index_cl_attr_val'
-    execute "alter table multi_element_choices add foreign key multi_element_value_id references multi_element_values(id)" if connection.adapter_name =~ /mysql/i
+    execute "alter table multi_element_choices add foreign key multi_element_value_id references multi_element_values(id)" unless connection.adapter_name =~ /SQLite/i
   end
 
   def self.down

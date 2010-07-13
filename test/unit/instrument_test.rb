@@ -10,9 +10,14 @@ class InstrumentTest < ActiveSupport::TestCase
   end
   
   test "test locking without sphinx" do
-    p "ESH: in test locking without sphinx"
     user = Instrument.make
     @instrument.add_lock user
     @instrument.remove_lock user
+  end
+  
+  test "test that an audit record is created upon save" do
+    assert_difference('Audit.count') do
+      Instrument.make
+    end
   end
 end

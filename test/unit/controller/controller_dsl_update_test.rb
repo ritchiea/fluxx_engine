@@ -34,7 +34,7 @@ class ControllerDslUpdateTest < ActiveSupport::TestCase
     @dsl_update = ActionController::ControllerDslUpdate.new Instrument
     @dsl_update.perform_update({:instrument => {:name => 'trombone'}}, instrument, fluxx_user)
     assert_equal 'trombone', instrument.reload.name
-    assert fluxx_user.id, instrument.modified_by_id
+    assert fluxx_user.id, instrument.updated_by_id
   end
   
   test "check that we can execute the post process autocomplete block" do

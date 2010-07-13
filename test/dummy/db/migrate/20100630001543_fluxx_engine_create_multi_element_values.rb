@@ -7,7 +7,7 @@ class FluxxEngineCreateMultiElementValues < ActiveRecord::Migration
       t.integer :multi_element_group_id, :null => true, :limit => 12
     end
     add_index :multi_element_values, :multi_element_group_id
-    execute "alter table multi_element_values add foreign key(multi_element_group_id) references multi_element_groups(id)" if connection.adapter_name =~ /mysql/i
+    execute "alter table multi_element_values add foreign key(multi_element_group_id) references multi_element_groups(id)" unless connection.adapter_name =~ /SQLite/i
   end
 
   def self.down

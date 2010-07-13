@@ -10,7 +10,6 @@ class MusicianTest < ActiveSupport::TestCase
   end
   
   test "test locking without sphinx" do
-    p "ESH: in test locking without sphinx"
     user = Musician.make
     @musician.add_lock user
     @musician.remove_lock user

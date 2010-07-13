@@ -37,7 +37,7 @@ h3. Admin Screen
 * Allow add/edit/delete of admin models and their attributes 
 
 h3. Auto-complete 
-* YUI-based autocomplete
+* jquery-based autocomplete
 * Server-side support for doing a search
 
 h3. Pluggable search??
@@ -50,8 +50,14 @@ h3. Model functions
 
 h2. Installation
 
+h3. Bundle
+In your Gemfile add
+  gem "fluxx_engine", :git => "git@github.com:energyfoundation/fluxx_engine.git"
+
 h3. Generator
-rails generate fluxx_engine_migration
+  rails generate fluxx_engine_locale
+  rails generate fluxx_engine_migration
+  rails generate fluxx_engine_public
 
 
 h2. Tests

@@ -4,8 +4,8 @@ class ActiveRecord::Base
     yield @search_object if block_given?
     
     self.instance_eval do
-      def model_search q_search, request_params={}, results_per_page=25, options={}, really_delete=false
-        @search_object.model_search q_search, request_params, results_per_page, options, really_delete
+      def model_search q_search, request_params={}, results_per_page=25, options={}
+        @search_object.model_search q_search, request_params, results_per_page, options
       end
       
       def safe_find model_id
