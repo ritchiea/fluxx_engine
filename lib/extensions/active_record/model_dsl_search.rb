@@ -43,6 +43,18 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     if options[:with]
       logger.info "Note that sql_model_search does not currently support :with"
     end
+    
+    unless filter_fields.blank?
+      filter_fields.each do |attr|
+        unless request_params[attr].blank?
+          split_params = request_params[attr].split(',')
+          unless split_params.blank?
+            attr_sql = model_class.send :sanitize_sql, [" #{attr} in (?) ", split_params]
+            sql_conditions += " #{sql_conditions.blank? ? '' : ' AND '}  #{attr_sql}" 
+          end
+        end
+      end
+    end
 
     # Grab a list of models with just the ID, then swap out the list of models with a list of the IDs
     # TODO ESH: should upgrade to arel syntax

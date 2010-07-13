@@ -9,7 +9,7 @@ class Orchestra < ActiveRecord::Base
   end
   
   insta_search do |insta|
-    insta.filter_fields = [:created_at]
+    insta.filter_fields = [:created_at, :name]
   end
   insta_lock
   insta_realtime

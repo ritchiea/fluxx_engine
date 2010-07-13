@@ -6,6 +6,7 @@ class Instrument < ActiveRecord::Base
   
   
   insta_search do |insta|
+    insta.filter_fields = [:created_at, :name, :id]
   end
   insta_export do |insta|
   end
