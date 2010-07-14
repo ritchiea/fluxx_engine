@@ -25,6 +25,5 @@ class ActionController::ControllerDslCreate < ActionController::ControllerDsl
     end
     
     model.save && post_save_call_proc.call(fluxx_current_user, model, params)
-    model
   end
 end

@@ -4,6 +4,7 @@
 	<%= semantic_form_for @model, :url => (@form_url || {:action => "create"}), :html => {:class => ('to-self ' + (@form_class || ''))} do |form| %>
     <%= render :partial => @template, :locals => { :form => form, :model => @model} %>
 	<% end %>
+	
 </div></div>
 
 <div id="card-footer">

@@ -14,3 +14,4 @@ public/fluxx_engine/.sass-cache
 public/fluxx_engine/dist/*
 public/fluxx_engine/tmp
 .bundle
+test/dummy/log

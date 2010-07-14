@@ -22,8 +22,10 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
     end
     if editable?(model, fluxx_current_user) && model.update_attributes(modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})) && post_save_call_proc.call(fluxx_current_user, model, params)
       remove_lock model, fluxx_current_user
+      true
     else
       add_lock model, fluxx_current_user
+      false
     end
     
   end
