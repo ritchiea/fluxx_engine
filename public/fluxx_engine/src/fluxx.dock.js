@@ -24,7 +24,13 @@
         $icon.data('card', options.card);
       });
     },
-    
+    updateIconBadge: function (options) {
+      var options = $.fluxx.util.options_with_callback({badge: ''}, options);
+      return this.each(function(){
+        var $icon = $(this);
+        $('.badge', $icon).val(options.badge)
+      })
+    },
     removeViewPortIcon: function(options) {
       var options = $.fluxx.util.options_with_callback({}, options);
       return this.each(function(){
@@ -65,6 +71,7 @@
       '<li class="icon">',
         '<a class="link" href="#', options.card.attr('id'), '">',
           '<span class="label">Card</span>',
+          '<span class="badge"></span>',
         '</a>',
       '</li>'
     ]));
@@ -84,7 +91,9 @@
             $.my.dock.removeViewPortIcon({card: $(this)});
           })
           .live('update.fluxx.card', function (e, nUpdate) {
-            $(e.target).data('icon').text(nUpdate);
+            if (!nUpdate || !$(e.target).data('icon')) return;
+            var $card = $(e.target);
+            $card.data('icon').updateIconBadge({badge: $card.fluxxCardUpdatesAvailable()});
           });
       });
     });

@@ -53,6 +53,11 @@ namespace "server" do
   end
 end
 
+desc "Open Fluxx Dashboard Tests"
+task :test => ['server:start'] do
+  `open http://127.0.0.1:2424/test/index.html`
+end
+
 desc "Open Fluxx Dashboard Demo"
 task :demo => ['server:start'] do
   `open http://127.0.0.1:2424/demo/wireframe.html`

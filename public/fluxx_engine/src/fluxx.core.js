@@ -73,6 +73,9 @@
           e.stopImmediatePropagation();
           e.preventDefault();
         },
+        getTag: function (sel) {
+          return _.map($(sel), function(i){return $('<div>').html($(i).clone().empty().html('...')).html()}).join(', ')
+        },
         
         seconds: function (i) { return i * 1000; },
         minutes: function (i) { return i * 60 * 1000; }
@@ -99,7 +102,7 @@
           ' [' +
           val.length +
           ']: [' +
-          _.map(val, function(i){return $('<div>').html($(i).clone().empty().html('...')).html()}).join(', ') +
+          $.fluxx.util.getTag(val) +
           ']'
         );
       });

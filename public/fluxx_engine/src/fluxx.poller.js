@@ -92,7 +92,9 @@
             this._timeoutID = setTimeout(doPoll, this.interval);
           },
           _start: function () {
-            this.$.bind('start.fluxx.poller.polling', _.bind(this._poll, this))
+            this.$
+              .unbind('start.fluxx.poller.polling')
+              .bind('start.fluxx.poller.polling', _.bind(this._poll, this))
           },
           _stop: function () {
             clearTimeout(this._timeoutID);

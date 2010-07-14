@@ -54,15 +54,21 @@
             var matches = _.compact(_.map(data.deltas, function(delta) {
               return model == delta.model_class ? delta : false
             }));
-            $.fluxx.log("triggering update: " + matches.length)
+            $.fluxx.log("triggering update.fluxx.area: " + matches.length)
             if (matches.length) $area.trigger('update.fluxx.area', [matches]);
           });
         });
       });
     },
+    fluxxCardUpdatesAvailable: function () {
+      return this.data('updates_available');
+    },
     updateFluxxCard: function (e, nUpdates) {
       var $card = $(this);
-      $('.titlebar', $card).text(nUpdates);
+      var updatesAvailable = (this.data('updates_available') || 0) + nUpdates;
+      $('.updates .available', $card).text(nUpdates);
+      this.data('updates_available', updatesAvailable);
+      return this;
     },
     removeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
@@ -176,6 +182,7 @@
       if (!updates.length) return;
       
       var model_ids = _.pluck(updates, 'model_id');
+      $.fluxx.log("Triggering update.fluxx.card from fluxxListingUpdate");
       $area.fluxxCard().trigger('update.fluxx.card', [_.size(model_ids)])
     },
     
@@ -198,6 +205,7 @@
       options.area
         .unbind('update.fluxx.area')
         .bind('update.fluxx.area', _.callAll(
+          $.fluxx.util.itEndsHere,
           _.bind($.fn.fluxxAreaUpdate, options.area),
           options.update
         ));
@@ -287,7 +295,9 @@
   });
   $.fluxx.card.ui.toolbar = [
     '<div class="toolbar">',
-      'min, close, etc',
+      '<a class="updates"><span class="available">0</span> available</a>',
+      ' ',
+      '<span class="controls">min, close, etc</span>',
     '</div>'
   ].join('');
   $.fluxx.card.ui.titlebar = function(options) {
