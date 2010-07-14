@@ -42,13 +42,13 @@ jQuery(function($){
       interval: 1,
       update: function (e, data, status) {
         ok(data, "Update Callback Triggered");
-        ok(data.counter, "We have a counter: " + data.counter);
+        ok(data.last_id, "We have a counter: " + data.last_id);
         poller.stop();
       }
     });
     poller.subscribe(function(e, data, status){
       equals(e.target.id, poller.id, 'e.target is poller object');
-      ok(data.counter, "We have a counter: " + data.counter);
+      ok(data.last_id, "We have a counter: " + data.last_id);
     });
     poller.start();
     setTimeout(function(){start();}, 2200);

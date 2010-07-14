@@ -12,6 +12,12 @@
         $.extend(true,{
           fluxx: {
             config: {
+              realtime_updates: {
+                enabled: true,
+                options: {
+                  url: '/rtu_polling'
+                }
+              },
               cards: [
                 {
                   title: 'Wines',

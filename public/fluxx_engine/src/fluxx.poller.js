@@ -73,9 +73,9 @@
       },
       implementations: {
         polling: {
-          interval: $.fluxx.util.seconds(1),
-          decay: 1.2,
-          maxInterval: $.fluxx.util.minutes(10),
+          interval: $.fluxx.util.seconds(5),
+          decay: 1.2, /* not used presently */
+          maxInterval: $.fluxx.util.minutes(60),
           
           _timeoutID: null,
           _init: function () {
@@ -83,12 +83,13 @@
           },
           _poll: function () {
             if (this.state == S_OFF) return;
-            this._timeoutID = setTimeout(_.bind(function(){
+            var doPoll = _.bind(function(){
               $.getJSON(this.url, _.bind(function(data, status){
                 this.message(data, status);
                 this._poll();
               }, this));
-            }, this), this.interval);
+            }, this);
+            this._timeoutID = setTimeout(doPoll, this.interval);
           },
           _start: function () {
             this.$.bind('start.fluxx.poller.polling', _.bind(this._poll, this))

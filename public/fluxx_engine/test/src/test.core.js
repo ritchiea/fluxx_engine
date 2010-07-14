@@ -44,4 +44,38 @@ jQuery(function($){
     equals(_.addUp($addUpTest, 'width'), 400);
     equals(_.addUp($addUpTest, 'outerWidth', true), 460);
   });
+  
+  test("_.intersectProperties", function() {
+    var intersect = _.intersectProperties(
+      {a: null, b: true},
+      {a: 1,    b: true}
+    );
+    equals(_.keys(intersect).length, 1, "Just one intersection");
+    same(intersect, {b: true}, "It was b");
+  });
+  test("_.isFilterMatch", function() {
+    var filter = {foo: null, bar: 'baz'};
+    var object = {foo: 'is', bar: 'baz'};
+    ok(_.isFilterMatch(filter, object), "Yes, they match");
+    
+    filter = {foo: null, bar: 'baz'};
+    object = {foo: 'is', bar: 'bax'};
+    ok(!_.isFilterMatch(filter, object), "No, they don't match");
+
+    filter = {foo: null, bar: null};
+    object = {foo: 'is', bar: 'bax'};
+    ok(_.isFilterMatch(filter, object), "Yes, they match null filters");
+
+    filter = {};
+    object = {foo: 'is', bar: 'bax'};
+    ok(_.isFilterMatch(filter, object), "Yes, they match no filters");
+
+    filter = {other: null};
+    object = {foo: 'is', bar: 'bax'};
+    ok(_.isFilterMatch(filter, object), "Yes, they match, null mismatched filters");
+
+    filter = {other: null, foo: 'not'};
+    object = {foo: null, bar: 'bax'};
+    ok(!_.isFilterMatch(filter, object), "No, they don't, null test on defined filter");
+  });
 });
