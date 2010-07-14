@@ -121,10 +121,10 @@ class ActionController::Base
     define_method :edit do
       edit_object.invoke_pre self
       
-      @model = edit_object.perform_edit params, pre_model
+      @model = edit_object.perform_edit params, pre_model, fluxx_current_user
       unless edit_object.editable? @model, fluxx_current_user
         # Provide a locked error message
-        flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.full_name : ''), :lock_expiration => @model.locked_until.mdy_time)
+        flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
         @not_editable=true
         insta_respond_to edit_object, :locked do |format|
           format.html { fluxx_edit_card edit_object }

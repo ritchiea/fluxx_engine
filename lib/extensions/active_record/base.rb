@@ -52,9 +52,10 @@ class ActiveRecord::Base
     end
   end
   
-  def self.insta_lock
+  def self.insta_lock options={:class_name => 'User', :foreign_key => 'locked_by_id'}
     local_lock_object = @lock_object = ActiveRecord::ModelDslLock.new(self)
     yield @lock_object if block_given?
+    belongs_to :locked_by, :class_name => options[:class_name], :foreign_key => options[:foreign_key]
     
     define_method 'editable?'.to_sym do |fluxx_current_user|
       local_lock_object.editable? self, fluxx_current_user

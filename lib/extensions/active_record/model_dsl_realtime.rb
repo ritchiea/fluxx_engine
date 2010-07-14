@@ -39,7 +39,7 @@ class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl
   
   def realtime_update_callback model
     if model.respond_to?(:deleted_at) && !model.deleted_at.blank?
-      realtime_destroy_callback
+      realtime_destroy_callback model
     else
       write_realtime(model, :action => 'update', :user_id => realtime_user_id(model), :model_id => model.id, :model_class => model.class.name, :type_name => calculate_type(model), :delta_attributes => calculate_attributes(model).to_json) unless realtime_disabled
     end

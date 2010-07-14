@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100709130327) do
+ActiveRecord::Schema.define(:version => 20100714054627) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -117,6 +117,14 @@ ActiveRecord::Schema.define(:version => 20100709130327) do
     t.string   "type_name",                      :null => false
     t.string   "model_class",                    :null => false
     t.text     "delta_attributes",               :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "email"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

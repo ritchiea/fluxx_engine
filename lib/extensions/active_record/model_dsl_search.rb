@@ -47,11 +47,8 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     unless filter_fields.blank?
       filter_fields.each do |attr|
         unless request_params[attr].blank?
-          split_params = request_params[attr].split(',')
-          unless split_params.blank?
-            attr_sql = model_class.send :sanitize_sql, [" #{attr} in (?) ", split_params]
-            sql_conditions += " #{sql_conditions.blank? ? '' : ' AND '}  #{attr_sql}" 
-          end
+          attr_sql = model_class.send :sanitize_sql, [" #{attr} in (?) ", request_params[attr]]
+          sql_conditions += " #{sql_conditions.blank? ? '' : ' AND '}  #{attr_sql}" 
         end
       end
     end
@@ -79,15 +76,14 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     unless filter_fields.blank?
       filter_fields.each do |attr|
         unless request_params[attr].blank?
-          split_params = request_params[attr].split(',')
           if derived_filters && derived_filters[attr] # some attributes have filtering methods; if so call it
             derived_filters[attr].call(search_with_attributes, request_params[attr]) # Send the raw un-split value
-          elsif split_params.select{|split_param| !split_param.is_numeric?}.size > 0 # Check to see if any params are NOT numeric
+          elsif request_params[attr].select{|split_param| !split_param.is_numeric?}.size > 0 # Check to see if any params are NOT numeric
             # Sphinx doesn't allow string attributes, so if we get a non-numeric value, search for the crc32 hash of it
-            values = split_params.map{|val|val.to_crc32}
+            values = request_params[attr].map{|val|val.to_crc32}
             search_with_attributes[attr] = values
           else
-            search_with_attributes[attr] = split_params.map{|val| val.to_i}
+            search_with_attributes[attr] = request_params[attr].map{|val| val.to_i}
           end
         end
       end

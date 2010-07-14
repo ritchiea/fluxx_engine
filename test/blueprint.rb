@@ -54,3 +54,9 @@ end
 ClientStore.blueprint do
   name Sham.word
 end
+
+User.blueprint do
+  email Sham.email
+  first_name Sham.first_name
+  last_name Sham.last_name
+end

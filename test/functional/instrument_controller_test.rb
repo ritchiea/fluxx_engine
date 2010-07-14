@@ -20,7 +20,7 @@ class InstrumentsControllerTest < ActionController::TestCase
   end
 
   test "should get index with pagination" do
-    musicians = (1..51).map {Instrument.make}
+    instruments = (1..51).map {Instrument.make}
     get :index
     assert_response :success
     assert_not_nil assigns(:instruments)
@@ -108,13 +108,13 @@ class InstrumentsControllerTest < ActionController::TestCase
   end
 
   test "should not be able to update a locked instrument" do
-    local_current_user = Musician.make
+    local_current_user = User.make
     ActionController::Base.send :define_method, :fluxx_current_user do
       local_current_user
     end
     
-    locking_musician = Musician.make
-    @instrument.update_attributes :locked_by => locking_musician, :locked_until => (Time.now + 5.minutes)
+    locking_user = User.make
+    @instrument.update_attributes :locked_by => locking_user, :locked_until => (Time.now + 5.minutes)
     new_name = @instrument.name + "_new"
     put :update, :id => @instrument.to_param, :instrument => {:name => new_name}
     assert @instrument.reload.name != new_name
@@ -133,4 +133,17 @@ class InstrumentsControllerTest < ActionController::TestCase
     assert response.headers[:post_invoked]
     assert response.headers[:format_invoked]
   end
+  
+  test "multiple attribute filter" do
+    lookup_instrument1 = Instrument.make
+    lookup_instrument2 = Instrument.make
+    get :index, :id => [lookup_instrument1.id, lookup_instrument2.id], :format => :json
+    a = @response.body.de_json # try to deserialize the JSON to an array
+    a = a.sort_by{|elem| elem['value']}
+    assert_equal lookup_instrument1.name, a.first['label']
+    assert_equal lookup_instrument1.id, a.first['value']
+    assert_equal lookup_instrument2.name, a.second['label']
+    assert_equal lookup_instrument2.id, a.second['value']
+  end
+  
 end

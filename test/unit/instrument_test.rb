@@ -26,7 +26,7 @@ class InstrumentTest < ActiveSupport::TestCase
 
   test "test instrument search" do
     instruments = ((1..10).map { Instrument.make }) + [@instrument]
-    list = Instrument.model_search '', {:id => instruments.map(&:id).join(',')}
+    list = Instrument.model_search '', {:id => instruments.map(&:id)}
     assert_equal instruments.map(&:id).sort, list.sort
   end
 
