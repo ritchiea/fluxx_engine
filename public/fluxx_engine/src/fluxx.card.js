@@ -57,8 +57,16 @@
             var matches = _.compact(_.map(data.deltas, function(delta) {
               return model == delta.model_class ? delta : false
             }));
-            $.fluxx.log("triggering update.fluxx.area: " + matches.length)
-            if (matches.length) $area.trigger('update.fluxx.area', [matches]);
+
+            var updates = {};
+            _.each(matches, function(match) {
+              /* Prefer the last seen update for this object. */
+              updates[match.model_id] = match;
+            });
+
+            updates = _.values(updates);
+            $.fluxx.log("triggering update.fluxx.area: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
+            if (updates.length) $area.trigger('update.fluxx.area', [updates]);
           });
         });
       });
@@ -168,22 +176,16 @@
         })
       })
     },
-    fluxxAreaUpdate: function(e, matches) {
+    fluxxAreaUpdate: function(e, updates) {
       var $area     = $(e.target),
           seen      = $area.data('updates_seen') || [],
           areaType  = $area.attr('data-type'),
-          matches   = _.reject(matches, function(m) {return _.include(seen, m.model_id)}),
-          updates   = {},
+          updates   = _.reject(updates, function(m) {return _.include(seen, m.model_id)}),
           nextEvent = areaType + '_update.fluxx.area';
     
-      var updates = {};
-      _.each(matches, function(match) {
-        /* Prefer the last seen update for this object. */
-        updates[match.model_id] = match;
-      });      
-      $area.data('updates_seen', _.flatten([seen, _.keys(updates)]));
-      $area.data('latest_updates', _.keys(updates));
-      $area.trigger(nextEvent, [_.values(updates)]);
+      $area.data('updates_seen', _.flatten([seen, _.pluck(updates, 'model_id')]));
+      $area.data('latest_updates', _.pluck(updates, 'model_id'));
+      $area.trigger(nextEvent, [updates]);
     },
     fluxxListingUpdate: function(e, updates) {
       var $area   = $(e.target),
