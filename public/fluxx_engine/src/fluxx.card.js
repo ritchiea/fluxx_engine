@@ -29,9 +29,12 @@
             )
           });
         $card.trigger('load.fluxx.card');
-        $card.fluxxCardListing().bind(
-          'listing_update.fluxx.area',
-          _.bind($.fn.fluxxListingUpdate, $card.fluxxCardListing())
+        $card.fluxxCardListing().bind({
+          'listing_update.fluxx.area': _.bind($.fn.fluxxListingUpdate, $card.fluxxCardListing()),
+          'get_update.fluxx.area': _.bind($.fn.getFluxxListingUpdate, $card.fluxxCardListing())
+        });
+        $('.updates', $card).click(
+          function(e) { $card.fluxxCardListing().trigger('get_update.fluxx.area'); }
         );
         $card.fluxxCardLoadListing({url: options.listing.url}, function(){
           $card.fluxxCardLoadDetail({url: options.detail.url}, function(){
@@ -130,6 +133,14 @@
       return this.data('area')
         || this.data('area', this.parents('.area:eq(0)').andSelf()).data('area');
     },
+    fluxxCardAreaRequest: function () {
+      var req = this.fluxxCardArea().data('history')[0];
+      return {
+        url:  req.url,
+        data: req.data,
+        type: req.type
+      };
+    },
     fluxxCardAreaURL: function() {
       return this.fluxxCardArea().data('history')[0].url;
     },
@@ -170,7 +181,8 @@
         /* Prefer the last seen update for this object. */
         updates[match.model_id] = match;
       });      
-      $area.data('updates_seen', _.flatten([seen, _.pluck(matches, 'model_id')]));
+      $area.data('updates_seen', _.flatten([seen, _.keys(updates)]));
+      $area.data('latest_updates', _.keys(updates));
       $area.trigger(nextEvent, [_.values(updates)]);
     },
     fluxxListingUpdate: function(e, updates) {
@@ -184,6 +196,38 @@
       var model_ids = _.pluck(updates, 'model_id');
       $.fluxx.log("Triggering update.fluxx.card from fluxxListingUpdate");
       $area.fluxxCard().trigger('update.fluxx.card', [_.size(model_ids)])
+    },
+    getFluxxListingUpdate: function (e) {
+      var $area = $(this);
+      var updates = $area.data('latest_updates');
+      if (_.isEmpty(updates)) return;
+      var req  = $area.fluxxCardAreaRequest();
+      $.extend(
+        true,
+        req,
+        {
+          data: {
+            id: updates
+          },
+          success: function (data, status, xhr) {
+            var $document = $(data);
+            var $entries  = $('.entry', $document);
+            var $removals = $();
+            var IDs = _.intersect(
+              _.map($entries, function (e) { return $(e).attr('data-model-id') }),
+              _.map($('.entry', $area), function (e) { return $(e).attr('data-model-id') })
+            );
+
+            _.each(
+              IDs,
+              function(id) {$removals = $removals.add($('.entry[data-model-id='+id+']', $area))}
+            );
+            $removals.remove();
+            $entries.addClass('latest').prependTo($('.list', $area));
+          }
+        }
+      );
+      $.ajax(req)
     },
     
     /* Data Loaders */
@@ -295,7 +339,11 @@
   });
   $.fluxx.card.ui.toolbar = [
     '<div class="toolbar">',
-      '<a class="updates"><span class="available">0</span> available</a>',
+      '<a class="updates" href="#">',
+        '<span class="available">0</span>',
+        ' update<span class="non-one">s</span>',
+        ' available',
+      '</a>',
       ' ',
       '<span class="controls">min, close, etc</span>',
     '</div>'
