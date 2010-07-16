@@ -14,4 +14,8 @@ class OrchestraTest < ActiveSupport::TestCase
     @orchestra.add_lock user
     @orchestra.remove_lock user
   end
+  
+  test "test blank page_by_ids" do
+    assert_equal [], Orchestra.page_by_ids([])
+  end
 end
