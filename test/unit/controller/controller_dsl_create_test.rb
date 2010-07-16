@@ -28,8 +28,8 @@ class ControllerDslCreateTest < ActiveSupport::TestCase
 
   test "check that we can create a model" do
     @dsl_create = ActionController::ControllerDslCreate.new Musician
-    musician = @dsl_create.perform_create({}, Musician.new(:first_name => 'John', :last_name => 'Smith'))
-    assert musician
+    musician = Musician.new(:first_name => 'John', :last_name => 'Smith')
+    assert = @dsl_create.perform_create({}, musician)
     assert musician.errors.blank?
     assert musician.id
   end
@@ -37,8 +37,8 @@ class ControllerDslCreateTest < ActiveSupport::TestCase
   test "check that we can create a model with a fluxx user" do
     @dsl_create = ActionController::ControllerDslCreate.new Instrument
     fluxx_user = Musician.make
-    instrument = @dsl_create.perform_create({}, Instrument.new, fluxx_user)
-    assert instrument
+    instrument = Instrument.new
+    assert = @dsl_create.perform_create({}, instrument, fluxx_user)
     assert instrument.errors.blank?
     assert !fluxx_user.id.blank?
     assert fluxx_user.id, instrument.created_by_id
