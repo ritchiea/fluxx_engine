@@ -29,9 +29,12 @@
             )
           });
         $card.trigger('load.fluxx.card');
-        $card.fluxxCardListing().bind(
-          'listing_update.fluxx.area',
-          _.bind($.fn.fluxxListingUpdate, $card.fluxxCardListing())
+        $card.fluxxCardListing().bind({
+          'listing_update.fluxx.area': _.bind($.fn.fluxxListingUpdate, $card.fluxxCardListing()),
+          'get_update.fluxx.area': _.bind($.fn.getFluxxListingUpdate, $card.fluxxCardListing())
+        });
+        $('.updates', $card).click(
+          function(e) { $card.fluxxCardListing().trigger('get_update.fluxx.area'); }
         );
         $card.fluxxCardLoadListing({url: options.listing.url}, function(){
           $card.fluxxCardLoadDetail({url: options.detail.url}, function(){
@@ -54,8 +57,16 @@
             var matches = _.compact(_.map(data.deltas, function(delta) {
               return model == delta.model_class ? delta : false
             }));
-            $.fluxx.log("triggering update.fluxx.area: " + matches.length)
-            if (matches.length) $area.trigger('update.fluxx.area', [matches]);
+
+            var updates = {};
+            _.each(matches, function(match) {
+              /* Prefer the last seen update for this object. */
+              updates[match.model_id] = match;
+            });
+
+            updates = _.values(updates);
+            $.fluxx.log("triggering update.fluxx.area: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
+            if (updates.length) $area.trigger('update.fluxx.area', [updates]);
           });
         });
       });
@@ -130,6 +141,14 @@
       return this.data('area')
         || this.data('area', this.parents('.area:eq(0)').andSelf()).data('area');
     },
+    fluxxCardAreaRequest: function () {
+      var req = this.fluxxCardArea().data('history')[0];
+      return {
+        url:  req.url,
+        data: req.data,
+        type: req.type
+      };
+    },
     fluxxCardAreaURL: function() {
       return this.fluxxCardArea().data('history')[0].url;
     },
@@ -157,21 +176,16 @@
         })
       })
     },
-    fluxxAreaUpdate: function(e, matches) {
+    fluxxAreaUpdate: function(e, updates) {
       var $area     = $(e.target),
           seen      = $area.data('updates_seen') || [],
           areaType  = $area.attr('data-type'),
-          matches   = _.reject(matches, function(m) {return _.include(seen, m.model_id)}),
-          updates   = {},
+          updates   = _.reject(updates, function(m) {return _.include(seen, m.model_id)}),
           nextEvent = areaType + '_update.fluxx.area';
     
-      var updates = {};
-      _.each(matches, function(match) {
-        /* Prefer the last seen update for this object. */
-        updates[match.model_id] = match;
-      });      
-      $area.data('updates_seen', _.flatten([seen, _.pluck(matches, 'model_id')]));
-      $area.trigger(nextEvent, [_.values(updates)]);
+      $area.data('updates_seen', _.flatten([seen, _.pluck(updates, 'model_id')]));
+      $area.data('latest_updates', _.pluck(updates, 'model_id'));
+      $area.trigger(nextEvent, [updates]);
     },
     fluxxListingUpdate: function(e, updates) {
       var $area   = $(e.target),
@@ -184,6 +198,38 @@
       var model_ids = _.pluck(updates, 'model_id');
       $.fluxx.log("Triggering update.fluxx.card from fluxxListingUpdate");
       $area.fluxxCard().trigger('update.fluxx.card', [_.size(model_ids)])
+    },
+    getFluxxListingUpdate: function (e) {
+      var $area = $(this);
+      var updates = $area.data('latest_updates');
+      if (_.isEmpty(updates)) return;
+      var req  = $area.fluxxCardAreaRequest();
+      $.extend(
+        true,
+        req,
+        {
+          data: {
+            id: updates
+          },
+          success: function (data, status, xhr) {
+            var $document = $(data);
+            var $entries  = $('.entry', $document);
+            var $removals = $();
+            var IDs = _.intersect(
+              _.map($entries, function (e) { return $(e).attr('data-model-id') }),
+              _.map($('.entry', $area), function (e) { return $(e).attr('data-model-id') })
+            );
+
+            _.each(
+              IDs,
+              function(id) {$removals = $removals.add($('.entry[data-model-id='+id+']', $area))}
+            );
+            $removals.remove();
+            $entries.addClass('latest').prependTo($('.list', $area));
+          }
+        }
+      );
+      $.ajax(req)
     },
     
     /* Data Loaders */
@@ -295,7 +341,11 @@
   });
   $.fluxx.card.ui.toolbar = [
     '<div class="toolbar">',
-      '<a class="updates"><span class="available">0</span> available</a>',
+      '<a class="updates" href="#">',
+        '<span class="available">0</span>',
+        ' update<span class="non-one">s</span>',
+        ' available',
+      '</a>',
       ' ',
       '<span class="controls">min, close, etc</span>',
     '</div>'

@@ -28,7 +28,7 @@
       var options = $.fluxx.util.options_with_callback({badge: ''}, options);
       return this.each(function(){
         var $icon = $(this);
-        $('.badge', $icon).val(options.badge)
+        $('.badge', $icon).text(options.badge)
       })
     },
     removeViewPortIcon: function(options) {

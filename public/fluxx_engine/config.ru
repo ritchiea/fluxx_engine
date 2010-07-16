@@ -69,7 +69,7 @@ module Rack
               },
               'action' => 'delete',
               'user_id' => 1,
-              'model_id' => 1000,
+              'model_id' => 1001,
               'type_name' => 'TheTypeName',
               'model_class' => 'TheModelClass',
             },
@@ -91,7 +91,7 @@ module Rack
               },
               'action' => 'update',
               'user_id' => 1,
-              'model_id' => 1000,
+              'model_id' => 1002,
               'type_name' => 'TheTypeName',
               'model_class' => 'TheOtherModelClass',
             }
