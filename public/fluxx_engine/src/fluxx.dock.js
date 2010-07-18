@@ -101,7 +101,8 @@
       badge: '',
       url:   '',
       popup: null,
-      openOn: ['hover']
+      openOn: ['hover'],
+      className: null
     }, options);
     
     var popup = (
@@ -119,7 +120,7 @@
     
     return $($.fluxx.util.resultOf([
       '<li class="icon">',
-        '<a class="link" href="', options.url, '">',
+        '<a class="link ', options.className, '" href="', options.url, '">',
           '<span class="label">', options.label, '</span>',
           '<span class="badge">', options.badge, '</span>',
         '</a>',

@@ -56,6 +56,7 @@
           return $.extend({callback: $.noop}, defaults || {}, options || {});
         },
         resultOf: function (value) {
+          if (_.isNull(value))     return '';
           if (_.isString(value))   return value;
           if ($.isArray(value))    return _.map(value,function(x){return $.fluxx.util.resultOf(x)}).join('');
           if ($.isFunction(value)) return arguments.callee(value.apply(value, _.tail(arguments)));

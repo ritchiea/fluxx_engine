@@ -78,6 +78,26 @@
             ]));
         },
         decorators: {
+          'a.new-detail': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $.my.hand.addFluxxCard({
+                detail: {url: $elem.attr('href')},
+                title: ($elem.attr('title') || $elem.text())
+              })
+            }
+          ],
+          'a.new-listing': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $.my.hand.addFluxxCard({
+                listing: {url: $elem.attr('href')},
+                title: ($elem.attr('title') || $elem.text())
+              })
+            }
+          ],
           'a.to-self':   [
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);
