@@ -110,11 +110,15 @@ class ActiveRecord::Base
 
   # Take a paginated collection of IDs and load up the related full objects, maintaining the pagination constants
   def self.page_by_ids model_ids
-    unpaged_models = self.find model_ids
-    model_map = unpaged_models.inject({}) {|acc, model| acc[model.id] = model; acc}
-    ordered_list = model_ids.map {|model_id| model_map[model_id]}
-    WillPaginate::Collection.create model_ids.current_page, model_ids.per_page, model_ids.total_entries do |pager|
-      pager.replace ordered_list
+    if model_ids.nil? || model_ids.empty?
+      model_ids
+    else
+      unpaged_models = self.find model_ids
+      model_map = unpaged_models.inject({}) {|acc, model| acc[model.id] = model; acc}
+      ordered_list = model_ids.map {|model_id| model_map[model_id]}
+      WillPaginate::Collection.create model_ids.current_page, model_ids.per_page, model_ids.total_entries do |pager|
+        pager.replace ordered_list
+      end
     end
   end
 

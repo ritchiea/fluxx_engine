@@ -247,13 +247,13 @@ class ActionController::Base
       if delete_object.perform_delete params, @model, fluxx_current_user
         flash[:info] = t(:insta_successful_delete, :name => model_class.name)
         insta_respond_to delete_object, :success do |format|
-          format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || "#{model_class.name.underscore.downcase}_path") }
+          format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || send("#{model_class.name.underscore.downcase}_path")) }
           format.xml  { head :ok }
         end
       else
         flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name)
         insta_respond_to delete_object, :error do |format|
-          format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || "#{model_class.name.underscore.downcase}_path") }
+          format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || send("#{model_class.name.underscore.downcase}_path")) }
           format.xml  { head :ok }
         end
       end

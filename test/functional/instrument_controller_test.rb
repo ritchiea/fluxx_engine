@@ -5,6 +5,12 @@ class InstrumentsControllerTest < ActionController::TestCase
     @instrument = Instrument.make
     setup_multi
   end
+  
+  test "should get index with all instruments deleted" do
+    Instrument.delete_all
+    get :index
+    assert assigns(:instruments).blank?
+  end
 
   test "should get index" do
     get :index

@@ -26,6 +26,10 @@ class String
     ActiveSupport::JSON.decode self # try to deserialize the JSON
   end
   
+  def de_yaml
+    YAML::load self # try to deserialize the YAML
+  end
+  
   def is_numeric?
     /^[\d]*$/ === self.strip
   end
