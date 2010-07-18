@@ -59,6 +59,8 @@
           if (_.isString(value))   return value;
           if ($.isArray(value))    return _.map(value,function(x){return $.fluxx.util.resultOf(x)}).join('');
           if ($.isFunction(value)) return arguments.callee(value.apply(value, _.tail(arguments)));
+          if (_.isString(value.jquery))
+            return $.fluxx.util.getSource(value);
           return value;
         },
         marginHeight: function($selector) {
@@ -72,6 +74,9 @@
         itEndsHere: function (e) {
           e.stopImmediatePropagation();
           e.preventDefault();
+        },
+        getSource: function (sel) {
+          return _.map($(sel), function(i) { return $('<div>').html($(i).clone()).html();});
         },
         getTag: function (sel) {
           return _.map($(sel), function(i){return $('<div>').html($(i).clone().empty().html('...')).html()}).join(', ')

@@ -12,6 +12,17 @@
             'complete.fluxx.dock': _.callAll(options.callback, $.fluxx.util.itEndsWithMe)
           })
           .trigger('complete.fluxx.dock');
+
+        $('.icon', '.dock').live('mouseover mouseout', function(e) {
+          var $icon  = $(e.currentTarget);
+          var $popup = $('.popup', $icon);
+          $.fluxx.log('---', $icon.length, $popup.length);
+          if (event.type == 'mouseover') {
+            $popup.show();
+          } else {
+            $popup.hide();
+          }
+        });
       });
     },
     
@@ -19,7 +30,11 @@
       var options = $.fluxx.util.options_with_callback({}, options);
       return this.each(function(){
         if (options.card.data('icon')) return;
-        var $icon = $.fluxx.dock.ui.viewportIcon.call(this, options).appendTo($.my.iconlist);
+        var $icon = $.fluxx.dock.ui.icon.call($.my.dock, {
+          label: 'Card',
+          url: '#'+options.card.attr('id'),
+          popup: 'Hello'
+        }).appendTo($.my.iconlist);
         options.card.data('icon', $icon);
         $icon.data('card', options.card);
       });
@@ -53,12 +68,26 @@
           return $('<div>')
             .attr($.fluxx.dock.attrs)
             .html($.fluxx.util.resultOf([
-              $.fluxx.dock.ui.viewport(options)
+              $.fluxx.dock.ui.viewport(options),
+              $.fluxx.dock.ui.quicklinks(options)
             ]));
         }
       }
     }
   });
+  $.fluxx.dock.ui.quicklinks = function (options) {
+    return $.fluxx.util.resultOf([
+      '<div id="quicklinks">',
+        '<ol id="qllist">',
+          _.map($.fluxx.config.dock.quicklinks, function(qlset) {
+            return _.map(qlset, function(ql) {
+              return $.fluxx.dock.ui.icon.call($.my.dock, ql);
+            });
+          }),
+        '</ol>',
+      '</div>'
+    ]);
+  };
   $.fluxx.dock.ui.viewport = function (options) {
     return $.fluxx.util.resultOf([
       '<div id="viewport">',
@@ -66,13 +95,35 @@
       '</div>'
     ]);
   };
-  $.fluxx.dock.ui.viewportIcon = function (options) {
+  $.fluxx.dock.ui.icon = function(options) {
+    var options = $.fluxx.util.options_with_callback({
+      label: '',
+      badge: '',
+      url:   '',
+      popup: null,
+      openOn: ['hover']
+    }, options);
+    
+    var popup = (
+        !_.isNull(options.popup)
+      ? [
+          '<div class="popup"><ul>',
+            _.map(
+              _.flatten($.makeArray(options.popup)),
+              function (line) {return ['<li>', line, '</li>'];}
+            ),
+          '</ul></div>'
+        ]
+      : ''
+    );
+    
     return $($.fluxx.util.resultOf([
       '<li class="icon">',
-        '<a class="link" href="#', options.card.attr('id'), '">',
-          '<span class="label">Card</span>',
-          '<span class="badge"></span>',
+        '<a class="link" href="', options.url, '">',
+          '<span class="label">', options.label, '</span>',
+          '<span class="badge">', options.badge, '</span>',
         '</a>',
+        popup,
       '</li>'
     ]));
   };

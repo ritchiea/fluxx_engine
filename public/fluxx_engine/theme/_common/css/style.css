@@ -41,7 +41,11 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: white; }
 #fluxx #stage #footer { background-color: #333333; color: white; height: 50px; position: fixed; bottom: 0; width: 100%; }
 #fluxx #stage #footer a { color: white; }
-#fluxx #stage #footer #viewport #iconlist { list-style: none; padding: 0; margin: 0; }
-#fluxx #stage #footer #viewport #iconlist .icon { display: inline-block; *display: inline; zoom: 1; }
-#fluxx #stage #footer #viewport #iconlist .icon .link { background-color: #666666; color: black; display: inline-block; *display: inline; zoom: 1; height: 50px; width: 50px; margin: 0px 5px; }
-#fluxx #stage #footer #viewport #iconlist .icon .link a { color: black; }
+#fluxx #stage #footer #viewport { display: inline-block; *display: inline; zoom: 1; }
+#fluxx #stage #footer #quicklinks { display: inline-block; *display: inline; zoom: 1; }
+#fluxx #stage #footer #iconlist, #fluxx #stage #footer #qllist { list-style: none; padding: 0; margin: 0; }
+#fluxx #stage #footer #iconlist .icon, #fluxx #stage #footer #qllist .icon { display: inline-block; *display: inline; zoom: 1; position: relative; }
+#fluxx #stage #footer #iconlist .icon .link, #fluxx #stage #footer #qllist .icon .link { background-color: #666666; color: black; display: inline-block; *display: inline; zoom: 1; height: 50px; width: 50px; margin: 0px 5px; }
+#fluxx #stage #footer #iconlist .icon .link a, #fluxx #stage #footer #qllist .icon .link a { color: black; }
+#fluxx #stage #footer #iconlist .icon .popup, #fluxx #stage #footer #qllist .icon .popup { background-color: #aaaaaa; color: black; display: none; position: absolute; left: 0px; bottom: 0px; }
+#fluxx #stage #footer #iconlist .icon .popup a, #fluxx #stage #footer #qllist .icon .popup a { color: black; }

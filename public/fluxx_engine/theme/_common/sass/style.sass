@@ -112,14 +112,26 @@ body
       bottom: 0
       width: 100%
       #viewport
-        #iconlist
-          +non-list
-          .icon
+        +inline-block
+      #quicklinks
+        +inline-block
+      #iconlist,#qllist
+        +non-list
+        .icon
+          +inline-block
+          position: relative
+          .link
+            +bg(#666)
             +inline-block
-            .link
-              +bg(#666)
-              +inline-block
-              height: $footer_height
-              width: $footer_height
-              margin: 0px 5px
-              .label
+            height: $footer_height
+            width: $footer_height
+            margin: 0px 5px
+            .label
+            .badge
+          .popup
+            +bg(#aaa)
+            display: none
+            position: absolute
+            left: 0px
+            bottom: 0px
+            
