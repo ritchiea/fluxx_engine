@@ -45,6 +45,7 @@
           }
         }
       },
+      cache: {},
       realtime_updates: null,
       util: {
         options_with_callback: function(defaults, options, callback) {
