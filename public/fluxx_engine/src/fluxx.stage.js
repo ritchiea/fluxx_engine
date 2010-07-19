@@ -98,6 +98,9 @@
               })
             }
           ],
+          'a.noop': [
+            'click', $.fluxx.util.itEndsHere
+          ],
           'a.to-self':   [
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);

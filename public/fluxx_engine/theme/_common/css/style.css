@@ -1,4 +1,4 @@
-@import url(ui-lightness/jquery-ui-1.8.2.custom.css);
+@import url(../../_common/css/ui-lightness/jquery-ui-1.8.2.custom.css);
 @import url(../../_common/css/Quicksand-fontfacekit/stylesheet.css);
 body, table { font-family: Helvetica, sans-serif; }
 
@@ -14,7 +14,7 @@ body { overflow-x: scroll; }
 #fluxx #stage #header #logo { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #header .actions { display: inline-block; *display: inline; zoom: 1; list-style: none; padding: 0; margin: 0; float: right; }
 #fluxx #stage #header .actions li { display: inline-block; *display: inline; zoom: 1; margin-right: 10px; vertical-align: top; }
-#fluxx #stage #card-table { background-color: #cccccc; color: black; margin-top: 50px; margin-bottom: 50px; position: absolute; top: 0px; bottom: 0px; overflow: hidden; }
+#fluxx #stage #card-table { background-color: #cccccc; color: black; margin-top: 50px; margin-bottom: 78px; position: absolute; top: 0px; bottom: 0px; overflow: hidden; }
 #fluxx #stage #card-table a { color: black; }
 #fluxx #stage #card-table #hand { list-style: none; padding: 0; margin: 0; height: 100%; }
 #fluxx #stage #card-table #hand .card { display: inline-block; *display: inline; zoom: 1; margin: 10px; }
@@ -38,13 +38,13 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .detail .drawer a { color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: white; }
-#fluxx #stage #footer { background-color: #333333; color: white; height: 50px; position: fixed; bottom: 0; width: 100%; }
+#fluxx #stage #footer { background-color: #333333; color: white; height: 78px; position: fixed; bottom: 0; width: 100%; }
 #fluxx #stage #footer a { color: white; }
 #fluxx #stage #footer #viewport { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #footer #quicklinks { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #footer #iconlist, #fluxx #stage #footer #qllist { list-style: none; padding: 0; margin: 0; }
-#fluxx #stage #footer #iconlist .icon, #fluxx #stage #footer #qllist .icon { display: inline-block; *display: inline; zoom: 1; position: relative; }
-#fluxx #stage #footer #iconlist .icon .link, #fluxx #stage #footer #qllist .icon .link { background-color: #666666; color: black; display: inline-block; *display: inline; zoom: 1; height: 50px; width: 50px; margin: 0px 5px; }
-#fluxx #stage #footer #iconlist .icon .link a, #fluxx #stage #footer #qllist .icon .link a { color: black; }
-#fluxx #stage #footer #iconlist .icon .popup, #fluxx #stage #footer #qllist .icon .popup { background-color: #aaaaaa; color: black; display: none; position: absolute; left: 0px; bottom: 0px; }
-#fluxx #stage #footer #iconlist .icon .popup a, #fluxx #stage #footer #qllist .icon .popup a { color: black; }
+#fluxx #stage #footer .icon { display: inline-block; *display: inline; zoom: 1; position: relative; }
+#fluxx #stage #footer .icon .link { background-color: #666666; color: black; display: inline-block; *display: inline; zoom: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; height: 48px; width: 48px; margin: 10px 10px 20px 10px; }
+#fluxx #stage #footer .icon .link a { color: black; }
+#fluxx #stage #footer .icon .popup { background-color: #aaaaaa; color: black; display: none; position: absolute; left: 0px; bottom: 0px; }
+#fluxx #stage #footer .icon .popup a { color: black; }

@@ -1,4 +1,4 @@
-@import url(ui-lightness/jquery-ui-1.8.2.custom.css);
+@import url(../../_common/css/ui-lightness/jquery-ui-1.8.2.custom.css);
 @import url(../../_common/css/Quicksand-fontfacekit/stylesheet.css);
 body, table { font-family: Helvetica, sans-serif; }
 
@@ -14,7 +14,7 @@ body { overflow-x: scroll; }
 #fluxx #stage #header #logo { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #header .actions { display: inline-block; *display: inline; zoom: 1; list-style: none; padding: 0; margin: 0; float: right; }
 #fluxx #stage #header .actions li { display: inline-block; *display: inline; zoom: 1; margin-right: 10px; vertical-align: top; }
-#fluxx #stage #card-table { background-color: #cccccc; color: black; margin-top: 50px; margin-bottom: 50px; position: absolute; top: 0px; bottom: 0px; overflow: hidden; }
+#fluxx #stage #card-table { background-color: #cccccc; color: black; margin-top: 50px; margin-bottom: 78px; position: absolute; top: 0px; bottom: 0px; overflow: hidden; }
 #fluxx #stage #card-table a { color: black; }
 #fluxx #stage #card-table #hand { list-style: none; padding: 0; margin: 0; height: 100%; }
 #fluxx #stage #card-table #hand .card { display: inline-block; *display: inline; zoom: 1; margin: 10px; }
@@ -38,28 +38,40 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .detail .drawer a { color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: white; }
-#fluxx #stage #footer { background-color: #333333; color: white; height: 50px; position: fixed; bottom: 0; width: 100%; }
+#fluxx #stage #footer { background-color: #333333; color: white; height: 78px; position: fixed; bottom: 0; width: 100%; }
 #fluxx #stage #footer a { color: white; }
 #fluxx #stage #footer #viewport { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #footer #quicklinks { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #footer #iconlist, #fluxx #stage #footer #qllist { list-style: none; padding: 0; margin: 0; }
-#fluxx #stage #footer #iconlist .icon, #fluxx #stage #footer #qllist .icon { display: inline-block; *display: inline; zoom: 1; position: relative; }
-#fluxx #stage #footer #iconlist .icon .link, #fluxx #stage #footer #qllist .icon .link { background-color: #666666; color: black; display: inline-block; *display: inline; zoom: 1; height: 50px; width: 50px; margin: 0px 5px; }
-#fluxx #stage #footer #iconlist .icon .link a, #fluxx #stage #footer #qllist .icon .link a { color: black; }
-#fluxx #stage #footer #iconlist .icon .popup, #fluxx #stage #footer #qllist .icon .popup { background-color: #aaaaaa; color: black; display: none; position: absolute; left: 0px; bottom: 0px; }
-#fluxx #stage #footer #iconlist .icon .popup a, #fluxx #stage #footer #qllist .icon .popup a { color: black; }
+#fluxx #stage #footer .icon { display: inline-block; *display: inline; zoom: 1; position: relative; }
+#fluxx #stage #footer .icon .link { background-color: #666666; color: black; display: inline-block; *display: inline; zoom: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; height: 48px; width: 48px; margin: 10px 10px 20px 10px; }
+#fluxx #stage #footer .icon .link a { color: black; }
+#fluxx #stage #footer .icon .popup { background-color: #aaaaaa; color: black; display: none; position: absolute; left: 0px; bottom: 0px; }
+#fluxx #stage #footer .icon .popup a { color: black; }
 
-#fluxx #header { -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); z-index: 2; border-bottom: 3px white solid; }
-#fluxx #header #logo a { display: inline-block; *display: inline; zoom: 1; font-family: "QuicksandBook", Helvetica, sans-serif; font-size: 24px; line-height: 53px; height: 50px; background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left; padding: 0px 0px 0px 46px; margin: 0px 10px; text-decoration: none; }
-#fluxx #stage #card-table { background-color: #f9f9f9; color: black; }
+#fluxx #stage { background-color: #bbbbbb; color: black; }
+#fluxx #stage a { color: black; }
+#fluxx #stage #header { -webkit-box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); z-index: 2; border-bottom: 3px white solid; }
+#fluxx #stage #header #logo a { display: inline-block; *display: inline; zoom: 1; font-family: "QuicksandBook", Helvetica, sans-serif; font-size: 24px; line-height: 53px; height: 50px; background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left; padding: 0px 0px 0px 46px; margin: 0px 10px; text-decoration: none; }
+#fluxx #stage #card-table { background-color: transparent; color: black; }
 #fluxx #stage #card-table a { color: black; }
-#fluxx #hand { background-color: transparent; color: black; }
-#fluxx #hand a { color: black; }
-#fluxx #hand .card { border: 1px solid #aaaaaa; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; behavior: url(border-radius.htc); }
-#fluxx #hand .card .card-header { -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; }
-#fluxx #hand .card .card-header .toolbar { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #cccccc), color-stop(1, #666666)); background: -moz-linear-gradient(center top, #cccccc 0%, #666666 100%); -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; padding: 0px 10px; }
-#fluxx #hand .card .card-header .toolbar .loading-indicator { display: inline-block; *display: inline; zoom: 1; height: 11px; width: 43px; margin-right: 10px; background: none; }
-#fluxx #hand .card .card-header .toolbar .loading-indicator.loading { background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left; }
-#fluxx #hand .card .card-footer { -webkit-border-bottom-left-radius: 10px; -webkit-border-bottom-right-radius: 10px; }
-#fluxx #footer { background-color: transparent; color: black; }
-#fluxx #footer a { color: black; }
+#fluxx #stage #card-table #hand { background-color: transparent; color: black; }
+#fluxx #stage #card-table #hand a { color: black; }
+#fluxx #stage #card-table #hand .card { border: 1px solid #aaaaaa; -webkit-box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; behavior: url(border-radius.htc); }
+#fluxx #stage #card-table #hand .card .card-header { -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; }
+#fluxx #stage #card-table #hand .card .card-header .toolbar { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #cccccc), color-stop(1, #666666)); background: -moz-linear-gradient(center top, #cccccc 0%, #666666 100%); -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; padding: 0px 10px; }
+#fluxx #stage #card-table #hand .card .card-header .toolbar .loading-indicator { display: inline-block; *display: inline; zoom: 1; height: 11px; width: 43px; margin-right: 10px; background: none; }
+#fluxx #stage #card-table #hand .card .card-header .toolbar .loading-indicator.loading { background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left; }
+#fluxx #stage #card-table #hand .card .card-footer { -webkit-border-bottom-left-radius: 10px; -webkit-border-bottom-right-radius: 10px; }
+#fluxx #stage #footer { border: 2px solid white; border-bottom: none; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eeeeee), color-stop(1, white)); background: -moz-linear-gradient(center top, #eeeeee 0%, white 100%); -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; -webkit-box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); left: 10px; right: 10px; width: auto; }
+#fluxx #stage #footer .icon.small .link { height: 36px; width: 36px; margin-bottom: 26px; margin-top: 16px; margin-left: 16px; margin-right: 16px; }
+#fluxx #stage #footer .icon.small .link .label { top: 42px; width: 36px; }
+#fluxx #stage #footer .icon.blue .link { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ccccff), color-stop(1, #9999ff)); background: -moz-linear-gradient(center top, #ccccff 0%, #9999ff 100%); }
+#fluxx #stage #footer .icon.green .link { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ccffcc), color-stop(1, #99ff99)); background: -moz-linear-gradient(center top, #ccffcc 0%, #99ff99 100%); }
+#fluxx #stage #footer .icon.plus .link { border: 2px solid white; -webkit-border-radius: 24px; -moz-border-radius: 24px; border-radius: 24px; behavior: url(border-radius.htc); background: #666666 url(../../default/images/dock-icons/plus.png) no-repeat 50% 50%; }
+#fluxx #stage #footer .icon.plus .link .label { display: none; }
+#fluxx #stage #footer .icon .link { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #dddddd)); background: -moz-linear-gradient(center top, white 0%, #dddddd 100%); border: 1px #666666 solid; -webkit-box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; behavior: url(border-radius.htc); text-decoration: none; position: relative; }
+#fluxx #stage #footer .icon .link .label { background-color: transparent; color: #333333; position: absolute; top: 48px; font-size: 10px; font-weight: 100; text-align: center; width: 48px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
+#fluxx #stage #footer .icon .link .label a { color: #333333; }
+#fluxx #stage #footer .icon .link .badge { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; display: inline-block; *display: inline; zoom: 1; -webkit-border-radius: 15px; -moz-border-radius: 15px; border-radius: 15px; behavior: url(border-radius.htc); -webkit-box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow:  0px 2px 4px rgba(0, 0, 0, 0.4); background-color: red; color: white; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff6666), color-stop(1, red)); background: -moz-linear-gradient(center top, #ff6666 0%, red 100%); position: absolute; padding: 0px 2px; right: -6px; top: -6px; font-size: 11px; font-weight: 200; height: 17px; min-width: 17px; text-align: center; line-height: 13px; border: 2px solid white; display: none; }
+#fluxx #stage #footer .icon .link .badge a { color: white; }

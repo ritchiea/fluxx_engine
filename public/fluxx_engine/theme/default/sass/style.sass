@@ -1,46 +1,117 @@
 @import ../../_common/sass/style.sass
 
+=icon-36
+  .link
+    height: 36px
+    width: 36px
+    margin-bottom: $icon_margin_bottom + 6px
+    margin-top: $icon_margin_top + 6px
+    margin-left: 16px
+    margin-right: 16px
+    .label
+      top: 42px
+      width: 36px
+
 #fluxx
-  #header
-    +box-shadow
-    z-index: 2
-    border-bottom: 3px white solid
-    #logo
-      a
-        +inline-block
-        +fluxx-font
-        font-size: 24px
-        line-height: $header_height + 3px
-        height: $header_height
-        background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left
-        padding: 0px 0px 0px 46px
-        margin: 0px 10px
-        text-decoration: none
   #stage
-    #card-table
-      +bg(#f9f9f9)
-  #hand
-    +bg(transparent)
-    .card
-      border: 1px solid #aaa
+    +bg(#bbb)
+    #header
       +box-shadow
-      +rounded
-      .card-header
-        +rounded-top
-        .toolbar
-          +linear-gradient(#ccc, #666)
-          +rounded-top
-          padding: 0px 10px
-          .loading-indicator
+      z-index: 2
+      border-bottom: 3px white solid
+      #logo
+        a
+          +inline-block
+          +fluxx-font
+          font-size: 24px
+          line-height: $header_height + 3px
+          height: $header_height
+          background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left
+          padding: 0px 0px 0px 46px
+          margin: 0px 10px
+          text-decoration: none
+    #card-table
+      +bg(transparent)
+      #hand
+        +bg(transparent)
+        .card
+          border: 1px solid #aaa
+          +box-shadow
+          +rounded
+          .card-header
+            +rounded-top
+            .toolbar
+              +linear-gradient(#ccc, #666)
+              +rounded-top
+              padding: 0px 10px
+              .loading-indicator
+                +inline-block
+                height: 11px
+                width: 43px
+                margin-right: 10px
+                background: none
+                &.loading
+                  background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
+          .card-footer
+            +rounded-bottom
+    #footer
+      border: 2px solid #fff
+      border-bottom: none
+      +linear-gradient(#eee, #fff)
+      +rounded-top
+      +box-shadow
+      left: 10px
+      right: 10px
+      width: auto
+      .icon
+        &.small
+          +icon-36
+        &.blue
+          .link
+            +linear-gradient(#ccf, #99f)
+        &.green
+          .link
+            +linear-gradient(#cfc, #9f9)
+        &.plus
+          .link
+            border: 2px solid white
+            +rounded($icon_dimension / 2)
+            background: #666 url(../../default/images/dock-icons/plus.png) no-repeat 50% 50%
+            .label
+              display: none
+            
+        .link
+          +linear-gradient(#fff, #ddd)
+          border: 1px #666 solid
+          +box-shadow
+          +rounded
+          text-decoration: none
+          position: relative
+          .label
+            +bg(transparent, #333)
+            position: absolute
+            top: $icon_dimension
+            font-size: $icon_margin_bottom / 2
+            font-weight: 100
+            text-align: center
+            width: $icon_dimension
+            +border-box
+          .badge
+            +border-box
             +inline-block
-            height: 11px
-            width: 43px
-            margin-right: 10px
-            background: none
-            &.loading
-              background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
-      .card-footer
-        +rounded-bottom
-  #footer
-    +bg(transparent)
-    
+            +rounded(15px)
+            +box-shadow
+            +bg(#f00, #fff)
+            +linear-gradient(#f66, #f00)
+            position: absolute
+            padding: 0px 2px
+            right: -6px
+            top: -6px
+            font-size: 11px
+            font-weight: 200
+            height: 17px
+            min-width: 17px
+            text-align: center
+            line-height: 13px
+            border: 2px solid #fff
+            display: none

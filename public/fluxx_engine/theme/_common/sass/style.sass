@@ -1,8 +1,11 @@
-@import ui-lightness/jquery-ui-1.8.2.custom.css
+@import ../../_common/css/ui-lightness/jquery-ui-1.8.2.custom.css
 @import _helpers
 
-$footer_height: 50px
-$header_height: 50px
+$icon_dimension: 48px
+$icon_margin_top:    10px
+$icon_margin_bottom:    20px
+$footer_height:  $icon_dimension + ($icon_margin_top + $icon_margin_bottom)
+$header_height:  50px
 
 =bg($bg: rgb(255,255,255), $fg:  rgb(0,0,0))
   background-color: $bg
@@ -117,21 +120,22 @@ body
         +inline-block
       #iconlist,#qllist
         +non-list
-        .icon
+      .icon
+        +inline-block
+        position: relative
+        .link
+          +bg(#666)
           +inline-block
-          position: relative
-          .link
-            +bg(#666)
-            +inline-block
-            height: $footer_height
-            width: $footer_height
-            margin: 0px 5px
-            .label
-            .badge
-          .popup
-            +bg(#aaa)
-            display: none
-            position: absolute
-            left: 0px
-            bottom: 0px
+          +border-box
+          height: $icon_dimension
+          width:  $icon_dimension
+          margin: $icon_margin_top 10px $icon_margin_bottom 10px
+          .label
+          .badge
+        .popup
+          +bg(#aaa)
+          display: none
+          position: absolute
+          left: 0px
+          bottom: 0px
             

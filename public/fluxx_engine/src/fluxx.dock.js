@@ -34,7 +34,7 @@
           label: 'Card',
           url: '#'+options.card.attr('id'),
           popup: 'Hello'
-        }).appendTo($.my.iconlist);
+        }).updateIconBadge().appendTo($.my.iconlist);
         options.card.data('icon', $icon);
         $icon.data('card', options.card);
       });
@@ -42,9 +42,11 @@
     updateIconBadge: function (options) {
       var options = $.fluxx.util.options_with_callback({badge: ''}, options);
       return this.each(function(){
-        var $icon = $(this);
-        $('.badge', $icon).text(options.badge)
-      })
+        var $icon  = $(this),
+            $badge = $('.badge', $icon);
+        $badge.text(options.badge);
+        $badge.is(':empty') ? $badge.hide() : $badge.show();
+      });
     },
     removeViewPortIcon: function(options) {
       var options = $.fluxx.util.options_with_callback({}, options);
@@ -102,7 +104,8 @@
       url:   '',
       popup: null,
       openOn: ['hover'],
-      className: null
+      className: null,
+      type: null
     }, options);
     
     var popup = (
@@ -119,7 +122,7 @@
     );
     
     return $($.fluxx.util.resultOf([
-      '<li class="icon">',
+      '<li class="icon ', options.type, '">',
         '<a class="link ', options.className, '" href="', options.url, '">',
           '<span class="label">', options.label, '</span>',
           '<span class="badge">', options.badge, '</span>',
