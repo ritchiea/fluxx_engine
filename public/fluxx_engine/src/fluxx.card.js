@@ -353,7 +353,7 @@
       '</a>',
       ' ',
       '<span class="controls">',
-        'min,close,etc'
+        'min,close,etc',
       '</span>',
     '</div>'
   ].join('');

@@ -49,9 +49,8 @@ body { overflow-x: scroll; }
 #fluxx #stage #footer #iconlist .icon .popup, #fluxx #stage #footer #qllist .icon .popup { background-color: #aaaaaa; color: black; display: none; position: absolute; left: 0px; bottom: 0px; }
 #fluxx #stage #footer #iconlist .icon .popup a, #fluxx #stage #footer #qllist .icon .popup a { color: black; }
 
-#header { -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); z-index: 2; border-bottom: 3px white solid; }
-#header #logo a { display: inline-block; *display: inline; zoom: 1; font-family: "QuicksandBook", Helvetica, sans-serif; font-size: 24px; line-height: 53px; height: 50px; background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left; padding: 0px 0px 0px 46px; margin: 0px 10px; text-decoration: none; }
-
+#fluxx #header { -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); z-index: 2; border-bottom: 3px white solid; }
+#fluxx #header #logo a { display: inline-block; *display: inline; zoom: 1; font-family: "QuicksandBook", Helvetica, sans-serif; font-size: 24px; line-height: 53px; height: 50px; background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left; padding: 0px 0px 0px 46px; margin: 0px 10px; text-decoration: none; }
 #fluxx #stage #card-table { background-color: #f9f9f9; color: black; }
 #fluxx #stage #card-table a { color: black; }
 #fluxx #hand { background-color: transparent; color: black; }
@@ -62,3 +61,5 @@ body { overflow-x: scroll; }
 #fluxx #hand .card .card-header .toolbar .loading-indicator { display: inline-block; *display: inline; zoom: 1; height: 11px; width: 43px; margin-right: 10px; background: none; }
 #fluxx #hand .card .card-header .toolbar .loading-indicator.loading { background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left; }
 #fluxx #hand .card .card-footer { -webkit-border-bottom-left-radius: 10px; -webkit-border-bottom-right-radius: 10px; }
+#fluxx #footer { background-color: transparent; color: black; }
+#fluxx #footer a { color: black; }
