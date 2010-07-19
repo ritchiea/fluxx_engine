@@ -80,13 +80,15 @@
   $.fluxx.dock.ui.quicklinks = function (options) {
     return $.fluxx.util.resultOf([
       '<div id="quicklinks">',
-        '<ol id="qllist">',
           _.map($.fluxx.config.dock.quicklinks, function(qlset) {
-            return _.map(qlset, function(ql) {
-              return $.fluxx.dock.ui.icon.call($.my.dock, ql);
-            });
+            return [
+              '<ol class="qllist">',
+                _.map(qlset, function(ql) {
+                  return $.fluxx.dock.ui.icon.call($.my.dock, ql);
+                }),
+              '</ol>'
+            ];
           }),
-        '</ol>',
       '</div>'
     ]);
   };
