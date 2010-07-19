@@ -52,7 +52,13 @@ body { overflow-x: scroll; }
 #header { -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); z-index: 2; border-bottom: 3px white solid; }
 #header #logo a { display: inline-block; *display: inline; zoom: 1; font-family: "QuicksandBook", Helvetica, sans-serif; font-size: 24px; line-height: 53px; height: 50px; background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left; padding: 0px 0px 0px 46px; margin: 0px 10px; text-decoration: none; }
 
-#stage #hand .card { -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; behavior: url(border-radius.htc); }
-#stage #hand .card .card-header { -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; }
-#stage #hand .card .card-header .toolbar .loading-indicator { display: inline-block; *display: inline; zoom: 1; height: 11px; width: 43px; background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left; }
-#stage #hand .card .card-footer { -webkit-border-bottom-left-radius: 10px; -webkit-border-bottom-right-radius: 10px; }
+#fluxx #stage #card-table { background-color: #f9f9f9; color: black; }
+#fluxx #stage #card-table a { color: black; }
+#fluxx #hand { background-color: transparent; color: black; }
+#fluxx #hand a { color: black; }
+#fluxx #hand .card { border: 1px solid #aaaaaa; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; behavior: url(border-radius.htc); }
+#fluxx #hand .card .card-header { -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; }
+#fluxx #hand .card .card-header .toolbar { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #cccccc), color-stop(1, #666666)); background: -moz-linear-gradient(center top, #cccccc 0%, #666666 100%); -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; padding: 0px 10px; }
+#fluxx #hand .card .card-header .toolbar .loading-indicator { display: inline-block; *display: inline; zoom: 1; height: 11px; width: 43px; margin-right: 10px; background: none; }
+#fluxx #hand .card .card-header .toolbar .loading-indicator.loading { background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left; }
+#fluxx #hand .card .card-footer { -webkit-border-bottom-left-radius: 10px; -webkit-border-bottom-right-radius: 10px; }

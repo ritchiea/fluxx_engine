@@ -3,8 +3,12 @@
     addFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults,options,onComplete);
       return this.each(function(){
-        var $card = $.fluxx.card.ui.call($.my.hand, options).hide()
+        var $card = $.fluxx.card.ui.call($.my.hand, options)
+          .hide()
           .appendTo($.my.hand);
+        $card
+          .ajaxSend(function(e,xhr,settings){$('.loading-indicator', $card).addClass('loading')})
+          .ajaxComplete(function(e,xhr,settings){$('.loading-indicator', $card).removeClass('loading')});
         $card
           .data({
             listing: $('.listing:eq(0)',  $card),
@@ -370,7 +374,7 @@
       '</div>'
     ];
   };
-
+  
   $(window).resize(function(e){
     $.my.cards.resizeFluxxCard();
   });

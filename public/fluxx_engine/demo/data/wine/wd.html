@@ -5,8 +5,11 @@
   West Cabernet 2001
 
   <form>
-    <input data-sibling="auto" type="text" data-autocomplete="/demo/data/wine/auto.json" />
-    <input data-sibling="auto" type="text" />
+    <label>Grape name and id</label>
+    <input data-sibling="auto" type="text" data-autocomplete="/demo/data/wine/auto.json" name="grape[name]" />
+    <input data-sibling="auto" type="text" name="grape[id]" />
+    <label>Auto change thing here</label>
+    <p class="grape-id-drop">No ID picked.</p>
   </form>
 
 </div></div>

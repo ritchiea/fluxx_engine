@@ -165,7 +165,8 @@
                     .parent()
                     .find('input[data-sibling='+ $elem.attr('data-sibling') +']')
                     .not($elem)
-                    .val(ui.item.value);
+                    .val(ui.item.value)
+                    .change();
                   return false;
                 }
               });

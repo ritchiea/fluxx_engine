@@ -15,19 +15,29 @@
       padding: 0px 0px 0px 46px
       margin: 0px 10px
       text-decoration: none
-
-#stage
+#fluxx
+  #stage
+    #card-table
+      +bg(#f9f9f9)
   #hand
+    +bg(transparent)
     .card
+      border: 1px solid #aaa
       +box-shadow
       +rounded
       .card-header
         +rounded-top
         .toolbar
+          +linear-gradient(#ccc, #666)
+          +rounded-top
+          padding: 0px 10px
           .loading-indicator
             +inline-block
             height: 11px
             width: 43px
-            background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
+            margin-right: 10px
+            background: none
+            &.loading
+              background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
       .card-footer
         +rounded-bottom

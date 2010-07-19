@@ -44,4 +44,7 @@
   -webkit-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
   -moz-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
   box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
-  
+
+=linear-gradient($top: rgb(255,255,255), $bottom: rgb(0,0,0))
+  background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(1, #{$bottom}))")
+  background: unquote("-moz-linear-gradient(center top, #{$top} 0%, #{$bottom} 100%)")

@@ -9,6 +9,16 @@
     <script type="text/javascript" charset="utf-8" src="../dist/fluxx.engine.full.js"></script>
     <script type="text/javascript" charset="utf-8">
       jQuery(function($){
+        $.extend($.fluxx.stage.decorators, {
+          'input[name=grape[id]]': [
+            'change', function(e) {
+              var $id   = $(this),
+                  $drop = $id.siblings('.grape-id-drop');
+              $.fluxx.log("changing picker...");
+              $drop.text('Picked: ' + $id.val());
+            }
+          ]
+        });
         $.extend(true,{
           fluxx: {
             config: {
