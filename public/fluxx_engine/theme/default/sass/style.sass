@@ -1,4 +1,33 @@
 @import ../../_common/sass/style.sass
 
 #header
-  +fluxx-font
+  +box-shadow
+  z-index: 2
+  border-bottom: 3px white solid
+  #logo
+    a
+      +inline-block
+      +fluxx-font
+      font-size: 24px
+      line-height: $header_height + 3px
+      height: $header_height
+      background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left
+      padding: 0px 0px 0px 46px
+      margin: 0px 10px
+      text-decoration: none
+
+#stage
+  #hand
+    .card
+      +box-shadow
+      +rounded
+      .card-header
+        +rounded-top
+        .toolbar
+          .loading-indicator
+            +inline-block
+            height: 11px
+            width: 43px
+            background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
+      .card-footer
+        +rounded-bottom

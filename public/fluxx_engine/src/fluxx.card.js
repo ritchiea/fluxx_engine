@@ -341,6 +341,7 @@
   });
   $.fluxx.card.ui.toolbar = [
     '<div class="toolbar">',
+      '<span class="loading-indicator"></span>',
       '<a class="updates" href="#">',
         '<span class="available">0</span>',
         ' update<span class="non-one">s</span>',

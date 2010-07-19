@@ -1,6 +1,5 @@
 @import url(ui-lightness/jquery-ui-1.8.2.custom.css);
-@font-face { font-family: "QuicksandBoldRegular"; src: url("../../_common/css/quicksand_bold-webfont.eot"); src: local("☺"), url("../../_common/css/quicksand_bold-webfont.woff") format("woff"), url("../../_common/css/quicksand_bold-webfont.ttf") format("truetype"), url("../../_common/css/quicksand_bold-webfont.svg#webfontollWhP2k") format("svg"); font-weight: normal; font-style: normal; }
-
+@import url(../../_common/css/Quicksand-fontfacekit/stylesheet.css);
 body, table { font-family: Helvetica, sans-serif; }
 
 div, ul, ol, li, table, td, th, dl, dt, dd { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
