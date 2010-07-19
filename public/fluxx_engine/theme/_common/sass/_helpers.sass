@@ -40,10 +40,15 @@
   border-radius: $radius
   behavior: url(border-radius.htc)
 
-=box-shadow($left: 0px, $top: 2px, $spread: 4px, $color: rgba(0,0,0,0.4), $inset: '')
-  -webkit-box-shadow: unquote("#{$inset} #{$left} #{$top} #{$spread} #{$color}")
-  -moz-box-shadow: unquote("#{$inset} #{$left} #{$top} #{$spread} #{$color}")
-  box-shadow: unquote("#{$inset} #{$left} #{$top} #{$spread} #{$color}")
+=box-shadow($left: 0px, $top: 2px, $spread: 4px, $color: rgba(0,0,0,0.4))
+  -webkit-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
+  -moz-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
+  box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
+
+=box-shadow-with-inset($left: 0px, $top: 2px, $spread: 4px, $color: rgba(0,0,0,0.4))
+  -webkit-box-shadow: unquote("inset #{$left/3} #{$top/3} #{$spread/3} #{$color/2}, #{$left} #{$top} #{$spread} #{$color}")
+  -moz-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}, #{$left} #{$top} #{$spread} #{$color}")
+  box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}, #{$left} #{$top} #{$spread} #{$color}")
 
 =linear-gradient($top: rgb(255,255,255), $bottom: rgb(0,0,0))
   background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(1, #{$bottom}))")
