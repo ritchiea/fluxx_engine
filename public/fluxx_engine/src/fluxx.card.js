@@ -335,7 +335,6 @@
                   $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'detail', drawer: true})),
                 '</div>',
                 '<div class="card-footer">',
-                  'Card Footer',
                 '</div>',
               '</div>'
             ]));

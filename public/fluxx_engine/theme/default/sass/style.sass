@@ -35,25 +35,39 @@
       #hand
         +bg(transparent)
         .card
-          border: 1px solid #aaa
+          border: 1px solid #999
           +box-shadow
-          +rounded
-          .card-header
-            +rounded-top
-            .toolbar
-              +linear-gradient(#ccc, #666)
-              +rounded-top
-              padding: 0px 10px
-              .loading-indicator
-                +inline-block
-                height: 11px
-                width: 43px
-                margin-right: 10px
-                background: none
-                &.loading
-                  background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
-          .card-footer
-            +rounded-bottom
+          +rounded(6px)
+          .card-box
+            .card-header
+              +rounded-top(6px)
+              .toolbar
+                +linear-gradient(#999, #666)
+                +rounded-top(6px)
+                padding: 0px 10px
+                border-bottom: 1px solid #333
+                .loading-indicator
+                  +inline-block
+                  height: 11px
+                  width: 43px
+                  margin-right: 10px
+                  background: none
+                  &.loading
+                    background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
+              .titlebar
+                +bg(#ccc, #333)
+                +linear-gradient(#ccc, #aaa)
+                +chiseled-text
+                border-top: 1px solid #eee
+                text-transform: uppercase
+                font-weight: 100
+                line-height: 24px
+                font-size: 18px
+            .card-footer
+              +rounded-bottom(6px)
+              +bg(#999)
+              +linear-gradient(#999, #666)
+              min-height: 6px
     #footer
       border: 2px solid #fff
       border-bottom: none
@@ -106,7 +120,7 @@
           +linear-gradient(#fff, #ddd)
           border: 1px #666 solid
           +box-shadow
-          +rounded
+          +rounded(6px)
           text-decoration: none
           position: relative
           .label
