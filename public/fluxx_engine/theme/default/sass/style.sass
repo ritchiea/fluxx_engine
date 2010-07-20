@@ -44,6 +44,7 @@
               .toolbar
                 +linear-gradient(#999, #666)
                 +rounded-top(6px)
+                position: relative
                 padding: 0px 10px
                 border-bottom: 1px solid #333
                 .loading-indicator
@@ -53,6 +54,10 @@
                   margin-right: 10px
                   &.loading
                     background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
+                .controls
+                  position: absolute
+                  right: 0px
+                  margin-right: 10px
               .titlebar
                 +bg(#ccc, #333)
                 +linear-gradient(#ccc, #aaa)
@@ -63,6 +68,16 @@
                 font-weight: 100
                 line-height: 24px
                 font-size: 18px
+                padding-left: 10px
+            .card-body
+              background: #aaa url(../../default/images/cards/body-bg.png)
+              border-top: 1px solid #eee
+              .listing,.detail
+                .header
+                  +linear-gradient(#ccc, #aaa)
+                  border-bottom: 1px solid #333
+                .body
+                .footer
             .card-footer
               +rounded-bottom(6px)
               +bg(#999)

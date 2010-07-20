@@ -21,7 +21,8 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-header { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-header a { color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-body { width: 800px; }
-#fluxx #stage #card-table #hand .card .card-box .card-body .listing, #fluxx #stage #card-table #hand .card .card-box .card-body .detail { display: inline-block; *display: inline; zoom: 1; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing, #fluxx #stage #card-table #hand .card .card-box .card-body .detail { display: inline-block; *display: inline; zoom: 1; vertical-align: top; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .header.empty, #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer.empty, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .header.empty, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .footer.empty { display: none; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .header { background-color: #666666; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header a, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .header a { color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .body { background-color: white; color: black; overflow: auto; }
