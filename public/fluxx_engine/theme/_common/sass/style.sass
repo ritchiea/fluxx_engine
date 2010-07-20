@@ -79,6 +79,10 @@ body
               width: 800px
               .listing,.detail
                 +inline-block
+                vertical-align: top
+                .header,.footer
+                  &.empty
+                    display: none
                 .header
                   +header-bg(#666)
                 .body

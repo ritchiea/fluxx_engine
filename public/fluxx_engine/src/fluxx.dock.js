@@ -16,7 +16,6 @@
         $('.icon', '.dock').live('mouseover mouseout', function(e) {
           var $icon  = $(e.currentTarget);
           var $popup = $('.popup', $icon);
-          $.fluxx.log('---', $icon.length, $popup.length);
           if (event.type == 'mouseover') {
             $popup.show();
           } else {

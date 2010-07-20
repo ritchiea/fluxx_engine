@@ -273,10 +273,13 @@
         data: options.data,
         success: function (data, status, xhr) {
           var $document = $('<div/>').html(data);
-          $('.header', options.area).html($('#card-header', $document).html() || '&nbsp;');
-          $('.body',   options.area).html($('#card-body',   $document).html() || '&nbsp;');
-          $('.footer', options.area).html($('#card-footer', $document).html() || '&nbsp;');
-          $('.drawer', options.area).html($('#card-drawer', $document).html() || '&nbsp;');
+          $('.header', options.area).html($('#card-header', $document).html());
+          $('.body',   options.area).html($('#card-body',   $document).html());
+          $('.footer', options.area).html($('#card-footer', $document).html());
+          $('.drawer', options.area).html($('#card-drawer', $document).html());
+          $('.header:empty,.body:empty,.footer:empty,.drawer:empty', options.area).filter(':empty').addClass('empty');
+          $('.header,.body,.footer,.drawer', options.area).removeClass('empty');
+          $('.header:empty,.body:empty,.footer:empty,.drawer:empty', options.area).filter(':empty').addClass('empty');
           options.area.fluxxAreaSettings({settings: $('#card-settings', $document)}).trigger('complete.fluxx.area');
         },
         error: function(xhr, status, error) {
@@ -351,7 +354,7 @@
       '</a>',
       ' ',
       '<span class="controls">',
-        'min,close,etc',
+        '<- _ x',
       '</span>',
     '</div>'
   ].join('');
