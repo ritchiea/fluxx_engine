@@ -18,4 +18,12 @@ class OrchestraTest < ActiveSupport::TestCase
   test "test blank page_by_ids" do
     assert_equal [], Orchestra.page_by_ids([])
   end
+  
+  test "test single page_by_ids" do
+    list = WillPaginate::Collection.create 1, 20, 20 do |pager|
+      pager.replace [@orchestra.id]
+    end
+    assert_equal @orchestra, Orchestra.page_by_ids(list).first
+  end
+  
 end
