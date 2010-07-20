@@ -11,8 +11,6 @@ class FluxxEnginePublicGenerator < Rails::Generators::Base
   def build_and_copy_fluxx_public_files
     public_dir = File.join(File.dirname(__FILE__), '../../../public')
 
-    run "/bin/rm -f -r #{Rails.root}/public/fluxx_engine/dist"
-    run "/bin/rm -f -r #{Rails.root}/public/fluxx_engine/theme"
     run "cd #{public_dir} && rake build"
     
     directory("#{public_dir}/fluxx_engine/dist", 'public/fluxx_engine/dist')
