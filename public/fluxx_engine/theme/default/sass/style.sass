@@ -10,7 +10,7 @@
     margin-right: 16px
     .label
       top: 42px
-      width: 36px
+      margin-left: -16px
 
 #fluxx
   #stage
@@ -132,6 +132,12 @@
         &.green
           .link
             +linear-gradient(#cfc, #9f9)
+        &.red
+          .link
+            +linear-gradient(#c99, #933)
+        &.purple
+          .link
+            +linear-gradient(#c9c, #939)
         &.plus
           .link
             +box-shadow-with-inset
@@ -173,7 +179,8 @@
             font-size: $icon_margin_bottom / 2
             font-weight: 100
             text-align: center
-            width: $icon_dimension
+            width: $icon_dimension + 20px
+            margin-left: -10px
             +border-box
           .badge
             +border-box
