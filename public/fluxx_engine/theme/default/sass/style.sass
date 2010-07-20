@@ -51,7 +51,6 @@
                   height: 11px
                   width: 43px
                   margin-right: 10px
-                  background: none
                   &.loading
                     background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
               .titlebar
@@ -59,6 +58,7 @@
                 +linear-gradient(#ccc, #aaa)
                 +chiseled-text
                 border-top: 1px solid #eee
+                border-bottom: 1px solid #333
                 text-transform: uppercase
                 font-weight: 100
                 line-height: 24px
@@ -71,7 +71,7 @@
     #footer
       border: 2px solid #fff
       border-bottom: none
-      +linear-gradient(#f9f9f9, #fff)
+      +linear-gradient(#fff, #f9f9f9)
       +rounded-top
       +box-shadow-with-inset
       left: 10px
@@ -94,7 +94,7 @@
             +box-shadow-with-inset
             border: 2px solid white
             +rounded($icon_dimension / 2)
-            background: #999 url(../../default/images/dock-icons/plus.png) no-repeat 50% 50%
+            background: #666 url(../../default/images/dock-icons/plus.png) no-repeat 50% 50%
             .label
               display: none
         .popup

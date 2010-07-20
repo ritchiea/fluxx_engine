@@ -7,9 +7,6 @@
           .hide()
           .appendTo($.my.hand);
         $card
-          .ajaxSend(function(e,xhr,settings){$('.loading-indicator', $card).addClass('loading')})
-          .ajaxComplete(function(e,xhr,settings){$('.loading-indicator', $card).removeClass('loading')});
-        $card
           .data({
             listing: $('.listing:eq(0)',  $card),
             detail:  $('.detail:eq(0)',   $card),
@@ -284,7 +281,9 @@
         },
         error: function(xhr, status, error) {
           options.area.trigger('complete.fluxx.area');
-        }
+        },
+        beforeSend: function() { $('.loading-indicator', options.area.fluxxCard()).addClass('loading') },
+        complete: function() { $('.loading-indicator', options.area.fluxxCard()).removeClass('loading') }
       });
       
       return this;
