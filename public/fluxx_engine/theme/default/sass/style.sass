@@ -70,19 +70,47 @@
                 font-size: 18px
                 padding-left: 10px
             .card-body
-              background: #aaa url(../../default/images/cards/body-bg.png)
-              border-top: 1px solid #eee
+              background: url(../../default/images/cards/body-bg.png)
+              border-bottom: 1px solid #333
               .listing,.detail
                 .header
                   +linear-gradient(#ccc, #aaa)
                   border-bottom: 1px solid #333
+                  border-top: 1px solid #eee
                 .body
+                .footer
+                  +bg(#ccc, #333)
+                  +linear-gradient(#ccc, #aaa)
+                  border-top: 1px solid #eee
+              .listing
+                .header
+                .body
+                  +bg(transparent)
+                  .list
+                    +non-list
+                    .entry
+                      +bg(#fcc)
+                      border-top: 1px solid #eee
+                      border-bottom: 1px solid #666
+                      a
+                        +linear-gradient(#fff,#eee)
+                        display: block
+                        margin-left: 8px
+                        border-left: 1px solid #f66
+                        text-decoration: none
+                .footer
+              .detail
+                .header
+                .body
+                  +box-shadow-inset
+                  padding: 20px
                 .footer
             .card-footer
               +rounded-bottom(6px)
               +bg(#999)
               +linear-gradient(#999, #666)
               min-height: 6px
+              border-top: 1px solid #eee
     #footer
       border: 2px solid #fff
       border-bottom: none
