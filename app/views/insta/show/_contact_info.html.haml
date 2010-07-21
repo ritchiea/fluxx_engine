@@ -14,18 +14,18 @@
     %abbr.country{:title => location.geo_country.name}= location.geo_country.abbreviation
 
   - if detailed
-    - work_contact_details = [ |
-        ['Direct Phone:', location.phone], |
-        ['Fax:',  location.fax], |
-        ['Email:', location.email ], |
-        ['Other Contact:', location.other_contact ], |
-        ['Website:', location.url ], |
-        ['Personal Blog:', location.blog_url ], |
-        ['Personal Twitter:', location.twitter_url ], |
-        ['Acronym:', location.acronym ], |
-      ].each do |contact_detail| |
-      - label, value = contact_detail
-      - unless value.blank?
-        %dl
+    %dl
+      - work_contact_details = [ |
+          ['Direct Phone:', location.phone], |
+          ['Fax:',  location.fax], |
+          ['Email:', location.email ], |
+          ['Other Contact:', location.other_contact ], |
+          ['Website:', location.url ], |
+          ['Personal Blog:', location.blog_url ], |
+          ['Personal Twitter:', location.twitter_url ], |
+          ['Acronym:', location.acronym ], |
+        ].each do |contact_detail| |
+        - label, value = contact_detail
+        - unless value.blank?
           %dt= label
           %dd= value
