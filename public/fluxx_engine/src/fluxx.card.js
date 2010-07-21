@@ -353,9 +353,11 @@
         ' available',
       '</a>',
       ' ',
-      '<span class="controls">',
-        '<- _ x',
-      '</span>',
+      '<ul class="controls">',
+        '<li class="close-detail">&larr;</li>',
+        '<li class="minimize-card">_</li>',
+        '<li class="close-card">x</li>',
+      '</ul>',
     '</div>'
   ].join('');
   $.fluxx.card.ui.titlebar = function(options) {
