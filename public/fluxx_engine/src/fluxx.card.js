@@ -273,10 +273,10 @@
         data: options.data,
         success: function (data, status, xhr) {
           var $document = $('<div/>').html(data);
-          $('.header', options.area).html($('#card-header', $document).html().trim());
-          $('.body',   options.area).html($('#card-body',   $document).html().trim());
-          $('.footer', options.area).html($('#card-footer', $document).html().trim());
-          $('.drawer', options.area).html($('#card-drawer', $document).html().trim());
+          $('.header', options.area).html(($('#card-header', $document).html() || '').trim());
+          $('.body',   options.area).html(($('#card-body',   $document).html() || '').trim());
+          $('.footer', options.area).html(($('#card-footer', $document).html() || '').trim());
+          $('.drawer', options.area).html(($('#card-drawer', $document).html() || '').trim());
           $('.header,.body,.footer,.drawer', options.area).removeClass('empty').filter(':empty').addClass('empty');
           options.area.fluxxAreaSettings({settings: $('#card-settings', $document)}).trigger('complete.fluxx.area');
         },
