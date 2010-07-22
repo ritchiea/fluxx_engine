@@ -119,11 +119,17 @@ module Formtastic #:nodoc:
     end
     
     def autocomplete_input(method, options)
+      related_attribute_name = options[:related_attribute_name] || 'name'
+      related_object = @object.send method.to_sym
+      value_name = if related_object && related_object.respond_to?(related_attribute_name.to_sym)
+        related_object.send related_attribute_name.to_sym 
+      end || ''
+      
       input_name = generate_association_input_name(method)
       sibling_id = generate_random_id
       label("#{method}:", :label => options[:label]) + 
-        text_field_tag(method, nil, {"data-sibling".to_sym => sibling_id.to_s, "data-autocomplete".to_sym => options[:autocomplete_url]}) + 
-        hidden_field_tag(input_name, nil, {"data-sibling".to_sym => sibling_id.to_s})
+        text_field_tag(method, nil, {"data-sibling".to_sym => sibling_id.to_s, "data-autocomplete".to_sym => options[:autocomplete_url], :value => value_name}) + 
+        hidden_field(input_name, {"data-sibling".to_sym => sibling_id.to_s})
     end
     
     def generate_random_id

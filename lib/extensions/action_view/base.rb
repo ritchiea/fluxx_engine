@@ -13,8 +13,8 @@ class ActionView::Base
       
         def to_html
           # previous/next buttons
-          prev_button = previous_or_next_page(@collection.previous_page, 'disabled prev_page', @options[:previous_label])
-          next_button = previous_or_next_page(@collection.next_page,     'disabled next_page', @options[:next_label])
+          prev_button = previous_or_next_page(@collection.previous_page, @options[:previous_label] || 'previous', @options[:previous_label])
+          next_button = previous_or_next_page(@collection.next_page, @options[:next_label] || 'next', @options[:next_label])
           
           info_message = %{%s - %s of %s} % [
             number_with_delimiter(@collection.offset + 1),
