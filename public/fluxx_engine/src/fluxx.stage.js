@@ -13,6 +13,7 @@
             _.bind($.fn.setupFluxxPolling, $.my.stage),
             _.bind($.fn.installFluxxDecorators, $.my.stage),
             _.bind($.fn.addFluxxCards, $.my.hand, {cards: $.fluxx.config.cards}),
+            $.colorbox.init,
             options.callback
           )
         });
@@ -111,6 +112,24 @@
               $.getJSON($child.attr('data-src'), query, function(data, status) {
                 $child.html('<option></option>');
                 _.each(data, function(i){ $('<option></option>').val(i.value).html(i.label).appendTo($child)  });
+              });
+            }
+          ],
+          'a.to-upload': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $.colorbox({
+                html: '<div class="upload-queue"></div>',
+                width: 700,
+                height: 400,
+                onComplete: function () {
+                  $('.upload-queue').pluploadQueue({
+                    url: $elem.attr('href'),
+                    runtimes: 'html5',
+                    filters: [{title: "Allowed file types", extensions: $elem.attr('data-extensions')}]
+                  });
+                }
               });
             }
           ],

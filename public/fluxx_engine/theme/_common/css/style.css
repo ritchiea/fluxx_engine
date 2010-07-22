@@ -1,4 +1,6 @@
 @import url(../../_common/css/ui-lightness/jquery-ui-1.8.2.custom.css);
+@import url(../../_common/css/colorbox/example1/colorbox.css);
+@import url(../../_common/css/plupload/css/plupload.queue.css);
 @import url(../../_common/css/Quicksand-fontfacekit/stylesheet.css);
 body, table { font-family: Helvetica, sans-serif; }
 
