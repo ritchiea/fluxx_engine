@@ -124,12 +124,14 @@
                 width: 700,
                 height: 400,
                 onComplete: function () {
+                  $.fluxx.log("onComplete start");
                   $('.upload-queue').pluploadQueue({
                     url: $elem.attr('href'),
                     runtimes: 'html5',
                     multipart: true,
                     filters: [{title: "Allowed file types", extensions: $elem.attr('data-extensions')}]
                   });
+                  $.fluxx.log("onComplete stop");
                 }
               });
             }
