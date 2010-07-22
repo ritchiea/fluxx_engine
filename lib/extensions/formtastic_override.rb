@@ -118,12 +118,17 @@ module Formtastic #:nodoc:
         javascript_tag(select_transfer_function)
     end
     
+    # Pass in autocomplete_url as the URL that should be invoked to load the results
+    # Pass in :related_attribute_name in the options for the form.input to specify the attribute on the related object that should be called
+    # So if a user_organization has an attribute organization that should be autocompleted, you want to display the organization's name.  
+    # So the syntax would be:
+    # = form.input :organization, :label => "Organization", :as => :autocomplete, :autocomplete_url => organizations_path(:format => :json), :related_attribute_name => :name
     def autocomplete_input(method, options)
       related_attribute_name = options[:related_attribute_name] || 'name'
       related_object = @object.send method.to_sym
       value_name = if related_object && related_object.respond_to?(related_attribute_name.to_sym)
         related_object.send related_attribute_name.to_sym 
-      end || ''
+      end || related_object
       
       input_name = generate_association_input_name(method)
       sibling_id = generate_random_id
