@@ -31,7 +31,7 @@ class ActionView::Base
       end
     end
 
-    raw(will_paginate models, :page_links => false, :renderer => FluxxLinkRenderer)
+    will_paginate models, :page_links => false, :renderer => FluxxLinkRenderer
   end
   
   def flash_info 
