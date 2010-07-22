@@ -127,10 +127,18 @@
                   $('.upload-queue').pluploadQueue({
                     url: $elem.attr('href'),
                     runtimes: 'html5',
+                    multipart: true,
                     filters: [{title: "Allowed file types", extensions: $elem.attr('data-extensions')}]
                   });
                 }
               });
+            }
+          ],
+          'a.to-modal': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $elem.colorbox({iframe: true, width: 700, height: 400}).triggerHandler('click');
             }
           ],
           'a.to-self':   [
