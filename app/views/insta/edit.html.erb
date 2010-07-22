@@ -1,7 +1,6 @@
 <div id="card-header"><%= flash_info %><%= flash_error %></div>
 <div id="card-body">
-  <div class="fluxx-card-edit">
-
+  <div class="edit">
 	<%= semantic_form_for @model, :url => @form_url, :html => {:class => 'to-self' + (@form_class || '')} do |form| %>
     <%= render :partial => @template, :locals => { :form => form, :model => @model} %>
 	<% end %>
@@ -15,16 +14,11 @@
 <%- unless @not_editable -%>
 <script>
   $('body').one('fluxxCardLoadContent',function(e, $area){
-    var $submit = $('.fluxx-card-edit form input[type="submit"]', $area);
-    console.log("forms: " + $submit.length);
-    console.log("")
-    $('.fluxx-card-detail-footer,.fluxx-card-modal-footer', $area).append(
+    var $submit = $('.edit form input[type="submit"]', $area);
+    $('.card-footer,.modal-footer', $area).append(
       $('<a></a>').attr('href','#').text($submit.val()).click(function(e){
         e.preventDefault();
         e.stopImmediatePropagation();
-        console.log($submit.parents('form:first').attr('id'));
-        window.F=$submit.parents('form:first');
-        console.log("Set F");
         $submit.parents('form:first').trigger('submit');
       }).addClass('fluxx-card-link-to-workflow btn green')
     );

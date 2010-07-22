@@ -10,7 +10,7 @@
     margin-right: 16px
     .label
       top: 42px
-      width: 36px
+      margin-left: -16px
 
 #fluxx
   #stage
@@ -55,9 +55,24 @@
                   &.loading
                     background: transparent url(../../_common/images/loaders/ajax-loader-cccccc.gif) no-repeat center left
                 .controls
+                  +non-list
+                  +rounded(3px)
+                  display: inline-block
                   position: absolute
                   right: 0px
                   margin-right: 10px
+                  border: 1px solid #333
+                  li
+                    display: inline-block
+                    border: 1px solid #ccc
+                    height: 16px
+                    width: 16px
+                    font-size: 12px
+                    font-weight: 100
+                    line-height: 15px
+                    text-align: center
+                    &.minimize-card
+                      border-bottom-width: 3px
               .titlebar
                 +bg(#ccc, #333)
                 +linear-gradient(#ccc, #aaa)
@@ -89,7 +104,7 @@
                   .list
                     +non-list
                     .entry
-                      +bg(#fcc)
+                      +linear-gradient(#fcc, #ebb)
                       border-top: 1px solid #eee
                       border-bottom: 1px solid #666
                       a
@@ -132,6 +147,12 @@
         &.green
           .link
             +linear-gradient(#cfc, #9f9)
+        &.red
+          .link
+            +linear-gradient(#c99, #933)
+        &.purple
+          .link
+            +linear-gradient(#c9c, #939)
         &.plus
           .link
             +box-shadow-with-inset
@@ -173,7 +194,8 @@
             font-size: $icon_margin_bottom / 2
             font-weight: 100
             text-align: center
-            width: $icon_dimension
+            width: $icon_dimension + 20px
+            margin-left: -10px
             +border-box
           .badge
             +border-box

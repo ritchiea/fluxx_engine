@@ -101,6 +101,19 @@
           'a.noop': [
             'click', $.fluxx.util.itEndsHere
           ],
+          'select[data-related-child]': [
+            'change', function (e) {
+              var $parent   = $(this),
+                  parentId  = $parent.val(),
+                  $child    = $($parent.attr('data-related-child'), $parent.parents('form').eq(0)),
+                  query     = {};
+              query[$child.attr('data-param')] = parentId;
+              $.getJSON($child.attr('data-src'), query, function(data, status) {
+                $child.html('<option></option>');
+                _.each(data, function(i){ $('<option></option>').val(i.value).html(i.label).appendTo($child)  });
+              });
+            }
+          ],
           'a.to-self':   [
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);
