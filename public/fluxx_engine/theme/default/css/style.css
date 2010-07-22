@@ -1,7 +1,9 @@
 @import url(../../_common/css/ui-lightness/jquery-ui-1.8.2.custom.css);
-@import url(../../_common/css/colorbox/example1/colorbox.css);
+@import url(../../_common/css/colorbox/example3/colorbox.css);
 @import url(../../_common/css/plupload/css/plupload.queue.css);
 @import url(../../_common/css/Quicksand-fontfacekit/stylesheet.css);
+#colorbox { color: white; }
+
 body, table { font-family: Helvetica, sans-serif; }
 
 div, ul, ol, li, table, td, th, dl, dt, dd { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
