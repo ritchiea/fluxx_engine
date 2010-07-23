@@ -128,7 +128,7 @@
                   $('.upload-queue').pluploadQueue({
                     url: $elem.attr('href'),
                     runtimes: 'html5',
-                    multipart: true,
+                    multipart: false,
                     filters: [{title: "Allowed file types", extensions: $elem.attr('data-extensions')}]
                   });
                   $.fluxx.log("onComplete stop");
