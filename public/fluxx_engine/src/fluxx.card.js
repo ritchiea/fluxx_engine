@@ -287,6 +287,8 @@
           }
         },
         error: function(xhr, status, error) {
+          var $document = $('<div/>').html(xhr.responseText);
+          $('.body', options.area).html($document);
           options.area.trigger('complete.fluxx.area');
         },
         beforeSend: function() { $('.loading-indicator', options.area.fluxxCard()).addClass('loading') },
