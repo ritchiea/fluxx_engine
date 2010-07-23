@@ -6,6 +6,6 @@ class ActiveRecord::ModelDsl
 
   def initialize model_class_param
     self.model_class = model_class_param
-    self.really_delete = !(model_class.columns.map(&:name).include? 'deleted_at')
+    self.really_delete = !(model_class.columns.map(&:name).include? 'deleted_at') rescue nil
   end
 end
