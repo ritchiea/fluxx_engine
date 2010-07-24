@@ -10,7 +10,10 @@
 </div>
 
 <div id="card-footer">
-<%= link_to 'Cancel', @model, :class => 'to-self btn' %>
+<ul class="workflow"></ul>
+<ul class="buttons">
+  <li><%= link_to 'Cancel', @model, :class => 'to-self' %></li>
+</ul>
 <%- unless @not_editable -%>
 <script>
   $('body').one('fluxxCardLoadContent',function(e, $area){
@@ -20,7 +23,7 @@
         e.preventDefault();
         e.stopImmediatePropagation();
         $submit.parents('form:first').trigger('submit');
-      }).addClass('fluxx-card-link-to-workflow btn green')
+      }).wrap('<li>')
     );
     $submit.hide();
   });

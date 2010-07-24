@@ -101,6 +101,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
       q_search, :with => with_clause.merge(options[:with] || {}),
       :order => order_clause, :page => request_params[:page], 
       :per_page => results_per_page, :include => options[:include_relation])
+    p "XXX --- CASEY"
     if model_ids.empty? && request_params[:page]
       p "ESH: Could be we are loading a card listing with pagination that used to work, but now has fewer elements in it, so we should fall back to display the first page"
       # Could be we are loading a card listing with pagination that used to work, but now has fewer elements in it, so we should fall back to display the first page

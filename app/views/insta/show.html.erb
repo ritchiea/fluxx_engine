@@ -38,11 +38,5 @@
 <%- end -%>
 
 <div id="card-footer">
-  <%- 
-  if @footer_template -%>
-    <%= render :partial => @footer_template, :locals => { :model => @model} %>
-  <%- else -%>
-    <%= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'to-self', :link_class => 'btn' %>
-  <%- end -%>
-  <%= link_to 'Printable', '#', :target => "_blank", :class => 'btn area-url' %>
+  <ul class="buttons"><%- if @footer_template -%><%= render :partial => @footer_template, :locals => { :model => @model} %>  <%- else -%><li><%= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'to-self', :link_class => 'btn' %></li><%- end -%><li><%= link_to 'Printable', '#', :target => "_blank", :class => 'btn area-url' %></li></ul>
 </div>

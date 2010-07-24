@@ -177,6 +177,23 @@
         })
       })
     },
+    areaDetailTransform: function(){
+      var $area  = $(this);
+      if (! $area.hasClass('detail')) return;
+
+      var $forms = $('.body form', $area),
+          $flows = $('.footer .workflow', $area);
+      $.fluxx.log('---', $forms.length, $flows.length);
+      $forms.each(function(){
+        var $form   = $(this),
+            $submit = $(':submit:first', $form);
+        $('<a>').attr('href', $form.attr('action')).text($submit.val()||'Submit').bind('click', function(e){
+          $.fluxx.util.itEndsWithMe(e);
+          $form.submit();
+        }).wrap('<li>').parent().appendTo($flows);
+        $submit.hide();
+      });
+    },
     fluxxAreaUpdate: function(e, updates) {
       var $area     = $(e.target),
           seen      = $area.data('updates_seen') || [],
@@ -247,6 +264,7 @@
         .unbind('complete.fluxx.area')
         .bind('complete.fluxx.area', _.callAll(
           $.fluxx.util.itEndsWithMe,
+          _.bind($.fn.areaDetailTransform, options.area),
           options.callback
         ));
       options.area
@@ -359,10 +377,10 @@
         ' available',
       '</a>',
       ' ',
-      '<ul class="controls">',
-        '<li class="close-detail">&larr;</li>',
-        '<li class="minimize-card">_</li>',
-        '<li class="close-card">x</li>',
+      '<ul class="buttons controls">',
+        '<li class="first"><a href="#" class="close-detail">&lArr;</a></li>',
+        '<li><a href="#" class="minimize-card">&#9604;</a></li>',
+        '<li class="last"><a href="#" class="close-card">&times;</a></li>',
       '</ul>',
     '</div>'
   ].join('');
@@ -388,5 +406,5 @@
   
   $(window).resize(function(e){
     $.my.cards.resizeFluxxCard();
-  });
+  }).resize();
 })(jQuery);
