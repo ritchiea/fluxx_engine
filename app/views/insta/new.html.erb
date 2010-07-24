@@ -9,17 +9,4 @@
 
 <div id="card-footer">
   <ul class="workflow"></ul>
-  <script>
-  $('body').one('fluxxCardLoadContent',function(e, $area){
-    var $submit = $('.fluxx-card-edit form input[type="submit"]', $area);
-    $('.fluxx-card-detail-footer,.fluxx-card-modal-footer', $area).append(
-      $('<a></a>').attr('href','#').text($submit.val()).click(function(e){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        $submit.parents('form:first').trigger('submit');
-      }).addClass('fluxx-card-link-to-workflow btn green')
-    );
-    $submit.hide();
-  });
-  </script>
 </div>
