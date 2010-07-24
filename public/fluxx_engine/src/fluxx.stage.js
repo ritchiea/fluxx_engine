@@ -139,8 +139,28 @@
           'a.to-modal': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              var $elem = $(this);
-              $elem.colorbox({iframe: true, width: 700, height: 400}).triggerHandler('click');
+              var $elem = $(this),
+                  $card = $elem.fluxxCard(),
+                  url   = $elem.attr('href'),
+                  title = $elem.attr('title') || $elem.text();
+              var $modal = $($.fluxx.util.resultOf($.fluxx.card.ui.area, {type: 'modal'}));
+              $card.fluxxCardLoadContent(
+                {
+                  area: $modal,
+                  url: url,
+                  header: '<span>' + title + '</span>',
+                  init: function(e) {
+                    $modal.css({
+                      left: $elem.offset().left + $elem.outerWidth(true),
+                    });
+                  }
+                },
+                function(e) {
+                  $('<ul class="controls"><li><a href="#" class="close-area">&times;</a></li></ul>')
+                    .appendTo($('.header', $modal));
+                }
+              );
+              $modal.appendTo($elem.fluxxCardBody());
             }
           ],
           'a.to-self':   [

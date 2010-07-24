@@ -82,7 +82,8 @@ body
               .titlebar
             .card-body
               width: 800px
-              .listing,.detail
+              position: relative
+              .listing,.detail,.modal
                 +inline-block
                 vertical-align: top
                 .header,.footer
@@ -115,6 +116,13 @@ body
                   top: 0px
                   left: 400px
                   bottom: 0px
+              .modal
+                +bg(#333,#fff)
+                width: 300px
+                position: absolute
+                top: 0px
+                left: 0px
+                bottom: 0px
             .card-footer
               +footer-bg
     #footer

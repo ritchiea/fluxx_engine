@@ -8,9 +8,10 @@
           .appendTo($.my.hand);
         $card
           .data({
-            listing: $('.listing:eq(0)',  $card),
-            detail:  $('.detail:eq(0)',   $card),
-            box:     $('.card-box:eq(0)', $card)
+            listing: $('.listing:eq(0)',   $card),
+            detail:  $('.detail:eq(0)',    $card),
+            box:     $('.card-box:eq(0)',  $card),
+            body:    $('.card-body:eq(0)', $card)
           })
           .bind({
             'complete.fluxx.card': _.callAll(
@@ -165,6 +166,9 @@
     fluxxCardBox: function () {
       return this.fluxxCard().data('box');
     },
+    fluxxCardBody: function () {
+      return this.fluxxCard().data('body');
+    },
     fluxxAreaSettings: function (options) {
       var options = $.fluxx.util.options_with_callback({settings: $()},options);
       if (options.settings.length < 1) return this;
@@ -179,7 +183,7 @@
     },
     areaDetailTransform: function(){
       var $area  = $(this);
-      if (! $area.hasClass('detail')) return;
+      if (! ($area.hasClass('detail') || $area.hasClass('modal'))) return;
 
       var $forms = $('.body form', $area),
           $flows = $('.footer .workflow', $area);
@@ -187,6 +191,7 @@
       $forms.each(function(){
         var $form   = $(this),
             $submit = $(':submit:first', $form);
+        /* XXX GENERATE FROM $.fluxx.card.ui.workflowButton() !!! */
         $('<a>').attr('href', $form.attr('action')).text($submit.val()||'Submit').bind('click', function(e){
           $.fluxx.util.itEndsWithMe(e);
           $form.submit();
@@ -257,9 +262,22 @@
         type: 'GET',
         url: null,
         data: {},
-        update: $.noop
+        /* defaults for sections */
+        header: '',
+        body: '',
+        footer: '',
+        /* events */
+        update: $.noop,
+        init: $.noop
       };
       var options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
+      options.area
+        .unbind('init.fluxx.area')
+        .bind('init.fluxx.area', _.callAll(
+          $.fluxx.util.itEndsHere,
+          options.init
+        )).trigger('init.fluxx.area');
+
       options.area
         .unbind('complete.fluxx.area')
         .bind('complete.fluxx.area', _.callAll(
@@ -274,7 +292,6 @@
           _.bind($.fn.fluxxAreaUpdate, options.area),
           options.update
         ));
-
       if (!options.url) {
         options.area.trigger('complete.fluxx.area');
         return this;
@@ -296,9 +313,9 @@
             options.area.fluxxCardLoadContent(opts);
           } else {
             var $document = $('<div/>').html(data);
-            $('.header', options.area).html(($('#card-header', $document).html() || '').trim());
-            $('.body',   options.area).html(($('#card-body',   $document).html() || '').trim());
-            $('.footer', options.area).html(($('#card-footer', $document).html() || '').trim());
+            $('.header', options.area).html(($('#card-header', $document).html() || options.header).trim());
+            $('.body',   options.area).html(($('#card-body',   $document).html() || options.body).trim());
+            $('.footer', options.area).html(($('#card-footer', $document).html() || options.footer).trim());
             $('.drawer', options.area).html(($('#card-drawer', $document).html() || '').trim());
             $('.header,.body,.footer,.drawer', options.area).removeClass('empty').filter(':empty').addClass('empty');
             options.area.fluxxAreaSettings({settings: $('#card-settings', $document)}).trigger('complete.fluxx.area');
