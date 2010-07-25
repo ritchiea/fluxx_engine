@@ -13,8 +13,8 @@ class ActionView::Base
       
         def to_html
           # previous/next buttons
-          prev_button = previous_or_next_page(@collection.previous_page, @options[:previous_label] || 'previous', @options[:previous_label])
-          next_button = previous_or_next_page(@collection.next_page, @options[:next_label] || 'next', @options[:next_label])
+          prev_button = previous_or_next_page(@collection.previous_page, @options[:previous_label] || 'previous', 'previous to-self')
+          next_button = previous_or_next_page(@collection.next_page, @options[:next_label] || 'next', 'next to-self')
           
           info_message = %{%s - %s of %s} % [
             number_with_delimiter(@collection.offset + 1),
@@ -23,7 +23,7 @@ class ActionView::Base
           ]
           
           
-          html = "#{prev_button} #{info_message} #{next_button}"
+          html = "<ul class='paginate'><li class='prev'>#{prev_button}</li><li class='info'><span class='disabled'>#{info_message}</span></li><li class='next'>#{next_button}</li></ul>"
           html_container(html)
           # result = @options[:container] ? @template.content_tag(:div, html, container_attributes) : html
           # @template.raw(result)
@@ -31,7 +31,7 @@ class ActionView::Base
       end
     end
 
-    will_paginate models, :page_links => false, :renderer => FluxxLinkRenderer
+    will_paginate models, :page_links => false, :renderer => FluxxLinkRenderer, :previous_label => '&laquo; Prev', :next_label => "Next &raquo;"
   end
   
   def flash_info 

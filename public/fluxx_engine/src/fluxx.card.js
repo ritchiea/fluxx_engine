@@ -209,7 +209,7 @@
               type: 'modal',
               arrow: 'left'
             }
-        ));
+        )).data('target', options.target);
         $card.fluxxCardLoadContent(
           {
             area: $modal,
@@ -217,7 +217,7 @@
             header: '<span>' + options.header + '</span>',
             init: function(e) {
               $modal.appendTo($card.fluxxCardBody());
-              $card.addClass('disabled');
+              options.target.disableFluxxArea();
               var $arrow = $('.arrow', $modal);
               var targetPosition = options.target.position().top,
                   targetHeight = options.target.innerHeight(),
@@ -241,7 +241,19 @@
     closeCardModal: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options, onComplete);
       return this.each(function(){
-        $('.modal', $(this).fluxxCard()).remove();
+        var $modal = $('.modal', $(this).fluxxCard());
+        $modal.data('target').enableFluxxArea();
+        $modal.remove();
+      });
+    },
+    disableFluxxArea: function () {
+      return this.each(function(){
+        $(this).fluxxCardArea().addClass('disabled');
+      });
+    },
+    enableFluxxArea: function () {
+      return this.each(function(){
+        $(this).fluxxCardArea().removeClass('disabled');
       });
     },
     fluxxAreaUpdate: function(e, updates) {

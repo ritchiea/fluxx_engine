@@ -40,11 +40,12 @@
     color: $color
     margin: 1px 1px 1px 0px
     a,span
+      +border-box
       +chiseled-text($tscolor, 0px, $tspos)
       color: $color
       text-decoration: none
       text-align: center
-      padding: $padding $padding*2
+      padding: $padding
       display: block
       min-width: $size
     &:first-child
@@ -53,6 +54,8 @@
     &:last-child
       +rounded-right($rounding)
 
+.disabled
+  opacity: 0.5
 
 #fluxx
   #stage
@@ -144,6 +147,16 @@
                         border-left: 1px solid #f66
                         text-decoration: none
                 .footer
+                  padding: 2px
+                  .paginate
+                    +buttons
+                    width: 100%
+                    .prev
+                      width: 50px
+                    .info
+                      width: 92px
+                    .next
+                      width: 50px
               .detail
                 .header
                 .body
