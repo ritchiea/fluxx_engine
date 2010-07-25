@@ -13,17 +13,17 @@
       margin-left: -16px
 
 
-=btn-color($color: #ccc, $hover: true)
-  $top: $color + ((#fff - $color) * .75)
-  $mid: $color - ($color * .10)
-  $bot: $color - ($color * .15)
+=btn-color($color: #ccc, $hover: true, $textColor: #000)
+  $top: $color * 1.5
+  $mid: $color * 0.80
+  $bot: $color * 0.70
   background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(0.51, #{$color}),    color-stop(0.51, #{$mid}), color-stop(0.88, #{$bot}))")
-  color: #000
+  color: $textColor
   border-color: $color - ($color * .5)
   @if $hover
     &:hover
       background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top + #111}), color-stop(0.51, #{$color + #111}),    color-stop(0.51, #{$mid + #111}), color-stop(0.88, #{$bot + #111}))")
-      color: #111
+      color: $textColor + #111
     &:active
       background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$bot + #111}), color-stop(0.51, #{$mid + #111}),    color-stop(0.51, #{$color + #111}), color-stop(0.88, #{$top + #111}))")
 
@@ -52,6 +52,7 @@
       margin-left: 1px
     &:last-child
       +rounded-right($rounding)
+
 
 #fluxx
   #stage
@@ -157,19 +158,40 @@
               .modal
                 +box-shadow
                 +rounded
-                border: 3px solid #333
+                opacity: 0.9
+                border: 0px solid #333
+                .arrow
+                  +bg(transparent)
+                  $size: 25px
+                  height: $size*2
+                  width: $size*2
+                  &.left
+                    left: $size*-2
+                    border: transparent solid $size
+                    border-right-color: #333
+                .header,.footer,.body
+                  padding: 5px 10px
                 .header
                   +rounded-top(9px)
+                  +bg(#666,#fff)
+                  +btn-color(#666, false, #fff)
+                  +chiseled-text-light(rgba(0,0,0,0.65))
+                  text-transform: uppercase
+                  font-weight: 100
                   position: relative
                   .controls
-                    +buttons(10px, 2px, #777, #eee, rgba(0,0,0,0.5), -1px, 2px)
+                    +buttons(10px, 2px, #333, #eee, rgba(0,0,0,0.5), -1px, 2px)
                     position: absolute
                     right: 0px
                     top: 0px
                     margin-right: 10px
-                    margin-top: 1px
+                    margin-top: 6px
+                .body
+                  +bg(#333, #fff)
                 .footer
                   +rounded-bottom(9px)
+                  +bg(#666, #fff)
+                  +linear-gradient(#666, #333)
                   .buttons
                     +buttons
             .card-footer

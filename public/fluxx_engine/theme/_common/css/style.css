@@ -43,6 +43,9 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .detail .drawer a { color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .modal { background-color: #333333; color: white; width: 300px; position: absolute; top: 0px; left: 0px; bottom: 0px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .modal a { color: white; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .modal .arrow { background-color: #333333; color: black; height: 25px; width: 25px; position: absolute; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .modal .arrow a { color: black; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .modal .arrow.left { left: -25px; top: 0px; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: white; }
 #fluxx #stage #footer { background-color: #333333; color: white; height: 78px; position: fixed; bottom: 0; width: 100%; }

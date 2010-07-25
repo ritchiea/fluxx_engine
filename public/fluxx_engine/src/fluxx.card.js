@@ -121,7 +121,7 @@
                 $areaBody = $('.body', $area);
             $areaBody.height(
               $areaBody.parent().innerHeight() -
-              _.addUp($areaBody.siblings().not('.drawer'), 'outerHeight', true)
+              _.addUp($areaBody.siblings().not('.drawer,.arrow'), 'outerHeight', true)
             )
           });
         });
@@ -187,7 +187,6 @@
 
       var $forms = $('.body form', $area),
           $flows = $('.footer .workflow', $area);
-      $.fluxx.log('---', $forms.length, $flows.length);
       $forms.each(function(){
         var $form   = $(this),
             $submit = $(':submit:first', $form);
@@ -197,6 +196,52 @@
           $form.submit();
         }).wrap('<li>').parent().appendTo($flows);
         $submit.hide();
+      });
+    },
+    openCardModal: function(options, onComplete) {
+      var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options, onComplete);
+      if (!options.url || !options.target) return this;
+      return this.each(function(){
+        var $card = $(this).fluxxCard();
+        var $modal = $($.fluxx.util.resultOf(
+            $.fluxx.card.ui.area,
+            {
+              type: 'modal',
+              arrow: 'left'
+            }
+        ));
+        $card.fluxxCardLoadContent(
+          {
+            area: $modal,
+            url: options.url,
+            header: '<span>' + options.header + '</span>',
+            init: function(e) {
+              $modal.appendTo($card.fluxxCardBody());
+              $card.addClass('disabled');
+              var $arrow = $('.arrow', $modal);
+              var targetPosition = options.target.position().top,
+                  targetHeight = options.target.innerHeight(),
+                  arrowHeight = $arrow.outerHeight(true);
+              $arrow.css({
+                top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2))
+              });
+              $modal.css({
+                left: parseInt(options.target.offset().left + options.target.outerWidth(true) + ($arrow.outerWidth(true)/3)),
+              });
+            }
+          },
+          function(e) {
+            $card.resizeFluxxCard();
+            $('<ul class="controls"><li><a href="#" class="close-modal">&times;</a></li></ul>')
+              .appendTo($('.header', $modal));
+          }
+        );
+      });
+    },
+    closeCardModal: function(options, onComplete) {
+      var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options, onComplete);
+      return this.each(function(){
+        $('.modal', $(this).fluxxCard()).remove();
       });
     },
     fluxxAreaUpdate: function(e, updates) {
@@ -409,14 +454,14 @@
     ];
   };
   $.fluxx.card.ui.area = function(options) {
-    var types = ['area'];
-    types.unshift(options.type);
+    var types = _.flatten($.merge($.makeArray(options.type), ['area']));
     return [
       '<div class="', types.join(' '), '" data-type="', options.type ,'">',
+        (options.arrow ? ['<div class="arrow ', options.arrow, '"></div>'] : null),
         '<div class="header"></div>',
         '<div class="body"></div>',
         '<div class="footer"></div>',
-        (options.drawer ? '<div class="drawer"></div>' : ''),
+        (options.drawer ? '<div class="drawer"></div>' : null),
       '</div>'
     ];
   };

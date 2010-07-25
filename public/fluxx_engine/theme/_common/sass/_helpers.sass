@@ -11,6 +11,8 @@
 // Styles for inline properties
 =chiseled-text($color: rgba(255,255,255,0.5), $left: 0px, $top: 1px, $spread: 0px)
   text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}")
+=chiseled-text-light($color: rgba(0,0,0,0.5), $left: 0px, $top: -1px, $spread: 0px)
+  +chiseled-text($color, $left, $top, $spread)
 
 // Styles for box properties
 
