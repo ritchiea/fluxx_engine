@@ -121,7 +121,7 @@
                 $areaBody = $('.body', $area);
             $areaBody.height(
               $areaBody.parent().innerHeight() -
-              _.addUp($areaBody.siblings().not('.drawer,.arrow'), 'outerHeight', true)
+              _.addUp($areaBody.siblings().not(':not(:visible),.drawer,.arrow'), 'outerHeight', true)
             )
           });
         });
@@ -340,6 +340,7 @@
         .bind('complete.fluxx.area', _.callAll(
           $.fluxx.util.itEndsWithMe,
           _.bind($.fn.areaDetailTransform, options.area),
+          _.bind($.fn.resizeFluxxCard, options.area.fluxxCard()),
           options.callback
         ));
       options.area
