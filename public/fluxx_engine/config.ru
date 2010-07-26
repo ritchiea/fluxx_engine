@@ -6,7 +6,10 @@ module Rack
       @app = app
     end
     def call env
-      `rake build`
+      path = Utils.unescape(env["PATH_INFO"])
+      if path.match('\.(css|js)$')
+        `rake build`
+      end
       @app.call env
     end
   end

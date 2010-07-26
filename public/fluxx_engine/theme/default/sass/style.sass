@@ -47,7 +47,7 @@
       text-align: center
       padding: $padding
       display: block
-      min-width: $size
+      min-width: $size+($padding*2)
     &:first-child
       +rounded-left($rounding)
       margin-left: 1px
@@ -139,15 +139,44 @@
                   .list
                     +non-list
                     .entry
-                      +linear-gradient(#fcc, #ebb)
+                      +linear-gradient(#fff,#eee)
                       border-top: 1px solid #eee
                       border-bottom: 1px solid #666
                       a
                         +linear-gradient(#fff,#eee)
+                        font-size: 14px
+                        line-height: 16px
+                        color: black
+                        border-left: 1px solid transparent
                         display: block
-                        margin-left: 8px
-                        border-left: 1px solid #f66
+                        margin-left: 5px
+                        padding: 5px 5px
                         text-decoration: none
+                        .lines
+                          +non-list
+                          li
+                            display: block
+                            color: #666
+                            font-size: 12px
+                            &:first-child
+                              color: black
+                              font-size: 14px
+                      &.red
+                        +linear-gradient(#fcc, #ebb)
+                        a
+                          border-left: 1px solid #f66
+                      &.green
+                        +linear-gradient(#cfc, #beb)
+                        a
+                          border-left: 1px solid #6f6
+                      &.orange
+                        +linear-gradient(#fc0, #eb0)
+                        a
+                          border-left: 1px solid #fa0
+                      &.blue
+                        +linear-gradient(#ccf, #bbe)
+                        a
+                          border-left: 1px solid #66f
                 .footer
                   .paginate
                     +buttons(12px, 3px)
