@@ -120,7 +120,7 @@
             .card-body
               background: url(../../default/images/cards/body-bg.png)
               border-bottom: 1px solid #333
-              .listing,.detail
+              .listing,.detail,.modal
                 .header
                   +linear-gradient(#ccc, #aaa)
                   border-bottom: 1px solid #333
@@ -244,6 +244,9 @@
                   +linear-gradient(#666, #333)
                   .buttons
                     +buttons
+                  .workflow
+                    +buttons(12px, 3px, #9f9)
+                    float: right
             .card-footer
               +rounded-bottom(6px)
               +bg(#999)
