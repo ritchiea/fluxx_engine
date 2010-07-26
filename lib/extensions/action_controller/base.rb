@@ -374,9 +374,7 @@ class ActionController::Base
     # TODO ESH: chase down where exclude_related_data and layout comes from...
     @exclude_related_data = show_object.exclude_related_data
     @layout = show_object.layout
-    p "ESH: fluxx_show_card 777a about to call render 111"
     render((show_object.view || "#{insta_path}/show").to_s, :layout => @layout)
-    p "ESH: fluxx_show_card 7773 right after calling render 222"
   end
   
   def fluxx_edit_card edit_object
@@ -401,29 +399,22 @@ class ActionController::Base
         format_block_map.store.keys.each do |key|
           if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
             format.send key.to_sym do
-              p "ESH 555a before call"
               cloned_controller_block_map[key].call controller_dsl, self, outcome
-              p "ESH 555b after call"
               cloned_controller_block_map.delete key
             end
           elsif format_block_map.store[key] && format_block_map.store[key].is_a?(Proc)
             format.send key.to_sym do
-              p "ESH 555c before call"
               format_block_map.store[key].call
-              p "ESH 555d after call"
             end
           end
         end
         cloned_controller_block_map.keys.each do |key|
           if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
             format.send key.to_sym do
-              p "ESH 555e before call"
               cloned_controller_block_map[key].call controller_dsl, self, outcome
-              p "ESH 555f before call"
             end
           end
         end
-        p "ESH 555g end of method"
       end
     end
   end
