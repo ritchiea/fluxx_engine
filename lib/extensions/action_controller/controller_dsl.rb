@@ -1,10 +1,6 @@
 class ActionController::ControllerDsl
-  # pre invocation block
-  attr_accessor :pre_block
   # a blob_struct of format blocks broken up by the various names
   attr_accessor :format_block_map
-  # post invocation block
-  attr_accessor :post_block
   # Layout to be used
   attr_accessor :layout
   # template to be used
@@ -31,6 +27,8 @@ class ActionController::ControllerDsl
     @plural_model_name = @model_name.pluralize
     self.singular_model_instance_name = "@#{@model_name}".to_sym
     self.plural_model_instance_name = "@#{@plural_model_name}".to_sym
+    @pre_blocks = []
+    @post_blocks = []
   end
   
   def load_existing_model params, model=nil
@@ -68,28 +66,35 @@ class ActionController::ControllerDsl
     model.remove_lock(fluxx_current_user) if model.respond_to?(:remove_lock)
   end
   
+  # Add a block to be executed before the main method
   def pre &block
-    self.pre_block = block
+    @pre_blocks << block
   end
   
+  # Add a block to be executed after the action has taken place but before the view has been rendered
   def post &block
-    self.post_block = block
+    @post_blocks << block
   end
   
+  # Add a block to be executed for a particular format block when rendering
   def format &block
     self.format_block_map = BlobStruct.new
     yield format_block_map if block_given?
   end
   
   def invoke_pre controller
-    if pre_block && pre_block.is_a?(Proc)
-      pre_block.call self, controller
+    @pre_blocks.each do |pre_block|
+      if pre_block && pre_block.is_a?(Proc)
+        pre_block.call self, controller
+      end
     end
   end
   
-  def invoke_post controller
-    if post_block && post_block.is_a?(Proc)
-      post_block.call self, controller
+  def invoke_post controller, model
+    @post_blocks.each do |post_block|
+      if post_block && post_block.is_a?(Proc)
+        post_block.call self, controller, model
+      end
     end
   end
 end

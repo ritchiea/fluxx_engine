@@ -72,4 +72,19 @@ class ControllerDslIndexTest < ActiveSupport::TestCase
     ActionController::ControllerDslIndex.max_sphinx_results = 1000
     assert_equal 1000, ActionController::ControllerDslIndex.max_sphinx_results
   end
+  
+  test "attempt to make multiple pre calls" do
+    lambda1_invoked = false
+    lambda2_invoked = false
+    @dsl_index.pre do |conf, controller|
+      lambda1_invoked = true
+    end
+    @dsl_index.pre do |conf, controller|
+      lambda2_invoked = true
+    end
+    
+    @dsl_index.invoke_pre nil
+    assert lambda1_invoked
+    assert lambda2_invoked
+  end
 end

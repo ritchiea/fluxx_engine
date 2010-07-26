@@ -4,6 +4,18 @@ class MusiciansControllerTest < ActionController::TestCase
   setup do
     @musician = Musician.make
   end
+  
+  test "should be able to get insta_objects" do
+    assert @controller.insta_index_object
+    assert @controller.insta_show_object
+    assert @controller.insta_new_object
+    assert @controller.insta_edit_object
+    assert @controller.insta_create_object
+    assert @controller.insta_update_object
+    assert @controller.insta_delete_object
+    assert @controller.insta_related_object
+  end
+  
 
   test "should get index" do
     get :index

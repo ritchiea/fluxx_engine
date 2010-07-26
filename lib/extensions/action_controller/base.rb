@@ -23,8 +23,18 @@ class ActionController::Base
   #   partial_new: the name of the new partial.  Defaults to 'partial_new'
   #
   def self.insta_index model_class
-    index_object = ActionController::ControllerDslIndex.new model_class
+    index_object = @class_index_object = ActionController::ControllerDslIndex.new(model_class)
     yield index_object if block_given?
+    
+    define_method :insta_index_object do
+      index_object
+    end
+    
+    self.instance_eval do
+      def insta_class_index_object
+        @class_index_object
+      end
+    end
 
     define_method :index do
       index_object.invoke_pre self
@@ -39,6 +49,7 @@ class ActionController::Base
       @models = index_object.load_results params, request.format, pre_models
       instance_variable_set index_object.plural_model_instance_name, @models
       
+      index_object.invoke_post self, @models
       insta_respond_to index_object do |format|
         format.html { render((index_object.view || "#{insta_path}/index").to_s, :layout => false) }
         format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
@@ -53,14 +64,23 @@ class ActionController::Base
         end
       end
 
-      index_object.invoke_post self
     end
   end
   
   def self.insta_show model_class
-    show_object = ActionController::ControllerDslShow.new model_class
+    show_object = @class_show_object = ActionController::ControllerDslShow.new(model_class)
     yield show_object if block_given?
 
+    define_method :insta_show_object do
+      show_object
+    end
+    
+    self.instance_eval do
+      def insta_class_show_object
+        @class_show_object
+      end
+    end
+    
     # GET /models/1
     # GET /models/1.xml
     define_method :show do
@@ -70,6 +90,7 @@ class ActionController::Base
       @model_name = show_object.model_name
       @related = load_related_data(@model) if self.respond_to? :load_related_data
 
+      show_object.invoke_post self, @model
       if @model
         insta_respond_to show_object, :success do |format|
           format.html do 
@@ -86,14 +107,23 @@ class ActionController::Base
         end
       end
       
-      show_object.invoke_post self
     end
   end
 
   def self.insta_new model_class, options={}
-    new_object = ActionController::ControllerDslNew.new model_class
+    new_object = @class_new_object = ActionController::ControllerDslNew.new(model_class)
     yield new_object if block_given?
 
+    define_method :insta_new_object do
+      new_object
+    end
+    
+    self.instance_eval do
+      def insta_class_new_object
+        @class_new_object
+      end
+    end
+    
     # GET /models/new
     # GET /models/new.xml
     define_method :new do
@@ -104,24 +134,36 @@ class ActionController::Base
       @template = new_object.template
       @form_class = new_object.form_class
       @form_url = new_object.form_url
+
+      new_object.invoke_post self, @model
       insta_respond_to new_object do |format|
         format.html { render((new_object.view || "#{insta_path}/new").to_s, :layout => false)}
         format.xml  { render :xml => @model }
       end
 
-      new_object.invoke_post self
     end
   end
 
   def self.insta_edit model_class
-    edit_object = ActionController::ControllerDslEdit.new model_class
+    edit_object = @class_edit_object = ActionController::ControllerDslEdit.new(model_class)
     yield edit_object if block_given?
+
+    define_method :insta_edit_object do
+      edit_object
+    end
+    
+    self.instance_eval do
+      def insta_class_edit_object
+        @class_edit_object
+      end
+    end
 
     # GET /models/1/edit
     define_method :edit do
       edit_object.invoke_pre self
       
       @model = edit_object.perform_edit params, pre_model, fluxx_current_user
+      edit_object.invoke_post self, @model
       unless edit_object.editable? @model, fluxx_current_user
         # Provide a locked error message
         flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
@@ -135,14 +177,23 @@ class ActionController::Base
         end
       end
       
-      edit_object.invoke_post self
     end
   end
 
   def self.insta_post model_class
-    create_object = ActionController::ControllerDslCreate.new model_class
+    create_object = @class_create_object = ActionController::ControllerDslCreate.new(model_class)
     yield create_object if block_given?
 
+    define_method :insta_create_object do
+      create_object
+    end
+    
+    self.instance_eval do
+      def insta_class_create_object
+        @class_create_object
+      end
+    end
+    
     # POST /models
     # POST /models.xml
     define_method :create do
@@ -154,7 +205,10 @@ class ActionController::Base
       @form_class = create_object.form_class
       @form_url = create_object.form_url
       @link_to_method = create_object.link_to_method
-      if create_object.perform_create params, @model, fluxx_current_user
+      create_result = create_object.perform_create params, @model, fluxx_current_user
+      
+      create_object.invoke_post self, @model
+      if create_result
         flash[:info] = t(:insta_successful_create, :name => model_class.name)
         insta_respond_to create_object, :success do |format|
           format.html do
@@ -177,13 +231,22 @@ class ActionController::Base
         end
       end
       
-      create_object.invoke_post self
     end
   end
 
   def self.insta_put model_class
-    update_object = ActionController::ControllerDslUpdate.new model_class
+    update_object = @class_update_object = ActionController::ControllerDslUpdate.new(model_class)
     yield update_object if block_given?
+
+    define_method :insta_update_object do
+      update_object
+    end
+    
+    self.instance_eval do
+      def insta_class_update_object
+        @class_update_object
+      end
+    end
 
     # PUT /models/1
     # PUT /models/1.xml
@@ -198,7 +261,10 @@ class ActionController::Base
       instance_variable_set update_object.singular_model_instance_name, @model
 
       if update_object.editable? @model, fluxx_current_user
-        if update_object.perform_update params, @model, fluxx_current_user
+        update_result = update_object.perform_update params, @model, fluxx_current_user
+        update_object.invoke_post self, @model
+        
+        if update_result
           flash[:info] = t(:insta_successful_update, :name => model_class.name)
           insta_respond_to update_object, :success do |format|
             format.html do
@@ -220,6 +286,7 @@ class ActionController::Base
           end
         end
       else
+        update_object.invoke_post self, @model
         flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
         @not_editable=true
         insta_respond_to update_object, :locked do |format|
@@ -229,13 +296,22 @@ class ActionController::Base
         end
       end
 
-      update_object.invoke_post self
     end
   end
 
   def self.insta_delete model_class
-    delete_object = ActionController::ControllerDslDelete.new model_class
+    delete_object = @class_delete_object = ActionController::ControllerDslDelete.new(model_class)
     yield delete_object if block_given?
+
+    define_method :insta_delete_object do
+      delete_object
+    end
+    
+    self.instance_eval do
+      def insta_class_delete_object
+        @class_delete_object
+      end
+    end
 
     # DELETE /models/1
     # DELETE /models/1.xml
@@ -244,7 +320,10 @@ class ActionController::Base
 
       @model = delete_object.load_existing_model params, pre_model
       instance_variable_set delete_object.singular_model_instance_name, @model
-      if delete_object.perform_delete params, @model, fluxx_current_user
+      delete_result = delete_object.perform_delete params, @model, fluxx_current_user
+
+      delete_object.invoke_post self, @model
+      if delete_result
         flash[:info] = t(:insta_successful_delete, :name => model_class.name)
         insta_respond_to delete_object, :success do |format|
           format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || send("#{model_class.name.underscore.downcase}_path")) }
@@ -258,13 +337,23 @@ class ActionController::Base
         end
       end
 
-      delete_object.invoke_post self
     end
   end
   
   def self.insta_related model_class
-    local_related_object = ActionController::ControllerDslRelated.new(model_class)
+    local_related_object = @class_related_object = ActionController::ControllerDslRelated.new(model_class)
     yield local_related_object if block_given?
+
+    define_method :insta_related_object do
+      local_related_object
+    end
+    
+    self.instance_eval do
+      def insta_class_related_object
+        @class_related_object
+      end
+    end
+
     define_method :load_related_data do |model|
       local_related_object.load_related_data model
     end
@@ -285,7 +374,9 @@ class ActionController::Base
     # TODO ESH: chase down where exclude_related_data and layout comes from...
     @exclude_related_data = show_object.exclude_related_data
     @layout = show_object.layout
+    p "ESH: fluxx_show_card 777a about to call render 111"
     render((show_object.view || "#{insta_path}/show").to_s, :layout => @layout)
+    p "ESH: fluxx_show_card 7773 right after calling render 222"
   end
   
   def fluxx_edit_card edit_object
@@ -310,22 +401,29 @@ class ActionController::Base
         format_block_map.store.keys.each do |key|
           if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
             format.send key.to_sym do
+              p "ESH 555a before call"
               cloned_controller_block_map[key].call controller_dsl, self, outcome
+              p "ESH 555b after call"
               cloned_controller_block_map.delete key
             end
           elsif format_block_map.store[key] && format_block_map.store[key].is_a?(Proc)
             format.send key.to_sym do
+              p "ESH 555c before call"
               format_block_map.store[key].call
+              p "ESH 555d after call"
             end
           end
         end
         cloned_controller_block_map.keys.each do |key|
           if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
             format.send key.to_sym do
+              p "ESH 555e before call"
               cloned_controller_block_map[key].call controller_dsl, self, outcome
+              p "ESH 555f before call"
             end
           end
         end
+        p "ESH 555g end of method"
       end
     end
   end
