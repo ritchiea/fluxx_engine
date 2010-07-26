@@ -40,6 +40,7 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body a { color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate { list-style: none; padding: 0; margin: 0; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate li { display: inline-block; *display: inline; zoom: 1; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .no-pagination { text-align: center; width: 100%; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .detail { width: 400px; position: relative; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .detail .drawer { background-color: #eeeeee; color: black; overflow: auto; width: 200px; position: absolute; top: 0px; left: 400px; bottom: 0px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .detail .drawer a { color: black; }

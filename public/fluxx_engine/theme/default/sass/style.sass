@@ -130,6 +130,7 @@
                   +bg(#ccc, #333)
                   +linear-gradient(#ccc, #aaa)
                   border-top: 1px solid #eee
+                  padding: 1px 2px
               .listing
                 .header
                 .body
@@ -147,9 +148,8 @@
                         border-left: 1px solid #f66
                         text-decoration: none
                 .footer
-                  padding: 2px
                   .paginate
-                    +buttons
+                    +buttons(12px, 3px)
                     width: 100%
                     .prev
                       width: 50px
@@ -157,6 +157,12 @@
                       width: 92px
                     .next
                       width: 50px
+                  .no-pagination
+                    +chiseled-text
+                    +border-box
+                    +inline-block
+                    font-size: 12px
+                    padding: 2px
               .detail
                 .header
                 .body
