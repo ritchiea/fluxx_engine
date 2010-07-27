@@ -90,6 +90,10 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .header, #fluxx #stage #card-table #hand .card .card-box .card-body .modal .header { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #cccccc), color-stop(1, #aaaaaa)); background: -moz-linear-gradient(center top, #cccccc 0%, #aaaaaa 100%); border-bottom: 1px solid #333333; border-top: 1px solid #eeeeee; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .footer, #fluxx #stage #card-table #hand .card .card-box .card-body .modal .footer { background-color: #cccccc; color: #333333; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #cccccc), color-stop(1, #aaaaaa)); background: -moz-linear-gradient(center top, #cccccc 0%, #aaaaaa 100%); border-top: 1px solid #eeeeee; padding: 3px; min-height: 26px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer a, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .footer a, #fluxx #stage #card-table #hand .card .card-box .card-body .modal .footer a { color: #333333; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .header { padding: 2px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .header .search { display: inline-block; *display: inline; zoom: 1; margin: 0px; width: auto; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .header .search .filter { width: 156px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .header .actions { display: inline-block; *display: inline; zoom: 1; vertical-align: middle; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body { background-color: transparent; color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body a { color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body .list { list-style: none; padding: 0; margin: 0; }

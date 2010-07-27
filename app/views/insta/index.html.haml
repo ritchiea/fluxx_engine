@@ -1,0 +1,23 @@
+%h1
+  Listing #{@plural_model_name}
+
+#card-header
+  = form_for :q, :url => url_for(:action => :index), :html => { :method => :get, :class => 'search to-self' } do |f|
+    = f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'filter', :placeholder => 'Search...', :type => 'search'
+  %ul.actions
+    %li= link_to image_tag('/fluxx_engine/theme/default/images/icons/table.png', :alt => "CSV"),   :format => :csv
+    %li= link_to image_tag('/fluxx_engine/theme/default/images/icons/page_white_excel.png', :alt => "Excel"), :format => :xls
+
+#card-body
+  %ul.list{"fluxx:delta_type" => @delta_type}
+    - @models.compact.each do |model|
+      %li.entry
+        %a.to-detail{:href => url_for(model)}
+          = throw Exception.new "Please specify an index template for the #{model.class} controller, otherwise we cannot render the page" if @template.blank?
+          = render :partial => @template,  :locals => {:model => model}
+
+#card-footer= raw(fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>')
+
+%ul#card-settings
+  %li{:name => "model-class"}= @models.first.class
+  %li{:name => "icon-type"} green
