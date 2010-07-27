@@ -35,10 +35,11 @@
   font-size: $size
   line-height: $size
   li
-    +inline-block
     +btn-color($bgcolor)
     color: $color
     margin: 1px 1px 1px 0px
+    display: block
+    float: left
     a,span
       +border-box
       +chiseled-text($tscolor, 0px, $tspos)
