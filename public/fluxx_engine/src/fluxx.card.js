@@ -226,7 +226,7 @@
                 top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2))
               });
               $modal.css({
-                left: parseInt(options.target.offset().left + options.target.outerWidth(true) + ($arrow.outerWidth(true)/3)),
+                left: parseInt(options.target.offsetParent().position().left + options.target.outerWidth(true) + ($arrow.outerWidth(true))),
               });
             }
           },
