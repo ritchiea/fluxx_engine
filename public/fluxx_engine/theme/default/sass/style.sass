@@ -47,7 +47,7 @@
       text-align: center
       padding: $padding
       display: block
-      min-width: $size
+      min-width: $size+($padding*2)
     &:first-child
       +rounded-left($rounding)
       margin-left: 1px
@@ -120,7 +120,7 @@
             .card-body
               background: url(../../default/images/cards/body-bg.png)
               border-bottom: 1px solid #333
-              .listing,.detail
+              .listing,.detail,.modal
                 .header
                   +linear-gradient(#ccc, #aaa)
                   border-bottom: 1px solid #333
@@ -130,7 +130,8 @@
                   +bg(#ccc, #333)
                   +linear-gradient(#ccc, #aaa)
                   border-top: 1px solid #eee
-                  padding: 1px 2px
+                  padding: 3px
+                  min-height: 26px
               .listing
                 .header
                 .body
@@ -138,15 +139,44 @@
                   .list
                     +non-list
                     .entry
-                      +linear-gradient(#fcc, #ebb)
+                      +linear-gradient(#fff,#eee)
                       border-top: 1px solid #eee
                       border-bottom: 1px solid #666
                       a
                         +linear-gradient(#fff,#eee)
+                        font-size: 14px
+                        line-height: 16px
+                        color: black
+                        border-left: 1px solid transparent
                         display: block
-                        margin-left: 8px
-                        border-left: 1px solid #f66
+                        margin-left: 5px
+                        padding: 5px 5px
                         text-decoration: none
+                        .lines
+                          +non-list
+                          li
+                            display: block
+                            color: #666
+                            font-size: 12px
+                            &:first-child
+                              color: black
+                              font-size: 14px
+                      &.red
+                        +linear-gradient(#fcc, #ebb)
+                        a
+                          border-left: 1px solid #f66
+                      &.green
+                        +linear-gradient(#cfc, #beb)
+                        a
+                          border-left: 1px solid #6f6
+                      &.orange
+                        +linear-gradient(#fc0, #eb0)
+                        a
+                          border-left: 1px solid #fa0
+                      &.blue
+                        +linear-gradient(#ccf, #bbe)
+                        a
+                          border-left: 1px solid #66f
                 .footer
                   .paginate
                     +buttons(12px, 3px)
@@ -154,7 +184,7 @@
                     .prev
                       width: 50px
                     .info
-                      width: 92px
+                      width: 90px
                     .next
                       width: 50px
                   .no-pagination
@@ -162,13 +192,14 @@
                     +border-box
                     +inline-block
                     font-size: 12px
-                    padding: 2px
+                    padding: 3px
               .detail
                 .header
                 .body
                   +box-shadow-inset
                   padding: 20px
                 .footer
+                  border-left: 1px solid rgba(170,170,170,0.6)
                   .buttons
                     +buttons
                   .workflow
@@ -211,8 +242,13 @@
                   +rounded-bottom(9px)
                   +bg(#666, #fff)
                   +linear-gradient(#666, #333)
+                  border-top: none
+                  padding: 3px 10px
                   .buttons
-                    +buttons
+                    +buttons(12px,3px)
+                  .workflow
+                    +buttons(12px, 3px, #9f9)
+                    float: right
             .card-footer
               +rounded-bottom(6px)
               +bg(#999)

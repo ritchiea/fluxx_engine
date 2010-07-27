@@ -102,6 +102,39 @@
           'a.noop': [
             'click', $.fluxx.util.itEndsHere
           ],
+          'a.as-put': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $elem.fluxxCardLoadContent({
+                area: $elem.fluxxCardArea(),
+                url: $elem.attr('href'),
+                type: 'PUT'
+              });
+            }
+          ],
+          'a.as-post': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $elem.fluxxCardLoadContent({
+                area: $elem.fluxxCardArea(),
+                url: $elem.attr('href'),
+                type: 'POST'
+              });
+            }
+          ],
+          'a.as-delete': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $elem.fluxxCardLoadContent({
+                area: $elem.fluxxCardArea(),
+                url: $elem.attr('href'),
+                type: 'DELETE'
+              });
+            }
+          ],
           'select[data-related-child]': [
             'change', function (e) {
               var $parent   = $(this),
