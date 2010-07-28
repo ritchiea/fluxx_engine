@@ -80,6 +80,9 @@ class ActiveRecord::Base
     @multi_element_object.add_multi_elements
     
     self.instance_eval do
+      def add_multi_elements
+        @multi_element_object.add_multi_elements
+      end
       def multi_element_names
         @multi_element_object.multi_element_attributes || (superclass.respond_to?(:multi_element_names) ? superclass.multi_element_names : nil)
       end

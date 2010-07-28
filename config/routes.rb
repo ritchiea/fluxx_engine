@@ -1,4 +1,4 @@
-Rails.application.routes.draw do |map|
-  resources :realtime_update
-  resources :client_store
+Rails.application.routes.draw do
+  resources :realtime_updates
+  resources :client_stores
 end

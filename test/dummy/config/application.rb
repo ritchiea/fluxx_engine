@@ -11,7 +11,7 @@ require "fluxx_engine"
 
 module Dummy
   class Application < Rails::Application
-  config.i18n.load_path << Dir[File.join(Rails.root, 'config', 'fluxx_locales', '*.{rb,yml}')]
+  config.i18n.load_path << Dir[File.join(Rails.root, 'config', 'fluxx_locales', '*.{rb,yml}')].first
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

@@ -321,7 +321,6 @@ class ActionController::Base
       @model = delete_object.load_existing_model params, pre_model
       instance_variable_set delete_object.singular_model_instance_name, @model
       delete_result = delete_object.perform_delete params, @model, fluxx_current_user
-
       delete_object.invoke_post self, @model
       if delete_result
         flash[:info] = t(:insta_successful_delete, :name => model_class.name)

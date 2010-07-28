@@ -1,4 +1,4 @@
-Dummy::Application.routes.draw do |map|
+Dummy::Application.routes.draw do
   # TODO ESH: find the extension point to allow us to add in extra routes based on a flag or something
   resources :instruments
   resources :musicians
