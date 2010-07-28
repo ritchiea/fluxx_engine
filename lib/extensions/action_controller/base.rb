@@ -88,10 +88,10 @@ class ActionController::Base
 
       @model = show_object.perform_show params, pre_model
       @model_name = show_object.model_name
-      @related = load_related_data(@model) if self.respond_to? :load_related_data
 
       show_object.invoke_post self, @model
       if @model
+        @related = load_related_data(@model) if self.respond_to? :load_related_data
         insta_respond_to show_object, :success do |format|
           format.html do 
             fluxx_show_card show_object, show_object.calculate_show_options(@model, params)

@@ -6,9 +6,9 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   attr_accessor :derived_filters
 
   def safe_find model_id
-    update_condition = nil
-    update_condition = 'deleted_at IS NULL' unless really_delete
-    model_class.find(model_id, :conditions => update_condition)
+    condition = ['id = ?', model_id]
+    condition = ['id = ? AND deleted_at IS NULL', model_id] unless really_delete
+    model_class.find :first, :conditions => condition
   end
   
   def safe_delete model, fluxx_current_user=nil
