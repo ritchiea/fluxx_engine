@@ -135,9 +135,7 @@
         || this.data('card', this.parents('.card:eq(0)').andSelf()).data('card');
     },
     fluxxCardAreas: function () {
-      var $card = this.fluxxCard();
-      return $card.data('areas')
-        || $card.data('areas', $card.find('.area'));
+      return $('.area', this.fluxxCard());
     },
     fluxxCardArea: function() {
       return this.data('area')
@@ -150,6 +148,15 @@
         data: req.data,
         type: req.type
       };
+    },
+    refreshCardArea: function(){
+      return this.each(function(){
+        var $area = $(this);
+        $.fluxx.log(":::refreshCardArea:::", '  '+$area.fluxxCard().attr('id'), '    ' + $area.attr('class'));
+        var req = $area.fluxxCardAreaRequest();
+        $.extend(req, {area: $area});
+        $area.fluxxCardLoadContent(req);
+      });
     },
     fluxxCardAreaURL: function() {
       return this.fluxxCardArea().data('history')[0].url;
@@ -196,6 +203,32 @@
           $form.submit();
         }).wrap('<li>').parent().appendTo($flows);
         $submit.hide();
+      });
+    },
+    openListingFilters: function() {
+      return this.each(function(){
+        var $card    = $(this).fluxxCard(),
+            $listing = $card.fluxxCardListing();
+        var $filters = $($.fluxx.util.resultOf(
+          $.fluxx.card.ui.area,
+          {
+            type: 'filters'
+          }
+        ));
+        $card.fluxxCardLoadContent({
+          area: $filters,
+          url: $listing.attr('data-listing-filter'),
+          header: '<span>' + 'Filter Listings' + '</span>',
+          init: function (e) {
+            $filters.appendTo($card.fluxxCardBody());
+          }
+        });
+      });
+    },
+    closeListingFilters: function() {
+      return this.each(function(){
+        var $card = $(this).fluxxCard();
+        $('.filters', $card).remove();
       });
     },
     openCardModal: function(options, onComplete) {
@@ -462,8 +495,19 @@
   $.fluxx.card.ui.titlebar = function(options) {
     return [
       '<div class="titlebar">',
-        options.title,
+        '<span class="title">',
+          options.title,
+        '</span>',
+        '<ul class="content-actions">',
+          '<li><a href="#" class="refresh-card"><img src="',$.fluxx.util.iconImage('arrow_refresh'),'" /></a></li>',
+          '<li><a href="#" class="open-filters"><img src="',$.fluxx.util.iconImage('cog_edit'),'" /></a></li>',
+        '</ul>',
       '</div>'
+    ];
+  };
+  $.fluxx.card.ui.contentAction = function(options) {
+    return [
+      /* Make a list entry with a link and an image tag */
     ];
   };
   $.fluxx.card.ui.area = function(options) {

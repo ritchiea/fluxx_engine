@@ -52,7 +52,7 @@
     
     installFluxxDecorators: function() {
       _.each($.fluxx.stage.decorators, function(val,key) {
-        $(key).live(val[0], val[1]);
+        $(key).live.apply($(key), val);
       });
     },
     
@@ -133,6 +133,25 @@
                 url: $elem.attr('href'),
                 type: 'DELETE'
               });
+            }
+          ],
+          'a.refresh-card': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              $(this).fluxxCardAreas().refreshCardArea();
+            }
+          ],
+          'a.open-filters': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              if ($('.filters', $(this).fluxxCard()).length) {
+                $(this).closeListingFilters();
+              } else {
+                $(this).openListingFilters();
+              }
+            },
+            function(e) {
+              $.fluxx.util.itEndsWithMe(e);
             }
           ],
           'select[data-related-child]': [

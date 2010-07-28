@@ -80,10 +80,32 @@ body
               +header-bg
               .toolbar
               .titlebar
+                position: relative
+                .title
+                .content-actions
+                  +non-list
+                  display: inline-block
+                  position: absolute
+                  right: 0px
+                  top: 0px
+                  li
+                    display: inline-block
+                    a
+                      display: block
+                      width: 16px
+                      height: 16px
+                      margin: 2px
             .card-body
               width: 800px
               position: relative
-              .listing,.detail,.modal
+              .filters
+                position: absolute
+                top: 0px
+                bottom: 0px
+                left: 0px
+                right: 0px
+                +bg(#333, #eee)
+              .listing,.detail,.modal,.filters
                 +inline-block
                 vertical-align: top
                 .header,.footer

@@ -65,6 +65,9 @@
             return $.fluxx.util.getSource(value);
           return value;
         },
+        iconImage: function(name) {
+          return $.fluxx.config.icon_path + '/' + name + '.png';
+        },
         marginHeight: function($selector) {
           return parseInt($selector.css('marginTop')) + parseInt($selector.css('marginBottom'));
         },

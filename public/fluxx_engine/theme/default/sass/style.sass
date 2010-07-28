@@ -117,10 +117,42 @@
                 font-weight: 100
                 line-height: 24px
                 font-size: 18px
-                padding-left: 10px
+                padding: 0px 10px
+                .content-actions
+                  margin-right: 10px
             .card-body
               background: url(../../default/images/cards/body-bg.png)
               border-bottom: 1px solid #333
+              .filters
+                background: #666
+                border: 3px solid #ccc
+                color: #fff
+                .header,.body,.footer
+                  padding: 4px 10px
+                .header
+                  background: transparent
+                  +linear-gradient(#777, #555)
+                  +box-shadow-inset
+                  color: #fff
+                .body
+                  +box-shadow-inset
+                  background: #333
+                  color: #fff
+                  a
+                    color: #fff
+                .footer
+                  background: transparent
+                  +linear-gradient(#777, #555)
+                  color: #fff
+                  border-left: 1px solid #666
+                  border-right: 1px solid #666
+                  .buttons
+                    +buttons
+                    margin-top: 3px
+                  .workflow
+                    +buttons(12px, 3px, #9f9)
+                    margin-top: 3px
+                    float: right
               .listing,.detail,.modal
                 .header
                   +linear-gradient(#ccc, #aaa)

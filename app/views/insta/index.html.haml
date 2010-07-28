@@ -20,4 +20,5 @@
 
 %ul#card-settings
   %li{:name => "model-class"}= @models.first.class
+  %li{:name => "listing-filter"}= url_for(:action => :show, :id => 1)
   %li{:name => "icon-type"} green
