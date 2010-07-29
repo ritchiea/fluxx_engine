@@ -190,7 +190,6 @@
     },
     areaDetailTransform: function(){
       var $area  = $(this);
-      if (! ($area.hasClass('detail') || $area.hasClass('modal'))) return;
 
       var $forms = $('.body form', $area),
           $flows = $('.footer .workflow', $area);
