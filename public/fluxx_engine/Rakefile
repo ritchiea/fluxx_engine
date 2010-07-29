@@ -33,6 +33,13 @@ end
 
 directory 'dist'
 
+rule '.css' do |t|
+  destination = t.name
+  source = destination.gsub(/css/, 'sass')
+  $stderr.puts ">>> #{source} -> #{destination}"
+  sass2css source, destination
+end
+
 file 'dist/fluxx.engine.js' => [SOURCES].flatten do |t|
   File.open(t.name, 'w') {|f| f.write(compile_sources t.prerequisites)}
 end
@@ -77,16 +84,27 @@ end
 namespace "build" do
   desc 'Build JavaScript'
   task :js => ['dist', 'dist/fluxx.engine.min.js', 'dist/fluxx.engine.full.min.js'] do
-    puts ">>> Built JavaScript Sources"
+    $stderr.puts ">>> Built JavaScript Sources"
   end
   
   desc 'Build Stylesheets'
-  task :css do
-    SASS.each{ |source|
-      destination = source.gsub(/sass/, 'css')
-      puts ">>> #{source} -> #{destination}"
-      sass2css source, destination
-    }
+  task :css, [:destination] do |t, args|
+    if args.destination
+      destination = args.destination
+      source = destination.gsub(/css/, 'sass')
+      if File.exist?(source)
+        $stderr.puts ">>> #{source} -> #{destination}"
+        sass2css source, destination
+      end
+    else
+      SASS.each{ |source|
+        destination = source.gsub(/sass/, 'css')
+        if File.exist?(source)
+          $stderr.puts ">>> #{source} -> #{destination}"
+          sass2css source, destination
+        end
+      }
+    end
   end
 end
 
