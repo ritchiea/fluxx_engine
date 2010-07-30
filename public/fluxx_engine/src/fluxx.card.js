@@ -371,16 +371,12 @@
           var $area = $(this);
           var isSuccess = options.caller.attr('data-is-success'),
               onSuccess = options.caller.attr('data-on-success');
-          $.fluxx.log("isSuccess: " + isSuccess, "success? " + $(isSuccess, $area).length)
-          /* We have a way to determine success */
-          if (isSuccess && $(isSuccess, $area).length) {
-            /* We have something to do once successfull */
-            if (onSuccess) {
-              _.each(onSuccess.split(/,/), function(action){
-                var func = $.fluxx.card.loadingActions[action] || $.noop;
-                (_.bind(func, $area))();
-              });
-            }
+
+          if (onSuccess&& isSuccess && $(isSuccess, $area).length) {
+            _.each(onSuccess.split(/,/), function(action){
+              var func = $.fluxx.card.loadingActions[action] || $.noop;
+              (_.bind(func, $area))();
+            });
           }
         }
       };

@@ -215,6 +215,32 @@
               });
             }
           ],
+          'a.to-listing': [
+            'click', function (e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $elem.fluxxCardLoadListing({
+                url: $elem.attr('href')
+              });
+            }
+          ],
+          'form.to-listing': [
+            'submit', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $elem.fluxxCardLoadListing({
+                url: $elem.attr('action'),
+                type: $elem.attr('method'),
+                data: $elem.serializeArray()
+              });
+            }
+          ],
+          'form.filters': [
+            'submit', function(e) {
+              var $elem = $(this);
+              $elem.closeListingFilters();
+            }
+          ],
           'a.to-detail': ['click', function (e) {
             $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
