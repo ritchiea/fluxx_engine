@@ -21,17 +21,17 @@
     start: function () {
       this.state = S_ON;
       this._start();
-      $(window)
+      /*$(window)
         .focusin(this.start)
-        .focusout(this.stop);
+        .focusout(this.stop);*/
       this.$.trigger('start.fluxx.poller');
     },
     stop: function () {
       this.state = S_OFF;
       this._stop();
-      $(window)
+      /*$(window)
         .unbind('focusin', this.start)
-        .unbind('focusout', this.stop);
+        .unbind('focusout', this.stop);*/
     },
     message: function (data, status) {
       ('update.fluxx.poller')
@@ -74,17 +74,21 @@
       implementations: {
         polling: {
           interval: $.fluxx.util.seconds(5),
+          last_id: null,
           decay: 1.2, /* not used presently */
           maxInterval: $.fluxx.util.minutes(60),
           
           _timeoutID: null,
           _init: function () {
             _.bindAll(this, 'start', 'stop', '_poll');
+            this.last_id = $.cookie('last_id');
           },
           _poll: function () {
             if (this.state == S_OFF) return;
             var doPoll = _.bind(function(){
-              $.getJSON(this.url, _.bind(function(data, status){
+              $.getJSON(this.url, {last_id: this.last_id}, _.bind(function(data, status){
+                this.last_id = data.last_id;
+                $.cookie('last_id', this.last_id);
                 this.message(data, status);
                 this._poll();
               }, this));

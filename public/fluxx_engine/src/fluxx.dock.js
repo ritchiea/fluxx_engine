@@ -44,7 +44,7 @@
         var $icon  = $(this),
             $badge = $('.badge', $icon);
         $badge.text(options.badge);
-        $badge.is(':empty') ? $badge.hide() : $badge.show();
+        $badge.is(':empty') || $badge.text() == 0 ? $badge.hide() : $badge.show();
       });
     },
     removeViewPortIcon: function(options) {
@@ -147,7 +147,7 @@
             $.my.dock.removeViewPortIcon({card: $(this)});
           })
           .live('update.fluxx.card', function (e, nUpdate) {
-            if (!nUpdate || !$(e.target).data('icon')) return;
+            if (!_.isEmpty(nUpdate) || !$(e.target).data('icon')) return;
             var $card = $(e.target);
             $card.data('icon').updateIconBadge({badge: $card.fluxxCardUpdatesAvailable()});
           });

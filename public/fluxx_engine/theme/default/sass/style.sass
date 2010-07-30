@@ -93,6 +93,22 @@
                 position: relative
                 padding: 0px 10px
                 border-bottom: 1px solid #333
+                height: 20px
+                .updates
+                  +inline-block
+                  +bg(#000, #fff)
+                  +linear-gradient(#333, #000)
+                  +rounded
+                  text-decoration: none
+                  font-size: 12px
+                  font-weight: 100
+                  height: 16px
+                  line-height: 16px
+                  margin-bottom: 2px
+                  padding: 0px 4px 0px 2px
+                  .available
+                    background: transparent url("../../default/images/icons/arrow_refresh_small.png") no-repeat center left
+                    padding-left: 16px
                 .loading-indicator
                   +inline-block
                   height: 11px
@@ -105,7 +121,7 @@
                   position: absolute
                   right: 0px
                   top: 0px
-                  margin-top: 1px
+                  margin-top: 2px
                   margin-right: 10px
               .titlebar
                 +bg(#ccc, #333)
@@ -212,7 +228,7 @@
                         +linear-gradient(#cfc, #beb)
                         a
                           border-left: 1px solid #6f6
-                      &.orange
+                      &.orange,&.latest
                         +linear-gradient(#fc0, #eb0)
                         a
                           border-left: 1px solid #fa0
