@@ -235,7 +235,7 @@
               });
             }
           ],
-          'form.filters': [
+          'form.filters-form': [
             'submit', function(e) {
               var $elem = $(this);
               $elem.closeListingFilters();
