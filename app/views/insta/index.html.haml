@@ -2,7 +2,7 @@
   Listing #{@plural_model_name}
 
 #card-header
-  = form_for :q, :url => url_for(:action => :index), :html => { :method => :get, :class => 'search to-self' } do |f|
+  = form_for :q, :url => url_for(:action => :index), :html => { :method => :get, :class => 'search area-url to-self' } do |f|
     = f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'filter', :placeholder => 'Search...', :type => 'search'
   %ul.actions
     %li= link_to image_tag('/fluxx_engine/theme/default/images/icons/table.png', :alt => "CSV"),   :format => :csv
@@ -20,5 +20,5 @@
 
 %ul#card-settings
   %li{:name => "model-class"}= @models.first.class
-  %li{:name => "listing-filter"}= url_for(:action => :index, :view => 'filter')
+  %li{:name => "listing-filter"}= url_for(:action => :index, :view => 'filter', :q => (params[:q] ? params[:q][:q] : ''))
   %li{:name => "icon-type"} green

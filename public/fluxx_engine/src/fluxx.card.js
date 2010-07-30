@@ -166,8 +166,16 @@
         $area.fluxxCardLoadContent(req);
       });
     },
-    fluxxCardAreaURL: function() {
-      return this.fluxxCardArea().data('history')[0].url;
+    fluxxCardAreaURL: function(options) {
+      var options = $.fluxx.util.options_with_callback({without: []},options);
+      var current = this.fluxxCardArea().data('history')[0];
+      var withoutNames = _.pluck(options.without, 'name');
+      $.fluxx.log('withoutNames', withoutNames);
+      var params  = _.reject(current.data, function(elem) {
+        return _.indexOf(withoutNames, elem.name) == -1 ? false : true;
+      });
+      /* Remove anything from current.data that's in options.without */
+      return current.url + '?' + $.param(params);
     },
     fluxxCardListingFilters: function() {
       return this.fluxxCardArea().data('history')[0].data;

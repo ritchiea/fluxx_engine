@@ -255,6 +255,12 @@
               $elem.attr('href', $elem.fluxxCardAreaURL());
             }
           ],
+          'form.area-url': [
+            'submit', function(e) {
+              var $elem = $(this);
+              $elem.attr('action', $elem.fluxxCardAreaURL({without: $elem.serializeArray()}));
+            }
+          ],
           'form.to-self': [
             'submit', function (e) {
               $.fluxx.util.itEndsWithMe(e);
