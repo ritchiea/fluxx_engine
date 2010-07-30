@@ -255,6 +255,12 @@
               $elem.attr('href', $elem.fluxxCardAreaURL());
             }
           ],
+          'a.area-data': [
+            'click', function(e) {
+              var $elem = $(this);
+              $elem.attr('href', $elem.attr('href') + '?' + $.param($elem.fluxxCardAreaData()))
+            }
+          ],
           'form.area-url': [
             'submit', function(e) {
               var $elem = $(this);

@@ -177,7 +177,7 @@
       /* Remove anything from current.data that's in options.without */
       return current.url + '?' + $.param(params);
     },
-    fluxxCardListingFilters: function() {
+    fluxxCardAreaData: function() {
       return this.fluxxCardArea().data('history')[0].data;
     },
     fluxxCardListing: function() {
@@ -317,7 +317,7 @@
     },
     fluxxListingUpdate: function(e, updates) {
       var $area   = $(e.target),
-          filters = $area.fluxxCardListingFilters(),
+          filters = $area.fluxxCardAreaData(),
           updates = _.select(updates, function(update){
                         return _.isFilterMatch(filters, update);
                     });
