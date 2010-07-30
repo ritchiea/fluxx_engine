@@ -1,10 +1,8 @@
 class ModelStub
   
   def self.generate_class klass
-    Class.new(klass) do
-      def method_missing(method, *args, &block)
-        # ignore getter/setter calls
-      end
+    Class.new(BlobStruct) do
+      @model_klass = klass
       
       def new_record?
         true
@@ -15,9 +13,9 @@ class ModelStub
         'Search'
       end
 
-      # This is used by formtastic; can be ignored
+      # This is used by formtastic; determines the name of the form
       def self.model_name
-        ActiveModel::Name.new super
+        ActiveModel::Name.new @model_klass
       end
     end
   end

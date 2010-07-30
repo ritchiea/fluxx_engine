@@ -10,23 +10,23 @@ class InstrumentTest < ActiveSupport::TestCase
   end
   
   test "test instrument search with matching attribute is found" do
-    list = Instrument.model_search '', {:name => @instrument.name}
+    list = Instrument.model_search '', {:instrument => {:name => @instrument.name}}
     assert_equal @instrument.id, list.first
   end
 
   test "test instrument search with non matching attribute is not found" do
-    list = Instrument.model_search '', {:name => "#{@instrument.name}_this_cant_be_found"}
+    list = Instrument.model_search '', {:instrument => {:name => "#{@instrument.name}_this_cant_be_found"}}
     assert list.empty?
   end
 
   test "test instrument search by ID for some records" do
-    list = Instrument.model_search '', {:name => "#{@instrument.name}_this_cant_be_found"}
+    list = Instrument.model_search '', {:instrument => {:name => "#{@instrument.name}_this_cant_be_found"}}
     assert list.empty?
   end
 
   test "test instrument search" do
     instruments = ((1..10).map { Instrument.make }) + [@instrument]
-    list = Instrument.model_search '', {:id => instruments.map(&:id)}
+    list = Instrument.model_search '', {:instrument => {:id => instruments.map(&:id)}}
     assert_equal instruments.map(&:id).sort, list.sort
   end
 

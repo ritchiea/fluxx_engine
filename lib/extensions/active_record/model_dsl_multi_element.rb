@@ -20,7 +20,7 @@ class ActiveRecord::ModelDslMultiElement < ActiveRecord::ModelDsl
           @single_element_attributes << group.name.singularize
         else
           model_class.has_many group.name.to_sym, :class_name => 'MultiElementValue', :through => :multi_element_choices, :source => 'multi_element_value', 
-               :conditions => "multi_element_group_id = '#{group.id}'"
+               :conditions => "multi_element_group_id = '#{group.id}' and multi_element_choices.multi_element_value_id = multi_element_values.id"
           model_class.send :define_method, "choices_#{group.name}".to_sym do 
              group.multi_element_values
           end

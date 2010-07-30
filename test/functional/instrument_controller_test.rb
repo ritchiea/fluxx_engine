@@ -143,7 +143,7 @@ class InstrumentsControllerTest < ActionController::TestCase
   test "multiple attribute filter" do
     lookup_instrument1 = Instrument.make
     lookup_instrument2 = Instrument.make
-    get :index, :id => [lookup_instrument1.id, lookup_instrument2.id], :format => :json
+    get :index, :instrument => {:id => [lookup_instrument1.id, lookup_instrument2.id]}, :format => :json
     a = @response.body.de_json # try to deserialize the JSON to an array
     a = a.sort_by{|elem| elem['value']}
     assert_equal lookup_instrument1.name, a.first['label']

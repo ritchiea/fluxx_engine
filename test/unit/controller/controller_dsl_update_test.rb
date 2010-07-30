@@ -23,9 +23,7 @@ class ControllerDslUpdateTest < ActiveSupport::TestCase
     @dsl_update = ActionController::ControllerDslUpdate.new Instrument
     instrument = Instrument.make
     instrument.update_attributes :deleted_at => Time.now
-    assert_raises ActiveRecord::RecordNotFound do
-      @dsl_update.load_existing_model({:id => instrument.id})
-    end
+    assert !(@dsl_update.load_existing_model({:id => instrument.id}))
   end
 
   test "check that we can update a model with a fluxx user" do
