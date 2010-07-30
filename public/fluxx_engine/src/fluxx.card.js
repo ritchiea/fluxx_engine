@@ -121,8 +121,16 @@
                 $areaBody = $('.body', $area);
             $areaBody.height(
               $areaBody.parent().innerHeight() -
-              _.addUp($areaBody.siblings().not(':not(:visible),.drawer,.arrow'), 'outerHeight', true)
-            )
+              _.addUp(
+                $areaBody
+                  .siblings()
+                  .not(':not(:visible)')
+                  .filter(function(){ return $(this).css('position') != 'absolute'; }
+                ),
+                'outerHeight',
+                true
+              )
+            );
           });
         });
 
@@ -239,7 +247,8 @@
             $.fluxx.card.ui.area,
             {
               type: 'modal',
-              arrow: 'left'
+              arrow: 'left',
+              closeButton: true,
             }
         )).data('target', options.target);
         $card.fluxxCardLoadContent(
@@ -247,6 +256,7 @@
             area: $modal,
             url: options.url,
             header: '<span>' + options.header + '</span>',
+            caller: options.target,
             init: function(e) {
               $modal.appendTo($card.fluxxCardBody());
               options.target.disableFluxxArea();
@@ -264,8 +274,6 @@
           },
           function(e) {
             $card.resizeFluxxCard();
-            $('<ul class="controls"><li><a href="#" class="close-modal">&times;</a></li></ul>')
-              .appendTo($('.header', $modal));
           }
         );
       });
@@ -351,13 +359,30 @@
         type: 'GET',
         url: null,
         data: {},
+        caller: $(),
         /* defaults for sections */
         header: '',
         body: '',
         footer: '',
         /* events */
         update: $.noop,
-        init: $.noop
+        init: $.noop,
+        lifetimeComplete: function(e) {
+          var $area = $(this);
+          var isSuccess = options.caller.attr('data-is-success'),
+              onSuccess = options.caller.attr('data-on-success');
+          $.fluxx.log("isSuccess: " + isSuccess, "success? " + $(isSuccess, $area).length)
+          /* We have a way to determine success */
+          if (isSuccess && $(isSuccess, $area).length) {
+            /* We have something to do once successfull */
+            if (onSuccess) {
+              _.each(onSuccess.split(/,/), function(action){
+                var func = $.fluxx.card.loadingActions[action] || $.noop;
+                (_.bind(func, $area))();
+              });
+            }
+          }
+        }
       };
       var options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
       options.area
@@ -366,6 +391,8 @@
           $.fluxx.util.itEndsHere,
           options.init
         )).trigger('init.fluxx.area');
+
+      options.area.bind('lifetimeComplete.fluxx.area', _.bind(options.lifetimeComplete, options.area));
 
       options.area
         .unbind('complete.fluxx.area')
@@ -408,13 +435,16 @@
             $('.footer', options.area).html(($('#card-footer', $document).html() || options.footer).trim());
             $('.drawer', options.area).html(($('#card-drawer', $document).html() || '').trim());
             $('.header,.body,.footer,.drawer', options.area).removeClass('empty').filter(':empty').addClass('empty');
-            options.area.fluxxAreaSettings({settings: $('#card-settings', $document)}).trigger('complete.fluxx.area');
+            options.area
+              .fluxxAreaSettings({settings: $('#card-settings', $document)})
+              .trigger('complete.fluxx.area')
+              .trigger('lifetimeComplete.fluxx.area');
           }
         },
         error: function(xhr, status, error) {
           var $document = $('<div/>').html(xhr.responseText);
           $('.body', options.area).html($document);
-          options.area.trigger('complete.fluxx.area');
+          options.area.trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
         },
         beforeSend: function() { $('.loading-indicator', options.area.fluxxCard()).addClass('loading') },
         complete: function() { $('.loading-indicator', options.area.fluxxCard()).removeClass('loading') }
@@ -471,6 +501,15 @@
                 '</div>',
               '</div>'
             ]));
+        },
+        loadingActions: {
+          close: function(){
+            this.closeCardModal();
+          },
+          refreshCaller: function(){
+            if (! this.data('target')) return;
+            this.data('target').refreshCardArea();
+          }
         }
       }
     }
@@ -513,6 +552,7 @@
     var types = _.flatten($.merge($.makeArray(options.type), ['area']));
     return [
       '<div class="', types.join(' '), '" data-type="', options.type ,'">',
+        (options.closeButton ? ['<ul class="controls"><li><a href="#" class="close-modal">&times;</a></li></ul>'] : null),
         (options.arrow ? ['<div class="arrow ', options.arrow, '"></div>'] : null),
         '<div class="header"></div>',
         '<div class="body"></div>',

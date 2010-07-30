@@ -251,8 +251,15 @@
               .modal
                 +box-shadow
                 +rounded
-                opacity: 0.9
+                opacity: 0.95
                 border: 0px solid #333
+                .controls
+                  +buttons(10px, 2px, #333, #eee, rgba(0,0,0,0.5), -1px, 2px)
+                  position: absolute
+                  right: 0px
+                  top: 0px
+                  margin-right: 10px
+                  margin-top: 6px
                 .arrow
                   +bg(transparent)
                   $size: 25px
@@ -271,14 +278,7 @@
                   +chiseled-text-light(rgba(0,0,0,0.65))
                   text-transform: uppercase
                   font-weight: 100
-                  position: relative
-                  .controls
-                    +buttons(10px, 2px, #333, #eee, rgba(0,0,0,0.5), -1px, 2px)
-                    position: absolute
-                    right: 0px
-                    top: 0px
-                    margin-right: 10px
-                    margin-top: 6px
+                  border-top: none
                 .body
                   +bg(#333, #fff)
                 .footer
