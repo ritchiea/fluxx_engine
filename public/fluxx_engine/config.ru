@@ -4,11 +4,17 @@ module Rack
   class FluxxBuilder
     def initialize app
       @app = app
+      @build_dir = '.'
+      @path_prefix = '/'
     end
     def call env
       path = Utils.unescape(env["PATH_INFO"])
-      if path.match('\.(css|js)$')
-        `rake build`
+      if path.match('\.css$')
+        file = path.gsub(/^#{@path_prefix}/, '')
+        $stderr.puts ">>> BUILDING #{file}"
+        `cd #{@build_dir} && rake build:css[#{file}]`
+      elsif path.match('\.js$')
+        `cd #{@build_dir} && rake build:js`
       end
       @app.call env
     end
@@ -28,7 +34,7 @@ module Rack
     def call env
       path = Utils.unescape(env["PATH_INFO"])
       if path.match(/rtu_polling$/)
-        body = JSON.pretty_generate ({
+        body = JSON.pretty_generate({
           'last_id' => last_id_counter,
           'ts'      => Time.now.to_i,
           'deltas'  => [
@@ -113,7 +119,9 @@ module Rack
   end
 end
 
-use Rack::FluxxBuilder
+is_ui_dev = ENV['FLUXX_UI_DEV'].to_i == 1 ? true : false
+puts "FLUXX_UI_DEV = #{is_ui_dev}"
+use Rack::FluxxBuilder if is_ui_dev
 use Rack::FluxxRTUPolling
 
 root=Dir.pwd
