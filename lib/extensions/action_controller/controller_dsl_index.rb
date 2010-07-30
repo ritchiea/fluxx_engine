@@ -9,6 +9,12 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :order_clause
   # any additional relationships to include
   attr_accessor :include_relation
+  # the view to display for the filter
+  attr_accessor :filter_view
+  # the optional title of the filter
+  attr_accessor :filter_title
+  # the optional filter template to provide the body of the filter form 
+  attr_accessor :filter_template
 
 
   # block to postprocess autocomplete results
