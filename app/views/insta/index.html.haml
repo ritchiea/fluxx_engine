@@ -19,6 +19,7 @@
 #card-footer= raw(fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>')
 
 %ul#card-settings
-  %li{:name => "model-class"}= @models.first.class
+  %li{:name => "model-param-name"}= @model_class.calculate_form_name
+  %li{:name => "model-class"}= @model_class
   %li{:name => "listing-filter"}= url_for(:action => :index, :view => 'filter', :q => (params[:q] ? params[:q][:q] : ''))
   %li{:name => "icon-type"} green
