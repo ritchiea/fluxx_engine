@@ -81,10 +81,10 @@
       #hand
         +bg(transparent)
         .card
-          border: 1px solid #999
-          +box-shadow
-          +rounded(6px)
           .card-box
+            border: 1px solid #999
+            +box-shadow
+            +rounded(6px)
             .card-header
               +rounded-top(6px)
               .toolbar
@@ -201,10 +201,14 @@
                     +non-list
                     .entry
                       +linear-gradient(#fff,#eee)
+                      &:hover
+                        +linear-gradient(#fff,#f6f6f6)
                       border-top: 1px solid #eee
                       border-bottom: 1px solid #666
                       a
                         +linear-gradient(#fff,#eee)
+                        &:hover
+                          +linear-gradient(#fff,#f6f6f6)
                         font-size: 14px
                         line-height: 16px
                         color: black
@@ -226,12 +230,20 @@
                         +linear-gradient(#fcc, #ebb)
                         a
                           border-left: 1px solid #f66
-                      &.green
-                        +linear-gradient(#cfc, #beb)
+                      &.green,&.selected
+                        +linear-gradient(#6c6, #5b5)
+                        &:hover
+                          +linear-gradient(#6c6, #5bc45b)
+                          a
+                            border-left: 1px solid #3aa13a
                         a
-                          border-left: 1px solid #6f6
+                          border-left: 1px solid #393
                       &.orange,&.latest
                         +linear-gradient(#fc0, #eb0)
+                        &:hover
+                          +linear-gradient(#fc0, #f6c407)
+                          a
+                            border-left: 1px solid #ffb207
                         a
                           border-left: 1px solid #fa0
                       &.blue

@@ -95,6 +95,7 @@
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       return this.each(function(){
         $(this)
+          .fluxxCard()
           .bind({
             'unload.fluxx.card': _.callAll(
               options.callback,
@@ -109,7 +110,7 @@
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       if (!$.my.hand) return this;
 
-      $('.card-box', this)
+      $('.card-box', this.fluxxCard())
         .height(
           $.my.cards.height(
             $.my.hand.innerHeight() -
@@ -123,13 +124,19 @@
             _.addUp(
               $('.area', $box).not(':not(:visible)'),
               'outerWidth', true
-            )
+            ) + 2
           );
-
+          
           $('.area', $cardBody).height(
             $cardBody.height(
               $cardBody.parent().innerHeight() -
-              _.addUp($cardBody.siblings(), 'outerHeight', true)
+              _.addUp(
+                $cardBody
+                  .siblings()
+                  .not(':not(:visible)')
+                  .filter(function(){ return $(this).css('position') != 'absolute'; }),
+                'outerHeight', true
+              )
             ).innerHeight()
           ).each(function(){
             var $area     = $(this),
@@ -140,14 +147,25 @@
                 $areaBody
                   .siblings()
                   .not(':not(:visible)')
-                  .filter(function(){ return $(this).css('position') != 'absolute'; }
-                ),
+                  .filter(function(){ return $(this).css('position') != 'absolute'; }),
                 'outerHeight',
                 true
               )
             );
           })
         });
+      this.fluxxCard().width(
+        _.addUp(
+          this.fluxxCard()
+            .children()
+            .not(':not(:visible)')
+            .filter(function(){ return $(this).css('position') != 'absolute'; }),
+          'outerWidth', true
+        ) +
+        $('.drawer', this.fluxxCard()).outerWidth(true)
+      )
+
+
       _.bind($.fn.resizeFluxxStage, $.my.stage)();
 
       return this;
@@ -455,8 +473,8 @@
             $('.header', options.area).html(($('#card-header', $document).html() || options.header).trim());
             $('.body',   options.area).html(($('#card-body',   $document).html() || options.body).trim());
             $('.footer', options.area).html(($('#card-footer', $document).html() || options.footer).trim());
-            $('.drawer', options.area).html(($('#card-drawer', $document).html() || '').trim());
-            $('.header,.body,.footer,.drawer', options.area).removeClass('empty').filter(':empty').addClass('empty');
+            $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
+            $('.header,.body,.footer', options.area).add('.drawer', options.area.fluxxCard()).removeClass('empty').filter(':empty').addClass('empty');
             options.area
               .fluxxAreaSettings({settings: $('#card-settings', $document)})
               .trigger('complete.fluxx.area')
@@ -469,8 +487,8 @@
           $('.header', options.area).html('');
           $('.body', options.area).html($document);
           $('.footer', options.area).html('');
-          $('.drawer', options.area).html('');
-          $('.header,.body,.footer,.drawer', options.area).removeClass('empty').filter(':empty').addClass('empty');
+          $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
+          $('.header,.body,.footer', options.area).add('.drawer', options.area.fluxxCard()).removeClass('empty').filter(':empty').addClass('empty');
           options.area
             .trigger('complete.fluxx.area')
             .trigger('lifetimeComplete.fluxx.area');
@@ -528,7 +546,8 @@
                 '</div>',
                 '<div class="card-footer">',
                 '</div>',
-              '</div>'
+              '</div>',
+              '<div class="drawer"></div>',
             ]));
         },
         loadingActions: {
@@ -580,13 +599,13 @@
   $.fluxx.card.ui.area = function(options) {
     var types = _.flatten($.merge($.makeArray(options.type), ['area']));
     return [
-      '<div class="', types.join(' '), '" data-type="', options.type ,'">',
+      '<div class="', types.join(' '), '" data-type="', options.type ,'" ', (options.drawer ? ' data-has-drawer="1" ' : null),
+ ,'>',
         (options.closeButton ? ['<ul class="controls"><li><a href="#" class="close-modal">&times;</a></li></ul>'] : null),
         (options.arrow ? ['<div class="arrow ', options.arrow, '"></div>'] : null),
         '<div class="header"></div>',
         '<div class="body"></div>',
         '<div class="footer"></div>',
-        (options.drawer ? '<div class="drawer"></div>' : null),
       '</div>'
     ];
   };

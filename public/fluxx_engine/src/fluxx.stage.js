@@ -241,6 +241,19 @@
               $elem.closeListingFilters();
             }
           ],
+          'li.entry a': [
+            'click', function(e) {
+              var $elem = $(this);
+              var $entry = $elem.parent();
+              $entry.removeClass('latest').addClass('selected').siblings().removeClass('selected');
+            }
+          ],
+          'a.close-card': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              $(this).removeFluxxCard();
+            }
+          ],
           'a.to-detail': ['click', function (e) {
             $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);

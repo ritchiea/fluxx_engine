@@ -75,6 +75,7 @@ body
         .card
           +inline-block
           margin: 10px
+          position: relative
           .card-box
             .card-header
               +header-bg
@@ -107,7 +108,7 @@ body
               .listing,.detail,.modal,.filters
                 +inline-block
                 vertical-align: top
-                .header,.footer,.drawer
+                .header,.footer
                   &.empty
                     display: none
                 .header
@@ -137,14 +138,6 @@ body
               .detail
                 width: 400px
                 position: relative
-                .drawer
-                  +bg(#eee)
-                  overflow: auto
-                  width: 200px
-                  position: absolute
-                  top: 0px
-                  left: 400px
-                  bottom: 0px
               .modal
                 +bg(#333,#fff)
                 width: 300px
@@ -162,6 +155,18 @@ body
                     top: 0px
             .card-footer
               +footer-bg
+          .drawer
+            &.empty
+              display: none
+            +bg(#eee)
+            overflow: auto
+            width: 200px
+            position: absolute
+            top: 47px
+            right: 0px
+            bottom: 7px
+            border: 1px solid #999
+            border-left: none
     #footer
       +footer-bg
       height: $footer_height
