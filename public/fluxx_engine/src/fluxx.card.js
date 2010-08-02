@@ -18,7 +18,6 @@
               $.fluxx.util.itEndsHere,
               function(){$card.show();},
               _.bind($.fn.resizeFluxxCard, $card),
-              _.bind($.fn.resizeFluxxStage, $.my.stage),
               _.bind($.fn.subscribeFluxxCardToUpdates, $card),
               options.callback
             ),
@@ -120,6 +119,13 @@
         .each(function(){
           var $box      = $(this),
               $cardBody = $('.card-body', $box);
+          $box.width(
+            _.addUp(
+              $('.area', $box).not(':not(:visible)'),
+              'outerWidth', true
+            )
+          );
+
           $('.area', $cardBody).height(
             $cardBody.height(
               $cardBody.parent().innerHeight() -
@@ -140,8 +146,9 @@
                 true
               )
             );
-          });
+          })
         });
+      _.bind($.fn.resizeFluxxStage, $.my.stage)();
 
       return this;
     },
@@ -424,7 +431,7 @@
           options.update
         ));
       if (!options.url) {
-        options.area.trigger('complete.fluxx.area');
+        options.area.hide().trigger('complete.fluxx.area');
         return this;
       }
       if (!options.area.data('history')) {
@@ -443,6 +450,7 @@
             $.fluxx.log(opts);
             options.area.fluxxCardLoadContent(opts);
           } else {
+            options.area.show();
             var $document = $('<div/>').html(data);
             $('.header', options.area).html(($('#card-header', $document).html() || options.header).trim());
             $('.body',   options.area).html(($('#card-body',   $document).html() || options.body).trim());
@@ -456,9 +464,16 @@
           }
         },
         error: function(xhr, status, error) {
+          options.area.show();
           var $document = $('<div/>').html(xhr.responseText);
+          $('.header', options.area).html('');
           $('.body', options.area).html($document);
-          options.area.trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
+          $('.footer', options.area).html('');
+          $('.drawer', options.area).html('');
+          $('.header,.body,.footer,.drawer', options.area).removeClass('empty').filter(':empty').addClass('empty');
+          options.area
+            .trigger('complete.fluxx.area')
+            .trigger('lifetimeComplete.fluxx.area');
         },
         beforeSend: function() { $('.loading-indicator', options.area.fluxxCard()).addClass('loading') },
         complete: function() { $('.loading-indicator', options.area.fluxxCard()).removeClass('loading') }
