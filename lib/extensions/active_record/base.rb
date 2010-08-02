@@ -124,7 +124,10 @@ class ActiveRecord::Base
   end
   
   ############ Utility Helper Methods ###############################
-
+  def self.calculate_form_name
+    self.name.tableize.singularize.downcase.to_sym
+  end
+  
   def filter_amount amount
     if amount.is_a? String
       amount.gsub("\$", "").gsub(",","")

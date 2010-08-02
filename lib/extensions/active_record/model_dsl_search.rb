@@ -34,7 +34,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   end
 
   def sql_model_search q_search, request_params, results_per_page=25, options={}
-    model_request_params = request_params[calculate_form_name] || {}
+    model_request_params = request_params[model_class.calculate_form_name] || {}
     string_fields = model_class.columns.select {|col| col.type == :string}.map &:name
     queries = q_search.split ' '
     queries = queries.reject {|q| q.blank?}
@@ -47,8 +47,8 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     
     unless filter_fields.blank?
       filter_fields.each do |attr|
-        unless model_request_params[attr].blank?
-          attr_sql = model_class.send :sanitize_sql, [" #{attr} in (?) ", model_request_params[attr]]
+        unless grab_param(attr, model_request_params, request_params).blank?
+          attr_sql = model_class.send :sanitize_sql, [" #{attr} in (?) ", grab_param(attr, model_request_params, request_params)]
           sql_conditions += " #{sql_conditions.blank? ? '' : ' AND '}  #{attr_sql}" 
         end
       end
@@ -62,9 +62,13 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     models.replace models.map(&:id)
     models
   end
+  
+  def grab_param attr_name, model_request_params={}, request_params={}
+    model_request_params[attr_name] || request_params[attr_name]
+  end
 
   def sphinx_model_search q_search, request_params, results_per_page=25, options={}
-    model_request_params = request_params[calculate_form_name] || {}
+    model_request_params = request_params[model_class.calculate_form_name] || {}
     search_with_attributes = if options[:search_conditions]
       options[:search_conditions].clone 
     end || {}
@@ -77,15 +81,15 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
 
     unless filter_fields.blank?
       filter_fields.each do |attr|
-        unless model_request_params[attr].blank?
+        unless grab_param(attr, model_request_params, request_params).blank?
           if derived_filters && derived_filters[attr] # some attributes have filtering methods; if so call it
-            derived_filters[attr].call(search_with_attributes, model_request_params[attr]) # Send the raw un-split value
-          elsif model_request_params[attr].select{|split_param| !split_param.is_numeric?}.size > 0 # Check to see if any params are NOT numeric
+            derived_filters[attr].call(search_with_attributes, grab_param(attr, model_request_params, request_params)) # Send the raw un-split value
+          elsif grab_param(attr, model_request_params, request_params).select{|split_param| !split_param.is_numeric?}.size > 0 # Check to see if any params are NOT numeric
             # Sphinx doesn't allow string attributes, so if we get a non-numeric value, search for the crc32 hash of it
-            values = model_request_params[attr].map{|val|val.to_crc32}
+            values = grab_param(attr, model_request_params, request_params).map{|val|val.to_crc32}
             search_with_attributes[attr] = values
           else
-            search_with_attributes[attr] = model_request_params[attr].map{|val| val.to_i}
+            search_with_attributes[attr] = grab_param(attr, model_request_params, request_params).map{|val| val.to_i}
           end
         end
       end

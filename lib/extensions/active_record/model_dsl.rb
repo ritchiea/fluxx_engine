@@ -8,8 +8,4 @@ class ActiveRecord::ModelDsl
     self.model_class = model_class_param
     self.really_delete = !(model_class.columns.map(&:name).include? 'deleted_at') rescue nil
   end
-  
-  def calculate_form_name
-    model_class.name.tableize.singularize.downcase.to_sym
-  end
 end

@@ -55,6 +55,7 @@ class ActionController::Base
           @filter_template = index_object.filter_template
           render((index_object.filter_view || "#{insta_path}/filter").to_s, :layout => false)
         else
+          @model_class = index_object.model_class
           @template = index_object.template
           @models = index_object.load_results params, request.format, pre_models
           instance_variable_set index_object.plural_model_instance_name, @models
