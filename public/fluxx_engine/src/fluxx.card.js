@@ -547,7 +547,7 @@
                 '<div class="card-footer">',
                 '</div>',
               '</div>',
-              '<div class="drawer"></div>',
+              '<ol class="drawer"></ol>',
             ]));
         },
         loadingActions: {
