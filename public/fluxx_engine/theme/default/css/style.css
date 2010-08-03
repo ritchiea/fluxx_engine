@@ -80,7 +80,7 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand { background-color: transparent; color: black; }
 #fluxx #stage #card-table #hand a { color: black; }
 #fluxx #stage #card-table #hand .card .drawer { list-style: none; padding: 0; margin: 0; }
-#fluxx #stage #card-table #hand .card .drawer .section .label { display: inline-block; *display: inline; zoom: 1; background-color: #ffccff; color: black; -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); rotation: 90deg; filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1); -webkit-transform-origin: 100% 100%; -moz-transform-origin: 100% 100%; -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; border: 1px solid #999999; }
+#fluxx #stage #card-table #hand .card .drawer .section .label { display: inline-block; *display: inline; zoom: 1; background-color: #ffccff; color: black; -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); rotation: 90deg; filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1); -webkit-transform-origin: 0% 100%; -moz-transform-origin: 0% 100%; -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; border: 1px solid #999999; }
 #fluxx #stage #card-table #hand .card .drawer .section .label a { color: black; }
 #fluxx #stage #card-table #hand .card .drawer .section .entries { list-style: none; padding: 0; margin: 0; }
 #fluxx #stage #card-table #hand .card .drawer .section .entries .entry { background-color: #ffcccc; color: black; }

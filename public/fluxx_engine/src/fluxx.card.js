@@ -122,7 +122,7 @@
               $cardBody = $('.card-body', $box);
           $box.width(
             _.addUp(
-              $('.area', $box).not(':not(:visible)'),
+              $('.area', $box).not(':not(:visible)').filter(function(){ return $(this).css('position') != 'absolute'; }),
               'outerWidth', true
             ) + 2
           );
@@ -160,11 +160,10 @@
             .children()
             .not(':not(:visible)')
             .filter(function(){ return $(this).css('position') != 'absolute'; }),
-          'outerWidth', true
+          'outerWidth', false
         ) +
         $('.drawer', this.fluxxCard()).outerWidth(true)
-      )
-
+      );
 
       _.bind($.fn.resizeFluxxStage, $.my.stage)();
 
