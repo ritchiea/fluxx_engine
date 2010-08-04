@@ -55,9 +55,10 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .modal .arrow.left { left: -25px; top: 0px; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: white; }
-#fluxx #stage #card-table #hand .card .drawer { background-color: #eeeeee; color: black; overflow: auto; width: 250px; position: absolute; top: 47px; right: 0px; bottom: 7px; border: 1px solid #999999; border-left: none; }
-#fluxx #stage #card-table #hand .card .drawer.empty { display: none; }
-#fluxx #stage #card-table #hand .card .drawer a { color: black; }
+#fluxx #stage #card-table #hand .card .info { background-color: #eeeeee; color: black; width: 250px; position: absolute; top: 47px; right: 0px; bottom: 7px; }
+#fluxx #stage #card-table #hand .card .info.empty { display: none; }
+#fluxx #stage #card-table #hand .card .info a { color: black; }
+#fluxx #stage #card-table #hand .card .info .drawer { overflow: auto; border-left: none; }
 #fluxx #stage #footer { background-color: #333333; color: white; height: 78px; position: fixed; bottom: 0; width: 100%; }
 #fluxx #stage #footer a { color: white; }
 #fluxx #stage #footer #viewport { display: inline-block; *display: inline; zoom: 1; }
@@ -79,12 +80,16 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table a { color: black; }
 #fluxx #stage #card-table #hand { background-color: transparent; color: black; }
 #fluxx #stage #card-table #hand a { color: black; }
-#fluxx #stage #card-table #hand .card .drawer { list-style: none; padding: 0; margin: 0; }
-#fluxx #stage #card-table #hand .card .drawer .section .label { display: inline-block; *display: inline; zoom: 1; background-color: #ffccff; color: black; -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); rotation: 90deg; filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1); -webkit-transform-origin: 0% 100%; -moz-transform-origin: 0% 100%; -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; border: 1px solid #999999; }
-#fluxx #stage #card-table #hand .card .drawer .section .label a { color: black; }
-#fluxx #stage #card-table #hand .card .drawer .section .entries { list-style: none; padding: 0; margin: 0; }
-#fluxx #stage #card-table #hand .card .drawer .section .entries .entry { background-color: #ffcccc; color: black; }
-#fluxx #stage #card-table #hand .card .drawer .section .entries .entry a { color: black; }
+#fluxx #stage #card-table #hand .card .info .tabs { list-style: none; padding: 0; margin: 0; -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); rotation: 90deg; filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1); -webkit-transform-origin: 0% 0%; -moz-transform-origin: 0% 0%; position: absolute; width: 100%; top: 0px; bottom: 0px; left: 250px; height: 25px; }
+#fluxx #stage #card-table #hand .card .info .tabs .section { display: inline-block; *display: inline; zoom: 1; }
+#fluxx #stage #card-table #hand .card .info .tabs .section .label { display: inline-block; *display: inline; zoom: 1; background-color: #444444; color: #eeeeee; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #555555), color-stop(1, #333333)); background: -moz-linear-gradient(center top, #555555 0%, #333333 100%); -webkit-border-top-left-radius: 4px; -webkit-border-top-right-radius: 4px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; border: 1px solid #444444; margin: 0px 2px; padding: 0px 2px; font-size: 10px; text-transform: uppercase; height: 25px; line-height: 25px; }
+#fluxx #stage #card-table #hand .card .info .tabs .section .label a { color: #eeeeee; }
+#fluxx #stage #card-table #hand .card .info .tabs .section .entries { display: none; }
+#fluxx #stage #card-table #hand .card .info .drawer { list-style: none; padding: 0; margin: 0; width: 225px; height: 100%; border: 1px solid #999999; }
+#fluxx #stage #card-table #hand .card .info .drawer .section .label { display: none; }
+#fluxx #stage #card-table #hand .card .info .drawer .section .entries { list-style: none; padding: 0; margin: 0; }
+#fluxx #stage #card-table #hand .card .info .drawer .section .entries .entry { background-color: #efefef; color: black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #eeeeee)); background: -moz-linear-gradient(center top, white 0%, #eeeeee 100%); border-top: 1px solid #eeeeee; border-bottom: 1px solid #333333; line-height: 25px; font-size: 14px; padding: 0px 4px; }
+#fluxx #stage #card-table #hand .card .info .drawer .section .entries .entry a { color: black; }
 #fluxx #stage #card-table #hand .card .card-box { border: 1px solid #999999; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; behavior: url(border-radius.htc); }
 #fluxx #stage #card-table #hand .card .card-box .card-header { -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .toolbar { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #999999), color-stop(1, #666666)); background: -moz-linear-gradient(center top, #999999 0%, #666666 100%); -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; position: relative; padding: 0px 5px; border-bottom: 1px solid #333333; height: 20px; }

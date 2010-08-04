@@ -162,7 +162,7 @@
             .filter(function(){ return $(this).css('position') != 'absolute'; }),
           'outerWidth', false
         ) +
-        $('.drawer', this.fluxxCard()).outerWidth(true)
+        $('.drawer', this.fluxxCard()).parent().filter(':visible').outerWidth(true)
       );
 
       _.bind($.fn.resizeFluxxStage, $.my.stage)();
@@ -252,6 +252,13 @@
         }).wrap('<li>').parent().appendTo($flows);
         $submit.hide();
       });
+      
+      if ($area.attr('data-has-drawer')) {
+        var $tabs = $('.info .tabs', $area.fluxxCard()), $sections = $('.section', $area.fluxxCard());
+        $tabs.empty().html($sections.clone());
+      }
+      
+      return this;
     },
     openListingFilters: function() {
       return this.each(function(){
@@ -473,7 +480,12 @@
             $('.body',   options.area).html(($('#card-body',   $document).html() || options.body).trim());
             $('.footer', options.area).html(($('#card-footer', $document).html() || options.footer).trim());
             $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
-            $('.header,.body,.footer', options.area).add('.drawer', options.area.fluxxCard()).removeClass('empty').filter(':empty').addClass('empty');
+            $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
+            if ($('.drawer', options.area.fluxxCard()).filter(':empty').length) {
+              $('.drawer', options.area.fluxxCard()).parent().addClass('empty');
+            } else {
+              $('.drawer', options.area.fluxxCard()).parent().removeClass('empty');              
+            }
             options.area
               .fluxxAreaSettings({settings: $('#card-settings', $document)})
               .trigger('complete.fluxx.area')
@@ -487,7 +499,12 @@
           $('.body', options.area).html($document);
           $('.footer', options.area).html('');
           $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
-          $('.header,.body,.footer', options.area).add('.drawer', options.area.fluxxCard()).removeClass('empty').filter(':empty').addClass('empty');
+          $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
+          if ($('.drawer', options.area.fluxxCard()).filter(':empty').length) {
+            $('.drawer', options.area.fluxxCard()).parent().addClass('empty');
+          } else {
+            $('.drawer', options.area.fluxxCard()).parent().removeClass('empty');              
+          }
           options.area
             .trigger('complete.fluxx.area')
             .trigger('lifetimeComplete.fluxx.area');
@@ -546,7 +563,7 @@
                 '<div class="card-footer">',
                 '</div>',
               '</div>',
-              '<ol class="drawer"></ol>',
+              '<div class="info"><ol class="tabs"></ol><ol class="drawer"></ol></div>',
             ]));
         },
         loadingActions: {

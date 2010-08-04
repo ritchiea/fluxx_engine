@@ -81,20 +81,52 @@
       #hand
         +bg(transparent)
         .card
-          .drawer
-            +non-list
-            .section
-              .label
+          .info
+            .tabs
+              +non-list
+              +rot90
+              +transform-origin(0%, 0%)
+              position: absolute
+              width: 100%
+              top: 0px
+              bottom: 0px
+              left: 250px
+              height: 25px
+              .section
                 +inline-block
-                +bg(#fcf)
-                +rot90
-                +transform-origin(0%)
-                +rounded-top
-                border: 1px solid #999
-              .entries
-                +non-list
-                .entry
-                  +bg(#fcc)
+                .label
+                  +inline-block
+                  +bg(#444,#eee)
+                  +linear-gradient(#555,#333)
+                  +rounded-top(4px)
+                  +border-box
+                  border: 1px solid #444
+                  margin: 0px 2px
+                  padding: 0px 2px
+                  font-size: 10px
+                  text-transform: uppercase
+                  height: 25px
+                  line-height: 25px
+                .entries
+                  display: none
+            .drawer
+              +non-list
+              width: 225px
+              height: 100%
+              border: 1px solid #999
+              .section
+                .label
+                  display: none
+                .entries
+                  +non-list
+                  .entry
+                    +bg(#efefef)
+                    +linear-gradient(#fff,#eee)
+                    border-top: 1px solid #eee
+                    border-bottom: 1px solid #333
+                    line-height: 25px
+                    font-size: 14px
+                    padding: 0px 4px
           .card-box
             border: 1px solid #999
             +box-shadow

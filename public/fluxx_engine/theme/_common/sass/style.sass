@@ -155,18 +155,18 @@ body
                     top: 0px
             .card-footer
               +footer-bg
-          .drawer
+          .info
             &.empty
               display: none
             +bg(#eee)
-            overflow: auto
             width: 250px
             position: absolute
             top: 47px
             right: 0px
             bottom: 7px
-            border: 1px solid #999
-            border-left: none
+            .drawer
+              overflow: auto
+              border-left: none
     #footer
       +footer-bg
       height: $footer_height
