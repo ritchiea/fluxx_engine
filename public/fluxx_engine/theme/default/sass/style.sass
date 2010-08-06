@@ -82,13 +82,17 @@
         +bg(transparent)
         .card
           .info
+            z-index: 0
+            margin-left: -225px
+            &.open
+              margin-left: 0px
             .tabs
               +non-list
               +rot90
               +transform-origin(0%, 0%)
               position: absolute
               width: 100%
-              top: 0px
+              top: 3px
               bottom: 0px
               left: 250px
               height: 25px
@@ -98,20 +102,36 @@
                   +inline-block
                   +bg(#444,#eee)
                   +linear-gradient(#555,#333)
+                  &:hover
+                    +bg(#4a4a4a,#eee)
+                    +linear-gradient(#5a5a5a,#3a3a3a)
+                  &.selected
+                    +bg(#eee, #444)
+                    +linear-gradient(#fff,#ddd)
+                    +chiseled-text
                   +rounded-top(4px)
                   +border-box
+                  +chiseled-text-light
+                  +box-shadow(2px, 0px)
                   border: 1px solid #444
-                  margin: 0px 2px
-                  padding: 0px 2px
-                  font-size: 10px
+                  border-bottom: none
+                  margin: 0px 3px
+                  padding: 0px 5px
+                  font-size: 12px
                   text-transform: uppercase
                   height: 25px
                   line-height: 25px
+                  letter-spacing: 1px
+                  font-weight: 100
                 .entries
                   display: none
             .drawer
               +non-list
+              +bg(#f9f9f9)
+              +box-shadow-with-inset
               width: 225px
+              &.open
+                width: 255px
               height: 100%
               border: 1px solid #999
               .section
@@ -119,15 +139,17 @@
                   display: none
                 .entries
                   +non-list
+                  display: none
+                  &.selected
+                    display: block
                   .entry
-                    +bg(#efefef)
-                    +linear-gradient(#fff,#eee)
-                    border-top: 1px solid #eee
                     border-bottom: 1px solid #333
                     line-height: 25px
                     font-size: 14px
                     padding: 0px 4px
           .card-box
+            position: relative
+            z-index: 1
             border: 1px solid #999
             +box-shadow
             +rounded(6px)
@@ -237,7 +259,7 @@
                     margin: 0px
                     width: auto
                     .filter
-                      width: 156px
+                      width: 196px
                   .actions
                     +inline-block
                     vertical-align: middle

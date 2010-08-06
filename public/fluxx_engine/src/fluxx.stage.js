@@ -241,6 +241,21 @@
               $elem.closeListingFilters();
             }
           ],
+          '.tabs .label': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this), label = $elem.text();
+              if ($elem.hasClass('selected')) {
+                $elem.removeClass('selected');
+                $('.info').removeClass('open').resizeFluxxCard();
+              } else {
+                $elem.addClass('selected').parent().siblings().children().removeClass('selected');
+                $('.drawer .entries').removeClass('selected');
+                $('.drawer .label:contains('+label+')').siblings().addClass('selected');
+                $('.info').addClass('open').resizeFluxxCard();
+              }
+            }
+          ],
           'li.entry a': [
             'click', function(e) {
               var $elem = $(this);
