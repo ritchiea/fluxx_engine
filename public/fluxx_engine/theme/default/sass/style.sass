@@ -86,18 +86,38 @@
             margin-left: -225px
             &.open
               margin-left: 0px
+            .scroller
+              +chiseled-text
+              position: absolute
+              right: 6px
+              top: -20px
+              height: 20px
+              line-height: 20px
+              font-size: 11px
+              a
+                +inline-block
+                width: 7px
+                &.tabs-left
+                  text-align: right
+                  margin-left: 8px
+                &.tabs-right
+                  text-align: left
+                text-decoration: none
             .tabs
               +non-list
               +rot90
               +transform-origin(0%, 0%)
               position: absolute
               width: 100%
-              top: 3px
-              bottom: 0px
+              top: 0px
               left: 250px
+              right: 0px
+              bottom: 0px
               height: 25px
+              overflow: hidden
               .section
                 +inline-block
+                margin-bottom: 5px
                 .label
                   +inline-block
                   +bg(#444,#eee)

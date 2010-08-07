@@ -241,6 +241,22 @@
               $elem.closeListingFilters();
             }
           ],
+          '.tabs-right': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var $tabs = $('.tabs', $elem.fluxxCard());
+              $tabs.scrollTop( $tabs.scrollTop() + 30 );
+            }
+          ],
+          '.tabs-left': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var $tabs = $('.tabs', $elem.fluxxCard());
+              $tabs.scrollTop( $tabs.scrollTop() - 30 );
+            }
+          ],
           '.tabs .label': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);

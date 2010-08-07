@@ -164,6 +164,14 @@
         ) +
         $('.drawer', this.fluxxCard()).parent().filter(':visible').outerWidth(true)
       );
+      var $tabs = $('.tabs', this.fluxxCard());
+      $tabs.width($('.drawer', this.fluxxCard()).height());
+      var tabsWidth = $tabs.width(), innerWidth = _.addUp($('.label', $tabs), 'outerWidth', true);
+      if ($tabs.width() < _.addUp($('.label', $tabs), 'outerWidth', true)) {
+        $('.info .scroller').show();
+      } else {
+        $('.info .scroller').hide();
+      }
 
       _.bind($.fn.resizeFluxxStage, $.my.stage)();
 
@@ -563,7 +571,10 @@
                 '<div class="card-footer">',
                 '</div>',
               '</div>',
-              '<div class="info"><ol class="tabs"></ol><ol class="drawer"></ol></div>',
+              '<div class="info">',
+                '<div class="scroller">scroll tabs <a href="#" class="tabs-left">&larr;</a> <a href="#" class="tabs-right">&rarr;</a></div>',
+                '<ol class="tabs"></ol><ol class="drawer"></ol>',
+              '</div>',
             ]));
         },
         loadingActions: {
