@@ -141,6 +141,16 @@
               $(this).fluxxCardAreas().refreshCardArea();
             }
           ],
+          '.listing .actions': [
+            'click', function (e) {
+              var $head = $('.listing .header', $(this).fluxxCard());
+              if ($head.hasClass('actions-open')) {
+                $head.removeClass('actions-open');
+              } else {
+                $head.addClass('actions-open');
+              }
+            }
+          ],
           'a.open-filters': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);

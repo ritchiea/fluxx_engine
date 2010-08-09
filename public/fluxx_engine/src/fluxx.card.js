@@ -612,10 +612,6 @@
         '<span class="title">',
           options.title,
         '</span>',
-        '<ul class="content-actions">',
-          '<li><a href="#" class="refresh-card"><img src="',$.fluxx.util.iconImage('arrow_refresh'),'" /></a></li>',
-          '<li><a href="#" class="open-filters"><img src="',$.fluxx.util.iconImage('cog_edit'),'" /></a></li>',
-        '</ul>',
       '</div>'
     ];
   };

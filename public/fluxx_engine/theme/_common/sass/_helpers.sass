@@ -50,6 +50,9 @@
 =chiseled-text-light($color: rgba(0,0,0,0.5), $left: 0px, $top: -1px, $spread: 0px)
   +chiseled-text($color, $left, $top, $spread)
 
+=text-shadow($color: rgba(0,0,0,0.5), $left: 0px, $top: 1px, $spread: 1px)
+  text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}")
+
 // Styles for box properties
 
 =non-list
