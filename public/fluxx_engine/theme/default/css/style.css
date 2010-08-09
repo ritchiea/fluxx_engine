@@ -79,6 +79,7 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table a { color: black; }
 #fluxx #stage #card-table #hand { background-color: transparent; color: black; }
 #fluxx #stage #card-table #hand a { color: black; }
+#fluxx #stage #card-table #hand .card { border: 1px solid black; }
 #fluxx #stage #card-table #hand .card .info { z-index: 1; margin-left: -225px; }
 #fluxx #stage #card-table #hand .card .info.open { margin-left: 0px; }
 #fluxx #stage #card-table #hand .card .info .scroller { text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; position: absolute; right: 1px; top: -15px; height: 15px; line-height: 15px; font-size: 11px; }
@@ -102,6 +103,7 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .info .drawer .section .entries { list-style: none; padding: 0; margin: 0; display: none; }
 #fluxx #stage #card-table #hand .card .info .drawer .section .entries.selected { display: block; }
 #fluxx #stage #card-table #hand .card .info .drawer .section .entries .entry { border-bottom: 1px solid #aaaaaa; border-top: 1px solid white; line-height: 25px; font-size: 14px; padding: 0px 4px; }
+#fluxx #stage #card-table #hand .card .info .drawer .section .entries .entry a { text-decoration: none; }
 #fluxx #stage #card-table #hand .card .card-box { position: relative; z-index: 2; border: 1px solid #999999; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; behavior: url(border-radius.htc); }
 #fluxx #stage #card-table #hand .card .card-box .card-header { -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .toolbar { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #999999), color-stop(1, #666666)); background: -moz-linear-gradient(center top, #999999 0%, #666666 100%); -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; position: relative; padding: 0px 5px; border-bottom: 1px solid #333333; height: 20px; }
@@ -231,7 +233,7 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .modal .footer .workflow li:last-child { -webkit-border-top-right-radius: 3px; -webkit-border-bottom-right-radius: 3px; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer { -webkit-border-bottom-left-radius: 6px; -webkit-border-bottom-right-radius: 6px; background-color: #999999; color: black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #999999), color-stop(1, #666666)); background: -moz-linear-gradient(center top, #999999 0%, #666666 100%); min-height: 6px; border-top: 1px solid #eeeeee; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: black; }
-#fluxx #stage #footer { border: 2px solid white; border-bottom: none; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #f9f9f9)); background: -moz-linear-gradient(center top, white 0%, #f9f9f9 100%); -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.4); left: 10px; right: 10px; width: auto; }
+#fluxx #stage #footer { border: 2px solid white; border-bottom: none; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #f9f9f9)); background: -moz-linear-gradient(center top, white 0%, #f9f9f9 100%); -webkit-border-top-left-radius: 10px; -webkit-border-top-right-radius: 10px; -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.4); z-index: 2; left: 10px; right: 10px; width: auto; }
 #fluxx #stage #footer .qllist { border-left: 1px solid #dddddd; padding: 0px 5px; }
 #fluxx #stage #footer .icon.small .link { height: 36px; width: 36px; margin-bottom: 26px; margin-top: 16px; margin-left: 16px; margin-right: 16px; }
 #fluxx #stage #footer .icon.small .link .label { top: 42px; margin-left: -16px; }
