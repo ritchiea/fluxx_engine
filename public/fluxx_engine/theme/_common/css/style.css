@@ -55,9 +55,8 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .modal .arrow.left { left: -25px; top: 0px; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: white; }
-#fluxx #stage #card-table #hand .card .info { background-color: #eeeeee; color: black; width: 250px; position: absolute; top: 47px; right: 1px; bottom: 7px; }
+#fluxx #stage #card-table #hand .card .info { width: 250px; position: absolute; top: 47px; right: 1px; bottom: 7px; }
 #fluxx #stage #card-table #hand .card .info.empty { display: none; }
-#fluxx #stage #card-table #hand .card .info a { color: black; }
 #fluxx #stage #card-table #hand .card .info .drawer { overflow: auto; border-left: none; }
 #fluxx #stage #footer { background-color: #333333; color: white; height: 78px; position: fixed; bottom: 0; width: 100%; }
 #fluxx #stage #footer a { color: white; }

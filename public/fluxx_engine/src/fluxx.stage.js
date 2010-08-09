@@ -141,6 +141,16 @@
               $(this).fluxxCardAreas().refreshCardArea();
             }
           ],
+          '.listing .actions': [
+            'click', function (e) {
+              var $head = $('.listing .header', $(this).fluxxCard());
+              if ($head.hasClass('actions-open')) {
+                $head.removeClass('actions-open');
+              } else {
+                $head.addClass('actions-open');
+              }
+            }
+          ],
           'a.open-filters': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
@@ -260,15 +270,15 @@
           '.tabs .label': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              var $elem = $(this), label = $elem.text();
+              var $elem = $(this), label = $elem.text(), $card = $elem.fluxxCard();
               if ($elem.hasClass('selected')) {
                 $elem.removeClass('selected');
-                $('.info').removeClass('open').resizeFluxxCard();
+                $('.info', $card).removeClass('open').resizeFluxxCard();
               } else {
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
-                $('.drawer .entries').removeClass('selected');
-                $('.drawer .label:contains('+label+')').siblings().addClass('selected');
-                $('.info').addClass('open').resizeFluxxCard();
+                $('.drawer .entries', $card).removeClass('selected');
+                $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
+                $('.info', $card).addClass('open').resizeFluxxCard();
               }
             }
           ],

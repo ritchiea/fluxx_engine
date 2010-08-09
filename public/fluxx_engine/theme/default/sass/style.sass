@@ -59,8 +59,8 @@
   opacity: 0.5
 
 #fluxx
+  +bg(#f9f9f9)
   #stage
-    +bg(#eee)
     #header
       +box-shadow
       z-index: 2
@@ -82,24 +82,26 @@
         +bg(transparent)
         .card
           .info
-            z-index: 0
+            z-index: 1
             margin-left: -225px
             &.open
               margin-left: 0px
             .scroller
               +chiseled-text
               position: absolute
-              right: 6px
-              top: -20px
-              height: 20px
-              line-height: 20px
+              right: 1px
+              top:        -15px
+              height:      15px
+              line-height: 15px
               font-size: 11px
+              span
+                color: #aaa
               a
                 +inline-block
-                width: 7px
+                width: 11px
                 &.tabs-left
                   text-align: right
-                  margin-left: 8px
+                  margin-left: 0px
                 &.tabs-right
                   text-align: left
                 text-decoration: none
@@ -108,9 +110,10 @@
               +rot90
               +transform-origin(0%, 0%)
               position: absolute
+              z-index: 0
               width: 100%
               top: 0px
-              left: 250px
+              left: 249px
               right: 0px
               bottom: 0px
               height: 25px
@@ -127,8 +130,9 @@
                     +linear-gradient(#5a5a5a,#3a3a3a)
                   &.selected
                     +bg(#eee, #444)
-                    +linear-gradient(#fff,#ddd)
+                    +linear-gradient(#fff,#eee)
                     +chiseled-text
+                    border-color: #999
                   +rounded-top(4px)
                   +border-box
                   +chiseled-text-light
@@ -147,8 +151,8 @@
                   display: none
             .drawer
               +non-list
-              +bg(#f9f9f9)
-              +box-shadow-with-inset
+              +bg(#eee)
+              +box-shadow
               width: 225px
               &.open
                 width: 255px
@@ -163,13 +167,16 @@
                   &.selected
                     display: block
                   .entry
-                    border-bottom: 1px solid #333
+                    border-bottom: 1px solid #aaa
+                    border-top: 1px solid #fff
                     line-height: 25px
                     font-size: 14px
                     padding: 0px 4px
+                    a
+                      text-decoration: none
           .card-box
             position: relative
-            z-index: 1
+            z-index: 2
             border: 1px solid #999
             +box-shadow
             +rounded(6px)
@@ -273,16 +280,57 @@
                   min-height: 26px
               .listing
                 .header
+                  &.actions-open
+                    background: url(../../default/images/cards/body-bg.png)
+                    .search
+                      display: none
+                    .actions
+                      right: 0px
+                      left: auto
+                      li:first-child
+                        +linear-gradient(#ccc,#aaa)
                   padding: 2px
+                  position: relative
+                  overflow: hidden
+                  height: 30px
                   .search
                     +inline-block
                     margin: 0px
                     width: auto
                     .filter
-                      width: 196px
+                      width: 220px
                   .actions
                     +inline-block
                     vertical-align: middle
+                    position: absolute
+                    left: 240px
+                    top: 0px
+                    bottom: 0px
+                    border-left: #666 solid 1px
+                    li
+                      +linear-gradient(#ccc,#aaa)
+                      width: 20px
+                      height: 100%
+                      text-align: center
+                      vertical-align: middle
+                      font-size: 15px
+                      line-height: 100%
+                      padding-top: 5px
+                      float: left
+                      position: relative
+                      &:first-child
+                        +bg(#999,#666)
+                        +rounded-left(3px)
+                        +box-shadow
+                        margin: 5px 0px 5px -13px
+                        padding: 0px 1px
+                        height: auto
+                        width: 13px
+                        border: 1px solid #666
+                        border-right: none
+                      a
+                        text-decoration: none
+                        color: inherit
                 .body
                   +bg(transparent)
                   .list
@@ -422,6 +470,7 @@
       +linear-gradient(#fff, #f9f9f9)
       +rounded-top
       +box-shadow-with-inset
+      z-index: 2
       left: 10px
       right: 10px
       width: auto

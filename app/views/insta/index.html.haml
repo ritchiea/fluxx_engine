@@ -5,8 +5,11 @@
   = form_for :q, :url => url_for(:action => :index), :html => { :method => :get, :class => 'search area-url to-self' } do |f|
     = f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'filter', :placeholder => 'Search...', :type => 'search'
   %ul.actions
+    %li= link_to raw('&#9617;'), '#', :html => {:class => 'open-listing-actions'}
     %li= link_to image_tag('/fluxx_engine/theme/default/images/icons/table.png', :alt => "CSV"), url_for(:format => :csv), :class => 'area-data'
     %li= link_to image_tag('/fluxx_engine/theme/default/images/icons/page_white_excel.png', :alt => "Excel"), url_for(:format => :xls), :class => 'area-data'
+    %li= link_to image_tag('/fluxx_engine/theme/default/images/icons/arrow_refresh.png', :alt => 'Refresh Card'), '#', :class => 'refresh-card'
+    %li= link_to image_tag('/fluxx_engine/theme/default/images/icons/cog_edit.png', :alt => 'Open Filters'), '#', :class => 'open-filters'
 
 #card-body
   %ul.list

@@ -154,16 +154,6 @@
             );
           })
         });
-      this.fluxxCard().width(
-        _.addUp(
-          this.fluxxCard()
-            .children()
-            .not(':not(:visible)')
-            .filter(function(){ return $(this).css('position') != 'absolute'; }),
-          'outerWidth', false
-        ) +
-        $('.drawer', this.fluxxCard()).parent().filter(':visible').outerWidth(true)
-      );
       var $tabs = $('.tabs', this.fluxxCard());
       $tabs.width($('.drawer', this.fluxxCard()).height());
       var tabsWidth = $tabs.width(), innerWidth = _.addUp($('.label', $tabs), 'outerWidth', true);
@@ -172,6 +162,17 @@
       } else {
         $('.info .scroller').hide();
       }
+      this.fluxxCard().width(
+        _.addUp(
+          this.fluxxCard()
+            .children()
+            .filter(':visible')
+            .filter(function(){ return $(this).css('position') != 'absolute'; }),
+          'outerWidth', false
+        )
+        +
+        $('.drawer', this.fluxxCard()).parent().filter(':visible').outerWidth(true)
+      );
 
       _.bind($.fn.resizeFluxxStage, $.my.stage)();
 
@@ -262,8 +263,8 @@
       });
       
       if ($area.attr('data-has-drawer')) {
-        var $tabs = $('.info .tabs', $area.fluxxCard()), $sections = $('.section', $area.fluxxCard());
-        $tabs.empty().html($sections.clone());
+        var $tabs = $('.info .tabs', $area.fluxxCard()), $sections = $('.drawer .section', $area.fluxxCard());
+        $tabs.html($sections.clone());
       }
       
       return this;
@@ -572,7 +573,7 @@
                 '</div>',
               '</div>',
               '<div class="info">',
-                '<div class="scroller">scroll tabs <a href="#" class="tabs-left">&larr;</a> <a href="#" class="tabs-right">&rarr;</a></div>',
+                '<div class="scroller"><span>scroll tabs</span> <a href="#" class="tabs-left">&laquo;</a> <a href="#" class="tabs-right">&raquo;</a></div>',
                 '<ol class="tabs"></ol><ol class="drawer"></ol>',
               '</div>',
             ]));
@@ -611,10 +612,6 @@
         '<span class="title">',
           options.title,
         '</span>',
-        '<ul class="content-actions">',
-          '<li><a href="#" class="refresh-card"><img src="',$.fluxx.util.iconImage('arrow_refresh'),'" /></a></li>',
-          '<li><a href="#" class="open-filters"><img src="',$.fluxx.util.iconImage('cog_edit'),'" /></a></li>',
-        '</ul>',
       '</div>'
     ];
   };
