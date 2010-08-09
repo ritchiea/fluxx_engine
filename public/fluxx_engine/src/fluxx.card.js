@@ -572,7 +572,7 @@
                 '</div>',
               '</div>',
               '<div class="info">',
-                '<div class="scroller">scroll tabs <a href="#" class="tabs-left">&larr;</a> <a href="#" class="tabs-right">&rarr;</a></div>',
+                '<div class="scroller"><span>scroll tabs</span> <a href="#" class="tabs-left">&laquo;</a> <a href="#" class="tabs-right">&raquo;</a></div>',
                 '<ol class="tabs"></ol><ol class="drawer"></ol>',
               '</div>',
             ]));

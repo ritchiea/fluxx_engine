@@ -81,9 +81,10 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand a { color: black; }
 #fluxx #stage #card-table #hand .card .info { z-index: 1; margin-left: -225px; }
 #fluxx #stage #card-table #hand .card .info.open { margin-left: 0px; }
-#fluxx #stage #card-table #hand .card .info .scroller { text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; position: absolute; right: 6px; top: -20px; height: 20px; line-height: 20px; font-size: 11px; }
-#fluxx #stage #card-table #hand .card .info .scroller a { display: inline-block; *display: inline; zoom: 1; width: 7px; text-decoration: none; }
-#fluxx #stage #card-table #hand .card .info .scroller a.tabs-left { text-align: right; margin-left: 8px; }
+#fluxx #stage #card-table #hand .card .info .scroller { text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; position: absolute; right: 1px; top: -15px; height: 15px; line-height: 15px; font-size: 11px; }
+#fluxx #stage #card-table #hand .card .info .scroller span { color: #aaaaaa; }
+#fluxx #stage #card-table #hand .card .info .scroller a { display: inline-block; *display: inline; zoom: 1; width: 11px; text-decoration: none; }
+#fluxx #stage #card-table #hand .card .info .scroller a.tabs-left { text-align: right; margin-left: 0px; }
 #fluxx #stage #card-table #hand .card .info .scroller a.tabs-right { text-align: left; }
 #fluxx #stage #card-table #hand .card .info .tabs { list-style: none; padding: 0; margin: 0; -webkit-transform: rotate(90deg); -moz-transform: rotate(90deg); rotation: 90deg; filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1); -webkit-transform-origin: 0% 0%; -moz-transform-origin: 0% 0%; position: absolute; z-index: 0; width: 100%; top: 0px; left: 249px; right: 0px; bottom: 0px; height: 25px; overflow: hidden; }
 #fluxx #stage #card-table #hand .card .info .tabs .section { display: inline-block; *display: inline; zoom: 1; margin-bottom: 5px; }
