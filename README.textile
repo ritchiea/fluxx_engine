@@ -55,6 +55,7 @@ In your Gemfile add
   gem "fluxx_engine", :git => "git@github.com:energyfoundation/fluxx_engine.git"
 
 h3. Generator
+  rails generate audited_migration
   rails generate fluxx_engine_locale
   rails generate fluxx_engine_migration
   rails generate fluxx_engine_public

@@ -50,6 +50,8 @@ class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl
   end
   
   def write_realtime  model, params
-    RealtimeUpdate.create params unless realtime_disabled
+    unless realtime_disabled
+      RealtimeUpdate.create params 
+    end
   end
 end
