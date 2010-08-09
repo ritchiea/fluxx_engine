@@ -82,7 +82,7 @@
         +bg(transparent)
         .card
           .info
-            z-index: 0
+            z-index: 1
             margin-left: -225px
             &.open
               margin-left: 0px
@@ -108,9 +108,10 @@
               +rot90
               +transform-origin(0%, 0%)
               position: absolute
+              z-index: 0
               width: 100%
               top: 0px
-              left: 250px
+              left: 249px
               right: 0px
               bottom: 0px
               height: 25px
@@ -127,8 +128,9 @@
                     +linear-gradient(#5a5a5a,#3a3a3a)
                   &.selected
                     +bg(#eee, #444)
-                    +linear-gradient(#fff,#ddd)
+                    +linear-gradient(#fff,#f9f9f9)
                     +chiseled-text
+                    border-color: #999
                   +rounded-top(4px)
                   +border-box
                   +chiseled-text-light
@@ -148,7 +150,7 @@
             .drawer
               +non-list
               +bg(#f9f9f9)
-              +box-shadow-with-inset
+              +box-shadow
               width: 225px
               &.open
                 width: 255px
@@ -163,13 +165,14 @@
                   &.selected
                     display: block
                   .entry
-                    border-bottom: 1px solid #333
+                    border-bottom: 1px solid #aaa
+                    border-top: 1px solid #fff
                     line-height: 25px
                     font-size: 14px
                     padding: 0px 4px
           .card-box
             position: relative
-            z-index: 1
+            z-index: 2
             border: 1px solid #999
             +box-shadow
             +rounded(6px)
