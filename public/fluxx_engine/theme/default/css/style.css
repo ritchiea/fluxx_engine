@@ -55,9 +55,8 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .modal .arrow.left { left: -25px; top: 0px; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: white; }
-#fluxx #stage #card-table #hand .card .info { background-color: #eeeeee; color: black; width: 250px; position: absolute; top: 47px; right: 1px; bottom: 7px; }
+#fluxx #stage #card-table #hand .card .info { width: 250px; position: absolute; top: 47px; right: 1px; bottom: 7px; }
 #fluxx #stage #card-table #hand .card .info.empty { display: none; }
-#fluxx #stage #card-table #hand .card .info a { color: black; }
 #fluxx #stage #card-table #hand .card .info .drawer { overflow: auto; border-left: none; }
 #fluxx #stage #footer { background-color: #333333; color: white; height: 78px; position: fixed; bottom: 0; width: 100%; }
 #fluxx #stage #footer a { color: white; }
@@ -72,8 +71,8 @@ body { overflow-x: scroll; }
 
 .disabled { opacity: 0.5; }
 
-#fluxx #stage { background-color: #eeeeee; color: black; }
-#fluxx #stage a { color: black; }
+#fluxx { background-color: #f9f9f9; color: black; }
+#fluxx a { color: black; }
 #fluxx #stage #header { -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); z-index: 2; border-bottom: 3px white solid; }
 #fluxx #stage #header #logo a { display: inline-block; *display: inline; zoom: 1; font-family: "QuicksandBook", Helvetica, sans-serif; font-size: 24px; line-height: 53px; height: 50px; background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left; padding: 0px 0px 0px 46px; margin: 0px 10px; text-decoration: none; }
 #fluxx #stage #card-table { background-color: transparent; color: black; }
@@ -92,10 +91,10 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .info .tabs .section .label a { color: #eeeeee; }
 #fluxx #stage #card-table #hand .card .info .tabs .section .label:hover { background-color: #4a4a4a; color: #eeeeee; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #5a5a5a), color-stop(1, #3a3a3a)); background: -moz-linear-gradient(center top, #5a5a5a 0%, #3a3a3a 100%); }
 #fluxx #stage #card-table #hand .card .info .tabs .section .label:hover a { color: #eeeeee; }
-#fluxx #stage #card-table #hand .card .info .tabs .section .label.selected { background-color: #eeeeee; color: #444444; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #f9f9f9)); background: -moz-linear-gradient(center top, white 0%, #f9f9f9 100%); text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; border-color: #999999; }
+#fluxx #stage #card-table #hand .card .info .tabs .section .label.selected { background-color: #eeeeee; color: #444444; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #eeeeee)); background: -moz-linear-gradient(center top, white 0%, #eeeeee 100%); text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; border-color: #999999; }
 #fluxx #stage #card-table #hand .card .info .tabs .section .label.selected a { color: #444444; }
 #fluxx #stage #card-table #hand .card .info .tabs .section .entries { display: none; }
-#fluxx #stage #card-table #hand .card .info .drawer { list-style: none; padding: 0; margin: 0; background-color: #f9f9f9; color: black; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); width: 225px; height: 100%; border: 1px solid #999999; }
+#fluxx #stage #card-table #hand .card .info .drawer { list-style: none; padding: 0; margin: 0; background-color: #eeeeee; color: black; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); width: 225px; height: 100%; border: 1px solid #999999; }
 #fluxx #stage #card-table #hand .card .info .drawer a { color: black; }
 #fluxx #stage #card-table #hand .card .info .drawer.open { width: 255px; }
 #fluxx #stage #card-table #hand .card .info .drawer .section .label { display: none; }

@@ -59,8 +59,8 @@
   opacity: 0.5
 
 #fluxx
+  +bg(#f9f9f9)
   #stage
-    +bg(#eee)
     #header
       +box-shadow
       z-index: 2
@@ -128,7 +128,7 @@
                     +linear-gradient(#5a5a5a,#3a3a3a)
                   &.selected
                     +bg(#eee, #444)
-                    +linear-gradient(#fff,#f9f9f9)
+                    +linear-gradient(#fff,#eee)
                     +chiseled-text
                     border-color: #999
                   +rounded-top(4px)
@@ -149,7 +149,7 @@
                   display: none
             .drawer
               +non-list
-              +bg(#f9f9f9)
+              +bg(#eee)
               +box-shadow
               width: 225px
               &.open
