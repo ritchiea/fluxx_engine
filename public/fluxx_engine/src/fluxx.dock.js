@@ -16,7 +16,7 @@
         $('.icon', '.dock').live('mouseover mouseout', function(e) {
           var $icon  = $(e.currentTarget);
           var $popup = $('.popup', $icon);
-          if (event.type == 'mouseover') {
+          if (e.type == 'mouseover') {
             $popup.show();
           } else {
             $popup.hide();
