@@ -309,7 +309,7 @@
             {
               type: 'modal',
               arrow: 'left',
-              closeButton: true,
+              closeButton: true
             }
         )).data('target', options.target);
         $card.fluxxCardLoadContent(
@@ -329,7 +329,7 @@
                 top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2))
               });
               $modal.css({
-                left: parseInt(options.target.offsetParent().position().left + options.target.outerWidth(true) + ($arrow.outerWidth(true))),
+                left: parseInt(options.target.offsetParent().position().left + options.target.outerWidth(true) + ($arrow.outerWidth(true)))
               });
             }
           },
