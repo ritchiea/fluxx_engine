@@ -268,6 +268,7 @@
       if ($area.attr('data-has-drawer')) {
         var $tabs = $('.info .tabs', $area.fluxxCard()), $sections = $('.drawer .section', $area.fluxxCard());
         $tabs.html($sections.clone());
+        $('.info', $area.fluxxCard()).removeClass('open');
       }
       
       return this;
@@ -493,10 +494,12 @@
             $('.footer', options.area).html(($('#card-footer', $document).html() || options.footer).trim());
             $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
             $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
-            if ($('.drawer', options.area.fluxxCard()).filter(':empty').length) {
-              $('.drawer', options.area.fluxxCard()).parent().addClass('empty');
-            } else {
-              $('.drawer', options.area.fluxxCard()).parent().removeClass('empty');              
+            if (options.area.attr('data-has-drawer')) {
+              if ($('.drawer', options.area.fluxxCard()).filter(':empty').length) {
+                $('.drawer', options.area.fluxxCard()).parent().addClass('empty');
+              } else {
+                $('.drawer', options.area.fluxxCard()).parent().removeClass('empty');              
+              }
             }
             options.area
               .fluxxAreaSettings({settings: $('#card-settings', $document)})
