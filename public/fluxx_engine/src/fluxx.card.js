@@ -208,6 +208,9 @@
         $area.fluxxCardLoadContent(req);
       });
     },
+    fluxxCardTitle: function() {
+      return $('.title', this.fluxxCard()).text();
+    },
     fluxxCardAreaURL: function(options) {
       var options = $.fluxx.util.options_with_callback({without: []},options);
       var current = this.fluxxCardArea().data('history')[0];

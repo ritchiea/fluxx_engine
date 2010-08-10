@@ -30,7 +30,7 @@
       return this.each(function(){
         if (options.card.data('icon')) return;
         var $icon = $.fluxx.dock.ui.icon.call($.my.dock, {
-          label: 'Card',
+          label: options.card.fluxxCardTitle(),
           url: '#'+options.card.attr('id'),
           popup: 'Hello'
         }).updateIconBadge().appendTo($.my.iconlist);
@@ -45,6 +45,14 @@
             $badge = $('.badge', $icon);
         $badge.text(options.badge);
         $badge.is(':empty') || $badge.text() == 0 ? $badge.hide() : $badge.show();
+      });
+    },
+    updateIconLabel: function(options) {
+      var options = $.fluxx.util.options_with_callback({label: ''}, options);
+      return this.each(function(){
+        var $icon  = $(this),
+            $label = $('.label', $icon);
+        $label.text(options.label);
       });
     },
     removeViewPortIcon: function(options) {
@@ -149,7 +157,7 @@
           .live('update.fluxx.card', function (e, nUpdate) {
             if (!_.isEmpty(nUpdate) || !$(e.target).data('icon')) return;
             var $card = $(e.target);
-            $card.data('icon').updateIconBadge({badge: $card.fluxxCardUpdatesAvailable()});
+            $card.data('icon').updateIconBadge({badge: $card.fluxxCardUpdatesAvailable()}).updateIconLabel($card.fluxxCardTitle());
           });
       });
     });

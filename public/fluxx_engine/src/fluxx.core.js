@@ -104,6 +104,24 @@
   });
   
   var keyboardShortcuts = {
+    'Space+c': ['Reload Stylesheets', function() {
+      $('link[type="text/css"]').each(function(){
+        var $l=$(this),$m=$l.clone();
+        $l.remove();
+        $m
+          .attr('href', $m.attr('href') + _.uniqueId())
+          .appendTo($('head'));
+      });
+    }],
+    'Space+j': ['Reload JavaScript', function() {
+      $('script[src]').each(function(){
+        var $l=$(this),$m=$l.clone();
+        $l.remove();
+        $m
+          .attr('src', $m.attr('src') + _.uniqueId())
+          .appendTo($('head'));
+      });
+    }],
     'Space+m': ['Show $.my cache', function() {
       $.fluxx.log('--- $.my CACHE BEGIN ---');
       _.each($.my, function(val,key) {

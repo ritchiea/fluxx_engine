@@ -320,6 +320,7 @@
                       position: relative
                       &:first-child
                         +bg(#999,#666)
+                        +linear-gradient(#bbb,#999)
                         +rounded-left(3px)
                         +box-shadow
                         margin: 5px 0px 5px -13px
@@ -328,6 +329,8 @@
                         width: 13px
                         border: 1px solid #666
                         border-right: none
+                        &:hover
+                          +linear-gradient(#ccc,aaa)
                       a
                         text-decoration: none
                         color: inherit
