@@ -125,7 +125,7 @@
               _.flatten($.makeArray(options.popup)),
               function (line) {return ['<li>', line, '</li>'];}
             ),
-          '</ul></div>'
+          '</ul><div class="arrow"></div></div>'
         ]
       : ''
     );

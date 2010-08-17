@@ -58,6 +58,25 @@
     &:last-child
       +rounded-right($rounding)
 
+=form-field-one-line
+  margin: 12px 0px
+  label
+    +inline-block
+    width: 40%
+    vertical-align: top
+    .required
+  input,textarea,select
+    +inline-block
+    +border-box
+    width: 60%
+=form-field-two-line
+  +form-field-one-line
+  label
+    width: 100%
+  .required
+  input,textarea,select
+    width: 100%
+
 .disabled
   opacity: 0.5
 
@@ -183,6 +202,24 @@
             border: 1px solid #999
             +box-shadow
             +rounded(6px)
+            label
+              line-height: 24px
+            input,select,textarea
+              line-height: 24px
+              padding: 0px 6px
+            input,textarea
+              +linear-gradient(#fcfcfc,#fff)
+              +box-shadow-inset(0px,1px,2px,rgba(0,0,0,0.1))
+            select
+              height: 24px
+              &[multiple=multiple]
+                height: auto
+            .string,.select,.numeric,.datetime,.autocomplete
+              +form-field-one-line
+            .text
+              +form-field-two-line
+            .commit,.hidden
+              display: none
             .card-header
               +rounded-top(6px)
               .toolbar
@@ -354,7 +391,7 @@
                         font-size: 14px
                         line-height: 16px
                         color: black
-                        border-left: 1px solid #f00
+                        border-left: 1px solid transparent
                         display: block
                         margin-left: 5px
                         padding: 5px 5px
@@ -412,7 +449,7 @@
                 .header
                 .body
                   +box-shadow-inset
-                  padding: 20px
+                  padding: 20px 50px
                 .footer
                   border-left: 1px solid rgba(170,170,170,0.6)
                   .buttons
@@ -507,14 +544,23 @@
             .label
               display: none
         .popup
-          +bg(#68c, #fff)
-          +box-shadow
-          +rounded(5px)
+          $size: 7px
+          +bg(transparent)
           position: absolute
-          bottom: $icon_dimension + $icon_margin_bottom + ($icon_margin_top / 2)
-          border: 2px solid #359
+          bottom: $icon_dimension + $icon_margin_bottom + ($icon_margin_top / 2) - $size
+          .arrow
+            +bg(transparent)
+            height: $size*2
+            width: $size*2
+            border: transparent solid $size
+            border-top-color: #359
+            margin: auto
           ul
             +non-list
+            +bg(#68c, #fff)
+            +box-shadow
+            +rounded(5px)
+            border: 2px solid #359
             padding: 10px 16px
             li
               white-space: nowrap

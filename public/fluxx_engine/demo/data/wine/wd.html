@@ -7,13 +7,32 @@
     <p><a href="/demo/data/wine/wd.html" class="to-modal">Modal</a></p>
 
   <form>
+    <p>
     <label>Grape name and id</label><br/>
     <input data-sibling="auto" type="text" data-autocomplete="/demo/data/wine/auto.json" name="grape[name]" />
     <input data-sibling="auto" type="text" name="grape[id]" />
-    <br/>
+    </p>
+    <p>
     <label>Auto change thing here</label><br/>
     <p class="grape-id-drop">No ID picked.</p>
-    
+    </p>
+    <p>
+    <label>A select box</label>
+    <select><option></option><option>Pick Me</option></select>
+    </p>
+    <p>
+      <label>A Checkbox</label><br/>
+      <input type="checkbox" value="yes"> Yes
+    </p>
+    <p>
+      <label>Radios</label><br/>
+      <input type="radio" name="radios" value="yes"> Yes<br/>
+      <input type="radio" name="radios" value="yes"> No
+    </p>
+    <p>
+      <label>Textarea</label><br />
+      <textarea>Hello there.</textarea>
+    </p>
   </form>
 
     <p>Upload something</p>
