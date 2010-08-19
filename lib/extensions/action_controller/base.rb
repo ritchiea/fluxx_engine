@@ -23,10 +23,12 @@ class ActionController::Base
   #   partial_new: the name of the new partial.  Defaults to 'partial_new'
   #
   def self.insta_index model_class
-    if @class_index_object
-      yield @class_index_object if block_given?
+    if respond_to?(:class_index_object) && class_index_object
+      yield class_index_object if block_given?
     else
-      index_object = @class_index_object = ActionController::ControllerDslIndex.new(model_class)
+      index_object = ActionController::ControllerDslIndex.new(model_class)
+      class_inheritable_reader :class_index_object
+      write_inheritable_attribute :class_index_object, index_object
       yield index_object if block_given?
     
       define_method :insta_index_object do
@@ -35,7 +37,7 @@ class ActionController::Base
     
       self.instance_eval do
         def insta_class_index_object
-          @class_index_object
+          class_index_object
         end
       end
 
@@ -80,10 +82,12 @@ class ActionController::Base
   end
   
   def self.insta_show model_class
-    if @class_show_object
-      yield @class_show_object if block_given?
+    if respond_to?(:class_show_object) && class_show_object
+      yield class_show_object if block_given?
     else
-      show_object = @class_show_object = ActionController::ControllerDslShow.new(model_class)
+      show_object = ActionController::ControllerDslShow.new(model_class)
+      class_inheritable_reader :class_show_object
+      write_inheritable_attribute :class_show_object, show_object
       yield show_object if block_given?
 
       define_method :insta_show_object do
@@ -92,7 +96,7 @@ class ActionController::Base
     
       self.instance_eval do
         def insta_class_show_object
-          @class_show_object
+          class_show_object
         end
       end
     
@@ -126,10 +130,12 @@ class ActionController::Base
   end
 
   def self.insta_new model_class, options={}
-    if @class_new_object
-      yield @class_new_object if block_given?
+    if respond_to?(:class_new_object) && class_new_object
+      yield class_new_object if block_given?
     else
-      new_object = @class_new_object = ActionController::ControllerDslNew.new(model_class)
+      new_object = ActionController::ControllerDslNew.new(model_class)
+      class_inheritable_reader :show_object
+      write_inheritable_attribute :show_object, new_object
       yield new_object if block_given?
 
       define_method :insta_new_object do
@@ -138,7 +144,7 @@ class ActionController::Base
     
       self.instance_eval do
         def insta_class_new_object
-          @class_new_object
+          class_new_object
         end
       end
     
@@ -163,10 +169,12 @@ class ActionController::Base
   end
 
   def self.insta_edit model_class
-    if @class_edit_object
-      yield @class_edit_object if block_given?
+    if respond_to?(:class_edit_object) && class_edit_object
+      yield class_edit_object if block_given?
     else
-      edit_object = @class_edit_object = ActionController::ControllerDslEdit.new(model_class)
+      edit_object = ActionController::ControllerDslEdit.new(model_class)
+      class_inheritable_reader :class_edit_object
+      write_inheritable_attribute :class_edit_object, edit_object
       yield edit_object if block_given?
 
       define_method :insta_edit_object do
@@ -175,7 +183,7 @@ class ActionController::Base
     
       self.instance_eval do
         def insta_class_edit_object
-          @class_edit_object
+          class_edit_object
         end
       end
 
@@ -202,10 +210,12 @@ class ActionController::Base
   end
 
   def self.insta_post model_class
-    if @class_create_object
-      yield @class_create_object if block_given?
+    if respond_to?(:class_create_object) && class_create_object
+      yield class_create_object if block_given?
     else
-      create_object = @class_create_object = ActionController::ControllerDslCreate.new(model_class)
+      create_object = ActionController::ControllerDslCreate.new(model_class)
+      class_inheritable_reader :class_create_object
+      write_inheritable_attribute :class_create_object, create_object
       yield create_object if block_given?
 
       define_method :insta_create_object do
@@ -214,7 +224,7 @@ class ActionController::Base
     
       self.instance_eval do
         def insta_class_create_object
-          @class_create_object
+          class_create_object
         end
       end
     
@@ -259,10 +269,12 @@ class ActionController::Base
   end
 
   def self.insta_put model_class
-    if @class_update_object
-      yield @class_update_object if block_given?
+    if respond_to?(:class_update_object) && class_update_object
+      yield class_update_object if block_given?
     else
-      update_object = @class_update_object = ActionController::ControllerDslUpdate.new(model_class)
+      update_object = ActionController::ControllerDslUpdate.new(model_class)
+      class_inheritable_reader :class_update_object
+      write_inheritable_attribute :class_update_object, update_object
       yield update_object if block_given?
 
       define_method :insta_update_object do
@@ -271,7 +283,7 @@ class ActionController::Base
     
       self.instance_eval do
         def insta_class_update_object
-          @class_update_object
+          class_update_object
         end
       end
 
@@ -302,7 +314,9 @@ class ActionController::Base
                   redirect_to(update_object.redirect ? self.send(update_object.redirect, extra_options) : @model) 
                 end
               end
-              format.xml  { head :ok }
+              format.xml do
+                head :ok
+              end
             end
           else
             flash[:error] = t(:errors_were_found)
@@ -327,10 +341,12 @@ class ActionController::Base
   end
 
   def self.insta_delete model_class
-    if @class_delete_object
-      yield @class_delete_object if block_given?
+    if respond_to?(:class_delete_object) && class_delete_object
+      yield class_delete_object if block_given?
     else
-      delete_object = @class_delete_object = ActionController::ControllerDslDelete.new(model_class)
+      delete_object = ActionController::ControllerDslDelete.new(model_class)
+      class_inheritable_reader :class_delete_object
+      write_inheritable_attribute :class_delete_object, delete_object
       yield delete_object if block_given?
 
       define_method :insta_delete_object do
@@ -339,7 +355,7 @@ class ActionController::Base
     
       self.instance_eval do
         def insta_class_delete_object
-          @class_delete_object
+          class_delete_object
         end
       end
 
@@ -370,10 +386,12 @@ class ActionController::Base
   end
   
   def self.insta_related model_class
-    if @class_related_object
-      yield @class_related_object if block_given?
+    if respond_to?(:class_related_object) && class_related_object
+      yield class_related_object if block_given?
     else
-      local_related_object = @class_related_object = ActionController::ControllerDslRelated.new(model_class)
+      local_related_object = ActionController::ControllerDslRelated.new(model_class)
+      class_inheritable_reader :class_related_object
+      write_inheritable_attribute :class_related_object, local_related_object
       yield local_related_object if block_given?
 
       define_method :insta_related_object do
@@ -382,7 +400,7 @@ class ActionController::Base
     
       self.instance_eval do
         def insta_class_related_object
-          @class_related_object
+          class_related_object
         end
       end
 
@@ -425,30 +443,29 @@ class ActionController::Base
       if @class_format_block_map
         yield @class_format_block_map if block_given?
       else
-        @class_format_block_map = format_block_map = BlobStruct.new
-        yield format_block_map
-      
-        cloned_controller_block_map = {}
-        cloned_controller_block_map = controller_dsl.format_block_map.store.clone if controller_dsl.format_block_map && controller_dsl.format_block_map.store.is_a?(Hash)
+        @class_format_block_map = BlobStruct.new
+        yield @class_format_block_map
+      end
+      cloned_controller_block_map = {}
+      cloned_controller_block_map = controller_dsl.format_block_map.store.clone if controller_dsl.format_block_map && controller_dsl.format_block_map.store.is_a?(Hash)
 
-        respond_to do |format|
-          format_block_map.store.keys.each do |key|
-            if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
-              format.send key.to_sym do
-                cloned_controller_block_map[key].call controller_dsl, self, outcome
-                cloned_controller_block_map.delete key
-              end
-            elsif format_block_map.store[key] && format_block_map.store[key].is_a?(Proc)
-              format.send key.to_sym do
-                format_block_map.store[key].call
-              end
+      respond_to do |format|
+        @class_format_block_map.store.keys.each do |key|
+          if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
+            format.send key.to_sym do
+              cloned_controller_block_map[key].call controller_dsl, self, outcome
+              cloned_controller_block_map.delete key
+            end
+          elsif @class_format_block_map.store[key] && @class_format_block_map.store[key].is_a?(Proc)
+            format.send key.to_sym do
+              @class_format_block_map.store[key].call
             end
           end
-          cloned_controller_block_map.keys.each do |key|
-            if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
-              format.send key.to_sym do
-                cloned_controller_block_map[key].call controller_dsl, self, outcome
-              end
+        end
+        cloned_controller_block_map.keys.each do |key|
+          if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
+            format.send key.to_sym do
+              cloned_controller_block_map[key].call controller_dsl, self, outcome
             end
           end
         end
