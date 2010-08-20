@@ -27,7 +27,7 @@ $header_height:  50px
 body,table
   +default-font
 
-div,ul,ol,li,table,td,th,dl,dt,dd
+div,ul,ol,li,table,tr,td,th,dl,dt,dd
   +border-box
 
 html,body
@@ -105,6 +105,14 @@ input,select,textarea
                       margin: 2px
             .card-body
               position: relative
+              .tabular
+                width: 100%
+                thead
+                  tr
+                    th
+                      .actions
+                        +inline-block
+                        float: right
               .filters
                 position: absolute
                 top: 0px
@@ -145,6 +153,7 @@ input,select,textarea
               .detail
                 width: 620px
                 position: relative
+                .body
               .modal
                 +bg(#333,#fff)
                 width: 450px

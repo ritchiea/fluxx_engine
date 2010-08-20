@@ -6,29 +6,38 @@
 
 body, table { font-family: Helvetica, sans-serif; }
 
-div, ul, ol, li, table, td, th, dl, dt, dd { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
+div, ul, ol, li, table, tr, td, th, dl, dt, dd { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
 
 html, body { margin: 0px; padding: 0px; height: 100%; background: white; color: black; }
 
 body { overflow-x: scroll; }
+
+a img { border: none; }
+
+input, select, textarea { border: 1px solid #cccccc; background: white; }
 
 #fluxx #stage { position: relative; height: auto; height: 100%; min-height: 100%; }
 #fluxx #stage #header { background-color: #333333; color: white; height: 50px; position: fixed; top: 0px; width: 100%; }
 #fluxx #stage #header a { color: white; }
 #fluxx #stage #header #logo { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #header .actions { display: inline-block; *display: inline; zoom: 1; list-style: none; padding: 0; margin: 0; float: right; }
+#fluxx #stage #header .actions li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #header .actions li { display: inline-block; *display: inline; zoom: 1; margin-right: 10px; vertical-align: top; }
 #fluxx #stage #card-table { background-color: #cccccc; color: black; margin-top: 50px; margin-bottom: 78px; position: absolute; top: 0px; bottom: 0px; overflow: hidden; }
 #fluxx #stage #card-table a { color: black; }
 #fluxx #stage #card-table #hand { list-style: none; padding: 0; margin: 0; height: 100%; }
+#fluxx #stage #card-table #hand li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #card-table #hand .card { display: inline-block; *display: inline; zoom: 1; margin: 10px; position: relative; }
 #fluxx #stage #card-table #hand .card .card-box .card-header { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-header a { color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .titlebar { position: relative; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .content-actions { list-style: none; padding: 0; margin: 0; display: inline-block; position: absolute; right: 0px; top: 0px; }
+#fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .content-actions li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .content-actions li { display: inline-block; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .content-actions li a { display: block; width: 16px; height: 16px; margin: 2px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body { position: relative; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .tabular { width: 100%; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .tabular thead tr th .actions { display: inline-block; *display: inline; zoom: 1; float: right; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .filters { position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; background-color: #333333; color: #eeeeee; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .filters a { color: #eeeeee; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing, #fluxx #stage #card-table #hand .card .card-box .card-body .detail, #fluxx #stage #card-table #hand .card .card-box .card-body .modal, #fluxx #stage #card-table #hand .card .card-box .card-body .filters { display: inline-block; *display: inline; zoom: 1; vertical-align: top; }
@@ -41,10 +50,12 @@ body { overflow-x: scroll; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer a, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .footer a, #fluxx #stage #card-table #hand .card .card-box .card-body .modal .footer a, #fluxx #stage #card-table #hand .card .card-box .card-body .filters .footer a { color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing { width: 240px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header .actions { list-style: none; padding: 0; margin: 0; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .header .actions li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header .actions li { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body { background-color: #f9f9f9; color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body a { color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate { list-style: none; padding: 0; margin: 0; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate li { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .no-pagination { text-align: center; width: 100%; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .detail { width: 620px; position: relative; }
@@ -63,6 +74,7 @@ body { overflow-x: scroll; }
 #fluxx #stage #footer #viewport { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #footer #quicklinks { display: inline-block; *display: inline; zoom: 1; position: absolute; right: 0px; top: 0px; }
 #fluxx #stage #footer #iconlist, #fluxx #stage #footer .qllist { list-style: none; padding: 0; margin: 0; display: inline-block; *display: inline; zoom: 1; }
+#fluxx #stage #footer #iconlist li, #fluxx #stage #footer .qllist li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #footer .icon { display: inline-block; *display: inline; zoom: 1; position: relative; }
 #fluxx #stage #footer .icon .link { background-color: #666666; color: black; display: inline-block; *display: inline; zoom: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; height: 48px; width: 48px; margin: 10px 10px 20px 10px; }
 #fluxx #stage #footer .icon .link a { color: black; }

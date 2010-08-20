@@ -5,7 +5,9 @@
   - if location.street_address2 
     %span.address2= location.street_address2 
   - if location.city
-    %span.city= location.city + ','
+    %span.city= location.city
+  - if location.city &&  location.geo_state && location.geo_state.name
+    ','
   - if location.geo_state && location.geo_state.name
     %abbr.state{:title => location.geo_state.name}= location.geo_state.abbreviation
   - if location.postal_code
@@ -14,18 +16,18 @@
     %abbr.country{:title => location.geo_country.name}= location.geo_country.abbreviation
 
   - if detailed
-    %dl
-      - work_contact_details = [ |
-          ['Direct Phone:', location.phone], |
-          ['Fax:',  location.fax], |
-          ['Email:', location.email ], |
-          ['Other Contact:', location.other_contact ], |
-          ['Website:', location.url ], |
-          ['Personal Blog:', location.blog_url ], |
-          ['Personal Twitter:', location.twitter_url ], |
-          ['Acronym:', location.acronym ], |
-        ].each do |contact_detail| |
-        - label, value = contact_detail
-        - unless value.blank?
-          %dt= label
-          %dd= value
+    - work_contact_details = [ |
+        ['Direct Phone:', location.phone], |
+        ['Fax:',  location.fax], |
+        ['Email:', location.email ], |
+        ['Other Contact:', location.other_contact ], |
+        ['Website:', location.url ], |
+        ['Personal Blog:', location.blog_url ], |
+        ['Personal Twitter:', location.twitter_url ], |
+        ['Acronym:', location.acronym ], |
+      ].each do |contact_detail| |
+      - label, value = contact_detail
+      - unless value.blank?
+        .pairs
+          .key= label
+          .value= value

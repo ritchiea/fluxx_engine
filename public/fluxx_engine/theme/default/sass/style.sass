@@ -202,6 +202,14 @@
             border: 1px solid #999
             +box-shadow
             +rounded(6px)
+            h1,h2,h3
+              border-bottom: 1px solid #999
+              .actions
+                +inline-block
+                vertical-align: bottom
+                float: right
+                font-weight: normal
+                font-size: 50%
             label
               line-height: 24px
             input,select,textarea
@@ -220,6 +228,39 @@
               +form-field-two-line
             .commit,.hidden
               display: none
+            .pairs
+              width: 100%
+              .key
+                +inline-block
+                width: 33%
+              .value
+                +inline-block
+                width: 66%
+            .tabular
+              +rounded
+              color: #333
+              border: 1px solid #999
+              margin: 12px 0px
+              th,td
+                background: transparent
+              thead,tfoot
+                background: #ccc
+              thead
+                +rounded-top
+                text-transform: uppercase
+                th
+                  +rounded-top
+                  font-weight: normal
+              tfoot
+                +rounded-bottom
+                td
+                  +rounded-bottom
+                  border-top: 1px solid #999
+              tbody
+                td
+                  border-top: 1px solid #999
+              td,th
+                padding: 4px
             .card-header
               +rounded-top(6px)
               .toolbar
@@ -448,8 +489,11 @@
               .detail
                 .header
                 .body
+                  +bg(#fff, #666)
                   +box-shadow-inset
                   padding: 20px 50px
+                  a
+                    color: #00f
                 .footer
                   border-left: 1px solid rgba(170,170,170,0.6)
                   .buttons
