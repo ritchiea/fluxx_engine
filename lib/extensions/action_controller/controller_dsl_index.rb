@@ -51,10 +51,9 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       model_ids = instance_variable_set @plural_model_instance_name, model_class.model_search(q_search, params, results_per_page, 
         {:search_conditions => self.search_conditions, :order_clause => self.order_clause, :include_relation => include_relation})
       
-      local_search_conditions = (self.search_conditions || {}).clone
       if format && (format.csv? || format.xls?)
-        unless model_class.csv_sql_query(local_search_conditions).blank?
-          unpaged_models = model_class.find_by_sql [model_class.csv_sql_query(local_search_conditions), model_ids]
+        unless model_csv_query.blank?
+          unpaged_models = model_class.connection.execute(model_class.send(:sanitize_sql, [model_csv_query, model_ids]))
         else
           unpaged_models = model_class.find model_ids
         end
@@ -62,6 +61,11 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         model_class.page_by_ids model_ids
       end
     end
+  end
+  
+  def model_csv_query 
+    local_search_conditions = (self.search_conditions || {}).clone
+    model_class.csv_sql_query local_search_conditions
   end
   
   def process_autocomplete models
@@ -105,14 +109,15 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         
         csv << headers
         
-        if unpaged_models.is_a?(Array) 
+        unless model_csv_query.blank?
+          (1..unpaged_models.num_rows).each do
+            cur_row = unpaged_models.fetch_row
+            csv << cur_row
+          end
+        else
           ordered_headers = model_class.columns.map(&:name).sort
           unpaged_models.each do |element|
             csv << ordered_headers.map {|header| element.send header}
-          end
-        else
-          (1..unpaged_models.num_rows).each do
-            csv << unpaged_models.fetch_row
           end
         end
       end
