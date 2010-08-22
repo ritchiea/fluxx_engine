@@ -7,7 +7,7 @@ class InstrumentsController < ApplicationController
       controller.response.headers[:post_invoked] = true
     end
     insta.format do |format|
-      format.html do |controller_dsl, controller, outcome|
+      format.html do |controller_dsl, controller, outcome, default_block|
         controller.response.headers[:format_invoked] = true
         controller.render :text => 'howdy'
       end

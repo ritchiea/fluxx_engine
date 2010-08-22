@@ -428,10 +428,10 @@ class ActionController::Base
     render((show_object.view || "#{insta_path}/show").to_s, :layout => @layout)
   end
   
-  def fluxx_edit_card edit_object
-    @template = edit_object.template
-    @form_class = edit_object.form_class
-    @form_url = edit_object.form_url
+  def fluxx_edit_card edit_object, template_param=nil, form_class_param=nil, form_url_param=nil
+    @template = template_param || edit_object.template
+    @form_class = form_class_param || edit_object.form_class
+    @form_url = form_url_param || edit_object.form_url
     render((edit_object.view || "#{insta_path}/edit").to_s, :layout => false)
   end
   
@@ -453,7 +453,7 @@ class ActionController::Base
         @class_format_block_map.store.keys.each do |key|
           if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
             format.send key.to_sym do
-              cloned_controller_block_map[key].call controller_dsl, self, outcome
+              cloned_controller_block_map[key].call controller_dsl, self, outcome, @class_format_block_map.store[key]
               cloned_controller_block_map.delete key
             end
           elsif @class_format_block_map.store[key] && @class_format_block_map.store[key].is_a?(Proc)
