@@ -164,7 +164,7 @@
               $.fluxx.util.itEndsWithMe(e);
             }
           ],
-          'select[data-related-child]': [
+          '[data-related-child]': [
             'change', function (e) {
               var $parent   = $(this),
                   parentId  = $parent.val(),
