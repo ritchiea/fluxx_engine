@@ -172,7 +172,11 @@
                   query     = {};
               query[$child.attr('data-param')] = parentId;
               $.getJSON($child.attr('data-src'), query, function(data, status) {
-                $child.html('<option></option>');
+                if ($child.attr('data-required')) {
+                  $child.empty();
+                } else {
+                  $child.html('<option></option>');
+                }
                 _.each(data, function(i){ $('<option></option>').val(i.value).html(i.label).appendTo($child)  });
               });
             }
