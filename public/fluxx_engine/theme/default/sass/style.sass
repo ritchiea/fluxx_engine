@@ -206,10 +206,18 @@
               border-bottom: 1px solid #999
               .actions
                 +inline-block
-                vertical-align: bottom
                 float: right
                 font-weight: normal
-                font-size: 50%
+                font-size: 80%
+            h1
+              font-size: 24px
+              line-height: 24px
+              border-bottom: none
+            h2
+              font-size: 16px
+              line-height: 16px
+            h3
+              font-size: 200px
             label
               line-height: 24px
             input,select,textarea
@@ -238,13 +246,16 @@
                 width: 66%
             .tabular
               +rounded
-              color: #333
-              border: 1px solid #999
+              color: #666
+              border: 1px solid #9B9B9B
               margin: 12px 0px
+              font-size: 13px
+              td:last-child
+                +rounded-bottom
               th,td
                 background: transparent
               thead,tfoot
-                background: #ccc
+                background: #dfdfdf
               thead
                 +rounded-top
                 text-transform: uppercase
@@ -255,12 +266,22 @@
                 +rounded-bottom
                 td
                   +rounded-bottom
-                  border-top: 1px solid #999
+                  border-top: 1px solid #9B9B9B
               tbody
+                background: #F9F7F8
                 td
-                  border-top: 1px solid #999
+                  border-top: 1px solid #9B9B9B
               td,th
                 padding: 4px
+            .address
+              .address1,.address2,.country
+                display: block
+            .satellite
+              .actions
+                float: right
+                font-size: 80%
+                span
+                  margin-left: 8px
             .card-header
               +rounded-top(6px)
               .toolbar
@@ -359,6 +380,8 @@
                   border-top: 1px solid #eee
                   padding: 3px
                   min-height: 26px
+              .detail,.modal
+                font-size: 14px
               .listing
                 .header
                   &.actions-open
