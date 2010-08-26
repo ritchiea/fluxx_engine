@@ -97,7 +97,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
         with_clause[k] = with_clause[k].to_i 
       end
     end
-    related_model_ids = klass.model_search('', :with => with_clause, :per_page => max_results, :order => order_clause) || []
+    related_model_ids = klass.model_search('', {}, max_results, {:search_conditions => with_clause, :per_page => max_results, :order => order_clause}) || []
     related_models = klass.page_by_ids related_model_ids
     related_models.compact.map do |model|
       {:display_template => display_template, :model => model}
