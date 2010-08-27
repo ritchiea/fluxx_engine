@@ -8,7 +8,8 @@ LIBRARIES = FileList[
   'lib/*.js',
   'lib/plupload/plupload.full.min.js',
   'lib/plupload/jquery.plupload.queue.min.js',
-  'lib/colorbox/jquery.colorbox.js'
+  'lib/colorbox/jquery.colorbox.js',
+  'src/jquery.select_transfer.js'
 ]
 
 SASS = FileList['theme/*/sass/*.sass']

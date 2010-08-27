@@ -86,6 +86,21 @@
         getTag: function (sel) {
           return _.map($(sel), function(i){return $('<div>').html($(i).clone().empty().html('...')).html()}).join(', ')
         },
+        autoGrowTextArea: function(sel) {
+          var options = {
+            minSize: 5
+          };
+          options.update = function (e) {
+            var $ta = $(e.target);
+            var lineHeight = parseInt($ta.css('lineHeight'));
+            var newHeight = lineHeight * ($ta.val().split(/\n/).length + 1);
+            if (newHeight < options.minSize * lineHeight) {
+              newHeight = options.minSize * lineHeight;
+            }
+            $ta.height(newHeight);
+          };
+          sel.bind('change keydown', options.update).change();
+        },
         
         seconds: function (i) { return i * 1000; },
         minutes: function (i) { return i * 60 * 1000; }

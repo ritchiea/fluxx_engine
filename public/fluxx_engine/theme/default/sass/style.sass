@@ -62,6 +62,7 @@
   margin: 12px 0px
   label
     +inline-block
+    +border-box
     width: 40%
     vertical-align: top
     .required
@@ -69,6 +70,8 @@
     +inline-block
     +border-box
     width: 60%
+  .inline-errors
+    margin-left: 40%
 =form-field-two-line
   +form-field-one-line
   label
@@ -76,6 +79,8 @@
   .required
   input,textarea,select
     width: 100%
+  .inline-errors
+    margin-left: 0px
 
 .disabled
   opacity: 0.5
@@ -103,6 +108,11 @@
       #hand
         +bg(transparent)
         .card
+          &.updates-available
+            .card-box
+              .card-header
+                .toolbar
+                  +linear-gradient(#a90, #960)
           .info
             z-index: 1
             margin-left: -225px
@@ -202,8 +212,11 @@
             border: 1px solid #999
             +box-shadow
             +rounded(6px)
+            p
+              margin: 0px
             h1,h2,h3
               border-bottom: 1px solid #999
+              margin: 0px
               .actions
                 +inline-block
                 float: right
@@ -215,11 +228,13 @@
               border-bottom: none
             h2
               font-size: 16px
-              line-height: 16px
+              line-height: 24px
+              margin-top: 24px
             h3
               font-size: 200px
             label
               line-height: 24px
+              border: 1px solid transparent
             input,select,textarea
               line-height: 24px
               padding: 0px 6px
@@ -232,10 +247,51 @@
                 height: auto
             .string,.select,.numeric,.datetime,.autocomplete
               +form-field-one-line
-            .text
+            .text,.multiple-select-transfer
               +form-field-two-line
+            .datetime
+              input
+                background: url('../../default/images/icons/calendar.png') 99% center no-repeat
             .commit,.hidden
               display: none
+            .required
+              label
+                font-weight: bold
+                abbr
+                  display: none
+            .error
+              label
+                color: #a33
+              input,textarea,select
+                border-color: #a33
+                margin-bottom: 2px
+              input,textarea
+                border-left-width: 4px
+              select
+              .inline-errors
+                color: #a33
+                font-size: 10px
+                line-height: 14px
+            textarea
+              overflow: hidden
+            .blank
+              height: 24px
+            .warning
+              background: url('../../default/images/icons/information.png') no-repeat left center
+              padding-left: 20px
+            .notice
+              background: #cfc url('../../default/images/icons/accept.png') no-repeat 17px 14px
+              color: #030
+              padding: 10px 50px
+              &.error
+                background-color: #fcc
+                background-image: url('../../default/images/icons/exclamation.png')
+                color: #300
+              .close-parent
+                +inline-block
+                position: absolute
+                right: 18px
+                top: 14px
             .pairs
               width: 100%
               .key
@@ -244,6 +300,19 @@
               .value
                 +inline-block
                 width: 66%
+                border: transparent 1px solid
+                padding: 0px 5px
+                &.with-more-info
+                  background: #ffc
+                  border-color: #eeb
+                  a
+                    display: block
+                    background: url('/fluxx_engine/theme/default/images/icons/arrow_right.png') no-repeat right center
+                    color: #666 !important
+                    text-decoration: none
+            .question
+              color: #333
+            .answer
             .tabular
               +rounded
               color: #666
@@ -282,6 +351,11 @@
                 font-size: 80%
                 span
                   margin-left: 8px
+            .partial
+              &.updating
+                +box-shadow-inset
+                background:  url('../../_common/images/loaders/ajax-loader-666666.gif') no-repeat center center
+                height: 200px
             .card-header
               +rounded-top(6px)
               .toolbar
@@ -382,6 +456,7 @@
                   min-height: 26px
               .detail,.modal
                 font-size: 14px
+                line-height: 24px
               .listing
                 .header
                   &.actions-open
@@ -514,6 +589,7 @@
                 .body
                   +bg(#fff, #666)
                   +box-shadow-inset
+                  position: relative
                   padding: 20px 50px
                   a
                     color: #00f

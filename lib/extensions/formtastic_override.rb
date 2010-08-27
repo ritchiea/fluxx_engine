@@ -44,12 +44,6 @@ module Formtastic #:nodoc:
       else
         nil
       end
-      options = options.reverse_merge(:size => 12)
-      if options[:class].blank?
-        options[:class] = 'date_field'
-      else
-        options[:class] += ' date_field'
-      end
       options[:value] = formatted_date_time if formatted_date_time
       label("#{method}:", :label => options[:label]) + text_field(method, options)
     end

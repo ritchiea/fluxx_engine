@@ -86,8 +86,10 @@
       $('.updates .available', $card).text($card.fluxxCardUpdatesAvailable());
       if (updatesAvailable == 0) {
         $('.updates', $card).hide();
+        $card.removeClass('updates-available');
       } else {
         $('.updates', $card).show();
+        $card.addClass('updates-available');
       }
       return this;
     },
@@ -191,6 +193,10 @@
       return this.data('area')
         || this.data('area', this.parents('.area:eq(0)').andSelf().first()).data('area');
     },
+    fluxxCardPartial: function() {
+      return this.data('partial')
+        || this.data('partial', this.parents('.partial:eq(0)').andSelf().first()).data('partial');
+    },
     fluxxCardAreaRequest: function () {
       var req = this.fluxxCardArea().data('history')[0];
       return {
@@ -198,6 +204,33 @@
         data: req.data,
         type: req.type
       };
+    },
+    refreshAreaPartial: function(options){
+      var options = $.fluxx.util.options_with_callback({animate: true},options);
+      return this.each(function(){
+        var $partial = $(this).fluxxCardPartial();
+        if (1||options.animate) {
+          $.ajax({
+            url: $partial.attr('data-src'),
+            beforeSend: function() {
+              $partial
+                .addClass('updating')
+                .children()
+                .fadeOut(function(){$(this).remove()});
+            },
+            success: function(data, status, xhr){
+              $partial.html($(data).hide()).removeClass('updating').children().fadeIn();
+            }
+          });
+        } else {
+          $.ajax({
+            url: $partial.attr('data-src'),
+            success: function(data, status, xhr){
+              $partial.html(data);
+            }
+          });
+        }
+      });
     },
     refreshCardArea: function(){
       return this.each(function(){
@@ -271,6 +304,16 @@
         $('.info', $area.fluxxCard()).removeClass('open');
       }
       
+      $('.datetime input', $area).datepicker();
+      $.fluxx.util.autoGrowTextArea($('textarea', $area));
+      $('.multiple-select-transfer select[multiple=multiple]').selectTransfer();
+      
+      $('.header .notice:not(.error)').delay(2000).find('.close-parent').click();
+      
+      $('.partial[data-refresh-onload=1]', $area).refreshAreaPartial({
+        animate: false
+      });
+      
       return this;
     },
     openListingFilters: function() {
@@ -343,6 +386,7 @@
       var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options, onComplete);
       return this.each(function(){
         var $modal = $('.modal', $(this).fluxxCard());
+       $('.loading-indicator', $modal.fluxxCard()).removeClass('loading')
         $modal.data('target').enableFluxxArea();
         $modal.remove();
       });
@@ -590,7 +634,11 @@
           },
           refreshCaller: function(){
             if (! this.data('target')) return;
-            this.data('target').refreshCardArea();
+            if (this.data('target').parent('.partial')) {
+              this.data('target').refreshAreaPartial();
+            } else {
+              this.data('target').refreshCardArea();
+            }
           }
         }
       }

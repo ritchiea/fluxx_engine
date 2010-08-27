@@ -219,6 +219,18 @@
               $(this).closeCardModal();
             }
           ],
+          'a.close-parent': [
+            'click', function(e){
+              $.fluxx.util.itEndsWithMe(e);
+              $(this).parent('div:first').fadeOut(250,function(){
+                var $card = $(this).fluxxCard();
+                var $area = $(this).fluxxCardArea();
+                $(this).remove();
+                $('.header,.body,.footer', $area).filter(':empty').addClass('empty');
+                $card.resizeFluxxCard();
+              });
+            }
+          ],
           'a.to-self':   [
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);
