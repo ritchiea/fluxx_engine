@@ -51,13 +51,12 @@ class ActionController::Base
           model_class.name
         end
       
+        @model_class = index_object.model_class
         if params[:view] == 'filter'
-          @model_class = index_object.model_class
           @filter_title = index_object.filter_title || "Filter #{index_object.model_class.name.humanize.downcase.pluralize}"
           @filter_template = index_object.filter_template
           render((index_object.filter_view || "#{insta_path}/filter").to_s, :layout => false)
         else
-          @model_class = index_object.model_class
           @template = index_object.template
           @models = index_object.load_results params, request.format, pre_models
           instance_variable_set index_object.plural_model_instance_name, @models
@@ -106,6 +105,7 @@ class ActionController::Base
         show_object.invoke_pre self
 
         @model = show_object.perform_show params, pre_model
+        @model_class = show_object.model_class
         @model_name = show_object.model_name
 
         show_object.invoke_post self, @model
@@ -153,6 +153,7 @@ class ActionController::Base
       define_method :new do
         new_object.invoke_pre self
         @model = new_object.load_new_model params, pre_model
+        @model_class = new_object.model_class
       
         instance_variable_set new_object.singular_model_instance_name, @model
         @template = new_object.template
@@ -192,6 +193,7 @@ class ActionController::Base
         edit_object.invoke_pre self
       
         @model = edit_object.perform_edit params, pre_model, fluxx_current_user
+        @model_class = edit_object.model_class
         edit_object.invoke_post self, @model
         unless edit_object.editable? @model, fluxx_current_user
           # Provide a locked error message
@@ -234,6 +236,7 @@ class ActionController::Base
         create_object.invoke_pre self
 
         @model = create_object.load_new_model params, pre_model
+        @model_class = create_object.model_class
         instance_variable_set create_object.singular_model_instance_name, @model
         @template = create_object.template
         @form_class = create_object.form_class
@@ -297,6 +300,7 @@ class ActionController::Base
         @form_url = update_object.form_url
       
         @model = update_object.load_existing_model params, pre_model
+        @model_class = update_object.model_class
         instance_variable_set update_object.singular_model_instance_name, @model
 
         if update_object.editable? @model, fluxx_current_user
@@ -365,6 +369,7 @@ class ActionController::Base
         delete_object.invoke_pre self
 
         @model = delete_object.load_existing_model params, pre_model
+        @model_class = delete_object.model_class
         instance_variable_set delete_object.singular_model_instance_name, @model
         delete_result = delete_object.perform_delete params, @model, fluxx_current_user
         delete_object.invoke_post self, @model

@@ -24,7 +24,7 @@ class MusiciansController < ApplicationController
     insta.add_related do |related|
       related.display_name = 'Instrument 1'
       related.related_class = Instrument
-      related.search_id = :instruments
+      related.search_id = :id
       related.extra_condition = nil
       related.max_results = 20
       related.order = 'name asc'

@@ -70,7 +70,7 @@ class ControllerDslRelatedTest < ActiveSupport::TestCase
     @dsl_related.add_related do |insta|
       insta.display_name = 'Instrument 1'
       insta.related_class = Instrument
-      insta.search_id = :instruments
+      insta.search_id = :id
       insta.extra_condition = nil
       insta.order = 'name asc'
       insta.display_template = 'template'

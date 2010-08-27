@@ -83,3 +83,7 @@ module ThinkingSphinx
     end
   end
 end
+
+class ActionController::Base
+  attr_accessor :current_user
+end

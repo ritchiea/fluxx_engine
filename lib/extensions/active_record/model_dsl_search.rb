@@ -35,6 +35,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   end
 
   def sql_model_search q_search, request_params, results_per_page=25, options={}
+    request_params = HashWithIndifferentAccess.new(request_params)
     local_model_class = options[:actual_model_class] || model_class
     local_model_request_params = request_params[local_model_class.calculate_form_name] || {}
     model_request_params = request_params[model_class.calculate_form_name] || {}
@@ -65,10 +66,17 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
       options[:order_clause]
     end
     page_clause = grab_param(:page, local_model_request_params, model_request_params, request_params)
+    
+    modified_search_conditions = if options[:search_conditions] && options[:search_conditions].is_a?(Hash)
+      options[:search_conditions].keys.map{|key| "#{key} = '#{options[:search_conditions][key]}'"}.join ' AND '
+    else
+      options[:search_conditions]
+    end
 
     # Grab a list of models with just the ID, then swap out the list of models with a list of the IDs
     # TODO ESH: should upgrade to arel syntax
-    models = local_model_class.paginate :select => :id, :conditions => "#{sql_conditions} #{(!sql_conditions.blank? && !options[:search_conditions].blank?) ? " AND " : ''} #{options[:search_conditions]}", 
+    p "searching for #{local_model_class.name}, sql_conditions='#{sql_conditions}', search_conditions=#{modified_search_conditions}, page=#{page_clause}, per_page=#{results_per_page}, :order=#{order_clause}"
+    models = local_model_class.paginate :select => :id, :conditions => "#{sql_conditions} #{(!sql_conditions.blank? && !modified_search_conditions.blank?) ? " AND " : ''} #{modified_search_conditions}", 
       :page => page_clause, :per_page => results_per_page, 
       :order => order_clause, :include => options[:include_relation]
     models.replace models.map(&:id)
@@ -78,7 +86,9 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   # check for an attribute in the params based on the current model object's class name, then the superclass if any from which the search attributes were specified, then just the attribute names
   def grab_param attr_name, local_model_request_params={}, model_request_params={}, request_params={}
     # p "ESH: searching for attr_name=#{attr_name} in local_model_request_params=#{local_model_request_params.inspect}, model_request_params=#{model_request_params.inspect}, request_params=#{request_params.inspect}"
-    local_model_request_params[attr_name.to_s] || model_request_params[attr_name.to_s] || request_params[attr_name.to_s]
+    ret = local_model_request_params[attr_name.to_s] || model_request_params[attr_name.to_s] || request_params[attr_name.to_s]
+    # p "ESH: grab_param, found ret=#{ret.inspect} for attr_name=#{attr_name}"
+    ret
   end
 
   def sphinx_model_search q_search, request_params, results_per_page=25, options={}
