@@ -21,6 +21,9 @@ class ClientStoresControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:client_stores)
     assert_equal @named_client_store, assigns(:client_stores).first
+    a = @response.body.de_json # try to deserialize the JSON to an array
+    assert a.first
+    assert a.first['client_store']
   end
 
   test "should create client store" do
