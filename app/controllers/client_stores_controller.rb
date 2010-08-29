@@ -16,7 +16,7 @@ class ClientStoresController < ApplicationController
     
     insta.format do |format|
       format.json do |controller_dsl, controller, outcome|
-        controller.render :inline => @models.to_json
+        controller.render :inline => controller.instance_variable_get("@models").to_json
       end
     end
   end
