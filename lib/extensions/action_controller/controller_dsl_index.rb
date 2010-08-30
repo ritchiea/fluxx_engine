@@ -15,6 +15,8 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :filter_title
   # the optional filter template to provide the body of the filter form 
   attr_accessor :filter_template
+  # If you don't want an anchor tag added to each model listing in the index, set this to true
+  attr_accessor :suppress_model_anchor_tag
 
 
   # block to postprocess autocomplete results

@@ -52,6 +52,7 @@ class ActionController::Base
         end
       
         @model_class = index_object.model_class
+        @suppress_model_anchor_tag = index_object.suppress_model_anchor_tag
         if params[:view] == 'filter'
           @filter_title = index_object.filter_title || "Filter #{index_object.model_class.name.humanize.downcase.pluralize}"
           @filter_template = index_object.filter_template

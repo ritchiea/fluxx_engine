@@ -11,12 +11,15 @@
     %li= link_to image_tag('/fluxx_engine/theme/default/images/icons/arrow_refresh.png', :alt => 'Refresh Card'), '#', :class => 'refresh-card'
     %li= link_to image_tag('/fluxx_engine/theme/default/images/icons/cog_edit.png', :alt => 'Open Filters'), '#', :class => 'open-filters'
 
+- throw Exception.new "Please specify an index template for the #{model.class} controller, otherwise we cannot render the page" if @template.blank?
 #card-body
   %ul.list
     - @models.compact.each do |model|
       %li.entry{'data-model-id' => model.id}
-        %a.to-detail{:href => url_for(model)}
-          = throw Exception.new "Please specify an index template for the #{model.class} controller, otherwise we cannot render the page" if @template.blank?
+        - unless @suppress_model_anchor_tag
+          %a.to-detail{:href => url_for(model)}
+            = render :partial => @template,  :locals => {:model => model}
+        - else
           = render :partial => @template,  :locals => {:model => model}
 
 #card-footer= raw(fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>')
