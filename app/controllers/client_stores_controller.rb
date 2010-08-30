@@ -28,4 +28,7 @@ class ClientStoresController < ApplicationController
   end
   insta_delete ClientStore do |insta|
   end
+  insta_show ClientStore do |insta|
+    insta.template = 'client_store_show'
+  end
 end

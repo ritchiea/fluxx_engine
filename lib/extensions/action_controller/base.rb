@@ -115,6 +115,9 @@ class ActionController::Base
             format.html do 
               fluxx_show_card show_object, show_object.calculate_show_options(@model, params)
             end
+            format.json do
+              render :inline => @model.to_json
+            end
             format.xml  { render :xml => @model }
           end
         else

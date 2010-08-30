@@ -25,6 +25,15 @@ class ClientStoresControllerTest < ActionController::TestCase
     assert a.first
     assert a.first['client_store']
   end
+  
+  test "should show client store" do
+    get :show, :id => @client_store.to_param, :format => :json
+    assert_response :success
+    a = @response.body.de_json # try to deserialize the JSON to an array
+    assert a
+    assert a['client_store']
+  end
+  
 
   test "should create client store" do
     assert_difference('ClientStore.count') do
