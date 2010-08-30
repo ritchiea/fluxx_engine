@@ -302,7 +302,7 @@ class ActionController::Base
         @model = update_object.load_existing_model params, pre_model
         @model_class = update_object.model_class
         instance_variable_set update_object.singular_model_instance_name, @model
-
+        
         if update_object.editable? @model, fluxx_current_user
           update_result = update_object.perform_update params, @model, fluxx_current_user
           update_object.invoke_post self, @model
