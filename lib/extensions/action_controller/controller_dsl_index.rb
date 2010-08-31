@@ -17,7 +17,8 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :filter_template
   # If you don't want an anchor tag added to each model listing in the index, set this to true
   attr_accessor :suppress_model_anchor_tag
-
+  # Normally the index.html template will iterate through the models and call the specified partial for each individual model.  If you set suppress_model_iteration to true, a var models will be passed to your partial instead.  This gives greater control to the partial to handle rendering the list.
+  attr_accessor :suppress_model_iteration
 
   # block to postprocess autocomplete results
   attr_accessor :postprocess_block

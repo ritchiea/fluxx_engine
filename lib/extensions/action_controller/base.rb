@@ -21,6 +21,7 @@ class ActionController::Base
   # options include:
   #   results_per_page: the number of results allowed per page; defaults to 25
   #   partial_new: the name of the new partial.  Defaults to 'partial_new'
+  # If you pass in a parameter skip_wrapper=true, just the partial will be rendered with no #card-header, #card-body, #card-footer wrapping
   #
   def self.insta_index model_class
     if respond_to?(:class_index_object) && class_index_object
@@ -53,6 +54,8 @@ class ActionController::Base
       
         @model_class = index_object.model_class
         @suppress_model_anchor_tag = index_object.suppress_model_anchor_tag
+        @suppress_model_iteration = index_object.suppress_model_iteration
+        @skip_wrapper = params[:skip_wrapper]
         if params[:view] == 'filter'
           @filter_title = index_object.filter_title || "Filter #{index_object.model_class.name.humanize.downcase.pluralize}"
           @filter_template = index_object.filter_template

@@ -32,4 +32,18 @@ class BlobStructTest < ActiveSupport::TestCase
     assert @blob.some_block
     assert @blob.some_block.is_a? Proc
   end
+  
+  test "test initing with a hash" do
+    hash = {:name => 'Eric', :address => '111 Main Street'}
+    blob = BlobStruct.new hash
+    assert 'Eric', blob.name
+    assert '111 Main Street', blob.address
+  end
+
+  test "test id and class" do
+    hash = {:id => 'Eric', :class => '111 Main Street'}
+    blob = BlobStruct.new hash
+    assert 'Eric', blob.id
+    assert '111 Main Street', blob.class
+  end
 end
