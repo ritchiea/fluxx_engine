@@ -2,7 +2,7 @@ class ClientStoresController < ApplicationController
   insta_index ClientStore do |insta|
     insta.format do |format|
       format.json do |controller_dsl, controller, outcome|
-        controller.render :inline => controller.instance_variable_get("@models").to_json
+        controller.render :inline => controller.instance_variable_get("@models").map {|model| {:client_store => (model.attributes), :url => controller.url_for(model)}}.to_json
       end
     end
   end
