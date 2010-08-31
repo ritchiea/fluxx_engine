@@ -181,6 +181,14 @@
               });
             }
           ],
+          'a.to-dashboard': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              $.my.cards.removeFluxxCard();
+              $.my.hand
+                .addFluxxCards({cards: $(this).data('dashboard').cards});
+            }
+          ],
           'a.to-upload': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);

@@ -103,6 +103,72 @@
           padding: 0px 0px 0px 46px
           margin: 0px 10px
           text-decoration: none
+      .actions
+        font-size: 12px
+        line-height: $header_height
+        position: absolute
+        top: 0px
+        right: 0px
+        .dashboard
+          position: relative
+          .label
+            margin-right: 210px
+          .picker
+            +non-list
+            +inline-block
+            +rounded(4px)
+            +linear-gradient(rgba(102,102,102,0.9),rgba(51,51,51,0.9))
+            +box-shadow
+            width: 200px
+            border: 1px solid #aaa
+            position: absolute
+            top: ($header_height - 20px) / 2 - 1
+            right: 0px
+            &:hover
+              +linear-gradient(rgba(76,76,76,0.9),rgba(51,51,51,0.9))
+              border-color: #eee
+              li
+                display: block
+                &:hover
+                  background-color: rgba(255,255,255,0.1)
+                &.new
+                  +inline-block
+                  float: right
+                  &:hover
+                    background: transparent
+                &.manage
+                  border-bottom: 1px solid #999
+                &.combo
+                  display: none
+                &.selected
+                  padding-left: 0px
+                  a
+                    +inline-block
+                  &:before
+                    +inline-block
+                    content: attr(data-tick)
+                    width: 16px
+                    text-align: center
+                    font-size: 80%
+            li
+              +non-list
+              display: none
+              line-height: 20px
+              padding: 0px 4px 0px 16px
+              &.saving
+                background: transparent url("../../_common/images/loaders/ajax-arrows-cccccc.gif") no-repeat left center
+              &.selected
+                display: block
+              &.combo
+                +inline-block
+                float: right
+                line-height: 8px
+                font-size: 5px
+                padding-top: 2px
+                padding-right: 4px
+              a
+                display: block
+                text-decoration: none
     #card-table
       +bg(transparent)
       #hand

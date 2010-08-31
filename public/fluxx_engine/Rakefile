@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'jsmin'
 
-SOURCES   = FileList['src/fluxx.{core,poller,stage,card,dock,dashboard}.js']
+SOURCES   = FileList['src/fluxx.{core,storage,poller,stage,card,dock,dashboard}.js']
 LIBRARIES = FileList[
   'lib/jquery-ui-1/js/jquery-1.4.2.min.js',
   'lib/jquery-ui-1/js/jquery-ui-1.8.2.custom.min.js',
