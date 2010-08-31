@@ -20,9 +20,10 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #header { background-color: #333333; color: white; height: 50px; position: fixed; top: 0px; width: 100%; }
 #fluxx #stage #header a { color: white; }
 #fluxx #stage #header #logo { display: inline-block; *display: inline; zoom: 1; }
-#fluxx #stage #header .actions { display: inline-block; *display: inline; zoom: 1; list-style: none; padding: 0; margin: 0; float: right; }
+#fluxx #stage #header .actions { display: inline-block; *display: inline; zoom: 1; list-style: none; padding: 0; margin: 0; }
 #fluxx #stage #header .actions li { list-style: none; margin: 0; padding: 0; }
-#fluxx #stage #header .actions li { display: inline-block; *display: inline; zoom: 1; margin-right: 10px; vertical-align: top; }
+#fluxx #stage #header .actions li { display: inline-block; *display: inline; zoom: 1; list-style: none; padding: 0; margin: 0; margin-right: 10px; vertical-align: top; }
+#fluxx #stage #header .actions li li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #card-table { background-color: #cccccc; color: black; margin-top: 50px; margin-bottom: 78px; position: absolute; top: 0px; bottom: 0px; overflow: hidden; }
 #fluxx #stage #card-table a { color: black; }
 #fluxx #stage #card-table #hand { list-style: none; padding: 0; margin: 0; height: 100%; }
@@ -87,6 +88,27 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx a { color: black; }
 #fluxx #stage #header { -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); z-index: 2; border-bottom: 3px white solid; }
 #fluxx #stage #header #logo a { display: inline-block; *display: inline; zoom: 1; font-family: "QuicksandBook", Helvetica, sans-serif; font-size: 24px; line-height: 53px; height: 50px; background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left; padding: 0px 0px 0px 46px; margin: 0px 10px; text-decoration: none; }
+#fluxx #stage #header .actions { font-size: 12px; line-height: 50px; position: absolute; top: 0px; right: 0px; }
+#fluxx #stage #header .actions .dashboard { position: relative; }
+#fluxx #stage #header .actions .dashboard .label { margin-right: 210px; }
+#fluxx #stage #header .actions .dashboard .picker { list-style: none; padding: 0; margin: 0; display: inline-block; *display: inline; zoom: 1; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; behavior: url(border-radius.htc); background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(102, 102, 102, 0.9)), color-stop(1, rgba(51, 51, 51, 0.9))); background: -moz-linear-gradient(center top, rgba(102, 102, 102, 0.9) 0%, rgba(51, 51, 51, 0.9) 100%); -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); width: 200px; border: 1px solid #aaaaaa; position: absolute; top: 14px; right: 0px; }
+#fluxx #stage #header .actions .dashboard .picker li { list-style: none; margin: 0; padding: 0; }
+#fluxx #stage #header .actions .dashboard .picker:hover { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(76, 76, 76, 0.9)), color-stop(1, rgba(51, 51, 51, 0.9))); background: -moz-linear-gradient(center top, rgba(76, 76, 76, 0.9) 0%, rgba(51, 51, 51, 0.9) 100%); border-color: #eeeeee; }
+#fluxx #stage #header .actions .dashboard .picker:hover li { display: block; }
+#fluxx #stage #header .actions .dashboard .picker:hover li:hover { background-color: rgba(255, 255, 255, 0.1); }
+#fluxx #stage #header .actions .dashboard .picker:hover li.new { display: inline-block; *display: inline; zoom: 1; float: right; }
+#fluxx #stage #header .actions .dashboard .picker:hover li.new:hover { background: transparent; }
+#fluxx #stage #header .actions .dashboard .picker:hover li.manage { border-bottom: 1px solid #999999; }
+#fluxx #stage #header .actions .dashboard .picker:hover li.combo { display: none; }
+#fluxx #stage #header .actions .dashboard .picker:hover li.selected { padding-left: 0px; }
+#fluxx #stage #header .actions .dashboard .picker:hover li.selected a { display: inline-block; *display: inline; zoom: 1; }
+#fluxx #stage #header .actions .dashboard .picker:hover li.selected:before { display: inline-block; *display: inline; zoom: 1; content: attr(data-tick); width: 16px; text-align: center; font-size: 80%; }
+#fluxx #stage #header .actions .dashboard .picker li { list-style: none; padding: 0; margin: 0; display: none; line-height: 20px; padding: 0px 4px 0px 16px; }
+#fluxx #stage #header .actions .dashboard .picker li li { list-style: none; margin: 0; padding: 0; }
+#fluxx #stage #header .actions .dashboard .picker li.saving { background: transparent url("../../_common/images/loaders/ajax-arrows-cccccc.gif") no-repeat left center; }
+#fluxx #stage #header .actions .dashboard .picker li.selected { display: block; }
+#fluxx #stage #header .actions .dashboard .picker li.combo { display: inline-block; *display: inline; zoom: 1; float: right; line-height: 8px; font-size: 5px; padding-top: 2px; padding-right: 4px; }
+#fluxx #stage #header .actions .dashboard .picker li a { display: block; text-decoration: none; }
 #fluxx #stage #card-table { background-color: transparent; color: black; }
 #fluxx #stage #card-table a { color: black; }
 #fluxx #stage #card-table #hand { background-color: transparent; color: black; }

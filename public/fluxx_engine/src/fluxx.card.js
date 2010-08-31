@@ -43,7 +43,7 @@
             $card.trigger('complete.fluxx.card');
           })
         });
-        $.my.cards = $('.card');
+        $.my.cards = $('.card').resizeFluxxCard();
       });
     },
     subscribeFluxxCardToUpdates: function () {
@@ -95,7 +95,7 @@
     },
     removeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
-      return this.each(function(){
+      this.each(function(){
         $(this)
           .fluxxCard()
           .bind({
@@ -107,6 +107,7 @@
           .trigger('close.fluxx.card')
           .trigger('unload.fluxx.card');
       });
+      return this;
     },
     resizeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
