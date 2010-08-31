@@ -14,13 +14,13 @@ class ClientStoresControllerTest < ActionController::TestCase
     assert_equal 1, assigns(:client_stores).size
   end
 
-  test "search for client stores by name" do
-    dashboard_name = 'front_end_dashboard'
-    @named_client_store = ClientStore.make :name => dashboard_name, :user_id => @user.id
-    get :index, :format => :json, :name => dashboard_name
+  test "search for client stores by client_store_type" do
+    dashboard_name = 'dashboard'
+    @client_store = ClientStore.make :client_store_type => dashboard_name, :user_id => @user.id
+    get :index, :format => :json, :client_store_type => dashboard_name
     assert_response :success
     assert_not_nil assigns(:client_stores)
-    assert_equal @named_client_store, assigns(:client_stores).first
+    assert_equal @client_store, assigns(:client_stores).first
     a = @response.body.de_json # try to deserialize the JSON to an array
     assert a.first
     assert a.first['client_store']
@@ -63,4 +63,12 @@ class ClientStoresControllerTest < ActionController::TestCase
     end
     assert @client_store.reload.deleted_at
   end
+  
+  test "destroy client_store then try to update one with the same name" do
+    assert_difference('ClientStore.count', 0) do
+      delete :destroy, :id => @client_store.to_param, :format => :json
+    end
+    assert @client_store.reload.deleted_at
+  end
+  
 end

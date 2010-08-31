@@ -53,6 +53,7 @@ end
 
 ClientStore.blueprint do
   name Sham.word
+  client_store_type Sham.word
 end
 
 User.blueprint do
