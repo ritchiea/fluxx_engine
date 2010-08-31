@@ -41,8 +41,20 @@ class ClientStoresControllerTest < ActionController::TestCase
     end
   end
 
+  test "should error creating client store" do
+    assert_difference('ClientStore.count', 0) do
+      post :create, :client_store => nil, :format => :json
+    end
+    assert 500, @response.status
+  end
+
   test "should update client_store" do
     put :update, :id => @client_store.to_param, :client_store => @client_store.attributes, :format => :json
+  end
+
+  test "should error updating client_store" do
+    put :update, :id => @client_store.to_param, :client_store => {:name => nil}, :format => :json
+    assert 500, @response.status
   end
 
   test "should destroy client_store" do

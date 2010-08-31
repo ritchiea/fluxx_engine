@@ -253,12 +253,10 @@ class ActionController::Base
           flash[:info] = t(:insta_successful_create, :name => model_class.name)
           insta_respond_to create_object, :success do |format|
             format.html do
-              if create_object.render_inline
-                render :inline => create_object.render_inline
-              else
-                extra_options = {:id => @model.id}
-                head 201, :location => create_object.redirect ? self.send(create_object.redirect, extra_options) : url_for(@model)
-              end
+              handle_successful_create
+            end
+            format.json do
+              handle_successful_create
             end
             format.xml  { render :xml => @model, :status => :created, :location => @model }
           end
@@ -268,8 +266,19 @@ class ActionController::Base
             flash[:error] = t(:errors_were_found)
             logger.debug("Unable to create "+create_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
             format.html { render((create_object.view || "#{insta_path}/new").to_s, :layout => false) }
+            # TODO ESH: revisit what to send back for JSON error
+            format.json { head 500 }
             format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
           end
+        end
+      end
+      
+      define_method :handle_successful_create do
+        if create_object.render_inline
+          render :inline => create_object.render_inline
+        else
+          extra_options = {:id => @model.id}
+          head 201, :location => create_object.redirect ? self.send(create_object.redirect, extra_options) : url_for(@model)
         end
       end
     end
@@ -331,6 +340,8 @@ class ActionController::Base
             insta_respond_to update_object, :error do |format|
               logger.debug("Unable to save "+update_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
               format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => false) }
+              # TODO ESH: revisit what to send back for JSON error
+              format.json { head 500 }
               format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
             end
           end
@@ -341,6 +352,8 @@ class ActionController::Base
           insta_respond_to update_object, :locked do |format|
             # Provide a locked error message
             format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => false) }
+            # TODO ESH: revisit what to send back for JSON error
+            format.json { head 500 }
             format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
           end
         end
