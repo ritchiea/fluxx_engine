@@ -171,19 +171,43 @@ class ActiveRecord::Base
       self.class.suspended_delta(false) do
         if self.class.respond_to? :without_realtime
           self.class.without_realtime do
-            self.update_attribute key, value
+            if self.class.respond_to? :without_auditing
+              self.class.without_auditing do
+                self.update_attribute key, value
+              end
+            else
+              self.update_attribute key, value
+            end
           end
         else
-          self.update_attribute key, value
+          if self.class.respond_to? :without_auditing
+            self.class.without_auditing do
+              self.update_attribute key, value
+            end
+          else
+            self.update_attribute key, value
+          end
         end
       end
     else
       if self.class.respond_to? :without_realtime
         self.class.without_realtime do
-          self.update_attribute key, value
+          if self.class.respond_to? :without_auditing
+            self.class.without_auditing do
+              self.update_attribute key, value
+            end
+          else
+            self.update_attribute key, value
+          end
         end
       else
-        self.update_attribute key, value
+        if self.class.respond_to? :without_auditing
+          self.class.without_auditing do
+            self.update_attribute key, value
+          end
+        else
+          self.update_attribute key, value
+        end
       end
     end
   end
@@ -194,19 +218,43 @@ class ActiveRecord::Base
       self.class.suspended_delta(false) do
         if self.class.respond_to? :without_realtime
           self.class.without_realtime do
-            self.update_attributes attr_map
+            if self.class.respond_to? :without_auditing
+              self.class.without_auditing do
+                self.update_attributes attr_map
+              end
+            else
+              self.update_attribute key, value
+            end
           end
         else
-          self.update_attributes attr_map
+          if self.class.respond_to? :without_auditing
+            self.class.without_auditing do
+              self.update_attributes attr_map
+            end
+          else
+            self.update_attribute key, value
+          end
         end
       end
     else
       if self.class.respond_to? :without_realtime
         self.class.without_realtime do
-          self.update_attributes attr_map
+          if self.class.respond_to? :without_auditing
+            self.class.without_auditing do
+              self.update_attributes attr_map
+            end
+          else
+            self.update_attribute key, value
+          end
         end
       else
-        self.update_attributes attr_map
+        if self.class.respond_to? :without_auditing
+          self.class.without_auditing do
+            self.update_attributes attr_map
+          end
+        else
+          self.update_attribute key, value
+        end
       end
     end
   end
