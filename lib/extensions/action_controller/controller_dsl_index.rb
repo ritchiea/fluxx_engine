@@ -71,7 +71,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     model_class.csv_sql_query local_search_conditions
   end
   
-  def process_autocomplete models
+  def process_autocomplete models, controller
     formatting = if postprocess_block && postprocess_block.is_a?(Proc)
       postprocess_block.call models
     else
@@ -87,7 +87,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         :to_s
       end
       models.map do |model|
-        {:label => model.send(name_method), :value => model.id, :url => url_for(model)}
+        {:label => model.send(name_method), :value => model.id, :url => controller.url_for(model)}
       end.to_json
     end
   end
