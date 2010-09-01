@@ -87,7 +87,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         :to_s
       end
       models.map do |model|
-        {:label => model.send(name_method), :value => model.id}
+        {:label => model.send(name_method), :value => model.id, :url => url_for(model)}
       end.to_json
     end
   end
