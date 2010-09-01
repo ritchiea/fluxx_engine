@@ -43,11 +43,24 @@
       return this;
     },
     
-    addFluxxCards: function(options) {
-      var options = $.fluxx.util.options_with_callback({}, options);
-      if (!options.cards.length) return this;
-      $.each(options.cards, function() { $.my.hand.addFluxxCard(this) });
+    addFluxxCards: function(options, callback) {
+      var options = $.fluxx.util.options_with_callback({}, options, callback);
+      if (!options.cards.length) {
+        options.callback();
+        return this;
+      }
+      $.each(options.cards, function(i, v) {
+        $.my.hand.addFluxxCard(this, function(){
+          if (i == options.cards.length - 1) {
+            options.callback();
+          }
+        });
+      });
       return this;
+    },
+    
+    serializeFluxxCards: function () {
+      return _.map($.my.cards, function(i){return $(i).serializeFluxxCard()});
     },
     
     installFluxxDecorators: function() {
@@ -184,9 +197,22 @@
           'a.to-dashboard': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
+              var $selected = $(this);
+              var $previous = $('.selected a', $.my.dashboardPicker);
+              $previous.data('locked', true);
+              $selected.data('locked', true);
               $.my.cards.removeFluxxCard();
-              $.my.hand
-                .addFluxxCards({cards: $(this).data('dashboard').cards});
+              var dashboard = $selected.data('dashboard');
+              if (dashboard && dashboard.data && dashboard.data.cards) {
+                $.my.hand
+                  .addFluxxCards({cards: dashboard.data.cards}, function(){
+                    $selected.data('locked', false);
+                    $previous.data('locked', false);
+                  });
+              } else {
+                $selected.data('locked', false);
+                $previous.data('locked', false);
+              }
             }
           ],
           'a.to-upload': [

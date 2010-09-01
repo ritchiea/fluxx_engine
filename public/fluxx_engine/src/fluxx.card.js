@@ -46,6 +46,14 @@
         $.my.cards = $('.card').resizeFluxxCard();
       });
     },
+    serializeFluxxCard: function(){
+      var $card = $(this).first();
+      return {
+        title:   $card.fluxxCardTitle(),
+        listing: $card.fluxxCardListing().fluxxCardAreaRequest() || {},
+        detail:  $card.fluxxCardDetail().fluxxCardAreaRequest() || {}
+      };
+    },
     subscribeFluxxCardToUpdates: function () {
       return this.each(function(){
         if (!$.fluxx.realtime_updates) return;
@@ -199,7 +207,9 @@
         || this.data('partial', this.parents('.partial:eq(0)').andSelf().first()).data('partial');
     },
     fluxxCardAreaRequest: function () {
-      var req = this.fluxxCardArea().data('history')[0];
+      var history = this.fluxxCardArea().data('history');
+      if (_.isEmpty(history)) return null;
+      var req = history[0];
       return {
         url:  req.url,
         data: req.data,
@@ -247,7 +257,7 @@
     },
     fluxxCardAreaURL: function(options) {
       var options = $.fluxx.util.options_with_callback({without: []},options);
-      var current = this.fluxxCardArea().data('history')[0];
+      var current = this.fluxxCardAreaRequest();
       var withoutNames = _.pluck(options.without, 'name');
       $.fluxx.log('withoutNames', withoutNames);
       var params  = _.reject(current.data, function(elem) {

@@ -5,47 +5,58 @@
         .prependTo($('.actions', $.my.header))
         .populateDashboards(_.bind($.fn.loadDashboard, $('.picker')));
     },
-    populateDashboards: function (fn) {
-      var $dashboard = this;
-      $dashboard.getDashboardList(function(list){
-        _.each(list, function(i) {
-          var $item = $($.fluxx.dashboard.ui.pickerItem.call($dashboard, i));
-          $('a', $item).data('dashboard', i);
-          $item.appendTo($('.picker', $dashboard));
-        });
-        fn();
-      });
-      return $dashboard;
+    populateDashboards: function (callback) {
+      var options = $.fluxx.util.options_with_callback({},callback);
+      $.my.dashboardPicker = $('.picker', this);
+      $.my.dashboardPicker.getDashboards(options.callback);
     },
     loadDashboard: function () {
       var $item = $('.item:first a', $(this));
       if ($.cookie('dashboard')) {
-        $item = $('.item a[href='+$.cookie('dashboard')+']', $(this));
+        $found = $('.item a[href='+$.cookie('dashboard')+']', $(this));
+        if ($found.length) {
+          $item = $found;
+        }
       }
       $.cookie('dashboard', $item.click().attr('href'));
       $item.parent().addClass('selected').siblings().removeClass('selected');
     },
     
-    getDashboardList: function (fn) {
-      $.fluxx.storage.get('dashboard', function(obj) {
-        if (!obj.value()) {
-          obj.setValue($.fluxx.config.dashboard.default_dashboard);
+    getDashboards: function (callback) {
+      var options = $.fluxx.util.options_with_callback({},callback);
+      $.fluxx.storage.getStored({type: 'dashboard'}, function(items) {
+        if (items && items.length) {
+          _.each(items, function(item){
+            $($.fluxx.dashboard.ui.pickerItem({url: item.url, name: item.name}))
+              .find('a').data('dashboard', item).end()
+              .appendTo($.my.dashboardPicker);
+          });
+          options.callback();
+        } else {
+          $.fluxx.storage.createStore($.fluxx.config.dashboard.default_dashboard, function(item) {
+            $($.fluxx.dashboard.ui.pickerItem({url: item.url, name: item.name}))
+              .find('a').data('dashboard', item).end()
+              .appendTo($.my.dashboardPicker);
+            options.callback();
+          });
         }
-        fn(obj.value());
-        $.cache.dashboard = obj;
       });
     },
     
-    saveDashboardState: function() {
-      /*
-        - Find current dashboard
-        - Serialize state of all cards
-        - Update entry in current dashboard
-        - Get all dashboard names from picker and update
-        - Remove any dashboards not in picker
-        - Send to server
-       */
-    },
+    saveDashboard: function(){
+      var $dashboard = $('.selected a', $.my.dashboardPicker);
+      if ($dashboard.data('locked')) return this;
+
+      var dashboard = $dashboard.data('dashboard');
+      dashboard.data.cards = $.my.stage.serializeFluxxCards();
+      $dashboard.parent().addClass('saving');
+      $.fluxx.storage.updateStored({store: dashboard}, function(dashboard){
+        $dashboard.data('dashboard', dashboard).parent().removeClass('saving');
+      });
+      $.fluxx.log($dashboard.data('dashboard'), $.my.stage.serializeFluxxCards());
+
+      return this;
+    }
   });
   
   $.extend(true, {
@@ -53,18 +64,12 @@
       config: {
         dashboard: {
           enabled: true,
-          default_dashboard: [
-            {
-              id: 'default',
-              name: 'Default',
-              cards: []
-            },
-            {
-              id: 'scratchpad',
-              name: 'Scratch Pad',
-              cards: []
-            }
-          ]
+          default_dashboard: {
+            type: 'dashboard',
+            name: 'Default',
+            data: {cards: []},
+            url: '#default'
+          }
         }
       },
       dashboard: {
@@ -93,7 +98,7 @@
   $.fluxx.dashboard.ui.pickerItem = function(options) {
     return $.fluxx.util.resultOf([
       '<li data-tick="&#10003;" class="item">',
-        '<a class="to-dashboard" href="#', options.id, '">',
+        '<a class="to-dashboard" href="#', options.url, '">',
           options.name,
         '</a>',
       '</li>'
@@ -103,5 +108,8 @@
   $('#stage').live('complete.fluxx.stage', function(e) {
     $.my.header.initFluxxDashboard();
   });
+  
+  $('.area').live('lifetimeComplete.fluxx.area', function(e) { $(this).saveDashboard(); });
+  $('.card').live('unload.fluxx.area', function(e) { $(this).saveDashboard(); });
 
 })(jQuery);
