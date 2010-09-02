@@ -82,7 +82,7 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #footer .icon .popup { background-color: #aaaaaa; color: black; display: none; position: absolute; left: 0px; bottom: 0px; }
 #fluxx #stage #footer .icon .popup a { color: black; }
 
-body { background-color: #f9f9f9; color: black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eeeeee), color-stop(1, #cccccc)); background: -moz-linear-gradient(center top, #eeeeee 0%, #cccccc 100%); padding: 50px; }
+body { background-color: #cccccc; color: black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f9f9f9), color-stop(1, #cccccc)); background: -moz-linear-gradient(center top, #f9f9f9 0%, #cccccc 100%); -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; padding: 50px; min-height: 512px; height: 100%; overflow: auto; }
 body a { color: black; }
 
 .container { position: relative; width: 512px; height: 512px; margin: auto; padding: 65px 0px 0px 25px; }
