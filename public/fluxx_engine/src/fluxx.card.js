@@ -393,14 +393,24 @@
               options.target.disableFluxxArea();
               var $arrow = $('.arrow', $modal);
               var targetPosition = options.target.position().top,
-                  targetHeight = options.target.innerHeight(),
+                  targetHeight = options.target.outerHeight(true),
                   arrowHeight = $arrow.outerHeight(true);
               $arrow.css({
                 top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2))
               });
+              var parentOffset = options.target.position().left,
+                  targetWidth  = options.target.outerWidth(true),
+                  arrowWidth   = $arrow.outerWidth(true) / 2,
+                  leftPosition = parentOffset + targetWidth + arrowWidth;
               $modal.css({
-                left: parseInt(options.target.offsetParent().position().left + options.target.outerWidth(true) + ($arrow.outerWidth(true)))
+                left: parseInt(leftPosition)
               });
+              totalWidth = parseInt(leftPosition) + $modal.outerWidth(true);
+              overage = totalWidth - $('.body', options.target.fluxxCardArea()).outerWidth(true);
+              $.fluxx.log('overage: ' + overage);
+              if (overage > 0) {
+                $modal.fluxxCard().css({marginRight: overage});
+              }
             }
           },
           function(e) {
@@ -415,6 +425,7 @@
         var $modal = $('.modal', $(this).fluxxCard());
        $('.loading-indicator', $modal.fluxxCard()).removeClass('loading')
         $modal.data('target').enableFluxxArea();
+        $(this).fluxxCard().css({marginRight: null});
         $modal.remove();
       });
     },
