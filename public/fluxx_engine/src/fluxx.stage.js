@@ -78,15 +78,20 @@
   
   $.extend(true, {
     fluxx: {
+      config: {
+        header: {
+          actions: []
+        }
+      },
       stage: {
         attrs: {
           id: 'stage'
         },
-        ui: function(optoins) {
+        ui: function(options) {
           return $('<div>')
             .attr($.fluxx.stage.attrs)
             .html($.fluxx.util.resultOf([
-              $.fluxx.stage.ui.header,
+              $.fluxx.stage.ui.header(options),
               $.fluxx.stage.ui.cardTable,
               $.fluxx.stage.ui.footer
             ]));
@@ -425,13 +430,16 @@
       }
     }
   });
-  $.fluxx.stage.ui.header = [
+  $.fluxx.stage.ui.header = function(options){return $.fluxx.util.resultOf([
     '<div id="header">',
       '<div id="logo"><a href=".">FLUXX</a></div>',
-      '<ul class="actions">',
-      '</ul>',
+        '<ul class="actions">',
+          _.map($.fluxx.config.header.actions, function(action) {
+            return ['<li>', action, '</li>'];
+          }),
+        '</ul>',
     '</div>'
-  ].join('');
+  ])};
   $.fluxx.stage.ui.cardTable = [
     '<div id="card-table">',
       '<ul id="hand">',

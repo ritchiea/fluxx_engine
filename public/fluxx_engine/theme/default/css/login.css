@@ -81,3 +81,23 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #footer .icon .link a { color: black; }
 #fluxx #stage #footer .icon .popup { background-color: #aaaaaa; color: black; display: none; position: absolute; left: 0px; bottom: 0px; }
 #fluxx #stage #footer .icon .popup a { color: black; }
+
+body { background-color: #f9f9f9; color: black; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eeeeee), color-stop(1, #cccccc)); background: -moz-linear-gradient(center top, #eeeeee 0%, #cccccc 100%); padding: 50px; }
+body a { color: black; }
+
+.container { position: relative; width: 512px; height: 512px; margin: auto; padding: 65px 0px 0px 25px; }
+.container .pinwheel { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; opacity: 0.9; background: transparent url("../../_common/images/pinwheels/logo_pinwheel_512.png") no-repeat right top; }
+.container .content { -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; behavior: url(border-radius.htc); -webkit-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); background-color: rgba(0, 0, 0, 0.8); color: white; position: relative; padding: 25px 50px; width: 400px; }
+.container .content a { color: white; }
+.container .content label { line-height: 24px; border: 1px solid transparent; }
+.container .content input, .container .content select, .container .content textarea { line-height: 24px; padding: 0px 6px; }
+.container .content input, .container .content textarea { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fcfcfc), color-stop(1, white)); background: -moz-linear-gradient(center top, #fcfcfc 0%, white 100%); -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.1); }
+.container .content select { height: 24px; }
+.container .content select[multiple=multiple] { height: auto; }
+.container .content form { margin: 0px; padding: 0px; }
+.container .content h2 { font-family: "QuicksandBook", Helvetica, sans-serif; margin: 0; padding: 0; text-transform: uppercase; font-weight: normal; }
+.container .content label[for=user_email], .container .content label[for=user_password] { display: none; }
+.container .content input[type=text], .container .content input[type=password] { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; width: 300px; }
+.container .content input[type=submit] { -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; behavior: url(border-radius.htc); float: right; }
+.container .content .shared-links { clear: both; }
+.container .content .shared-links a { display: inline-block; *display: inline; zoom: 1; margin-right: 10px; font-size: 80%; }
