@@ -53,6 +53,13 @@
 =text-shadow($color: rgba(0,0,0,0.5), $left: 0px, $top: 1px, $spread: 1px)
   text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}")
 
+=ellipsis
+  text-overflow: ellipsis
+  -o-text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+
+
 // Styles for box properties
 
 =non-list

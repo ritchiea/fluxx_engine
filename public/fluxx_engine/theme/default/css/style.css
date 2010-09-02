@@ -79,6 +79,7 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #footer .icon { display: inline-block; *display: inline; zoom: 1; position: relative; }
 #fluxx #stage #footer .icon .link { background-color: #666666; color: black; display: inline-block; *display: inline; zoom: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; height: 48px; width: 48px; margin: 10px 10px 20px 10px; }
 #fluxx #stage #footer .icon .link a { color: black; }
+#fluxx #stage #footer .icon .link .label { text-overflow: ellipsis; -o-text-overflow: ellipsis; white-space: nowrap; overflow: hidden; text-transform: uppercase; padding: 0px 10px; font-size: 8px; }
 #fluxx #stage #footer .icon .popup { background-color: #aaaaaa; color: black; display: none; position: absolute; left: 0px; bottom: 0px; }
 #fluxx #stage #footer .icon .popup a { color: black; }
 
@@ -216,6 +217,9 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .toolbar .controls li:last-child { -webkit-border-top-right-radius: 2px; -webkit-border-bottom-right-radius: 2px; -moz-border-radius-topright: 2px; -moz-border-radius-bottomright: 2px; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .titlebar { background-color: #cccccc; color: #333333; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #cccccc), color-stop(1, #aaaaaa)); background: -moz-linear-gradient(center top, #cccccc 0%, #aaaaaa 100%); text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; border-top: 1px solid #eeeeee; border-bottom: 1px solid #333333; text-transform: uppercase; font-weight: 100; line-height: 24px; font-size: 18px; padding: 0px 10px; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .titlebar a { color: #333333; }
+#fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .title { outline: none; }
+#fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .title[contenteditable=true] { -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); background-color: rgba(255, 255, 255, 0.3); color: #333333; padding: 0px 5px; margin-left: -5px; }
+#fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .title[contenteditable=true] a { color: #333333; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .content-actions { margin-right: 10px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body { background: url(../../default/images/cards/body-bg.png); border-bottom: 1px solid #333333; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .filters { background: #666666; border: 3px solid #cccccc; color: white; }

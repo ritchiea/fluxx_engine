@@ -18,6 +18,7 @@
               $.fluxx.util.itEndsHere,
               function(){$card.show();},
               _.bind($.fn.resizeFluxxCard, $card),
+              _.bind($.fn.editableCardTitle, $card),
               _.bind($.fn.subscribeFluxxCardToUpdates, $card),
               options.callback
             ),
@@ -44,6 +45,21 @@
           })
         });
         $.my.cards = $('.card').resizeFluxxCard();
+      });
+    },
+    editableCardTitle: function() {
+      var $card = $(this);
+      var $title = $('.title', $card);
+      var getReturn = function(e){
+        if (e.which == 13) {
+          $.fluxx.util.itEndsWithMe(e);
+          $title.attr('contenteditable', 'false').unbind('keypress', getReturn);
+          $card.data('icon').updateIconLabel({label: $title.text()});
+          $card.saveDashboard();
+        }
+      };
+      $title.click(function(e){
+        $title.attr('contenteditable', 'true').keypress(getReturn);
       });
     },
     serializeFluxxCard: function(){
