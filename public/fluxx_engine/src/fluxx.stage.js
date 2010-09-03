@@ -135,22 +135,42 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              $elem.fluxxCardLoadContent({
-                area: $elem.fluxxCardArea(),
-                url: $elem.attr('href'),
-                type: 'POST'
-              });
+              if ($elem.attr('data-on-success') == 'refreshCaller') {
+                $.ajax({
+                  url: $elem.attr('href'),
+                  type: 'POST',
+                  complete: function {
+                    $elem.refreshCardArea();
+                  }
+                });
+              } else {
+                $elem.fluxxCardLoadContent({
+                  area: $elem.fluxxCardArea(),
+                  url: $elem.attr('href'),
+                  type: 'POST'
+                });
+              }
             }
           ],
           'a.as-delete': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              $elem.fluxxCardLoadContent({
-                area: $elem.fluxxCardArea(),
-                url: $elem.attr('href'),
-                type: 'DELETE'
-              });
+              if ($elem.attr('data-on-success') == 'refreshCaller') {
+                $.ajax({
+                  url: $elem.attr('href'),
+                  type: 'DELETE',
+                  complete: function {
+                    $elem.refreshCardArea();
+                  }
+                });
+              } else {
+                $elem.fluxxCardLoadContent({
+                  area: $elem.fluxxCardArea(),
+                  url: $elem.attr('href'),
+                  type: 'DELETE'
+                });
+              }
             }
           ],
           'a.refresh-card': [

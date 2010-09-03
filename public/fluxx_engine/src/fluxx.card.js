@@ -398,7 +398,13 @@
               $arrow.css({
                 top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2))
               });
-              var parentOffset = options.target.position().left,
+              var parentOffset = (
+                  //    options.target.css('float') || options.target.parent().css('float')
+                  //  ? 
+                      options.target.position().left + (options.target.fluxxCardListing().is(':visible') ? options.target.fluxxCardListing().outerWidth(true) : 0)
+                  //  : 
+                  //    options.target.offsetParent().position().left
+                  ),
                   targetWidth  = options.target.outerWidth(true),
                   arrowWidth   = $arrow.outerWidth(true) / 2,
                   leftPosition = parentOffset + targetWidth + arrowWidth;
@@ -676,6 +682,12 @@
               this.data('target').refreshAreaPartial();
             } else {
               this.data('target').refreshCardArea();
+            }
+          },
+          refreshNamed: function(){
+            if (! this.data('target')) return;
+            if (this.data('target').attr('target')) {
+              $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();
             }
           }
         }
