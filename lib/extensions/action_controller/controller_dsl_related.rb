@@ -73,7 +73,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
         results
       else
         calculate_related_data_row model, rd, rd.search_id
-      end
+      end.uniq_by{|element| element[:model]}
       {:formatted_data => formatted_data, :display_name => rd.display_name}
     end
   end
