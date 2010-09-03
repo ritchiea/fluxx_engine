@@ -97,6 +97,29 @@
             ]));
         },
         decorators: {
+          'a.with-note': [
+            'click', function(e) {
+              var $elem = $(this);
+              if (!$elem.data('has_note')) {
+              }
+              $.fluxx.util.itEndsHere(e);
+              $.prompt({
+                title: 'Note for ' + $elem.text(),
+                onOK: function(alert) {
+                  var note = $.param({note: alert.text});
+                  var href = $elem.attr('href');
+                  if (href.match(/\?/)) {
+                    href += '&' + note;
+                  } else {
+                    href += '?' + note;
+                  }
+                  $elem.attr('href', href);
+                  $elem.data('has_note');
+                  $elem.click();
+                }
+              })
+            }
+          ],
           'a.new-detail': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
@@ -139,7 +162,7 @@
                 $.ajax({
                   url: $elem.attr('href'),
                   type: 'POST',
-                  complete: function {
+                  complete: function (){
                     $elem.refreshCardArea();
                   }
                 });
@@ -160,7 +183,7 @@
                 $.ajax({
                   url: $elem.attr('href'),
                   type: 'DELETE',
-                  complete: function {
+                  complete: function (){
                     $elem.refreshCardArea();
                   }
                 });
