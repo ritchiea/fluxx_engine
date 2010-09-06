@@ -1,7 +1,7 @@
 class ModelStub
   
-  def self.generate_class klass
-    Class.new(BlobStruct) do
+  def self.generate_class_instance klass
+    generated_class = Class.new(BlobStruct) do
       @model_klass = klass
       
       def new_record?
@@ -22,5 +22,9 @@ class ModelStub
         ActiveModel::Name.new @model_klass
       end
     end
+    
+    inst = generated_class.new
+    inst.class = klass
+    inst
   end
 end
