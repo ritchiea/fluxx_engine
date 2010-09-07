@@ -116,7 +116,7 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card.updates-available .card-box .card-header .toolbar { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #aa9900), color-stop(1, #996600)); background: -moz-linear-gradient(center top, #aa9900 0%, #996600 100%); }
 #fluxx #stage #card-table #hand .card .info { z-index: 1; margin-left: -225px; }
 #fluxx #stage #card-table #hand .card .info.open { margin-left: 0px; }
-#fluxx #stage #card-table #hand .card .info .scroller { text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; position: absolute; right: 1px; top: -15px; height: 15px; line-height: 15px; font-size: 11px; }
+#fluxx #stage #card-table #hand .card .info .scroller { text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; display: none; position: absolute; right: 1px; top: -15px; height: 15px; line-height: 15px; font-size: 11px; }
 #fluxx #stage #card-table #hand .card .info .scroller span { color: #aaaaaa; }
 #fluxx #stage #card-table #hand .card .info .scroller a { display: inline-block; *display: inline; zoom: 1; width: 11px; text-decoration: none; }
 #fluxx #stage #card-table #hand .card .info .scroller a.tabs-left { text-align: right; margin-left: 0px; }
