@@ -1,13 +1,6 @@
 @import url(../../_common/css/ui-lightness/jquery-ui-1.8.2.custom.css);
-@import url(../../_common/css/fancybox/jquery.fancybox-1.3.1.css);
 @import url(../../_common/css/plupload/css/plupload.queue.css);
 @import url(../../_common/css/Quicksand-fontfacekit/stylesheet.css);
-.jquery-alert { text-align: left; }
-.jquery-alert .title-bar { font-size: 28px; font-weight: 500; width: 450px; }
-.jquery-alert .prompt-form { margin: 0px; padding: 0px; }
-.jquery-alert .prompt-form .prompt-input { width: 450px; height: 50px; margin: 20px 0px; }
-.jquery-alert .ok-button { float: right; }
-
 #colorbox { color: white; }
 
 body, table { font-family: Helvetica, sans-serif; }

@@ -386,17 +386,18 @@
                 th
                   +rounded-top
                   font-weight: normal
+                  padding: 4px
               tfoot
                 +rounded-bottom
                 td
                   +rounded-bottom
                   border-top: 1px solid #9B9B9B
+                  padding: 4px
               tbody
                 background: #F9F7F8
                 td
                   border-top: 1px solid #9B9B9B
-              td,th
-                padding: 4px
+                  padding: 4px
             .address
               .address1,.address2,.country
                 display: block
@@ -519,6 +520,39 @@
               .detail,.modal
                 font-size: 14px
                 line-height: 24px
+                .body
+                  .tabular
+                    tbody
+                      .audit-detail
+                        display: none
+                        width: 100%
+                        font-size: 80%
+                        border-collapse: collapse
+                        color: #666
+                        margin-bottom: 24px
+                        td,th
+                          border: none
+                          text-align: left
+                        tr
+                          .attribute
+                            width: 30%
+                            padding-left: 0px
+                          .old
+                            width: 30%
+                            padding: 4px
+                          .arrow
+                            width: 10%
+                            text-align: center
+                            padding: 4px
+                          .new
+                            width: 30%
+                            padding: 4px
+                            padding-right: 0px
+                          .empty
+                            +chiseled-text
+                            text-transform: uppercase
+                            color: #999
+                            font-weight: 100
               .listing
                 .header
                   &.actions-open

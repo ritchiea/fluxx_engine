@@ -212,6 +212,18 @@
               }
             }
           ],
+          'a.toggle-visible': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var targets = $(this).attr('data-selector');
+              if (!targets) return;
+              var $targets = $(targets, $(this).fluxxCardArea());
+              _.each($targets, function(target) {
+                var $target = $(target);
+                $target[$target.is(':visible') ? 'hide' : 'show']();
+              });
+            }
+          ],
           'a.open-filters': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
