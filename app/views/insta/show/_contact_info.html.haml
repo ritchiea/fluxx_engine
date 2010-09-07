@@ -1,19 +1,22 @@
 .contact-info
   %p.address
-    - if location.street_address
-      %span.address1= location.street_address
-    - if location.street_address2 
-      %span.address2= location.street_address2 
-    - if location.city
-      %span.city>= location.city
-    - if location.city &&  location.geo_state && location.geo_state.name
-      ,
-    - if location.geo_state && location.geo_state.name
-      %abbr.state{:title => location.geo_state.name}= location.geo_state.abbreviation
-    - if location.postal_code
-      %span.zipcode= location.postal_code
-    - if location.geo_country && location.geo_country.name
-      %abbr.country{:title => location.geo_country.name}= location.geo_country.abbreviation
+    - if (!location.street_address && !location.street_address2 && !location.city && !location.geo_state && !location.postal_code && !location.geo_country)
+      %span No address for this satellite.
+    - else
+      - if location.street_address
+        %span.address1= location.street_address
+      - if location.street_address2 
+        %span.address2= location.street_address2 
+      - if location.city
+        %span.city>= location.city
+      - if location.city &&  location.geo_state && location.geo_state.name
+        ,
+      - if location.geo_state && location.geo_state.name
+        %abbr.state{:title => location.geo_state.name}= location.geo_state.abbreviation
+      - if location.postal_code
+        %span.zipcode= location.postal_code
+      - if location.geo_country && location.geo_country.name
+        %abbr.country{:title => location.geo_country.name}= location.geo_country.abbreviation
 
     - if detailed
       - work_contact_details = [ |

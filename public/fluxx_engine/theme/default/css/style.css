@@ -194,7 +194,8 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card .card-box .tabular tfoot td { -webkit-border-bottom-left-radius: 10px; -webkit-border-bottom-right-radius: 10px; -moz-border-radius-bottomleft: 10px; -moz-border-radius-bottomright: 10px; border-top: 1px solid #9b9b9b; padding: 4px; }
 #fluxx #stage #card-table #hand .card .card-box .tabular tbody { background: #f9f7f8; }
 #fluxx #stage #card-table #hand .card .card-box .tabular tbody td { border-top: 1px solid #9b9b9b; padding: 4px; }
-#fluxx #stage #card-table #hand .card .card-box .address .address1, #fluxx #stage #card-table #hand .card .card-box .address .address2, #fluxx #stage #card-table #hand .card .card-box .address .country { display: block; }
+#fluxx #stage #card-table #hand .card .card-box .contact-info .address .address1, #fluxx #stage #card-table #hand .card .card-box .contact-info .address .address2, #fluxx #stage #card-table #hand .card .card-box .contact-info .address .country { display: block; }
+#fluxx #stage #card-table #hand .card .card-box .satellite { clear: both; margin: 12px 0px; }
 #fluxx #stage #card-table #hand .card .card-box .satellite .actions { float: right; font-size: 80%; }
 #fluxx #stage #card-table #hand .card .card-box .satellite .actions span { margin-left: 8px; }
 #fluxx #stage #card-table #hand .card .card-box .partial.updating { -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); background: url("../../_common/images/loaders/ajax-loader-666666.gif") no-repeat center center; height: 200px; }

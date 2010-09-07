@@ -261,7 +261,7 @@
     },
     refreshCardArea: function(){
       return this.each(function(){
-        var $area = $(this);
+        var $area = $(this).fluxxCardArea();
         $.fluxx.log(":::refreshCardArea:::", '  '+$area.fluxxCard().attr('id'), '    ' + $area.attr('class'));
         var req = $area.fluxxCardAreaRequest();
         $.extend(req, {area: $area});
@@ -687,9 +687,12 @@
           },
           refreshCaller: function(){
             if (! this.data('target')) return;
-            if (this.data('target').parent('.partial')) {
+            $.fluxx.log("Refreshing caller after modal close");
+            if (this.data('target').parent('.partial').length) {
+              $.fluxx.log("Refreshing PARTIAL");
               this.data('target').refreshAreaPartial();
             } else {
+              $.fluxx.log("Refreshing AREA");
               this.data('target').refreshCardArea();
             }
           },
