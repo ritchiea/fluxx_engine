@@ -30,15 +30,15 @@
       var defaults = {
         elements: [ $('<div/>').text('It is a box.') ],
         scrolling: false,
-        onComplete: function(){
+        onShow: function(box){
           $('.cancel-button', '.jquery-alert').click(function(e){
-            $.fn.colorbox.close();
+            $.modal.close();
             e.preventDefault();
             e.stopImmediatePropagation();
             return false;
           });
           $('.ok-button', '.jquery-alert').click(function(e){
-            var $colorbox = $.fn.colorbox.element();
+            var $colorbox = box.data;
             var promptInput = $(this).parents('.jquery-alert').find('.prompt-input').val();
             $colorbox.data('onOK', function(){
               if (onOK) {
@@ -48,14 +48,14 @@
                 }));
               }
             });
-            $.fn.colorbox.close();
+            $.modal.close();
             e.preventDefault();
             e.stopImmediatePropagation();
             return false;
           });
         },
-        onClosed: function () {
-          var $colorbox = $.fn.colorbox.element();
+        onClose: function (box) {
+          var $colorbox = box.data;
           var onOK = $colorbox.data('onOK');
           if (onOK) {
             onOK();
@@ -70,9 +70,22 @@
       delete options.title;
       
       if (!options.html) options.html = html;
-      D(options);
-      $.fn.colorbox(options);
-
+      options = $.extend(
+        {
+          closeHTML: '<span>Close</span>',
+          close:true,
+          overlayClose:true,
+          escClose:true,
+          onShow:function(d){d.container.hide().fadeIn('slow')},
+          onClose:function(d){d.overlay.fadeOut('slow');d.container.fadeOut('slow');$.modal.close()},
+          overlayCss:{background:'rgba(0,0,0,0.3)'},
+          containerCss:{background:'white'},
+          dataCss:{background:'#999'}
+        },
+        options
+      );
+      D(options.html, options);
+      $.modal(options.html, options);
     },
     prompt: function (options) {
       if (!options) options = {};

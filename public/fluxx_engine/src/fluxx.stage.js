@@ -13,7 +13,7 @@
             _.bind($.fn.setupFluxxPolling, $.my.stage),
             _.bind($.fn.installFluxxDecorators, $.my.stage),
             _.bind($.fn.addFluxxCards, $.my.hand, {cards: $.fluxx.config.cards}),
-            $.colorbox.init,
+          	//$.fancybox.init,
             options.callback
           )
         });
