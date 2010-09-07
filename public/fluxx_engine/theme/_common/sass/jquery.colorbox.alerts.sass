@@ -1,5 +1,13 @@
+@import _helpers
+.simplemodal-overlay
+  background: black url(../../default/images/cards/body-bg.png)
+  opacity: 0.9
 .jquery-alert
+  +bg(#fff,#000)
+  +linear-gradient(#fff,#f9f9f9)
+  +box-shadow
   text-align: left
+  padding: 12px
   .title-bar
     font-size: 28px
     font-weight: 500
@@ -10,12 +18,18 @@
     padding: 0px
 
     .prompt-input
-      width: 450px
-      height: 50px
+      width: 100%
+      height: 24px * 3
+      line-height: 24px
       margin: 20px 0px
 
-  .ok-button
+  .ok-buttons
+    +buttons(24px, 3px, #9f9)
+    +inline-block
     float: right
 
   .cancel-button
-
+    line-height: 24px
+    float: left
+  .clear
+    clear: both

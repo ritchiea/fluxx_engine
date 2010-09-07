@@ -4,7 +4,6 @@
 //@import ../../_common/css/TinyBox/style.css
 @import ../../_common/css/plupload/css/plupload.queue.css
 @import _helpers
-//@import jquery.colorbox.alerts
 
 #colorbox
   color: white
@@ -15,11 +14,6 @@ $icon_margin_bottom:    20px
 $footer_height:  $icon_dimension + ($icon_margin_top + $icon_margin_bottom)
 $header_height:  50px
 
-=bg($bg: rgb(255,255,255), $fg:  rgb(0,0,0))
-  background-color: $bg
-  color: $fg
-  a
-    color: $fg
 =header-bg($bg: #333, $fg: #fff)
   +bg($bg, $fg)
 =footer-bg($bg: #333, $fg: #fff)

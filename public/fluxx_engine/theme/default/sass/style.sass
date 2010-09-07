@@ -1,4 +1,5 @@
 @import ../../_common/sass/style.sass
+@import ../../_common/sass/jquery.colorbox.alerts.sass
 
 =icon-36
   .link
@@ -11,52 +12,6 @@
     .label
       top: 42px
       margin-left: -16px
-
-
-=btn-color($color: #ccc, $hover: true, $textColor: #000)
-  $top: $color * 1.5
-  $mid: $color * 0.80
-  $bot: $color * 0.70
-  background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(0.51, #{$color}),    color-stop(0.51, #{$mid}), color-stop(0.88, #{$bot}))")
-  background: unquote("-moz-linear-gradient(center top,#{$top} 0%,#{$color} 51%,#{$mid} 51%,#{$bot} 88%)")
-  color: $textColor
-  border-color: $color - ($color * .5)
-  @if $hover
-    &:hover
-      background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top + #111}), color-stop(0.51, #{$color + #111}),    color-stop(0.51, #{$mid + #111}), color-stop(0.88, #{$bot + #111}))")
-      background: unquote("-moz-linear-gradient(center top,#{$top + #111} 0%,#{$color + #111} 51%,#{$mid + #111} 51%,#{$bot + #111} 88%)")
-      color: $textColor + #111
-    &:active
-      background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$bot + #111}), color-stop(0.51, #{$mid + #111}),    color-stop(0.51, #{$color + #111}), color-stop(0.88, #{$top + #111}))")
-      background: unquote("-moz-linear-gradient(center top,#{$bot + #111} 0%,#{$mid + #111} 51%,#{$color + #111} 51%,#{$top + #111} 88%)")
-
-=buttons($size: 12px, $rounding: 3px, $bgcolor: #ccc, $color: #000, $tscolor: rgba(255,255,255,0.5), $tspos: 1px, $padding: $rounding)
-  +non-list
-  +rounded($rounding + 1)
-  +inline-block
-  +btn-color($bgcolor/3, false)
-  font-size: $size
-  line-height: $size
-  li
-    +btn-color($bgcolor)
-    color: $color
-    margin: 1px 1px 1px 0px
-    display: block
-    float: left
-    a,span
-      +border-box
-      +chiseled-text($tscolor, 0px, $tspos)
-      color: $color
-      text-decoration: none
-      text-align: center
-      padding: $padding
-      display: block
-      min-width: $size+($padding*2)
-    &:first-child
-      +rounded-left($rounding)
-      margin-left: 1px
-    &:last-child
-      +rounded-right($rounding)
 
 =form-field-one-line
   margin: 12px 0px

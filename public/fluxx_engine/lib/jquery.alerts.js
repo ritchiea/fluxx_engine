@@ -13,8 +13,9 @@
   var ui = {
     titleBar:     function(o) {return $('<div/>').addClass('title-bar').text(o.text)},
     promptInput:  function(o) {return $('<form class="prompt-form"><textarea class="prompt-input">'+(o.text || '')+'</textarea>')},
-    cancelButton: function(o) {return $('<a/>').addClass('btn plain cancel-button').attr('href','#').html(o.text)},
-    okButton:     function(o) {return $('<a/>').addClass('btn large green ok-button').attr('href','#').html(o.text)},
+    cancelButton: function(o) {return $('<a/>').addClass('cancel-button').attr('href','#').html(o.text)},
+    okButton:     function(o) {return $('<ul class="ok-buttons"><li><a href="#" class="ok-button">'+o.text+'</a></li></ul>')},
+    clearDiv:     function(o) {return $('<div class="clear"></div>')},
     box:          function(o) {
       D(['box', o]);
       var $box = $('<div class="jquery-alert" />');
@@ -72,15 +73,12 @@
       if (!options.html) options.html = html;
       options = $.extend(
         {
-          closeHTML: '<span>Close</span>',
-          close:true,
+          //closeHTML: '<span>Close</span>',
+          //close:true,
           overlayClose:true,
           escClose:true,
           onShow:function(d){d.container.hide().fadeIn('slow')},
-          onClose:function(d){d.overlay.fadeOut('slow');d.container.fadeOut('slow');$.modal.close()},
-          overlayCss:{background:'rgba(0,0,0,0.3)'},
-          containerCss:{background:'white'},
-          dataCss:{background:'#999'}
+          onClose:function(d){d.overlay.fadeOut('slow');d.container.fadeOut('slow');$.modal.close()}
         },
         options
       );
@@ -94,7 +92,8 @@
                     ui.titleBar({text: options.title || 'Prompt'}),
                     ui.promptInput({}),
                     ui.cancelButton({text: 'Cancel'}),
-                    ui.okButton({text: 'OK'})
+                    ui.okButton({text: 'OK'}),
+                    ui.clearDiv()
                   ]
       };
       $._box($.extend(defaults, options));
@@ -105,7 +104,8 @@
         elements: [
                     ui.titleBar({text: options.title || 'Confirm'}),
                     ui.cancelButton({text: 'Cancel'}),
-                    ui.okButton({text: 'OK'})
+                    ui.okButton({text: 'OK'}),
+                    ui.clearDiv()
                   ]
       };
       $._box($.extend(defaults, options));
@@ -115,7 +115,8 @@
       var defaults = {
         elements: [
                     ui.titleBar({text: options.title || 'Alert!'}),
-                    ui.okButton({text: 'Close'})
+                    ui.okButton({text: 'Close'}),
+                    ui.clearDiv()
                   ],
       };
       $._box($.extend(defaults, options));
