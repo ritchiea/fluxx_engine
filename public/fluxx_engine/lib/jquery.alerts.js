@@ -19,8 +19,9 @@
     box:          function(o) {
       D(['box', o]);
       var $box = $('<div class="jquery-alert" />');
-      $.each(o.elements, function () { $box.append(this) });
-      return $('<div/>').append($box).html();
+      var $content = $('<div class="content" />');
+      $.each(o.elements, function () { $content.append(this) });
+      return $('<div/>').append($box.append($content)).html();
     }
   };
 
@@ -36,7 +37,6 @@
             $.modal.close();
             e.preventDefault();
             e.stopImmediatePropagation();
-            return false;
           });
           $('.ok-button', '.jquery-alert').click(function(e){
             var $colorbox = box.data;
@@ -77,6 +77,7 @@
           //close:true,
           overlayClose:true,
           escClose:true,
+          opacity: 50,
           onShow:function(d){d.container.hide().fadeIn('slow')},
           onClose:function(d){d.overlay.fadeOut('slow');d.container.fadeOut('slow');$.modal.close()}
         },

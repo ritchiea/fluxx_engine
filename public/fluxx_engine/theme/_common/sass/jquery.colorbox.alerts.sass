@@ -1,13 +1,17 @@
 @import _helpers
 .simplemodal-overlay
-  background: black url(../../default/images/cards/body-bg.png)
-  opacity: 0.9
+  background: black url(../../default/images/modal/overlay-bg.png)
 .jquery-alert
-  +bg(#fff,#000)
-  +linear-gradient(#fff,#f9f9f9)
+  +bg(rgba(0,0,0,0.7),#fff)
   +box-shadow
+  +rounded(8px)
   text-align: left
   padding: 12px
+  .content
+    +bg(#fff,#000)
+    +linear-gradient(#fff,#f9f9f9)
+    +rounded(4px)
+    padding: 12px
   .title-bar
     font-size: 28px
     font-weight: 500
