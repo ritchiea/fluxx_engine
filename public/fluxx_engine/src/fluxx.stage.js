@@ -238,20 +238,37 @@
             }
           ],
           '[data-related-child]': [
-            'change', function (e) {
+            'change', function (e) {              
+              var updateChild = function ($child, parentId) {
+                var query = {};
+                query[$child.attr('data-param')] = parentId;
+                $.getJSON($child.attr('data-src'), query, function(data, status) {
+                  if ($child.attr('data-required')) {
+                    $child.empty();
+                  } else {
+                    $child.html('<option></option>');
+                  }
+                  _.each(data, function(i){ $('<option></option>').val(i.value).html(i.label).appendTo($child)  });
+                });                  
+              };
+
+              var updateChildren = function($children, parentId) {
+                $children.each(function(){
+                  updateChild($(this), parentId);
+                });
+              }
+
               var $parent   = $(this),
-                  parentId  = $parent.val(),
-                  $child    = $($parent.attr('data-related-child'), $parent.parents('form').eq(0)),
-                  query     = {};
-              query[$child.attr('data-param')] = parentId;
-              $.getJSON($child.attr('data-src'), query, function(data, status) {
-                if ($child.attr('data-required')) {
-                  $child.empty();
-                } else {
-                  $child.html('<option></option>');
-                }
-                _.each(data, function(i){ $('<option></option>').val(i.value).html(i.label).appendTo($child)  });
-              });
+                  $children = $($parent.attr('data-related-child'), $parent.parents('form').eq(0));
+
+              if ($parent.attr('data-sibling')) {
+                $('[data-sibling='+ $parent.attr('data-sibling') +']', $parent.parent()).not($parent)
+                  .one('change', function(){
+                    updateChildren($children, $(this).val());
+                  });
+              } else {
+                updateChildren($children, $parent.val());
+              }
             }
           ],
           'a.to-dashboard': [
