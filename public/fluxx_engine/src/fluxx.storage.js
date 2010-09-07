@@ -43,10 +43,10 @@
             {url: options.url} :
             {
               url: '/client_stores.json/',
-              data: {
-                name: options.name,
-                client_store_type: options.type
-              }
+              data: $.extend(
+                (options.name ? {name: options.name} : {}),
+                {client_store_type: options.type}
+              )
             }
           ),
           {
