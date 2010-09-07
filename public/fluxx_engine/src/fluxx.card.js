@@ -125,7 +125,7 @@
           .bind({
             'unload.fluxx.card': _.callAll(
               options.callback,
-              function(e){ $(e.target).remove(); $.my.cards = $('.card') }
+              function(e){ $(e.target).remove(); $.my.cards = $('.card'); $.my.stage.resizeFluxxStage(); }
             )
           })
           .trigger('close.fluxx.card')
@@ -137,73 +137,74 @@
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       if (!$.my.hand) return this;
 
-      $('.card-box', this.fluxxCard())
-        .height(
-          $.my.cards.height(
-            $.my.hand.innerHeight() -
-            $.fluxx.util.marginHeight($.my.cards)
-          ).innerHeight()
-        )
-        .each(function(){
-          var $box      = $(this),
-              $cardBody = $('.card-body', $box);
-          $box.width(
-            _.addUp(
-              $('.area', $box).not(':not(:visible)').filter(function(){ return $(this).css('position') != 'absolute'; }),
-              'outerWidth', true
-            ) + 2
-          );
-          
-          $('.area', $cardBody).height(
-            $cardBody.height(
-              $cardBody.parent().innerHeight() -
-              _.addUp(
-                $cardBody
-                  .siblings()
-                  .not(':not(:visible)')
-                  .filter(function(){ return $(this).css('position') != 'absolute'; }),
-                'outerHeight', true
-              )
+      return this.each(function(){
+        var $card = $(this).fluxxCard();
+        $('.card-box', $card)
+          .height(
+            $.my.cards.height(
+              $.my.hand.innerHeight() -
+              $.fluxx.util.marginHeight($.my.cards)
             ).innerHeight()
-          ).each(function(){
-            var $area     = $(this),
-                $areaBody = $('.body', $area);
-            $areaBody.height(
-              $areaBody.parent().innerHeight() -
+          )
+          .each(function(){
+            var $box      = $(this),
+                $cardBody = $('.card-body', $box);
+            $box.width(
               _.addUp(
-                $areaBody
-                  .siblings()
-                  .not(':not(:visible)')
-                  .filter(function(){ return $(this).css('position') != 'absolute'; }),
-                'outerHeight',
-                true
-              )
+                $('.area', $box).not(':not(:visible)').filter(function(){ return $(this).css('position') != 'absolute'; }),
+                'outerWidth', true
+              ) + 2
             );
-          })
-        });
-      var $tabs = $('.tabs', this.fluxxCard());
-      $tabs.width($('.drawer', this.fluxxCard()).height());
-      var tabsWidth = $tabs.width(), innerWidth = _.addUp($('.label', $tabs), 'outerWidth', true);
-      if ($tabs.width() < _.addUp($('.label', $tabs), 'outerWidth', true)) {
-        $('.info .scroller').show();
-      } else {
-        $('.info .scroller').hide();
-      }
-      this.fluxxCard().width(
-        _.addUp(
-          this.fluxxCard()
-            .children()
-            .filter(':visible')
-            .filter(function(){ return $(this).css('position') != 'absolute'; }),
-          'outerWidth', false
-        )
-        +
-        $('.drawer', this.fluxxCard()).parent().filter(':visible').outerWidth(true)
-      );
+          
+            $('.area', $cardBody).height(
+              $cardBody.height(
+                $cardBody.parent().innerHeight() -
+                _.addUp(
+                  $cardBody
+                    .siblings()
+                    .not(':not(:visible)')
+                    .filter(function(){ return $(this).css('position') != 'absolute'; }),
+                  'outerHeight', true
+                )
+              ).innerHeight()
+            ).each(function(){
+              var $area     = $(this),
+                  $areaBody = $('.body', $area);
+              $areaBody.height(
+                $areaBody.parent().innerHeight() -
+                _.addUp(
+                  $areaBody
+                    .siblings()
+                    .not(':not(:visible)')
+                    .filter(function(){ return $(this).css('position') != 'absolute'; }),
+                  'outerHeight',
+                  true
+                )
+              );
+            })
+          });
+        var $tabs = $('.tabs', $card);
+        $tabs.width($('.drawer', $card).height());
+        var tabsWidth = $tabs.width(), innerWidth = _.addUp($('.label', $tabs), 'outerWidth', true);
+        if ($tabs.width() < _.addUp($('.label', $tabs), 'outerWidth', true)) {
+          $('.info .scroller').show();
+        } else {
+          $('.info .scroller').hide();
+        }
+        $card.width(
+          _.addUp(
+            $card
+              .children()
+              .filter(':visible')
+              .filter(function(){ return $(this).css('position') != 'absolute'; }),
+            'outerWidth', false
+          )
+          +
+          $('.drawer', $card).parent().filter(':visible').outerWidth(true)
+        );
 
-      _.bind($.fn.resizeFluxxStage, $.my.stage)();
-
-      return this;
+        _.bind($.fn.resizeFluxxStage, $.my.stage)();
+      });
     },
     
     /* Accessors */
@@ -421,15 +422,19 @@
                 left: parseInt(leftPosition)
               });
               totalWidth = parseInt(leftPosition) + $modal.outerWidth(true);
-              overage = totalWidth - $('.body', options.target.fluxxCardArea()).outerWidth(true);
+              $.fluxx.log({po: parentOffset, tw: targetWidth, aw: arrowWidth, lp: leftPosition, mw: $modal.outerWidth(true), bw: $('.body:first', options.target.fluxxCardArea()).outerWidth(true), totalWidth: totalWidth});
+              overage = totalWidth - $('.card-body:first', options.target.fluxxCard()).outerWidth(true);
               $.fluxx.log('overage: ' + overage);
               if (overage > 0) {
                 $modal.fluxxCard().css({marginRight: overage});
               }
+              $card.resizeFluxxCard();
+              $.my.stage.resizeFluxxStage();
             }
           },
           function(e) {
             $card.resizeFluxxCard();
+            $.my.stage.resizeFluxxStage();
           }
         );
       });
@@ -439,9 +444,12 @@
       return this.each(function(){
         var $modal = $('.modal', $(this).fluxxCard());
        $('.loading-indicator', $modal.fluxxCard()).removeClass('loading')
+       var $card = $modal.fluxxCard();
         $modal.data('target').enableFluxxArea();
         $(this).fluxxCard().css({marginRight: null});
         $modal.remove();
+        $card.resizeFluxxCard();
+        $.my.stage.resizeFluxxStage();
       });
     },
     disableFluxxArea: function () {
