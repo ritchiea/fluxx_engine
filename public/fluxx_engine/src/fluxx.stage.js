@@ -100,24 +100,28 @@
           'a.with-note': [
             'click', function(e) {
               var $elem = $(this);
-              if (!$elem.data('has_note')) {
-              }
-              $.fluxx.util.itEndsHere(e);
-              $.prompt({
-                title: 'Note for ' + $elem.text(),
-                onOK: function(alert) {
-                  var note = $.param({note: alert.text});
-                  var href = $elem.attr('href');
-                  if (href.match(/\?/)) {
-                    href += '&' + note;
-                  } else {
-                    href += '?' + note;
+              if ($elem.data('has_note')) {
+              } else {
+                $.fluxx.util.itEndsHere(e);
+                $.prompt({
+                  title: 'Note for ' + $elem.text(),
+                  onOK: function(alert) {
+                    var query = {};
+                    query[$elem.attr('data-param') || 'note'] = alert.text;
+                    var note = $.param(query);
+                    var href = $elem.attr('href');
+                    if (href.match(/\?/)) {
+                      href += '&' + note;
+                    } else {
+                      href += '?' + note;
+                    }
+                    $elem.attr('href', href);
+                    $elem.data('has_note', true);
+                    $elem.click();
                   }
-                  $elem.attr('href', href);
-                  $elem.data('has_note');
-                  $elem.click();
-                }
-              })
+                });
+                return false;
+              }
             }
           ],
           'a.new-detail': [

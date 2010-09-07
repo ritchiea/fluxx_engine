@@ -58,10 +58,9 @@
         onClose: function (box) {
           var $colorbox = box.data;
           var onOK = $colorbox.data('onOK');
-          if (onOK) {
-            onOK();
-            $colorbox.data('onOK', null);
-          }
+          (onOK || $.noop)();
+          $colorbox.data('onOK', null);
+          $.modal.close();
         }
       };
       var options = $.extend(defaults, options);
