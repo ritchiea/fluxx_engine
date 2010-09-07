@@ -39,8 +39,8 @@
         $('.updates', $card).click(
           function(e) { $card.fluxxCardListing().trigger('get_update.fluxx.area'); }
         );
-        $card.fluxxCardLoadListing({url: options.listing.url}, function(){
-          $card.fluxxCardLoadDetail({url: options.detail.url}, function(){
+        $card.fluxxCardLoadListing(options.listing, function(){
+          $card.fluxxCardLoadDetail(options.detail, function(){
             $card.trigger('complete.fluxx.card');
           })
         });
@@ -359,7 +359,16 @@
           header: '<span>' + 'Filter Listings' + '</span>',
           init: function (e) {
             $filters.appendTo($card.fluxxCardBody());
-          }
+          },
+        }, function () {
+          _.each($listing.fluxxCardAreaRequest().data, function(obj) {
+            if (obj.value) {
+              var selector = '[name=' + obj.name + ']';
+              var $elem = $(selector);
+              $.fluxx.log("---", selector, $elem.length, obj.value);
+              $('[name=' + obj.name + ']', $filters).val(obj.value);
+            }
+          });
         });
       });
     },
