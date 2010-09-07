@@ -7,6 +7,8 @@ body, table { font-family: Helvetica, sans-serif; }
 
 div, ul, ol, li, table, tr, td, th, dl, dt, dd { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
 
+.plupload, .plupload div, ul, ol, li, table, tr, td, th, dl, dt, dd { -webkit-box-sizing: content-box; -moz-box-sizing: content-box; -o-box-sizing: content-box; box-sizing: content-box; }
+
 html, body { margin: 0px; padding: 0px; height: 100%; background: white; color: black; }
 
 body { overflow-x: scroll; }
@@ -84,6 +86,8 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 
 @import url(../../_common/css/Quicksand-fontfacekit/stylesheet.css);
 .simplemodal-overlay { background: black url(../../default/images/modal/overlay-bg.png); }
+
+.simplemodal-close { display: block; position: absolute; right: -8px; top: -8px; text-indent: -9999px; background: url(../../default/images/modal/modal_close.png) no-repeat top left; height: 21px; width: 21px; z-index: 1500; }
 
 .jquery-alert { background-color: rgba(0, 0, 0, 0.7); color: white; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -webkit-border-radius: 8px; -moz-border-radius: 8px; border-radius: 8px; behavior: url(border-radius.htc); text-align: left; padding: 12px; }
 .jquery-alert a { color: white; }

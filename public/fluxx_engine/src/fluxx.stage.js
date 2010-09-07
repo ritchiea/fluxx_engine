@@ -301,19 +301,31 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              $.colorbox({
-                html: '<div class="upload-queue"></div>',
-                width: 700,
-                height: 400,
-                onComplete: function () {
-                  $.fluxx.log("onComplete start");
+              $.modal('<div class="upload-queue"></div>', {
+                minWidth: 700,
+                minHeight: 400,
+                closeHTML: '<span>Close</span>',
+                close: true,
+                closeOverlay: true,
+                escClose:true,
+                opacity: 50,
+                onShow: function () {
+                  $.fluxx.log("onShow start");
                   $('.upload-queue').pluploadQueue({
                     url: $elem.attr('href'),
                     runtimes: 'html5',
                     multipart: false,
                     filters: [{title: "Allowed file types", extensions: $elem.attr('data-extensions')}]
                   });
-                  $.fluxx.log("onComplete stop");
+                  $.fluxx.log("onShow stop");
+                },
+                onClose: function(){
+                  if ($elem.parents('.partial').length) {
+                    $elem.refreshAreaPartial();
+                  } else {
+                    $elem.refreshCardArea();
+                  }
+                  $.modal.close();
                 }
               });
             }

@@ -1,6 +1,16 @@
 @import _helpers
 .simplemodal-overlay
   background: black url(../../default/images/modal/overlay-bg.png)
+.simplemodal-close
+  display: block
+  position: absolute
+  right: -8px
+  top: -8px
+  text-indent: -9999px
+  background: url(../../default/images/modal/modal_close.png) no-repeat top left
+  height: 21px
+  width: 21px
+  z-index: 1500
 .jquery-alert
   +bg(rgba(0,0,0,0.7),#fff)
   +box-shadow
