@@ -446,6 +446,7 @@ class ActionController::Base
   end
 
   def fluxx_show_card show_object, options
+    @model_name = show_object.model_name
     @template = options[:template]
     @footer_template = options[:footer_template]
     # TODO ESH: chase down where exclude_related_data and layout comes from...

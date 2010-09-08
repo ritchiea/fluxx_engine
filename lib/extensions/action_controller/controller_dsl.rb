@@ -15,6 +15,8 @@ class ActionController::ControllerDsl
   attr_accessor :plural_model_instance_name
   # internal name of model
   attr_accessor :model_name
+  # Do not show related data
+  attr_accessor :exclude_related_data
 
   # Allow you to pass in a block to initialize a new model object
   attr_accessor :new_block

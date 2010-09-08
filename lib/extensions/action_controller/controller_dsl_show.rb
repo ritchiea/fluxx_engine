@@ -4,7 +4,6 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
   attr_accessor :audit_footer_template
   attr_accessor :mode_template
   attr_accessor :footer_template
-  attr_accessor :exclude_related_data
   
   def perform_show params, model=nil
     model = if params[:audit_id]
