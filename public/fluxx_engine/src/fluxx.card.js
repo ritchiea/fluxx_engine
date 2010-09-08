@@ -108,7 +108,7 @@
       this.data('updates_available', updatesAvailable);
       $.fluxx.log("update.fluxx.card triggered from [" + calling + ']', "TOTAL UPDATES AVAILABLE: " + $card.fluxxCardUpdatesAvailable() + '; ' + nUpdates + ' NEW');
       $('.updates .available', $card).text($card.fluxxCardUpdatesAvailable());
-      if (updatesAvailable == 0) {
+      if (updatesAvailable <= 0) {
         $('.updates', $card).hide();
         $card.removeClass('updates-available');
       } else {
@@ -229,8 +229,7 @@
       var req = history[0];
       return {
         url:  req.url,
-        data: req.data,
-        type: req.type
+        data: req.data
       };
     },
     refreshAreaPartial: function(options){
@@ -364,10 +363,10 @@
         }, function () {
           _.each($listing.fluxxCardAreaRequest().data, function(obj) {
             if (obj.value) {
-              var selector = '[name=' + obj.name + ']';
-              var $elem = $(selector);
+              var selector = '[name*=' + obj.name + ']';
+              var $elem = $(selector, $filters);
               $.fluxx.log("---", selector, $elem.length, obj.value);
-              $('[name=' + obj.name + ']', $filters).val(obj.value);
+              $elem.val(obj.value);
             }
           });
         });
@@ -497,7 +496,7 @@
     getFluxxListingUpdate: function (e) {
       var $area = $(this);
       var updates = $area.data('latest_updates');
-      if (_.isEmpty(updates)) return;
+      //if (_.isEmpty(updates)) return;
       var req  = $area.fluxxCardAreaRequest();
       $.extend(
         true,

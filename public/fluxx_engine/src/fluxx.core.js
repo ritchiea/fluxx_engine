@@ -16,27 +16,53 @@
     },
     intersectProperties: function (one, two) {
       if (_.isEqual(one, two)) return one;
-
       var intersect = {};
       _.each(one, function (val, key) {
-        if (_.isEqual(val, two[key])) intersect[key] = val;
+        if (val == two[key]) intersect[key] = val;
       });
       return intersect;
     },
+    objectWithoutEmpty: function (object) {
+      var filled = {};
+      if (!$.isPlainObject(object)) return object;
+      _.each(_.keys(object), function(key) {
+        if (! _.isEmpty(object[key])) {
+          filled[key] = object[key];
+        }
+      });
+      return filled;
+    },
     arrayToObject: function (list, filter) {
       var object = {};
-      /* THIS IS _.map(), duh. */
+      /* Cheap deep clone. */
       _.each(list, function(entry) {
-        var entry = filter(entry);
+        var entry = filter(_.clone(entry));
         object[entry.name] = entry.value;
       });
       return object;
     },
     isFilterMatch: function (filter, test) {
       $.fluxx.log('--- isFilterMatch ---', filter, test);
+      
+      var keys = _.intersect(_.keys(filter), _.keys(test));
+      _.each([filter, test], function(obj) {
+        _.each(_.keys(obj), function(key) {
+          if (! _.detect(keys, function(i){return _.isEqual(key,i)})) {
+            delete obj[key];
+          }
+        });
+      });
+      _.each(_.keys(filter), function(key) {
+        if (_.isEmpty(filter[key])) {
+          delete filter[key];
+          delete test[key];
+        };
+      });
+      $.fluxx.log('--- Cleanded Filter and Test ---', filter, test);
+
       var result = _.isEqual(
         (_.compose(_.size, _.intersectProperties))(filter, test),
-        (_.compose(_.size, _.compact, _.values))(filter)
+        (_.compose(_.size, _.values))(filter)
       );
       $.fluxx.log('--- isFilterMatch ---');
       return result;
@@ -127,7 +153,7 @@
   });
 
   $(window).ajaxComplete(function(e, xhr, options) {
-    $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + unescape(options.data) + ')');
+    $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + unescape(_.objectWithoutEmpty(options.data)) + ')');
   });
   
   var keyboardShortcuts = {

@@ -109,7 +109,12 @@
     $.my.header.initFluxxDashboard();
   });
   
-  $('.area').live('lifetimeComplete.fluxx.area', function(e) { $(this).saveDashboard(); });
+  $('.area').live('lifetimeComplete.fluxx.area', function(e) {
+    var $area = $(this).fluxxCardArea();
+    if ($area.data('history')[0].type.toUpperCase() == 'GET' && ($area.hasClass('detail') || $area.hasClass('listing'))) {
+      $(this).saveDashboard();
+    }
+  });
   $('.card').live('unload.fluxx.area', function(e) { $(this).saveDashboard(); });
 
 })(jQuery);
