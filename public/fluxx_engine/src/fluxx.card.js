@@ -92,7 +92,7 @@
             });
 
             updates = _.values(updates);
-            $.fluxx.log("triggering update.fluxx.area["+model+"]: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
+            $.fluxx.log("triggering update.fluxx.area["+$card.attr('id') + ' :: ' + model+"]: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
             if (updates.length) $area.trigger('update.fluxx.area', [updates]);
           });
         });
@@ -468,9 +468,9 @@
           updates   = _.reject(updates, function(m) {return _.include(seen, m.model_id)}),
           nextEvent = areaType + '_update.fluxx.area';
     
-      $area.data('updates_seen', _.flatten([seen, _.pluck(updates, 'model_id')]));
-      $area.data('latest_updates', _.pluck(updates, 'model_id'));
-      $.fluxx.log("fluxxAreaUpdate",{seen:$area.data('updates_seen'),latest_updates:$area.data('latest_updates'),updates:updates,nextEvent:nextEvent});
+      //$area.data('updates_seen', _.flatten([seen, _.pluck(updates, 'model_id')]));
+      //$area.data('latest_updates', _.pluck(updates, 'model_id'));
+
       $area.trigger(nextEvent, [updates]);
     },
     fluxxListingUpdate: function(e, updates) {
@@ -490,8 +490,11 @@
                         return isMatch;
                     });
       if (!updates.length) return;
-      
       var model_ids = _.pluck(updates, 'model_id');
+      $area.data('updates_seen', _.flatten([$area.data('updates_seen') || [], model_ids]));
+      $area.data('latest_updates', model_ids);
+      
+      $.fluxx.log("-=-=-=-=-=-=-=-","fluxxListingUpdate",{card:$area.fluxxCard().attr('id'),seen:$area.data('updates_seen'),latest_updates:$area.data('latest_updates'),updates:updates},"-=-=-=-=-=-=-=-");
       $.fluxx.log('--- $area and $card length ---', $area.length, $area.fluxxCard().length, '---');
       $area.fluxxCard().trigger('update.fluxx.card', [_.size(model_ids), 'fluxxListingUpdate']);
     },
