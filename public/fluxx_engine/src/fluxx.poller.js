@@ -22,18 +22,18 @@
       if (this.state == S_ON) return;
       this.state = S_ON;
       this._start();
-      $(window)
+      /*$(window)
         .focusin(this.start)
-        .focusout(this.stop);
+        .focusout(this.stop);*/
       this.$.trigger('start.fluxx.poller');
     },
     stop: function () {
       if (this.state == S_OFF) return;
       this.state = S_OFF;
       this._stop();
-      $(window)
+      /*$(window)
         .unbind('focusin', this.start)
-        .unbind('focusout', this.stop);
+        .unbind('focusout', this.stop);*/
     },
     message: function (data, status) {
       ('update.fluxx.poller')

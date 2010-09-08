@@ -512,6 +512,8 @@
             );
             $removals.remove();
             $entries.addClass('latest').prependTo($('.list', $area));
+            $area.data('updates_seen', []);
+            delete _.last($('.listing:first').data('history')).data.id;
             $area.fluxxCard().trigger('update.fluxx.card', [-1 * $entries.length, 'getFluxxListingUpdate'])
           }
         }
