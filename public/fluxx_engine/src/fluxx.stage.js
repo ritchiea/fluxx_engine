@@ -107,7 +107,7 @@
                   title: 'Note for ' + $elem.text(),
                   onOK: function(alert) {
                     var query = {};
-                    query[$elem.attr('data-param') || 'note'] = alert.text;
+                    query[$elem.attr('data-note-param') || 'note'] = alert.text;
                     var note = $.param(query);
                     var href = $elem.attr('href');
                     if (href.match(/\?/)) {
