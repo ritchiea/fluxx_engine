@@ -55,7 +55,7 @@ class ActionController::Base
         @model_class = index_object.model_class
         @suppress_model_anchor_tag = index_object.suppress_model_anchor_tag
         @suppress_model_iteration = index_object.suppress_model_iteration
-        @skip_wrapper = params[:skip_wrapper]
+        @skip_wrapper = @skip_wrapper || params[:skip_wrapper]
         if params[:view] == 'filter'
           @filter_title = index_object.filter_title || "Filter #{index_object.model_class.name.humanize.downcase.pluralize}"
           @filter_template = index_object.filter_template
@@ -111,6 +111,7 @@ class ActionController::Base
         @model = show_object.perform_show params, pre_model
         @model_class = show_object.model_class
         @model_name = show_object.model_name
+        @skip_wrapper = @skip_wrapper || params[:skip_wrapper]
 
         show_object.invoke_post self, @model
         if @model

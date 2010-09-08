@@ -1,3 +1,6 @@
+<%- if @skip_wrapper -%>
+  <%= render :partial => @template,  :locals => {:model => @model} %>
+<%- else -%>
 <div id="card-header"><%= flash_info %><%= flash_error %></div>
 
 <div id="card-body">
@@ -53,3 +56,4 @@
     </li>
   </ul>
 </div>
+<%- end -%>
