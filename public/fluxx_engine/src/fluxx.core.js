@@ -23,11 +23,23 @@
       });
       return intersect;
     },
+    arrayToObject: function (list, filter) {
+      var object = {};
+      /* THIS IS _.map(), duh. */
+      _.each(list, function(entry) {
+        var entry = filter(entry);
+        object[entry.name] = entry.value;
+      });
+      return object;
+    },
     isFilterMatch: function (filter, test) {
-      return _.isEqual(
+      $.fluxx.log('--- isFilterMatch ---', filter, test);
+      var result = _.isEqual(
         (_.compose(_.size, _.intersectProperties))(filter, test),
         (_.compose(_.size, _.compact, _.values))(filter)
       );
+      $.fluxx.log('--- isFilterMatch ---');
+      return result;
     }
   });
   

@@ -477,7 +477,16 @@
       var $area   = $(e.target),
           filters = $area.fluxxCardAreaData(),
           updates = _.select(updates, function(update){
-                        return _.isFilterMatch(filters, update);
+                        return _.isFilterMatch(
+                          _.arrayToObject(filters, function(entry) {
+                            var match = entry.name.match(/\[(\w+)\]/);
+                            if (match) {
+                              entry.name = match[1];
+                            }
+                            return entry;
+                          }),
+                          $.parseJSON(update.delta_attributes)
+                        );
                     });
       if (!updates.length) return;
       
