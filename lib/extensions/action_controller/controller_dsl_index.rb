@@ -71,20 +71,22 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     model_class.csv_sql_query local_search_conditions
   end
   
-  def process_autocomplete models, controller
+  def process_autocomplete models, name_method, controller
     formatting = if postprocess_block && postprocess_block.is_a?(Proc)
       postprocess_block.call models
     else
-      name_method = if model_class.public_instance_methods.include?(:autocomplete_to_s)
-        :autocomplete_to_s
-      elsif model_class.public_instance_methods.include?(:view_to_s)
-        :view_to_s
-      elsif model_class.public_instance_methods.include?(:value)
-        :value
-      elsif model_class.public_instance_methods.include?(:name)
-        :name
-      else
-        :to_s
+      unless name_method
+        name_method = if model_class.public_instance_methods.include?('autocomplete_to_s')
+          :autocomplete_to_s
+        elsif model_class.public_instance_methods.include?('view_to_s')
+          :view_to_s
+        elsif model_class.public_instance_methods.include?('value')
+          :value
+        elsif model_class.public_instance_methods.include?('name')
+          :name
+        else
+          :to_s
+        end
       end
       models.map do |model|
         {:label => model.send(name_method), :value => model.id, :url => controller.url_for(model)}
