@@ -51,8 +51,17 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       else
         ''
       end
-      model_ids = instance_variable_set @plural_model_instance_name, model_class.model_search(q_search, params, results_per_page, 
-        {:search_conditions => self.search_conditions, :order_clause => self.order_clause, :include_relation => include_relation})
+      
+      model_ids = if params[:find_by_id] && params[:id]
+        id_results = model_class.where(:id => params[:id]).select(:id).all.map &:id
+        WillPaginate::Collection.create 1, id_results.size, id_results.size do |pager|
+          pager.replace id_results
+        end
+      else
+        model_class.model_search(q_search, params, results_per_page, 
+          {:search_conditions => self.search_conditions, :order_clause => self.order_clause, :include_relation => include_relation})
+      end
+      instance_variable_set @plural_model_instance_name, model_ids
       
       if format && (format.csv? || format.xls?)
         unless model_csv_query.blank?
