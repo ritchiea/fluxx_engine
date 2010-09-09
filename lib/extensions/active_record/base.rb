@@ -55,7 +55,6 @@ class ActiveRecord::Base
     else
       local_realtime_object = ActiveRecord::ModelDslRealtime.new(self)
       class_inheritable_reader :realtime_disabled
-      p "ESH: created local_realtime_object=#{local_realtime_object.inspect}"
       class_inheritable_reader :realtime_object
       write_inheritable_attribute :realtime_object, local_realtime_object
       yield local_realtime_object if block_given?
@@ -68,7 +67,6 @@ class ActiveRecord::Base
         def without_realtime(&block)
           realtime_was_disabled = realtime_disabled
           write_inheritable_attribute :realtime_disabled, true
-          p "ESH: setting realtime_disabled=#{realtime_disabled} for realtime_object=#{inspect}"
           returning(block.call) { write_inheritable_attribute :realtime_disabled, false unless realtime_was_disabled; p "ESH: after block.call, setting realtime_disabled=#{realtime_disabled}" }
         end
       end
@@ -174,7 +172,6 @@ class ActiveRecord::Base
       self.class.suspended_delta(false) do
         if self.class.respond_to? :without_realtime
           self.class.without_realtime do
-            p "ESH: 333 adding without realtime"
             if self.class.respond_to? :without_auditing
               self.class.without_auditing do
                 self.update_attribute key, value
@@ -196,7 +193,6 @@ class ActiveRecord::Base
     else
       if self.class.respond_to? :without_realtime
         self.class.without_realtime do
-          p "ESH: 444 adding without realtime"
           if self.class.respond_to? :without_auditing
             self.class.without_auditing do
               self.update_attribute key, value
@@ -223,7 +219,6 @@ class ActiveRecord::Base
       self.class.suspended_delta(false) do
         if self.class.respond_to? :without_realtime
           self.class.without_realtime do
-            p "ESH: 111 adding without realtime"
             if self.class.respond_to? :without_auditing
               self.class.without_auditing do
                 self.update_attributes attr_map
@@ -245,7 +240,6 @@ class ActiveRecord::Base
     else
       if self.class.respond_to? :without_realtime
         self.class.without_realtime do
-          p "ESH: 222 adding without realtime"
           if self.class.respond_to? :without_auditing
             self.class.without_auditing do
               self.update_attributes attr_map

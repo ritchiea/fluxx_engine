@@ -19,7 +19,6 @@
         %abbr.country{:title => location.geo_country.name}= location.geo_country.abbreviation
 
     - if detailed
-      - p "ESH: about to create work_contact_details"
       - work_contact_details = [ |
           ['Direct Phone:', location.phone], |
           ['Fax:',  location.fax], |
