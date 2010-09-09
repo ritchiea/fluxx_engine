@@ -92,7 +92,7 @@
             });
 
             updates = _.values(updates);
-            $.fluxx.log("triggering update.fluxx.area: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
+            $.fluxx.log("triggering update.fluxx.area["+model+"]: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
             if (updates.length) $area.trigger('update.fluxx.area', [updates]);
           });
         });
@@ -470,22 +470,24 @@
     
       $area.data('updates_seen', _.flatten([seen, _.pluck(updates, 'model_id')]));
       $area.data('latest_updates', _.pluck(updates, 'model_id'));
+      $.fluxx.log("fluxxAreaUpdate",{seen:$area.data('updates_seen'),latest_updates:$area.data('latest_updates'),updates:updates,nextEvent:nextEvent});
       $area.trigger(nextEvent, [updates]);
     },
     fluxxListingUpdate: function(e, updates) {
       var $area   = $(e.target),
-          filters = $area.fluxxCardAreaData(),
-          updates = _.select(updates, function(update){
-                        return _.isFilterMatch(
-                          _.arrayToObject(filters, function(entry) {
+          filters = _.arrayToObject($area.fluxxCardAreaData(), function(entry) {
+                            var entry = _.clone(entry);
                             var match = entry.name.match(/\[(\w+)\]/);
                             if (match) {
                               entry.name = match[1];
                             }
                             return entry;
                           }),
-                          $.parseJSON(update.delta_attributes)
-                        );
+          updates = _.select(updates, function(update){
+                        var delta   = $.parseJSON(update.delta_attributes),
+                            isMatch = _.isFilterMatch(filters, delta);
+                        $.fluxx.log("=== CHECKING FOR MATCH ===", filters, delta, isMatch, "===");
+                        return isMatch;
                     });
       if (!updates.length) return;
       
