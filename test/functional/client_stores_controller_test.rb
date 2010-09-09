@@ -13,7 +13,7 @@ class ClientStoresControllerTest < ActionController::TestCase
     assert_not_nil assigns(:client_stores)
     assert_equal 1, assigns(:client_stores).size
   end
-
+  
   test "search for client stores by client_store_type" do
     dashboard_name = 'dashboard'
     @client_store = ClientStore.make :client_store_type => dashboard_name, :user_id => @user.id
