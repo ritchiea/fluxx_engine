@@ -500,7 +500,7 @@
     },
     getFluxxListingUpdate: function (e) {
       var $area = $(this);
-      var updates = $area.data('latest_updates');
+      var updates = $area.data('updates_seen');
       //if (_.isEmpty(updates)) return;
       var req  = $area.fluxxCardAreaRequest();
       $.extend(
