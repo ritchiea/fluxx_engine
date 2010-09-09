@@ -83,13 +83,14 @@
           _timeoutID: null,
           _init: function () {
             _.bindAll(this, 'start', 'stop', '_poll');
-            this.last_id = $.cookie('last_id');
+            this.last_id = parseInt($.cookie('last_id'));
           },
           _poll: function () {
             if (this.state == S_OFF) return;
             var doPoll = _.bind(function(){
-              $.getJSON(this.url, {last_id: this.last_id}, _.bind(function(data, status){
-                this.last_id = data.last_id;
+              $.fluxx.log("this.last_id = " + this.last_id + ' which is NaN? ' + _.isNaN(this.last_id));
+              $.getJSON(this.url, (!_.isNaN(this.last_id) ? {last_id: this.last_id} : {}), _.bind(function(data, status){
+                this.last_id = parseInt(data.last_id);
                 $.cookie('last_id', this.last_id);
                 this.message(data, status);
                 this._poll();
