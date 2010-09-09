@@ -508,7 +508,8 @@
         req,
         {
           data: {
-            id: updates
+            id: updates,
+            find_by_id: true
           },
           success: function (data, status, xhr) {
             var $document = $(data);
