@@ -221,8 +221,9 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card .card-box .tabular tbody td { border-top: 1px solid #9b9b9b; padding: 4px; }
 #fluxx #stage #card-table #hand .card .card-box .contact-info .address .address1, #fluxx #stage #card-table #hand .card .card-box .contact-info .address .address2, #fluxx #stage #card-table #hand .card .card-box .contact-info .address .country { display: block; }
 #fluxx #stage #card-table #hand .card .card-box .satellite { clear: both; margin: 12px 0px; }
-#fluxx #stage #card-table #hand .card .card-box .satellite .actions { float: right; font-size: 80%; }
-#fluxx #stage #card-table #hand .card .card-box .satellite .actions span { margin-left: 8px; }
+#fluxx #stage #card-table #hand .card .card-box .satellite .satellite-name { font-weight: bold; }
+#fluxx #stage #card-table #hand .card .card-box .satellite .actions { float: right; font-size: 80%; height: 24px; }
+#fluxx #stage #card-table #hand .card .card-box .satellite .actions span { display: inline-block; *display: inline; zoom: 1; margin-left: 8px; line-height: 24px; vertical-align: baseline; }
 #fluxx #stage #card-table #hand .card .card-box .partial.updating { -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); background: url("../../_common/images/loaders/ajax-loader-666666.gif") no-repeat center center; height: 200px; }
 #fluxx #stage #card-table #hand .card .card-box .card-header { -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; -moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .toolbar { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #999999), color-stop(1, #666666)); background: -moz-linear-gradient(center top, #999999 0%, #666666 100%); -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; -moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px; position: relative; padding: 0px 5px; border-bottom: 1px solid #333333; height: 20px; }

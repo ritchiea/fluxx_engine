@@ -360,11 +360,17 @@
             .satellite
               clear: both
               margin: 12px 0px
+              .satellite-name
+                font-weight: bold
               .actions
                 float: right
                 font-size: 80%
+                height: 24px
                 span
+                  +inline-block
                   margin-left: 8px
+                  line-height: 24px
+                  vertical-align: baseline
             .partial
               &.updating
                 +box-shadow-inset
