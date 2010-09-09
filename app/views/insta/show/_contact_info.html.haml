@@ -19,16 +19,17 @@
         %abbr.country{:title => location.geo_country.name}= location.geo_country.abbreviation
 
     - if detailed
+      - p "ESH: about to create work_contact_details"
       - work_contact_details = [ |
           ['Direct Phone:', location.phone], |
           ['Fax:',  location.fax], |
           ['Email:', location.email ], |
           ['Other Contact:', location.other_contact ], |
-          ['Website:', ((location.url =~ /^http:/ || location.url.empty?) ? location.url : 'http://' + location.url)], |
-          ['Personal Blog:', ((location.blog_url =~ /^http:/ || location.blog_url.empty?) ? location.blog_url : 'http://' + location.blog_url) ], |
-          ['Personal Twitter:', ((location.twitter_url =~ /^http:/ || location.twitter_url.empty?) ? location.twitter_url : 'http://' + location.twitter_url) ], |
+          ['Website:', ((!location.url || location.url =~ /^http:/ || location.url.empty?) ? location.url : 'http://' + location.url)], |
+          ['Personal Blog:', ((!location.blog_url || location.blog_url =~ /^http:/ || location.blog_url.empty?) ? location.blog_url : 'http://' + location.blog_url) ], |
+          ['Personal Twitter:', ((!location.twitter_url || location.twitter_url =~ /^http:/ || location.twitter_url.empty?) ? location.twitter_url : 'http://' + location.twitter_url) ], |
           ['Acronym:', location.acronym ], |
-        ].each do |contact_detail| |
+        ].compact.each do |contact_detail| |
         - label, value = contact_detail
         - unless value.blank?
           .pairs

@@ -3,8 +3,6 @@ class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl
   attr_accessor :delta_attributes
   # the name of the field for modified_by
   attr_accessor :updated_by_field
-  # If this is true, the realtime updates will not execute
-  attr_accessor :realtime_disabled
   
   def calculate_attributes model
     if delta_attributes
@@ -20,24 +18,22 @@ class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl
   end
   
   def realtime_create_callback model
-    write_realtime(model, :action => 'create', :user_id => realtime_user_id(model), :model_id => model.id, :model_class => model.class.name, :type_name => model.class.name, :delta_attributes => calculate_attributes(model).to_json) unless realtime_disabled
+    write_realtime(model, :action => 'create', :user_id => realtime_user_id(model), :model_id => model.id, :model_class => model.class.name, :type_name => model.class.name, :delta_attributes => calculate_attributes(model).to_json)
   end
   
   def realtime_update_callback model
     if model.respond_to?(:deleted_at) && !model.deleted_at.blank?
       realtime_destroy_callback model
     else
-      write_realtime(model, :action => 'update', :user_id => realtime_user_id(model), :model_id => model.id, :model_class => model.class.name, :type_name => model.class.name, :delta_attributes => calculate_attributes(model).to_json) unless realtime_disabled
+      write_realtime(model, :action => 'update', :user_id => realtime_user_id(model), :model_id => model.id, :model_class => model.class.name, :type_name => model.class.name, :delta_attributes => calculate_attributes(model).to_json)
     end
   end
   
   def realtime_destroy_callback model
-    write_realtime(model, :action => 'delete', :user_id => realtime_user_id(model), :model_id => model.id, :model_class => model.class.name, :type_name => model.class.name, :delta_attributes => calculate_attributes(model).to_json) unless realtime_disabled
+    write_realtime(model, :action => 'delete', :user_id => realtime_user_id(model), :model_id => model.id, :model_class => model.class.name, :type_name => model.class.name, :delta_attributes => calculate_attributes(model).to_json)
   end
   
   def write_realtime  model, params
-    unless realtime_disabled
-      RealtimeUpdate.create params 
-    end
+    RealtimeUpdate.create params 
   end
 end

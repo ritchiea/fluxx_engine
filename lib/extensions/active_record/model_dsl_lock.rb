@@ -37,6 +37,7 @@ class ActiveRecord::ModelDslLock < ActiveRecord::ModelDsl
   def add_lock_update_attributes model, fluxx_current_user, interval=ActiveRecord::ModelDslLock.lock_time_interval
     
     if is_lockable?(model)
+      p "ESH: 222 about to lock model=#{model.inspect}"
       model.update_attribute_without_log :locked_until, Time.now + interval
       model.update_attribute_without_log :locked_by_id, fluxx_current_user.id
     end
@@ -45,6 +46,7 @@ class ActiveRecord::ModelDslLock < ActiveRecord::ModelDsl
   # Either extend the current lock by ActiveRecord::ModelDslLock.lock_time_interval minutes or add a lock ActiveRecord::ModelDslLock.lock_time_interval from Time.now
   def extend_lock_update_attributes model, fluxx_current_user, extend_interval=ActiveRecord::ModelDslLock.lock_time_interval
     if is_lockable?(model)
+      p "ESH: 333 about to extend lock model=#{model.inspect}"
       do_lock_update_attributes model, fluxx_current_user, extend_interval
     end
   end
@@ -66,6 +68,7 @@ class ActiveRecord::ModelDslLock < ActiveRecord::ModelDsl
   
   def remove_lock_update_attributes model
     if is_lockable?(model)
+      p "ESH: 444 about remove lock model=#{model.inspect}"
       model.update_attributes_without_log :locked_until => nil, :locked_by => nil
       model.locked_until = nil
       model.locked_by = nil
