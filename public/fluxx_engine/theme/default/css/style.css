@@ -141,6 +141,7 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card.updates-available .card-box .card-header .toolbar { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #aa9900), color-stop(1, #996600)); background: -moz-linear-gradient(center top, #aa9900 0%, #996600 100%); }
 #fluxx #stage #card-table #hand .card .info { z-index: 1; margin-left: -225px; }
 #fluxx #stage #card-table #hand .card .info.open { margin-left: 0px; }
+#fluxx #stage #card-table #hand .card .info.open .drawer { -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); display: block; }
 #fluxx #stage #card-table #hand .card .info .scroller { text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; display: none; position: absolute; right: 1px; top: -15px; height: 15px; line-height: 15px; font-size: 11px; }
 #fluxx #stage #card-table #hand .card .info .scroller span { color: #aaaaaa; }
 #fluxx #stage #card-table #hand .card .info .scroller a { display: inline-block; *display: inline; zoom: 1; width: 11px; text-decoration: none; }
@@ -156,10 +157,9 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card .info .tabs .section .label.selected { background-color: #eeeeee; color: #444444; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #eeeeee)); background: -moz-linear-gradient(center top, white 0%, #eeeeee 100%); text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; border-color: #999999; }
 #fluxx #stage #card-table #hand .card .info .tabs .section .label.selected a { color: #444444; }
 #fluxx #stage #card-table #hand .card .info .tabs .section .entries { display: none; }
-#fluxx #stage #card-table #hand .card .info .drawer { list-style: none; padding: 0; margin: 0; background-color: #eeeeee; color: black; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); width: 225px; height: 100%; border: 1px solid #999999; }
+#fluxx #stage #card-table #hand .card .info .drawer { list-style: none; padding: 0; margin: 0; background-color: #eeeeee; color: black; width: 223px; height: 100%; border: 1px solid #999999; display: none; }
 #fluxx #stage #card-table #hand .card .info .drawer li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #card-table #hand .card .info .drawer a { color: black; }
-#fluxx #stage #card-table #hand .card .info .drawer.open { width: 255px; }
 #fluxx #stage #card-table #hand .card .info .drawer .section .label { display: none; }
 #fluxx #stage #card-table #hand .card .info .drawer .section .entries { list-style: none; padding: 0; margin: 0; display: none; }
 #fluxx #stage #card-table #hand .card .info .drawer .section .entries li { list-style: none; margin: 0; padding: 0; }
@@ -221,8 +221,9 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card .card-box .tabular tbody td { border-top: 1px solid #9b9b9b; padding: 4px; }
 #fluxx #stage #card-table #hand .card .card-box .contact-info .address .address1, #fluxx #stage #card-table #hand .card .card-box .contact-info .address .address2, #fluxx #stage #card-table #hand .card .card-box .contact-info .address .country { display: block; }
 #fluxx #stage #card-table #hand .card .card-box .satellite { clear: both; margin: 12px 0px; }
-#fluxx #stage #card-table #hand .card .card-box .satellite .actions { float: right; font-size: 80%; }
-#fluxx #stage #card-table #hand .card .card-box .satellite .actions span { margin-left: 8px; }
+#fluxx #stage #card-table #hand .card .card-box .satellite .satellite-name { font-weight: bold; }
+#fluxx #stage #card-table #hand .card .card-box .satellite .actions { float: right; font-size: 80%; height: 24px; }
+#fluxx #stage #card-table #hand .card .card-box .satellite .actions span { display: inline-block; *display: inline; zoom: 1; margin-left: 8px; line-height: 24px; vertical-align: baseline; }
 #fluxx #stage #card-table #hand .card .card-box .partial.updating { -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.4); background: url("../../_common/images/loaders/ajax-loader-666666.gif") no-repeat center center; height: 200px; }
 #fluxx #stage #card-table #hand .card .card-box .card-header { -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; -moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .toolbar { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #999999), color-stop(1, #666666)); background: -moz-linear-gradient(center top, #999999 0%, #666666 100%); -webkit-border-top-left-radius: 6px; -webkit-border-top-right-radius: 6px; -moz-border-radius-topleft: 6px; -moz-border-radius-topright: 6px; position: relative; padding: 0px 5px; border-bottom: 1px solid #333333; height: 20px; }

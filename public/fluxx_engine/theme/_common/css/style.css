@@ -7,6 +7,8 @@ body, table { font-family: Helvetica, sans-serif; }
 
 div, ul, ol, li, table, tr, td, th, dl, dt, dd { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
 
+.plupload, .plupload div, ul, ol, li, table, tr, td, th, dl, dt, dd { -webkit-box-sizing: content-box; -moz-box-sizing: content-box; -o-box-sizing: content-box; box-sizing: content-box; }
+
 html, body { margin: 0px; padding: 0px; height: 100%; background: white; color: black; }
 
 body { overflow-x: scroll; }

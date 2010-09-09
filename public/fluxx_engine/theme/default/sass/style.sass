@@ -139,6 +139,9 @@
             margin-left: -225px
             &.open
               margin-left: 0px
+              .drawer
+                +box-shadow
+                display: block
             .scroller
               +chiseled-text
               display: none
@@ -206,12 +209,10 @@
             .drawer
               +non-list
               +bg(#eee)
-              +box-shadow
-              width: 225px
-              &.open
-                width: 255px
+              width: 223px
               height: 100%
               border: 1px solid #999
+              display: none
               .section
                 .label
                   display: none
@@ -360,11 +361,17 @@
             .satellite
               clear: both
               margin: 12px 0px
+              .satellite-name
+                font-weight: bold
               .actions
                 float: right
                 font-size: 80%
+                height: 24px
                 span
+                  +inline-block
                   margin-left: 8px
+                  line-height: 24px
+                  vertical-align: baseline
             .partial
               &.updating
                 +box-shadow-inset
