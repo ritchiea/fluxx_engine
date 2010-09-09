@@ -54,19 +54,20 @@ class ActiveRecord::Base
       yield realtime_object if block_given?
     else
       local_realtime_object = ActiveRecord::ModelDslRealtime.new(self)
+      class_inheritable_reader :realtime_disabled
       class_inheritable_reader :realtime_object
       write_inheritable_attribute :realtime_object, local_realtime_object
       yield local_realtime_object if block_given?
     
-      after_create {|model| local_realtime_object.realtime_create_callback model }
-      after_update {|model| local_realtime_object.realtime_update_callback model }
-      after_destroy {|model| local_realtime_object.realtime_destroy_callback model }
+      after_create {|model| local_realtime_object.realtime_create_callback model unless realtime_disabled }
+      after_update {|model| local_realtime_object.realtime_update_callback model unless realtime_disabled }
+      after_destroy {|model| local_realtime_object.realtime_destroy_callback model unless realtime_disabled }
     
       self.instance_eval do
         def without_realtime(&block)
-          realtime_was_disabled = realtime_object.realtime_disabled
-          realtime_object.realtime_disabled = true
-          returning(block.call) { realtime_object.realtime_disabled = false unless realtime_was_disabled }
+          realtime_was_disabled = realtime_disabled
+          write_inheritable_attribute :realtime_disabled, true
+          returning(block.call) { write_inheritable_attribute :realtime_disabled, false unless realtime_was_disabled; p "ESH: after block.call, setting realtime_disabled=#{realtime_disabled}" }
         end
       end
     end
@@ -223,7 +224,7 @@ class ActiveRecord::Base
                 self.update_attributes attr_map
               end
             else
-              self.update_attribute key, value
+              self.update_attributes attr_map
             end
           end
         else
@@ -232,7 +233,7 @@ class ActiveRecord::Base
               self.update_attributes attr_map
             end
           else
-            self.update_attribute key, value
+            self.update_attributes attr_map
           end
         end
       end
@@ -244,7 +245,7 @@ class ActiveRecord::Base
               self.update_attributes attr_map
             end
           else
-            self.update_attribute key, value
+            self.update_attributes attr_map
           end
         end
       else
@@ -253,7 +254,7 @@ class ActiveRecord::Base
             self.update_attributes attr_map
           end
         else
-          self.update_attribute key, value
+          self.update_attributes attr_map
         end
       end
     end
