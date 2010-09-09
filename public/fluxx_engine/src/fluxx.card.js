@@ -4,8 +4,8 @@
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults,options,onComplete);
       return this.each(function(){
         var $card = $.fluxx.card.ui.call($.my.hand, options)
-          .hide()
-          .appendTo($.my.hand);
+          .hide();
+        options.position($card);
         $card
           .data({
             listing: $('.listing:eq(0)',   $card),
@@ -671,6 +671,7 @@
           close: $.noop,
           unload: $.noop,
           update: $.noop,
+          position: function($card) { $card.appendTo($.my.hand) },
           listing: {
             url: null
           },

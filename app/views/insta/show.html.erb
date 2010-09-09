@@ -27,8 +27,7 @@
               <%= link_to(
                          element[:model],
                          :class => 'new-detail',
-                         #:title => element[:title].values.map{|v| v.to_s}.join(' '),
-                         :dock_icon => '/images/ql-icons/48x48-grants.png') do
+                         'data-insert' => 'after') do
               %>
                 <span><%= section_title %></span>
               <% end %>

@@ -139,6 +139,9 @@
             margin-left: -225px
             &.open
               margin-left: 0px
+              .drawer
+                +box-shadow
+                display: block
             .scroller
               +chiseled-text
               display: none
@@ -206,12 +209,10 @@
             .drawer
               +non-list
               +bg(#eee)
-              +box-shadow
-              width: 225px
-              &.open
-                width: 255px
+              width: 223px
               height: 100%
               border: 1px solid #999
+              display: none
               .section
                 .label
                   display: none

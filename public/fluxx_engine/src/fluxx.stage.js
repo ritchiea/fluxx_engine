@@ -128,20 +128,32 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              $.my.hand.addFluxxCard({
+              var card = {
                 detail: {url: $elem.attr('href')},
                 title: ($elem.attr('title') || $elem.text())
-              })
+              };
+              if ($elem.attr('data-insert') == 'after') {
+                card.position = function($card) {$card.insertAfter($elem.fluxxCard())};
+              } else if ($elem.attr('data-insert') == 'before') {
+                card.position = function($card) {$card.insertBefore($elem.fluxxCard())};
+              }
+              $.my.hand.addFluxxCard(card);
             }
           ],
           'a.new-listing': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              $.my.hand.addFluxxCard({
+              var card = {
                 listing: {url: $elem.attr('href')},
                 title: ($elem.attr('title') || $elem.text())
-              })
+              };
+              if ($elem.attr('data-insert') == 'after') {
+                card.position = function($card) {$card.insertAfter($elem.fluxxCard())};
+              } else if ($elem.attr('data-insert') == 'before') {
+                card.position = function($card) {$card.insertBefore($elem.fluxxCard())};
+              }
+              $.my.hand.addFluxxCard(card);
             }
           ],
           'a.noop': [

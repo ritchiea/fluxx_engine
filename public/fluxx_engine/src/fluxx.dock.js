@@ -33,7 +33,12 @@
           label: options.card.fluxxCardTitle(),
           url: '#'+options.card.attr('id'),
           popup: 'Hello'
-        }).updateIconBadge().appendTo($.my.iconlist);
+        }).updateIconBadge();
+        if (options.card.prev().length) {
+          $icon.insertAfter($('a[href=#'+options.card.prev().attr('id')+']', $.my.iconlist).parents('.icon').first());
+        } else {
+          $icon.prependTo($.my.iconlist);
+        }
         options.card.data('icon', $icon);
         $icon.data('card', options.card);
       });
