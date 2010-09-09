@@ -15,6 +15,8 @@
 
 =form-field-one-line
   margin: 12px 0px
+  width: 100%
+  position: relative
   label
     +inline-block
     +border-box
@@ -25,6 +27,20 @@
     +inline-block
     +border-box
     width: 60%
+  .inline-aft
+    +inline-block
+    +border-box
+    position: absolute
+    top: 0px
+    left: 100%
+    line-height: 24px
+    height: 24px
+    margin-left: 6px
+    vertical-align: baseline
+    width: 60px
+    margin-top: 1px
+    .icon
+      margin-top: (24px - 16px) / 2
   .inline-errors
     margin-left: 40%
 =form-field-two-line
@@ -651,7 +667,7 @@
                   +bg(#fff, #666)
                   +box-shadow-inset
                   position: relative
-                  padding: 20px 50px
+                  padding: 20px 70px 20px 50px
                   a
                     color: #00f
                 .footer

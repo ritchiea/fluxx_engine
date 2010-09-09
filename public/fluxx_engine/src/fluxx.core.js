@@ -1,4 +1,10 @@
 (function($){
+  _.templateSettings = {
+    start       : '{{',
+    end         : '}}',
+    interpolate : /\{\{(.+?)\}\}/g
+  };
+
   _.mixin({
     addUp: function (set, property) {
       var args = _.toArray(arguments).slice(2);

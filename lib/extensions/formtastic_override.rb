@@ -4,7 +4,7 @@ module Formtastic #:nodoc:
 
   class SemanticFormBuilder < ActionView::Helpers::FormBuilder
 
-    @@inline_order = [ :input, :aft, :hints, :errors ]    
+    self.inline_order = [ :input, :aft, :hints, :errors ]    
     
     include ActionView::Helpers::JavaScriptHelper
     include ActionView::Helpers::TagHelper
@@ -14,7 +14,7 @@ module Formtastic #:nodoc:
     # Generates HTML content after for the given method using the HTML supplied in :aft
     #
     def inline_aft_for(method, options) #:nodoc:
-      options[:aft]
+      template.content_tag(:div, Formtastic::Util.html_safe(options[:aft]), :class => 'inline-aft')
     end
 
     def find_collection_for_column_with_multi(column, options)

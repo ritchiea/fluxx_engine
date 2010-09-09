@@ -218,6 +218,24 @@
               $(this).fluxxCardAreas().refreshCardArea();
             }
           ],
+          'a.clone-template': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this),
+                template = _.template($elem.attr('data-template').replace(/'/g, '"'),{record_index: _.uniqueId()}),
+                $target = $($elem.attr('data-append-to'), $elem.fluxxCardArea());
+              $(template).appendTo($target).areaDetailTransform();
+            }
+          ],
+          'a.delete-parent': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this),
+                $parent = $elem.parents($elem.attr('data-parent')).first();
+              if (!$parent.length) return;
+              $parent.remove();
+            }
+          ],
           '.listing .actions': [
             'click', function (e) {
               var $head = $('.listing .header', $(this).fluxxCard());
