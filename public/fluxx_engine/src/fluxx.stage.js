@@ -140,6 +140,16 @@
               $.my.hand.addFluxxCard(card);
             }
           ],
+          'a.close-detail': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $('.drawer', $elem.fluxxCard()).parent().addClass('empty');
+              $elem.fluxxCardDetail().fadeOut('fast',function(){
+                $elem.fluxxCard().resizeFluxxCard();
+              });
+            }
+          ],
           'a.new-listing': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
@@ -452,7 +462,7 @@
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
                 $('.drawer .entries', $card).removeClass('selected');
                 $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
-                $('.info', $card).addClass('open').resizeFluxxCard();
+                $('.info', $card).addClass('open', 1000, function(){$card.resizeFluxxCard()});
               }
             }
           ],

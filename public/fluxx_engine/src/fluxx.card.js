@@ -16,7 +16,7 @@
           .bind({
             'complete.fluxx.card': _.callAll(
               $.fluxx.util.itEndsHere,
-              function(){$card.show();},
+              function(){$card.fadeIn('slow');},
               _.bind($.fn.resizeFluxxCard, $card),
               _.bind($.fn.editableCardTitle, $card),
               _.bind($.fn.subscribeFluxxCardToUpdates, $card),
@@ -125,7 +125,14 @@
           .bind({
             'unload.fluxx.card': _.callAll(
               options.callback,
-              function(e){ $(e.target).remove(); $.my.cards = $('.card'); $.my.stage.resizeFluxxStage(); }
+              function(e){ $(e.target).fadeOut(
+                'slow',
+                function(){
+                  $(this).remove();
+                  $.my.cards = $('.card');
+                  $.my.stage.resizeFluxxStage();
+                });
+              }
             )
           })
           .trigger('close.fluxx.card')
@@ -191,8 +198,7 @@
         } else {
           $('.info .scroller').hide();
         }
-        $card.width(
-          _.addUp(
+        var cardWidth = _.addUp(
             $card
               .children()
               .filter(':visible')
@@ -200,8 +206,9 @@
             'outerWidth', false
           )
           +
-          $('.drawer', $card).parent().filter(':visible').outerWidth(true)
-        );
+          $('.drawer', $card).parent().filter(':visible').outerWidth(true);
+
+        $card.width(cardWidth);
 
         _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
