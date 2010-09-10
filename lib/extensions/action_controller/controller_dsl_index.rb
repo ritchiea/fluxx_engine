@@ -52,6 +52,12 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         ''
       end
       
+      extra_search_conditions = if self.search_conditions.is_a? Proc
+        self.search_conditions.call params, self
+      else
+        self.search_conditions
+      end
+      
       model_ids = if params[:find_by_id] && params[:id]
         id_results = model_class.where(:id => params[:id]).select(:id).all.map &:id
         WillPaginate::Collection.create 1, id_results.size, id_results.size do |pager|
@@ -59,7 +65,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         end
       else
         model_class.model_search(q_search, params, results_per_page, 
-          {:search_conditions => self.search_conditions, :order_clause => self.order_clause, :include_relation => include_relation})
+          {:search_conditions => extra_search_conditions, :order_clause => self.order_clause, :include_relation => include_relation})
       end
       instance_variable_set @plural_model_instance_name, model_ids
       
