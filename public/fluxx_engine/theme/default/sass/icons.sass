@@ -1,0 +1,201 @@
+@import ../../_common/sass/_helpers.sass
+
+=icon-36
+  .link
+    height: 36px
+    width: 36px
+    margin-bottom: $icon_margin_bottom + 6px
+    margin-top: $icon_margin_top + 6px
+    margin-left: 16px
+    margin-right: 16px
+    .label
+      top: 42px
+      margin-left: -16px
+=icon-24
+  .link
+    +rounded(4px)
+    height: 24px
+    width: 24px
+    margin-bottom: $icon_margin_bottom + 12px
+    margin-top: $icon_margin_top + 12px
+    margin-left: 22px
+    margin-right: 22px
+    .label
+      top: 36px
+      margin-left: -22px
+
+.dock
+  .icon
+    &.small
+      +icon-36
+    &.tiny
+      +icon-24
+    &.plus
+      +icon-36
+      .link
+        +bg(#666)
+        +box-shadow-with-inset
+        border: 2px solid white
+        +rounded($icon_dimension / 2)
+        background: #666 url(../../default/images/dock-icons/plus.png) no-repeat 50% 50%
+        .label
+          display: none
+    .popup
+      $size: 7px
+      +bg(transparent)
+      position: absolute
+      bottom: $icon_dimension + $icon_margin_bottom + ($icon_margin_top / 2) - $size
+      .arrow
+        +bg(transparent)
+        height: $size*2
+        width: $size*2
+        border: transparent solid $size
+        border-top-color: #359
+        margin: auto
+      ul
+        +non-list
+        +bg(#68c, #fff)
+        +box-shadow
+        +rounded(5px)
+        border: 2px solid #359
+        padding: 10px 16px
+        li
+          white-space: nowrap
+          display: block
+          font-size: 12px
+          line-height: 24px
+          a
+            text-decoration: none
+            &:hover
+              text-decoration: underline
+    .link
+      +linear-gradient(#fff, #ddd)
+      border: 1px #666 solid
+      +box-shadow
+      +rounded(6px)
+      text-decoration: none
+      position: relative
+      .label
+        display: none
+        +bg(transparent, #333)
+        position: absolute
+        top: $icon_dimension
+        font-size: $icon_margin_bottom / 2
+        font-weight: 100
+        text-align: center
+        width: $icon_dimension + 20px
+        margin-left: -10px
+        +border-box
+      .badge
+        +border-box
+        +inline-block
+        +rounded(15px)
+        +box-shadow
+        +bg(#f00, #fff)
+        +linear-gradient(#f66, #f00)
+        position: absolute
+        padding: 0px 2px
+        right: -6px
+        top: -6px
+        font-size: 11px
+        font-weight: 200
+        height: 17px
+        min-width: 17px
+        text-align: center
+        line-height: 13px
+        border: 2px solid #fff
+        display: none
+    &.style-blue
+      .link
+        +linear-gradient(#ccf, #99f)
+    &.style-green
+      .link
+        +linear-gradient(#cfc, #9f9)
+    &.style-red
+      .link
+        +linear-gradient(#c99, #933)
+    &.style-purple
+      .link
+        +linear-gradient(#c9c, #939)
+    &.style-ql-documents
+      .link
+        +no-box-shadow
+        border: none
+        background: transparent url('../../default/images/ql-icons/Documents_34x34.png') no-repeat 50% 50%
+    &.style-ql-library
+      .link
+        +no-box-shadow
+        border: none
+        background: transparent url('../../default/images/ql-icons/LibraryFolder_34x34.png') no-repeat 50% 50%
+    &.style-ql-user
+      .link
+        +no-box-shadow
+        border: none
+        background: transparent url('../../default/images/ql-icons/UsersFolder_34x34.png') no-repeat 50% 50%
+    &.style-organizations
+      .link
+        +no-box-shadow
+        border: none
+        background: transparent url('../../default/images/card-icons/button_dock_orgs.png') no-repeat 50% 50%
+    &.style-users
+      .link
+        +no-box-shadow
+        border: none
+        background: transparent url('../../default/images/card-icons/button_dock_people.png') no-repeat 50% 50%
+    &.style-grant-requests
+      .link
+        +no-box-shadow
+        border: none
+        background: transparent url('../../default/images/card-icons/button_dock_requests.png') no-repeat 50% 50%
+    &.style-granted-requests
+      .link
+        +no-box-shadow
+        border: none
+        background: transparent url('../../default/images/card-icons/button_dock_grants.png') no-repeat 50% 50%
+    &.style-reports
+      .link
+        +no-box-shadow
+        border: none
+        background: transparent url('../../default/images/card-icons/button_dock_reports.png') no-repeat 50% 50%
+    &.style-transactions
+      .link
+        +no-box-shadow
+        border: none
+        background: transparent url('../../default/images/card-icons/button_dock_transactions.png') no-repeat 50% 50%
+.card
+  .titlebar
+    .icon
+      +inline-block
+      +rounded(4px)
+      +linear-gradient(#fff, #ddd)
+      border: 1px #666 solid
+      height: 24px
+      width: 24px
+      vertical-align: bottom
+      margin-right: 10px
+      &.style-blue
+        +linear-gradient(#ccf, #99f)
+      &.style-green
+        +linear-gradient(#cfc, #9f9)
+      &.style-red
+        +linear-gradient(#c99, #933)
+      &.style-purple
+        +linear-gradient(#c9c, #939)
+      &.style-organizations
+        border: none
+        background: transparent url('../../default/images/card-icons/button_card_orgs.png') no-repeat 50% 50%
+      &.style-users
+        border: none
+        background: transparent url('../../default/images/card-icons/button_card_people.png') no-repeat 50% 50%
+      &.style-grant-requests
+        border: none
+        background: transparent url('../../default/images/card-icons/button_card_requests.png') no-repeat 50% 50%
+      &.style-granted-requests
+        border: none
+        background: transparent url('../../default/images/card-icons/button_card_grants.png') no-repeat 50% 50%
+      &.style-reports
+        border: none
+        background: transparent url('../../default/images/card-icons/button_card_reports.png') no-repeat 50% 50%
+      &.style-transactions
+        border: none
+        background: transparent url('../../default/images/card-icons/button_card_transactions.png') no-repeat 50% 50%

@@ -33,10 +33,6 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-header { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-header a { color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-header .titlebar { position: relative; }
-#fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .content-actions { list-style: none; padding: 0; margin: 0; display: inline-block; position: absolute; right: 0px; top: 0px; }
-#fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .content-actions li { list-style: none; margin: 0; padding: 0; }
-#fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .content-actions li { display: inline-block; }
-#fluxx #stage #card-table #hand .card .card-box .card-header .titlebar .content-actions li a { display: block; width: 16px; height: 16px; margin: 2px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body { position: relative; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .tabular { width: 100%; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .tabular thead tr th .actions { display: inline-block; *display: inline; zoom: 1; float: right; }
@@ -78,8 +74,6 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #footer #iconlist, #fluxx #stage #footer .qllist { list-style: none; padding: 0; margin: 0; display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #footer #iconlist li, #fluxx #stage #footer .qllist li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #footer .icon { display: inline-block; *display: inline; zoom: 1; position: relative; }
-#fluxx #stage #footer .icon .link { background-color: #666666; color: black; display: inline-block; *display: inline; zoom: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; height: 48px; width: 48px; margin: 10px 10px 20px 10px; }
-#fluxx #stage #footer .icon .link a { color: black; }
+#fluxx #stage #footer .icon .link { display: inline-block; *display: inline; zoom: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; height: 48px; width: 48px; margin: 10px 10px 20px 10px; }
 #fluxx #stage #footer .icon .link .label { text-overflow: ellipsis; -o-text-overflow: ellipsis; white-space: nowrap; overflow: hidden; text-transform: uppercase; padding: 0px 10px; font-size: 8px; }
-#fluxx #stage #footer .icon .popup { background-color: #aaaaaa; color: black; display: none; position: absolute; left: 0px; bottom: 0px; }
-#fluxx #stage #footer .icon .popup a { color: black; }
+#fluxx #stage #footer .icon .popup { display: none; }

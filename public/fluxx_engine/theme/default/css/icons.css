@@ -1,0 +1,36 @@
+@import url(../../_common/css/Quicksand-fontfacekit/stylesheet.css);
+.dock .icon.small .link { height: 36px; width: 36px; margin-bottom: 26px; margin-top: 16px; margin-left: 16px; margin-right: 16px; }
+.dock .icon.small .link .label { top: 42px; margin-left: -16px; }
+.dock .icon.tiny .link { -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; behavior: url(border-radius.htc); height: 24px; width: 24px; margin-bottom: 32px; margin-top: 22px; margin-left: 22px; margin-right: 22px; }
+.dock .icon.tiny .link .label { top: 36px; margin-left: -22px; }
+.dock .icon.plus .link { background-color: #666666; color: black; -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.4); border: 2px solid white; -webkit-border-radius: 24px; -moz-border-radius: 24px; border-radius: 24px; behavior: url(border-radius.htc); background: #666666 url(../../default/images/dock-icons/plus.png) no-repeat 50% 50%; }
+.dock .icon.plus .link a { color: black; }
+.dock .icon.plus .link .label { display: none; }
+.dock .icon .popup { background-color: transparent; color: black; position: absolute; bottom: 66px; }
+.dock .icon .popup a { color: black; }
+.dock .icon .popup .arrow { background-color: transparent; color: black; height: 14px; width: 14px; border: transparent solid 7px; border-top-color: #335599; margin: auto; }
+.dock .icon .popup .arrow a { color: black; }
+.dock .icon .popup ul { list-style: none; padding: 0; margin: 0; background-color: #6688cc; color: white; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; behavior: url(border-radius.htc); border: 2px solid #335599; padding: 10px 16px; }
+.dock .icon .popup ul li { list-style: none; margin: 0; padding: 0; }
+.dock .icon .popup ul a { color: white; }
+.dock .icon .popup ul li { white-space: nowrap; display: block; font-size: 12px; line-height: 24px; }
+.dock .icon .popup ul li a { text-decoration: none; }
+.dock .icon .popup ul li a:hover { text-decoration: underline; }
+.dock .icon .link { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #dddddd)); background: -moz-linear-gradient(center top, white 0%, #dddddd 100%); border: 1px #666666 solid; -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; behavior: url(border-radius.htc); text-decoration: none; position: relative; }
+.dock .icon .link .label { display: none; background-color: transparent; color: #333333; position: absolute; top: 48px; font-size: 10px; font-weight: 100; text-align: center; width: 68px; margin-left: -10px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
+.dock .icon .link .label a { color: #333333; }
+.dock .icon .link .badge { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; display: inline-block; *display: inline; zoom: 1; -webkit-border-radius: 15px; -moz-border-radius: 15px; border-radius: 15px; behavior: url(border-radius.htc); -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); background-color: red; color: white; background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff6666), color-stop(1, red)); background: -moz-linear-gradient(center top, #ff6666 0%, red 100%); position: absolute; padding: 0px 2px; right: -6px; top: -6px; font-size: 11px; font-weight: 200; height: 17px; min-width: 17px; text-align: center; line-height: 13px; border: 2px solid white; display: none; }
+.dock .icon .link .badge a { color: white; }
+.dock .icon.style-blue .link { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ccccff), color-stop(1, #9999ff)); background: -moz-linear-gradient(center top, #ccccff 0%, #9999ff 100%); }
+.dock .icon.style-green .link { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ccffcc), color-stop(1, #99ff99)); background: -moz-linear-gradient(center top, #ccffcc 0%, #99ff99 100%); }
+.dock .icon.style-red .link { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #cc9999), color-stop(1, #993333)); background: -moz-linear-gradient(center top, #cc9999 0%, #993333 100%); }
+.dock .icon.style-purple .link { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #cc99cc), color-stop(1, #993399)); background: -moz-linear-gradient(center top, #cc99cc 0%, #993399 100%); }
+.dock .icon.style-ql-documents .link { -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; border: none; background: transparent url("../../default/images/ql-icons/Documents_34x34.png") no-repeat 50% 50%; }
+.dock .icon.style-ql-library .link { -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; border: none; background: transparent url("../../default/images/ql-icons/LibraryFolder_34x34.png") no-repeat 50% 50%; }
+.dock .icon.style-ql-user .link { -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; border: none; background: transparent url("../../default/images/ql-icons/UsersFolder_34x34.png") no-repeat 50% 50%; }
+
+.card .titlebar .icon { display: inline-block; *display: inline; zoom: 1; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; behavior: url(border-radius.htc); background: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(1, #dddddd)); background: -moz-linear-gradient(center top, white 0%, #dddddd 100%); border: 1px #666666 solid; height: 24px; width: 24px; vertical-align: bottom; margin-right: 10px; }
+.card .titlebar .icon.style-blue { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ccccff), color-stop(1, #9999ff)); background: -moz-linear-gradient(center top, #ccccff 0%, #9999ff 100%); }
+.card .titlebar .icon.style-green { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ccffcc), color-stop(1, #99ff99)); background: -moz-linear-gradient(center top, #ccffcc 0%, #99ff99 100%); }
+.card .titlebar .icon.style-red { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #cc9999), color-stop(1, #993333)); background: -moz-linear-gradient(center top, #cc9999 0%, #993333 100%); }
+.card .titlebar .icon.style-purple { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #cc99cc), color-stop(1, #993399)); background: -moz-linear-gradient(center top, #cc99cc 0%, #993399 100%); }

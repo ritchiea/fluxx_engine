@@ -2,6 +2,13 @@
 
 @import ../../_common/css/Quicksand-fontfacekit/stylesheet.css
 
+$icon_dimension: 48px
+$icon_margin_top:    10px
+$icon_margin_bottom:    20px
+$footer_height:  $icon_dimension + ($icon_margin_top + $icon_margin_bottom)
+$header_height:  50px
+
+
 =fluxx-font
   font-family: 'QuicksandBook', Helvetica, sans-serif
 
@@ -116,6 +123,11 @@
   -moz-border-radius: $radius
   border-radius: $radius
   behavior: url(border-radius.htc)
+
+=no-box-shadow
+  -webkit-box-shadow: none
+  -moz-box-shadow: none
+  box-shadow: none
 
 =box-shadow($left: 0px, $top: 2px, $spread: 4px, $color: rgba(0,0,0,0.4))
   -webkit-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")

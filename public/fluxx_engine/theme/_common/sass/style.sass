@@ -5,12 +5,6 @@
 #colorbox
   color: white
 
-$icon_dimension: 48px
-$icon_margin_top:    10px
-$icon_margin_bottom:    20px
-$footer_height:  $icon_dimension + ($icon_margin_top + $icon_margin_bottom)
-$header_height:  50px
-
 =header-bg($bg: #333, $fg: #fff)
   +bg($bg, $fg)
 =footer-bg($bg: #333, $fg: #fff)
@@ -100,19 +94,6 @@ input,select,textarea
               .titlebar
                 position: relative
                 .title
-                .content-actions
-                  +non-list
-                  display: inline-block
-                  position: absolute
-                  right: 0px
-                  top: 0px
-                  li
-                    display: inline-block
-                    a
-                      display: block
-                      width: 16px
-                      height: 16px
-                      margin: 2px
             .card-body
               position: relative
               .tabular
@@ -208,26 +189,22 @@ input,select,textarea
       #iconlist,.qllist
         +non-list
         +inline-block
-      .icon
-        +inline-block
-        position: relative
-        .link
-          +bg(#666)
-          +inline-block
-          +border-box
-          height: $icon_dimension
-          width:  $icon_dimension
-          margin: $icon_margin_top 10px $icon_margin_bottom 10px
-          .label
-            +ellipsis
-            text-transform: uppercase
-            padding: 0px 10px
-            font-size: 8px
-          .badge
-        .popup
-          +bg(#aaa)
-          display: none
-          position: absolute
-          left: 0px
-          bottom: 0px
-            
+.dock
+  .icon
+    +inline-block
+    position: relative
+    .link
+      +inline-block
+      +border-box
+      height: $icon_dimension
+      width:  $icon_dimension
+      margin: $icon_margin_top 10px $icon_margin_bottom 10px
+      .label
+        +ellipsis
+        text-transform: uppercase
+        padding: 0px 10px
+        font-size: 8px
+      .badge
+    .popup
+      display: none
+        

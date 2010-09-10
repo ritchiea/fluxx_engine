@@ -32,7 +32,8 @@
         var $icon = $.fluxx.dock.ui.icon.call($.my.dock, {
           label: options.card.fluxxCardTitle(),
           url: '#'+options.card.attr('id'),
-          popup: 'Hello'
+          popup: 'Hello',
+          type: options.card.fluxxCardIconStyle()
         }).updateIconBadge();
         if (options.card.prev().length) {
           $icon.insertAfter($('a[href=#'+options.card.prev().attr('id')+']', $.my.iconlist).parents('.icon').first());
@@ -112,6 +113,7 @@
     ]);
   };
   $.fluxx.dock.ui.icon = function(options) {
+    $.fluxx.log("--- pre-default icon options ---",options)
     var options = $.fluxx.util.options_with_callback({
       label: '',
       badge: '',
@@ -121,7 +123,7 @@
       className: null,
       type: null
     }, options);
-    
+    $.fluxx.log("--- icon options ---",options)
     var popup = (
         !_.isNull(options.popup)
       ? [
@@ -137,7 +139,7 @@
     
     return $($.fluxx.util.resultOf([
       '<li class="icon ', options.type, '">',
-        '<a class="link ', options.className, '" href="', options.url, '">',
+        '<a class="link ', options.className, '" href="', options.url, '" title="', options.label, '">',
           '<span class="label">', options.label, '</span>',
           '<span class="badge">', options.badge, '</span>',
         '</a>',
@@ -150,10 +152,18 @@
     $('#stage').live('complete.fluxx.stage', function(e) {
       $.my.footer.addFluxxDock(function(){
         $('.card')
-          .each(function(){ $.my.dock.addViewPortIcon({card: $(this)}); })
-          .live('load.fluxx.card', function(e){
+          .each(function(){
+            $.fluxx.log("dock is iterating over existing cards");
+            $.my.dock.addViewPortIcon({
+              card: $(this)
+            });
+          })
+          .live('lifetimeComplete.fluxx.card', function(e){
+            $.fluxx.log("dock is bound to lifetimeComplete.fluxx.card");
             $.fluxx.util.itEndsWithMe(e);
-            $.my.dock.addViewPortIcon({card: $(this)});
+            $.my.dock.addViewPortIcon({ 
+              card: $(this)
+            });
           })
          .live('close.fluxx.card', function(e){
             $.fluxx.util.itEndsWithMe(e);
@@ -162,7 +172,9 @@
           .live('update.fluxx.card', function (e, nUpdate) {
             if (!_.isEmpty(nUpdate) || !$(e.target).data('icon')) return;
             var $card = $(e.target);
-            $card.data('icon').updateIconBadge({badge: $card.fluxxCardUpdatesAvailable()}).updateIconLabel($card.fluxxCardTitle());
+            $card.data('icon')
+              .updateIconBadge({badge: $card.fluxxCardUpdatesAvailable()})
+              .updateIconLabel($card.fluxxCardTitle());
           });
       });
     });

@@ -1,17 +1,6 @@
 @import ../../_common/sass/style.sass
 @import ../../_common/sass/jquery.colorbox.alerts.sass
-
-=icon-36
-  .link
-    height: 36px
-    width: 36px
-    margin-bottom: $icon_margin_bottom + 6px
-    margin-top: $icon_margin_top + 6px
-    margin-left: 16px
-    margin-right: 16px
-    .label
-      top: 42px
-      margin-left: -16px
+@import icons
 
 =form-field-one-line
   margin: 12px 0px
@@ -444,7 +433,7 @@
                 font-weight: 100
                 line-height: 24px
                 font-size: 18px
-                padding: 0px 10px
+                padding: 2px 10px
                 .title
                   outline: none
                 .title[contenteditable=true]
@@ -452,8 +441,6 @@
                   +bg(rgba(255,255,255,0.3), #333)
                   padding: 0px 5px
                   margin-left: -5px
-                .content-actions
-                  margin-right: 10px
             .card-body
               background: url(../../default/images/cards/body-bg.png)
               border-bottom: 1px solid #333
@@ -742,90 +729,3 @@
       .qllist
         border-left: 1px solid #ddd
         padding: 0px 5px
-      .icon
-        &.small
-          +icon-36
-        &.blue
-          .link
-            +linear-gradient(#ccf, #99f)
-        &.green
-          .link
-            +linear-gradient(#cfc, #9f9)
-        &.red
-          .link
-            +linear-gradient(#c99, #933)
-        &.purple
-          .link
-            +linear-gradient(#c9c, #939)
-        &.plus
-          .link
-            +box-shadow-with-inset
-            border: 2px solid white
-            +rounded($icon_dimension / 2)
-            background: #666 url(../../default/images/dock-icons/plus.png) no-repeat 50% 50%
-            .label
-              display: none
-        .popup
-          $size: 7px
-          +bg(transparent)
-          position: absolute
-          bottom: $icon_dimension + $icon_margin_bottom + ($icon_margin_top / 2) - $size
-          .arrow
-            +bg(transparent)
-            height: $size*2
-            width: $size*2
-            border: transparent solid $size
-            border-top-color: #359
-            margin: auto
-          ul
-            +non-list
-            +bg(#68c, #fff)
-            +box-shadow
-            +rounded(5px)
-            border: 2px solid #359
-            padding: 10px 16px
-            li
-              white-space: nowrap
-              display: block
-              font-size: 12px
-              line-height: 24px
-              a
-                text-decoration: none
-                &:hover
-                  text-decoration: underline
-        .link
-          +linear-gradient(#fff, #ddd)
-          border: 1px #666 solid
-          +box-shadow
-          +rounded(6px)
-          text-decoration: none
-          position: relative
-          .label
-            +bg(transparent, #333)
-            position: absolute
-            top: $icon_dimension
-            font-size: $icon_margin_bottom / 2
-            font-weight: 100
-            text-align: center
-            width: $icon_dimension + 20px
-            margin-left: -10px
-            +border-box
-          .badge
-            +border-box
-            +inline-block
-            +rounded(15px)
-            +box-shadow
-            +bg(#f00, #fff)
-            +linear-gradient(#f66, #f00)
-            position: absolute
-            padding: 0px 2px
-            right: -6px
-            top: -6px
-            font-size: 11px
-            font-weight: 200
-            height: 17px
-            min-width: 17px
-            text-align: center
-            line-height: 13px
-            border: 2px solid #fff
-            display: none

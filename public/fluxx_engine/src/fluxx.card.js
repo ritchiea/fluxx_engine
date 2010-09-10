@@ -42,6 +42,8 @@
         $card.fluxxCardLoadListing(options.listing, function(){
           $card.fluxxCardLoadDetail(options.detail, function(){
             $card.trigger('complete.fluxx.card');
+            $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
+            $card.trigger('lifetimeComplete.fluxx.card');
           })
         });
         $.my.cards = $('.card').resizeFluxxCard();
@@ -54,8 +56,10 @@
         if (e.which == 13) {
           $.fluxx.util.itEndsWithMe(e);
           $title.attr('contenteditable', 'false').unbind('keypress', getReturn);
+          $title.text($card.fluxxCardTitle());
           $card.data('icon').updateIconLabel({label: $title.text()});
           $card.saveDashboard();
+          return false;
         }
       };
       $title.click(function(e){
@@ -276,7 +280,15 @@
       });
     },
     fluxxCardTitle: function() {
-      return $('.title', this.fluxxCard()).text();
+      return $.trim($('.title', this.fluxxCard()).text()).replace(/[\n\r\t]/g, '');
+    },
+    fluxxCardIconStyle: function(){
+      var style =
+         this.fluxxCardListing().attr('data-icon-style')
+      || this.fluxxCardDetail().attr('data-icon-style')
+      || '';
+      $.fluxx.log('STYLE FOR ICON IS ' + style);
+      return style;
     },
     fluxxCardAreaURL: function(options) {
       var options = $.fluxx.util.options_with_callback({without: []},options);
@@ -313,8 +325,10 @@
           var key = $(setting).attr('name'),
               val = $(setting).text();
           $area.attr('data-' + key, val);
-        })
-      })
+          $.fluxx.log("Setting data-" + key + " = " + val);
+        });
+        $.fluxx.log("Settings are complete!!!!!!!!!! [[[[["+$area.fluxxCard().fluxxCardIconStyle()+"]]]]]");
+      });
     },
     areaDetailTransform: function(){
       var $area  = $(this);
@@ -757,6 +771,7 @@
   $.fluxx.card.ui.titlebar = function(options) {
     return [
       '<div class="titlebar">',
+        '<div class="icon"></div>',
         '<span class="title">',
           options.title,
         '</span>',
