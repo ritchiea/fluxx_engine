@@ -375,7 +375,7 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate li:first-child { -webkit-border-top-left-radius: 3px; -webkit-border-bottom-left-radius: 3px; -moz-border-radius-topleft: 3px; -moz-border-radius-bottomleft: 3px; margin-left: 1px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate li:last-child { -webkit-border-top-right-radius: 3px; -webkit-border-bottom-right-radius: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 3px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate .prev { width: 50px; }
-#fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate .info { width: 90px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate .paginate-info { width: 130px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .paginate .next { width: 50px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer .no-pagination { text-shadow: rgba(255, 255, 255, 0.5) 0px 1px 0px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; display: inline-block; *display: inline; zoom: 1; font-size: 12px; padding: 3px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .detail { background-color: white; color: black; }
