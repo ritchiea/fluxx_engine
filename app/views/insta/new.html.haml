@@ -1,0 +1,9 @@
+%div{:id=>"card-header"}= raw "#{raw flash_info} #{raw flash_error}"
+%div{:id=>"card-body"}
+  %div.edit
+    = semantic_form_for @model, :url => (@form_url || {:action => "create"}), :html => {:class => ('to-self ' + (@form_class || ''))} do |form|
+      = render :partial => @template, :locals => { :form => form, :model => @model}
+
+%div{:id=>"card-footer"}
+  %ul.workflow
+= render :partial => 'insta/card_settings'
