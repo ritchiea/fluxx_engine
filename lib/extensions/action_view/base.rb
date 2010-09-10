@@ -23,7 +23,7 @@ class ActionView::Base
           ]
           
           
-          html = "<ul class='paginate'><li class='prev'>#{prev_button}</li><li class='info'><span class='disabled'>#{info_message}</span></li><li class='next'>#{next_button}</li></ul>"
+          html = "<ul class='paginate'><li class='prev'>#{prev_button}</li><li class='paginate-info'><span class='disabled'>#{info_message}</span></li><li class='next'>#{next_button}</li></ul>"
           html_container(html)
           # result = @options[:container] ? @template.content_tag(:div, html, container_attributes) : html
           # @template.raw(result)
