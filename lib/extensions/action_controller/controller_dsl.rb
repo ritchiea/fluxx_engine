@@ -17,6 +17,8 @@ class ActionController::ControllerDsl
   attr_accessor :model_name
   # Do not show related data
   attr_accessor :exclude_related_data
+  # Specify the style for this type of card
+  attr_accessor :icon_style
 
   # Allow you to pass in a block to initialize a new model object
   attr_accessor :new_block

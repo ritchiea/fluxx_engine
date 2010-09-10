@@ -4,8 +4,8 @@ class ClientStoresController < ApplicationController
       insta.pre do |controller_dsl, controller|
         controller.pre_models = if controller.fluxx_current_user
           search = ClientStore.where(:user_id => controller.fluxx_current_user.id).where(:deleted_at => nil)
-          if controller.params[:name]
-            search = search.where(:name => controller.params[:name]) 
+          if controller.params[:client_store_type]
+            search = search.where(:client_store_type => controller.params[:client_store_type]) 
           end
           results = search.all
         else

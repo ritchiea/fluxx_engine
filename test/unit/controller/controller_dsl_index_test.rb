@@ -61,7 +61,7 @@ class ControllerDslIndexTest < ActiveSupport::TestCase
       'postprocessed'
     end)
     
-    autocomplete_reply = @dsl_index.process_autocomplete(@musicians)
+    autocomplete_reply = @dsl_index.process_autocomplete(@musicians, nil, InstrumentsController.new)
     assert autocomplete_reply
     assert_equal 'postprocessed', autocomplete_reply
   end

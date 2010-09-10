@@ -67,7 +67,7 @@ class ActiveRecord::Base
         def without_realtime(&block)
           realtime_was_disabled = realtime_disabled
           write_inheritable_attribute :realtime_disabled, true
-          returning(block.call) { write_inheritable_attribute :realtime_disabled, false unless realtime_was_disabled; p "ESH: after block.call, setting realtime_disabled=#{realtime_disabled}" }
+          returning(block.call) { write_inheritable_attribute :realtime_disabled, false unless realtime_was_disabled }
         end
       end
     end
