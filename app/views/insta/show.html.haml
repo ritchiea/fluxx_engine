@@ -15,9 +15,9 @@
           %ol.entries
             - rd[:formatted_data].each do |element| 
               - section_title = if element[:display_template] 
-                = render :partial => element[:display_template], :locals => {:model => element[:model]}
+                - render :partial => element[:display_template], :locals => {:model => element[:model]}
               - else
-                = element[:model].to_s
+                - element[:model].to_s
               %li.entry
                 = link_to(element[:model], :class => 'new-detail', 'data-insert' => 'after') do
                   %span= section_title
