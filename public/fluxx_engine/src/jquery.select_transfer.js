@@ -64,6 +64,10 @@
         });
 
         $original.hide();
+        
+        // TODO ESH: add in the original name to the selected select box
+        $selected.attr('name', $original.attr('name'));
+        
         $container.insertAfter($original);        
       });
     }
