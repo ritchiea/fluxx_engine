@@ -51,3 +51,4 @@ Rcov::RcovTask.new do |t|
   t.rcov_opts << "--exclude \"test/*,gems/*,/Library/Ruby/*,config/*\" --rails" 
 end
 
+#
