@@ -49,7 +49,9 @@
   +bg(#f9f9f9)
   #stage
     #header
-      +box-shadow
+      a
+        text-decoration: none 
+      +box-shadow(#ccc, 0px, 1px, 0px)
       z-index: 2
       border-bottom: 3px white solid
       #logo
@@ -57,22 +59,25 @@
           +inline-block
           +fluxx-font
           font-size: 24px
-          line-height: $header_height + 3px
-          height: $header_height
-          background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left
-          padding: 0px 0px 0px 46px
-          margin: 0px 10px
-          text-decoration: none
+          text-indent: -2000px
+          height: 58px
+          width: 195px
+          background: transparent url(../../_common/images/logo.png) no-repeat top left
+          padding: 0px
+          margin: 10px 0px 
       .actions
+        margin-right: 10px
         font-size: 12px
         line-height: $header_height
         position: absolute
         top: 0px
         right: 0px
         .dashboard
+          margin-right: 30px
           position: relative
           .label
             margin-right: 210px
+            font-size: 13px
           .picker
             +non-list
             +inline-block
@@ -128,7 +133,7 @@
                 padding-right: 4px
               a
                 display: block
-                text-decoration: none
+                color: #ddd
     #card-table
       +bg(transparent)
       #hand
