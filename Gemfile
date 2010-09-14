@@ -4,11 +4,14 @@ gem 'rails', '3.0.0'
 gem "capybara", "0.3.7"
 gem "sqlite3-ruby", :require => "sqlite3"
 gem 'fastercsv', '>= 1.5.3'
-#gem 'formtastic-rails3', '>= 0.9.10.0'
-gem "formtastic", :git => "http://github.com/justinfrench/formtastic.git", :branch => "rails3"
+gem 'formtastic', '~> 1.1.0'
+
+#gem "formtastic", :git => "http://github.com/justinfrench/formtastic.git", :branch => "rails3"
 gem 'haml', '>= 3'
 # gem "will_paginate-3.0"
-gem "will_paginate", :git => "http://github.com/mislav/will_paginate.git", :branch => "rails3"
+#gem "will_paginate", :git => "http://github.com/mislav/will_paginate.git", :branch => "rails3"
+gem "will_paginate", "~> 3.0.pre2"
+
 gem 'jsmin', '>= 1.0.1'
 gem 'thin', '>= 1.2.7'
 gem 'machinist', '>=1.0.6'
