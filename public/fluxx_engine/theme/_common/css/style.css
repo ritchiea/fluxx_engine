@@ -73,7 +73,8 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #footer #quicklinks { display: inline-block; *display: inline; zoom: 1; position: absolute; right: 0px; top: 0px; }
 #fluxx #stage #footer #iconlist, #fluxx #stage #footer .qllist { list-style: none; padding: 0; margin: 0; display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #footer #iconlist li, #fluxx #stage #footer .qllist li { list-style: none; margin: 0; padding: 0; }
-#fluxx #stage #footer .icon { display: inline-block; *display: inline; zoom: 1; position: relative; }
-#fluxx #stage #footer .icon .link { display: inline-block; *display: inline; zoom: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; height: 48px; width: 48px; margin: 10px 10px 20px 10px; }
-#fluxx #stage #footer .icon .link .label { text-overflow: ellipsis; -o-text-overflow: ellipsis; white-space: nowrap; overflow: hidden; text-transform: uppercase; padding: 0px 10px; font-size: 8px; }
-#fluxx #stage #footer .icon .popup { display: none; }
+
+.dock .icon { display: inline-block; *display: inline; zoom: 1; position: relative; }
+.dock .icon .link { display: inline-block; *display: inline; zoom: 1; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; height: 48px; width: 48px; margin: 10px 10px 20px 10px; }
+.dock .icon .link .label { text-overflow: ellipsis; -o-text-overflow: ellipsis; white-space: nowrap; overflow: hidden; text-transform: uppercase; padding: 0px 10px; font-size: 8px; }
+.dock .icon .popup { display: none; }

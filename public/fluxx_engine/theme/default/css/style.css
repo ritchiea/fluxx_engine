@@ -18,14 +18,14 @@ a img { border: none; }
 input, select, textarea { border: 1px solid #cccccc; background: white; }
 
 #fluxx #stage { position: relative; height: auto; height: 100%; min-height: 100%; }
-#fluxx #stage #header { background-color: #333333; color: white; height: 50px; position: fixed; top: 0px; width: 100%; }
+#fluxx #stage #header { background-color: #333333; color: white; height: 78px; position: fixed; top: 0px; width: 100%; }
 #fluxx #stage #header a { color: white; }
 #fluxx #stage #header #logo { display: inline-block; *display: inline; zoom: 1; }
 #fluxx #stage #header .actions { display: inline-block; *display: inline; zoom: 1; list-style: none; padding: 0; margin: 0; }
 #fluxx #stage #header .actions li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #header .actions li { display: inline-block; *display: inline; zoom: 1; list-style: none; padding: 0; margin: 0; margin: 0px 10px 0px 10px; vertical-align: top; }
 #fluxx #stage #header .actions li li { list-style: none; margin: 0; padding: 0; }
-#fluxx #stage #card-table { background-color: #cccccc; color: black; margin-top: 50px; margin-bottom: 78px; position: absolute; top: 0px; bottom: 0px; overflow: hidden; }
+#fluxx #stage #card-table { background-color: #cccccc; color: black; margin-top: 78px; margin-bottom: 78px; position: absolute; top: 0px; bottom: 0px; overflow: hidden; }
 #fluxx #stage #card-table a { color: black; }
 #fluxx #stage #card-table #hand { list-style: none; padding: 0; margin: 0; height: 100%; }
 #fluxx #stage #card-table #hand li { list-style: none; margin: 0; padding: 0; }
@@ -157,12 +157,13 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 
 #fluxx { background-color: #f9f9f9; color: black; }
 #fluxx a { color: black; }
-#fluxx #stage #header { -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); z-index: 2; border-bottom: 3px white solid; }
-#fluxx #stage #header #logo a { display: inline-block; *display: inline; zoom: 1; font-family: "QuicksandBook", Helvetica, sans-serif; font-size: 24px; line-height: 53px; height: 50px; background: transparent url(../../_common/images/pinwheels/logo_pinwheel_36.png) no-repeat 45% left; padding: 0px 0px 0px 46px; margin: 0px 10px; text-decoration: none; }
-#fluxx #stage #header .actions { font-size: 12px; line-height: 50px; position: absolute; top: 0px; right: 0px; }
-#fluxx #stage #header .actions .dashboard { position: relative; }
-#fluxx #stage #header .actions .dashboard .label { margin-right: 210px; }
-#fluxx #stage #header .actions .dashboard .picker { list-style: none; padding: 0; margin: 0; display: inline-block; *display: inline; zoom: 1; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; behavior: url(border-radius.htc); background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(102, 102, 102, 0.9)), color-stop(1, rgba(51, 51, 51, 0.9))); background: -moz-linear-gradient(center top, rgba(102, 102, 102, 0.9) 0%, rgba(51, 51, 51, 0.9) 100%); -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); width: 200px; border: 1px solid #aaaaaa; position: absolute; top: 14px; right: 0px; }
+#fluxx #stage #header { -webkit-box-shadow: #cccccc 0px 1px 0px; -moz-box-shadow: #cccccc 0px 1px 0px; box-shadow: #cccccc 0px 1px 0px; z-index: 2; border-bottom: 3px white solid; }
+#fluxx #stage #header a { text-decoration: none; }
+#fluxx #stage #header #logo a { display: inline-block; *display: inline; zoom: 1; font-family: "QuicksandBook", Helvetica, sans-serif; font-size: 24px; text-indent: -2000px; height: 58px; width: 195px; background: transparent url(../../_common/images/logo.png) no-repeat top left; padding: 0px; margin: 10px 0px; }
+#fluxx #stage #header .actions { margin-right: 10px; font-size: 12px; line-height: 78px; position: absolute; top: 0px; right: 0px; }
+#fluxx #stage #header .actions .dashboard { margin-right: 30px; position: relative; }
+#fluxx #stage #header .actions .dashboard .label { margin-right: 210px; font-size: 13px; }
+#fluxx #stage #header .actions .dashboard .picker { list-style: none; padding: 0; margin: 0; display: inline-block; *display: inline; zoom: 1; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; behavior: url(border-radius.htc); background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(102, 102, 102, 0.9)), color-stop(1, rgba(51, 51, 51, 0.9))); background: -moz-linear-gradient(center top, rgba(102, 102, 102, 0.9) 0%, rgba(51, 51, 51, 0.9) 100%); -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4); width: 200px; border: 1px solid #aaaaaa; position: absolute; top: 28px; right: 0px; }
 #fluxx #stage #header .actions .dashboard .picker li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #header .actions .dashboard .picker:hover { background: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(76, 76, 76, 0.9)), color-stop(1, rgba(51, 51, 51, 0.9))); background: -moz-linear-gradient(center top, rgba(76, 76, 76, 0.9) 0%, rgba(51, 51, 51, 0.9) 100%); border-color: #eeeeee; }
 #fluxx #stage #header .actions .dashboard .picker:hover li { display: block; }
@@ -179,7 +180,7 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #header .actions .dashboard .picker li.saving { background: transparent url("../../_common/images/loaders/ajax-arrows-cccccc.gif") no-repeat left center; }
 #fluxx #stage #header .actions .dashboard .picker li.selected { display: block; }
 #fluxx #stage #header .actions .dashboard .picker li.combo { display: inline-block; *display: inline; zoom: 1; float: right; line-height: 8px; font-size: 5px; padding-top: 2px; padding-right: 4px; }
-#fluxx #stage #header .actions .dashboard .picker li a { display: block; text-decoration: none; }
+#fluxx #stage #header .actions .dashboard .picker li a { display: block; color: #dddddd; }
 #fluxx #stage #card-table { background-color: transparent; color: black; }
 #fluxx #stage #card-table a { color: black; }
 #fluxx #stage #card-table #hand { background-color: transparent; color: black; }
