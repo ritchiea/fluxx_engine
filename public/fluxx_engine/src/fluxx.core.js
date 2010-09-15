@@ -165,6 +165,7 @@
   
   var keyboardShortcuts = {
     'Space+c': ['Reload Stylesheets', function() {
+      $.fluxx.log('Reloading Stylesheets');
       $('link[type="text/css"]').each(function(){
         var $l=$(this),$m=$l.clone();
         $l.remove();
@@ -174,6 +175,7 @@
       });
     }],
     'Space+j': ['Reload JavaScript', function() {
+      $.fluxx.log('Reloading JavaScript');
       $('script[src]').each(function(){
         var $l=$(this),$m=$l.clone();
         $l.remove();
@@ -181,6 +183,12 @@
           .attr('src', $m.attr('src') + _.uniqueId())
           .appendTo($('head'));
       });
+    }],
+    'Space+u': ['Force update', function() {
+      var rtu = $.fluxx.realtime_updates;
+      if (!rtu) return;
+      $.fluxx.log('polling');
+      rtu.poll();
     }],
     'Space+m': ['Show $.my cache', function() {
       $.fluxx.log('--- $.my CACHE BEGIN ---');

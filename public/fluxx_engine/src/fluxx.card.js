@@ -107,7 +107,7 @@
     },
     updateFluxxCard: function (e, nUpdates, calling) {
       var $card = $(this);
-      var updatesAvailable = $card.fluxxCardUpdatesAvailable() + nUpdates;
+      var updatesAvailable = $card.fluxxCardUpdatesAvailable() + nUpdates; 
       if (updatesAvailable < 0) updatesAvailable = 0;
       this.data('updates_available', updatesAvailable);
       $.fluxx.log("update.fluxx.card triggered from [" + calling + ']', "TOTAL UPDATES AVAILABLE: " + $card.fluxxCardUpdatesAvailable() + '; ' + nUpdates + ' NEW');
@@ -489,8 +489,8 @@
           updates   = _.reject(updates, function(m) {return _.include(seen, m.model_id)}),
           nextEvent = areaType + '_update.fluxx.area';
     
-      //$area.data('updates_seen', _.flatten([seen, _.pluck(updates, 'model_id')]));
-      //$area.data('latest_updates', _.pluck(updates, 'model_id'));
+//      $area.data('updates_seen', _.flatten([seen, _.pluck(updates, 'model_id')]));
+//      $area.data('latest_updates', _.pluck(updates, 'model_id'));
 
       $area.trigger(nextEvent, [updates]);
     },
@@ -553,6 +553,13 @@
           }
         }
       );
+      // FLX-27
+      // Filtered cards are randomly showing records as new (orange line) when updated.
+      // The req.data object is an array of objects ({name: "xxx", value: "xxx"}) when a filter is set
+      if (req.data instanceof Array) {
+        req.data.push({name: 'find_by_id', value: true});
+        req.data.push({name: 'id', value: updates});
+      }
       $.ajax(req)
     },
     
