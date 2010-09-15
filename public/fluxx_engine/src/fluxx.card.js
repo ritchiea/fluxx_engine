@@ -498,9 +498,11 @@
       var $area   = $(e.target),
           filters = _.arrayToObject($area.fluxxCardAreaData(), function(entry) {
                             var entry = _.clone(entry);
-                            var match = entry.name.match(/\[(\w+)\]/);
-                            if (match) {
-                              entry.name = match[1];
+                            if (entry.name) {                         
+                              var match = entry.name.match(/\[(\w+)\]/);
+                              if (match) {
+                                entry.name = match[1];
+                              }
                             }
                             return entry;
                           }),
