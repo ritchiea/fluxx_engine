@@ -160,6 +160,7 @@
 
   $(window).ajaxComplete(function(e, xhr, options) {
     $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + unescape(_.objectWithoutEmpty(options.data)) + ')');
+    $(window).resize();
   });
   
   var keyboardShortcuts = {
@@ -217,5 +218,3 @@
 jQuery(function($){
   $.my.body = $('body');
 });
-
-
