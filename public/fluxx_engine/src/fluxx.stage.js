@@ -240,9 +240,25 @@
           'a.delete-parent': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              var $elem = $(this),
-                $parent = $elem.parents($elem.attr('data-parent')).first();
+              var $elem = $(this);
+              $parent = $elem.parents($elem.attr('data-parent')).first();
               if (!$parent.length) return;
+              
+              // Take the element that contains the hidden destroy element and prepend it to the parent and set the value to 1
+              var deleteFlagElement = $($elem.attr('data-hidden-destroy'), $parent);
+              if(deleteFlagElement != null) {
+                var clonedDeleteFlagElement = deleteFlagElement.clone();
+                $parent.parents().first().prepend(clonedDeleteFlagElement);
+                clonedDeleteFlagElement.val(1);
+              }
+              
+              // Take the element that contains the model ID and clone it and prepend it to the parent
+              var hiddenIdElement = $($elem.attr('data-hidden-id'), $parent);
+              if(hiddenIdElement != null) {
+                var clonedhiddenIdElement = hiddenIdElement.clone();
+                $parent.parents().first().prepend(clonedhiddenIdElement);
+              }
+              
               $parent.remove();
             }
           ],
