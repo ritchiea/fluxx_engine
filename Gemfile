@@ -16,8 +16,8 @@ gem 'faker', '>=0.3.1'
 gem 'rcov'
 gem 'thinking-sphinx', '2.0.0.rc1', :require => 'thinking_sphinx'
 
-gem "acts_as_audited", :git => "git://github.com/ehansen486/acts_as_audited.git"
-gem "aasm", :git => "http://github.com/rubyist/aasm.git"
+gem "aasm", '2.2.0'
+gem 'acts_as_audited_rails3', '>=1.1.1.5'
 
 if RUBY_VERSION < '1.9'
   gem "ruby-debug", ">= 0.10.3"
