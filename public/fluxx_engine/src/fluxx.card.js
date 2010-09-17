@@ -640,6 +640,7 @@
           _.bind($.fn.resizeFluxxCard, options.area.fluxxCard()),
           options.callback
         ));
+
       options.area
         .unbind('update.fluxx.area')
         .bind('update.fluxx.area', _.callAll(

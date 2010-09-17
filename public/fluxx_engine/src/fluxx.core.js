@@ -36,7 +36,7 @@
             filled.push(item);
         });
       } else if ($.isPlainObject(object)) {
-      var filled = {};
+        var filled = {};
         _.each(_.keys(object), function(key) {
           if (! _.isEmpty(object[key])) {
             filled[key] = object[key];
