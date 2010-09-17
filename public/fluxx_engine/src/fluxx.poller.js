@@ -96,10 +96,12 @@
             var doPoll = _.bind(function(){
               $.fluxx.log("this.last_id = " + this.last_id + ' which is NaN? ' + _.isNaN(this.last_id));
               $.getJSON(this.url, (!_.isNaN(this.last_id) ? {last_id: this.last_id} : {}), _.bind(function(data, status){
-                this.last_id = parseInt(data.last_id);
-                $.cookie('last_id', this.last_id);
-                this.message(data, status);
-                this._poll();
+                if (typeof data != 'undefined' && data) {
+                  this.last_id = parseInt(data.last_id);
+                  $.cookie('last_id', this.last_id);
+                  this.message(data, status);
+                  this._poll();
+                }
               }, this));
             }, this);
             this._timeoutID = setTimeout(doPoll, i);

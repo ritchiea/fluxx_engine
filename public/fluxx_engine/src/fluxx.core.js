@@ -29,13 +29,21 @@
       return intersect;
     },
     objectWithoutEmpty: function (object) {
+      if ($.isArray(object)) {
+        var filled = [];
+        _.each(object, function(item) {
+          if (!_.isEmpty(item["value"]))
+            filled.push(item);
+        });
+      } else if ($.isPlainObject(object)) {
       var filled = {};
-      if (!$.isPlainObject(object)) return object;
-      _.each(_.keys(object), function(key) {
-        if (! _.isEmpty(object[key])) {
-          filled[key] = object[key];
-        }
-      });
+        _.each(_.keys(object), function(key) {
+          if (! _.isEmpty(object[key])) {
+            filled[key] = object[key];
+          }
+        });
+      } else
+        return object;
       return filled;
     },
     arrayToObject: function (list, filter) {
@@ -160,7 +168,6 @@
 
   $(window).ajaxComplete(function(e, xhr, options) {
     $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + unescape(_.objectWithoutEmpty(options.data)) + ')');
-    $(window).resize();
   });
   
   var keyboardShortcuts = {

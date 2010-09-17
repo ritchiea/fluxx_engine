@@ -1,6 +1,7 @@
 (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete) {
+      $.fluxx.log("**> addFluxxCard");
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults,options,onComplete);
       return this.each(function(){
         var $card = $.fluxx.card.ui.call($.my.hand, options)
@@ -67,6 +68,7 @@
       });
     },
     serializeFluxxCard: function(){
+      $.fluxx.log("**> serializeFluxxCard");
       var $card = $(this).first();
       return {
         title:   $card.fluxxCardTitle(),
@@ -75,6 +77,7 @@
       };
     },
     subscribeFluxxCardToUpdates: function () {
+      $.fluxx.log("**> subscribeFluxxCardToUpdates");
       return this.each(function(){
         if (!$.fluxx.realtime_updates) return;
 
@@ -103,9 +106,11 @@
       });
     },
     fluxxCardUpdatesAvailable: function () {
+      $.fluxx.log("**> fluxxCardUpdatesAvailable");
       return this.data('updates_available') || 0;
     },
     updateFluxxCard: function (e, nUpdates, calling) {
+      $.fluxx.log("**> updateFluxxCard");
       var $card = $(this);
       var updatesAvailable = $card.fluxxCardUpdatesAvailable() + nUpdates; 
       if (updatesAvailable < 0) updatesAvailable = 0;
@@ -122,6 +127,7 @@
       return this;
     },
     removeFluxxCard: function(options, onComplete) {
+      $.fluxx.log("**> removeFluxxCard");
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       this.each(function(){
         $(this)
@@ -211,9 +217,14 @@
           )
           +
           $('.drawer', $card).parent().filter(':visible').outerWidth(true);
-
-        $card.width(cardWidth);
-
+        if (cardWidth == 0) {
+          var refresh = function () {
+            $(window).resize();
+          };
+          setTimeout(refresh, 5000);
+        } else {
+          $card.width(cardWidth);
+        }
         _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
     },
@@ -235,6 +246,7 @@
         || this.data('partial', this.parents('.partial:eq(0)').andSelf().first()).data('partial');
     },
     fluxxCardAreaRequest: function () {
+      $.fluxx.log("**> fluxxCardAreaRequest");
       var history = this.fluxxCardArea().data('history');
       if (_.isEmpty(history)) return null;
       var req = history[0];
@@ -244,6 +256,7 @@
       };
     },
     refreshAreaPartial: function(options){
+      $.fluxx.log("**> refreshAreaPartial");
       var options = $.fluxx.util.options_with_callback({animate: true},options);
       return this.each(function(){
         var $partial = $(this).fluxxCardPartial();
@@ -271,6 +284,7 @@
       });
     },
     refreshCardArea: function(){
+      $.fluxx.log("**> refreshCardArea");
       return this.each(function(){
         var $area = $(this).fluxxCardArea();
         $.fluxx.log(":::refreshCardArea:::", '  '+$area.fluxxCard().attr('id'), '    ' + $area.attr('class'));
@@ -365,6 +379,7 @@
       return this;
     },
     openListingFilters: function() {
+      $.fluxx.log("**> openListingFilters");
       return this.each(function(){
         var $card    = $(this).fluxxCard(),
             $listing = $card.fluxxCardListing();
@@ -386,8 +401,13 @@
             if (obj.value) {
               var selector = '[name*=' + obj.name + ']';
               var $elem = $(selector, $filters);
-              $.fluxx.log("---", selector, $elem.length, obj.value);
               $elem.val(obj.value);
+              $(selector + ":checkbox", $filters)
+                .attr('checked', true)
+                .change(function () {
+                  $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
+                });
+              $.fluxx.log("---", selector, $elem.length, obj.value);
             }
           });
         });
@@ -483,6 +503,7 @@
       });
     },
     fluxxAreaUpdate: function(e, updates) {
+      $.fluxx.log("**> fluxxAreaUpdate");
       var $area     = $(e.target),
           seen      = $area.data('updates_seen') || [],
           areaType  = $area.attr('data-type'),
@@ -495,6 +516,7 @@
       $area.trigger(nextEvent, [updates]);
     },
     fluxxListingUpdate: function(e, updates) {
+      $.fluxx.log("**> fluxxListingUpdate");
       var $area   = $(e.target),
           filters = _.arrayToObject($area.fluxxCardAreaData(), function(entry) {
                             var entry = _.clone(entry);
@@ -522,9 +544,10 @@
       $area.fluxxCard().trigger('update.fluxx.card', [_.size(model_ids), 'fluxxListingUpdate']);
     },
     getFluxxListingUpdate: function (e) {
+      $.fluxx.log("**> getFluxxListingUpdate");
       var $area = $(this);
       var updates = $area.data('updates_seen');
-      //if (_.isEmpty(updates)) return;
+      if (_.isEmpty(updates)) return;
       var req  = $area.fluxxCardAreaRequest();
       $.extend(
         true,
@@ -555,6 +578,7 @@
           }
         }
       );
+      req.data = _.objectWithoutEmpty(req.data);
       // FLX-27
       // Filtered cards are randomly showing records as new (orange line) when updated.
       // The req.data object is an array of objects ({name: "xxx", value: "xxx"}) when a filter is set
@@ -563,10 +587,15 @@
         req.data.push({name: 'id', value: updates});
       }
       $.ajax(req)
+      if (req.data instanceof Array) {
+        req.data.pop();
+        req.data.pop();
+      }
     },
     
     /* Data Loaders */
     fluxxCardLoadContent: function (options, onComplete) {
+      $.fluxx.log("**> fluxxCardLoadContent");
       var defaults = {
         area: undefined,
         type: 'GET',
@@ -635,7 +664,6 @@
         success: function (data, status, xhr) {
           if (xhr.status == 201) {
             var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
-            $.fluxx.log(opts);
             options.area.fluxxCardLoadContent(opts);
           } else {
             options.area.show();
@@ -683,11 +711,13 @@
     },
     
     fluxxCardLoadListing: function (options, onComplete) {
+      $.fluxx.log("**> fluxxCardLoadListing");
       var options = $.fluxx.util.options_with_callback({area: this.fluxxCardListing()},options,onComplete);
       return this.fluxxCardLoadContent(options);
     },
     
     fluxxCardLoadDetail: function(options, onComplete) {
+      $.fluxx.log("**> fluxxCardLoadDetail");
       var options = $.fluxx.util.options_with_callback({area: this.fluxxCardDetail()},options,onComplete);
       return this.fluxxCardLoadContent(options);
     }
