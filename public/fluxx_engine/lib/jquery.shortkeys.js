@@ -93,4 +93,4 @@ jQuery.fn.shortkeys = jQuery.fn.keys = function (obj, settings) {
   jQuery.extend(this.wackyKeys, this.settings.moreKeys);
 
   return this;
-}
+};
