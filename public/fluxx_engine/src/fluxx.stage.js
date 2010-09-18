@@ -44,7 +44,7 @@
     },
     
     addFluxxCards: function(options, callback) {
-      var options = $.fluxx.util.options_with_callback({}, options, callback);
+      var options = $.fluxx.util.options_with_callback({fromClientStore: true}, options, callback);
       if (!options.cards.length) {
         options.callback();
         return this;

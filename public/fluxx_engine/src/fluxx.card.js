@@ -4,8 +4,7 @@
       $.fluxx.log("**> addFluxxCard");
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults,options,onComplete);
       return this.each(function(){
-        var $card = $.fluxx.card.ui.call($.my.hand, options)
-          .hide();
+        var $card = $.fluxx.card.ui.call($.my.hand, options).hide();
         options.position($card);
         $card
           .data({
@@ -21,7 +20,6 @@
               _.bind($.fn.resizeFluxxCard, $card),
               _.bind($.fn.editableCardTitle, $card),
               _.bind($.fn.subscribeFluxxCardToUpdates, $card),
-              _.bind($.fn.positionDashboard, $card),
               options.callback
             ),
             'load.fluxx.card': options.load,
@@ -46,6 +44,7 @@
             $card.trigger('complete.fluxx.card');
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
             $card.trigger('lifetimeComplete.fluxx.card');
+            if (!options.hasOwnProperty("fromClientStore")) $.fn.positionDashboard.call();
           })
         });
         $.my.cards = $('.card').resizeFluxxCard();
@@ -106,7 +105,6 @@
       });
     },
     positionDashboard: function () {
-      var $card = $(this).last();
       if (!$.fluxx.dashboard.firstLoad) {
         $(window).scrollLeft($(window).width() + 10000); 
       }
@@ -158,6 +156,7 @@
     },
     resizeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
+      
       if (!$.my.hand) return this;
       return this.each(function() {
         var $card = $(this).fluxxCard();
@@ -205,6 +204,7 @@
               );
             })
           });
+        
         var $tabs = $('.tabs', $card);
         $tabs.width($('.drawer', $card).height());
         var tabsWidth = $tabs.width(), innerWidth = _.addUp($('.label', $tabs), 'outerWidth', true);
@@ -226,7 +226,7 @@
           var refresh = function () {
             $(window).resize();
           };
-          setTimeout(refresh, 2000);
+          setTimeout(refresh, 5000);
         } else {
           $card.width(cardWidth);
         }
@@ -234,7 +234,7 @@
         _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
     },
-    
+
     /* Accessors */
     fluxxCard: function() {
       return this.data('card')
@@ -750,7 +750,6 @@
           'class': 'card',
           id: function(){return _.uniqueId('fluxx-card-')}
         },
-        sized: false,
         ui: function(options) {
           return $('<li>')
             .attr($.fluxx.card.attrs)
