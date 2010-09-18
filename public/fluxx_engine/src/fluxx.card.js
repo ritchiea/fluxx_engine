@@ -108,8 +108,7 @@
     positionDashboard: function () {
       var $card = $(this).last();
       if (!$.fluxx.dashboard.firstLoad) {
-        $(window).scrollLeft($(window).width() + 10000);
-        $.fluxx.log("********************* Going to " + $(window).width() + 10000); 
+        $(window).scrollLeft($(window).width() + 10000); 
       }
     },
     fluxxCardUpdatesAvailable: function () {
