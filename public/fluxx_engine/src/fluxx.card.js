@@ -21,6 +21,7 @@
               _.bind($.fn.resizeFluxxCard, $card),
               _.bind($.fn.editableCardTitle, $card),
               _.bind($.fn.subscribeFluxxCardToUpdates, $card),
+              _.bind($.fn.positionDashboard, $card),
               options.callback
             ),
             'load.fluxx.card': options.load,
@@ -68,7 +69,6 @@
       });
     },
     serializeFluxxCard: function(){
-      $.fluxx.log("**> serializeFluxxCard");
       var $card = $(this).first();
       return {
         title:   $card.fluxxCardTitle(),
@@ -104,6 +104,13 @@
           });
         });
       });
+    },
+    positionDashboard: function () {
+      var $card = $(this).last();
+      if (!$.fluxx.dashboard.firstLoad) {
+        $(window).scrollLeft($(window).width() + 10000);
+        $.fluxx.log("********************* Going to " + $(window).width() + 10000); 
+      }
     },
     fluxxCardUpdatesAvailable: function () {
       $.fluxx.log("**> fluxxCardUpdatesAvailable");
@@ -153,8 +160,7 @@
     resizeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       if (!$.my.hand) return this;
-
-      return this.each(function(){
+      return this.each(function() {
         var $card = $(this).fluxxCard();
         $('.card-box', $card)
           .height(
@@ -221,10 +227,11 @@
           var refresh = function () {
             $(window).resize();
           };
-          setTimeout(refresh, 5000);
+          setTimeout(refresh, 2000);
         } else {
           $card.width(cardWidth);
         }
+        
         _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
     },
@@ -246,7 +253,6 @@
         || this.data('partial', this.parents('.partial:eq(0)').andSelf().first()).data('partial');
     },
     fluxxCardAreaRequest: function () {
-      $.fluxx.log("**> fluxxCardAreaRequest");
       var history = this.fluxxCardArea().data('history');
       if (_.isEmpty(history)) return null;
       var req = history[0];
@@ -745,6 +751,7 @@
           'class': 'card',
           id: function(){return _.uniqueId('fluxx-card-')}
         },
+        sized: false,
         ui: function(options) {
           return $('<li>')
             .attr($.fluxx.card.attrs)

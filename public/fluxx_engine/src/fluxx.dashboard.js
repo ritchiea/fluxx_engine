@@ -54,7 +54,7 @@
         $dashboard.data('dashboard', dashboard).parent().removeClass('saving');
       });
       $.fluxx.log($dashboard.data('dashboard'), $.my.stage.serializeFluxxCards());
-
+      $.fluxx.dashboard.firstLoad = false;
       return this;
     }
   });
@@ -73,6 +73,7 @@
         }
       },
       dashboard: {
+        firstLoad: true,
         attrs: {
         },
         defaults: {
