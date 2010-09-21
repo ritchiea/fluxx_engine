@@ -46,7 +46,7 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .body a, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .body a, #fluxx #stage #card-table #hand .card .card-box .card-body .modal .body a, #fluxx #stage #card-table #hand .card .card-box .card-body .filters .body a { color: black; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .footer, #fluxx #stage #card-table #hand .card .card-box .card-body .modal .footer, #fluxx #stage #card-table #hand .card .card-box .card-body .filters .footer { background-color: #666666; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .footer a, #fluxx #stage #card-table #hand .card .card-box .card-body .detail .footer a, #fluxx #stage #card-table #hand .card .card-box .card-body .modal .footer a, #fluxx #stage #card-table #hand .card .card-box .card-body .filters .footer a { color: white; }
-#fluxx #stage #card-table #hand .card .card-box .card-body .listing { width: 240px; }
+#fluxx #stage #card-table #hand .card .card-box .card-body .listing { width: 336px; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header .actions { list-style: none; padding: 0; margin: 0; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header .actions li { list-style: none; margin: 0; padding: 0; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .listing .header .actions li { display: inline-block; *display: inline; zoom: 1; }

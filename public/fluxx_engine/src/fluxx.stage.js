@@ -144,10 +144,7 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              $('.drawer', $elem.fluxxCard()).parent().addClass('empty');
-              $elem.fluxxCardDetail().fadeOut('fast',function(){
-                $elem.fluxxCard().resizeFluxxCard();
-              });
+              $elem.closeDetail();
             }
           ],
           'a.new-listing': [
@@ -492,7 +489,7 @@
           'a.close-card': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              $(this).removeFluxxCard();
+              $(this).removeFluxxCard(); 
             }
           ],
           'a.to-detail': ['click', function (e) {

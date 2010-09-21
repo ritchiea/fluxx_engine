@@ -1,7 +1,6 @@
 (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete) {
-      $.fluxx.log("**> addFluxxCard");
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults,options,onComplete);
       return this.each(function(){
         var $card = $.fluxx.card.ui.call($.my.hand, options).hide();
@@ -17,7 +16,6 @@
             'complete.fluxx.card': _.callAll(
               $.fluxx.util.itEndsHere,
               function(){$card.fadeIn('slow');},
-              _.bind($.fn.resizeFluxxCard, $card),
               _.bind($.fn.editableCardTitle, $card),
               _.bind($.fn.subscribeFluxxCardToUpdates, $card),
               options.callback
@@ -44,10 +42,11 @@
             $card.trigger('complete.fluxx.card');
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
             $card.trigger('lifetimeComplete.fluxx.card');
+            _.bind($.fn.resizeFluxxCard, $card)();
             if (!options.hasOwnProperty("fromClientStore")) $.fn.positionDashboard.call();
           })
         });
-        $.my.cards = $('.card').resizeFluxxCard();
+        $.my.cards = $('.card'); //.resizeFluxxCard();
       });
     },
     editableCardTitle: function() {
@@ -136,19 +135,6 @@
       this.each(function(){
         $(this)
           .fluxxCard()
-          .bind({
-            'unload.fluxx.card': _.callAll(
-              options.callback,
-              function(e){ $(e.target).fadeOut(
-                'slow',
-                function(){
-                  $(this).remove();
-                  $.my.cards = $('.card');
-                  $.my.stage.resizeFluxxStage();
-                });
-              }
-            )
-          })
           .trigger('close.fluxx.card')
           .trigger('unload.fluxx.card');
       });
@@ -158,8 +144,11 @@
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       
       if (!$.my.hand) return this;
+      $.fluxx.log(">>>>>>>>>>>>>>>>>>>>>>>> resizeFluxCard");
       return this.each(function() {
         var $card = $(this).fluxxCard();
+        var i= 1;
+        $.fluxx.log("*** Resize card " + i++);
         $('.card-box', $card)
           .height(
             $.my.cards.height(
@@ -176,7 +165,7 @@
                 'outerWidth', true
               ) + 2
             );
-          
+
             $('.area', $cardBody).height(
               $cardBody.height(
                 $cardBody.parent().innerHeight() -
@@ -222,19 +211,31 @@
           )
           +
           $('.drawer', $card).parent().filter(':visible').outerWidth(true);
-        if (cardWidth == 0) {
+        
+        //TODO: This is a hacky punt
+        // When fluxx is in UI DEV MODE cards will not properly
+        // render in safari when the application is first loaded.
+        // This behavior does not happen in FireFox.
+        if (cardWidth < 10 && cardWidth > 0) {
           var refresh = function () {
             $(window).resize();
           };
-          setTimeout(refresh, 5000);
+          setTimeout(refresh, 3000);
         } else {
           $card.width(cardWidth);
+          _.bind($.fn.resizeFluxxStage, $.my.stage)();
         }
-        
-        _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
     },
-
+    closeDetail: function() {
+      var $card = this.fluxxCard();
+      $('.drawer', $card).parent().addClass('empty');
+      $card.fluxxCardDetail().fadeOut('fast',function(){
+        $card.fluxxCard().resizeFluxxCard();
+      });      
+      $card.fluxxCardDetail().fluxxCardArea().data('history')[0] = {};
+      $card.saveDashboard();
+    },
     /* Accessors */
     fluxxCard: function() {
       return this.data('card')
@@ -282,6 +283,7 @@
           $.ajax({
             url: $partial.attr('data-src'),
             success: function(data, status, xhr){
+            $.fluxx.log(data);
               $partial.html(data);
             }
           });
@@ -591,7 +593,7 @@
         req.data.push({name: 'find_by_id', value: true});
         req.data.push({name: 'id', value: updates});
       }
-      $.ajax(req)
+      $.ajax(req);
       if (req.data instanceof Array) {
         req.data.pop();
         req.data.pop();
@@ -672,7 +674,7 @@
             var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
             options.area.fluxxCardLoadContent(opts);
           } else {
-            options.area.show();
+            options.area.css('display', 'inline-block')
             var $document = $('<div/>').html(data);
             $('.header', options.area).html(($('#card-header', $document).html() || options.header).trim());
             $('.body',   options.area).html(($('#card-body',   $document).html() || options.body).trim());
@@ -736,9 +738,19 @@
           title: 'New Card',
           load: $.noop,
           close: $.noop,
-          unload: $.noop,
+          unload: 
+            function($card) {
+              if ($card) {
+                $(this).fadeOut('slow', function() { 
+                  $(this).remove();
+                  $.my.cards = $('.card');
+                  $.my.stage.resizeFluxxStage();
+                  $(this).saveDashboard();
+                })
+              }
+            },
           update: $.noop,
-          position: function($card) { $card.appendTo($.my.hand) },
+          position: function($card) { $card.appendTo($.my.hand); },
           listing: {
             url: null
           },
