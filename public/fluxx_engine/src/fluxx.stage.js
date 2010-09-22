@@ -41,10 +41,9 @@
         .bind('resize.fluxx.stage', options.callback)
         .trigger('resize.fluxx.stage');
       return this;
-    },
-    
+    },    
     addFluxxCards: function(options, callback) {
-      var options = $.fluxx.util.options_with_callback({fromClientStore: true}, options, callback);
+      var options = $.fluxx.util.options_with_callback({}, options, callback);
       if (!options.cards.length) {
         options.callback();
         return this;
@@ -54,7 +53,7 @@
           if (i == options.cards.length - 1) {
             options.callback();
           }
-        });
+        }, true);
       });
       return this;
     },
@@ -583,7 +582,7 @@
     '</div>'
   ])};
   $.fluxx.stage.ui.cardTable = [
-    '<div id="card-table">',
+    '<div id="card-table">',    
       '<ul id="hand">',
       '</ul>',
     '</div>'

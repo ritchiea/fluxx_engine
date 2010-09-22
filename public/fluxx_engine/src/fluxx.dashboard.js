@@ -53,7 +53,7 @@
       $.fluxx.storage.updateStored({store: dashboard}, function(dashboard){
         $dashboard.data('dashboard', dashboard).parent().removeClass('saving');
       });
-      $.fluxx.log($dashboard.data('dashboard'), $.my.stage.serializeFluxxCards());
+//      $.fluxx.log($dashboard.data('dashboard'), $.my.stage.serializeFluxxCards());
 
       return this;
     }
@@ -77,6 +77,7 @@
         },
         defaults: {
         },
+        lastSave: {},
         ui: function(optoins) {
           return $('<li>')
             .addClass('dashboard')
@@ -111,8 +112,8 @@
   
   $('.area').live('lifetimeComplete.fluxx.area', function(e) {
     var $area = $(this).fluxxCardArea();
-    if ($area.data('history')[0].type.toUpperCase() == 'GET' && ($area.hasClass('detail') || $area.hasClass('listing'))) {
-      $(this).saveDashboard();
+    if (($area.data('history')[0].type.toUpperCase() == 'GET' && ($area.hasClass('detail') || $area.hasClass('listing'))) && !$(this).fluxxCard().fromClientStore()) {
+        $(this).saveDashboard();
     }
   });
   $('.card').live('unload.fluxx.area', function(e) { $(this).saveDashboard(); });

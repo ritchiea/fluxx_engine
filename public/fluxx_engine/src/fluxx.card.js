@@ -1,7 +1,7 @@
 (function($){
   $.fn.extend({
-    addFluxxCard: function(options, onComplete) {
-      var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults,options,onComplete);
+    addFluxxCard: function(options, onComplete, fromClientStore) {
+      var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
       return this.each(function(){
         var $card = $.fluxx.card.ui.call($.my.hand, options).hide();
         options.position($card);
@@ -10,7 +10,8 @@
             listing: $('.listing:eq(0)',   $card),
             detail:  $('.detail:eq(0)',    $card),
             box:     $('.card-box:eq(0)',  $card),
-            body:    $('.card-body:eq(0)', $card)
+            body:    $('.card-body:eq(0)', $card),
+            fromClientStore: fromClientStore
           })
           .bind({
             'complete.fluxx.card': _.callAll(
@@ -26,7 +27,11 @@
             'update.fluxx.card': _.callAll(
               _.bind($.fn.updateFluxxCard, $card),
               options.update
-            )
+            ),
+            'click':
+              function() {
+                $card.data('fromClientStore', false);
+              }
           });
         $('.updates', $card).hide();
         $card.trigger('load.fluxx.card');
@@ -43,7 +48,10 @@
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
             $card.trigger('lifetimeComplete.fluxx.card');
             _.bind($.fn.resizeFluxxCard, $card)();
-            if (!options.hasOwnProperty("fromClientStore")) $.fn.positionDashboard.call();
+            
+            //TODO : remove
+//            if (!options.hasOwnProperty("fromClientStore")) 
+//              $.fn.positionDashboard.call();
           })
         });
         $.my.cards = $('.card'); //.resizeFluxxCard();
@@ -142,9 +150,8 @@
     },
     resizeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
-      
-      if (!$.my.hand) return this;
-      $.fluxx.log(">>>>>>>>>>>>>>>>>>>>>>>> resizeFluxCard");
+      if (!$.my.hand || $.my.hand.width() == 0) return this;
+
       return this.each(function() {
         var $card = $(this).fluxxCard();
         var i= 1;
@@ -207,24 +214,11 @@
               .children()
               .filter(':visible')
               .filter(function(){ return $(this).css('position') != 'absolute'; }),
-            'outerWidth', false
-          )
-          +
-          $('.drawer', $card).parent().filter(':visible').outerWidth(true);
+            'outerWidth', false) + $('.drawer', $card).parent().filter(':visible').outerWidth(true);
         
-        //TODO: This is a hacky punt
-        // When fluxx is in UI DEV MODE cards will not properly
-        // render in safari when the application is first loaded.
-        // This behavior does not happen in FireFox.
-        if (cardWidth < 10 && cardWidth > 0) {
-          var refresh = function () {
-            $(window).resize();
-          };
-          setTimeout(refresh, 3000);
-        } else {
           $card.width(cardWidth);
           _.bind($.fn.resizeFluxxStage, $.my.stage)();
-        }
+
       });
     },
     closeDetail: function() {
@@ -283,7 +277,6 @@
           $.ajax({
             url: $partial.attr('data-src'),
             success: function(data, status, xhr){
-            $.fluxx.log(data);
               $partial.html(data);
             }
           });
@@ -336,6 +329,9 @@
     },
     fluxxCardBody: function () {
       return this.fluxxCard().data('body');
+    },
+    fromClientStore: function (clearFlag) {
+      return this.fluxxCard().data('fromClientStore');
     },
     fluxxAreaSettings: function (options) {
       var options = $.fluxx.util.options_with_callback({settings: $()},options);
@@ -690,8 +686,7 @@
             }
             options.area
               .fluxxAreaSettings({settings: $('#card-settings', $document)})
-              .trigger('complete.fluxx.area')
-              .trigger('lifetimeComplete.fluxx.area');
+              .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
           }
         },
         error: function(xhr, status, error) {
