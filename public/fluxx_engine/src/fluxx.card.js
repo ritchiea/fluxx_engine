@@ -204,7 +204,7 @@
         var $tabs = $('.tabs', $card);
         $tabs.width($('.drawer', $card).height());
         var tabsWidth = $tabs.width(), innerWidth = _.addUp($('.label', $tabs), 'outerWidth', true);
-        if ($tabs.width() < _.addUp($('.label', $tabs), 'outerWidth', true)) {
+        if (($tabs.width() < _.addUp($('.label', $tabs), 'outerWidth', true)) && $tabs.is(':visible')) {
           $('.info .scroller').show();
         } else {
           $('.info .scroller').hide();
