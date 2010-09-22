@@ -13,7 +13,7 @@
             _.bind($.fn.setupFluxxPolling, $.my.stage),
             _.bind($.fn.installFluxxDecorators, $.my.stage),
             _.bind($.fn.addFluxxCards, $.my.hand, {cards: $.fluxx.config.cards}),
-          	//$.fancybox.init,
+            //$.fancybox.init,
             options.callback
           )
         });
@@ -44,7 +44,7 @@
     },
     
     addFluxxCards: function(options, callback) {
-      var options = $.fluxx.util.options_with_callback({}, options, callback);
+      var options = $.fluxx.util.options_with_callback({fromClientStore: true}, options, callback);
       if (!options.cards.length) {
         options.callback();
         return this;
@@ -144,10 +144,7 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              $('.drawer', $elem.fluxxCard()).parent().addClass('empty');
-              $elem.fluxxCardDetail().fadeOut('fast',function(){
-                $elem.fluxxCard().resizeFluxxCard();
-              });
+              $elem.closeDetail();
             }
           ],
           'a.new-listing': [
@@ -243,6 +240,22 @@
               var $elem = $(this),
                 $parent = $elem.parents($elem.attr('data-parent')).first();
               if (!$parent.length) return;
+              
+              // Take the element that contains the hidden destroy element and prepend it to the parent and set the value to 1
+              var deleteFlagElement = $($elem.attr('data-hidden-destroy'), $parent);
+              if(deleteFlagElement != null) {
+                var clonedDeleteFlagElement = deleteFlagElement.clone();
+                $parent.parents().first().prepend(clonedDeleteFlagElement);
+                clonedDeleteFlagElement.val(1);
+              }
+              
+              // Take the element that contains the model ID and clone it and prepend it to the parent
+              var hiddenIdElement = $($elem.attr('data-hidden-id'), $parent);
+              if(hiddenIdElement != null) {
+                var clonedhiddenIdElement = hiddenIdElement.clone();
+                $parent.parents().first().prepend(clonedhiddenIdElement);
+              }              
+
               $parent.remove();
             }
           ],
@@ -476,7 +489,7 @@
           'a.close-card': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              $(this).removeFluxxCard();
+              $(this).removeFluxxCard(); 
             }
           ],
           'a.to-detail': ['click', function (e) {

@@ -29,13 +29,21 @@
       return intersect;
     },
     objectWithoutEmpty: function (object) {
-      var filled = {};
-      if (!$.isPlainObject(object)) return object;
-      _.each(_.keys(object), function(key) {
-        if (! _.isEmpty(object[key])) {
-          filled[key] = object[key];
-        }
-      });
+      if ($.isArray(object)) {
+        var filled = [];
+        _.each(object, function(item) {
+          if (!_.isEmpty(item["value"]))
+            filled.push(item);
+        });
+      } else if ($.isPlainObject(object)) {
+        var filled = {};
+        _.each(_.keys(object), function(key) {
+          if (! _.isEmpty(object[key])) {
+            filled[key] = object[key];
+          }
+        });
+      } else
+        return object;
       return filled;
     },
     arrayToObject: function (list, filter) {
@@ -160,11 +168,11 @@
 
   $(window).ajaxComplete(function(e, xhr, options) {
     $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + unescape(_.objectWithoutEmpty(options.data)) + ')');
-    $(window).resize();
   });
   
   var keyboardShortcuts = {
     'Space+c': ['Reload Stylesheets', function() {
+      $.fluxx.log('Reloading Stylesheets');
       $('link[type="text/css"]').each(function(){
         var $l=$(this),$m=$l.clone();
         $l.remove();
@@ -174,6 +182,7 @@
       });
     }],
     'Space+j': ['Reload JavaScript', function() {
+      $.fluxx.log('Reloading JavaScript');
       $('script[src]').each(function(){
         var $l=$(this),$m=$l.clone();
         $l.remove();
@@ -181,6 +190,12 @@
           .attr('src', $m.attr('src') + _.uniqueId())
           .appendTo($('head'));
       });
+    }],
+    'Space+u': ['Force update', function() {
+      var rtu = $.fluxx.realtime_updates;
+      if (!rtu) return;
+      $.fluxx.log('polling');
+      rtu.poll();
     }],
     'Space+m': ['Show $.my cache', function() {
       $.fluxx.log('--- $.my CACHE BEGIN ---');

@@ -35,6 +35,11 @@
         .unbind('focusin', this.start)
         .unbind('focusout', this.stop);*/
     },
+    poll: function () {
+      this._poll(0);
+    },
+    removeEventListener: function () {
+    },
     message: function (data, status) {
       ('update.fluxx.poller')
       this.$.trigger('update.fluxx.poller', data, status);
@@ -85,18 +90,21 @@
             _.bindAll(this, 'start', 'stop', '_poll');
             this.last_id = parseInt($.cookie('last_id'));
           },
-          _poll: function () {
+          _poll: function (intervalOverride) {
             if (this.state == S_OFF) return;
+            var i = (typeof(intervalOverride) == 'number' ? intervalOverride : this.interval);
             var doPoll = _.bind(function(){
               $.fluxx.log("this.last_id = " + this.last_id + ' which is NaN? ' + _.isNaN(this.last_id));
               $.getJSON(this.url, (!_.isNaN(this.last_id) ? {last_id: this.last_id} : {}), _.bind(function(data, status){
-                this.last_id = parseInt(data.last_id);
-                $.cookie('last_id', this.last_id);
-                this.message(data, status);
-                this._poll();
+                if (typeof data != 'undefined' && data) {
+                  this.last_id = parseInt(data.last_id);
+                  $.cookie('last_id', this.last_id);
+                  this.message(data, status);
+                  this._poll();
+                }
               }, this));
             }, this);
-            this._timeoutID = setTimeout(doPoll, this.interval);
+            this._timeoutID = setTimeout(doPoll, i);
           },
           _start: function () {
             this.$
