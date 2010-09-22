@@ -773,7 +773,7 @@
                 '<div class="card-footer">',
                 '</div>',
               '</div>',
-              '<div class="info">',
+              '<div class="info empty">',
                 '<div class="scroller"><span>scroll tabs</span> <a href="#" class="tabs-left">&laquo;</a> <a href="#" class="tabs-right">&raquo;</a></div>',
                 '<ol class="tabs"></ol><ol class="drawer"></ol>',
               '</div>',
