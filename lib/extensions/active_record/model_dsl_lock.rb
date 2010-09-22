@@ -35,40 +35,43 @@ class ActiveRecord::ModelDslLock < ActiveRecord::ModelDsl
 
   protected
   def add_lock_update_attributes model, fluxx_current_user, interval=ActiveRecord::ModelDslLock.lock_time_interval
-    
-    if is_lockable?(model)
-      model.update_attribute_without_log :locked_until, Time.now + interval
-      model.update_attribute_without_log :locked_by_id, fluxx_current_user.id
+    current_model = model.class.find model.id
+    if is_lockable?(current_model)
+      current_model.update_attribute_without_log :locked_until, Time.now + interval
+      current_model.update_attribute_without_log :locked_by_id, fluxx_current_user.id
     end
   end
   
   # Either extend the current lock by ActiveRecord::ModelDslLock.lock_time_interval minutes or add a lock ActiveRecord::ModelDslLock.lock_time_interval from Time.now
   def extend_lock_update_attributes model, fluxx_current_user, extend_interval=ActiveRecord::ModelDslLock.lock_time_interval
-    if is_lockable?(model)
-      do_lock_update_attributes model, fluxx_current_user, extend_interval
+    current_model = model.class.find model.id
+    if is_lockable?(current_model)
+      do_lock_update_attributes current_model, fluxx_current_user, extend_interval
     end
   end
   
   def do_lock_update_attributes model, fluxx_current_user, extend_interval=ActiveRecord::ModelDslLock.lock_time_interval
-    if model.locked_until && model.locked_until > Time.now
-      interval = model.locked_until + extend_interval
-      model.update_attribute_without_log :locked_until, interval
-      model.locked_until = interval
+    current_model = model.class.find model.id
+    if current_model.locked_until && current_model.locked_until > Time.now
+      interval = current_model.locked_until + extend_interval
+      current_model.update_attribute_without_log :locked_until, interval
+      current_model.locked_until = interval
     else
       interval = Time.now + extend_interval
-      model.update_attribute_without_log :locked_until, interval
-      model.locked_until = interval
+      current_model.update_attribute_without_log :locked_until, interval
+      current_model.locked_until = interval
     end
-    model.update_attribute_without_log :locked_by_id, fluxx_current_user.id
-    model.locked_by_id = fluxx_current_user.id
+    current_model.update_attribute_without_log :locked_by_id, fluxx_current_user.id
+    current_model.locked_by_id = fluxx_current_user.id
     
   end
   
   def remove_lock_update_attributes model
-    if is_lockable?(model)
-      model.update_attributes_without_log :locked_until => nil, :locked_by => nil
-      model.locked_until = nil
-      model.locked_by = nil
+    current_model = model.class.find model.id
+    if is_lockable?(current_model)
+      current_model.update_attributes_without_log :locked_until => nil, :locked_by => nil
+      current_model.locked_until = nil
+      current_model.locked_by = nil
     end
   end
   

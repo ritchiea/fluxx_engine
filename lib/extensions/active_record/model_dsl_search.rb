@@ -68,7 +68,13 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     page_clause = grab_param(:page, local_model_request_params, model_request_params, request_params)
     
     modified_search_conditions = if options[:search_conditions] && options[:search_conditions].is_a?(Hash)
-      options[:search_conditions].keys.map{|key| "#{key} = '#{options[:search_conditions][key]}'"}.join ' AND '
+      options[:search_conditions].keys.map do |key| 
+        if options[:search_conditions][key]
+          "#{key} = '#{options[:search_conditions][key]}'"
+        else
+          "#{key} IS NULL"
+        end
+      end.join ' AND '
     else
       options[:search_conditions]
     end
