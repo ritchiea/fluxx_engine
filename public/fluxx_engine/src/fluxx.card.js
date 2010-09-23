@@ -578,11 +578,12 @@
           }
         }
       );
-      req.data = _.objectWithoutEmpty(req.data);
+      
       // FLX-27
       // Filtered cards are randomly showing records as new (orange line) when updated.
       // The req.data object is an array of objects ({name: "xxx", value: "xxx"}) when a filter is set
       if (req.data instanceof Array) {
+        req.data = _.objectWithoutEmpty(req.data);
         req.data.push({name: 'find_by_id', value: true});
         req.data.push({name: 'id', value: updates});
       }
