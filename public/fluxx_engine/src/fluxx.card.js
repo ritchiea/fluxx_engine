@@ -33,6 +33,7 @@
                 $card.data('fromClientStore', false);
               }
           });
+        $.my.dock.addViewPortIcon({ card: $card });
         $('.updates', $card).hide();
         $card.trigger('load.fluxx.card');
         $card.fluxxCardListing().bind({
@@ -48,11 +49,7 @@
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
             $card.data('icon').setViewPortIconStyle({style: $card.fluxxCardIconStyle()});
             $card.trigger('lifetimeComplete.fluxx.card');
-            _.bind($.fn.resizeFluxxCard, $card)();
-            
-            //TODO : remove
-//            if (!options.hasOwnProperty("fromClientStore")) 
-//              $.fn.positionDashboard.call();
+            _.bind($.fn.resizeFluxxCard, $card)();            
           })
         });
         $.my.cards = $('.card'); //.resizeFluxxCard();
@@ -112,10 +109,9 @@
         });
       });
     },
-    positionDashboard: function () {
-      if (!$.fluxx.dashboard.firstLoad) {
-        $(window).scrollLeft($(window).width() + 10000); 
-      }
+    scrollDashboard: function () {
+      var $card = $(this);
+      $.fluxx.log("***********>");
     },
     fluxxCardUpdatesAvailable: function () {
       $.fluxx.log("**> fluxxCardUpdatesAvailable");
@@ -746,7 +742,7 @@
               }
             },
           update: $.noop,
-          position: function($card) { $card.appendTo($.my.hand); },
+          position: function($card) { $card.appendTo($.my.hand); $card.scrollDashboard(); },
           listing: {
             url: null
           },

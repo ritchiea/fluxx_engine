@@ -164,12 +164,9 @@
     $('#stage').live('complete.fluxx.stage', function(e) {
       $.my.footer.addFluxxDock(function(){
         $('.card')
-          .live('load.fluxx.card', function(e){
+          .live('lifetimeComplete.fluxx.area', function(e){
             $.fluxx.log("dock is bound to lifetimeComplete.fluxx.card");
             $.fluxx.util.itEndsWithMe(e);
-            $.my.dock.addViewPortIcon({ 
-              card: $(this)
-            });
           })
          .live('close.fluxx.card', function(e){
             $.fluxx.util.itEndsWithMe(e);
