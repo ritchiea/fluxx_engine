@@ -160,8 +160,12 @@
       logOn: true,
       log: function () {
         if (!$.fluxx.logOn) return;
-        if (! this.logger) this.logger = (console && console.log ? _.bind(console.log, console) : $.noop);
-        _.each(arguments, _.bind(function(a) { this.logger(a) }, this));
+        if (typeof console == 'undefined') {
+          $.fluxx.logOn = false;
+        } else {
+          if (! this.logger) this.logger = (console.log ? _.bind(console.log, console) : $.noop);
+          _.each(arguments, _.bind(function(a) { this.logger(a) }, this));
+        }
       }
     }
   });
