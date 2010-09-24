@@ -569,8 +569,16 @@
           ],
           'a.scroll-to-card': [
             'click', function(e) {
-//              $.fluxx.util.itEndsWithMe(e);
-//              var $elem = $(this);
+              $.fluxx.util.itEndsHere(e);
+              var target = $(this).attr("href");
+              //perform animated scrolling
+              $('html,body').animate(
+              {
+                scrollLeft: $(target).offset().left
+              },2000,function()
+              {
+                location.hash = target;
+              });
             }
           ],
         }
