@@ -13,7 +13,7 @@
             'complete.fluxx.dock': _.callAll(options.callback, $.fluxx.util.itEndsWithMe)
           })
           .trigger('complete.fluxx.dock');
-        $.my.stage.bind('resize.fluxx.stage', $.my.dock.fluxxDockUpdateViewing)
+        $.my.stage.bind('resize.fluxx.stage', $.my.dock.fluxxDockUpdateViewing);
         $(window).scroll($.my.dock.fluxxDockUpdateViewing);
 
         $('.icon', '.dock').live('mouseover mouseout', function(e) {
@@ -169,10 +169,10 @@
     ]);
   };
   $.fluxx.dock.ui.lookingGlass = function (option) {
-    return '<div id="lookingglass"></div>',
+    return '<div id="lookingglass"></div>';
   };
   $.fluxx.dock.ui.icon = function(options) {
-    $.fluxx.log("--- pre-default icon options ---",options)
+    $.fluxx.log("--- pre-default icon options ---",options);
     var options = $.fluxx.util.options_with_callback({
       label: '',
       badge: '',
@@ -182,7 +182,7 @@
       className: 'scroll-to-card',
       type: null
     }, options);
-    $.fluxx.log("--- icon options ---",options)
+    $.fluxx.log("--- icon options ---",options);
     var popup = (
         !_.isNull(options.popup)
       ? [
