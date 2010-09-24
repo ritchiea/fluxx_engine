@@ -46,10 +46,11 @@
     saveDashboard: function(){
       var $dashboard = $('.selected a', $.my.dashboardPicker);
       if ($dashboard.data('locked')) return this;
-      
+
       var dashboard = $dashboard.data('dashboard');
       dashboard.data.cards = $.my.stage.serializeFluxxCards();
       $dashboard.parent().addClass('saving');
+
       $.fluxx.storage.updateStored({store: dashboard}, function(dashboard){
         $dashboard.data('dashboard', dashboard).parent().removeClass('saving');
       });

@@ -132,7 +132,7 @@
       url:   '',
       popup: null,
       openOn: ['hover'],
-      className: null,
+      className: 'scroll-to-card',
       type: null
     }, options);
     $.fluxx.log("--- icon options ---",options)

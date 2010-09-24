@@ -1,6 +1,9 @@
 (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
+      $.fluxx.log("*******> addFluxxCard");
+      if (!options.hasOwnProperty("listing") && !options.hasOwnProperty("detail"))
+        return onComplete.call();
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
       return this.each(function(){
         var $card = $.fluxx.card.ui.call($.my.hand, options).hide();
@@ -73,6 +76,7 @@
       });
     },
     serializeFluxxCard: function(){
+      $.fluxx.log("*******> serializeFluxxCard");
       var $card = $(this).first();
       return {
         title:   $card.fluxxCardTitle(),
