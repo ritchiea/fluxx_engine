@@ -124,7 +124,6 @@
       $glass.width(Math.round(right - left));
       $glass.css({left: left, top: $viewport.offset().top});
       $glass.show();
-      $.fluxx.util.itEndsWithMe(e);
     }
   });
   $.extend(true, {
