@@ -45,8 +45,6 @@
         }
         options.card.data('icon', $icon);
         $icon.data('card', options.card);
-//        if (options.card.fluxxCardIconStyle() == "")
-//          $icon.hide();
       });
     },
     updateIconBadge: function (options) {
@@ -63,7 +61,6 @@
       return this.each(function(){
         var $icon  = $(this);
         $icon.addClass(options.style);
-//        $icon.show();
       });
     }, 
     updateIconLabel: function(options) {
