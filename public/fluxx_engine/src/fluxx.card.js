@@ -55,7 +55,7 @@
             _.bind($.fn.resizeFluxxCard, $card)();            
           })
         });
-        $.my.cards = $('.card'); //.resizeFluxxCard();
+        $.my.cards = $('.card');
       });
     },
     editableCardTitle: function() {
@@ -152,7 +152,6 @@
     resizeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       if (!$.my.hand || $.my.hand.width() == 0) return this;
-
       return this.each(function() {
         var $card = $(this).fluxxCard();
         var i= 1;

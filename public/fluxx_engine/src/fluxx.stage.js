@@ -569,9 +569,8 @@
           ],
           'a.scroll-to-card': [
             'click', function(e) {
-              var $elem = $(this);
-              alert("777777");
-//              $elem.attr('href', $elem.attr('href') + '?' + $.param($elem.fluxxCardAreaData()))
+//              $.fluxx.util.itEndsWithMe(e);
+//              var $elem = $(this);
             }
           ],
         }
