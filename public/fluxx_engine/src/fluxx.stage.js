@@ -572,7 +572,7 @@
               $.fluxx.util.itEndsHere(e);
               var target = $(this).attr("href");
               //perform animated scrolling
-              $('html,body').animate(
+              $('html,body').stop().animate(
               {
                 scrollLeft: $(target).offset().left
               },2000,function()

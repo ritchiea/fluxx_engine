@@ -118,9 +118,9 @@
           return false;
         }
       });
-      $glass.width(Math.round(right - left));
       $glass.css({left: left, top: $viewport.offset().top});
       $glass.show();
+      $glass.width(Math.round(right - left));
     }
   });
   $.extend(true, {
