@@ -50,7 +50,7 @@
           $card.fluxxCardLoadDetail(options.detail, function(){
             $card.trigger('complete.fluxx.card');
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
-            $card.data('icon').setViewPortIconStyle({style: $card.fluxxCardIconStyle()});
+            $card.data('icon').setViewPortIconStyle({style: $card.fluxxCardIconStyle(), scrollTo: !$card.fromClientStore()});
             $card.trigger('lifetimeComplete.fluxx.card');
             _.bind($.fn.resizeFluxxCard, $card)();            
           })

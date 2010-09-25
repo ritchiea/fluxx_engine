@@ -61,6 +61,8 @@
       return this.each(function(){
         var $icon  = $(this);
         $icon.addClass(options.style);
+        if (options.hasOwnProperty("scrollTo") && options.scrollTo)
+          $('a', $icon).click();
       });
     }, 
     updateIconLabel: function(options) {
