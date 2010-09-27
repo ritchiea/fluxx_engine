@@ -1,6 +1,9 @@
 (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
+      $.fluxx.log("*******> addFluxxCard");
+      if (!options.hasOwnProperty("listing") && !options.hasOwnProperty("detail"))
+        return onComplete.call();
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
       return this.each(function(){
         var $card = $.fluxx.card.ui.call($.my.hand, options).hide();
@@ -47,12 +50,12 @@
           $card.fluxxCardLoadDetail(options.detail, function(){
             $card.trigger('complete.fluxx.card');
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
-            $card.data('icon').setViewPortIconStyle({style: $card.fluxxCardIconStyle()});
+            $card.data('icon').setViewPortIconStyle({style: $card.fluxxCardIconStyle(), scrollTo: !$card.fromClientStore()});
             $card.trigger('lifetimeComplete.fluxx.card');
             _.bind($.fn.resizeFluxxCard, $card)();            
           })
         });
-        $.my.cards = $('.card'); //.resizeFluxxCard();
+        $.my.cards = $('.card');
       });
     },
     editableCardTitle: function() {
@@ -73,6 +76,7 @@
       });
     },
     serializeFluxxCard: function(){
+      $.fluxx.log("*******> serializeFluxxCard");
       var $card = $(this).first();
       return {
         title:   $card.fluxxCardTitle(),
@@ -148,7 +152,6 @@
     resizeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       if (!$.my.hand || $.my.hand.width() == 0) return this;
-
       return this.each(function() {
         var $card = $(this).fluxxCard();
         var i= 1;

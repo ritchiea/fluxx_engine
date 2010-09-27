@@ -566,7 +566,23 @@
                 }
               });
             }
-          ]
+          ],
+          'a.scroll-to-card': [
+            'click', function(e) {
+              $.fluxx.util.itEndsHere(e);
+              var target = $(this).attr("href");
+              var targetLeft = $(target).offset().left;
+              targetLeft = ($(window).scrollLeft() <  targetLeft ? targetLeft - $(target).width() + 60 : targetLeft - 12); 
+              //perform animated scrolling
+              $('html,body').stop().animate(
+              {
+                scrollLeft: targetLeft
+              },2000,function()
+              {
+                location.hash = target;
+              });
+            }
+          ],
         }
       }
     }

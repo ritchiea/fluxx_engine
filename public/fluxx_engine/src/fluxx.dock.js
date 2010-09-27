@@ -7,11 +7,14 @@
           .appendTo($.my.footer);
         $.my.viewport = $('#viewport');
         $.my.iconlist = $('#iconlist');
+        $.my.lookingGlass = $('#lookingglass');
         $.my.dock
           .bind({
             'complete.fluxx.dock': _.callAll(options.callback, $.fluxx.util.itEndsWithMe)
           })
           .trigger('complete.fluxx.dock');
+        $.my.stage.bind('resize.fluxx.stage', $.my.dock.fluxxDockUpdateViewing);
+        $(window).scroll($.my.dock.fluxxDockUpdateViewing);
 
         $('.icon', '.dock').live('mouseover mouseout', function(e) {
           var $icon  = $(e.currentTarget);
@@ -42,8 +45,6 @@
         }
         options.card.data('icon', $icon);
         $icon.data('card', options.card);
-        if (options.card.fluxxCardIconStyle() == "")
-          $icon.hide();
       });
     },
     updateIconBadge: function (options) {
@@ -60,7 +61,8 @@
       return this.each(function(){
         var $icon  = $(this);
         $icon.addClass(options.style);
-        $icon.show();
+        if (options.hasOwnProperty("scrollTo") && options.scrollTo)
+          $('a', $icon).click();
       });
     }, 
     updateIconLabel: function(options) {
@@ -80,8 +82,48 @@
         options.card.data('icon').remove();
         options.card.data('icon', null);
       });
+    },
+    fluxxDockUpdateViewing: function(e){
+      var $cards = $.my.cards;
+      var $glass = $.my.lookingGlass;
+      
+      if ($cards.length == 0) {
+        $glass.hide();
+        return;
+      }
+      
+      var $viewport = $.my.viewport;
+      var left = 0;
+      var right = 0;
+      var scroll = $(window).scrollLeft();
+      var leftFound = false;
+      var lastIcon = $('a', $.my.iconlist).last().attr('href');
+      
+      $cards.each(function(){
+        var $card = $(this);
+        var cardWidth = $card.width();
+        var position = $card.offset().left + cardWidth;
+        var $icon = $('a[href=#'+$card.attr('id')+']', $.my.iconlist);
+        if (!leftFound && scroll < position) {
+          // Calculate left edge of window
+          var percentIn = (scroll - $card.offset().left) / cardWidth; 
+          left = Math.round(($icon.offset().left - scroll - ($icon.width() / 3)) + ($icon.width() * percentIn));
+          leftFound = true;
+        }
+        
+        var lastCard = ($icon.attr('href') == lastIcon);
+        var rightEdge = scroll + $(window).width();
+        if (lastCard || position > rightEdge) {
+          // Calculate right edge of window
+          var percentIn = (lastCard && position < rightEdge ? 1 : (rightEdge - $card.offset().left) / cardWidth);
+          right = Math.round(($icon.offset().left - scroll - ($icon.width() / 3)) + ($icon.width() * percentIn));
+          return false;
+        }
+      });
+      $glass.css({left: left, top: $viewport.offset().top});
+      $glass.show();
+      $glass.width(Math.round(right - left));
     }
-
   });
   $.extend(true, {
     fluxx: {
@@ -96,7 +138,8 @@
             .attr($.fluxx.dock.attrs)
             .html($.fluxx.util.resultOf([
               $.fluxx.dock.ui.viewport(options),
-              $.fluxx.dock.ui.quicklinks(options)
+              $.fluxx.dock.ui.quicklinks(options),
+              $.fluxx.dock.ui.lookingGlass(options)
             ]));
         }
       }
@@ -124,18 +167,21 @@
       '</div>'
     ]);
   };
+  $.fluxx.dock.ui.lookingGlass = function (option) {
+    return '<div id="lookingglass"></div>';
+  };
   $.fluxx.dock.ui.icon = function(options) {
-    $.fluxx.log("--- pre-default icon options ---",options)
+    $.fluxx.log("--- pre-default icon options ---",options);
     var options = $.fluxx.util.options_with_callback({
       label: '',
       badge: '',
       url:   '',
       popup: null,
       openOn: ['hover'],
-      className: null,
+      className: 'scroll-to-card',
       type: null
     }, options);
-    $.fluxx.log("--- icon options ---",options)
+    $.fluxx.log("--- icon options ---",options);
     var popup = (
         !_.isNull(options.popup)
       ? [
