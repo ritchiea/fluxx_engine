@@ -334,10 +334,10 @@
     },
     fluxxCardMargin: function () {
       var $card = this.fluxxCard();
-      if (!$card.hasOwnProperty('margin')) {
-        $card.margin = Math.round($card.margin = ($card.outerWidth(true) - $card.width()) / 2);
+      if (!$.my.cards.hasOwnProperty('margin')) {
+        $.my.cards.margin = $.fluxx.util.marginHeight($card);
       }
-      return $card.margin;
+      return $.my.cards.margin / 2;
     },    
     fluxxAreaSettings: function (options) {
       var options = $.fluxx.util.options_with_callback({settings: $()},options);
