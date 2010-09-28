@@ -572,6 +572,7 @@
               $.fluxx.util.itEndsHere(e);
               var target = $(this).attr("href");
               var $card = $(target);
+              $card.resizeFluxxCard();
               var targetLeft = $card.offset().left;
               var margin = $card.fluxxCardMargin();
               var screenWidth = $(window).width();
