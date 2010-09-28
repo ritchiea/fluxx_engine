@@ -46,6 +46,7 @@
 .card .titlebar .icon.style-organizations { border: none; background: transparent url("../../default/images/card-icons/button_card_orgs.png") no-repeat 50% 50%; }
 .card .titlebar .icon.style-users { border: none; background: transparent url("../../default/images/card-icons/button_card_people.png") no-repeat 50% 50%; }
 .card .titlebar .icon.style-grant-requests { border: none; background: transparent url("../../default/images/card-icons/button_card_requests.png") no-repeat 50% 50%; }
+.card .titlebar .icon.style-fip-requests { border: none; background: transparent url("../../default/images/card-icons/button_card_requests.png") no-repeat 50% 50%; }
 .card .titlebar .icon.style-granted-requests { border: none; background: transparent url("../../default/images/card-icons/button_card_grants.png") no-repeat 50% 50%; }
 .card .titlebar .icon.style-reports { border: none; background: transparent url("../../default/images/card-icons/button_card_reports.png") no-repeat 50% 50%; }
 .card .titlebar .icon.style-transactions { border: none; background: transparent url("../../default/images/card-icons/button_card_transactions.png") no-repeat 50% 50%; }
