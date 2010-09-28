@@ -218,7 +218,6 @@
         
           $card.width(cardWidth);
           _.bind($.fn.resizeFluxxStage, $.my.stage)();
-
       });
     },
     closeDetail: function() {
@@ -333,6 +332,13 @@
     fromClientStore: function (clearFlag) {
       return this.fluxxCard().data('fromClientStore');
     },
+    fluxxCardMargin: function () {
+      var $card = this.fluxxCard();
+      if (!$card.hasOwnProperty('margin')) {
+        $card.margin = Math.round($card.margin = ($card.outerWidth(true) - $card.width()) / 2);
+      }
+      return $card.margin;
+    },    
     fluxxAreaSettings: function (options) {
       var options = $.fluxx.util.options_with_callback({settings: $()},options);
       if (options.settings.length < 1) return this;

@@ -571,13 +571,19 @@
             'click', function(e) {
               $.fluxx.util.itEndsHere(e);
               var target = $(this).attr("href");
-              var targetLeft = $(target).offset().left;
-              targetLeft = ($(window).scrollLeft() <  targetLeft ? targetLeft - $(target).width() + 60 : targetLeft - 12); 
+              var $card = $(target);
+              $card.resizeFluxxCard();
+              var targetLeft = $card.offset().left;
+              var margin = $card.fluxxCardMargin();
+              var screenWidth = $(window).width();
+              var scrollMiddle = $(window).scrollLeft() + (screenWidth / 2);
+              var targetMiddle = targetLeft  + ($card.outerWidth() / 2);
+              targetLeft = (scrollMiddle < targetMiddle ? targetLeft - screenWidth + $card.width() + margin : targetLeft - margin); 
               //perform animated scrolling
               $('html,body').stop().animate(
               {
                 scrollLeft: targetLeft
-              },2000,function()
+              },1000,function()
               {
                 location.hash = target;
               });
