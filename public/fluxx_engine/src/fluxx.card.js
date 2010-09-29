@@ -24,6 +24,16 @@
               _.bind($.fn.subscribeFluxxCardToUpdates, $card),
               options.callback
             ),
+            'lifetimeComplete.fluxx.card' :
+              function() {
+              if ($card.data)
+                $card.data('icon')
+                .setDockIconProperties({
+                  style: $card.fluxxCardIconStyle(),
+                  popup: $card.fluxxCardPopupInfo(),
+                  scrollTo: !$card.fromClientStore()
+                });
+              },
             'load.fluxx.card': options.load,
             'close.fluxx.card': options.close,
             'unload.fluxx.card': options.unload,
@@ -50,7 +60,6 @@
           $card.fluxxCardLoadDetail(options.detail, function(){
             $card.trigger('complete.fluxx.card');
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
-            $card.data('icon').setViewPortIconStyle({style: $card.fluxxCardIconStyle(), scrollTo: !$card.fromClientStore()});
             $card.trigger('lifetimeComplete.fluxx.card');
             _.bind($.fn.resizeFluxxCard, $card)();            
           })
@@ -66,7 +75,7 @@
           $.fluxx.util.itEndsWithMe(e);
           $title.attr('contenteditable', 'false').unbind('keypress', getReturn);
           $title.text($card.fluxxCardTitle());
-          $card.data('icon').updateIconLabel({label: $title.text()});
+          $card.trigger('lifetimeComplete.fluxx.card');
           $card.saveDashboard();
           return false;
         }
@@ -112,10 +121,6 @@
           });
         });
       });
-    },
-    scrollDashboard: function () {
-      var $card = $(this);
-      $.fluxx.log("***********>");
     },
     fluxxCardUpdatesAvailable: function () {
       $.fluxx.log("**> fluxxCardUpdatesAvailable");
@@ -225,6 +230,7 @@
       $('.drawer', $card).parent().addClass('empty');
       $card.fluxxCardDetail().fadeOut('fast',function(){
         $card.fluxxCard().resizeFluxxCard();
+        $card.trigger('lifetimeComplete.fluxx.card');
       });      
       $card.fluxxCardDetail().fluxxCardArea().data('history')[0] = {};
       $card.saveDashboard();
@@ -295,6 +301,29 @@
     fluxxCardTitle: function() {
       return $.trim($('.title', this.fluxxCard()).text()).replace(/[\n\r\t]/g, '');
     },
+    fluxxCardPopupInfo: function() {
+      var $card = $(this);
+      var info = [$card.fluxxCardTitle()];
+      var filter = $card.fluxxCardListing().attr('data-filter-text');
+      var search =  $('.filter', $card).val();
+      var detail;
+      if ($('.detail:visible', $card).length) {
+          var $pulls = $('.detail .show .minimize-detail-pull', $card);
+          if (!$pulls.length) $pulls = $('.detail h1:first', $card);
+          var text = [];
+          $pulls.each(function(){ text.push($(this).text()) });
+          detail = text.join(' ');
+      }
+      
+      if (filter)
+        info.push('<span><strong>Filters:</strong> ' + filter + '</span>');
+      if (search)
+        info.push('<span><strong>Search:</strong> ' + search + '</span>');
+      if (detail)
+        info.push('<span><strong>Detail:</strong> ' + detail + '</span>');
+
+      return info;
+    },
     fluxxCardIconStyle: function(){
       var style =
          this.fluxxCardListing().attr('data-icon-style')
@@ -334,10 +363,10 @@
     },
     fluxxCardMargin: function () {
       var $card = this.fluxxCard();
-      if (!$card.hasOwnProperty('margin')) {
-        $card.margin = Math.round($card.margin = ($card.outerWidth(true) - $card.width()) / 2);
+      if (!$.my.cards.hasOwnProperty('margin')) {
+        $.my.cards.margin = $.fluxx.util.marginHeight($card);
       }
-      return $card.margin;
+      return $.my.cards.margin / 2;
     },    
     fluxxAreaSettings: function (options) {
       var options = $.fluxx.util.options_with_callback({settings: $()},options);
@@ -752,7 +781,7 @@
               }
             },
           update: $.noop,
-          position: function($card) { $card.appendTo($.my.hand); $card.scrollDashboard(); },
+          position: function($card) { $card.appendTo($.my.hand);},
           listing: {
             url: null
           },

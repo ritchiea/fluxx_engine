@@ -123,7 +123,9 @@
         marginHeight: function($selector) {
           return parseInt($selector.css('marginTop')) + parseInt($selector.css('marginBottom'));
         },
-
+        marginWidth: function($selector) {
+          return ($selector.outerWidth(true) - $selected.width()) / 2;
+        },
         itEndsWithMe: function(e) {
           e.stopPropagation();
           e.preventDefault();
