@@ -75,7 +75,7 @@
           $.fluxx.util.itEndsWithMe(e);
           $title.attr('contenteditable', 'false').unbind('keypress', getReturn);
           $title.text($card.fluxxCardTitle());
-          $card.data('icon').updateIconLabel({label: $title.text()});
+          $card.trigger('lifetimeComplete.fluxx.card');
           $card.saveDashboard();
           return false;
         }
@@ -230,6 +230,7 @@
       $('.drawer', $card).parent().addClass('empty');
       $card.fluxxCardDetail().fadeOut('fast',function(){
         $card.fluxxCard().resizeFluxxCard();
+        $card.trigger('lifetimeComplete.fluxx.card');
       });      
       $card.fluxxCardDetail().fluxxCardArea().data('history')[0] = {};
       $card.saveDashboard();

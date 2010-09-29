@@ -67,16 +67,6 @@
           $('a', $icon).click();
       });
     }, 
-    updateIconLabel: function(options) {
-      var options = $.fluxx.util.options_with_callback({label: ''}, options);
-      return this.each(function(){
-        var $icon  = $(this),
-            $label = $('.label', $icon),
-            $popup = $('.popup > ul > li', $icon);
-        $label.text(options.label);
-        $popup.text(options.label);
-      });
-    },
     removeViewPortIcon: function(options) {
       var options = $.fluxx.util.options_with_callback({}, options);
       return this.each(function(){
@@ -256,8 +246,7 @@
             if (!_.isEmpty(nUpdate) || !$(e.target).data('icon')) return;
             var $card = $(e.target);
             $card.data('icon')
-              .updateIconBadge({badge: $card.fluxxCardUpdatesAvailable()})
-              .updateIconLabel($card.fluxxCardTitle());
+              .updateIconBadge({badge: $card.fluxxCardUpdatesAvailable()});
           });
       });
     });
