@@ -56,11 +56,13 @@
         $badge.is(':empty') || $badge.text() == 0 ? $badge.hide() : $badge.show();
       });
     },
-    setViewPortIconStyle: function (options) {
-      var options = $.fluxx.util.options_with_callback({badge: ''}, options);
+    setDockIconProperties: function (options) {
+      var options = $.fluxx.util.options_with_callback({style: '', popup: ''}, options);
       return this.each(function(){
         var $icon  = $(this);
         $icon.addClass(options.style);
+        $icon.remove('.popup');
+        $('.popup', $icon).html($.fluxx.dock.ui.popup(options));
         if (options.hasOwnProperty("scrollTo") && options.scrollTo)
           $('a', $icon).click();
       });
@@ -200,6 +202,19 @@
   $.fluxx.dock.ui.lookingGlass = function (option) {
     return '<div id="lookingglass"></div>';
   };
+  $.fluxx.dock.ui.popup = function(options) {
+    return (!_.isNull(options.popup)
+      ? $.fluxx.util.resultOf([
+          '<ul>',
+            _.map(
+              _.flatten($.makeArray(options.popup)),
+              function (line) {return ['<li>', line, '</li>'];}
+            ),
+          '</ul><div class="arrow"></div>'
+        ])
+      : ''
+    );
+  },
   $.fluxx.dock.ui.icon = function(options) {
     $.fluxx.log("--- pre-default icon options ---",options);
     var options = $.fluxx.util.options_with_callback({
@@ -211,19 +226,6 @@
       className: 'scroll-to-card',
       type: null
     }, options);
-    $.fluxx.log("--- icon options ---",options);
-    var popup = (
-        !_.isNull(options.popup)
-      ? [
-          '<div class="popup"><ul>',
-            _.map(
-              _.flatten($.makeArray(options.popup)),
-              function (line) {return ['<li>', line, '</li>'];}
-            ),
-          '</ul><div class="arrow"></div></div>'
-        ]
-      : ''
-    );
     
     return $($.fluxx.util.resultOf([
       '<li class="icon ', options.type, '">',
@@ -231,7 +233,9 @@
           '<span class="label">', options.label, '</span>',
           '<span class="badge">', options.badge, '</span>',
         '</a>',
-        popup,
+        '<div class="popup">',
+        $.fluxx.dock.ui.popup(options),
+        '</div>',
       '</li>'
     ]));
   };
