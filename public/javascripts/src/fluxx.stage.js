@@ -17,6 +17,9 @@
             options.callback
           )
         });
+        $(window).resize(function(e){
+          $.my.cards.resizeFluxxCard();
+        }).resize();
         $.my.stage.trigger('complete.fluxx.stage');
       });
     },
