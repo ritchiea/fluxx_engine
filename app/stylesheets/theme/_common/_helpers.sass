@@ -1,0 +1,203 @@
+// Fonts
+
+@import /stylesheets/fluxx_engine/lib/Quicksand-fontfacekit/stylesheet.css
+
+$icon_dimension: 48px
+$icon_margin_top:    15px
+$icon_margin_bottom:    15px
+$footer_height:  $icon_dimension + ($icon_margin_top + $icon_margin_bottom)
+$header_height:  78px
+
+
+=fluxx-font
+  font-family: 'QuicksandBook', Helvetica, sans-serif
+
+=default-font
+  font-family: Helvetica, sans-serif
+
+// Rotations
+
+=transform-origin($left: 100%, $top: 100%)
+  -webkit-transform-origin: $left $top
+  -moz-transform-origin: $left $top
+
+
+=rot0
+  -webkit-transform: rotate(0deg)
+  -moz-transform: rotate(0deg)
+  rotation: 0deg
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0)
+
+
+=rot90
+  -webkit-transform: rotate(90deg)
+  -moz-transform: rotate(90deg)
+  rotation: 90deg
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1)
+
+
+=rot180
+  -webkit-transform: rotate(180deg)
+  -moz-transform: rotate(180deg)
+  rotation: 180deg
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2)
+
+
+=rot270
+  -webkit-transform: rotate(270deg)
+  -webkit-transform-origin: 0px 0px
+  -moz-transform: rotate(270deg)
+  -moz-transform-origin: 0px 0px
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3)
+
+
+// Styles for inline properties
+=chiseled-text($color: rgba(255,255,255,0.5), $left: 0px, $top: 1px, $spread: 0px)
+  text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}")
+=chiseled-text-light($color: rgba(0,0,0,0.5), $left: 0px, $top: -1px, $spread: 0px)
+  +chiseled-text($color, $left, $top, $spread)
+
+=text-shadow($color: rgba(0,0,0,0.5), $left: 0px, $top: 1px, $spread: 1px)
+  text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}")
+
+=ellipsis
+  text-overflow: ellipsis
+  -o-text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+
+
+// Styles for box properties
+
+=non-list
+  list-style: none
+  padding: 0
+  margin: 0
+  li
+    list-style: none
+    margin: 0
+    padding: 0
+
+=border-box
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  -o-box-sizing: border-box
+  box-sizing: border-box
+=content-box
+  -webkit-box-sizing: content-box
+  -moz-box-sizing: content-box
+  -o-box-sizing: content-box
+  box-sizing: content-box
+
+=inline-block
+  display: inline-block
+  *display: inline
+  zoom: 1
+
+=rounded-left($radius: 10px)
+  -webkit-border-top-left-radius: $radius
+  -webkit-border-bottom-left-radius: $radius
+  -moz-border-radius-topleft: $radius
+  -moz-border-radius-bottomleft: $radius
+
+=rounded-right($radius: 10px)
+  -webkit-border-top-right-radius: $radius
+  -webkit-border-bottom-right-radius: $radius
+  -moz-border-radius-topright: $radius
+  -moz-border-radius-bottomright: $radius
+
+=rounded-top($radius: 10px)
+  -webkit-border-top-left-radius: $radius
+  -webkit-border-top-right-radius: $radius
+  -moz-border-radius-topleft: $radius
+  -moz-border-radius-topright: $radius
+
+=rounded-bottom($radius: 10px)
+  -webkit-border-bottom-left-radius: $radius
+  -webkit-border-bottom-right-radius: $radius
+  -moz-border-radius-bottomleft: $radius
+  -moz-border-radius-bottomright: $radius
+
+=rounded($radius: 10px)
+  -webkit-border-radius: $radius
+  -moz-border-radius: $radius
+  border-radius: $radius
+  behavior: url(border-radius.htc)
+
+=no-box-shadow
+  -webkit-box-shadow: none
+  -moz-box-shadow: none
+  box-shadow: none
+
+=box-shadow($left: 0px, $top: 2px, $spread: 4px, $color: rgba(0,0,0,0.4))
+  -webkit-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
+  -moz-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
+  box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
+
+=box-shadow-inset($left: 0px, $top: 1px, $spread: 3px, $color: rgba(0,0,0,0.4))
+  -webkit-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}")
+  -moz-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}")
+  box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}")
+
+=box-shadow-with-inset($left: 0px, $top: 2px, $spread: 4px, $color: rgba(0,0,0,0.4))
+  -webkit-box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}")
+  -moz-box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}")
+  box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}")
+
+=linear-gradient($top: rgb(255,255,255), $bottom: rgb(0,0,0))
+  background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(1, #{$bottom}))")
+  background: unquote("-moz-linear-gradient(center top, #{$top} 0%, #{$bottom} 100%)")
+
+
+
+
+=btn-color($color: #ccc, $hover: true, $textColor: #000)
+  $top: $color * 1.5
+  $mid: $color * 0.80
+  $bot: $color * 0.70
+  background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(0.51, #{$color}),    color-stop(0.51, #{$mid}), color-stop(0.88, #{$bot}))")
+  background: unquote("-moz-linear-gradient(center top,#{$top} 0%,#{$color} 51%,#{$mid} 51%,#{$bot} 88%)")
+  color: $textColor
+  border-color: $color - ($color * .5)
+  @if $hover
+    &:hover
+      background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top + #111}), color-stop(0.51, #{$color + #111}),    color-stop(0.51, #{$mid + #111}), color-stop(0.88, #{$bot + #111}))")
+      background: unquote("-moz-linear-gradient(center top,#{$top + #111} 0%,#{$color + #111} 51%,#{$mid + #111} 51%,#{$bot + #111} 88%)")
+      color: $textColor + #111
+    &:active
+      background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$bot + #111}), color-stop(0.51, #{$mid + #111}),    color-stop(0.51, #{$color + #111}), color-stop(0.88, #{$top + #111}))")
+      background: unquote("-moz-linear-gradient(center top,#{$bot + #111} 0%,#{$mid + #111} 51%,#{$color + #111} 51%,#{$top + #111} 88%)")
+
+=buttons($size: 12px, $rounding: 3px, $bgcolor: #ccc, $color: #000, $tscolor: rgba(255,255,255,0.5), $tspos: 1px, $padding: $rounding)
+  +non-list
+  +rounded($rounding + 1)
+  +inline-block
+  +btn-color($bgcolor/3, false)
+  font-size: $size
+  line-height: $size
+  li
+    +btn-color($bgcolor)
+    color: $color
+    margin: 1px 1px 1px 0px
+    display: block
+    float: left
+    a,span
+      +border-box
+      +chiseled-text($tscolor, 0px, $tspos)
+      color: $color
+      text-decoration: none
+      text-align: center
+      padding: $padding
+      display: block
+      min-width: $size+($padding*2)
+    &:first-child
+      +rounded-left($rounding)
+      margin-left: 1px
+    &:last-child
+      +rounded-right($rounding)
+
+=bg($bg: rgb(255,255,255), $fg:  rgb(0,0,0))
+  background-color: $bg
+  color: $fg
+  a
+    color: $fg

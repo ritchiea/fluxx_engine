@@ -23,3 +23,22 @@ end
 Dir.glob("#{File.dirname(__FILE__).to_s}/fluxx_engine/**/*.rb").each do |fluxx_engine_rb|
   require fluxx_engine_rb.gsub /\.rb$/, ''
 end
+
+require 'rails/generators'
+
+class InternalFluxxEnginePublicGenerator < Rails::Generators::Base
+  include Rails::Generators::Actions
+  
+  def self.source_root
+    File.join(File.dirname(__FILE__), 'templates')
+  end
+  
+  def copy_fluxx_public_files
+    public_dir = File.join(File.dirname(__FILE__), '../public')
+    directory("#{public_dir}/images", 'public/images/fluxx_engine', :verbose => false)
+    directory("#{public_dir}/javascripts", 'public/javascripts/fluxx_engine', :verbose => false)
+    directory("#{public_dir}/stylesheets", 'public/stylesheets/fluxx_engine', :verbose => false)
+  end
+end
+
+InternalFluxxEnginePublicGenerator.new.copy_fluxx_public_files

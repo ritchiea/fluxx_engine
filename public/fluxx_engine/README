@@ -1,6 +1,0 @@
-built JS
-* fluxx.engine.js          -- src
-* fluxx.engine.full.js     -- src + lib
-* fluxx.engine.min.js      -- src ~ minified
-* fluxx.engine.full.min.js -- (src + lib) ~ min
-
