@@ -84,12 +84,12 @@
     },
     fluxxDockUpdateViewing: function(e){
       var $cards = $.my.cards;
+      var $glass = $.my.lookingGlass;
       if ($cards.length == 0) {
         $glass.hide();
         return;
       }
-      
-      var $glass = $.my.lookingGlass;
+     
       var $viewport = $.my.viewport;
       var left = 0;
       var right = 0;

@@ -28,11 +28,13 @@
       });
       return intersect;
     },
-    objectWithoutEmpty: function (object) {
+    objectWithoutEmpty: function (object, without) {
+      if (typeof without == 'undefined')
+        without = [];
       if ($.isArray(object)) {
         var filled = [];
         _.each(object, function(item) {
-          if (!_.isEmpty(item["value"]))
+          if (!_.isEmpty(item['value']) && without.indexOf(item['name']) == -1)
             filled.push(item);
         });
       } else if ($.isPlainObject(object)) {
