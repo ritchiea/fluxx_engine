@@ -478,7 +478,6 @@
           _.each($listing.fluxxCardAreaRequest().data, function(obj) {
             if (obj.value) {
               var selector = '[name*=' + obj.name + ']';
-              var id = /request\[(\w+)\]/.exec(obj.name);
               var $elem = $(selector, $filters);
               $elem.val(obj.value);
               $(selector + ":checkbox", $filters)
@@ -486,7 +485,6 @@
                 .change(function () {
                   $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
                 });
-                $.fluxx.log("---", selector, $elem.length, obj.value);
             }
           });
         });
@@ -738,12 +736,10 @@
         options.area.data('history').unshift(options);
       }
 
-      //TODO: Clean data og unnecessary request vars
-      
       $.ajax({
         url: options.url,
         type: options.type,
-        data: options.data,
+        data: _.objectWithoutEmpty(options.data, ['filter-text']),
         success: function (data, status, xhr) {
           if (xhr.status == 201) {
             var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
