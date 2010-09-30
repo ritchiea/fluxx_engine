@@ -1,3 +1,4 @@
+require 'sass'
 module Sass::Script::Functions
   
   # TODO ESH: use this to allow paths and asset image delivery
