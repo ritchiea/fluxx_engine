@@ -447,27 +447,25 @@
               var criterion = []; 
               var found = {};
               $filterText.val('');
-              _.each($listing.fluxxCardAreaRequest().data, function(obj) {
-                if (!found[obj.name]) {
-                  var id = /request\[(\w+)\]/.exec(obj.name);
-                  if (id && id.length > 1) {
-                    id = id.pop();
-                    var $elem = $('#request_' + id, $filters);
-                    var val = $elem.val();
-                    if (val) {
-                      var label = $('[for*=' + id + ']', $filters).text();
-                      label = label.replace(/:$/, '');
-                      var type = $elem.attr('type');
-                      if (type == 'checkbox') {
-                        if ($elem.attr('checked') == 'true')
-                          criterion.push(label);
-                      } else if (type == 'select-one') {
-                        criterion.push(label + ': ' + $("option[value='" + obj.value + "']", $elem).text());
-                      } else if (type != 'hidden') {
-                        criterion.push(label + ': ' + val);
-                      }
-                      found[obj.name] = true;
+                  
+              $filters.find(':input').each(function(index, elem) {
+                var $elem = $(elem);
+                var id = $elem.attr('id');
+                if (!found[id]) {
+                  var val = $elem.val();
+                  if (val) {
+                    var label = $('[for*=' + id + ']', $filters).text();
+                    label = label.replace(/:$/, '');
+                    var type = $elem.attr('type');
+                    if (type == 'checkbox') {
+                      if ($elem.attr('checked') == 'true')
+                        criterion.push(label);
+                    } else if (type == 'select-one') {
+                      criterion.push(label + ': ' + $("option[value='" + val + "']", $elem).text());
+                    } else if (type == 'text') {
+                      criterion.push(label + ': ' + val);
                     }
+                    found[id] = true;
                   }
                 } 
               });
