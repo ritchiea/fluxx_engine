@@ -1,7 +1,7 @@
 (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
-      $.fluxx.log("*******> addFluxxCard");
+      $.fluxx.log("*******> addFluxxCard", options);
       if (!options.hasOwnProperty("listing") && !options.hasOwnProperty("detail"))
         return onComplete.call();
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
@@ -85,7 +85,6 @@
       });
     },
     serializeFluxxCard: function(){
-      $.fluxx.log("*******> serializeFluxxCard");
       var $card = $(this).first();
       return {
         title:   $card.fluxxCardTitle(),
@@ -159,8 +158,6 @@
       if (!$.my.hand || $.my.hand.width() == 0) return this;
       return this.each(function() {
         var $card = $(this).fluxxCard();
-        var i= 1;
-        $.fluxx.log("*** Resize card " + i++);
         $('.card-box', $card)
           .height(
             $.my.cards.height(
@@ -304,7 +301,7 @@
     fluxxCardPopupInfo: function() {
       var $card = $(this);
       var info = [$card.fluxxCardTitle()];
-      var filter = $card.fluxxCardListing().attr('data-filter-text');
+      var filter = $card.fluxxCardFilterText();
       var search =  $('.filter', $card).val();
       var detail;
       if ($('.detail:visible', $card).length) {
@@ -323,6 +320,16 @@
         info.push('<span><strong>Detail:</strong> ' + detail + '</span>');
 
       return info;
+    },
+    fluxxCardFilterText: function() {
+      var $card = $(this).first();
+      var filterText;
+      if ($card.fluxxCardListing().fluxxCardAreaRequest())
+        _.each($card.fluxxCardListing().fluxxCardAreaData(), function(obj) {
+          if (obj.name && obj.name == 'filter-text')
+            filterText = obj.value
+        });
+      return filterText;
     },
     fluxxCardIconStyle: function(){
       var style =
@@ -435,9 +442,43 @@
             $filters.appendTo($card.fluxxCardBody());
           },
         }, function () {
+          var $form = $('form', $filters).submit(
+            function() {
+              var criterion = []; 
+              var found = {};
+              $filterText.val('');
+              _.each($listing.fluxxCardAreaRequest().data, function(obj) {
+                if (!found[obj.name]) {
+                  var id = /request\[(\w+)\]/.exec(obj.name);
+                  if (id && id.length > 1) {
+                    id = id.pop();
+                    var $elem = $('#request_' + id, $filters);
+                    var val = $elem.val();
+                    if (val) {
+                      var label = $('[for*=' + id + ']', $filters).text();
+                      label = label.replace(/:$/, '');
+                      var type = $elem.attr('type');
+                      if (type == 'checkbox') {
+                        if ($elem.attr('checked') == 'true')
+                          criterion.push(label);
+                      } else if (type == 'select-one') {
+                        criterion.push(label + ': ' + $("option[value='" + obj.value + "']", $elem).text());
+                      } else if (type != 'hidden') {
+                        criterion.push(label + ': ' + val);
+                      }
+                      found[obj.name] = true;
+                    }
+                  }
+                } 
+              });
+              $filterText.val(criterion.join(', '));
+            });
+          var $filterText = $('<input type="hidden" name="filter-text" value =""/>').appendTo($form);
+          
           _.each($listing.fluxxCardAreaRequest().data, function(obj) {
             if (obj.value) {
               var selector = '[name*=' + obj.name + ']';
+              var id = /request\[(\w+)\]/.exec(obj.name);
               var $elem = $(selector, $filters);
               $elem.val(obj.value);
               $(selector + ":checkbox", $filters)
@@ -445,7 +486,7 @@
                 .change(function () {
                   $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
                 });
-              $.fluxx.log("---", selector, $elem.length, obj.value);
+                $.fluxx.log("---", selector, $elem.length, obj.value);
             }
           });
         });
@@ -697,6 +738,8 @@
         options.area.data('history').unshift(options);
       }
 
+      //TODO: Clean data og unnecessary request vars
+      
       $.ajax({
         url: options.url,
         type: options.type,
