@@ -584,7 +584,18 @@
               var screenWidth = $(window).width();
               var scrollMiddle = $(window).scrollLeft() + (screenWidth / 2);
               var targetMiddle = targetLeft  + ($card.outerWidth() / 2);
-              targetLeft = (scrollMiddle < targetMiddle ? targetLeft - screenWidth + $card.width() + margin : targetLeft - margin); 
+              var scrollToRight = (scrollMiddle < targetMiddle);
+              var $modal = $('.modal:visible', $card);
+              var adjust = 0;
+              if ($modal.length > 0) {
+                scrollToRight = true;
+                adjust = $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left);
+              }
+              if (scrollToRight) {
+                targetLeft = targetLeft - screenWidth + $card.width() + margin + adjust;
+              } else {
+                targetLEft = targetLeft - margin;
+              } 
               //perform animated scrolling
               $('html,body').stop().animate(
               {
