@@ -477,7 +477,10 @@
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
                 $('.drawer .entries', $card).removeClass('selected');
                 $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
-                $('.info', $card).addClass('open', 1000, function(){$card.resizeFluxxCard()});
+                $('.info', $card).addClass('open', 1000, function(){
+                  $card.resizeFluxxCard();
+                  $('a.scroll-to-card[href=#' + $card.attr('id') + ']', $.my.dock.iconlist).click()
+                ;});
               }
             }
           ],
