@@ -588,13 +588,12 @@
               var $modal = $('.modal:visible', $card);
               var adjust = 0;
               if ($modal.length > 0) {
-                scrollToRight = true;
                 adjust = $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left);
               }
               if (scrollToRight) {
                 targetLeft = targetLeft - screenWidth + $card.width() + margin + adjust;
               } else {
-                targetLEft = targetLeft - margin;
+                targetLeft = targetLeft - margin;
               } 
               //perform animated scrolling
               $('html,body').stop().animate(
