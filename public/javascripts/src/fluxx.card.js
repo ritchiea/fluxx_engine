@@ -922,7 +922,4 @@
     ];
   };
   
-  $(window).resize(function(e){
-    $.my.cards.resizeFluxxCard();
-  }).resize();
 })(jQuery);

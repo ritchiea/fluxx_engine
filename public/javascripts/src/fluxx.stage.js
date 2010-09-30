@@ -17,6 +17,9 @@
             options.callback
           )
         });
+        $(window).resize(function(e){
+          $.my.cards.resizeFluxxCard();
+        }).resize();
         $.my.stage.trigger('complete.fluxx.stage');
       });
     },
@@ -474,7 +477,10 @@
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
                 $('.drawer .entries', $card).removeClass('selected');
                 $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
-                $('.info', $card).addClass('open', 1000, function(){$card.resizeFluxxCard()});
+                $('.info', $card).addClass('open', 1000, function(){
+                  $card.resizeFluxxCard();
+                  $('a.scroll-to-card[href=#' + $card.attr('id') + ']', $.my.dock.iconlist).click()
+                ;});
               }
             }
           ],
@@ -578,7 +584,17 @@
               var screenWidth = $(window).width();
               var scrollMiddle = $(window).scrollLeft() + (screenWidth / 2);
               var targetMiddle = targetLeft  + ($card.outerWidth() / 2);
-              targetLeft = (scrollMiddle < targetMiddle ? targetLeft - screenWidth + $card.width() + margin : targetLeft - margin); 
+              var scrollToRight = (scrollMiddle < targetMiddle);
+              var $modal = $('.modal:visible', $card);
+              var adjust = 0;
+              if ($modal.length > 0) {
+                adjust = $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left);
+              }
+              if (scrollToRight) {
+                targetLeft = targetLeft - screenWidth + $card.width() + margin + adjust;
+              } else {
+                targetLeft = targetLeft - margin;
+              } 
               //perform animated scrolling
               $('html,body').stop().animate(
               {
