@@ -504,6 +504,12 @@
               $(this).removeFluxxCard(); 
             }
           ],
+          'a.minimize-card': ['click', function (e) {
+            $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $elem.minimizeFluxxCard();
+            }
+          ],
           'a.to-detail': ['click', function (e) {
             $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);

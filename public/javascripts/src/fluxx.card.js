@@ -10,10 +10,11 @@
         options.position($card);
         $card
           .data({
-            listing: $('.listing:eq(0)',   $card),
-            detail:  $('.detail:eq(0)',    $card),
-            box:     $('.card-box:eq(0)',  $card),
-            body:    $('.card-body:eq(0)', $card),
+            listing:   $('.listing:eq(0)',   $card),
+            detail:    $('.detail:eq(0)',    $card),
+            minimized: $('.minimized:eq(0)',    $card),
+            box:       $('.card-box:eq(0)',  $card),
+            body:      $('.card-body:eq(0)', $card),
             fromClientStore: fromClientStore
           })
           .bind({
@@ -26,7 +27,8 @@
             ),
             'lifetimeComplete.fluxx.card' :
               function() {
-              if ($('.detail:visible', $card).length > 0)
+              if ($('.detail:visible', $card).length > 0 && 
+                  $('.listing:visible', $card).length > 0)
                 $('.close-detail', $card).parent().prependTo($('.controls', $card));
               else
                 $('.close-detail', $card).parent().appendTo($('.info', $card));
@@ -40,6 +42,7 @@
               },
             'load.fluxx.card': options.load,
             'close.fluxx.card': options.close,
+            'minimize.fluxx.card': options.minimize,
             'unload.fluxx.card': options.unload,
             'update.fluxx.card': _.callAll(
               _.bind($.fn.updateFluxxCard, $card),
@@ -51,6 +54,7 @@
               }
           });
         $.my.dock.addViewPortIcon({ card: $card });
+        $card.fluxxCardMinimized().hide();
         $('.updates', $card).hide();
         $card.trigger('load.fluxx.card');
         $card.fluxxCardListing().bind({
@@ -65,7 +69,7 @@
             $card.trigger('complete.fluxx.card');
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
             $card.trigger('lifetimeComplete.fluxx.card');
-            _.bind($.fn.resizeFluxxCard, $card)();            
+            _.bind($.fn.resizeFluxxCard, $card)();    
           })
         });
         $.my.cards = $('.card');
@@ -157,9 +161,20 @@
       });
       return this;
     },
+    minimizeFluxxCard: function(options, onComplete) {
+      $.fluxx.log("**> minimizeFluxxCard");
+      var options = $.fluxx.util.options_with_callback({},options,onComplete);
+      this.each(function(){
+        $(this)
+          .fluxxCard()
+          .trigger('minimize.fluxx.card');
+      });
+      return this;
+    },
     resizeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       if (!$.my.hand || $.my.hand.width() == 0) return this;
+
       return this.each(function() {
         var $card = $(this).fluxxCard();
         $('.card-box', $card)
@@ -174,18 +189,18 @@
                 $cardBody = $('.card-body', $box);
             $box.width(
               _.addUp(
-                $('.area', $box).not(':not(:visible)').filter(function(){ return $(this).css('position') != 'absolute'; }),
+                $('.area', $box).filter(':visible').filter(function(){ return $(this).css('position') != 'absolute'; }),
                 'outerWidth', true
               ) + 2
             );
-
+            
             $('.area', $cardBody).height(
               $cardBody.height(
                 $cardBody.parent().innerHeight() -
                 _.addUp(
                   $cardBody
                     .siblings()
-                    .not(':not(:visible)')
+                    .filter(':visible')
                     .filter(function(){ return $(this).css('position') != 'absolute'; }),
                   'outerHeight', true
                 )
@@ -198,7 +213,7 @@
                 _.addUp(
                   $areaBody
                     .siblings()
-                    .not(':not(:visible)')
+                    .filter(':visible')
                     .filter(function(){ return $(this).css('position') != 'absolute'; }),
                   'outerHeight',
                   true
@@ -221,7 +236,6 @@
               .filter(':visible')
               .filter(function(){ return $(this).css('position') != 'absolute'; }),
             'outerWidth', false) + $('.drawer', $card).parent().filter(':visible').outerWidth(true);
-        
           $card.width(cardWidth);
           _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
@@ -362,6 +376,9 @@
     },
     fluxxCardDetail: function () {
       return this.fluxxCard().data('detail');
+    },
+    fluxxCardMinimized: function() {
+      return this.fluxxCard().data('minimized');
     },
     fluxxCardBox: function () {
       return this.fluxxCard().data('box');
@@ -813,14 +830,17 @@
           unload: 
             function($card) {
               if ($card) {
-                $(this).fadeOut('slow', function() { 
-                  $(this).remove();
-                  $.my.cards = $('.card');
-                  $.my.stage.resizeFluxxStage();
-                  $(this).saveDashboard();
-                })
+                $(this).animate({opacity: 0}, function() { 
+                  $(this).animate({'margin-right': -$(this).outerWidth()}, function() {
+                    $(this).remove();
+                    $.my.cards = $('.card');
+                    $.my.stage.resizeFluxxStage();
+                    $(this).saveDashboard();
+                  });
+                });
               }
             },
+          minimize: $.noop, 
           update: $.noop,
           position: function($card) { $card.appendTo($.my.hand);},
           listing: {
@@ -828,7 +848,10 @@
           },
           detail: {
             url: null
-          }
+          },
+          minimized: {
+            url: null
+          },
         },
         attrs: {
           'class': 'card',
@@ -846,6 +869,7 @@
                 '<div class="card-body">',
                   $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'listing'})),
                   $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'detail', drawer: true})),
+                  $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'minimized'})),
                 '</div>',
                 '<div class="card-footer">',
                 '</div>',

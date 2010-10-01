@@ -637,7 +637,7 @@
                       &.blue
                         +linear-gradient(#ccf, #bbe)
                         a
-                          border-left: 1px solid #66f
+                          border-left: 1px solid #66f   
                 .footer
                   .paginate
                     +buttons(12px, 3px)
@@ -671,6 +671,12 @@
                   .workflow
                     +buttons(12px, 3px, #9f9)
                     float: right
+              .minimized
+                padding: 2px
+                position: relative
+                overflow: hidden
+                +bg(#fff)
+                height: 30px
               .modal
                 +box-shadow
                 +rounded
