@@ -261,6 +261,13 @@
               $parent.remove();
             }
           ],
+          'a.refresh-card': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $card = $(this);
+              alert("Minimize");
+            }
+          ],
           '.listing .actions': [
             'click', function (e) {
               var $head = $('.listing .header', $(this).fluxxCard());

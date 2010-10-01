@@ -26,6 +26,10 @@
             ),
             'lifetimeComplete.fluxx.card' :
               function() {
+              if ($('.detail:visible', $card).length > 0)
+                $('.close-detail', $card).parent().prependTo($('.controls', $card));
+              else
+                $('.close-detail', $card).parent().appendTo($('.info', $card));
               if ($card.data)
                 $card.data('icon')
                 .setDockIconProperties({
@@ -793,7 +797,7 @@
     },
     
     fluxxCardLoadDetail: function(options, onComplete) {
-      $.fluxx.log("**> fluxxCardLoadDetail");
+      $.fluxx.log("**> fluxxCardLoadDetail", options);
       var options = $.fluxx.util.options_with_callback({area: this.fluxxCardDetail()},options,onComplete);
       return this.fluxxCardLoadContent(options);
     }
