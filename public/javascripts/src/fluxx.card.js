@@ -840,7 +840,34 @@
                 });
               }
             },
-          minimize: $.noop, 
+          minimize:
+            function($card) {
+              if ($card) {          
+                $card = $(this);
+                var $titlebar = $('.titlebar', $card);
+                
+                if ($titlebar.attr('minimized') != 'true') {
+                  $('.title', $card).hide();
+                  $titlebar.attr('minimized', 'true');
+                  $('.card-body', $card).animate({opacity: 0}, function() {
+                    $('.info', $card).hide();
+                    $('.footer', $card).css('opacity', 0);
+                    $('.area', $card).filter(':visible').hide().attr('minimized', 'true');;
+                    $card.fluxxCardMinimized().show();                    
+//                    $card.fluxxCard().resizeFluxxCard();
+                    $('.card-body', $card).css('opacity', 1);
+                    $card.trigger('lifetimeComplete.fluxx.card');
+                  });
+                } else {
+                  $titlebar.attr('minimized', 'false');
+                  $('.info, .title', $card).show();
+                  $card.fluxxCardMinimized().hide();
+                  $('.footer', $card).css('opacity', 1);
+                  $('.area', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
+                  $card.trigger('lifetimeComplete.fluxx.card');
+                }
+            }
+          },
           update: $.noop,
           position: function($card) { $card.appendTo($.my.hand);},
           listing: {
@@ -867,9 +894,9 @@
                   $.fluxx.util.resultOf($.fluxx.card.ui.titlebar, options),
                 '</div>',
                 '<div class="card-body">',
+                $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'minimized'})),
                   $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'listing'})),
                   $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'detail', drawer: true})),
-                  $.fluxx.util.resultOf($.fluxx.card.ui.area, $.extend(options,{type: 'minimized'})),
                 '</div>',
                 '<div class="card-footer">',
                 '</div>',

@@ -244,6 +244,7 @@
             position: relative
             z-index: 2
             border: 1px solid #999
+            background-color: #c4c4c4
             +box-shadow
             +rounded(6px)
             p
@@ -446,6 +447,13 @@
                   +bg(rgba(255,255,255,0.3), #333)
                   padding: 0px 5px
                   margin-left: -5px
+              .titlebar[minimized=true]
+                +linear-gradient(#c4c4c4, #c4c4c4)
+                border-bottom: 1px solid #c4c4c4
+                .icon
+                  width: 100%
+                  margin-left: auto
+                  margin-right: auto  
             .card-body
               background: #{inline_image("/images/fluxx_engine/theme/default/cards/body-bg.png")}
               border-bottom: 1px solid #333
@@ -479,7 +487,7 @@
                     +buttons(12px, 3px, #9f9)
                     margin-top: 3px
                     float: right
-              .listing,.detail,.modal
+              .listing,.detail,.modal,.minimized
                 .header
                   +linear-gradient(#ccc, #aaa)
                   border-bottom: 1px solid #333
@@ -491,7 +499,7 @@
                   border-top: 1px solid #eee
                   padding: 3px
                   min-height: 26px
-              .detail,.modal
+              .detail,.modal,.minimized
                 font-size: 14px
                 line-height: 24px
                 .body
@@ -672,11 +680,12 @@
                     +buttons(12px, 3px, #9f9)
                     float: right
               .minimized
-                padding: 2px
-                position: relative
-                overflow: hidden
-                +bg(#fff)
-                height: 30px
+                +bg(#c4c4c4)
+                .header
+                  border: 0px
+                .body
+                  background-color: #c4c4c4
+                .footer
               .modal
                 +box-shadow
                 +rounded
