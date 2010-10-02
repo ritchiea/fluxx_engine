@@ -1,5 +1,5 @@
 class ActionController::ControllerDslIndex < ActionController::ControllerDsl
-  # delta_type allows the user to override the class name for the purposes of tracking realtime updates
+  # delta_type allows the user to override the model class name for the purposes of tracking realtime updates
   attr_accessor :delta_type
   # results per page; pagination default
   attr_accessor :results_per_page
