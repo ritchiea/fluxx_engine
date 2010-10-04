@@ -1,7 +1,7 @@
 (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
-      $.fluxx.log("*******> addFluxxCard", options);
+      $.fluxx.log("*******> addFluxxCard");
       if (!options.hasOwnProperty("listing") && !options.hasOwnProperty("detail"))
         return onComplete.call();
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
@@ -66,6 +66,9 @@
         );
         $card.fluxxCardLoadListing(options.listing, function(){
           $card.fluxxCardLoadDetail(options.detail, function(){
+            if (options.hasOwnProperty('minimized') && options.minimized.minimized) {
+              $card.trigger('minimize.fluxx.card');
+            }
             $card.trigger('complete.fluxx.card');
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
             $card.trigger('lifetimeComplete.fluxx.card');
@@ -97,7 +100,8 @@
       return {
         title:   $card.fluxxCardTitle(),
         listing: $card.fluxxCardListing().fluxxCardAreaRequest() || {},
-        detail:  $card.fluxxCardDetail().fluxxCardAreaRequest() || {}
+        detail:  $card.fluxxCardDetail().fluxxCardAreaRequest() || {},
+        minimized: {minimized: $card.isCardMinimized()}
       };
     },
     subscribeFluxxCardToUpdates: function () {
@@ -396,6 +400,10 @@
       }
       return $.my.cards.margin / 2;
     },    
+    isCardMinimized: function() {
+      var $card = this.fluxxCard();
+      return $('.titlebar', $card).attr('minimized') == 'true';
+    },
     fluxxAreaSettings: function (options) {
       var options = $.fluxx.util.options_with_callback({settings: $()},options);
       if (options.settings.length < 1) return this;
@@ -846,26 +854,26 @@
                 $card = $(this);
                 var $titlebar = $('.titlebar', $card);
                 
-                if ($titlebar.attr('minimized') != 'true') {
+                if (!$card.isCardMinimized()) {
                   $('.title', $card).hide();
                   $titlebar.attr('minimized', 'true');
                   $('.card-body', $card).animate({opacity: 0}, function() {
-                    $('.info', $card).hide();
                     $('.footer', $card).css('opacity', 0);
-                    $('.area', $card).filter(':visible').hide().attr('minimized', 'true');;
+                    $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');;
                     $card.fluxxCardMinimized().show();                    
-//                    $card.fluxxCard().resizeFluxxCard();
+                    $card.fluxxCard().resizeFluxxCard();
                     $('.card-body', $card).css('opacity', 1);
                     $card.trigger('lifetimeComplete.fluxx.card');
                   });
                 } else {
                   $titlebar.attr('minimized', 'false');
-                  $('.info, .title', $card).show();
+                  $('.title', $card).show();
                   $card.fluxxCardMinimized().hide();
                   $('.footer', $card).css('opacity', 1);
-                  $('.area', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
+                  $('.area, .info', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
                   $card.trigger('lifetimeComplete.fluxx.card');
                 }
+                $card.saveDashboard();
             }
           },
           update: $.noop,
