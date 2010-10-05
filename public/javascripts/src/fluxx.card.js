@@ -105,7 +105,7 @@
         title:   $card.fluxxCardTitle(),
         listing: $card.fluxxCardListing().fluxxCardAreaRequest() || {},
         detail:  $card.fluxxCardDetail().fluxxCardAreaRequest() || {},
-        minimized: {minimized: $card.isCardMinimized()}
+        minimized: {minimized: $card.cardIsMinimized()}
       };
     },
     subscribeFluxxCardToUpdates: function () {
@@ -410,7 +410,7 @@
       }
       return $.my.cards.margin / 2;
     },    
-    isCardMinimized: function() {
+    cardIsMinimized: function() {
       var $card = this.fluxxCard();
       return $('.titlebar', $card).attr('minimized') == 'true';
     },
@@ -848,13 +848,11 @@
           unload: 
             function($card) {
               if ($card) {
-                $(this).animate({opacity: 0}, function() { 
-                  $(this).animate({'margin-right': -$(this).outerWidth()}, function() {
-                    $(this).remove();
-                    $.my.cards = $('.card');
-                    $.my.stage.resizeFluxxStage();
-                    $(this).saveDashboard();
-                  });
+                $.fluxx.animateWidthTo($(this), 0, function() {
+                  this.remove();
+                  $.my.cards = $('.card');
+                  $.my.stage.resizeFluxxStage();
+                  this.saveDashboard();
                 });
               }
             },
@@ -864,24 +862,26 @@
                 $card = $(this);
                 var $titlebar = $('.titlebar', $card);
                 
-                if (!$card.isCardMinimized()) {
+                if ($card.cardIsMinimized()) {
+                  $titlebar.attr('minimized', 'false');
+                  $.fluxx.animateWidthTo($card, 624, function() {
+                    $('.title', $card).show();
+                    $card.fluxxCardMinimized().hide();
+                    $('.footer', $card).css('opacity', 1);
+                    $('.area, .info', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
+                    $card.trigger('lifetimeComplete.fluxx.card');
+                  });
+                } else {
                   $('.title', $card).hide();
                   $titlebar.attr('minimized', 'true');
-                  $('.card-body', $card).animate({opacity: 0}, function() {
+                  $.fluxx.animateWidthTo($card, $card.fluxxCardMinimized().width(), function() {
                     $('.footer', $card).css('opacity', 0);
                     $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');;
                     $card.fluxxCardMinimized().show();                    
                     $('.card-body', $card).css('opacity', 1);
                     $card.resizeFluxxCard();
-                    $card.trigger('lifetimeComplete.fluxx.card');
+                    $card.trigger('lifetimeComplete.fluxx.card');                    
                   });
-                } else {
-                  $titlebar.attr('minimized', 'false');
-                  $('.title', $card).show();
-                  $card.fluxxCardMinimized().hide();
-                  $('.footer', $card).css('opacity', 1);
-                  $('.area, .info', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
-                  $card.trigger('lifetimeComplete.fluxx.card');
                 }
                 $card.saveDashboard();
             }
