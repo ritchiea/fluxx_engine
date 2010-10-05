@@ -382,7 +382,6 @@
       var cardLeft = $card.offset().left;
       var cardWidth = $card.width() + $card.fluxxCardMargin() +
         ($modal.length > 0 ? $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left) : 0 );
-      $.fluxx.log(scroll, cardLeft);
       return (scroll <= cardLeft && scroll + $(window).width() >= cardLeft + cardWidth); 
     },
     fluxxCardAreaURL: function(options) {
