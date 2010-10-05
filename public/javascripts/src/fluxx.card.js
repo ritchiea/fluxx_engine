@@ -27,11 +27,14 @@
             ),
             'lifetimeComplete.fluxx.card' :
               function() {
+                var $close = $('.close-detail', $card).parent()
+                var $minimize = $('.minimize-card', $card).parent()
                 if ($('.detail:visible', $card).length > 0 && 
                     $('.listing:visible', $card).length > 0)
-                  $('.close-detail', $card).parent().prependTo($('.controls', $card));
+                  $close.show().after($minimize);
                 else
-                  $('.close-detail', $card).parent().appendTo($('.info', $card));
+                    $close.hide().before($minimize);
+             
                 if ($card.data)
                   $card
                   .setMinimizedProperties({info: $card.fluxxCardInfo()})
