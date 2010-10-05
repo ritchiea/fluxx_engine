@@ -581,7 +581,6 @@
           ],
           'a.scroll-to-card': [
             'click', function(e) {
-              $fluxx.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ scroll to card");
               $.fluxx.util.itEndsHere(e);
               var target = $(this).attr("href");
               var $card = $(target);

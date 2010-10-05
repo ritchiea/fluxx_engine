@@ -63,8 +63,6 @@
         $icon.addClass(options.style);
         $icon.remove('.popup');
         $('.popup', $icon).html($.fluxx.dock.ui.popup(options));
-        if (options.hasOwnProperty("scrollTo") && options.scrollTo)
-          $('a', $icon).click();
       });
     }, 
     removeViewPortIcon: function(options) {

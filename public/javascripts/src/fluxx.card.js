@@ -40,9 +40,10 @@
                   .setMinimizedProperties({info: $card.fluxxCardInfo()})
                   .data('icon').setDockIconProperties({
                     style: $card.fluxxCardIconStyle(),
-                    popup: $card.fluxxCardInfo(),
-                    scrollTo: !$card.fromClientStore()
-                  }); 
+                    popup: $card.fluxxCardInfo()
+                  });
+                if (!$card.fromClientStore() && !$card.cardFullyVisible())
+                  $('a', $card.data('icon')).click();                
               },
             'load.fluxx.card': options.load,
             'close.fluxx.card': options.close,
@@ -373,6 +374,16 @@
       || '';
       $.fluxx.log('STYLE FOR ICON IS ' + style);
       return style;
+    },
+    cardFullyVisible: function() {
+      var $card = $(this).first();
+      var $modal = $('.modal:visible', $card);
+      var scroll = $(window).scrollLeft();
+      var cardLeft = $card.offset().left;
+      var cardWidth = $card.width() + $card.fluxxCardMargin() +
+        ($modal.length > 0 ? $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left) : 0 );
+      $.fluxx.log(scroll, cardLeft);
+      return (scroll <= cardLeft && scroll + $(window).width() >= cardLeft + cardWidth); 
     },
     fluxxCardAreaURL: function(options) {
       var options = $.fluxx.util.options_with_callback({without: []},options);
@@ -872,6 +883,7 @@
                     $card.fluxxCardMinimized().hide();
                     $('.footer', $card).css('opacity', 1);
                     $('.area, .info', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
+                    $card.resizeFluxxCard();
                     $card.trigger('lifetimeComplete.fluxx.card');
                   });
                 } else {
