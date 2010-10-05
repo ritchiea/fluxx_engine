@@ -877,8 +877,8 @@
                 var $titlebar = $('.titlebar', $card);
                 
                 if ($card.cardIsMinimized()) {
-                  $titlebar.attr('minimized', 'false');
                   $.fluxx.animateWidthTo($card, 624, function() {
+                    $titlebar.attr('minimized', 'false');
                     $('.title', $card).show();
                     $card.fluxxCardMinimized().hide();
                     $('.footer', $card).css('opacity', 1);
@@ -887,9 +887,9 @@
                     $card.trigger('lifetimeComplete.fluxx.card');
                   });
                 } else {
-                  $('.title', $card).hide();
-                  $titlebar.attr('minimized', 'true');
                   $.fluxx.animateWidthTo($card, $card.fluxxCardMinimized().width(), function() {
+                    $titlebar.attr('minimized', 'true');
+                    $('.title', $card).hide();
                     $('.footer', $card).css('opacity', 0);
                     $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');;
                     $card.fluxxCardMinimized().show();                    
