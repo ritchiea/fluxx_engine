@@ -27,18 +27,19 @@
             ),
             'lifetimeComplete.fluxx.card' :
               function() {
-              if ($('.detail:visible', $card).length > 0 && 
-                  $('.listing:visible', $card).length > 0)
-                $('.close-detail', $card).parent().prependTo($('.controls', $card));
-              else
-                $('.close-detail', $card).parent().appendTo($('.info', $card));
-              if ($card.data)
-                $card.data('icon')
-                .setDockIconProperties({
-                  style: $card.fluxxCardIconStyle(),
-                  popup: $card.fluxxCardPopupInfo(),
-                  scrollTo: !$card.fromClientStore()
-                });
+                if ($('.detail:visible', $card).length > 0 && 
+                    $('.listing:visible', $card).length > 0)
+                  $('.close-detail', $card).parent().prependTo($('.controls', $card));
+                else
+                  $('.close-detail', $card).parent().appendTo($('.info', $card));
+                if ($card.data)
+                  $card
+                  .setMinimizedProperties({info: $card.fluxxCardInfo()})
+                  .data('icon').setDockIconProperties({
+                    style: $card.fluxxCardIconStyle(),
+                    popup: $card.fluxxCardInfo(),
+                    scrollTo: !$card.fromClientStore()
+                  }); 
               },
             'load.fluxx.card': options.load,
             'close.fluxx.card': options.close,
@@ -317,10 +318,16 @@
         $area.fluxxCardLoadContent(req);
       });
     },
+    setMinimizedProperties: function(options) {
+      var options = $.fluxx.util.options_with_callback({info: []}, options);
+      var $body = $('.body', $(this).fluxxCardMinimized());
+      $body.html('<div class="minimized-info"><ul><li class="minimized-title">' + options.info.join('</li><li>') + '</li></ul></div>');
+      return this;
+    },
     fluxxCardTitle: function() {
       return $.trim($('.title', this.fluxxCard()).text()).replace(/[\n\r\t]/g, '');
     },
-    fluxxCardPopupInfo: function() {
+    fluxxCardInfo: function() {
       var $card = $(this);
       var info = [$card.fluxxCardTitle()];
       var filter = $card.fluxxCardFilterText();
@@ -861,8 +868,8 @@
                     $('.footer', $card).css('opacity', 0);
                     $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');;
                     $card.fluxxCardMinimized().show();                    
-                    $card.fluxxCard().resizeFluxxCard();
                     $('.card-body', $card).css('opacity', 1);
+                    $card.resizeFluxxCard();
                     $card.trigger('lifetimeComplete.fluxx.card');
                   });
                 } else {
