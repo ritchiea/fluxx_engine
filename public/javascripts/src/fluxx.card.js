@@ -325,6 +325,9 @@
       var options = $.fluxx.util.options_with_callback({info: []}, options);
       var $body = $('.body', $(this).fluxxCardMinimized());
       $body.html('<div class="minimized-info"><ul><li class="minimized-title">' + options.info.join('</li><li>') + '</li></ul></div>');
+      var padding = Math.floor(($body.width() - $('.minimized-info > ul', $body).height()) / 2);
+      if (padding > 0)
+        $('.minimized-info', $body).css({'padding-top': padding, 'padding-bottom': padding});
       return this;
     },
     fluxxCardTitle: function() {
