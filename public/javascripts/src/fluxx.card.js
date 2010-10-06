@@ -1,7 +1,7 @@
 (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
-      $.fluxx.log("*******> addFluxxCard", options);
+      $.fluxx.log("*******> addFluxxCard");
       if (!options.hasOwnProperty("listing") && !options.hasOwnProperty("detail"))
         return onComplete.call();
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
@@ -27,18 +27,23 @@
             ),
             'lifetimeComplete.fluxx.card' :
               function() {
-              if ($('.detail:visible', $card).length > 0 && 
-                  $('.listing:visible', $card).length > 0)
-                $('.close-detail', $card).parent().prependTo($('.controls', $card));
-              else
-                $('.close-detail', $card).parent().appendTo($('.info', $card));
-              if ($card.data)
-                $card.data('icon')
-                .setDockIconProperties({
-                  style: $card.fluxxCardIconStyle(),
-                  popup: $card.fluxxCardPopupInfo(),
-                  scrollTo: !$card.fromClientStore()
-                });
+                var $close = $('.close-detail', $card).parent()
+                var $minimize = $('.minimize-card', $card).parent()
+                if ($('.detail:visible', $card).length > 0 && 
+                    $('.listing:visible', $card).length > 0)
+                  $close.show().after($minimize);
+                else
+                    $close.hide().before($minimize);
+             
+                if ($card.data)
+                  $card
+                  .setMinimizedProperties({info: $card.fluxxCardInfo()})
+                  .data('icon').setDockIconProperties({
+                    style: $card.fluxxCardIconStyle(),
+                    popup: $card.fluxxCardInfo()
+                  });
+                if (!$card.fromClientStore() && !$card.cardFullyVisible())
+                  $('a', $card.data('icon')).click();                
               },
             'load.fluxx.card': options.load,
             'close.fluxx.card': options.close,
@@ -66,6 +71,9 @@
         );
         $card.fluxxCardLoadListing(options.listing, function(){
           $card.fluxxCardLoadDetail(options.detail, function(){
+            if (options.hasOwnProperty('minimized') && options.minimized.minimized) {
+              $card.trigger('minimize.fluxx.card');
+            }
             $card.trigger('complete.fluxx.card');
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
             $card.trigger('lifetimeComplete.fluxx.card');
@@ -97,7 +105,8 @@
       return {
         title:   $card.fluxxCardTitle(),
         listing: $card.fluxxCardListing().fluxxCardAreaRequest() || {},
-        detail:  $card.fluxxCardDetail().fluxxCardAreaRequest() || {}
+        detail:  $card.fluxxCardDetail().fluxxCardAreaRequest() || {},
+        minimized: {minimized: $card.cardIsMinimized()}
       };
     },
     subscribeFluxxCardToUpdates: function () {
@@ -313,10 +322,19 @@
         $area.fluxxCardLoadContent(req);
       });
     },
+    setMinimizedProperties: function(options) {
+      var options = $.fluxx.util.options_with_callback({info: []}, options);
+      var $body = $('.body', $(this).fluxxCardMinimized());
+      $body.html('<div class="minimized-info"><ul><li class="minimized-title">' + options.info.join('</li><li>') + '</li></ul></div>');
+      var padding = Math.floor(($body.width() - $('.minimized-info > ul', $body).height()) / 2);
+      if (padding > 0)
+        $('.minimized-info', $body).css({'padding-top': padding, 'padding-bottom': padding});
+      return this;
+    },
     fluxxCardTitle: function() {
       return $.trim($('.title', this.fluxxCard()).text()).replace(/[\n\r\t]/g, '');
     },
-    fluxxCardPopupInfo: function() {
+    fluxxCardInfo: function() {
       var $card = $(this);
       var info = [$card.fluxxCardTitle()];
       var filter = $card.fluxxCardFilterText();
@@ -357,6 +375,15 @@
       $.fluxx.log('STYLE FOR ICON IS ' + style);
       return style;
     },
+    cardFullyVisible: function() {
+      var $card = $(this).first();
+      var $modal = $('.modal:visible', $card);
+      var scroll = $(window).scrollLeft();
+      var cardLeft = $card.offset().left;
+      var cardWidth = $card.width() + $card.fluxxCardMargin() +
+        ($modal.length > 0 ? $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left) : 0 );
+      return (scroll <= cardLeft && scroll + $(window).width() >= cardLeft + cardWidth); 
+    },
     fluxxCardAreaURL: function(options) {
       var options = $.fluxx.util.options_with_callback({without: []},options);
       var current = this.fluxxCardAreaRequest();
@@ -396,6 +423,10 @@
       }
       return $.my.cards.margin / 2;
     },    
+    cardIsMinimized: function() {
+      var $card = this.fluxxCard();
+      return $('.titlebar', $card).attr('minimized') == 'true';
+    },
     fluxxAreaSettings: function (options) {
       var options = $.fluxx.util.options_with_callback({settings: $()},options);
       if (options.settings.length < 1) return this;
@@ -463,6 +494,7 @@
             $filters.appendTo($card.fluxxCardBody());
           },
         }, function () {
+          $('.date input', $filters).datepicker();
           var $form = $('form', $filters).submit(
             function() {
               var criterion = []; 
@@ -644,7 +676,8 @@
       var $area = $(this);
       var updates = $area.data('updates_seen');
       if (_.isEmpty(updates)) return;
-      var req  = $area.fluxxCardAreaRequest();
+      var req  = {url: $area.fluxxCardAreaRequest().url};
+
       $.extend(
         true,
         req,
@@ -675,19 +708,7 @@
         }
       );
       
-      // FLX-27
-      // Filtered cards are randomly showing records as new (orange line) when updated.
-      // The req.data object is an array of objects ({name: "xxx", value: "xxx"}) when a filter is set
-      if (req.data instanceof Array) {
-        req.data = _.objectWithoutEmpty(req.data);
-        req.data.push({name: 'find_by_id', value: true});
-        req.data.push({name: 'id', value: updates});
-      }
       $.ajax(req);
-      if (req.data instanceof Array) {
-        req.data.pop();
-        req.data.pop();
-      }
     },
     
     /* Data Loaders */
@@ -764,6 +785,8 @@
             var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
             options.area.fluxxCardLoadContent(opts);
           } else {
+//            $.fluxx.log("************************************************** Showing area", options.area, options.area.is(':visible'));
+//            if (
             options.area.css('display', 'inline-block')
             var $document = $('<div/>').html(data);
             $('.header', options.area).html(($('#card-header', $document).html() || options.header).trim());
@@ -830,13 +853,11 @@
           unload: 
             function($card) {
               if ($card) {
-                $(this).animate({opacity: 0}, function() { 
-                  $(this).animate({'margin-right': -$(this).outerWidth()}, function() {
-                    $(this).remove();
-                    $.my.cards = $('.card');
-                    $.my.stage.resizeFluxxStage();
-                    $(this).saveDashboard();
-                  });
+                $.fluxx.animateWidthTo($(this), 0, function() {
+                  this.remove();
+                  $.my.cards = $('.card');
+                  $.my.stage.resizeFluxxStage();
+                  this.saveDashboard();
                 });
               }
             },
@@ -846,26 +867,29 @@
                 $card = $(this);
                 var $titlebar = $('.titlebar', $card);
                 
-                if ($titlebar.attr('minimized') != 'true') {
-                  $('.title', $card).hide();
-                  $titlebar.attr('minimized', 'true');
-                  $('.card-body', $card).animate({opacity: 0}, function() {
-                    $('.info', $card).hide();
-                    $('.footer', $card).css('opacity', 0);
-                    $('.area', $card).filter(':visible').hide().attr('minimized', 'true');;
-                    $card.fluxxCardMinimized().show();                    
-//                    $card.fluxxCard().resizeFluxxCard();
-                    $('.card-body', $card).css('opacity', 1);
+                if ($card.cardIsMinimized()) {
+                  $.fluxx.animateWidthTo($card, 624, function() {
+                    $titlebar.attr('minimized', 'false');
+                    $('.title', $card).show();
+                    $card.fluxxCardMinimized().hide();
+                    $('.footer', $card).css('opacity', 1);
+                    $('.area, .info', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
+                    $card.resizeFluxxCard();
                     $card.trigger('lifetimeComplete.fluxx.card');
                   });
                 } else {
-                  $titlebar.attr('minimized', 'false');
-                  $('.info, .title', $card).show();
-                  $card.fluxxCardMinimized().hide();
-                  $('.footer', $card).css('opacity', 1);
-                  $('.area', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
-                  $card.trigger('lifetimeComplete.fluxx.card');
+                  $.fluxx.animateWidthTo($card, $card.fluxxCardMinimized().width(), function() {
+                    $titlebar.attr('minimized', 'true');
+                    $('.title', $card).hide();
+                    $('.footer', $card).css('opacity', 0);
+                    $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');;
+                    $card.fluxxCardMinimized().show();                    
+                    $('.card-body', $card).css('opacity', 1);
+                    $card.resizeFluxxCard();
+                    $card.trigger('lifetimeComplete.fluxx.card');                    
+                  });
                 }
+                $card.saveDashboard();
             }
           },
           update: $.noop,

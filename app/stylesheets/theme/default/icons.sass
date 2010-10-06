@@ -1,13 +1,13 @@
 @import ../_common/_helpers.sass
 
-=icon-36
+=icon-32
   .link
-    height: 36px
-    width: 36px
+    height: 32px
+    width: 32px
     margin-bottom: $icon_margin_bottom + 6px
     margin-top: $icon_margin_top + 6px
     margin-left: 16px
-    margin-right: 16px
+    margin-right: 0
     .label
       top: 42px
       margin-left: -16px
@@ -27,16 +27,16 @@
 .dock
   .icon
     &.small
-      +icon-36
+      +icon-32
     &.tiny
-      +icon-24
+      +icon-32
     &.plus
-      +icon-36
+      +icon-32
       .link
-        +bg(#666)
+        +bg(#585858)
         +box-shadow-with-inset
         border: 2px solid white
-        +rounded($icon_dimension / 2)
+        +rounded(($icon_dimension + 2) / 2)
         background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/plus.png")} #666 no-repeat 50% 50%
         .label
           display: none
@@ -44,20 +44,22 @@
       $size: 7px
       +bg(transparent)
       position: absolute
-      bottom: $icon_dimension + $icon_margin_bottom + ($icon_margin_top / 2) - $size
+      bottom: $icon_dimension + $icon_margin_bottom + ($icon_margin_top / 2) + 14 - $size
       .arrow
-        +bg(transparent)
-        height: $size*2
-        width: $size*2
-        border: transparent solid $size
-        border-top-color: #359
-        margin: auto
+        background: transparent url('/images/fluxx_engine/theme/default/dock-modal/arrow.png') no-repeat 0 0
+        height: 18px
+        width: 37px
+        display: block
+        position: absolute
+        left: 22px
+        bottom: -14px
+        z-index: 3
       ul
         +non-list
-        +bg(#68c, #fff)
+        +bg(#07b2ef, #fff)
         +box-shadow
-        +rounded(5px)
-        border: 2px solid #359
+        +rounded(10px)
+        border: 4px solid #068cbc
         padding: 10px 16px
         li
           white-space: nowrap

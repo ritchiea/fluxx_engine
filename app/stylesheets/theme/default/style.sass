@@ -269,7 +269,7 @@
             h3
               font-size: 200px
             +pretty-forms
-            .string,.select,.numeric,.datetime,.autocomplete,.password,.time_zone
+            .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone
               +form-field-one-line
             .text,.multiple-select-transfer
               +form-field-two-line
@@ -696,7 +696,23 @@
                 .header
                   border: 0px
                 .body
+                  overflow: hidden
                   background-color: #c4c4c4
+                  .minimized-info
+                    position: relative
+                    height: 100px
+                    margin-top: 4000px
+                    width: 4000px
+                    +rot270
+                    padding: 10px 10px 5px 2px
+                    text-align: right
+                    font-family: 'Helvetica Neue', sans-serif
+                    font-weight: 200
+                    text-shadow: white -1px 0px 1px
+                    .minimized-title
+                      font-size: 34px
+                      text-transform: uppercase
+                    
                 .footer
               .modal
                 +box-shadow
@@ -758,8 +774,17 @@
       right: 10px
       width: auto
       .qllist
-        border-left: 1px solid #ddd
-        padding: 0px 5px
+        border-left: 1px solid #ccc
+        padding: 0px 33px
+      .qllist
+        &:first-of-type
+          padding: 0px 18px
+      .qllist
+        .icon
+          &:first-of-type
+            .link
+              margin-left: 0
+
       .dock
         #lookingglass
           background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/h-gradient-bg.png")} repeat-x 0% 0%

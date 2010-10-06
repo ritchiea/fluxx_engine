@@ -80,7 +80,6 @@ input,select,textarea
       position: absolute
       top: 0px
       bottom: 0px
-      overflow: hidden
       #hand
         +non-list
         height: 100%
@@ -202,9 +201,7 @@ input,select,textarea
       +border-box
       height: $icon_dimension
       width:  $icon_dimension
-      margin: $icon_margin_top 10px $icon_margin_bottom 10px
-      &:first-of-type
-        margin-left: 15px
+      margin: $icon_margin_top 0 $icon_margin_bottom 15px        
       .label
         +ellipsis
         text-transform: uppercase
@@ -213,6 +210,12 @@ input,select,textarea
       .badge
     .popup
       display: none
+  #iconlist
+    li
+      &:first-of-type
+        .link
+          margin-left: 40px
+          
   #lookingglass
     position: fixed
     display: none
