@@ -497,7 +497,7 @@
               $(this).removeFluxxCard(); 
             }
           ],
-          'a.minimize-card': ['click', function (e) {
+          'a.minimize-card, a.maximize-card': ['click', function (e) {
             $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               $elem.minimizeFluxxCard();

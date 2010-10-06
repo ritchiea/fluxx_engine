@@ -27,8 +27,8 @@
             ),
             'lifetimeComplete.fluxx.card' :
               function() {
-                var $close = $('.close-detail', $card).parent()
-                var $minimize = $('.minimize-card', $card).parent()
+                var $close = $('.close-detail', $card).parent();
+                var $minimize = $('.toolbal li:first', $card).next();
                 if ($('.detail:visible', $card).length > 0 && 
                     $('.listing:visible', $card).length > 0)
                   $close.show().after($minimize);
@@ -785,8 +785,6 @@
             var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
             options.area.fluxxCardLoadContent(opts);
           } else {
-//            $.fluxx.log("************************************************** Showing area", options.area, options.area.is(':visible'));
-//            if (
             options.area.css('display', 'inline-block')
             var $document = $('<div/>').html(data);
             $('.header', options.area).html(($('#card-header', $document).html() || options.header).trim());
@@ -866,10 +864,10 @@
               if ($card) {          
                 $card = $(this);
                 var $titlebar = $('.titlebar', $card);
-                
                 if ($card.cardIsMinimized()) {
                   $.fluxx.animateWidthTo($card, 624, function() {
                     $titlebar.attr('minimized', 'false');
+                    $('.maximize-card', $card).removeClass('maximize-card').addClass('minimize-card');
                     $('.title', $card).show();
                     $card.fluxxCardMinimized().hide();
                     $('.footer', $card).css('opacity', 1);
@@ -881,6 +879,7 @@
                 } else {
                   $.fluxx.animateWidthTo($card, $card.fluxxCardMinimized().width(), function() {
                     $titlebar.attr('minimized', 'true');
+                    $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');
                     $('.title', $card).hide();
                     $('.footer', $card).css('opacity', 0);
                     $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');;
