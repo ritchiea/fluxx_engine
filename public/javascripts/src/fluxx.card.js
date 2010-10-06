@@ -494,6 +494,7 @@
             $filters.appendTo($card.fluxxCardBody());
           },
         }, function () {
+          $('.date input', $filters).datepicker();
           var $form = $('form', $filters).submit(
             function() {
               var criterion = []; 
@@ -784,6 +785,8 @@
             var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
             options.area.fluxxCardLoadContent(opts);
           } else {
+//            $.fluxx.log("************************************************** Showing area", options.area, options.area.is(':visible'));
+//            if (
             options.area.css('display', 'inline-block')
             var $document = $('<div/>').html(data);
             $('.header', options.area).html(($('#card-header', $document).html() || options.header).trim());
