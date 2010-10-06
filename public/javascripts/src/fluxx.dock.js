@@ -63,8 +63,6 @@
         $icon.addClass(options.style);
         $icon.remove('.popup');
         $('.popup', $icon).html($.fluxx.dock.ui.popup(options));
-        if (options.hasOwnProperty("scrollTo") && options.scrollTo)
-          $('a', $icon).click();
       });
     }, 
     removeViewPortIcon: function(options) {
@@ -200,7 +198,7 @@
               _.flatten($.makeArray(options.popup)),
               function (line) {return ['<li>', line, '</li>'];}
             ),
-          '</ul><div class="arrow"></div>'
+          '</ul><div class="arrow">'
         ])
       : ''
     );

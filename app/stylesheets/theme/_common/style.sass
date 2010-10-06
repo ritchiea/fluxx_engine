@@ -79,7 +79,6 @@ input,select,textarea
       position: absolute
       top: 0px
       bottom: 0px
-      overflow: hidden
       #hand
         +non-list
         height: 100%
@@ -111,7 +110,7 @@ input,select,textarea
                 left: 0px
                 right: 0px
                 +bg(#333, #eee)
-              .listing,.detail,.modal,.filters
+              .listing,.detail,.modal,.filters,.minimized
                 +inline-block
                 vertical-align: top
                 .header,.footer
@@ -147,6 +146,7 @@ input,select,textarea
                 .body
               .minimized
                 width: 100px
+                position: relative
               .modal
                 +bg(#333,#fff)
                 width: 450px
@@ -230,4 +230,4 @@ input,select,textarea
     -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,.4)
     -moz-box-shadow: 1px 1px 2px rgba(0,0,0,.4)
 .ui-datepicker
-  display: none      
+  display: none

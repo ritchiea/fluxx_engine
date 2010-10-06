@@ -244,6 +244,7 @@
             position: relative
             z-index: 2
             border: 1px solid #999
+            background-color: #c4c4c4
             +box-shadow
             +rounded(6px)
             p
@@ -267,7 +268,7 @@
             h3
               font-size: 200px
             +pretty-forms
-            .string,.select,.numeric,.datetime,.autocomplete,.password,.time_zone
+            .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone
               +form-field-one-line
             .text,.multiple-select-transfer
               +form-field-two-line
@@ -446,6 +447,13 @@
                   +bg(rgba(255,255,255,0.3), #333)
                   padding: 0px 5px
                   margin-left: -5px
+              .titlebar[minimized=true]
+                +linear-gradient(#c4c4c4, #c4c4c4)
+                border-bottom: 1px solid #c4c4c4
+                .icon
+                  width: 100%
+                  margin-left: auto
+                  margin-right: auto  
             .card-body
               background: #{inline_image("/images/fluxx_engine/theme/default/cards/body-bg.png")}
               border-bottom: 1px solid #333
@@ -479,7 +487,7 @@
                     +buttons(12px, 3px, #9f9)
                     margin-top: 3px
                     float: right
-              .listing,.detail,.modal
+              .listing,.detail,.modal,.minimized
                 .header
                   +linear-gradient(#ccc, #aaa)
                   border-bottom: 1px solid #333
@@ -491,7 +499,7 @@
                   border-top: 1px solid #eee
                   padding: 3px
                   min-height: 26px
-              .detail,.modal
+              .detail,.modal,.minimized
                 font-size: 14px
                 line-height: 24px
                 .body
@@ -672,11 +680,28 @@
                     +buttons(12px, 3px, #9f9)
                     float: right
               .minimized
-                padding: 2px
-                position: relative
-                overflow: hidden
-                +bg(#fff)
-                height: 30px
+                +bg(#c4c4c4)
+                .header
+                  border: 0px
+                .body
+                  overflow: hidden
+                  background-color: #c4c4c4
+                  .minimized-info
+                    position: relative
+                    height: 100px
+                    margin-top: 4000px
+                    width: 4000px
+                    +rot270
+                    padding: 10px 10px 5px 2px
+                    text-align: right
+                    font-family: 'Helvetica Neue', sans-serif
+                    font-weight: 200
+                    text-shadow: white -1px 0px 1px
+                    .minimized-title
+                      font-size: 34px
+                      text-transform: uppercase
+                    
+                .footer
               .modal
                 +box-shadow
                 +rounded
