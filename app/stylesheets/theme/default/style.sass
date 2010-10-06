@@ -738,8 +738,17 @@
       right: 10px
       width: auto
       .qllist
-        border-left: 1px solid #ddd
-        padding: 0px 5px
+        border-left: 1px solid #ccc
+        padding: 0px 33px
+      .qllist
+        &:first-of-type
+          padding: 0px 18px
+      .qllist
+        .icon
+          &:first-of-type
+            .link
+              margin-left: 0
+
       .dock
         #lookingglass
           background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/h-gradient-bg.png")} repeat-x 0% 0%
