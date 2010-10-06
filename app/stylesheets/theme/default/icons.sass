@@ -44,20 +44,22 @@
       $size: 7px
       +bg(transparent)
       position: absolute
-      bottom: $icon_dimension + $icon_margin_bottom + ($icon_margin_top / 2) - $size
+      bottom: $icon_dimension + $icon_margin_bottom + ($icon_margin_top / 2) + 14 - $size
       .arrow
-        +bg(transparent)
-        height: $size*2
-        width: $size*2
-        border: transparent solid $size
-        border-top-color: #359
-        margin: auto
+        background: transparent url('/images/fluxx_engine/theme/default/dock-modal/arrow.png') no-repeat 0 0
+        height: 18px
+        width: 37px
+        display: block
+        position: absolute
+        left: 22px
+        bottom: -14px
+        z-index: 3
       ul
         +non-list
-        +bg(#68c, #fff)
+        +bg(#07b2ef, #fff)
         +box-shadow
-        +rounded(5px)
-        border: 2px solid #359
+        +rounded(10px)
+        border: 4px solid #068cbc
         padding: 10px 16px
         li
           white-space: nowrap
