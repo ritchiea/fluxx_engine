@@ -102,6 +102,8 @@
         var cardLeft = $card.offset().left;
         var cardArea = cardLeft + cardWidth + cardMargin;
         var $icon = $('a[href=#'+$card.attr('id')+']', $.my.iconlist);
+        if ($icon.length == 0)
+          return false;
         var iconMargin = $icon.fluxxDockIconMargin();
         var iconLeft = $icon.offset().left;
         var pixelsIn = 0;

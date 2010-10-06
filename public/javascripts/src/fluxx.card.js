@@ -876,6 +876,7 @@
                     $('.area, .info', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
                     $card.resizeFluxxCard();
                     $card.trigger('lifetimeComplete.fluxx.card');
+                    $card.saveDashboard();
                   });
                 } else {
                   $.fluxx.animateWidthTo($card, $card.fluxxCardMinimized().width(), function() {
@@ -886,10 +887,10 @@
                     $card.fluxxCardMinimized().show();                    
                     $('.card-body', $card).css('opacity', 1);
                     $card.resizeFluxxCard();
-                    $card.trigger('lifetimeComplete.fluxx.card');                    
+                    $card.trigger('lifetimeComplete.fluxx.card');
+                    $card.saveDashboard();
                   });
                 }
-                $card.saveDashboard();
             }
           },
           update: $.noop,
