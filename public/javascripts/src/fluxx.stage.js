@@ -523,6 +523,11 @@
               $elem.attr('href', $elem.attr('href') + '?' + $.param($elem.fluxxCardAreaData()))
             }
           ],
+          'a.dock-list-scroller': [
+             'click', function(e) {
+               $.my.dock.fluxxDockUpdateViewing(e);
+             }
+          ],
           'form.area-url': [
             'submit', function(e) {
               var $elem = $(this);
