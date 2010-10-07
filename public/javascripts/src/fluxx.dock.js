@@ -9,15 +9,15 @@
         $.my.iconlist = $('#iconlist').sortable(  {
           scroll: false,
           start: function(event, ui) {
-              if ((ui.helper !== undefined )) {
-                  var offset = $(window).scrollLeft();
-                  ui.helper.css('position','absolute').css('margin-left', offset);                                
-              }
+            if ((ui.helper !== undefined )) {
+              var offset = $(window).scrollLeft();
+              ui.helper.css('position','absolute').css('margin-left', offset);
+            }
           },
           beforeStop: function (event, ui) { 
-              if ((ui.offset !== undefined )) {
-                  ui.helper.css('margin-left', 0);
-              }
+            if ((ui.offset !== undefined )) {
+              ui.helper.css('margin-left', 0);
+            }
           },
           update: function (event, ui) {
             var itemID = $('a', ui.item).attr('href').replace(/^#/,'');
