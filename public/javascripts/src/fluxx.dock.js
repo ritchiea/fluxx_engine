@@ -6,7 +6,35 @@
         $.my.dock = $.fluxx.dock.ui.call($.my.footer, options)
           .appendTo($.my.footer);
         $.my.viewport = $('#viewport');
-        $.my.iconlist = $('#iconlist');
+        $.my.iconlist = $('#iconlist').sortable(  {
+          scroll: false,
+          start: function(event, ui) {
+              if ((ui.helper !== undefined )) {
+                  var offset = $(window).scrollLeft();
+                  ui.helper.css('position','absolute').css('margin-left', offset);                                
+              }
+          },
+          beforeStop: function (event, ui) { 
+              if ((ui.offset !== undefined )) {
+                  ui.helper.css('margin-left', 0);
+              }
+          },
+          update: function (event, ui) {
+            var itemID = $('a', ui.item).attr('href').replace(/^#/,'');
+            var nextID = $('a', ui.item.next()).attr('href');
+            var $card = $('#' + itemID);
+            if (typeof nextID != 'undefind' && nextID) {
+              var $nextCard = $('#' + nextID.replace(/^#/,''));
+              $card.detach().insertBefore($nextCard);
+            } else {
+              $card.detach().insertAfter($.my.cards.last());
+            }
+            $.my.cards = $('.card');
+            $.my.stage.resizeFluxxStage();
+            $card.saveDashboard();
+          }
+        });  
+
         $.my.quicklinks = $('#quicklinks');
         $.my.lookingGlass = $('#lookingglass');
         $.my.dock
