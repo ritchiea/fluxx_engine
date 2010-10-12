@@ -23,11 +23,11 @@
                   %span= section_title
 
   %div{:id=>"card-footer"}
-    %ul.workflow
-      - if @footer_template
-        = render :partial => @footer_template, :locals => { :model => @model}
-      - else
+    - if @footer_template
+      = render :partial => @footer_template, :locals => { :model => @model}
+    - else
+      %ul.workflow
         %li= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'to-self', :link_class => 'btn'
-    %ul.buttons
-      %li= link_to 'Printable', '#', :target => "_blank", :class => 'btn area-url'
+      %ul.buttons
+        %li= link_to 'Printable', '#', :target => "_blank", :class => 'btn area-url'
   = render :partial => 'insta/card_settings'
