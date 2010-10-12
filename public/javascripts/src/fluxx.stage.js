@@ -497,7 +497,7 @@
               $(this).removeFluxxCard(); 
             }
           ],
-          'a.minimize-card': ['click', function (e) {
+          'a.minimize-card, a.maximize-card': ['click', function (e) {
             $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               $elem.minimizeFluxxCard();
@@ -522,6 +522,11 @@
               var $elem = $(this);
               $elem.attr('href', $elem.attr('href') + '?' + $.param($elem.fluxxCardAreaData()))
             }
+          ],
+          'a.dock-list-scroller': [
+             'click', function(e) {
+               $.my.dock.fluxxDockUpdateViewing(e);
+             }
           ],
           'form.area-url': [
             'submit', function(e) {

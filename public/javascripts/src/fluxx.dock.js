@@ -6,7 +6,36 @@
         $.my.dock = $.fluxx.dock.ui.call($.my.footer, options)
           .appendTo($.my.footer);
         $.my.viewport = $('#viewport');
-        $.my.iconlist = $('#iconlist');
+        $.my.iconlist = $('#iconlist').sortable(  {
+          scroll: false,
+          start: function(event, ui) {
+            if ((ui.helper !== undefined )) {
+              var offset = $(window).scrollLeft();
+              ui.helper.css('position','absolute').css('margin-left', offset);
+            }
+          },
+          beforeStop: function (event, ui) { 
+            if ((ui.offset !== undefined )) {
+              ui.helper.css('margin-left', 0);
+            }
+          },
+          update: function (event, ui) {
+            var itemID = $('a', ui.item).attr('href').replace(/^#/,'');
+            var nextID = $('a', ui.item.next()).attr('href');
+            var $card = $('#' + itemID);
+            if (typeof nextID != 'undefind' && nextID) {
+              var $nextCard = $('#' + nextID.replace(/^#/,''));
+              $card.detach().insertBefore($nextCard);
+            } else {
+              $card.detach().insertAfter($.my.cards.last());
+            }
+            $.my.cards = $('.card');
+            $.my.stage.resizeFluxxStage();
+            $card.saveDashboard();
+          }
+        });  
+
+        $.my.quicklinks = $('#quicklinks');
         $.my.lookingGlass = $('#lookingglass');
         $.my.dock
           .bind({
@@ -78,9 +107,51 @@
       if (!$.my.iconlist.hasOwnProperty('margin')) {
         $.my.iconlist.margin = $.fluxx.util.marginHeight($icon);
       }
-      return $.my.iconlist.margin / 2;
+      return Math.floor($.my.iconlist.margin / 2);
+    },
+    fluxxDockSizeIconlist: function(e) {
+      var $icons = $('li.icon', $.my.iconlist);
+      var $ql = ('.qllist', $.my.quicklinks);
+      var $scrollers = $('.dock-list-scroller', $.my.viewport);;
+      var numIcons = $icons.length;
+      var ilWidth = $ql.offset().left - $.my.iconlist.offset().left - $scrollers.last().outerWidth(true);
+      var iconWidth = $icons.first().outerWidth(true);
+      var lastIcon = Math.floor(ilWidth / iconWidth)
+      if (lastIcon < numIcons)  {
+        $scrollers.css('opacity', 1);
+        var firstIcon = $.my.iconlist.data('firstIcon') || 1;
+        var numRight = numIcons - lastIcon - firstIcon + 1;
+        if (numRight < 0) {
+          firstIcon += numRight;
+          numRight = 0;
+        }
+      
+        var goLeft = $(e.currentTarget).hasClass('left');
+        var goRight = $(e.currentTarget).hasClass('right')
+        if (goLeft && firstIcon > 1)
+          firstIcon -= 1;
+        if (goRight && numRight > 0)
+          firstIcon += 1;
+        var numRight = numIcons - lastIcon - firstIcon + 1;
+        $.my.iconlist.data('firstIcon', firstIcon);
+        $('span.n-cards', $scrollers.first()).html(firstIcon - 1);
+        $('span.n-cards', $scrollers.last()).html(numRight);        
+        $('.dock-list-scroller').show();
+        $icons.each(function(i) {
+          var $icon = $(this);
+          if (i >= firstIcon - 1 && i + 1 < (lastIcon + firstIcon))
+            $icon.show();           
+          else
+            $icon.hide();
+        });
+      } else {
+        $scrollers.css('opacity', 0);
+        $icons.show();
+      }
+      $.my.iconlist.width(ilWidth);
     },
     fluxxDockUpdateViewing: function(e){
+      $.my.dock.fluxxDockSizeIconlist(e);
       var $cards = $.my.cards;
       var $glass = $.my.lookingGlass;
       if ($cards.length == 0) {
@@ -92,8 +163,10 @@
       var left = 0;
       var right = 0;
       var scroll = $(window).scrollLeft();
-      var leftFound = false; 
+      var viewportFound = false; 
       var lastID = $('a', $.my.iconlist).last().attr('href');
+      var showViewport = true;
+      var leftFound = false;
       
       $cards.each(function(){
         var $card = $(this);
@@ -102,14 +175,25 @@
         var cardLeft = $card.offset().left;
         var cardArea = cardLeft + cardWidth + cardMargin;
         var $icon = $('a[href=#'+$card.attr('id')+']', $.my.iconlist);
+        if ($icon.length == 0)
+          return false;
         var iconMargin = $icon.fluxxDockIconMargin();
         var iconLeft = $icon.offset().left;
         var pixelsIn = 0;
         var percentOver = 0;
         var rightEdge = scroll + $(window).width();
+        var iconHidden = ($icon.not(':visible').length == 1);
+        if (!viewportFound && !iconHidden)
+          viewportFound = true;
         
         if (!leftFound && scroll < cardArea) {
-          if (pixelsIn > cardWidth) {
+          if (iconHidden) {
+            if (viewportFound) {
+              showViewport = false;
+              return false;
+            }
+            left = iconMargin; 
+          } else if (pixelsIn > cardWidth) {
             percentOver = (pixelsIn - cardWidth) / cardMargin;
             left = Math.round((iconLeft - scroll + $icon.width() - iconMargin) + (iconMargin * percentOver)); 
           } else if (pixelsIn >= 0) {
@@ -120,12 +204,23 @@
             left = Math.round((iconLeft - scroll - (iconMargin * 2)) + (iconMargin * percentOver)); 
           }
           leftFound = true;
-        }  
+        }
         var lastCard = ($icon.attr('href') == lastID);
+        if ((lastCard || cardArea > rightEdge) && iconHidden) {
+         if (!viewportFound) {
+           showViewport = false;
+         }
+         right = $('a.dock-list-scroller.right', $.my.viewport).position().left;
+         return false;
+        }
         if (lastCard && cardArea <= rightEdge) {
           right = (iconLeft - scroll + $icon.width() - iconMargin) + iconMargin;
           return false;
         } else if (cardArea > rightEdge) {
+          if ($icon.not(':visible').length == 1) {
+            right = 0;
+            return false;
+          }
           pixelsIn = (rightEdge - cardLeft);
           if (pixelsIn > cardWidth) {
             percentOver = (pixelsIn - cardWidth) / cardMargin;
@@ -140,9 +235,13 @@
           return false;
         }
       });
-      $glass.css({left: left, top: $viewport.offset().top});
-      $glass.show();
-      $glass.width(Math.round(right - left));
+      if (showViewport) { 
+        $glass.css({left: left, top: $viewport.offset().top});
+        $glass.show();
+        $glass.width(Math.round(right - left));
+      } else {
+        $glass.hide();
+      }
     }
   });
   $.extend(true, {
@@ -183,7 +282,15 @@
   $.fluxx.dock.ui.viewport = function (options) {
     return $.fluxx.util.resultOf([
       '<div id="viewport">',
+        '<a class="dock-list-scroller left" href="#" title="Scroll Dock Icons Left">',
+          '<span class="arrow">&larr;</span>',
+          '<span class="n-cards">0</span>',
+        '</a>',
         '<ol id="iconlist"></ol>',
+        '<a class="dock-list-scroller right" href="#" title="Scroll Dock Icons Right">',
+          '<span class="n-cards">5</span>',
+          '<span class="arrow">&rarr;</span>',
+        '</a>',
       '</div>'
     ]);
   };

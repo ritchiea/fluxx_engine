@@ -42,7 +42,8 @@ html,body
   color: black
 body
   overflow-x: scroll
-
+h1,h2,h3,h4,h5,h6
+  font-weight: normal
 a img
   border: none
 
@@ -200,9 +201,7 @@ input,select,textarea
       +border-box
       height: $icon_dimension
       width:  $icon_dimension
-      margin: $icon_margin_top 10px $icon_margin_bottom 10px
-      &:first-of-type
-        margin-left: 15px
+      margin: $icon_margin_top 0 $icon_margin_bottom 15px        
       .label
         +ellipsis
         text-transform: uppercase
@@ -211,6 +210,8 @@ input,select,textarea
       .badge
     .popup
       display: none
+  #iconlist
+    width: 0px
   #lookingglass
     position: fixed
     display: none
@@ -219,7 +220,7 @@ input,select,textarea
     left: 0px
     z-index: -1
     border: 1px solid #999
-    margin: 9px 0px 0px 15px
+    margin: 16px 0px 0px 15px
     -webkit-border-radius: 5px
     opacity: 75%
     -moz-border-radius: 5px

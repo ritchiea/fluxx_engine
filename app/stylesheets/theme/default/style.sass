@@ -9,19 +9,19 @@
   label
     +inline-block
     +border-box
-    width: 40%
+    width: 39%
     vertical-align: top
     .required
   input,textarea,select
     +inline-block
     +border-box
-    width: 60%
+    width: 59%
   .inline-aft
     +inline-block
     +border-box
     position: absolute
     top: 0px
-    left: 100%
+    left: 0px
     line-height: 24px
     height: 24px
     margin-left: 6px
@@ -249,8 +249,9 @@
             +rounded(6px)
             p
               margin: 0px
+              font-size: 10pt
             h1,h2,h3
-              border-bottom: 1px solid #999
+              border-bottom: 1px solid #d6d6d6
               margin: 0px
               .actions
                 +inline-block
@@ -258,7 +259,7 @@
                 font-weight: normal
                 font-size: 80%
             h1
-              font-size: 24px
+              font-size: 18pt
               line-height: 24px
               border-bottom: none
             h2
@@ -268,7 +269,7 @@
             h3
               font-size: 200px
             +pretty-forms
-            .string,.select,.numeric,.datetime,.autocomplete,.password,.time_zone
+            .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone
               +form-field-one-line
             .text,.multiple-select-transfer
               +form-field-two-line
@@ -368,13 +369,14 @@
                   padding: 4px
             .contact-info
               .address
+                line-height: 1.2em
                 .address1,.address2,.country
                   display: block
             .satellite
               clear: both
               margin: 12px 0px
               .satellite-name
-                font-weight: bold
+                font-weight: normal
               .actions
                 float: right
                 font-size: 80%
@@ -392,25 +394,26 @@
             .card-header
               +rounded-top(6px)
               .toolbar
-                +linear-gradient(#999, #666)
+                +linear-gradient(#a7a7a7, #888)
                 +rounded-top(6px)
                 position: relative
                 padding: 0px 5px
-                border-bottom: 1px solid #333
-                height: 20px
+                border-bottom: 1px solid #444
+                height: 24px
+                text-align: center
                 .updates
                   +inline-block
                   +bg(#000, #fff)
                   +linear-gradient(#333, #000)
                   +rounded
+                  color: #EEEEEE
                   text-decoration: none
                   font-size: 12px
-                  font-weight: 100
                   height: 16px
                   line-height: 16px
-                  padding: 0px 4px 0px 2px
-                  margin-bottom: 6px
-                  vertical-align: middle
+                  padding: 0px 5px 1px 2px
+                  position: relative
+                  top: 3px
                   .available
                     background: #{inline_image("/images/fluxx_engine/theme/default/icons/arrow_refresh_small.png")} transparent no-repeat center left
                     padding-left: 16px
@@ -420,15 +423,32 @@
                   width: 43px
                   margin-right: 10px
                   margin-top: 4px
+                  position: absolute
+                  left: 5px
                   &.loading
                     background: #{inline_image("/images/fluxx_engine/theme/_common/loaders/ajax-loader-cccccc.gif")} transparent no-repeat center left
                 .controls
-                  +buttons(10px, 2px, #777, #eee, rgba(0,0,0,0.5), -1px, 2px)
                   position: absolute
-                  right: 0px
+                  right: 5px
                   top: 0px
-                  margin-top: 2px
-                  margin-right: 5px
+                  li
+                    width: 20px
+                    height: 20px
+                    margin: 1px 1px 1px 0px
+                    display: block
+                    float: left
+                    border: 1px solid transparent
+                    a
+                      display: block
+                      text-indent: -2000em
+                    a.close-card
+                      background: transparent url("/images/fluxx_engine/theme/default/controls/close.png") no-repeat center center
+                    a.maximize-card
+                      background: transparent url("/images/fluxx_engine/theme/default/controls/maximize.png") no-repeat center center
+                    a.minimize-card
+                      background: transparent url("/images/fluxx_engine/theme/default/controls/minimize.png") no-repeat center center
+                    a.close-detail
+                      background: transparent url("/images/fluxx_engine/theme/default/controls/minimize-detail.png") no-repeat center center
               .titlebar
                 +bg(#ccc, #333)
                 +linear-gradient(#ccc, #aaa)
@@ -436,10 +456,11 @@
                 border-top: 1px solid #eee
                 border-bottom: 1px solid #333
                 text-transform: uppercase
-                font-weight: 100
+                font-weight: 200
                 line-height: 24px
-                font-size: 18px
+                font-size: 120%
                 padding: 2px 10px
+                text-shadow: 0 1px 1px #fff
                 .title
                   outline: none
                 .title[contenteditable=true]
@@ -453,7 +474,7 @@
                 .icon
                   width: 100%
                   margin-left: auto
-                  margin-right: auto  
+                  margin-right: auto
             .card-body
               background: #{inline_image("/images/fluxx_engine/theme/default/cards/body-bg.png")}
               border-bottom: 1px solid #333
@@ -596,52 +617,38 @@
                   .list
                     +non-list
                     .entry
-                      +linear-gradient(#fff,#eee)
-                      &:hover
-                        +linear-gradient(#fff,#f6f6f6)
-                      border-top: 1px solid #eee
-                      border-bottom: 1px solid #666
+                      background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7))")
+                      background: unquote("-moz-linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%)")
+                      border-top: 1px solid #FFF
                       a
-                        +linear-gradient(#fff,#eee)
+                        background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7))")
+                        background: unquote("-moz-linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%)")
                         &:hover
-                          +linear-gradient(#fff,#f6f6f6)
-                        font-size: 14px
-                        line-height: 16px
-                        color: black
-                        border-left: 1px solid transparent
+                          background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #E7E7E7), color-stop(1, #DBDBDB))")
+                          background: unquote("-moz-linear-gradient(center top, #E7E7E7 80%, #DBDBDB 100%)")
+                        font-size: 11pt
+                        color: #666
+                        border-left: 6px solid transparent
                         display: block
-                        margin-left: 5px
-                        padding: 5px 5px
+                        padding: 18px 9px 18px 13px
                         text-decoration: none
-                        .lines
-                          +non-list
-                          li
-                            display: block
-                            color: #666
-                            font-size: 12px
-                            &:first-child
-                              color: black
-                              font-size: 14px
+                        h1
+                          font-size: 14pt
+                          color: #333
+                          font-weight: normal
                       &.red
                         +linear-gradient(#fcc, #ebb)
                         a
                           border-left: 1px solid #f66
                       &.green,&.selected
-                        +linear-gradient(#6c6, #5b5)
-                        &:hover
-                          +linear-gradient(#6c6, #5bc45b)
-                          a
-                            border-left: 1px solid #3aa13a
+                        +linear-gradient(#8FCB3A, #8FCB3A)
                         a
-                          border-left: 1px solid #393
+                          +linear-gradient(#ecf2e3, #e3ead9)
+                          border-left: 6px solid #65AB01
                       &.orange,&.latest
                         +linear-gradient(#fc0, #eb0)
-                        &:hover
-                          +linear-gradient(#fc0, #f6c407)
-                          a
-                            border-left: 1px solid #ffb207
                         a
-                          border-left: 1px solid #fa0
+                          border-left: 6px solid #EA8D00
                       &.blue
                         +linear-gradient(#ccf, #bbe)
                         a
@@ -653,7 +660,7 @@
                     .prev
                       width: 50px
                     .paginate-info
-                      width: 130px
+                      width: 226px
                     .next
                       width: 50px
                   .no-pagination
@@ -669,15 +676,19 @@
                   +bg(#fff, #666)
                   +box-shadow-inset
                   position: relative
-                  padding: 20px 70px 20px 50px
+                  border: none
                   a
                     color: #00f
+                  .show
+                    margin: 20px 38px
+                  .edit
+                    margin: 20px 38px
                 .footer
                   border-left: 1px solid rgba(170,170,170,0.6)
                   .buttons
-                    +buttons
+                    +button
                   .workflow
-                    +buttons(12px, 3px, #9f9)
+                    +button(12px, 3px, #9f9)
                     float: right
               .minimized
                 +bg(#c4c4c4)
@@ -735,6 +746,8 @@
                   border-top: none
                 .body
                   +bg(#333, #fff)
+                  +rounded-top(9px)
+                  padding-top: 18px
                 .footer
                   +rounded-bottom(9px)
                   +bg(#666, #fff)
@@ -749,8 +762,7 @@
             .card-footer
               +rounded-bottom(6px)
               +bg(#999)
-              +linear-gradient(#999, #666)
-              min-height: 6px
+              min-height: 8px
               border-top: 1px solid #eee
     #footer
       border: 2px solid #fff
@@ -763,9 +775,49 @@
       right: 10px
       width: auto
       .qllist
-        border-left: 1px solid #ddd
-        padding: 0px 5px
+        border-left: 1px solid #ccc
+        padding: 0px 33px
+      .qllist
+        &:first-of-type
+          padding: 0px 18px
+      .qllist
+        .icon
+          &:first-of-type
+            .link
+              margin-left: 0
       .dock
         #lookingglass
-          background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/h-gradient-bg.png")} repeat-x 0% 0%
+          background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/h-gradient-bg.png")} repeat-x 0% 0%          
+        #viewport
+          .dock-list-scroller
+            opacity: 0
+            overflow: auto
+            -webkit-box-sizing: bordered-box
+            display: inline-block
+            -webkit-border-radius: 6px
+            -moz-border-radius: 6px
+            height: 12px
+            vertical-align: top
+            margin: 40px 5px 0px 5px
+            padding: 0px 3px 0px 3px
+            z-index: 5
+            position: relative
+            text-decoration: none
+            background: #999
+            color: white
+            line-height: 11px
+            font-size: 10px
+            width: 25px
+            &:hover
+              background: #666
+              text-decoration: none !important
+              -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.3)
+              -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.3)
+            &.left
+              float: left
+              margin-right: -10px
+            &.right
+              float: right
+              margin-left: 0px          
+       
         

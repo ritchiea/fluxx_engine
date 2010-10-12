@@ -3,8 +3,8 @@
 @import /stylesheets/fluxx_engine/lib/Quicksand-fontfacekit/stylesheet.css
 
 $icon_dimension: 48px
-$icon_margin_top:    15px
-$icon_margin_bottom:    15px
+$icon_margin_top:    22px
+$icon_margin_bottom:    25px
 $footer_height:  $icon_dimension + ($icon_margin_top + $icon_margin_bottom)
 $header_height:  78px
 
@@ -13,7 +13,7 @@ $header_height:  78px
   font-family: 'QuicksandBook', Helvetica, sans-serif
 
 =default-font
-  font-family: Helvetica, sans-serif
+  font-family: "Helvetica Neue", sans-serif
 
 // Rotations
 
@@ -129,7 +129,7 @@ $header_height:  78px
   -moz-box-shadow: none
   box-shadow: none
 
-=box-shadow($left: 0px, $top: 2px, $spread: 4px, $color: rgba(0,0,0,0.4))
+=box-shadow($left: 5px, $top: 5px, $spread: 12px, $color: rgba(0,0,0,0.5))
   -webkit-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
   -moz-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
   box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
@@ -148,9 +148,6 @@ $header_height:  78px
   background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(1, #{$bottom}))")
   background: unquote("-moz-linear-gradient(center top, #{$top} 0%, #{$bottom} 100%)")
 
-
-
-
 =btn-color($color: #ccc, $hover: true, $textColor: #000)
   $top: $color * 1.5
   $mid: $color * 0.80
@@ -167,7 +164,27 @@ $header_height:  78px
     &:active
       background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$bot + #111}), color-stop(0.51, #{$mid + #111}),    color-stop(0.51, #{$color + #111}), color-stop(0.88, #{$top + #111}))")
       background: unquote("-moz-linear-gradient(center top,#{$bot + #111} 0%,#{$mid + #111} 51%,#{$color + #111} 51%,#{$top + #111} 88%)")
-
+=button($size: 12px, $rounding: 3px, $bgcolor: #ccc, $color: #000, $tscolor: rgba(255,255,255,0.5), $tspos: 1px, $padding: $rounding)
+  font-size: $size
+  line-height: $size
+  li
+    +btn-color($bgcolor)
+    +rounded($rounding+1)
+    color: $color
+    margin: 0 2px
+    display: block
+    float: left
+    a,span
+      +border-box
+      +chiseled-text($tscolor, 0px, $tspos)
+      color: $color
+      text-decoration: none
+      text-align: center
+      padding: $padding
+      display: block
+      min-width: $size+($padding*2)
+      +rounded($rounding)
+      border: 1px solid #666
 =buttons($size: 12px, $rounding: 3px, $bgcolor: #ccc, $color: #000, $tscolor: rgba(255,255,255,0.5), $tspos: 1px, $padding: $rounding)
   +non-list
   +rounded($rounding + 1)
