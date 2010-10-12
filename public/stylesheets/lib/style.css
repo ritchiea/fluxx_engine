@@ -3,7 +3,8 @@
 @import url(../../_common/css/Quicksand-fontfacekit/stylesheet.css);
 #colorbox { color: white; }
 
-body, table { font-family: Helvetica, sans-serif; }
+/*body, table { font-family: Helvetica, sans-serif; }*/
+body, table { font-family:"Helvetica Neue",sans-serif;}
 
 div, ul, ol, li, table, tr, td, th, dl, dt, dd { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; }
 
@@ -64,7 +65,7 @@ input, select, textarea { border: 1px solid #cccccc; background: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-body .modal .arrow.left { left: -25px; top: 0px; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer { background-color: #333333; color: white; }
 #fluxx #stage #card-table #hand .card .card-box .card-footer a { color: white; }
-#fluxx #stage #card-table #hand .card .info { width: 250px; position: absolute; top: 47px; right: 1px; bottom: 7px; }
+#fluxx #stage #card-table #hand .card .info { width: 251px; position: absolute; top: 47px; right: 1px; bottom: 7px; }
 #fluxx #stage #card-table #hand .card .info.empty { display: none; }
 #fluxx #stage #card-table #hand .card .info .drawer { overflow: auto; border-left: none; }
 #fluxx #stage #footer { background-color: #333333; color: white; height: 78px; position: fixed; bottom: 0; width: 100%; }
