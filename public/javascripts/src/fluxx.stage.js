@@ -340,7 +340,12 @@
               var $previous = $('.selected a', $.my.dashboardPicker);
               $previous.data('locked', true);
               $selected.data('locked', true);
-              $.my.cards.removeFluxxCard();
+              $.my.lookingGlass.hide();
+              $.my.cards.each(function() {
+                var $card = $(this);
+                $.my.dock.removeViewPortIcon({card: $(this)});
+                $card.remove();
+              });              
               var dashboard = $selected.data('dashboard');
               if (dashboard && dashboard.data && dashboard.data.cards) {
                 $('a.to-dashboard[href*=' + dashboard.url + ']').parent().addClass('selected').siblings().removeClass('selected');

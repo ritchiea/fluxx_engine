@@ -235,7 +235,7 @@
           return false;
         }
       });
-      if (showViewport) { 
+      if (showViewport && left > 0) { 
         $glass.css({left: left, top: $viewport.offset().top});
         $glass.show();
         $glass.width(Math.round(right - left));
