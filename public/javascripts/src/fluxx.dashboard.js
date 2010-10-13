@@ -13,10 +13,9 @@
     loadDashboard: function () {
       var $item = $('.item:first a', $(this));
       if ($.cookie('dashboard')) {
-        $found = $('.item a[href='+$.cookie('dashboard')+']', $(this));
-        if ($found.length) {
+        $found = $('.item a[href*='+$.cookie('dashboard')+']', $(this));
+        if ($found.length)
           $item = $found;
-        }
       }
       $.cookie('dashboard', $item.click().attr('href'));
       $item.parent().addClass('selected').siblings().removeClass('selected');
