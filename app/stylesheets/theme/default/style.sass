@@ -190,6 +190,7 @@
               .section
                 +inline-block
                 margin-bottom: 5px
+                border-bottom-color: #e3e7ea
                 .label
                   +inline-block
                   +bg(#444,#eee)
@@ -201,7 +202,7 @@
                     +bg(#eee, #444)
                     +linear-gradient(#fff,#eee)
                     +chiseled-text
-                    border-color: #999
+                    border-color: #444
                   +rounded-top(4px)
                   +border-box
                   +chiseled-text-light
@@ -220,10 +221,10 @@
                   display: none
             .drawer
               +non-list
-              +bg(#eee)
+              +bg(#e3e7ea)
               width: 223px
               height: 100%
-              border: 1px solid #999
+              border: 1px solid #444
               display: none
               .section
                 .label
@@ -236,12 +237,17 @@
                   .entry
                     border-bottom: 1px solid #aaa
                     border-top: 1px solid #fff
-                    line-height: 25px
+                    line-height: 17px
                     font-size: 14px
-                    padding: 0px 4px
+                    padding: 18px 15px 18px 25px
                     a
                       display: block
                       text-decoration: none
+                    .fluxx-card-content-metadata-section-title
+                      font-size: 11pt
+                    .fluxx-card-content-metadata-section-info
+                      display: block
+                      font-size: 10pt
           .card-box
             position: relative
             z-index: 2
