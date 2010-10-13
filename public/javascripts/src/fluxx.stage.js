@@ -335,12 +335,20 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $selected = $(this);
+              if ($selected.parent().hasClass('selected'))
+                return;
               var $previous = $('.selected a', $.my.dashboardPicker);
               $previous.data('locked', true);
               $selected.data('locked', true);
-              $.my.cards.removeFluxxCard();
+              $.my.lookingGlass.hide();
+              $.my.cards.each(function() {
+                var $card = $(this);
+                $.my.dock.removeViewPortIcon({card: $(this)});
+                $card.remove();
+              });              
               var dashboard = $selected.data('dashboard');
               if (dashboard && dashboard.data && dashboard.data.cards) {
+                $('a.to-dashboard[href*=' + dashboard.url + ']').parent().addClass('selected').siblings().removeClass('selected');
                 $.my.hand
                   .addFluxxCards({cards: dashboard.data.cards}, function(){
                     $selected.data('locked', false);
@@ -352,6 +360,45 @@
               }
             }
           ],
+          'a.new-dashboard': [
+             'click', function(e) {
+               $.fluxx.util.itEndsWithMe(e);
+               $.my.dashboardPicker.newDashboard(e);
+             }
+           ],
+           'a.manage-dashboard': [
+             'click', function(e) {
+               $.fluxx.util.itEndsWithMe(e);
+               $.my.dashboardPicker.openManager();
+             }
+           ],
+           'a.delete-dashboard': [
+              'click', function(e) {
+                $.fluxx.util.itEndsWithMe(e);
+                var dashboard = $(this).parent().parent().parent().find('a.to-dashboard').data('dashboard');
+                $('#manager-container').fadeTo(500,0.2);
+                jConfirm('<p>You are about to delete the dashboard</p><span class="manager-title">' + dashboard.name + '</span>', 
+                  'Can you confirm this?', function(r) {
+                    $('#manager-container').fadeTo(500, 1);
+                    if (r)
+                      $.my.dashboardPicker.deleteDashboard(dashboard);
+                });
+              }
+            ],
+            'a.rename-dashboard': [
+               'click', function(e) {
+                 $.fluxx.util.itEndsWithMe(e);
+                 $.fluxx.util.itEndsWithMe(e);
+                 var dashboard = $(this).parent().parent().parent().find('a.to-dashboard').data('dashboard');
+                 $('#manager-container').fadeTo(500,0.2);
+                 jPrompt('Rename dashboard ' + dashboard.name + ' to:', 
+                   dashboard.name, '', function(r) {
+                   $('#manager-container').fadeTo(500, 1);
+                   if (r)
+                     $.my.dashboardPicker.renameDashboard(dashboard, r);
+                 });
+               }
+             ],
           'a.to-upload': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);

@@ -6,7 +6,7 @@
         $.my.dock = $.fluxx.dock.ui.call($.my.footer, options)
           .appendTo($.my.footer);
         $.my.viewport = $('#viewport');
-        $.my.iconlist = $('#iconlist').sortable(  {
+        $.my.iconlist = $('#iconlist').sortable({
           scroll: false,
           start: function(event, ui) {
             if ((ui.helper !== undefined )) {
@@ -235,7 +235,7 @@
           return false;
         }
       });
-      if (showViewport) { 
+      if (showViewport && left > 0) { 
         $glass.css({left: left, top: $viewport.offset().top});
         $glass.show();
         $glass.width(Math.round(right - left));

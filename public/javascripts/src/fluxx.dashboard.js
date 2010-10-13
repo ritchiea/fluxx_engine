@@ -42,12 +42,13 @@
         }
       });
     },
-    
     saveDashboard: function(){
       var $dashboard = $('.selected a', $.my.dashboardPicker);
       if ($dashboard.data('locked')) return this;
 
       var dashboard = $dashboard.data('dashboard');
+      if (!dashboard)
+        return;
       dashboard.data.cards = $.my.stage.serializeFluxxCards();
       $dashboard.parent().addClass('saving');
 
@@ -57,6 +58,55 @@
 //      $.fluxx.log($dashboard.data('dashboard'), $.my.stage.serializeFluxxCards());
 
       return this;
+    },
+    newDashboard: function(e) {
+      $(e.target).after(
+        $('<input type="text" class="new-dashboard-input"/>').keypress(function(e){
+          if (e.which == 13 || e.which == 10) {
+            e.preventDefault();
+            var name = $(e.target).val(); 
+            if (name.length > 0) {
+              var dashboard = $.fluxx.config.dashboard.default_dashboard;
+              dashboard.name = name;
+              $.fluxx.storage.createStore(dashboard, function(item) {
+                $($.fluxx.dashboard.ui.pickerItem({url: item.url, name: item.name}))
+                .find('a').data('dashboard', item)
+                .end()
+                .appendTo($.my.dashboardPicker)
+                .find('a').trigger('click');
+              });
+              $(e.target).hide().prev().show();
+            } else {
+              $(e.target).hide().prev().show();
+            }
+          }
+        }).select()
+      ).hide();
+      $('.new-dashboard-input').focus();
+    },
+    openManager: function() {
+     var manager = $.fluxx.dashboard.manager;
+     manager.init();
+    },
+    deleteDashboard: function(dashboard) {
+     $.fluxx.storage.deleteStored({store: dashboard}, function(item) {
+       var $li = $('a.to-dashboard[href*=' + dashboard.url + ']').parent().remove();
+       if ($li.hasClass('selected')) {
+         var $first = $('a.to-dashboard').first();
+         if ($first.length > 0)
+           $.first.click();
+         else {
+           $('.dashboard').remove();
+           $.my.header.initFluxxDashboard();
+           $('a.simplemodal-close').click();
+         }
+       }
+     });
+    },
+    renameDashboard: function(dashboard, name) {
+      dashboard.name = name;
+      $.fluxx.storage.updateStored({store: dashboard}, function(dashboard){});
+      $('a.to-dashboard[href*=' + dashboard.url + ']').html(name);
     }
   });
   
@@ -88,13 +138,59 @@
                 '<span class="label">Dashboard:</span>',
                 '<ul class="picker">',
                   '<li class="combo"><div>&#9650;</div><div>&#9660;</div></li>',
-                  '<li class="new"><a href="#">New</a></li>',
-                  '<li class="manage"><a href="#">Manage</a></li>',
+                  '<li class="new"><a href="#" class="new-dashboard">New</a></li>',
+                  '<li class="manage"><a href="#" class="manage-dashboard">Manage</a></li>',
                 '</ul>',
               '</li>'
             ]))
+        },
+        manager: {
+          init: function () {
+            
+            var $dashboards = $.my.dashboardPicker
+              .find('.item')
+              .clone(true)
+              .wrapAll('<ul class="manager-list" />')
+              .parent()
+              .before('<h1 class="manager-title">My Dashboards</h1>');
+            
+            $dashboards.find('li').each(function() {
+              var $item = $('a', $(this));
+              var dashboard = $item.data('dashboard');
+              $item.after('<ul class="actions">' +
+                  '<li><a href="#" class="rename-dashboard"></a></li>' +
+                 '<li><a href="#" class="delete-dashboard"></a></li>' +
+                 '</ul><div class="manager-card-count">' +
+                 dashboard.data.cards.length + 
+                 ' cards</div>');
+            });
+            $dashboards.modal({
+              closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
+              position: ["15%",],
+              overlayId: 'manager-overlay',
+              containerId: 'manager-container',
+              onOpen: this.open,
+              onClose: this.close
+            });
+          },
+          open: function(dialog) {
+            dialog.overlay.fadeIn(200, function () {
+              dialog.container.fadeIn(200, function () {
+                dialog.data.fadeIn(200)
+              });
+            });
+          },
+          close: function(dialog) {
+            dialog.data.fadeOut(200, function () {
+              dialog.container.fadeOut(200, function () {
+                dialog.overlay.fadeOut(200, function () {
+                  $.modal.close();
+                });
+              });
+            });
+          }
         }
-      }
+      },
     }
   });
   $.fluxx.dashboard.ui.pickerItem = function(options) {
