@@ -611,10 +611,10 @@
       var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options, onComplete);
       return this.each(function(){
         var $modal = $('.modal', $(this).fluxxCard());
-       $('.loading-indicator', $modal.fluxxCard()).removeClass('loading')
-       var $card = $modal.fluxxCard();
-       //TODO: this only works for modals in detail areas. This needs to be rethought
-       $card.fluxxCardDetail().enableFluxxArea();
+        $('.loading-indicator', $modal.fluxxCard()).removeClass('loading')
+        var $card = $modal.fluxxCard();
+        //TODO: this only works for modals in detail areas. This needs to be rethought
+        $card.fluxxCardDetail().enableFluxxArea();
 //       $modal.data('target').enableFluxxArea();
         $(this).fluxxCard().css({marginRight: null});
         $modal.remove();
