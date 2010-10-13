@@ -613,7 +613,9 @@
         var $modal = $('.modal', $(this).fluxxCard());
        $('.loading-indicator', $modal.fluxxCard()).removeClass('loading')
        var $card = $modal.fluxxCard();
-        $modal.data('target').enableFluxxArea();
+       //TODO: this only works for modals in detail areas. This needs to be rethought
+       $card.fluxxCardDetail().enableFluxxArea();
+//       $modal.data('target').enableFluxxArea();
         $(this).fluxxCard().css({marginRight: null});
         $modal.remove();
         $card.resizeFluxxCard();
