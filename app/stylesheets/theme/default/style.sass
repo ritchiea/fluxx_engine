@@ -36,6 +36,7 @@
   +form-field-one-line
   label
     width: 100%
+    line-height: 1em
   .required
   input,textarea,select
     width: 100%
@@ -563,7 +564,6 @@
                             +chiseled-text
                             text-transform: uppercase
                             color: #999
-                            font-weight: 100
               .listing
                 .header
                   &.actions-open
@@ -723,44 +723,56 @@
                 .footer
               .modal
                 +box-shadow
-                +rounded
+                +rounded(10px)
                 opacity: 0.95
-                border: 0px solid #333
+                border: 3px solid #FFF
                 .controls
-                  +buttons(10px, 2px, #333, #eee, rgba(0,0,0,0.5), -1px, 2px)
                   position: absolute
-                  right: 0px
-                  top: 0px
-                  margin-right: 10px
-                  margin-top: 6px
+                  right: 5px
+                  top: 2px
+                  li
+                    width: 20px
+                    height: 20px
+                    margin: 1px 1px 1px 0px
+                    display: block
+                    float: left
+                    border: 1px solid transparent
+                    a
+                      display: block
+                      text-indent: -2000em
+                    a.close-card
+                      background: transparent url("/images/fluxx_engine/theme/default/controls/close.png") no-repeat center center
                 .arrow
                   +bg(transparent)
+                  background: transparent url("/images/fluxx_engine/theme/default/modal/arrow-left.png") no-repeat right center
                   $size: 25px
                   height: $size*2
                   width: $size*2
                   &.left
                     left: $size*-2
-                    border: transparent solid $size
-                    border-right-color: #333
+                    //border: transparent solid $size
+                    //border-right-color: #333
                 .header,.footer,.body
                   padding: 5px 10px
                 .header
                   +rounded-top(9px)
                   +bg(#666,#fff)
-                  +btn-color(#666, false, #fff)
-                  +chiseled-text-light(rgba(0,0,0,0.65))
+                  +linear-gradient(#666, #777)
                   text-transform: uppercase
-                  font-weight: 100
-                  border-top: none
+                  border: none
                 .body
                   +bg(#333, #fff)
-                  +rounded-top(9px)
+                  +rounded(9px)
                   padding-top: 18px
+                  form
+                    +form-field-two-line
+                    width: 80%
+                    margin-left: 10%
                 .footer
                   +rounded-bottom(9px)
                   +bg(#666, #fff)
-                  +linear-gradient(#666, #333)
-                  border-top: none
+                  +linear-gradient(#777, #666)
+                  border: none
                   padding: 3px 10px
                   .buttons
                     +buttons(12px,3px)

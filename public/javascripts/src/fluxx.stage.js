@@ -437,6 +437,7 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              //alert ($elem.text());
               $elem.openCardModal({
                 url:    $elem.attr('href'),
                 header: $elem.attr('title') || $elem.text(),
