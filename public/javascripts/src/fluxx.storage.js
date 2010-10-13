@@ -80,7 +80,7 @@
           type: 'DELETE',
           url: options.store.url,
           complete: function (xhr, status) {
-            callback(store);
+            callback(options.store);
           }
         })
       },

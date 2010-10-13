@@ -6,7 +6,7 @@
         $.my.dock = $.fluxx.dock.ui.call($.my.footer, options)
           .appendTo($.my.footer);
         $.my.viewport = $('#viewport');
-        $.my.iconlist = $('#iconlist').sortable(  {
+        $.my.iconlist = $('#iconlist').sortable({
           scroll: false,
           start: function(event, ui) {
             if ((ui.helper !== undefined )) {

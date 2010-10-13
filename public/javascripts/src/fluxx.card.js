@@ -28,7 +28,7 @@
             'lifetimeComplete.fluxx.card' :
               function() {
                 var $close = $('.close-detail', $card).parent();
-                var $minimize = $('.toolbal li:first', $card).next();
+                var $minimize = $('.toolbar li:first', $card).next();
                 if ($('.detail:visible', $card).length > 0 && 
                     $('.listing:visible', $card).length > 0)
                   $close.show().after($minimize);
