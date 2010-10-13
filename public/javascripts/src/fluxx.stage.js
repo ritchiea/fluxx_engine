@@ -413,14 +413,12 @@
                 escClose:true,
                 opacity: 50,
                 onShow: function () {
-                  $.fluxx.log("onShow start");
                   $('.upload-queue').pluploadQueue({
                     url: $elem.attr('href'),
                     runtimes: 'html5',
                     multipart: false,
                     filters: [{title: "Allowed file types", extensions: $elem.attr('data-extensions')}]
                   });
-                  $.fluxx.log("onShow stop");
                 },
                 onClose: function(){
                   if ($elem.parents('.partial').length) {
