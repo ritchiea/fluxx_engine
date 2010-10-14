@@ -4,7 +4,7 @@
 
 $icon_dimension: 48px
 $icon_margin_top:    22px
-$icon_margin_bottom:    25px
+$icon_margin_bottom:    24px
 $footer_height:  $icon_dimension + ($icon_margin_top + $icon_margin_bottom)
 $header_height:  78px
 
@@ -134,12 +134,12 @@ $header_height:  78px
   -moz-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
   box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}")
 
-=box-shadow-inset($left: 0px, $top: 1px, $spread: 3px, $color: rgba(0,0,0,0.4))
+=box-shadow-inset($left: 0px, $top: 1px, $spread: 2px, $color: rgba(0,0,0,0.4))
   -webkit-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}")
   -moz-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}")
   box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}")
 
-=box-shadow-with-inset($left: 0px, $top: 2px, $spread: 4px, $color: rgba(0,0,0,0.4))
+=box-shadow-with-inset($left: 0px, $top: 1px, $spread: 2px, $color: rgba(0,0,0,0.2))
   -webkit-box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}")
   -moz-box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}")
   box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}")

@@ -4,10 +4,21 @@
   .link
     height: 32px
     width: 32px
-    margin-bottom: $icon_margin_bottom + 6px
+    margin-bottom: $icon_margin_bottom + 4px
     margin-top: $icon_margin_top + 6px
     margin-left: 16px
     margin-right: 0
+    .label
+      top: 42px
+      margin-left: -16px
+=icon-34
+  .link
+    height: 34px
+    width: 34px
+    margin-bottom: $icon_margin_bottom + 4px
+    margin-top: $icon_margin_top + 6px
+    margin-left: 16px
+    margin-right: 2px
     .label
       top: 42px
       margin-left: -16px
@@ -31,13 +42,13 @@
     &.tiny
       +icon-32
     &.plus
-      +icon-32
+      +icon-34
       .link
         +bg(#585858)
-        +box-shadow-with-inset
-        border: 2px solid white
+        +box-shadow(1px, 1px, 2px)
+        border: 2px solid #FFF
         +rounded(($icon_dimension + 2) / 2)
-        background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/plus.png")} #666 no-repeat 50% 50%
+        background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/plus.png")} #585858 no-repeat 50% 50%
         .label
           display: none
     .popup
