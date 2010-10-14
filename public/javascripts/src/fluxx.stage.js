@@ -662,6 +662,36 @@
               });
             }
           ],
+          'div.toolbar': [
+            'mousedown', function(e) {
+              var $window = $('html,body');
+              $('#fluxx').css('-webkit-user-select', 'none').css('-moz-user-select', 'none');
+              $window.data('lastPageX', e.pageX);
+              $window.mousemove(function(e) {
+                var $window = $('html,body');
+                if ($window.data('skipScroll')) {
+                  $window.data('skipScroll', false);
+                  return;
+                }
+                $window.data('skipScroll', true);
+                var lastPageX = $window.data('lastPageX');
+                var offset = lastPageX - e.pageX;
+                var scrollLeft = $(window).scrollLeft() + offset;
+                $window.data('lastOffset', offset);
+                $window.data('lastPageX', e.pageX + offset);
+                $window.scrollLeft(scrollLeft);
+              });           
+            }
+          ],
+          'html,body': [
+            'mouseup', function(e) {
+              var $window = $('html,body');
+              $window.unbind('mousemove');
+              $('#fluxx').css('-webkit-user-select', 'auto').css('-moz-user-select', 'auto');              
+              var lastOffset = $window.data('lastOffset');
+              $window.stop().animate({scrollLeft: '+=' + lastOffset}); 
+            }
+          ]
         }
       }
     }
