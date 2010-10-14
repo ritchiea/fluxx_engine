@@ -335,23 +335,71 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $selected = $(this);
+              if ($selected.parent().hasClass('selected'))
+                return;
               var $previous = $('.selected a', $.my.dashboardPicker);
               $previous.data('locked', true);
               $selected.data('locked', true);
-              $.my.cards.removeFluxxCard();
+              $.my.lookingGlass.hide();
+              $.my.cards.each(function() {
+                var $card = $(this);
+                $.my.dock.removeViewPortIcon({card: $(this)});
+                $card.remove();
+              });              
               var dashboard = $selected.data('dashboard');
               if (dashboard && dashboard.data && dashboard.data.cards) {
+                $('a.to-dashboard[href*=' + dashboard.url + ']').parent().addClass('selected').siblings().removeClass('selected');
                 $.my.hand
                   .addFluxxCards({cards: dashboard.data.cards}, function(){
                     $selected.data('locked', false);
                     $previous.data('locked', false);
                   });
+                $.cookie('dashboard', dashboard.url);
               } else {
                 $selected.data('locked', false);
                 $previous.data('locked', false);
               }
             }
           ],
+          'a.new-dashboard': [
+             'click', function(e) {
+               $.fluxx.util.itEndsWithMe(e);
+               $.my.dashboardPicker.newDashboard(e);
+             }
+           ],
+           'a.manage-dashboard': [
+             'click', function(e) {
+               $.fluxx.util.itEndsWithMe(e);
+               $.my.dashboardPicker.openManager();
+             }
+           ],
+           'a.delete-dashboard': [
+              'click', function(e) {
+                $.fluxx.util.itEndsWithMe(e);
+                var dashboard = $(this).parent().parent().parent().find('a.to-dashboard').data('dashboard');
+                $('#manager-container').fadeTo(500,0.2);
+                jConfirm('<p>You are about to delete the dashboard</p><span class="manager-title">' + dashboard.name + '</span>', 
+                  'Can you confirm this?', function(r) {
+                    $('#manager-container').fadeTo(500, 1);
+                    if (r)
+                      $.my.dashboardPicker.deleteDashboard(dashboard);
+                });
+              }
+            ],
+            'a.rename-dashboard': [
+               'click', function(e) {
+                 $.fluxx.util.itEndsWithMe(e);
+                 $.fluxx.util.itEndsWithMe(e);
+                 var dashboard = $(this).parent().parent().parent().find('a.to-dashboard').data('dashboard');
+                 $('#manager-container').fadeTo(500,0.2);
+                 jPrompt('Rename dashboard ' + dashboard.name + ' to:', 
+                   dashboard.name, '', function(r) {
+                   $('#manager-container').fadeTo(500, 1);
+                   if (r)
+                     $.my.dashboardPicker.renameDashboard(dashboard, r);
+                 });
+               }
+             ],
           'a.to-upload': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
@@ -365,14 +413,12 @@
                 escClose:true,
                 opacity: 50,
                 onShow: function () {
-                  $.fluxx.log("onShow start");
                   $('.upload-queue').pluploadQueue({
                     url: $elem.attr('href'),
                     runtimes: 'html5',
                     multipart: false,
                     filters: [{title: "Allowed file types", extensions: $elem.attr('data-extensions')}]
                   });
-                  $.fluxx.log("onShow stop");
                 },
                 onClose: function(){
                   if ($elem.parents('.partial').length) {
@@ -389,6 +435,7 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              //alert ($elem.text());
               $elem.openCardModal({
                 url:    $elem.attr('href'),
                 header: $elem.attr('title') || $elem.text(),
@@ -616,6 +663,36 @@
               });
             }
           ],
+          'div.toolbar': [
+            'mousedown', function(e) {
+              var $window = $('html,body');
+              $('#fluxx').css('-webkit-user-select', 'none').css('-moz-user-select', 'none');
+              $window.data('lastPageX', e.pageX);
+              $window.mousemove(function(e) {
+                var $window = $('html,body');
+                if ($window.data('skipScroll')) {
+                  $window.data('skipScroll', false);
+                  return;
+                }
+                $window.data('skipScroll', true);
+                var lastPageX = $window.data('lastPageX');
+                var offset = lastPageX - e.pageX;
+                var scrollLeft = $(window).scrollLeft() + offset;
+                $window.data('lastOffset', offset);
+                $window.data('lastPageX', e.pageX + offset);
+                $window.scrollLeft(scrollLeft);
+              });           
+            }
+          ],
+          'html,body': [
+            'mouseup', function(e) {
+              var $window = $('html,body');
+              $window.unbind('mousemove');
+              $('#fluxx').css('-webkit-user-select', 'auto').css('-moz-user-select', 'auto');              
+              var lastOffset = $window.data('lastOffset');
+              $window.stop().animate({scrollLeft: '+=' + lastOffset}); 
+            }
+          ]
         }
       }
     }
