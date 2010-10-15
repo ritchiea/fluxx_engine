@@ -389,7 +389,6 @@
             'a.rename-dashboard': [
                'click', function(e) {
                  $.fluxx.util.itEndsWithMe(e);
-                 $.fluxx.util.itEndsWithMe(e);
                  var dashboard = $(this).parent().parent().parent().find('a.to-dashboard').data('dashboard');
                  $('#manager-container').fadeTo(500,0.2);
                  jPrompt('Rename dashboard ' + dashboard.name + ' to:', 

@@ -157,7 +157,6 @@
           };
           sel.bind('change keydown', options.update).change();
         },
-        
         seconds: function (i) { return i * 1000; },
         minutes: function (i) { return i * 60 * 1000; }
       },
@@ -179,17 +178,6 @@
           $elem.width(widthTo).css('margin-right', margin);
           $elem.animate({opacity: 1});
           return _.bind(callback, $elem)();
-        });
-      },
-      disableTextSelect: function() {
-        return this.each(function(){
-          if($.browser.mozilla){//Firefox
-            $(this).css('MozUserSelect','none');
-          }else if($.browser.msie){//IE
-            $(this).bind('selectstart',function(){return false;});
-          }else{//Opera, etc.
-            $(this).mousedown(function(){return false;});
-          }
         });
       }
     }
