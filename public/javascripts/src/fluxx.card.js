@@ -790,7 +790,7 @@
           } else {
             options.area.css('display', 'inline-block')
             var $document = $('<div/>').html(data);            
-            $('.header', options.area).html((options.header || $('#card-header', $document).html()).trim());
+            $('.header', options.area).html(($('#card-header', $document).html() || options.header).trim());
             $('.body',   options.area).html((options.body || $('#card-body',   $document).html()).trim());
             $('.footer', options.area).html((options.footer || $('#card-footer', $document).html()).trim());
             $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
