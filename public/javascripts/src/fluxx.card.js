@@ -995,7 +995,7 @@
     return [
       '<div class="', types.join(' '), '" data-type="', options.type ,'" ', (options.drawer ? ' data-has-drawer="1" ' : null),
  ,'>',
-        (options.closeButton ? ['<ul class="controls"><li><a href="#" class="close-card">&times;</a></li></ul>'] : null),
+        (options.closeButton ? ['<ul class="controls"><li><a href="#" class="close-modal">&times;</a></li></ul>'] : null),
         (options.arrow ? ['<div class="arrow ', options.arrow, '"></div>'] : null),
         '<div class="header"></div>',
         '<div class="body"></div>',
