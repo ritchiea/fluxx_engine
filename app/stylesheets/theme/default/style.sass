@@ -47,7 +47,7 @@
   opacity: 0.5
 
 #fluxx
-  +bg(#f9f9f9)
+  +bg(#EEE)
   #stage
     #header
       a
@@ -785,26 +785,28 @@
               min-height: 8px
               border-top: 1px solid #eee
     #footer
-      border: 1px solid #fff
-      border-bottom: none
-      +linear-gradient(#fff, #f9f9f9)
-      +rounded-top
-      +box-shadow-with-inset
+      background: url("/images/fluxx_engine/theme/default/dock-icons/left.png") no-repeat top left
+      border-bottom: none   
       z-index: 2
       left: 50px
       right: 50px
       width: auto
-      .qllist
-        border-left: 1px solid #ccc
-        padding: 0px 35px
-      .qllist
-        &:first-of-type
-          padding: 0px 18px
-      .qllist
-        .icon
+      #quicklinks
+        height: $footer_height
+        background: url("/images/fluxx_engine/theme/default/dock-icons/right.png") no-repeat top right
+        .qllist
+          margin-top: 4px
+          padding: 0 38px 0 33px
+        .qllist
           &:first-of-type
-            .link
-              margin-left: 0
+            border-left: 1px solid #ccc
+            border-right: 1px solid #ccc
+            padding: 0px 18px
+        .qllist
+          .icon
+            &:first-of-type
+              .link
+                margin-left: 0
       .dock
         #lookingglass
           background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/h-gradient-bg.png")} repeat-x 0% 0%          
