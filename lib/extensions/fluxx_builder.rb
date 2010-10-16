@@ -2,7 +2,15 @@ module Rack
   class FluxxBuilder
     def initialize app
       @app = app
-      Sass::Plugin.update_stylesheets
+      if defined?(FORCE_UPDATE_SASS) && FORCE_UPDATE_SASS
+        # WARNING: this may cause problems if you're running with passenger phusion
+        p "beginning to force update of SASS stylesheets #{Time.now.inspect}"
+        Sass::Plugin.force_update_stylesheets
+        p "after forcing update of SASS stylesheets #{Time.now.inspect}"
+      else
+        Sass::Plugin.update_stylesheets
+      end
+      
       DirectorySync.sync_all
     end
     def call env
