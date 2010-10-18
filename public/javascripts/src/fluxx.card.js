@@ -789,10 +789,11 @@
             options.area.fluxxCardLoadContent(opts);
           } else {
             options.area.css('display', 'inline-block')
-            var $document = $('<div/>').html(data);            
-            $('.header', options.area).html((options.header || $('#card-header', $document).html()).trim());
-            $('.body',   options.area).html((options.body || $('#card-body',   $document).html()).trim());
-            $('.footer', options.area).html((options.footer || $('#card-footer', $document).html()).trim());
+            var $document = $('<div/>').html(data);
+            //TODO: Modal header not getting set correctly
+            $('.header', options.area).html(($('#card-header', $document).html() || options.header).trim());
+            $('.body',   options.area).html(($('#card-body',   $document).html() || options.header).trim());
+            $('.footer', options.area).html(($('#card-footer', $document).html() || options.header).trim());
             $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
             $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
             if (options.area.attr('data-has-drawer')) {
@@ -995,7 +996,7 @@
     return [
       '<div class="', types.join(' '), '" data-type="', options.type ,'" ', (options.drawer ? ' data-has-drawer="1" ' : null),
  ,'>',
-        (options.closeButton ? ['<ul class="controls"><li><a href="#" class="close-card">&times;</a></li></ul>'] : null),
+        (options.closeButton ? ['<ul class="controls"><li><a href="#" class="close-modal">&times;</a></li></ul>'] : null),
         (options.arrow ? ['<div class="arrow ', options.arrow, '"></div>'] : null),
         '<div class="header"></div>',
         '<div class="body"></div>',
