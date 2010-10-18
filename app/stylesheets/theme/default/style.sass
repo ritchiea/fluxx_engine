@@ -47,7 +47,7 @@
   opacity: 0.5
 
 #fluxx
-  +bg(#f9f9f9)
+  +bg(#EEE)
   #stage
     #header
       a
@@ -282,9 +282,10 @@
               +form-field-one-line
             .text,.multiple-select-transfer
               +form-field-two-line
-            .datetime
+            .datetime,.date
               input
                 background: #{inline_image("/images/fluxx_engine/theme/default/icons/calendar.png")} 99% center no-repeat
+                background-color: #fff
             .commit,.hidden
               display: none
             .required
@@ -740,7 +741,7 @@
                     a
                       display: block
                       text-indent: -2000em
-                    a.close-card
+                    a.close-modal
                       background: transparent url("/images/fluxx_engine/theme/default/controls/close.png") no-repeat center center
                 .arrow
                   +bg(transparent)
@@ -785,27 +786,32 @@
               min-height: 8px
               border-top: 1px solid #eee
     #footer
-      border: 1px solid #fff
-      border-bottom: none
-      +linear-gradient(#fff, #f9f9f9)
-      +rounded-top
-      +box-shadow-with-inset
+      background: url("/images/fluxx_engine/theme/default/dock-icons/left.png") no-repeat top left
+      border-bottom: none   
       z-index: 2
       left: 50px
       right: 50px
       width: auto
-      .qllist
-        border-left: 1px solid #ccc
-        padding: 0px 35px
-      .qllist
-        &:first-of-type
-          padding: 0px 18px
-      .qllist
-        .icon
+      #quicklinks
+        height: $footer_height
+        background: url("/images/fluxx_engine/theme/default/dock-icons/right.png") no-repeat top right
+        .qllist
+          margin-top: 4px
+          padding: 0 38px 0 33px
+        .qllist
           &:first-of-type
-            .link
-              margin-left: 0
+            border-left: 1px solid #ccc
+            border-right: 1px solid #ccc
+            padding: 0px 18px
+        .qllist
+          .icon
+            &:first-of-type
+              .link
+                margin-left: 0
       .dock
+        background: url("/images/fluxx_engine/theme/default/dock-icons/mid.png") repeat-x top right
+        height: $footer_height
+        margin: 0 14px
         #lookingglass
           background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/h-gradient-bg.png")} repeat-x 0% 0%          
         #viewport
@@ -818,8 +824,8 @@
             -moz-border-radius: 6px
             height: 12px
             vertical-align: top
-            margin: 40px 5px 0px 5px
-            padding: 0px 3px 0px 3px
+            margin: 44px 5px 0 0
+            padding: 0px 3px
             z-index: 5
             position: relative
             text-decoration: none
@@ -835,7 +841,7 @@
               -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.3)
             &.left
               float: left
-              margin-right: -10px
+              margin-left: -5px
             &.right
               float: right
               margin-left: 0px          
