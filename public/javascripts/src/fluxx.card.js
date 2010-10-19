@@ -463,8 +463,8 @@
       }
       
       $('.datetime input', $area).datepicker();
-      $.fluxx.util.autoGrowTextArea($('textarea', $area));
-      $('.multiple-select-transfer select[multiple=multiple]').selectTransfer();
+      $.fluxx.util.autoGrowTextArea($('textarea', $area));      
+      $('.multiple-select-transfer select[multiple=true]', $area).selectTransfer();   
       
       $('.header .notice:not(.error)').delay(2000).find('.close-parent').click();
       
@@ -790,8 +790,8 @@
           } else {
             options.area.css('display', 'inline-block')
             var $document = $('<div/>').html(data);
-            //TODO: Modal header not getting set correctly
-            $('.header', options.area).html(($('#card-header', $document).html() || options.header).trim());
+            var header = ($('#card-header', $document).html() > 1 ? $('#card-header', $document).html() : options.header);
+            $('.header', options.area).html(header.trim());
             $('.body',   options.area).html(($('#card-body',   $document).html() || options.header).trim());
             $('.footer', options.area).html(($('#card-footer', $document).html() || options.header).trim());
             $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
