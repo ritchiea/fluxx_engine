@@ -790,10 +790,10 @@
           } else {
             options.area.css('display', 'inline-block')
             var $document = $('<div/>').html(data);
-            var header = ($('#card-header', $document).html() > 1 ? $('#card-header', $document).html() : options.header);
+            var header = ($('#card-header', $document).html().length > 1 ? $('#card-header', $document).html() : options.header);
             $('.header', options.area).html(header.trim());
-            $('.body',   options.area).html(($('#card-body',   $document).html() || options.header).trim());
-            $('.footer', options.area).html(($('#card-footer', $document).html() || options.header).trim());
+            $('.body',   options.area).html(($('#card-body',   $document).html() || options.body).trim());
+            $('.footer', options.area).html(($('#card-footer', $document).html() || options.footer).trim());
             $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
             $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
             if (options.area.attr('data-has-drawer')) {
