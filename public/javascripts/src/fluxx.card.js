@@ -463,8 +463,8 @@
       }
       
       $('.datetime input', $area).datepicker();
-      $.fluxx.util.autoGrowTextArea($('textarea', $area));
-      $('.multiple-select-transfer select[multiple=multiple]').selectTransfer();
+      $.fluxx.util.autoGrowTextArea($('textarea', $area));      
+      $('.multiple-select-transfer select[multiple=true]', $area).selectTransfer();   
       
       $('.header .notice:not(.error)').delay(2000).find('.close-parent').click();
       
