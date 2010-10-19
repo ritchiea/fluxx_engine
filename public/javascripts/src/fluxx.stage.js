@@ -297,7 +297,7 @@
             }
           ],
           '[data-related-child]': [
-            'change', function (e) {              
+            'change', function (e) {
               var updateChild = function ($child, parentId) {
                 var query = {};
                 query[$child.attr('data-param')] = parentId;
@@ -618,12 +618,13 @@
                 },
                 select: function (e, ui) {
                   $elem.val(ui.item.label);
-                  $elem
+                  $elem.change()
                     .parent()
                     .find('input[data-sibling='+ $elem.attr('data-sibling') +']')
                     .not($elem)
                     .val(ui.item.value)
                     .change();
+                  
                   return false;
                 }
               });
