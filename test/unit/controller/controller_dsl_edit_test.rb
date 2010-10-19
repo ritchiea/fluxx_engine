@@ -25,7 +25,7 @@ class ControllerDslEditTest < ActiveSupport::TestCase
     fluxx_user = Musician.make
     edited_instrument = @dsl_edit.perform_edit({:id => nil}, @instrument, fluxx_user)
     assert_equal @instrument, edited_instrument
-    assert edited_instrument.locked_until
+    assert edited_instrument.reload.locked_until
     assert edited_instrument.locked_by_id
   end
 end

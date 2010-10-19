@@ -33,7 +33,7 @@ class ModelDslLockTest < ActiveSupport::TestCase
   test "test editable on instrument which is locked by a different musician on an expired lock" do
     locking_musician = User.make
     instrument = Instrument.make :locked_by => locking_musician
-    instrument.locked_until = Time.now - 5.minutes
+    instrument.locked_until = Time.now - 5.days
     musician = User.make
     assert @dsl_lock.editable?(instrument, musician)
   end
@@ -49,7 +49,7 @@ class ModelDslLockTest < ActiveSupport::TestCase
     musician = User.make
     instrument = Instrument.make
     assert @dsl_lock.add_lock(instrument, musician)
-    assert instrument.locked_until
+    assert instrument.reload.locked_until
     assert_equal musician, instrument.locked_by
   end
 
@@ -58,7 +58,7 @@ class ModelDslLockTest < ActiveSupport::TestCase
     musician = User.make
     instrument = Instrument.make
     assert @dsl_lock.add_lock(instrument, locking_musician)
-    assert instrument.locked_until
+    assert instrument.reload.locked_until
     instrument.locked_until = Time.now - 5.minutes
   end
   
@@ -67,6 +67,7 @@ class ModelDslLockTest < ActiveSupport::TestCase
     musician = User.make
     instrument = Instrument.make
     @dsl_lock.add_lock(instrument, locking_musician)
+    instrument.reload
     assert !@dsl_lock.add_lock(instrument, musician)
   end
 
@@ -74,6 +75,7 @@ class ModelDslLockTest < ActiveSupport::TestCase
     musician = User.make
     instrument = Instrument.make
     assert @dsl_lock.add_lock(instrument, musician)
+    instrument.reload
     assert @dsl_lock.remove_lock(instrument, musician)
   end
   
@@ -82,6 +84,7 @@ class ModelDslLockTest < ActiveSupport::TestCase
     musician = User.make
     instrument = Instrument.make
     @dsl_lock.add_lock(instrument, locking_musician)
+    instrument.reload
     assert !@dsl_lock.remove_lock(instrument, musician)
   end
   
@@ -89,9 +92,10 @@ class ModelDslLockTest < ActiveSupport::TestCase
     musician = User.make
     instrument = Instrument.make
     assert @dsl_lock.add_lock(instrument, musician)
-    before_locked_until = instrument.locked_until
+    instrument.reload
+    before_locked_until = instrument.reload.locked_until
     assert @dsl_lock.extend_lock(instrument, musician)
-    assert instrument.locked_until
+    assert instrument.reload.locked_until
     assert before_locked_until < instrument.locked_until
   end
   
@@ -99,6 +103,6 @@ class ModelDslLockTest < ActiveSupport::TestCase
     musician = User.make
     instrument = Instrument.make
     assert @dsl_lock.extend_lock(instrument, musician)
-    assert instrument.locked_until
+    assert instrument.reload.locked_until
   end
 end
