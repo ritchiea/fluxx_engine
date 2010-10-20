@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fluxx_engine}
-  s.version = "0.0.7"
+  s.version = "0.0.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Hansen"]
-  s.date = %q{2010-10-05}
+  s.date = %q{2010-10-20}
   s.email = %q{fluxx@acesfconsulting.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -69,6 +69,7 @@ Gem::Specification.new do |s|
      "lib/extensions/fluxx_builder.rb",
      "lib/extensions/formtastic_override.rb",
      "lib/extensions/inflections.rb",
+     "lib/extensions/migration.rb",
      "lib/extensions/sass_extension.rb",
      "lib/extensions/time_formats.rb",
      "lib/extensions/url_cleaner.rb",
@@ -83,6 +84,7 @@ Gem::Specification.new do |s|
      "lib/generators/fluxx_engine_migration/templates/create_multi_element_values.rb",
      "lib/generators/fluxx_engine_migration/templates/realtime_updates.rb",
      "lib/generators/fluxx_engine_public/fluxx_engine_public_generator.rb",
+     "lib/tasks.rb",
      "public/images/theme/_common/loaders/ajax-arrows-cccccc.gif",
      "public/images/theme/_common/loaders/ajax-arrows-eeeeee.gif",
      "public/images/theme/_common/loaders/ajax-loader-666666.gif",
@@ -116,7 +118,11 @@ Gem::Specification.new do |s|
      "public/images/theme/default/controls/minimize-detail.png",
      "public/images/theme/default/controls/minimize.png",
      "public/images/theme/default/dock-icons/h-gradient-bg.png",
+     "public/images/theme/default/dock-icons/left.png",
+     "public/images/theme/default/dock-icons/mid.png",
      "public/images/theme/default/dock-icons/plus.png",
+     "public/images/theme/default/dock-icons/right.png",
+     "public/images/theme/default/dock-modal/arrow.png",
      "public/images/theme/default/icons/accept.png",
      "public/images/theme/default/icons/add.png",
      "public/images/theme/default/icons/anchor.png",
@@ -583,6 +589,7 @@ Gem::Specification.new do |s|
      "public/images/theme/default/icons/heart.png",
      "public/images/theme/default/icons/heart_add.png",
      "public/images/theme/default/icons/heart_delete.png",
+     "public/images/theme/default/icons/help.gif",
      "public/images/theme/default/icons/help.png",
      "public/images/theme/default/icons/hourglass.png",
      "public/images/theme/default/icons/hourglass_add.png",
@@ -603,6 +610,8 @@ Gem::Specification.new do |s|
      "public/images/theme/default/icons/image_edit.png",
      "public/images/theme/default/icons/image_link.png",
      "public/images/theme/default/icons/images.png",
+     "public/images/theme/default/icons/important.gif",
+     "public/images/theme/default/icons/info.gif",
      "public/images/theme/default/icons/information.png",
      "public/images/theme/default/icons/ipod.png",
      "public/images/theme/default/icons/ipod_cast.png",
@@ -1063,6 +1072,7 @@ Gem::Specification.new do |s|
      "public/images/theme/default/icons/time_delete.png",
      "public/images/theme/default/icons/time_go.png",
      "public/images/theme/default/icons/timeline_marker.png",
+     "public/images/theme/default/icons/title.gif",
      "public/images/theme/default/icons/transmit.png",
      "public/images/theme/default/icons/transmit_add.png",
      "public/images/theme/default/icons/transmit_blue.png",
@@ -1117,6 +1127,7 @@ Gem::Specification.new do |s|
      "public/images/theme/default/icons/zoom.png",
      "public/images/theme/default/icons/zoom_in.png",
      "public/images/theme/default/icons/zoom_out.png",
+     "public/images/theme/default/modal/arrow-left.png",
      "public/images/theme/default/modal/modal_close.png",
      "public/images/theme/default/modal/overlay-bg.png",
      "public/images/theme/default/ql-icons/Documents_128x128.png",
@@ -1153,11 +1164,13 @@ Gem::Specification.new do |s|
      "public/javascripts/lib/jquery.alerts.js",
      "public/javascripts/lib/jquery.cookie.js",
      "public/javascripts/lib/jquery.json-2.2.min.js",
+     "public/javascripts/lib/jquery.plupload.queue.min.js",
      "public/javascripts/lib/jquery.select_transfer.js",
      "public/javascripts/lib/jquery.shortkeys.js",
      "public/javascripts/lib/jquery.simplemodal-1.4.js",
      "public/javascripts/lib/plupload.full.min.js",
      "public/javascripts/lib/underscore-min.js",
+     "public/javascripts/src/fluxx.alerts.js",
      "public/javascripts/src/fluxx.card.js",
      "public/javascripts/src/fluxx.core.js",
      "public/javascripts/src/fluxx.dashboard.js",
