@@ -1,5 +1,5 @@
 class ActionController::Base
-  require 'fastercsv'
+  require 'fastercsv' if RUBY_VERSION < '1.9'
 
   attr_accessor :pre_models
   attr_accessor :pre_model
