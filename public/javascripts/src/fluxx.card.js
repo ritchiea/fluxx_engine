@@ -465,7 +465,7 @@
       $('.datetime input', $area).datepicker();
       $.fluxx.util.autoGrowTextArea($('textarea', $area));      
       $('.multiple-select-transfer select[multiple=true]', $area).selectTransfer();
-      $('.add-another', $area).after($('<a class="do-add-another" href="#">_</a>'));
+      $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
 
       
       $('.header .notice:not(.error)').delay(2000).find('.close-parent').click();
@@ -533,11 +533,9 @@
               var selector = '[name*=' + obj.name + ']';
               var $elem = $(selector, $filters).last();
               if (found.hasOwnProperty(obj.name)) {
-                $.fluxx.log("!!!!!!!!!! found " + obj.name);
                 var $add  = $elem.clone();
-                var $br   = $('<br/>');
-                $elem.after($br);
-                $br.after($add);
+                $elem.after($add);
+                $add.before($('<label/>'));
                 $elem = $add;
               }
               $elem.val(obj.value);

@@ -668,10 +668,8 @@
               var $link = $(e.target);
               var $elem = $link.prev();
               var $add  = $elem.clone();
-              var $br   = $('<br/>');
-              $elem.after($br);
-              $br.after($add);
-              $add.after($link);
+              $elem.after($add);
+              $add.before($('<label/>'));
               return false;
             }
           ],

@@ -511,7 +511,21 @@
                   a
                     color: #fff
                   a.do-add-another
-                    background: transparent url("/images/fluxx_engine/theme/default/icons/add.png") no-repeat center center                  	
+                    +inline-block
+                    +border-box
+                    text-indent: -2000em
+                    line-height: 24px
+                    height: 24px
+                    margin-left: 5px
+                    vertical-align: middle
+                    width: 15px
+                    margin-top: 1px
+                    background: transparent url("/images/fluxx_engine/theme/default/icons/add.png") no-repeat center center
+                  .inline-aft
+                    display: none
+                  select.add-another
+                    width: 54%
+                    margin-top: 5px
                 .footer
                   background: transparent
                   +linear-gradient(#777, #555)
