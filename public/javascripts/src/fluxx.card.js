@@ -464,7 +464,9 @@
       
       $('.datetime input', $area).datepicker();
       $.fluxx.util.autoGrowTextArea($('textarea', $area));      
-      $('.multiple-select-transfer select[multiple=true]', $area).selectTransfer();   
+      $('.multiple-select-transfer select[multiple=true]', $area).selectTransfer();
+      $('.add-another', $area).after($('<a class="do-add-another" href="#">_</a>'));
+
       
       $('.header .notice:not(.error)').delay(2000).find('.close-parent').click();
       
@@ -497,44 +499,55 @@
           var $form = $('form', $filters).submit(
             function() {
               var criterion = []; 
-              var found = {};
               $filterText.val('');
-                  
+               
               $filters.find(':input').each(function(index, elem) {
                 var $elem = $(elem);
                 var id = $elem.attr('id');
-                if (!found[id]) {
-                  var val = $elem.val();
-                  if (val) {
-                    var label = $('[for*=' + id + ']', $filters).text();
-                    label = label.replace(/:$/, '');
-                    var type = $elem.attr('type');
-                    if (type == 'checkbox') {
-                      if ($elem.attr('checked') == 'true')
-                        criterion.push(label);
-                    } else if (type == 'select-one') {
-                      criterion.push(label + ': ' + $("option[value='" + val + "']", $elem).text());
-                    } else if (type == 'text') {
-                      criterion.push(label + ': ' + val);
-                    }
-                    found[id] = true;
+                var val = $elem.val();
+                if (val) {
+                  var label = $('[for*=' + id + ']', $filters).text();
+                  label = label.replace(/:$/, '');
+                  var type = $elem.attr('type');
+                  if (type == 'checkbox') {
+                    if ($elem.attr('checked') == true)
+                      criterion.push(label);
+                  } else if (type == 'select-one') {
+                    criterion.push(label + ': ' + $("option[value='" + val + "']", $elem).text());
+                  } else if (type == 'text') {
+                    criterion.push(label + ': ' + val);
                   }
+                  
+                  // Pass multi value form fields so that rails recognizes them as an array
+                  if ($elem.hasClass('add-another'))
+                    $elem.attr('name', $elem.attr('name') + '[]')
                 } 
               });
-              $filterText.val(criterion.join(', '));
+              $filterText.val(criterion.join('<br/>'));
             });
           var $filterText = $('<input type="hidden" name="filter-text" value =""/>').appendTo($form);
           
+          var found = {};
           _.each($listing.fluxxCardAreaRequest().data, function(obj) {
             if (obj.value) {
               var selector = '[name*=' + obj.name + ']';
-              var $elem = $(selector, $filters);
+              var $elem = $(selector, $filters).last();
+              if (found.hasOwnProperty(obj.name)) {
+                $.fluxx.log("!!!!!!!!!! found " + obj.name);
+                var $add  = $elem.clone();
+                var $br   = $('<br/>');
+                $elem.after($br);
+                $br.after($add);
+                $elem = $add;
+              }
               $elem.val(obj.value);
               $(selector + ":checkbox", $filters)
                 .attr('checked', true)
                 .change(function () {
                   $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
-                });
+                });         
+              if ($elem.hasClass('add-another'))
+                found[obj.name] = true;
             }
           });
         });
@@ -790,7 +803,8 @@
           } else {
             options.area.css('display', 'inline-block')
             var $document = $('<div/>').html(data);
-            var header = ($('#card-header', $document).html().length > 1 ? $('#card-header', $document).html() : options.header);
+            var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
+              $('#card-header', $document).html() : options.header);
             $('.header', options.area).html(header.trim());
             $('.body',   options.area).html(($('#card-body',   $document).html() || options.body).trim());
             $('.footer', options.area).html(($('#card-footer', $document).html() || options.footer).trim());

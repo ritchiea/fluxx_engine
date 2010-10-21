@@ -662,6 +662,19 @@
               });
             }
           ],
+          'a.do-add-another': [
+            'click', function(e) {
+              $.fluxx.util.itEndsHere(e);
+              var $link = $(e.target);
+              var $elem = $link.prev();
+              var $add  = $elem.clone();
+              var $br   = $('<br/>');
+              $elem.after($br);
+              $br.after($add);
+              $add.after($link);
+              return false;
+            }
+          ],
           'div.toolbar': [
             'mousedown', function(e) {
               var $window = $('html,body');
