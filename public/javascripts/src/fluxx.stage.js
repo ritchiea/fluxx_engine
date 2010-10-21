@@ -593,6 +593,23 @@
               $elem.fluxxCardLoadContent(properties)
             },
           ],
+          'form.listing-search': [
+             'submit', function (e) {
+               $.fluxx.util.itEndsWithMe(e);
+               var $elem = $(this);
+               var $card = $elem.fluxxCard();
+               var data = $card.fluxxCardListing().fluxxCardAreaRequest().data;
+               data = data.concat($elem.serializeArray());
+               var properties = {
+                 area: $elem.fluxxCardArea(),
+                 url: $elem.attr('action'),
+                 data: data
+               };
+               if ($elem.attr('method'))
+                 properties.type = $elem.attr('method');
+               $elem.fluxxCardLoadContent(properties)
+             },
+           ],
           'input[data-autocomplete]': [
             'focus', function (e) {
               $.fluxx.util.itEndsWithMe(e);
