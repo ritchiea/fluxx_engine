@@ -43,6 +43,7 @@ class ActionController::Base
       end
 
       define_method :index do
+        raise UnauthorizedException.new("listview", index_object.model_class) unless fluxx_current_user.has_listview_for_model?(index_object.model_class)
         index_object.invoke_pre self
       
         # This tells the front end the name of the type of object that is represented in this card
@@ -111,6 +112,7 @@ class ActionController::Base
 
         @model = show_object.perform_show params, pre_model
         @model_class = show_object.model_class
+        raise UnauthorizedException.new('view', (@model || @model_class)) unless fluxx_current_user.has_view_for_model?(@model || @model_class)
         @icon_style = show_object.icon_style
         @model_name = show_object.model_name
         @skip_wrapper = @skip_wrapper || params[:skip_wrapper]
@@ -164,6 +166,7 @@ class ActionController::Base
         new_object.invoke_pre self
         @model = new_object.load_new_model params, pre_model
         @model_class = new_object.model_class
+        raise UnauthorizedException.new('create', @model_class) unless fluxx_current_user.has_create_for_model?(@model_class)
         @icon_style = new_object.icon_style
       
         instance_variable_set new_object.singular_model_instance_name, @model
@@ -205,6 +208,7 @@ class ActionController::Base
       
         @model = edit_object.perform_edit params, pre_model, fluxx_current_user
         @model_class = edit_object.model_class
+        raise UnauthorizedException.new('update', (@model || @model_class)) unless fluxx_current_user.has_update_for_model?(@model || @model_class)
         @icon_style = edit_object.icon_style
         edit_object.invoke_post self, @model
         unless edit_object.editable? @model, fluxx_current_user
@@ -249,6 +253,7 @@ class ActionController::Base
 
         @model = create_object.load_new_model params, pre_model
         @model_class = create_object.model_class
+        raise UnauthorizedException.new('create', @model_class) unless fluxx_current_user.has_create_for_model?(@model_class)
         @icon_style = create_object.icon_style
         instance_variable_set create_object.singular_model_instance_name, @model
         @template = create_object.template
@@ -323,6 +328,10 @@ class ActionController::Base
       
         @model = update_object.load_existing_model params, pre_model
         @model_class = update_object.model_class
+        unless fluxx_current_user.has_update_for_model?(@model || @model_class)
+          p "ESH: fluxx_current_user has #{fluxx_current_user.inspect}"
+          raise UnauthorizedException.new('update', (@model || @model_class)) 
+        end
         @icon_style = update_object.icon_style
         instance_variable_set update_object.singular_model_instance_name, @model
         
@@ -397,6 +406,7 @@ class ActionController::Base
 
         @model = delete_object.load_existing_model params, pre_model
         @model_class = delete_object.model_class
+        raise UnauthorizedException.new('delete', (@model || @model_class)) unless fluxx_current_user.has_delete_for_model?(@model || @model_class)
         @icon_style = delete_object.icon_style
         instance_variable_set delete_object.singular_model_instance_name, @model
         delete_result = delete_object.perform_delete params, @model, fluxx_current_user

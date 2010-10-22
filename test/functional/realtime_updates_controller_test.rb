@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class RealtimeUpdatesControllerTest < ActionController::TestCase
+  setup do
+    @user = User.make
+    login_as @user
+  end
+
   test "should return the timestamp" do
     get :index, :ts => true
     right_now = Time.now

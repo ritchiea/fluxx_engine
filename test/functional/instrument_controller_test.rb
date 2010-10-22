@@ -4,6 +4,8 @@ class InstrumentsControllerTest < ActionController::TestCase
   setup do
     @instrument = Instrument.make
     setup_multi
+    @user = User.make
+    login_as @user
   end
   
   test "should get index with all instruments deleted" do
@@ -124,10 +126,7 @@ class InstrumentsControllerTest < ActionController::TestCase
   end
 
   test "should not be able to update a locked instrument" do
-    local_current_user = User.make
-    ActionController::Base.send :define_method, :fluxx_current_user do
-      local_current_user
-    end
+    local_current_user = @user
     
     locking_user = User.make
     @instrument.update_attributes :locked_by => locking_user, :locked_until => (Time.now + 5.minutes)

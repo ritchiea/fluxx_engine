@@ -10,7 +10,7 @@
     %ul.actions
       = render :partial => 'insta/list_actions',  :locals => {:models => @models}
 
-  - throw Exception.new "Please specify an index template for the #{model.class} controller, otherwise we cannot render the page" if @template.blank?
+  - throw Exception.new "Please specify an index template for the #{@plural_model_name} controller, otherwise we cannot render the page" if @template.blank?
   #card-body
     - if @suppress_model_iteration
       = render :partial => @template,  :locals => {:models => @models}
