@@ -41,9 +41,6 @@
                     style: $card.fluxxCardIconStyle(),
                     popup: $card.fluxxCardInfo()
                   });
-                // Bring the card into focus if we are not restoring a dashboard after a page refresh
-                if (!$card.fromClientStore() && !$card.cardFullyVisible())
-                  $('a', $card.data('icon')).click();                
               },
             'load.fluxx.card': options.load,
             'close.fluxx.card': options.close,
@@ -78,6 +75,9 @@
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
             $card.trigger('lifetimeComplete.fluxx.card');
             _.bind($.fn.resizeFluxxCard, $card)();    
+            // Bring the card into focus if we are not restoring a dashboard after a page refresh
+            if (!$card.fromClientStore() && !$card.cardFullyVisible())
+              $('a', $card.data('icon')).click();                
           })
         });
         $.my.cards = $('.card');
@@ -180,6 +180,38 @@
           .trigger('minimize.fluxx.card');
       });
       return this;
+    },
+    focusFluxxCard: function(options, onComplete) {
+      var options = $.fluxx.util.options_with_callback({scrollEdge: ''},options,onComplete);
+      var $card = $(this);
+      var targetLeft = $card.offset().left;
+      var margin = $card.fluxxCardMargin();
+      var screenWidth = $(window).width();
+      var scrollToRight = false;
+      if (options.scrollEdge == 'right') {
+        scrollToRight = true;
+      } else if (options.scrollEdge != 'left') {       
+        var scrollMiddle = $(window).scrollLeft() + (screenWidth / 2);
+        var targetMiddle = targetLeft  + ($card.outerWidth() / 2);
+        scrollToRight = (scrollMiddle < targetMiddle);
+      }
+      var $modal = $('.modal:visible', $card);
+      var adjust = 0;
+      if ($modal.length > 0) {
+        adjust = $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left);
+      }
+      if (scrollToRight) {
+        targetLeft = targetLeft - screenWidth + $card.width() + margin + adjust;
+      } else {
+        targetLeft = targetLeft - margin;
+      } 
+      //perform animated scrolling
+      $('html,body').stop().animate({scrollLeft: targetLeft}, 1000, 'swing', function()
+      {
+        if (onComplete)
+          onComplete.call();
+      });
+      return this
     },
     resizeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
@@ -380,12 +412,22 @@
     },
     cardFullyVisible: function() {
       var $card = $(this).first();
-      var $modal = $('.modal:visible', $card);
-      var scroll = $(window).scrollLeft();
-      var cardLeft = $card.offset().left;
-      var cardWidth = $card.width() + $card.fluxxCardMargin() +
-        ($modal.length > 0 ? $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left) : 0 );
-      return (scroll <= cardLeft && scroll + $(window).width() >= cardLeft + cardWidth); 
+      return ($card.cardVisibleLeft() && $card.cardVisibleRight());
+    },
+    cardVisibleLeft: function() {
+      var $card = $(this).first(),
+        cardLeft = $card.offset().left,
+        scroll = $(window).scrollLeft();
+      return (scroll <= cardLeft);
+    },
+    cardVisibleRight: function() {
+      var $card = $(this).first(),
+        $modal = $('.modal:visible', $card),
+        scroll = $(window).scrollLeft(),
+        cardLeft = $card.offset().left,
+        cardWidth = $card.width() + $card.fluxxCardMargin() +
+          ($modal.length > 0 ? $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left) : 0 );
+        return ($(window).width() >= cardLeft + cardWidth);
     },
     fluxxCardAreaURL: function(options) {
       var options = $.fluxx.util.options_with_callback({without: []},options);
@@ -560,7 +602,6 @@
     },
     openCardModal: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options, onComplete);
-      // alert (options.header);
       if (!options.url || !options.target) return this;
       return this.each(function(){
         var $card = $(this).fluxxCard();
@@ -608,6 +649,8 @@
               if (overage > 0) {
                 $modal.fluxxCard().animate({marginRight: overage}, function() {
                   $modal.animate({opacity: 1}, 'fast');  
+                  if (!$card.cardVisibleRight())
+                    $card.focusFluxxCard({scrollEdge: 'right'});
                 });
               }
               $card.resizeFluxxCard();
@@ -835,6 +878,8 @@
               $card.animateWidthTo($card.width() + options.area.width(), function() {
                 options.area.css('display', 'inline-block');
                 complete();
+                if (!$card.cardVisibleRight())
+                  $card.focusFluxxCard({scrollEdge: 'right'});
               });
             }
             complete();

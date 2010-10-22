@@ -226,11 +226,11 @@
             percentOver = (pixelsIn - cardWidth) / cardMargin;
             right = Math.round((iconLeft - scroll + $icon.width() - iconMargin) + (iconMargin * percentOver)); 
           } else if (pixelsIn >= 0) {
-            percentOver = (rightEdge - cardLeft - cardMargin) / cardWidth;
+            percentOver = (rightEdge - cardLeft - cardMargin) / cardWidth;            
             right = Math.round((iconLeft - scroll - iconMargin) + ($icon.width() * percentOver));
           } else {  
             percentOver = (cardMargin + pixelsIn) / cardMargin;
-            right = Math.round((iconLeft - scroll - (iconMargin * 2)) + (iconMargin * percentOver)); 
+            right = Math.round((iconLeft - scroll - iconMargin - (iconMargin / 2)) + (iconMargin * percentOver)); 
           }
           return false;
         }

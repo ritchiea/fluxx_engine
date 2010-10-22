@@ -525,7 +525,8 @@
                 $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
                 $('.info', $card).addClass('open', 1000, function(){
                   $card.resizeFluxxCard();
-                  $('a.scroll-to-card[href=#' + $card.attr('id') + ']', $.my.dock.iconlist).click()
+                  if (!$card.cardVisibleRight())
+                    $card.focusFluxxCard({scrollEdge: 'right'});
                 ;});
               }
             }
@@ -653,30 +654,9 @@
               $.fluxx.util.itEndsHere(e);
               var target = $(this).attr("href");
               var $card = $(target);
-              $card.resizeFluxxCard();
-              var targetLeft = $card.offset().left;
-              var margin = $card.fluxxCardMargin();
-              var screenWidth = $(window).width();
-              var scrollMiddle = $(window).scrollLeft() + (screenWidth / 2);
-              var targetMiddle = targetLeft  + ($card.outerWidth() / 2);
-              var scrollToRight = (scrollMiddle < targetMiddle);
-              var $modal = $('.modal:visible', $card);
-              var adjust = 0;
-              if ($modal.length > 0) {
-                adjust = $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left);
-              }
-              if (scrollToRight) {
-                targetLeft = targetLeft - screenWidth + $card.width() + margin + adjust;
-              } else {
-                targetLeft = targetLeft - margin;
-              } 
-              //perform animated scrolling
-              $('html,body').stop().animate(
-              {
-                scrollLeft: targetLeft
-              },1000,function()
-              {
-                location.hash = target;
+              $card.focusFluxxCard({highlight: true}, function() {
+                $('.toolbar, .titlebar, .card-footer', $card).effect('highlight', {}, 500);
+                location.hash = target;              
               });
             }
           ],
@@ -696,6 +676,7 @@
               var $window = $('html,body');
               $('#fluxx').css('-webkit-user-select', 'none').css('-moz-user-select', 'none');
               $window.data('lastPageX', e.pageX);
+              $window.data('scrolling', true);
               $window.mousemove(function(e) {
                 var $window = $('html,body');
                 if ($window.data('skipScroll')) {
@@ -715,10 +696,11 @@
           'html,body': [
             'mouseup', function(e) {
               var $window = $('html,body');
+              if (!$window.data('scrolling'))
+                return;
+              $window.data('scrolling', false);
               $window.unbind('mousemove');
               $('#fluxx').css('-webkit-user-select', 'auto').css('-moz-user-select', 'auto');              
-              var lastOffset = $window.data('lastOffset');
-              $window.stop().animate({scrollLeft: '+=' + lastOffset}); 
             }
           ]
         }
