@@ -517,6 +517,7 @@
               var $elem = $(this), label = $elem.text(), $card = $elem.fluxxCard();
               if ($elem.hasClass('selected')) {
                 $elem.removeClass('selected');
+                //TODO: Animate drawer opening
                 $('.info', $card).removeClass('open').resizeFluxxCard();
               } else {
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
@@ -599,7 +600,7 @@
                var $elem = $(this);
                var $card = $elem.fluxxCard();
                var data = $card.fluxxCardListing().fluxxCardAreaRequest().data;
-               data = data.concat($elem.serializeArray());
+               data = ($.isArray(data) ? data.concat($elem.serializeArray()) : $elem.serializeArray()); 
                var properties = {
                  area: $elem.fluxxCardArea(),
                  url: $elem.attr('action'),
