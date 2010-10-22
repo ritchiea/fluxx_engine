@@ -3,7 +3,7 @@ require 'test_helper'
 class ClientStoresControllerTest < ActionController::TestCase
   setup do
     @user = User.make
-    @controller.current_user = @user
+    login_as @user
     @client_store = ClientStore.make :user_id => @user.id
   end
 

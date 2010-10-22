@@ -84,6 +84,30 @@ module ThinkingSphinx
   end
 end
 
+def current_user
+  @current_user unless @current_user == false
+end
+
+# Store the given user id in the session.
+def current_user=(new_user)
+  @current_user = new_user || false
+end
+
+def add_perms user
+  [ClientStore, Instrument, Musician, MusicianInstrument, Orchestra].each do |klass|
+    user.has_role! 'listview', klass
+    user.has_role! 'view', klass
+    user.has_role! 'create', klass
+    user.has_role! 'update', klass
+    user.has_role! 'delete', klass
+  end
+end
+
+def login_as user
+  @controller.current_user = user
+  add_perms user
+end
+
 class ActionController::Base
   attr_accessor :current_user
 end

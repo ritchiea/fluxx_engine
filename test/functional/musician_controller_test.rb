@@ -2,6 +2,8 @@ require 'test_helper'
 
 class MusiciansControllerTest < ActionController::TestCase
   setup do
+    @user = User.make
+    login_as @user
     @musician = Musician.make
   end
   
