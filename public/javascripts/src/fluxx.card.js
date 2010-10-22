@@ -41,6 +41,7 @@
                     style: $card.fluxxCardIconStyle(),
                     popup: $card.fluxxCardInfo()
                   });
+                // Bring the card into focus if we are not restoring a dashboard after a page refresh
                 if (!$card.fromClientStore() && !$card.cardFullyVisible())
                   $('a', $card.data('icon')).click();                
               },
@@ -578,7 +579,7 @@
             header: '<span>' + options.header + '</span>',
             caller: options.target,
             init: function(e) {
-              $modal.appendTo($card.fluxxCardBody());
+              $modal.appendTo($card.fluxxCardBody()).css({opacity: 0.01});
               $('.area', $card).not('.modal').disableFluxxArea();
               var $arrow = $('.arrow', $modal);
               var targetPosition = options.target.position().top,
@@ -605,7 +606,9 @@
               overage = totalWidth - $('.card-body:first', options.target.fluxxCard()).outerWidth(true);
               $.fluxx.log('overage: ' + overage);
               if (overage > 0) {
-                $modal.fluxxCard().css({marginRight: overage});
+                $modal.fluxxCard().animate({marginRight: overage}, function() {
+                  $modal.animate({opacity: 1}, 'fast');  
+                });
               }
               $card.resizeFluxxCard();
               $.my.stage.resizeFluxxStage();
@@ -624,12 +627,15 @@
         var $modal = $('.modal', $(this).fluxxCard());
         if ($modal.length > 0) {
           $('.loading-indicator', $modal.fluxxCard()).removeClass('loading')
-          var $card = $modal.fluxxCard();
-          $('.area', $card).enableFluxxArea();
-          $(this).fluxxCard().css({marginRight: null});
-          $modal.remove();
-          $card.resizeFluxxCard();
-          $.my.stage.resizeFluxxStage();
+          $modal.fadeOut(function() {
+            var $card = $modal.fluxxCard();
+            $('.area', $card).enableFluxxArea();
+            $(this).fluxxCard().animate({marginRight: 0}, function() {
+              $modal.remove();
+              $card.resizeFluxxCard();
+              $.my.stage.resizeFluxxStage();
+            });
+          });
         }
       });
     },
