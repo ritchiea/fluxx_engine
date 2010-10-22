@@ -169,16 +169,6 @@
           if (! this.logger) this.logger = (console.log ? _.bind(console.log, console) : $.noop);
           _.each(arguments, _.bind(function(a) { this.logger(a) }, this));
         }
-      },
-      animateWidthTo: function ($elem, widthTo, callback, skip) {        
-        $elem.animate({opacity: 0}, 'fast');
-        var margin = $elem.css('margin-right');
-        var ow = $elem.outerWidth();
-        $elem.animate({'margin-right': widthTo - ow}, function() {
-          $elem.width(widthTo).css('margin-right', margin);
-          $elem.animate({opacity: 1});
-          return _.bind(callback, $elem)();
-        });
       }
     }
   });

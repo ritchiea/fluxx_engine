@@ -175,6 +175,7 @@
       this.each(function(){
         $(this)
           .fluxxCard()
+          .closeCardModal()
           .trigger('minimize.fluxx.card');
       });
       return this;
@@ -251,8 +252,11 @@
     closeDetail: function() {
       var $card = this.fluxxCard();
       $('.drawer', $card).parent().addClass('empty');
-      $card.fluxxCardDetail().fadeOut('fast',function(){
-        $card.fluxxCard().resizeFluxxCard();
+
+      //TODO: Don't hard code the tab width here. 
+      var newWidth = $card.width() - $card.fluxxCardDetail().width() - 25;
+      $card.closeCardModal().animateWidthTo(newWidth, function() {
+        $card.fluxxCardDetail().hide();
         $card.trigger('lifetimeComplete.fluxx.card');
       });      
       $card.fluxxCardDetail().fluxxCardArea().data('history')[0] = {};
@@ -371,7 +375,6 @@
          this.fluxxCardListing().attr('data-icon-style')
       || this.fluxxCardDetail().attr('data-icon-style')
       || '';
-      $.fluxx.log('STYLE FOR ICON IS ' + style);
       return style;
     },
     cardFullyVisible: function() {
@@ -387,7 +390,6 @@
       var options = $.fluxx.util.options_with_callback({without: []},options);
       var current = this.fluxxCardAreaRequest();
       var withoutNames = _.pluck(options.without, 'name');
-      $.fluxx.log('withoutNames', withoutNames);
       var params  = _.reject(current.data, function(elem) {
         return _.indexOf(withoutNames, elem.name) == -1 ? false : true;
       });
@@ -435,9 +437,7 @@
           var key = $(setting).attr('name'),
               val = $(setting).text();
           $area.attr('data-' + key, val);
-          $.fluxx.log("Setting data-" + key + " = " + val);
         });
-        $.fluxx.log("Settings are complete!!!!!!!!!! [[[[["+$area.fluxxCard().fluxxCardIconStyle()+"]]]]]");
       });
     },
     areaDetailTransform: function(){
@@ -579,7 +579,7 @@
             caller: options.target,
             init: function(e) {
               $modal.appendTo($card.fluxxCardBody());
-              options.target.disableFluxxArea();
+              $('.area', $card).not('.modal').disableFluxxArea();
               var $arrow = $('.arrow', $modal);
               var targetPosition = options.target.position().top,
                   targetHeight = options.target.outerHeight(true),
@@ -622,25 +622,29 @@
       var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options, onComplete);
       return this.each(function(){
         var $modal = $('.modal', $(this).fluxxCard());
-        $('.loading-indicator', $modal.fluxxCard()).removeClass('loading')
-        var $card = $modal.fluxxCard();
-        //TODO: this only works for modals in detail areas. This needs to be rethought
-        $card.fluxxCardDetail().enableFluxxArea();
-//       $modal.data('target').enableFluxxArea();
-        $(this).fluxxCard().css({marginRight: null});
-        $modal.remove();
-        $card.resizeFluxxCard();
-        $.my.stage.resizeFluxxStage();
+        if ($modal.length > 0) {
+          $('.loading-indicator', $modal.fluxxCard()).removeClass('loading')
+          var $card = $modal.fluxxCard();
+          $('.area', $card).enableFluxxArea();
+          $(this).fluxxCard().css({marginRight: null});
+          $modal.remove();
+          $card.resizeFluxxCard();
+          $.my.stage.resizeFluxxStage();
+        }
       });
     },
     disableFluxxArea: function () {
       return this.each(function(){
-        $(this).fluxxCardArea().addClass('disabled');
+        $(this).fluxxCardArea().addClass('disabled')
+          .bind('click', function(e) {
+            $.fluxx.util.itEndsWithMe(e);
+          });
       });
     },
     enableFluxxArea: function () {
       return this.each(function(){
-        $(this).fluxxCardArea().removeClass('disabled');
+        $(this).fluxxCardArea().removeClass('disabled')
+          .unbind('click');
       });
     },
     fluxxAreaUpdate: function(e, updates) {
@@ -798,26 +802,36 @@
           if (xhr.status == 201) {
             var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
             options.area.fluxxCardLoadContent(opts);
-          } else {
-            options.area.css('display', 'inline-block')
-            var $document = $('<div/>').html(data);
-            var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
-              $('#card-header', $document).html() : options.header);
-            $('.header', options.area).html(header.trim());
-            $('.body',   options.area).html(($('#card-body',   $document).html() || options.body).trim());
-            $('.footer', options.area).html(($('#card-footer', $document).html() || options.footer).trim());
-            $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
-            $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
-            if (options.area.attr('data-has-drawer')) {
-              if ($('.drawer', options.area.fluxxCard()).filter(':empty').length) {
-                $('.drawer', options.area.fluxxCard()).parent().addClass('empty');
-              } else {
-                $('.drawer', options.area.fluxxCard()).parent().removeClass('empty');              
+          } else {          
+            var complete = function () {
+              var $document = $('<div/>').html(data);
+              var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
+                $('#card-header', $document).html() : options.header);
+              $('.header', options.area).html(header.trim());
+              $('.body',   options.area).html(($('#card-body',   $document).html() || options.body).trim());
+              $('.footer', options.area).html(($('#card-footer', $document).html() || options.footer).trim());
+              $('.drawer', options.area.fluxxCard()).html(($('#card-drawer', $document).html() || '').trim());
+              $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
+              if (options.area.attr('data-has-drawer')) {
+                if ($('.drawer', options.area.fluxxCard()).filter(':empty').length) {
+                  $('.drawer', options.area.fluxxCard()).parent().addClass('empty');
+                } else {
+                  $('.drawer', options.area.fluxxCard()).parent().removeClass('empty');              
+                }
               }
+              options.area
+                .fluxxAreaSettings({settings: $('#card-settings', $document)})
+                .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
             }
-            options.area
-              .fluxxAreaSettings({settings: $('#card-settings', $document)})
-              .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
+            
+            if (!options.area.is(':visible') && options.area.width() > 0) {
+              var $card = options.area.fluxxCard();
+              $card.animateWidthTo($card.width() + options.area.width(), function() {
+                options.area.css('display', 'inline-block');
+                complete();
+              });
+            }
+            complete();
           }
         },
         error: function(xhr, status, error) {
@@ -851,9 +865,32 @@
     },
     
     fluxxCardLoadDetail: function(options, onComplete) {
-      $.fluxx.log("**> fluxxCardLoadDetail", options);
+      $.fluxx.log("**> fluxxCardLoadDetail");
       var options = $.fluxx.util.options_with_callback({area: this.fluxxCardDetail()},options,onComplete);
       return this.fluxxCardLoadContent(options);
+    },
+    animateWidthTo: function (widthTo, callback, speed) {
+      if (typeof speed == 'undefined')
+        speed = 'slow';
+      var $card = this;
+      
+      if (widthTo < 300)
+        $('.title', $card).hide();
+      $('.drawer', $card).parent().addClass('empty');
+      var margin = $card.css('margin-right');
+      var ow = $card.outerWidth();
+      
+      // Prevent last card from wrapping and falling below the stage
+      if (ow < widthTo)
+        $('#stage').width( $('#stage').width() + widthTo );
+
+      // Animate the right margin so that cards slide to the left
+      $card.animate({'margin-right': widthTo - (ow - 8)}, speed, 'swing');
+      $('.card-box', $card).animate({width: widthTo}, speed, 'swing', function() {
+        $card.width(widthTo).css('margin-right', margin);
+        $('.title', $card).show();
+        return _.bind(callback, $card)();
+      });
     }
   });
   
@@ -867,11 +904,13 @@
           unload: 
             function($card) {
               if ($card) {
-                $.fluxx.animateWidthTo($(this), 0, function() {
-                  this.remove();
-                  $.my.cards = $('.card');
-                  $.my.stage.resizeFluxxStage();
-                  this.saveDashboard();
+                $(this).animate({opacity: 0}, function() {
+                  $(this).animateWidthTo(0, function() {
+                    this.remove();
+                    $.my.cards = $('.card');
+                    $.my.stage.resizeFluxxStage();
+                    this.saveDashboard();
+                  });
                 });
               }
             },
@@ -881,7 +920,10 @@
                 $card = $(this);
                 var $titlebar = $('.titlebar', $card);
                 if ($card.cardIsMinimized()) {
-                  $.fluxx.animateWidthTo($card, 624, function() {
+                  var cw = $card.data('lastWidth');
+                  if (cw == 0) 
+                    cw = _.addUp($('.area[minimized=true]', $card), 'outerWidth', true);
+                  $card.animateWidthTo(cw, function() {
                     $titlebar.attr('minimized', 'false');
                     $('.maximize-card', $card).removeClass('maximize-card').addClass('minimize-card');
                     $('.title', $card).show();
@@ -893,12 +935,13 @@
                     $card.saveDashboard();
                   });
                 } else {
-                  $.fluxx.animateWidthTo($card, $card.fluxxCardMinimized().width(), function() {
+                  $card.data('lastWidth', $card.width());
+                  $card.animateWidthTo($card.fluxxCardMinimized().width(), function() {
                     $titlebar.attr('minimized', 'true');
                     $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');
                     $('.title', $card).hide();
                     $('.footer', $card).css('opacity', 0);
-                    $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');;
+                    $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');
                     $card.fluxxCardMinimized().show();                    
                     $('.card-body', $card).css('opacity', 1);
                     $card.resizeFluxxCard();
