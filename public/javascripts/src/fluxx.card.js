@@ -411,14 +411,10 @@
       return style;
     },
     cardFullyVisible: function() {
-      var $card = $(this).first();
-      return ($card.cardVisibleLeft() && $card.cardVisibleRight());
-    },
-    cardVisibleLeft: function() {
       var $card = $(this).first(),
-        cardLeft = $card.offset().left,
-        scroll = $(window).scrollLeft();
-      return (scroll <= cardLeft);
+      cardLeft = $card.offset().left,
+      scroll = $(window).scrollLeft();
+      return ((scroll <= cardLeft) && $card.cardVisibleRight());
     },
     cardVisibleRight: function() {
       var $card = $(this).first(),
@@ -426,8 +422,9 @@
         scroll = $(window).scrollLeft(),
         cardLeft = $card.offset().left,
         cardWidth = $card.width() + $card.fluxxCardMargin() +
-          ($modal.length > 0 ? $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left) : 0 );
-        return ($(window).width() >= cardLeft + cardWidth);
+          ($modal.length > 0 ? $modal.width() - ($card.offset().left + $card.width() - $modal.offset().left) : 0 ),
+        cardRight = cardLeft + cardWidth;
+        return ((cardRight <= scroll + $(window).width()) && (cardRight >= scroll));  
     },
     fluxxCardAreaURL: function(options) {
       var options = $.fluxx.util.options_with_callback({without: []},options);
