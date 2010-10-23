@@ -648,7 +648,7 @@
               $.fluxx.log('overage: ' + overage);
               if (overage > 0) {
                 $modal.fluxxCard().animate({marginRight: overage}, function() {
-                  $modal.animate({opacity: 1}, 'fast');  
+                  $modal.animate({opacity: 1}, 'fast');
                   if (!$card.cardVisibleRight())
                     $card.focusFluxxCard({scrollEdge: 'right'});
                 });
@@ -881,8 +881,9 @@
                 if (!$card.cardVisibleRight())
                   $card.focusFluxxCard({scrollEdge: 'right'});
               });
+            } else {
+              complete();
             }
-            complete();
           }
         },
         error: function(xhr, status, error) {
