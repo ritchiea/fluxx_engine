@@ -523,7 +523,7 @@
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
                 $('.drawer .entries', $card).removeClass('selected');
                 $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
-                $('.info', $card).addClass('open', 1000, function(){
+                $('.info', $card).addClass('open', 1, function(){
                   $card.resizeFluxxCard();
                   if (!$card.cardVisibleRight())
                     $card.focusFluxxCard({scrollEdge: 'right'});
