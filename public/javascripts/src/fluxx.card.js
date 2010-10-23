@@ -933,7 +933,7 @@
       
       // Prevent last card from wrapping and falling below the stage
       if (ow < widthTo)
-        $('#stage').width( $('#stage').width() + widthTo );
+        $('#card-table').width( $('#stage').width() + widthTo);
 
       // Animate the right margin so that cards slide to the left
       $card.animate({'margin-right': widthTo - (ow - 8)}, speed, 'swing');
