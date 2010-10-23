@@ -940,6 +940,7 @@
       $('.card-box', $card).animate({width: widthTo}, speed, 'swing', function() {
         $card.width(widthTo).css('margin-right', margin);
         $('.title', $card).show();
+        $('#card-table').width('100%');
         return _.bind(callback, $card)();
       });
     }
