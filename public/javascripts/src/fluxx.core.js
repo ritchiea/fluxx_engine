@@ -174,7 +174,11 @@
   });
 
   $(window).ajaxComplete(function(e, xhr, options) {
-    $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + unescape(_.objectWithoutEmpty(options.data)) + ')');
+//    $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + unescape(_.objectWithoutEmpty(options.data)) + ')');
+    // Redirect to login screen if we get a full HTML document. Since all ajax requests return partial documents,
+    // we assume that if we get a full HTML document, we have been redirected to the login screen.
+    if (xhr.status == 500 || xhr.responseText.search(/^\<\!DOCTYPE html\>/) != -1)
+      window.location.href = '/user_sessions/new';
   });
   
   var keyboardShortcuts = {
