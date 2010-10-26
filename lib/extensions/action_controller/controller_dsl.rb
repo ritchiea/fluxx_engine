@@ -19,6 +19,8 @@ class ActionController::ControllerDsl
   attr_accessor :exclude_related_data
   # Specify the style for this type of card
   attr_accessor :icon_style
+  # Don't display flash message
+  attr_accessor :dont_display_flash_message
 
   # Allow you to pass in a block to initialize a new model object
   attr_accessor :new_block
