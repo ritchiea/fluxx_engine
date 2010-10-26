@@ -267,7 +267,7 @@ class ActionController::Base
       
         create_object.invoke_post self, @model
         if create_result
-          flash[:info] = t(:insta_successful_create, :name => model_class.name)
+          flash[:info] = t(:insta_successful_create, :name => model_class.name) unless create_object.dont_display_flash_message
           insta_respond_to create_object, :success do |format|
             format.html do
               handle_successful_create
@@ -343,7 +343,7 @@ class ActionController::Base
           update_object.invoke_post self, @model
         
           if update_result
-            flash[:info] = t(:insta_successful_update, :name => model_class.name)
+            flash[:info] = t(:insta_successful_update, :name => model_class.name) unless update_object.dont_display_flash_message
             insta_respond_to update_object, :success do |format|
               format.html do
                 if update_object.render_inline 
@@ -415,7 +415,7 @@ class ActionController::Base
         delete_result = delete_object.perform_delete params, @model, fluxx_current_user
         delete_object.invoke_post self, @model
         if delete_result
-          flash[:info] = t(:insta_successful_delete, :name => model_class.name)
+          flash[:info] = t(:insta_successful_delete, :name => model_class.name) unless delete_object.dont_display_flash_message
           insta_respond_to delete_object, :success do |format|
             format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || send("#{model_class.name.underscore.downcase}_path")) }
             format.xml  { head :ok }
