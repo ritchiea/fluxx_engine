@@ -59,7 +59,7 @@ class MusiciansControllerTest < ActionController::TestCase
   end
   
   test "should get autocomplete without condition" do
-    get :index, :format => :json
+    get :index, :format => :autocomplete
     assert_response :success
     assert @response.body
     musicians = @response.body.de_json
@@ -72,7 +72,7 @@ class MusiciansControllerTest < ActionController::TestCase
   test "should get autocomplete with condition" do
     musicians = (1..9).map {Musician.make}
     last_musician = musicians.last
-    get :index, :term => last_musician.first_name, :format => :json
+    get :index, :term => last_musician.first_name, :format => :autocomplete
     assert_response :success
     assert @response.body
     musicians = @response.body.de_json
