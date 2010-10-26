@@ -72,6 +72,9 @@ class ActionController::Base
             format.html { render((index_object.view || "#{insta_path}/index").to_s, :layout => false) }
             format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
             format.json do
+              render :text => @models.to_json
+            end
+            format.autocomplete do
               render :text => index_object.process_autocomplete(@models, params[:name_method], self)
             end
             format.xls do

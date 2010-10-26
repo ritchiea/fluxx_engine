@@ -20,14 +20,24 @@ class InstrumentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:instruments)
   end
   
-  test "should get list of records by ID" do
+  test "should get list of records by ID autocomplete" do
+    instrument1 = Instrument.make
+    instrument2 = Instrument.make
+    instrument3 = Instrument.make
+    get :index, :format => :autocomplete, :find_by_id => true, :id => [instrument1.id, instrument2.id, instrument3.id]
+    assert_equal 3, assigns(:instruments).size
+    assert assigns(:instruments).include?(instrument2)
+    assert !assigns(:instruments).include?(@instrument)
+  end
+
+  test "should get list of records by JSON" do
     instrument1 = Instrument.make
     instrument2 = Instrument.make
     instrument3 = Instrument.make
     get :index, :format => :json, :find_by_id => true, :id => [instrument1.id, instrument2.id, instrument3.id]
     assert_equal 3, assigns(:instruments).size
-    assert assigns(:instruments).include?(instrument2)
-    assert !assigns(:instruments).include?(@instrument)
+    instruments = @response.body.de_json
+    assert instruments.map{|instr| instr['instrument']['id']}.include? instrument1.id
   end
 
   test "should get index check on pre and post and format" do
