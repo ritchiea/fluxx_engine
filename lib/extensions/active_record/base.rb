@@ -138,6 +138,22 @@ class ActiveRecord::Base
     end
   end
   
+  ############ AASM Extend Methods ###############################
+  def self.aasm_event_extend name, options = {}, &block
+    events = AASM::StateMachine[self].events
+    events.delete name if events[name]
+    aasm_event name, options, &block
+  end
+  
+  def self.aasm_state_extend name, options={}
+    states = AASM::StateMachine[self].states
+    offset = states.index name
+    if offset && offset > -1 
+      states.delete_at offset
+    end
+    aasm_state name, options
+  end
+  
   ############ Utility Helper Methods ###############################
   def self.calculate_form_name
     self.name.tableize.singularize.downcase.to_sym
