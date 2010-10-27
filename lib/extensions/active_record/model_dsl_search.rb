@@ -115,7 +115,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
       filter_fields.each do |attr|
         unless grab_param(attr, local_model_request_params, model_request_params, request_params).blank?
           if derived_filters && derived_filters[attr] # some attributes have filtering methods; if so call it
-            derived_filters[attr].call(search_with_attributes, attr, grab_param(attr, local_model_request_params, model_request_params, request_params)) # Send the raw un-split value
+            derived_filters[attr].call(search_with_attributes, request_params, attr, grab_param(attr, local_model_request_params, model_request_params, request_params)) # Send the raw un-split value
           elsif grab_param(attr, local_model_request_params, model_request_params, request_params).select{|split_param| !split_param.to_s.is_numeric?}.size > 0 # Check to see if any params are NOT numeric
             # Sphinx doesn't allow string attributes, so if we get a non-numeric value, search for the crc32 hash of it
             values = grab_param(attr, local_model_request_params, model_request_params, request_params).map{|val|val.to_crc32}
