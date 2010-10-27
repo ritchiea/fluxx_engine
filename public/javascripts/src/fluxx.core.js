@@ -34,13 +34,13 @@
       if ($.isArray(object)) {
         var filled = [];
         _.each(object, function(item) {
-          if (!_.isEmpty(item['value']) && without.indexOf(item['name']) == -1)
+          if ((item['name'] == 'q[q]' || !_.isEmpty(item['value'])) && without.indexOf(item['name']) == -1)
             filled.push(item);
         });
       } else if ($.isPlainObject(object)) {
         var filled = {};
         _.each(_.keys(object), function(key) {
-          if (! _.isEmpty(object[key])) {
+          if (key == 'q' || !_.isEmpty(object[key])) {
             filled[key] = object[key];
           }
         });
