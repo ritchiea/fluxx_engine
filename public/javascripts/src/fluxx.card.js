@@ -979,6 +979,8 @@
                     $('.area, .info', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
                     $card.resizeFluxxCard();
                     $card.trigger('lifetimeComplete.fluxx.card');
+                    if (!$card.fromClientStore() && !$card.cardFullyVisible())
+                      $('a', $card.data('icon')).click();                
                     $card.saveDashboard();
                   });
                 } else {
