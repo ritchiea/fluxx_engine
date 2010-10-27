@@ -349,13 +349,14 @@
       });
     },
     refreshCardArea: function(){
-      $.fluxx.log("**> refreshCardArea");
       return this.each(function(){
         var $area = $(this).fluxxCardArea();
-        $.fluxx.log(":::refreshCardArea:::", '  '+$area.fluxxCard().attr('id'), '    ' + $area.attr('class'));
+        $.fluxx.log("*******>refreshCardArea ", '  '+$area.fluxxCard().attr('id'), '    ' + $area.attr('class'));
         var req = $area.fluxxCardAreaRequest();
-        $.extend(req, {area: $area});
-        $area.fluxxCardLoadContent(req);
+        if (req) {
+          $.extend(req, {area: $area});
+          $area.fluxxCardLoadContent(req);
+        }
       });
     },
     setMinimizedProperties: function(options) {
