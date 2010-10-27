@@ -618,7 +618,7 @@
             header: '<span>' + options.header + '</span>',
             caller: options.target,
             init: function(e) {
-              $modal.appendTo($card.fluxxCardBody()).css({opacity: 0.01});
+              $modal.appendTo($card.fluxxCardBody());
               $('.area', $card).not('.modal').disableFluxxArea();
               var $arrow = $('.arrow', $modal);
               var targetPosition = options.target.position().top,
@@ -641,16 +641,9 @@
                 left: parseInt(leftPosition)
               });
               totalWidth = parseInt(leftPosition) + $modal.outerWidth(true);
-              $.fluxx.log({po: parentOffset, tw: targetWidth, aw: arrowWidth, lp: leftPosition, mw: $modal.outerWidth(true), bw: $('.body:first', options.target.fluxxCardArea()).outerWidth(true), totalWidth: totalWidth});
               overage = totalWidth - $('.card-body:first', options.target.fluxxCard()).outerWidth(true);
-              $.fluxx.log('overage: ' + overage);
-              if (overage > 0) {
-                $modal.fluxxCard().animate({marginRight: overage}, function() {
-                  $modal.animate({opacity: 1}, 'fast');
-                  if (!$card.cardVisibleRight())
-                    $card.focusFluxxCard({scrollEdge: 'right'});
-                });
-              }
+              if (overage > 0) 
+                $modal.fluxxCard().css({marginRight: overage});
               $card.resizeFluxxCard();
               $.my.stage.resizeFluxxStage();
             }
@@ -672,6 +665,7 @@
             var $card = $modal.fluxxCard();
             $('.area', $card).enableFluxxArea();
             $(this).fluxxCard().animate({marginRight: 0}, function() {
+              $(this).fluxxCard().css({marginRight: null});
               $modal.remove();
               $card.resizeFluxxCard();
               $.my.stage.resizeFluxxStage();
@@ -870,16 +864,17 @@
                 .fluxxAreaSettings({settings: $('#card-settings', $document)})
                 .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
             }
-            
+            var $card = options.area.fluxxCard();
             if (!options.area.is(':visible') && options.area.width() > 0) {
-              var $card = options.area.fluxxCard();
               $card.animateWidthTo($card.width() + options.area.width(), function() {
                 options.area.css('display', 'inline-block');
-                complete();
+                complete(); 
                 if (!$card.cardVisibleRight())
                   $card.focusFluxxCard({scrollEdge: 'right'});
               });
             } else {
+              if (!$card.cardVisibleRight())
+                $card.focusFluxxCard({scrollEdge: 'right'});
               complete();
             }
           }
@@ -940,6 +935,7 @@
         $card.width(widthTo).css('margin-right', margin);
         $('.title', $card).show();
         $('#card-table').width('100%');
+        $.my.stage.resizeFluxxStage();
         return _.bind(callback, $card)();
       });
     }
