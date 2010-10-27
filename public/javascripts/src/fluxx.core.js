@@ -34,13 +34,13 @@
       if ($.isArray(object)) {
         var filled = [];
         _.each(object, function(item) {
-          if (!_.isEmpty(item['value']) && without.indexOf(item['name']) == -1)
+          if ((item['name'] == 'q[q]' || !_.isEmpty(item['value'])) && without.indexOf(item['name']) == -1)
             filled.push(item);
         });
       } else if ($.isPlainObject(object)) {
         var filled = {};
         _.each(_.keys(object), function(key) {
-          if (! _.isEmpty(object[key])) {
+          if (key == 'q' || !_.isEmpty(object[key])) {
             filled[key] = object[key];
           }
         });
@@ -174,7 +174,11 @@
   });
 
   $(window).ajaxComplete(function(e, xhr, options) {
-    $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + unescape(_.objectWithoutEmpty(options.data)) + ')');
+//    $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + unescape(_.objectWithoutEmpty(options.data)) + ')');
+    // Redirect to login screen if we get a full HTML document. Since all ajax requests return partial documents,
+    // we assume that if we get a full HTML document, we have been redirected to the login screen.
+    if (xhr.status == 500 || xhr.responseText.search(/^\<\!DOCTYPE html\>/) != -1)
+      window.location.href = '/user_sessions/new';
   });
   
   var keyboardShortcuts = {

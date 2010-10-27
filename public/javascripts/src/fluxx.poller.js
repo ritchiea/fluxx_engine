@@ -100,8 +100,8 @@
                   this.last_id = parseInt(data.last_id);
                   $.cookie('last_id', this.last_id);
                   this.message(data, status);
-                  this._poll();
                 }
+                this._poll();
               }, this));
             }, this);
             this._timeoutID = setTimeout(doPoll, i);
