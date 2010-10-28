@@ -1,6 +1,14 @@
 (function($){
   $.fn.extend({
-    fluxxStage: function(options, onComplete) {
+    fluxxStage: function() {
+      if (document.readyState != "complete") {
+        setTimeout( arguments.callee, 100 );
+        return;
+      } else {
+        $('body').fluxxStageInit();
+      }
+    },
+    fluxxStageInit: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({}, options, onComplete);
       return this.each(function(){
         $.my.fluxx  = $(this).attr('id', 'fluxx');
@@ -37,12 +45,23 @@
     },
     resizeFluxxStage: function(options, onComplete) {
       if (!this.length) return this;
-      var options = $.fluxx.util.options_with_callback({}, options, onComplete);
+      var options = $.fluxx.util.options_with_callback({animate: true}, options, onComplete);
       var allCards = _.addUp($.my.cards, 'outerWidth', true);
-      $.my.stage
+      var stageWidth = $.my.stage.width();
+      if (options.animate && allCards < stageWidth && stageWidth > $(window).width()) {
+        $.my.stage.stop().animate({width: allCards}, function(e) {
+          $.my.stage
+          .width(allCards)
+          .bind('resize.fluxx.stage', options.callback)
+          .trigger('resize.fluxx.stage');
+        });
+      } else {
+        $.my.stage
+        .stop()
         .width(allCards)
         .bind('resize.fluxx.stage', options.callback)
         .trigger('resize.fluxx.stage');
+      }
       return this;
     },    
     addFluxxCards: function(options, callback) {
