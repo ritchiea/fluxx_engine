@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fluxx_engine}
-  s.version = "0.0.10"
+  s.version = "0.0.11"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Hansen"]
-  s.date = %q{2010-10-27}
+  s.date = %q{2010-10-28}
   s.email = %q{fluxx@acesfconsulting.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     "app/controllers/client_stores_controller.rb",
+    "app/controllers/dashboard_controller.rb",
     "app/controllers/realtime_updates_controller.rb",
     "app/models/client_store.rb",
     "app/models/multi_element_choice.rb",
@@ -31,6 +32,7 @@ Gem::Specification.new do |s|
     "app/stylesheets/theme/default/login.sass",
     "app/stylesheets/theme/default/style.sass",
     "app/views/client_stores/_client_store_show.html.haml",
+    "app/views/dashboard/index.html.haml",
     "app/views/insta/_card_settings.html.haml",
     "app/views/insta/_list_actions.html.haml",
     "app/views/insta/_simple_footer.html.haml",
