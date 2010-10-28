@@ -287,7 +287,7 @@
       $('.drawer', $card).parent().addClass('empty');
 
       //TODO: Don't hard code the tab width here. 
-      var newWidth = $card.width() - $card.fluxxCardDetail().width() - 25;
+      var newWidth = $card.width() - $card.fluxxCardDetail().width() - 29;
       $card.closeCardModal().animateWidthTo(newWidth, function() {
         $card.fluxxCardDetail().hide();
         $card.trigger('lifetimeComplete.fluxx.card');
