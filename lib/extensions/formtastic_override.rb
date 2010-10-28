@@ -128,7 +128,7 @@ module Formtastic #:nodoc:
       sibling_id = generate_random_id
       label("#{method}:", :label => options[:label]) + 
         text_field_tag(method, nil, (options[:input_html] || {}).merge({"data-sibling".to_sym => sibling_id.to_s, "data-autocomplete".to_sym => options[:autocomplete_url], :value => value_name})) + 
-        hidden_field(input_name, {"data-sibling".to_sym => sibling_id.to_s})
+        hidden_field(input_name, {"data-sibling".to_sym => sibling_id.to_s, :class => options[:hidden_attribute_class]})
     end
     
     def generate_random_id
