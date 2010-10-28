@@ -9,19 +9,27 @@
   label
     +inline-block
     +border-box
-    width: 39%
+    width: 140px
     vertical-align: top
     .required
-  input,textarea,select
+  input,textarea
     +inline-block
     +border-box
-    width: 59%
+    width: 251px
+    padding: 7px 5px
+    vertical-align: top
+  select
+    +inline-block
+    +border-box
+    width: 251px
+    height: 24px
+    padding: 2px
+    vertical-align: top
   .inline-aft
     +inline-block
     +border-box
-    position: absolute
+    position: relative
     top: 0px
-    left: 515px
     line-height: 24px
     height: 24px
     margin-left: 6px
@@ -38,11 +46,18 @@
     width: 100%
     line-height: 1em
   .required
-  input,textarea,select
+  input,textarea
     width: 100%
+    max-width: 396px
+    padding: 7px 5px
+  select
+    +inline-block
+    +border-box
+    width: 100%
+    max-width: 396px
+    padding: 2px
   .inline-errors
     margin-left: 0px
-
 .disabled
   opacity: 0.5
 
@@ -727,9 +742,10 @@
                   .show
                     margin: 20px 38px
                   .edit
-                    margin: 20px 22px
-                    input,textarea,select
-                      width: 52%
+                    position: relative
+                    padding-top: 20px
+                    form
+                      margin-left: 10%
                 .footer
                   border-left: 1px solid #9b9b9b
                   padding: 5px 7px
