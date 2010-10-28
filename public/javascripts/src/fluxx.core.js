@@ -174,10 +174,8 @@
   });
 
   $(window).ajaxComplete(function(e, xhr, options) {
-//    $.fluxx.log('XHR: ' + options.type + ' ' + options.url + ' (' + unescape(_.objectWithoutEmpty(options.data)) + ')');
-    // Redirect to login screen if we get a full HTML document. Since all ajax requests return partial documents,
-    // we assume that if we get a full HTML document, we have been redirected to the login screen.
-    if (xhr.responseText.search(/^\<\!DOCTYPE html\>/) != -1)
+    // Look for a HTTP resonse header called fluxx_template. If it has a value of login we are not logged in.
+    if (xhr.getResponseHeader('fluxx_template') == 'login')
       window.location.href = '/user_sessions/new';
   });
   
