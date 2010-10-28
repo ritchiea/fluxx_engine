@@ -980,7 +980,7 @@
                     $card.resizeFluxxCard();
                     $card.trigger('lifetimeComplete.fluxx.card');
                     if (!$card.fromClientStore() && !$card.cardFullyVisible())
-                      $('a', $card.data('icon')).click();                
+                      $('a', $card.data('icon')).click();
                     $card.saveDashboard();
                   });
                 } else {
