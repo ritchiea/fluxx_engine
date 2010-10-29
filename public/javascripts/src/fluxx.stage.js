@@ -484,7 +484,8 @@
               var $elem = $(this);
               $elem.fluxxCardLoadContent({
                 url: $elem.attr('href'),
-                area: $elem.fluxxCardArea()
+                area: $elem.fluxxCardArea(),
+                target: $elem
               });
             }
           ],
