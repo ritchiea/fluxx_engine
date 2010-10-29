@@ -519,7 +519,7 @@
             // the card, we will not match the user ID. The worst case scenario is that the user will not be
             // autoselected, but they will still be added to the list.
             // This may need to be rethough and made a bit more robust
-            var userID = url.match(/(\d+)$/);
+            var userID = url.match(/\/(\d+)$/);
             if (userID)
               userID = userID.pop();
 
