@@ -34,7 +34,7 @@
                 else
                   $close.hide();
              
-                if ($card.data)
+                if ($card.data && $card.data('icon'))
                   $card
                   .setMinimizedProperties({info: $card.fluxxCardInfo()})
                   .data('icon').setDockIconProperties({
@@ -507,7 +507,47 @@
       $.fluxx.util.autoGrowTextArea($('textarea', $area));      
       $('.multiple-select-transfer select[multiple=true]', $area).selectTransfer();
       $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
+      var once = false;
+      $('[data-trigger-field]', $area).each(function() {
+        if (!once) {
+          once = true;
+          // Refresh autocomplete fields when closing a modal
+          $area.bind('close.fluxx.modal', function (e, $target, url) {
+            var $select = $target.parent().prev();
+            //TODO: We are using the last URL loaded into the modal to get the newly created user ID.
+            // If the user edits the user or does something else in the URL in the modal and then closes
+            // the card, we will not match the user ID. The worst case scenario is that the user will not be
+            // autoselected, but they will still be added to the list.
+            // This may need to be rethough and made a bit more robust
+            var userID = url.match(/\/(\d+)$/);
+            if (userID)
+              userID = userID.pop();
 
+            if ($select.length) {
+              $select.change(function() { 
+                $select.unbind('change');
+                // Only auto select a user if we have an ID
+                if (userID)
+                  $select.val(userID)
+              });
+              // Refresh user dropdowns
+              $('[data-related-child]', $area).change();
+            }
+          });
+        }
+        var $link = $(this);
+        $($link.attr('data-trigger-field'), $area).change(function () {
+          var $elem = $(this);          
+          if ($elem.val()) {
+            // Put the organization ID into the link to create a new user
+            $link.attr('href', $link.show().attr('href')
+              .replace(/\&user\[temp_organization_id\]=\n*/, '&user[temp_organization_id]=' + $elem.val()));
+          } else {
+            // Hide "add new" links if no organization is selected
+            $link.hide();
+          }
+        }).change();
+      });
       
       $('.header .notice:not(.error)').delay(2000).find('.close-parent').click();
       
@@ -603,6 +643,7 @@
       if (!options.url || !options.target) return this;
       return this.each(function(){
         var $card = $(this).fluxxCard();
+        $card.data('lastMarginRight', $card.css('marginRight'));
         var $modal = $($.fluxx.util.resultOf(
             $.fluxx.card.ui.area,
             {
@@ -610,7 +651,7 @@
               arrow: 'left',
               closeButton: true
             }
-        )).data('target', options.target);
+        )).data({'url': options.url, target: options.target});
         $card.fluxxCardLoadContent(
           {
             area: $modal,
@@ -621,20 +662,23 @@
               $modal.appendTo($card.fluxxCardBody());
               $('.area', $card).not('.modal').disableFluxxArea();
               var $arrow = $('.arrow', $modal);
-              var targetPosition = options.target.position().top,
-                  targetHeight = options.target.outerHeight(true),
+              var aftPosition = options.target.parent().hasClass('inline-aft');
+              var target = (aftPosition ? options.target.parent().parent() : options.target);
+              var targetPosition = target.position().top,
+                  targetHeight = target.outerHeight(true),
                   arrowHeight = $arrow.outerHeight(true);
               $arrow.css({
                 top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2))
               });
+ 
               var parentOffset = (
                   //    options.target.css('float') || options.target.parent().css('float')
                   //  ? 
-                      options.target.position().left + (options.target.fluxxCardListing().is(':visible') ? options.target.fluxxCardListing().outerWidth(true) : 0)
+                      target.position().left + (options.target.fluxxCardListing().is(':visible') ? options.target.fluxxCardListing().outerWidth(true) : 0)
                   //  : 
                   //    options.target.offsetParent().position().left
                   ),
-                  targetWidth  = options.target.outerWidth(true),
+                  targetWidth  = target.outerWidth(true) - (aftPosition ? options.target.outerWidth(true) : 0),
                   arrowWidth   = $arrow.outerWidth(true) / 2,
                   leftPosition = parentOffset + targetWidth + arrowWidth;
               $modal.css({
@@ -660,12 +704,11 @@
       return this.each(function(){
         var $modal = $('.modal', $(this).fluxxCard());
         if ($modal.length > 0) {
-          $('.loading-indicator', $modal.fluxxCard()).removeClass('loading')
+          $('.loading-indicator', $modal.fluxxCard()).removeClass('loading');
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
-            $('.area', $card).enableFluxxArea();
-            $(this).fluxxCard().animate({marginRight: 0}, function() {
-              $(this).fluxxCard().css({marginRight: null});
+            $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
+            $(this).fluxxCard().animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
               $card.resizeFluxxCard();
               $.my.stage.resizeFluxxStage();
@@ -805,7 +848,8 @@
         .bind('init.fluxx.area', _.callAll(
           $.fluxx.util.itEndsHere,
           options.init
-        )).trigger('init.fluxx.area');
+        )).trigger('init.fluxx.area')
+        .data('url', options.url);
 
       options.area.bind('lifetimeComplete.fluxx.area', _.bind(options.lifetimeComplete, options.area));
 

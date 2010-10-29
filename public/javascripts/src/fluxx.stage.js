@@ -484,7 +484,8 @@
               var $elem = $(this);
               $elem.fluxxCardLoadContent({
                 url: $elem.attr('href'),
-                area: $elem.fluxxCardArea()
+                area: $elem.fluxxCardArea(),
+                target: $elem
               });
             }
           ],
@@ -690,6 +691,22 @@
               return false;
             }
           ],
+          'img.clear-selected-org': [
+            'click', function(e) {
+              $.fluxx.util.itEndsHere(e);
+              var $link = $(e.target),
+                $elem = $link.parent().prev(),
+                $area = $(this).fluxxCardArea();
+              
+              var $autosel = $('[data-related-child=.' + $elem.attr('class') + ']');
+              $elem.val('').children('option').remove();
+              $autosel.val('').next().val('').change();
+              var children = $elem.data('related-child').split(',');
+              $.each(children, function() {
+                $('select' + this, $area).val('').children('option').remove();
+              });
+            }
+          ], 
           'div.toolbar': [
             'mousedown', function(e) {
               var $window = $('html,body');
