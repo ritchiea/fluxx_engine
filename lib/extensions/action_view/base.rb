@@ -36,7 +36,7 @@ class ActionView::Base
   
   def flash_info 
     if flash[:info] 
-      msg = "<div class='notice'><a class='close-parent' href='#fluxx-card-notice'><img src='/fluxx_engine/theme/default/images/icons/cancel.png' /></a>#{flash[:info]}</div>"
+      msg = "<div class='notice'><a class='close-parent' href='#fluxx-card-notice'><img src='/images/fluxx_engine/theme/default/icons/cancel.png' /></a>#{flash[:info]}</div>"
       flash[:info] = nil
       raw msg
     end
@@ -44,7 +44,7 @@ class ActionView::Base
 
   def flash_error
     if flash[:error] 
-      msg = "<div class='notice error'><a class='close-parent' href='#fluxx-card-notice'><img src='/fluxx_engine/theme/default/images/icons/cancel.png' /></a>#{flash[:error]}</div>"
+      msg = "<div class='notice error'><a class='close-parent' href='#fluxx-card-notice'><img src='/images/fluxx_engine/theme/default/icons/cancel.png' /></a>#{flash[:error]}</div>"
       flash[:error] = nil
       raw msg
     end
