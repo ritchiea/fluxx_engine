@@ -643,6 +643,7 @@
       if (!options.url || !options.target) return this;
       return this.each(function(){
         var $card = $(this).fluxxCard();
+        $card.data('lastMarginRight', $card.css('marginRight'));
         var $modal = $($.fluxx.util.resultOf(
             $.fluxx.card.ui.area,
             {
@@ -661,20 +662,23 @@
               $modal.appendTo($card.fluxxCardBody());
               $('.area', $card).not('.modal').disableFluxxArea();
               var $arrow = $('.arrow', $modal);
-              var targetPosition = options.target.position().top,
-                  targetHeight = options.target.outerHeight(true),
+              var aftPosition = options.target.parent().hasClass('inline-aft');
+              var target = (aftPosition ? options.target.parent().parent() : options.target);
+              var targetPosition = target.position().top,
+                  targetHeight = target.outerHeight(true),
                   arrowHeight = $arrow.outerHeight(true);
               $arrow.css({
                 top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2))
               });
+ 
               var parentOffset = (
                   //    options.target.css('float') || options.target.parent().css('float')
                   //  ? 
-                      options.target.position().left + (options.target.fluxxCardListing().is(':visible') ? options.target.fluxxCardListing().outerWidth(true) : 0)
+                      target.position().left + (options.target.fluxxCardListing().is(':visible') ? options.target.fluxxCardListing().outerWidth(true) : 0)
                   //  : 
                   //    options.target.offsetParent().position().left
                   ),
-                  targetWidth  = options.target.outerWidth(true),
+                  targetWidth  = target.outerWidth(true) - (aftPosition ? options.target.outerWidth(true) : 0),
                   arrowWidth   = $arrow.outerWidth(true) / 2,
                   leftPosition = parentOffset + targetWidth + arrowWidth;
               $modal.css({
@@ -704,8 +708,7 @@
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
             $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
-            $(this).fluxxCard().animate({marginRight: 0}, function() {
-              $(this).fluxxCard().css({marginRight: null});
+            $(this).fluxxCard().animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
               $card.resizeFluxxCard();
               $.my.stage.resizeFluxxStage();
