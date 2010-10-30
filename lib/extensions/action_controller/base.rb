@@ -135,7 +135,7 @@ class ActionController::Base
         else
           insta_respond_to show_object, :error do |format|
             format.html do 
-              render :inline => show_object.calculate_error_options(params)
+              fluxx_show_card show_object, :template => 'insta/missing_record'
             end
             format.xml  { render :xml => @model }
           end
