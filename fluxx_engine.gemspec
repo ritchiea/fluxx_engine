@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fluxx_engine}
-  s.version = "0.0.11"
+  s.version = "0.0.12"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Hansen"]
-  s.date = %q{2010-10-28}
+  s.date = %q{2010-10-29}
   s.email = %q{fluxx@acesfconsulting.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -89,19 +89,6 @@ Gem::Specification.new do |s|
     "lib/generators/fluxx_engine_migration/templates/realtime_updates.rb",
     "lib/generators/fluxx_engine_public/fluxx_engine_public_generator.rb",
     "lib/tasks.rb",
-    "public/fluxx_engine/dist/bad/fluxx.engine.full.js",
-    "public/fluxx_engine/dist/bad/fluxx.engine.full.min.js",
-    "public/fluxx_engine/dist/bad/fluxx.engine.js",
-    "public/fluxx_engine/dist/bad/fluxx.engine.min.js",
-    "public/fluxx_engine/dist/bad/it.tar",
-    "public/fluxx_engine/dist/fluxx.engine.full.js",
-    "public/fluxx_engine/dist/fluxx.engine.full.min.js",
-    "public/fluxx_engine/dist/fluxx.engine.js",
-    "public/fluxx_engine/dist/fluxx.engine.min.js",
-    "public/fluxx_engine/dist/good/fluxx.engine.full.js",
-    "public/fluxx_engine/dist/good/fluxx.engine.full.min.js",
-    "public/fluxx_engine/dist/good/fluxx.engine.js",
-    "public/fluxx_engine/dist/good/fluxx.engine.min.js",
     "public/images/theme/_common/loaders/ajax-arrows-cccccc.gif",
     "public/images/theme/_common/loaders/ajax-arrows-eeeeee.gif",
     "public/images/theme/_common/loaders/ajax-loader-666666.gif",
@@ -1176,7 +1163,7 @@ Gem::Specification.new do |s|
     "public/images/theme/default/ql-icons/Utilitiesfolder_48x48.png",
     "public/javascripts/lib/colorbox/jquery.colorbox-min.js",
     "public/javascripts/lib/colorbox/jquery.colorbox.js",
-    "public/javascripts/lib/jquery-1.4.2.min.js",
+    "public/javascripts/lib/jquery-1.4.3.min.js",
     "public/javascripts/lib/jquery-ui-1.8.2.custom.min.js",
     "public/javascripts/lib/jquery.alerts.js",
     "public/javascripts/lib/jquery.cookie.js",
