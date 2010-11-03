@@ -417,13 +417,13 @@ class ActionController::Base
         if delete_result
           flash[:info] = t(:insta_successful_delete, :name => model_class.name) unless delete_object.dont_display_flash_message
           insta_respond_to delete_object, :success do |format|
-            format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || send("#{model_class.name.underscore.downcase}_path")) }
+            format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path")) }
             format.xml  { head :ok }
           end
         else
           flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name)
           insta_respond_to delete_object, :error do |format|
-            format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect): nil) || send("#{model_class.name.underscore.downcase}_path")) }
+            format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path")) }
             format.xml  { head :ok }
           end
         end
