@@ -88,8 +88,10 @@
             url: settings.documentTypeUrl,
             dataType: 'json',
             success: function(data, status, xhr){
-              var key = settings.documentTypeParam.replace(/\_id$/,'');
-
+              if (data.length < 1)
+                return false;
+              for (var key in data[0]) {};
+                
               $(data).each(function() {
                 select += '<option value="' + this[key].id + '">' + this[key].name + '</option>'
               })
@@ -237,7 +239,7 @@
         var originalURL = uploader.settings.url;
         uploader.bind("BeforeUpload", function(up, file) {
           if (showDocumentType)
-            up.settings.url = originalURL + "&model_document[" + up.settings.documentTypeParam + "]=" + file.type;
+            up.settings.url = originalURL + "&" + up.settings.documentTypeParam + "=" + file.type;
         }); 
 
 
