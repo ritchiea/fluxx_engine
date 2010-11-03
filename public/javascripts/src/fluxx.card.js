@@ -215,7 +215,7 @@
     },
     resizeFluxxCard: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
-      if (!$.my.hand || $.my.hand.width() == 0) return this;
+      if (!$.my.hand) return this;
 
       return this.each(function() {
         var $card = $(this).fluxxCard();
@@ -278,8 +278,8 @@
               .filter(':visible')
               .filter(function(){ return $(this).css('position') != 'absolute'; }),
             'outerWidth', false) + $('.drawer', $card).parent().filter(':visible').outerWidth(true);
-          $card.width(cardWidth);
-          _.bind($.fn.resizeFluxxStage, $.my.stage)();
+        $card.width(cardWidth);
+        _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
     },
     closeDetail: function() {
