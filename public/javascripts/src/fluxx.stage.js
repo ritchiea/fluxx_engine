@@ -435,6 +435,8 @@
                     url: $elem.attr('href'),
                     runtimes: 'html5',
                     multipart: false,
+                    documentTypeParam: $elem.data('document-type-param'),
+                    documentTypeUrl: $elem.data('document-type-url'),
                     filters: [{title: "Allowed file types", extensions: $elem.attr('data-extensions')}]
                   });
                 },
