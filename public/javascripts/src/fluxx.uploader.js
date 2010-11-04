@@ -88,8 +88,10 @@
             url: settings.documentTypeUrl,
             dataType: 'json',
             success: function(data, status, xhr){
-              if (data.length < 1)
+              if (data.length < 1) {
+                showDocumentType = false;
                 return false;
+              }
               for (var key in data[0]) {};
                 
               $(data).each(function() {
