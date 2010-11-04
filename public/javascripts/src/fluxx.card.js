@@ -286,8 +286,8 @@
       var $card = this.fluxxCard();
       $('.drawer', $card).parent().addClass('empty');
 
-      //TODO: Don't hard code the tab width here. 
-      var newWidth = $card.width() - $card.fluxxCardDetail().width() - 29;
+      newWidth = $card.data('listing-width');
+      $.fluxx.log("New Width is " + newWidth, $card.fluxxCardDetail().width());
       $card.closeCardModal().animateWidthTo(newWidth, function() {
         $card.fluxxCardDetail().hide();
         $card.trigger('lifetimeComplete.fluxx.card');
@@ -910,6 +910,7 @@
             }
             var $card = options.area.fluxxCard();
             if (!options.area.is(':visible') && options.area.width() > 0) {
+              $card.data('listing-width', $card.width());
               $card.animateWidthTo($card.width() + options.area.width(), function() {
                 options.area.css('display', 'inline-block');
                 complete(); 
