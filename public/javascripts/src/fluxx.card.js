@@ -1092,12 +1092,20 @@
           refreshCaller: function(){
             if (! this.data('target')) return;
             $.fluxx.log("Refreshing caller after modal close");
-            if (this.data('target').parent('.partial').length) {
+            var $target = this.data('target');
+            var $card = this.fluxxCard();
+            
+            if ($target.data('on-success-target') && $($target.data('on-success-target'), $card).length)
+              $target = $($target.data('on-success-target'), $card);
+            else if (this.data('target').parent('.partial').length)
+              $target = this.data('target').parent('.partial');
+            
+            if ($target.hasClass('partial')) {
               $.fluxx.log("Refreshing PARTIAL");
-              this.data('target').refreshAreaPartial();
+              $target.refreshAreaPartial();
             } else {
               $.fluxx.log("Refreshing AREA");
-              this.data('target').refreshCardArea();
+              $target.refreshCardArea();
             }
           },
           refreshNamed: function(){
