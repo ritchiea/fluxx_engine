@@ -8,7 +8,7 @@
     = form_for :q, :url => url_for(:action => :index), :html => { :method => :get, :class => 'search area-url listing-search' } do |f|
       = f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'filter', :placeholder => 'Search...', :type => 'search'
     %ul.actions
-      = render :partial => 'insta/list_actions',  :locals => {:models => @models}
+      = render :partial => 'insta/list_actions',  :locals => {:models => @models, :model_class => @model_class}
 
   - throw Exception.new "Please specify an index template for the #{@plural_model_name} controller, otherwise we cannot render the page" if @template.blank?
   #card-body
