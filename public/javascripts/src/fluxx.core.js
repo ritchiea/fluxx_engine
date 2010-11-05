@@ -173,7 +173,7 @@
     }
   });
 
-  $(window).ajaxComplete(function(e, xhr, options) {
+  $('html').ajaxComplete(function(e, xhr, options) {
     // Look for a HTTP resonse header called fluxx_template. If it has a value of login we are not logged in.
     if (xhr.getResponseHeader('fluxx_template') == 'login')
       window.location.href = '/user_sessions/new';
