@@ -676,8 +676,8 @@
               $.fluxx.util.itEndsHere(e);
               var target = $(this).attr("href");
               var $card = $(target);
-              $card.focusFluxxCard({highlight: true}, function() {
-                $('.toolbar, .titlebar, .card-footer', $card).effect('highlight', {}, 500);
+              $card.focusFluxxCard({}, function() {
+                $('.toolbar, .titlebar, .card-footer', $card);// .effect('highlight', {}, 500);
                 location.hash = target;              
               });
             }

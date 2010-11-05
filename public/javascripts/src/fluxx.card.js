@@ -286,8 +286,9 @@
       var $card = this.fluxxCard();
       $('.drawer', $card).parent().addClass('empty');
 
-      newWidth = $card.data('listing-width');
-      $.fluxx.log("New Width is " + newWidth, $card.fluxxCardDetail().width());
+      var newWidth = $card.data('listing-width');
+      if (!newWidth)
+        newWidth = $card.width() - $card.fluxxCardDetail().width() - 29;
       $card.closeCardModal().animateWidthTo(newWidth, function() {
         $card.fluxxCardDetail().hide();
         $card.trigger('lifetimeComplete.fluxx.card');
