@@ -508,6 +508,11 @@
       $.fluxx.util.autoGrowTextArea($('textarea', $area));      
       $('.multiple-select-transfer select[multiple=true]', $area).selectTransfer();
       $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
+      $('.wysiwyg', $area).rte({
+        content_css_url: '/stylesheets/fluxx_engine/lib/rte/css/rte.css',
+        media_url: '/stylesheets/fluxx_engine/lib/rte/img/'
+      });
+
       var once = false;
       $('[data-trigger-field]', $area).each(function() {
         if (!once) {
