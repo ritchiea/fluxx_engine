@@ -240,8 +240,9 @@
         
         var originalURL = uploader.settings.url;
         uploader.bind("BeforeUpload", function(up, file) {
-          if (showDocumentType)
-            up.settings.url = originalURL + "&" + up.settings.documentTypeParam + "=" + file.type;
+          (showDocumentType && file.type)
+          up.settings.url = originalURL + 
+            ((showDocumentType && file.type) ? "&" + up.settings.documentTypeParam + "=" + file.type : "");
         }); 
 
 
