@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :realtime_updates
+  resources :multi_element_values
   resources :client_stores
   match 'dashboard', :to => 'dashboard#index'
   get "dashboard/index"
