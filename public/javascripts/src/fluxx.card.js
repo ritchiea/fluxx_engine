@@ -506,7 +506,7 @@
       
       $('.datetime input', $area).datepicker();
       $.fluxx.util.autoGrowTextArea($('textarea', $area));      
-      $('.multiple-select-transfer select[multiple=true]', $area).selectTransfer();
+      $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $area).selectTransfer();
       $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
       $('.wysiwyg', $area).rte({
         content_css_url: '/stylesheets/fluxx_engine/lib/rte/css/rte.css',
