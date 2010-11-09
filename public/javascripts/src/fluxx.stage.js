@@ -191,6 +191,8 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              if ($elem.hasClass('with-note') && !$elem.data('has_note'))
+                return;
               $elem.fluxxCardLoadContent({
                 area: $elem.fluxxCardArea(),
                 url: $elem.attr('href'),
