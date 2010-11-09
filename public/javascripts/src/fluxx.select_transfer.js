@@ -36,7 +36,7 @@
 
         var $controls = $('.controls', $container);
         $original.find(':selected').appendTo($selected);
-        $original.children().appendTo($unselected);
+        $original.children().clone().appendTo($unselected);
 
         $('select', $container).css({
           width: '40%',
@@ -55,18 +55,42 @@
         $('.break', $controls).css({
           height: 24
         })
+        
+        var updateOriginal = function() {
+          var sel = [];
+          $selected.children().each(function () {
+            sel.push($(this).val());
+          });
+          $original.val(sel).change();
+        };
 
-        $('.select', $container).click(function(e){
+        var $select = $('.select', $container).click(function() {
           $unselected.find(':selected').remove().appendTo($selected);
+          updateOriginal();
         });
-        $('.unselect', $container).click(function(e){
-          $selected.find(':not(:selected)').remove().appendTo($unselected);
+        var $unselect = $('.unselect', $container).click(function() {
+          $selected.find(':selected').remove().appendTo($unselected);
+          updateOriginal();
         });
-
+        
+        $unselected.dblclick(function(e) {$select.click();});
+        $selected.dblclick(function(e) {$unselect.click();});          
+        
         $original.hide();
         
-        // TODO ESH: add in the original name to the selected select box
-        $selected.attr('name', $original.attr('name'));
+        $original.bind('options.updated', function () {
+          var items = [];
+          $selected.children().each(function() {items.push($(this).val());});          
+          $unselected.children().remove();
+          $original.children().clone().appendTo($unselected);
+          $selected.children().remove();
+          $unselected.children().each(function() {
+            $.fluxx.log("Looking " + items.indexOf($(this).val()));
+            if (items.indexOf($(this).val()) >= 0)
+                $(this).appendTo($selected)                
+          });
+          updateOriginal();          
+        });
         
         $container.insertAfter($original);        
       });

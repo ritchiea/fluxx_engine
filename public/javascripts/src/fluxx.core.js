@@ -169,15 +169,35 @@
           if (! this.logger) this.logger = (console.log ? _.bind(console.log, console) : $.noop);
           _.each(arguments, _.bind(function(a) { this.logger(a) }, this));
         }
+      },
+      sessionData: function(key, value) {
+        if (window.sessionStorage)
+          if (value) 
+            window.sessionStorage[key] = value;
+          else if (key)
+            return window.sessionStorage[key];
       }
     }
   });
 
   $('html').ajaxComplete(function(e, xhr, options) {
-    // Look for a HTTP resonse header called fluxx_template. If it has a value of login we are not logged in.
+    if ($.cookie('user_credentials'))
+      $.fluxx.sessionData('user_credentials', $.cookie('user_credentials')); 
+    // Look for a HTTP response header called fluxx_template. If it has a value of login we are not logged in.
     if (xhr.getResponseHeader('fluxx_template') == 'login')
-      window.location.href = '/user_sessions/new';
+      window.location.href = window.location.href;
+  }).ajaxSend(function(e, xhr, options) {
+    if (!$.cookie('user_credentials')) {
+      $.fluxx.log("Warning: user_credentials cookie lost");
+      if ($.fluxx.sessionData('user_credentials')) {
+        $.fluxx.log("user_credentials cookie set from local session store");
+        $.cookie('user_credentials', $.fluxx.sessionData('user_credentials'));
+//        $.get(window.location.href);
+        return false;
+      }
+    }
   });
+  
   
   var keyboardShortcuts = {
     'Space+c': ['Reload Stylesheets', function() {
