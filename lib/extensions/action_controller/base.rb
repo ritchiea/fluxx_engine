@@ -267,6 +267,8 @@ class ActionController::Base
       
         create_object.invoke_post self, @model
         if create_result
+          response.headers['fluxx_result_success'] = 'create'
+          
           flash[:info] = t(:insta_successful_create, :name => model_class.name) unless create_object.dont_display_flash_message
           insta_respond_to create_object, :success do |format|
             format.html do
@@ -278,6 +280,7 @@ class ActionController::Base
             format.xml  { render :xml => @model, :status => :created, :location => @model }
           end
         else
+          response.headers['fluxx_result_failure'] = 'create'
           insta_respond_to create_object, :error do |format|
             p "ESH: error saving record #{@model.errors.inspect}"
             flash[:error] = t(:errors_were_found)
@@ -343,6 +346,7 @@ class ActionController::Base
           update_object.invoke_post self, @model
         
           if update_result
+            response.headers['fluxx_result_success'] = 'update'
             flash[:info] = t(:insta_successful_update, :name => model_class.name) unless update_object.dont_display_flash_message
             insta_respond_to update_object, :success do |format|
               format.html do
@@ -358,6 +362,7 @@ class ActionController::Base
               end
             end
           else
+            response.headers['fluxx_result_failure'] = 'update'
             flash[:error] = t(:errors_were_found)
             insta_respond_to update_object, :error do |format|
               logger.debug("Unable to save "+update_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
@@ -415,12 +420,14 @@ class ActionController::Base
         delete_result = delete_object.perform_delete params, @model, fluxx_current_user
         delete_object.invoke_post self, @model
         if delete_result
+          response.headers['fluxx_result_success'] = 'delete'
           flash[:info] = t(:insta_successful_delete, :name => model_class.name) unless delete_object.dont_display_flash_message
           insta_respond_to delete_object, :success do |format|
             format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path")) }
             format.xml  { head :ok }
           end
         else
+          response.headers['fluxx_result_failure'] = 'delete'
           flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name)
           insta_respond_to delete_object, :error do |format|
             format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path")) }
