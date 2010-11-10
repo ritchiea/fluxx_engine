@@ -1,5 +1,6 @@
 @import ../_common/style.sass
 @import ../_common/jquery.colorbox.alerts.sass
+@import core
 @import icons
 
 =form-field-one-line
@@ -64,11 +65,11 @@
   opacity: 0.5
 
 #fluxx
-  +bg(#EEE)
+  //+bg(#EEE)
   #stage
     #header
-      a
-        text-decoration: none 
+      // a
+      //   text-decoration: none 
       +box-shadow(#ccc, 0px, 1px, 0px)
       z-index: 3
       border-bottom: 3px white solid
@@ -155,9 +156,9 @@
               .new-dashboard-input
                 width: 192px
     #card-table
-      +bg(transparent)
+      //+bg(transparent)
       #hand
-        +bg(transparent)
+        //+bg(transparent)
         .card
           &.updates-available
             .card-box
@@ -212,6 +213,7 @@
                 margin-bottom: 5px
                 border-bottom-color: #e3e7ea
                 .label
+                  font-size: 85.7%
                   +inline-block
                   +bg(#444,#eee)
                   +linear-gradient(#555,#333)
@@ -271,16 +273,16 @@
                       display: block
                       font-size: 10pt
           .card-box
-            position: relative
-            z-index: 2
-            border: 1px solid #999
-            background-color: #c4c4c4
-            +box-shadow
-            +rounded(6px)
-            p
-              margin: 0px
-              font-size: 10pt
-              line-height: 18px
+            //position: relative
+            //z-index: 2
+            //border: 1px solid #999
+            //background-color: #c4c4c4
+            //+box-shadow
+            //+rounded(6px)
+            // p
+            //   margin: 0px
+            //   font-size: 10pt
+            //   line-height: 18px
             h1,h2,h3
               // border-bottom: 1px solid #d6d6d6
               // margin: 0px
@@ -403,11 +405,11 @@
                   padding: 15px
                   span
                     font-size: 11px
-            .contact-info
-              .address
-                line-height: 1.2em
-                .address1,.address2,.country
-                  display: block
+            // .contact-info
+            //   .address
+            //     line-height: 1.2em
+            //     .address1,.address2,.country
+            //       display: block
             .satellite
               clear: both
               margin: 12px 0px
@@ -428,7 +430,7 @@
                 background: #{inline_image("/images/fluxx_engine/theme/_common/loaders/ajax-loader-666666.gif")} no-repeat center center
                 height: 200px
             .card-header
-              +rounded-top(6px)
+              //+rounded-top(6px)
               .toolbar
                 +linear-gradient(#a7a7a7, #888)
                 +rounded-top(6px)
@@ -574,8 +576,8 @@
                   border-top: 1px solid #9b9b9b
                   padding: 3px
               .detail,.modal,.minimized
-                font-size: 14px
-                line-height: 24px
+                //font-size: 14px
+                //line-height: 24px
                 .body
                   .tabular
                     tbody
@@ -733,25 +735,25 @@
                     font-size: 12px
                     padding: 3px
               .detail
-                +bg(#fff)
+                //+bg(#fff)
                 .header
                 .body
-                  +bg(#fff, #666)
+                  //+bg(#fff, #666)
                   +box-shadow-inset
                   position: relative
                   border-left: 1px solid #9b9b9b
                   // a
                   //   color: #00f
-                  .show
-                    margin: 20px 38px
-                    h2
-                      border-bottom: 1px solid #d6d6d6
-                    ul, ol, dl
-                      margin: 0 0 1em 0
-                    a
-                      color: #00f
-                    .partial
-                      margin: 1em 0
+                  // .show
+                  //   margin: 20px 38px
+                  //   h3
+                  //     border-bottom: 1px solid #d6d6d6
+                  //   ul, ol, dl
+                  //     margin: 0 0 1em 0
+                  //   a
+                  //     color: #00f
+                  //   .partial
+                  //     margin: 1em 0
                   .edit
                     position: relative
                     padding-top: 20px
