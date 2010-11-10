@@ -374,11 +374,12 @@
             .tabular
               +rounded
               color: #666
-              border: 1px solid #9B9B9B
               margin: 12px 0px
               font-size: 13px
-              td:last-child
-                +rounded-bottom
+              tr:last-child
+                td:last-child
+                  +rounded-bottom
+                  border-bottom: 1px solid #9B9B9B
               th,td
                 background: transparent
               thead,tfoot
@@ -388,6 +389,9 @@
                 text-transform: uppercase
                 th
                   +rounded-top
+                  border-top: 1px solid #9B9B9B
+                  border-left: 1px solid #9B9B9B
+                  border-right: 1px solid #9B9B9B
                   font-weight: normal
                   padding: 4px
               tfoot
@@ -399,10 +403,28 @@
               tbody
                 background: #F9F7F8
                 td
+                  .air-download
+                    float: left
+                  .docIcon
+                    background: transparent url(/images/fluxx_engine/theme/default/icons/page.png) no-repeat 0px 4px
+                    display: inline-block
+                    min-height: 16px
+                    padding: 4px 4px 0px 20px
+                    width: 160px
                   border-top: 1px solid #9B9B9B
+                  border-left: 1px solid #9B9B9B
+                  border-right: 1px solid #9B9B9B
                   padding: 15px
                   span
+                    clear: both
+                    display: block
+                    float: left
                     font-size: 11px
+                    padding-top: 4px
+                  .delete-button
+                    clear: none
+                    float: right
+                    padding-top: 0
             .contact-info
               .address
                 line-height: 1.2em
