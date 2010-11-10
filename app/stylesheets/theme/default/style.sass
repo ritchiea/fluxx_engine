@@ -231,7 +231,7 @@
                   border-bottom: none
                   margin: 0px 5px
                   padding: 0px 10px
-                  font-size: 12px
+                  //font-size: 12px
                   text-transform: uppercase
                   height: 29px
                   line-height: 26px
@@ -471,7 +471,7 @@
                   li
                     width: 20px
                     height: 20px
-                    margin: 3px 1px 1px 0px
+                    margin: 2px 1px 1px 0px
                     display: block
                     float: left
                     border: 1px solid transparent
@@ -495,7 +495,7 @@
                 text-transform: uppercase
                 font-weight: 200
                 line-height: 24px
-                font-size: 120%
+                font-size: 19px
                 padding: 0.25em 0.25em 0.25em 0.5em
                 text-shadow: 0 1px 1px #fff
                 .title
@@ -566,6 +566,8 @@
                   +linear-gradient(#ccc, #aaa)
                   border-bottom: 1px solid #333
                   border-top: 1px solid #eee
+                  form
+                    margin-top: 2px
                 .body
                 .footer
                   +bg(#eee, #333)
@@ -671,22 +673,19 @@
                       background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7))")
                       background: unquote("-moz-linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%)")
                       border-top: 1px solid #FFF
+                      h2
+                        color: #333
                       a
                         background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7))")
                         background: unquote("-moz-linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%)")
                         &:hover
                           background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #E7E7E7), color-stop(1, #DBDBDB))")
                           background: unquote("-moz-linear-gradient(center top, #E7E7E7 80%, #DBDBDB 100%)")
-                        font-size: 11pt
                         color: #666
                         border-left: 6px solid transparent
                         display: block
                         padding: 18px 9px 18px 13px
                         text-decoration: none
-                        h1
-                          font-size: 14pt
-                          color: #333
-                          font-weight: normal
                       &.red
                         +linear-gradient(#fcc, #ebb)
                         a
