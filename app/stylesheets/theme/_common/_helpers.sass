@@ -69,14 +69,14 @@ $header_height:  78px
 
 // Styles for box properties
 
-=non-list
-  list-style: none
-  padding: 0
-  margin: 0
-  li
-    list-style: none
-    margin: 0
-    padding: 0
+// =non-list
+//   list-style: none
+//   padding: 0
+//   margin: 0
+//   li
+//     list-style: none
+//     margin: 0
+//     padding: 0
 
 =border-box
   -webkit-box-sizing: border-box
@@ -186,7 +186,7 @@ $header_height:  78px
       +rounded($rounding)
       border: 1px solid #666
 =buttons($size: 12px, $rounding: 3px, $bgcolor: #ccc, $color: #000, $tscolor: rgba(255,255,255,0.5), $tspos: 1px, $padding: $rounding)
-  +non-list
+  // +non-list
   +rounded($rounding + 1)
   +inline-block
   +btn-color($bgcolor/3, false)

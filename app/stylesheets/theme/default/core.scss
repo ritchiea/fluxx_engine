@@ -56,16 +56,38 @@ h6 {  }                    /*  */
   Lists
 ===============================*/
 ul, ol, dl { margin: 0; }
-ul li { list-style-type: disc; }
-ul ul li { list-style-type: circle; }
+ul li { list-style: none; }
+ul ul li { list-style: none; }
 
-ol li { list-style-type: decimal; }
-ol ol li { list-style-type: lower-latin; }
+ol li { list-style: none; }
+ol ol li { list-style: none; }
 
-li { margin-left: 0; }
+dl { width:100%; }
+dt { color:#333; display:block; margin: 0 0 0.5em 0;}
+dd { font-size: 92.9%; margin: 0; display:block; }
 
-dt { font-weight: normal; display:inline;}
-dd { margin: 0; display:inline; }
+/*dl.pairs { 
+  dt {
+    @include inline-block;
+    width:36%;
+  }
+  dd {
+    @include inline-block;
+    width: 60%;
+    border: transparent 1px solid;
+    padding: 0px 5px;
+    .with-more-info {
+      background: #ffc;
+      border-color: #eeb;
+      a {
+        display: block;
+        background: #{inline_image("/images/fluxx_engine/theme/default/icons/arrow_right.png")} no-repeat right center;
+        color: #666 !important;
+        text-decoration: none;
+      }
+    }
+  }
+}*/
 
 /*=============================
   Global Text Formatting 
@@ -130,6 +152,7 @@ tbody tr:hover td { }
 /*=============================
   Generic Content Classes 
 ===============================*/
+.content {background:#f2f2f2;}
 .current, .selected { }
 .caption {font-size: 85%; color:#666;}
 .note, .info, .important, .notice, .alert, .warning, .error { }
@@ -149,7 +172,7 @@ tbody tr:hover td { }
 /*=============================
   CSS3 Specific Styles 
 ===============================*/
-.dimmed {
+.dimmed, .disabled {
    opacity: 0.5;
 }
 .shadow {
@@ -163,7 +186,21 @@ tbody tr:hover td { }
 ===============================*/
   #fluxx{}
   #stage{}
-  #header{}
+  #header{
+    @include box-shadow(#ccc, 0px, 1px, 0px);
+    z-index: 3;
+    border-bottom: 3px white solid;
+  }
+  #logo {
+    @include fluxx-font;
+    font-size: 24px;
+    text-indent: -2000px;
+    height: 58px;
+    width: 195px;
+    background: transparent #{inline_image("/images/fluxx_engine/theme/_common/logo.png")} no-repeat top left;
+    padding: 0px;
+    margin: 10px 0px;
+  }
   #card-table{}
   #hand{}
   #footer{}
@@ -184,12 +221,17 @@ tbody tr:hover td { }
 }
 .detail { background: #FFF;}
 .show, .edit {margin: 20px 38px;}
-.detail h3 {border-bottom: 1px solid #d6d6d6;}
-.show ul, .show ol, .show dl {
-  margin: 0 0 1em 0;
+.show {
+  h3 {border-bottom: 1px solid #d6d6d6; margin-bottom:0.5em;}
+  ul, ol, dl {
+    margin: 0 0 1em 0;
+  }
+  a {font-size: 13px;}
 }
-.partial {margin: 0.5em 0;}
+.partial {margin: 1.5em 0;}
 .partial.contact-info { margin:0.15em 0 0.5em 0;}
+
+.pairs:hover {background: rgba(0,0,0, 0.06);}
 /*=============================
   Trash
 ===============================*/
