@@ -205,6 +205,7 @@
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               if ($elem.attr('data-on-success') == 'refreshCaller') {
+                // TODO: unify code 
                 $.ajax({
                   url: $elem.attr('href'),
                   type: 'POST',
@@ -226,6 +227,7 @@
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               if ($elem.attr('data-on-success') == 'refreshCaller') {
+                // TODO: unify code
                 $.ajax({
                   url: $elem.attr('href'),
                   type: 'DELETE',
