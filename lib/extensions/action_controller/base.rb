@@ -283,7 +283,7 @@ class ActionController::Base
           response.headers['fluxx_result_failure'] = 'create'
           insta_respond_to create_object, :error do |format|
             p "ESH: error saving record #{@model.errors.inspect}"
-            flash[:error] = t(:errors_were_found)
+            flash[:error] = t(:errors_were_found) unless flash[:error]
             logger.debug("Unable to create "+create_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
             format.html { render((create_object.view || "#{insta_path}/new").to_s, :layout => false) }
             # TODO ESH: revisit what to send back for JSON error
@@ -363,7 +363,7 @@ class ActionController::Base
             end
           else
             response.headers['fluxx_result_failure'] = 'update'
-            flash[:error] = t(:errors_were_found)
+            flash[:error] = t(:errors_were_found) unless flash[:error]
             insta_respond_to update_object, :error do |format|
               logger.debug("Unable to save "+update_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
               format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => false) }
@@ -431,7 +431,7 @@ class ActionController::Base
           end
         else
           response.headers['fluxx_result_failure'] = 'delete'
-          flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name)
+          flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name) unless flash[:error]
           insta_respond_to delete_object, :error do |format|
             format.html do
               head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path"))
