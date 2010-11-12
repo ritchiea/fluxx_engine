@@ -20,11 +20,10 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   vertical-align:baseline;
   background:transparent;
 }
-body{font-size:100.01%;color:#000;background:#fff;text-align:left}
-mark { background-color:#ff9; color:#000; font-style:italic; font-weight:bold; }
-del { text-decoration: line-through; }
-abbr[title], dfn[title] { }
-
+div,ul,ol,li,table,tr,td,th,dl,dt,dd {
+  @include border-box; }
+.plupload, .plupload div,ul,ol,li,table,tr,td,th,dl,dt,dd {
+  @include content-box; }
 /*=============================
   FONTS 
 ===============================*/
@@ -36,6 +35,8 @@ body {
   font-size: 87.50%;
   color: #666;
   background: #EEE;
+  text-align:left;
+  overflow-x: scroll;
 }
 /*=============================
   Headings
@@ -44,18 +45,17 @@ h1,h2,h3,h4,h5,h6 {
   font-weight:500;
   margin: 0;
 }
-
 h1 { font-size: 171.4%; }           /* 24px / 18pt */
 h2 { font-size: 128.6%; }           /* 18px / 14pt */
 h3 { font-size: 114.3%; }           /* 16px / 12pt */
 h4 { font-size: 107.1%; }           /* 15px / 11pt */
 h5 { font-size: 85.7%; }            /* 12px / 09pt */
 h6 {  }                    /*  */
-
 /*=============================
   Lists
 ===============================*/
-ul, ol, dl { margin: 0; }
+ul, ol, dl { }
+
 ul li { list-style: none; }
 ul ul li { list-style: none; }
 
@@ -66,50 +66,19 @@ dl { width:100%; }
 dt { color:#333; display:block; margin: 0 0 0.5em 0;}
 dd { font-size: 92.9%; margin: 0; display:block; }
 
-/*dl.pairs { 
-  dt {
-    @include inline-block;
-    width:36%;
-  }
-  dd {
-    @include inline-block;
-    width: 60%;
-    border: transparent 1px solid;
-    padding: 0px 5px;
-    .with-more-info {
-      background: #ffc;
-      border-color: #eeb;
-      a {
-        display: block;
-        background: #{inline_image("/images/fluxx_engine/theme/default/icons/arrow_right.png")} no-repeat right center;
-        color: #666 !important;
-        text-decoration: none;
-      }
-    }
-  }
-}*/
-
 /*=============================
   Global Text Formatting 
 ===============================*/
 p { line-height: 1.25em; margin: 0 0 1em 0; }
-
 blockquote, cite,q {
   font-style:italic;
 }
 blockquote { margin: 0 0 1em 1.6em; }
-
 strong,b { font-weight: bold; }
 em,i { font-style: italic; }
-
-pre, code, kbd, samp, var { font-size: 100%; }
-pre, code { color: #800; }
-pre { line-height: 1.5em; margin: 0 0 1em 0; }
-kbd, samp, var { color: #666; }
-var { font-style: italic; }
-
-sub, sup { font-size: 91.6667%; }
-
+mark { color:#000; font-weight:bold; }
+del { text-decoration: line-through; }
+abbr[title], dfn[title] { }
 hr {
   background:transparent;
   margin: 0 0 0.5em 0;
@@ -127,117 +96,62 @@ a:hover,
 a:active { color:#00f; text-decoration:underline; }
 a:active, :focus { outline:none; }
 /*=============================
-  Forms 
-===============================*/
-
-/*=============================
   Tables
 ===============================*/
-table { width: auto; margin-bottom: 0.5em; }
-table caption { font-variant:small-caps; }
-table.full { width: 100%; }
-table.fixed { table-layout:fixed; }
+table { 
+  width: 100%;
+  @include rounded;
+  color: #666666;
+  border: 1px solid #9b9b9b;
+  margin: 0.75em 0;
+  
+}
+thead, tfoot { background: #dfdfdf; }
+tbody { background: #f9f7f8; }
+th,td { text-align:left; margin:0; font-weight:normal;  }
+th { 
+  @include rounded-top;
+  text-transform: uppercase;
+  color: #333;
+  padding: 4px;
+}
+td {
+  border-top: 1px solid #9b9b9b;
+  padding: 15px;
+  span { font-size: 11px; }
+}
 
-th,td { text-align:left; padding:0; margin:0; font-weight:normal; }
-thead th { color: #333; }
-tbody th { }
-tbody th[scope="row"], tbody th.sub { }
+tr:hover th[scope="row"],
+tr:hover tbody th.sub { }
+tr:hover td { }
 
-tbody th { text-align: left; }
-tbody td { }
-
-tbody tr:hover th[scope="row"],
-tbody tr:hover tbody th.sub { }
-tbody tr:hover td { }
+tr:last-child {
+  td:last-child { @include rounded-bottom; }
+}
 /*=============================
   Generic Content Classes 
 ===============================*/
-.content {background:#f2f2f2;}
-.current, .selected { }
+.content { padding:5px;}
 .caption {font-size: 85%; color:#666;}
-.note, .info, .important, .notice, .alert, .warning, .error { }
-.info { }
-.important { background: #ccffcc; }
-.notice, .alert { background: #ccffff; }
-.warning, .error { background: #ffcccc; }  
-
-.float_left { float: left; display:inline; margin-right: 1em; margin-bottom: 0.15em; }
-.float_right { float: right; display:inline; margin-left: 1em; margin-bottom: 0.15em; }
-.center { display:block; text-align:center; margin: 0.5em auto; }
-  
-.ar { text-align:right; }
-.al { text-align: left; }
-.ac { text-align:center; }
-
-/*=============================
-  CSS3 Specific Styles 
-===============================*/
-.dimmed, .disabled {
-   opacity: 0.5;
+.warning {
+  background: #{inline_image("/images/fluxx_engine/theme/default/icons/information.png")} no-repeat left center;
+  padding: 10px 0 10px 20px;
 }
-.shadow {
-  box-shadow: 0px 1px 5px 0px #aaa;
-}
-.rounded {
-  border-radius: 5px;
-}
-/*=============================
-  Layout Elements
-===============================*/
-  #fluxx{}
-  #stage{}
-  #header{
-    @include box-shadow(#ccc, 0px, 1px, 0px);
-    z-index: 3;
-    border-bottom: 3px white solid;
+.notice {
+  background: #{inline_image("/images/fluxx_engine/theme/default/icons/accept.png")} #ccffcc no-repeat 17px 14px;
+  color: #003300;
+  padding: 10px 50px;
+  &.error {
+    background-color: #ffcccc;
+    background-image: #{inline_image("/images/fluxx_engine/theme/default/icons/exclamation.png")};
+    color: #330000;
   }
-  #logo {
-    @include fluxx-font;
-    font-size: 24px;
-    text-indent: -2000px;
-    height: 58px;
-    width: 195px;
-    background: transparent #{inline_image("/images/fluxx_engine/theme/_common/logo.png")} no-repeat top left;
-    padding: 0px;
-    margin: 10px 0px;
+  .close-parent {
+    @include inline-block;
+    position: absolute;
+    right: 18px;
+    top: 14px;
   }
-  #card-table{}
-  #hand{}
-  #footer{}
-  #dock{}
-  #viewport{}
-  #quicklinks{}
-  #lookingglass{}
-/*=============================
-  Cards
-===============================*/
-.card-box{
-  position: relative;
-  z-index: 2;
-  @include box-shadow;
-  @include rounded(6px);
-  border: 1px solid transparent;
-  background: #999;
-}
-.detail { background: #FFF;}
-.show, .edit {margin: 20px 38px;}
-.show {
-  h3 {border-bottom: 1px solid #d6d6d6; margin-bottom:0.5em;}
-  ul, ol, dl {
-    margin: 0 0 1em 0;
-  }
-  a {font-size: 13px;}
-}
-.partial {margin: 1.5em 0;}
-.partial.contact-info { margin:0.15em 0 0.5em 0;}
-
-.pairs:hover {background: rgba(0,0,0, 0.06);}
-/*=============================
-  Trash
-===============================*/
-/*li.entry h1 {
-  font-size:19px;
-  color:#333;
-}*/
-.address span {display:block; line-height:1.2em;}
-
+} 
+.dimmed, .disabled { opacity: 0.5; }
+.empty { display: none; }
