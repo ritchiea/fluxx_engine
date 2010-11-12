@@ -100,38 +100,28 @@ a:active, :focus { outline:none; }
 ===============================*/
 table { 
   width: 100%;
-  @include rounded;
+  font-size: 92.9%;
   color: #666666;
-  border: 1px solid #9b9b9b;
-  margin: 0.75em 0;
-  
+  margin: 0.75em 0;  
 }
-thead, tfoot { background: #dfdfdf; }
-tbody { background: #f9f7f8; }
-th,td { text-align:left; margin:0; font-weight:normal;  }
+thead, tfoot { }
+tbody { }
+th,td { padding: 4px 2px; text-align:left; margin:0; font-weight:normal; }
 th { 
-  @include rounded-top;
-  text-transform: uppercase;
-  color: #333;
-  padding: 4px;
+  border-bottom: 1px solid #d6d6d6;
+  font-weight: 700; 
 }
 td {
-  border-top: 1px solid #9b9b9b;
-  padding: 15px;
   span { font-size: 11px; }
 }
 
 tr:hover th[scope="row"],
 tr:hover tbody th.sub { }
 tr:hover td { }
-
-tr:last-child {
-  td:last-child { @include rounded-bottom; }
-}
 /*=============================
   Generic Content Classes 
 ===============================*/
-.content { padding:5px;}
+.content { position:relative; padding:2px 10px;  }
 .caption {font-size: 85%; color:#666;}
 .warning {
   background: #{inline_image("/images/fluxx_engine/theme/default/icons/information.png")} no-repeat left center;

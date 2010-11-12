@@ -265,7 +265,7 @@
     }
   }
 }
-.actions {
+.card .actions {
   @include inline-block;
   float: right;
   font-weight: normal;
@@ -389,7 +389,9 @@
     height: 200px;
   }
   &.contact-info { margin-top:0.15em;}
+  .partial { margin: 0.25em 0;}
 }
+table .partial { margin: 0.25em 0; }
 .pairs {
   width: 100%;
   padding: 2px 5px;
@@ -425,15 +427,19 @@
   color: #FFF;
   border: 3px solid #cccccc;
   .header {
-    //background: transparent;
     @include linear-gradient(#777777, #555555);
     @include box-shadow-inset;
-    color: white; 
+    padding-left:10px;
+    line-height:2em;
+    font-size: 15px;
+    font-weight: 200;
+    text-transform: uppercase;
+    overflow:hidden;
   }
   .body {
     @include box-shadow-inset;
     background: #333333;
-    color: white;
+    overflow:auto;
     a { color: white; }
     a.do-add-another {
       @include inline-block;
@@ -454,11 +460,7 @@
     } 
   }
   .footer {
-    //background: transparent;
-    // @include linear-gradient(#777777, #555555);
-    // color: white;
-    // border-left: 1px solid #666666;
-    // border-right: 1px solid #666666;
+    padding:4px 10px;
     .buttons {
       @include buttons;
       margin-top: 3px;
@@ -621,11 +623,14 @@
   ul, ol, dl {
     margin: 0 0 1em 0;
   }
+  ol li { list-style: decimal inside;}
   a {font-size: 13px;}
 }
 .edit {
   position: relative;
   margin: 20px 38px;
+}
+.edit, .filters {
   @include pretty-forms;
   .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-one-line; }
   .text,.multiple-select-transfer { @include form-field-two-line; }
@@ -917,17 +922,46 @@
 .no-pagination {
   text-align: center;
   width: 100%;
+  color:#333;
   @include chiseled-text;
   @include border-box;
   @include inline-block;
   font-size: 12px;
-  padding: 3px; 
+  padding: 0px 10px; 
 }
 
+.tabular {
+  width: 100%;
+  @include rounded;
+  color: #666666;
+  border: 1px solid #9b9b9b;
+  margin: 0.75em 0;
+  thead, tfoot { background: #dfdfdf; }
+  tbody { background: #f9f7f8; }
+  th,td { text-align:left; margin:0; font-weight:normal;  }
+  th { 
+    @include rounded-top;
+    text-transform: uppercase;
+    color: #333;
+    padding: 4px;
+  }
+  td {
+    border-top: 1px solid #9b9b9b;
+    padding: 15px;
+    span { font-size: 11px; }
+  }
+
+  tr:hover th[scope="row"],
+  tr:hover tbody th.sub { }
+  tr:hover td { }
+
+  tr:last-child {
+    td:last-child { @include rounded-bottom; }
+  }
+}
 .audit-detail {
   display: none;
   width: 100%;
-  font-size: 80%;
   border-collapse: collapse;
   color: #666666;
   margin-bottom: 24px;
@@ -962,10 +996,13 @@
   } 
 }
 
+.content .actions { position:absolute; top:2px; left:-12px; display:none; float:left;}
+.content:hover>.actions:first-of-type  {display:block;}
+
+
 .ui-datepicker { display: none; }
 
 /*=============================
   Trash
 ===============================*/
-.address span {display:block; line-height:1.2em;}
-
+/*.address span {display:block; line-height:1.2em;}*/

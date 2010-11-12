@@ -5,8 +5,10 @@
     - else
       - if location.street_address
         %span.address1= location.street_address
+        <br/>
       - if location.street_address2 
         %span.address2= location.street_address2 
+        <br/>
       - if location.city
         %span.city>= location.city
       - if location.city &&  location.geo_state && location.geo_state.name
@@ -14,8 +16,10 @@
       - if location.geo_state && location.geo_state.name
         %abbr.state{:title => location.geo_state.name}= location.geo_state.abbreviation
       - if location.postal_code
+        %nbsp;
         %span.zipcode= location.postal_code
       - if location.geo_country && location.geo_country.name
+        <br/>
         %abbr.country{:title => location.geo_country.name}= location.geo_country.abbreviation
 
     - if detailed
