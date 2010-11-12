@@ -842,9 +842,13 @@
         init: $.noop,
         lifetimeComplete: $.noop,
         /* onSuccess for create or update */
-        onSuccess: function(e) {          
-          var $area = $(this),
-              onSuccess = $area.data('target').attr('data-on-success'),
+        onSuccess: function(e) {
+          var $area = $(this);
+          
+          if (!$area.data('target'))
+            return false;
+          
+          var onSuccess = $area.data('target').attr('data-on-success'),
               closeCard = false;
           // If we have onSuccess actions, execute them
           if (onSuccess) {

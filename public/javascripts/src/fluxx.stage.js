@@ -94,6 +94,25 @@
       if (! $.fluxx.config.realtime_updates.enabled) return;
       $.fluxx.realtime_updates = $.fluxxPoller($.fluxx.config.realtime_updates.options);
       $.fluxx.realtime_updates.start();
+    },
+    
+    fluxxAjaxCall: function($elem, type) {
+      var onSuccess = $elem.attr('data-on-success');
+      if (onSuccess && onSuccess.replace(/\s/g, '').split(/,/).indexOf('refreshCaller') != -1) { 
+        $.ajax({
+          url: $elem.attr('href'),
+          type: type,
+          complete: function (){
+            $elem.refreshCardArea();
+          }
+        });
+      } else {
+        $elem.fluxxCardLoadContent({
+          area: $elem.fluxxCardArea(),
+          url: $elem.attr('href'),
+          type: type
+        });
+      }
     }
   });
   
@@ -193,55 +212,21 @@
               var $elem = $(this);
               if ($elem.hasClass('with-note') && !$elem.data('has_note'))
                 return;
-              $elem.fluxxCardLoadContent({
-                area: $elem.fluxxCardArea(),
-                url: $elem.attr('href'),
-                type: 'PUT'
-              });
+              $.fn.fluxxAjaxCall($elem, 'PUT');
             }
           ],
           'a.as-post': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              if ($elem.attr('data-on-success') == 'refreshCaller') {
-                // TODO: unify code 
-                $.ajax({
-                  url: $elem.attr('href'),
-                  type: 'POST',
-                  complete: function (){
-                    $elem.refreshCardArea();
-                  }
-                });
-              } else {
-                $elem.fluxxCardLoadContent({
-                  area: $elem.fluxxCardArea(),
-                  url: $elem.attr('href'),
-                  type: 'POST'
-                });
-              }
+              $.fn.fluxxAjaxCall($elem, 'POST');
             }
           ],
           'a.as-delete': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              if ($elem.attr('data-on-success') == 'refreshCaller') {
-                // TODO: unify code
-                $.ajax({
-                  url: $elem.attr('href'),
-                  type: 'DELETE',
-                  complete: function (){
-                    $elem.refreshCardArea();
-                  }
-                });
-              } else {
-                $elem.fluxxCardLoadContent({
-                  area: $elem.fluxxCardArea(),
-                  url: $elem.attr('href'),
-                  type: 'DELETE'
-                });
-              }
+              $.fn.fluxxAjaxCall($elem, 'DELETE');
             }
           ],
           'a.refresh-card': [
