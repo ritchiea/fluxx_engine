@@ -380,6 +380,11 @@
                 td:last-child
                   +rounded-bottom
                   border-bottom: 1px solid #9B9B9B
+                td:empty:last-child
+                  +rounded-bottom
+                  border-bottom: 1px solid #9B9B9B
+                  background-color: #DFDFDF
+                  padding: 6px
               th,td
                 background: transparent
               thead,tfoot
@@ -405,24 +410,18 @@
                 td
                   .air-download
                     float: left
-                  .docIcon
-                    background: transparent url(/images/fluxx_engine/theme/default/icons/page.png) no-repeat 0px 4px
-                    display: inline-block
-                    min-height: 16px
-                    padding: 4px 4px 0px 20px
-                    width: 160px
                   border-top: 1px solid #9B9B9B
                   border-left: 1px solid #9B9B9B
                   border-right: 1px solid #9B9B9B
                   padding: 15px
                   span
-                    .uploader
-                      padding-left: 20px
                     clear: both
                     display: block
                     float: left
                     font-size: 11px
                     padding-top: 4px
+                  .uploader
+                    padding-left: 20px
                   .delete-button
                     clear: none
                     float: right
@@ -431,6 +430,7 @@
                     clear: none
                     float: right
                     padding: 0 5px 0 0
+
             .contact-info
               .address
                 line-height: 1.2em
