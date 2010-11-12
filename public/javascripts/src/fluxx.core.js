@@ -188,11 +188,18 @@
       window.location.href = window.location.href;
   }).ajaxSend(function(e, xhr, options) {
     if (!$.cookie('user_credentials')) {
-      $.fluxx.log("Warning: user_credentials cookie lost");
       if ($.fluxx.sessionData('user_credentials')) {
         $.fluxx.log("user_credentials cookie set from local session store");
         $.cookie('user_credentials', $.fluxx.sessionData('user_credentials'));
-//        $.get(window.location.href);
+        // Cookie has been lost so session will be lost
+        // Use value stored in session store and do a synchronous ajax call to restore the cookie. 
+        jQuery.ajax({
+          url: window.location.href,
+          async:   false,
+          success: function() {
+            $.noop;
+          }
+        });
         return false;
       }
     }
