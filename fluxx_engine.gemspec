@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Hansen"]
-  s.date = %q{2010-11-01}
+  s.date = %q{2010-11-04}
   s.email = %q{fluxx@acesfconsulting.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -90,19 +90,6 @@ Gem::Specification.new do |s|
      "lib/generators/fluxx_engine_migration/templates/realtime_updates.rb",
      "lib/generators/fluxx_engine_public/fluxx_engine_public_generator.rb",
      "lib/tasks.rb",
-     "public/fluxx_engine/dist/bad/fluxx.engine.full.js",
-     "public/fluxx_engine/dist/bad/fluxx.engine.full.min.js",
-     "public/fluxx_engine/dist/bad/fluxx.engine.js",
-     "public/fluxx_engine/dist/bad/fluxx.engine.min.js",
-     "public/fluxx_engine/dist/bad/it.tar",
-     "public/fluxx_engine/dist/fluxx.engine.full.js",
-     "public/fluxx_engine/dist/fluxx.engine.full.min.js",
-     "public/fluxx_engine/dist/fluxx.engine.js",
-     "public/fluxx_engine/dist/fluxx.engine.min.js",
-     "public/fluxx_engine/dist/good/fluxx.engine.full.js",
-     "public/fluxx_engine/dist/good/fluxx.engine.full.min.js",
-     "public/fluxx_engine/dist/good/fluxx.engine.js",
-     "public/fluxx_engine/dist/good/fluxx.engine.min.js",
      "public/images/theme/_common/loaders/ajax-arrows-cccccc.gif",
      "public/images/theme/_common/loaders/ajax-arrows-eeeeee.gif",
      "public/images/theme/_common/loaders/ajax-loader-666666.gif",
@@ -120,6 +107,7 @@ Gem::Specification.new do |s|
      "public/images/theme/default/card-icons/button_card_grants.png",
      "public/images/theme/default/card-icons/button_card_orgs.png",
      "public/images/theme/default/card-icons/button_card_people.png",
+     "public/images/theme/default/card-icons/button_card_projects.png",
      "public/images/theme/default/card-icons/button_card_reports.png",
      "public/images/theme/default/card-icons/button_card_requests.png",
      "public/images/theme/default/card-icons/button_card_transactions.png",
@@ -127,6 +115,7 @@ Gem::Specification.new do |s|
      "public/images/theme/default/card-icons/button_dock_grants.png",
      "public/images/theme/default/card-icons/button_dock_orgs.png",
      "public/images/theme/default/card-icons/button_dock_people.png",
+     "public/images/theme/default/card-icons/button_dock_projects.png",
      "public/images/theme/default/card-icons/button_dock_reports.png",
      "public/images/theme/default/card-icons/button_dock_requests.png",
      "public/images/theme/default/card-icons/button_dock_transactions.png",
@@ -1162,6 +1151,7 @@ Gem::Specification.new do |s|
      "public/images/theme/default/ql-icons/LibraryFolder_32x32.png",
      "public/images/theme/default/ql-icons/LibraryFolder_34x34.png",
      "public/images/theme/default/ql-icons/LibraryFolder_48x48.png",
+     "public/images/theme/default/ql-icons/Project_34x34.png",
      "public/images/theme/default/ql-icons/UsersFolder_128x128.png",
      "public/images/theme/default/ql-icons/UsersFolder_16x16.png",
      "public/images/theme/default/ql-icons/UsersFolder_24x24.png",
@@ -1182,7 +1172,6 @@ Gem::Specification.new do |s|
      "public/javascripts/lib/jquery.alerts.js",
      "public/javascripts/lib/jquery.cookie.js",
      "public/javascripts/lib/jquery.json-2.2.min.js",
-     "public/javascripts/lib/jquery.plupload.queue.min.js",
      "public/javascripts/lib/jquery.select_transfer.js",
      "public/javascripts/lib/jquery.shortkeys.js",
      "public/javascripts/lib/jquery.simplemodal-1.4.js",
@@ -1196,6 +1185,7 @@ Gem::Specification.new do |s|
      "public/javascripts/src/fluxx.poller.js",
      "public/javascripts/src/fluxx.stage.js",
      "public/javascripts/src/fluxx.storage.js",
+     "public/javascripts/src/fluxx.uploader.js",
      "public/stylesheets/lib/Quicksand-fontfacekit/Quicksand License.txt",
      "public/stylesheets/lib/Quicksand-fontfacekit/Quicksand_Bold-webfont.eot",
      "public/stylesheets/lib/Quicksand-fontfacekit/Quicksand_Bold-webfont.svg",

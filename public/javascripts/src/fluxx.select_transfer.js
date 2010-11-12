@@ -54,7 +54,7 @@
         });
         $('.break', $controls).css({
           height: 24
-        })
+        });
         
         var updateOriginal = function() {
           var sel = [];

@@ -321,22 +321,25 @@
         data: req.data
       };
     },
-    refreshAreaPartial: function(options){
+    refreshAreaPartial: function(options, onComplete){
       $.fluxx.log("**> refreshAreaPartial");
-      var options = $.fluxx.util.options_with_callback({animate: true},options);
+      var options = $.fluxx.util.options_with_callback({animate: true}, options, onComplete);
       return this.each(function(){
         var $partial = $(this).fluxxCardPartial();
-        if (1||options.animate) {
+        
+        if (options.animate) {
           $.ajax({
             url: $partial.attr('data-src'),
             beforeSend: function() {
               $partial
                 .addClass('updating')
                 .children()
-                .fadeOut(function(){$(this).remove()});
+                .fadeTo(300, 0);
             },
             success: function(data, status, xhr){
-              $partial.html($(data).hide()).removeClass('updating').children().fadeIn();
+              $partial.html($(data)).removeClass('updating').children().fadeIn();
+              if (onComplete)
+                onComplete();
             }
           });
         } else {
@@ -344,19 +347,21 @@
             url: $partial.attr('data-src'),
             success: function(data, status, xhr){
               $partial.html(data);
+              if (onComplete)
+                onComplete();
             }
           });
         }
       });
     },
-    refreshCardArea: function(){
+    refreshCardArea: function(onComplete){
       return this.each(function(){
         var $area = $(this).fluxxCardArea();
         $.fluxx.log("*******>refreshCardArea ", '  '+$area.fluxxCard().attr('id'), '    ' + $area.attr('class'));
         var req = $area.fluxxCardAreaRequest();
         if (req) {
           $.extend(req, {area: $area});
-          $area.fluxxCardLoadContent(req);
+          $area.fluxxCardLoadContent(req, onComplete);
         }
       });
     },
@@ -547,7 +552,7 @@
           if ($elem.val()) {
             // Put the organization ID into the link to create a new user
             $link.attr('href', $link.show().attr('href')
-              .replace(/\&user\[temp_organization_id\]=\n*/, '&user[temp_organization_id]=' + $elem.val()));
+              .replace(/([\&\?])user\[temp_organization_id\]=\n*/, "$1user[temp_organization_id]=" + $elem.val()));
           } else {
             // Hide "add new" links if no organization is selected
             $link.hide();
@@ -657,7 +662,7 @@
               arrow: 'left',
               closeButton: true
             }
-        )).data({'url': options.url, target: options.target});
+        )).data({url: options.url, target: options.target});
         $card.fluxxCardLoadContent(
           {
             area: $modal,
@@ -835,17 +840,27 @@
         /* events */
         update: $.noop,
         init: $.noop,
-        lifetimeComplete: function(e) {
+        lifetimeComplete: $.noop,
+        /* onSuccess for create or update */
+        onSuccess: function(e) {
           var $area = $(this);
-          var isSuccess = options.caller.attr('data-is-success'),
-              onSuccess = options.caller.attr('data-on-success');
-
-          if (onSuccess&& isSuccess && $(isSuccess, $area).length) {
-            _.each(onSuccess.split(/,/), function(action){
+          
+          if (!$area.data('target'))
+            return false;
+          
+          var onSuccess = $area.data('target').attr('data-on-success'),
+              closeCard = false;
+          // If we have onSuccess actions, execute them
+          if (onSuccess) {
+            _.each(onSuccess.replace(/\s/g, '').split(/,/), function(action){
               var func = $.fluxx.card.loadingActions[action] || $.noop;
+              // Return a flag if we have closed this card so that continued loading stops
+              if (action == 'close')
+                closeCard = true;
               (_.bind(func, $area))();
             });
           }
+          return closeCard;
         }
       };
       var options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
@@ -855,9 +870,7 @@
           $.fluxx.util.itEndsHere,
           options.init
         )).trigger('init.fluxx.area')
-        .data('url', options.url);
-
-      options.area.bind('lifetimeComplete.fluxx.area', _.bind(options.lifetimeComplete, options.area));
+        .data('url', options.url); 
 
       options.area
         .unbind('complete.fluxx.area')
@@ -891,8 +904,21 @@
         data: _.objectWithoutEmpty(options.data, ['filter-text']),
         success: function (data, status, xhr) {
           if (xhr.status == 201) {
-            var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
-            options.area.fluxxCardLoadContent(opts);
+            
+            // Store the redirect URL for cases where we need to figure out what was created or updated
+            options.area.data('url', xhr.getResponseHeader('Location'));
+            
+            var closeCard = false;
+            // If we have a response indicating a successful operation,
+            // run the onSuccess actions.
+            if (xhr.getResponseHeader('fluxx_result_success'))            
+              closeCard = _.bind(options.onSuccess, options.area)();
+
+            // If one of the loading operations was a close, don't proceed 
+            if (!closeCard) {              
+              var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
+              options.area.fluxxCardLoadContent(opts);
+            }
           } else {          
             var complete = function () {
               var $document = $('<div/>').html(data);
@@ -1095,25 +1121,33 @@
             this.closeCardModal();
           },
           refreshCaller: function(){
+            // Refresh the card area this modal was called from
             if (! this.data('target')) return;
             $.fluxx.log("Refreshing caller after modal close");
-            var $target = this.data('target');
-            var $card = this.fluxxCard();
-            
-            if ($target.data('on-success-target') && $($target.data('on-success-target'), $card).length)
-              $target = $($target.data('on-success-target'), $card);
-            else if (this.data('target').parent('.partial').length)
-              $target = this.data('target').parent('.partial');
-            
-            if ($target.hasClass('partial')) {
+            var $target = this.data('target'),
+                $this = this,
+                $area = $target.fluxxCardArea(),
+                // resetTarget will use the target elements href attribute to located
+                // the new element after a refresh. This is needed because the original 
+                // element is removed from the DOM as new HTML as added after the ajax call.
+                resetTarget = function() {
+                  var href = $target.attr('href');
+                  $this.data('target', $('[href=' + href + ']', $area));
+                };
+                  
+            if ($target.parents('.partial').length) {
               $.fluxx.log("Refreshing PARTIAL");
-              $target.refreshAreaPartial();
+              $target.refreshAreaPartial({}, resetTarget);
             } else {
               $.fluxx.log("Refreshing AREA");
-              $target.refreshCardArea();
+              $target.refreshCardArea(resetTarget);
             }
           },
           refreshNamed: function(){
+            // Refresh a card area named in the target parameter of the element that launched this modal
+            // NOTE: This does not yet preserve this.data('target') so it may not be reliable for multiple
+            // refreshes if the calling element is inside the refreshed area. In most cases you would
+            // simply use refreshCaller instead, so this should not be an issue.
             if (! this.data('target')) return;
             if (this.data('target').attr('target')) {
               $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();

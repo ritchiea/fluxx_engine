@@ -267,6 +267,8 @@ class ActionController::Base
       
         create_object.invoke_post self, @model
         if create_result
+          response.headers['fluxx_result_success'] = 'create'
+          
           flash[:info] = t(:insta_successful_create, :name => model_class.name) unless create_object.dont_display_flash_message
           insta_respond_to create_object, :success do |format|
             format.html do
@@ -278,9 +280,10 @@ class ActionController::Base
             format.xml  { render :xml => @model, :status => :created, :location => @model }
           end
         else
+          response.headers['fluxx_result_failure'] = 'create'
           insta_respond_to create_object, :error do |format|
             p "ESH: error saving record #{@model.errors.inspect}"
-            flash[:error] = t(:errors_were_found)
+            flash[:error] = t(:errors_were_found) unless flash[:error]
             logger.debug("Unable to create "+create_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
             format.html { render((create_object.view || "#{insta_path}/new").to_s, :layout => false) }
             # TODO ESH: revisit what to send back for JSON error
@@ -343,6 +346,7 @@ class ActionController::Base
           update_object.invoke_post self, @model
         
           if update_result
+            response.headers['fluxx_result_success'] = 'update'
             flash[:info] = t(:insta_successful_update, :name => model_class.name) unless update_object.dont_display_flash_message
             insta_respond_to update_object, :success do |format|
               format.html do
@@ -350,7 +354,7 @@ class ActionController::Base
                   render :inline => update_object.render_inline
                 else
                   extra_options = {:id => @model.id}
-                  redirect_to(update_object.redirect ? self.send(update_object.redirect, extra_options) : @model) 
+                  head 201, :location => (update_object.redirect ? self.send(update_object.redirect, extra_options) : @model) 
                 end
               end
               format.xml do
@@ -358,7 +362,8 @@ class ActionController::Base
               end
             end
           else
-            flash[:error] = t(:errors_were_found)
+            response.headers['fluxx_result_failure'] = 'update'
+            flash[:error] = t(:errors_were_found) unless flash[:error]
             insta_respond_to update_object, :error do |format|
               logger.debug("Unable to save "+update_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
               format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => false) }
@@ -368,6 +373,7 @@ class ActionController::Base
             end
           end
         else
+          response.headers['fluxx_result_failure'] = 'update'
           update_object.invoke_post self, @model
           flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
           @not_editable=true
@@ -415,15 +421,21 @@ class ActionController::Base
         delete_result = delete_object.perform_delete params, @model, fluxx_current_user
         delete_object.invoke_post self, @model
         if delete_result
+          response.headers['fluxx_result_success'] = 'delete'
           flash[:info] = t(:insta_successful_delete, :name => model_class.name) unless delete_object.dont_display_flash_message
           insta_respond_to delete_object, :success do |format|
-            format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path")) }
+            format.html do
+              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path"))
+            end
             format.xml  { head :ok }
           end
         else
-          flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name)
+          response.headers['fluxx_result_failure'] = 'delete'
+          flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name) unless flash[:error]
           insta_respond_to delete_object, :error do |format|
-            format.html { redirect_to((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path")) }
+            format.html do
+              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path"))
+            end
             format.xml  { head :ok }
           end
         end
@@ -471,7 +483,7 @@ class ActionController::Base
     @footer_template = options[:footer_template]
     # TODO ESH: chase down where exclude_related_data and layout comes from...
     @exclude_related_data = show_object.exclude_related_data
-    @layout = show_object.layout
+    @layout = show_object.layout || 'printable_show'
     render((show_object.view || "#{insta_path}/show").to_s, :layout => @layout)
   end
   
@@ -482,37 +494,44 @@ class ActionController::Base
     render((edit_object.view || "#{insta_path}/edit").to_s, :layout => false)
   end
   
+  def has_redirected_already?
+    response.headers['Location']
+  end
+  
   # Find overridden format blocks and prefer those.  Pass in params of:
   #   * the controller_dsl object
   #   * outcome = :success, :locked, :error
   def insta_respond_to controller_dsl, outcome = :success
-    if block_given?
-      if @class_format_block_map
-        yield @class_format_block_map if block_given?
-      else
-        @class_format_block_map = BlobStruct.new
-        yield @class_format_block_map
-      end
-      cloned_controller_block_map = {}
-      cloned_controller_block_map = controller_dsl.format_block_map.store.clone if controller_dsl.format_block_map && controller_dsl.format_block_map.store.is_a?(Hash)
+    unless has_redirected_already?
+    
+      if block_given?
+        if @class_format_block_map
+          yield @class_format_block_map if block_given?
+        else
+          @class_format_block_map = BlobStruct.new
+          yield @class_format_block_map
+        end
+        cloned_controller_block_map = {}
+        cloned_controller_block_map = controller_dsl.format_block_map.store.clone if controller_dsl.format_block_map && controller_dsl.format_block_map.store.is_a?(Hash)
 
-      respond_to do |format|
-        @class_format_block_map.store.keys.each do |key|
-          if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
-            format.send key.to_sym do
-              cloned_controller_block_map[key].call controller_dsl, self, outcome, @class_format_block_map.store[key]
-              cloned_controller_block_map.delete key
-            end
-          elsif @class_format_block_map.store[key] && @class_format_block_map.store[key].is_a?(Proc)
-            format.send key.to_sym do
-              @class_format_block_map.store[key].call
+        respond_to do |format|
+          @class_format_block_map.store.keys.each do |key|
+            if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
+              format.send key.to_sym do
+                cloned_controller_block_map[key].call controller_dsl, self, outcome, @class_format_block_map.store[key]
+                cloned_controller_block_map.delete key
+              end
+            elsif @class_format_block_map.store[key] && @class_format_block_map.store[key].is_a?(Proc)
+              format.send key.to_sym do
+                @class_format_block_map.store[key].call
+              end
             end
           end
-        end
-        cloned_controller_block_map.keys.each do |key|
-          if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
-            format.send key.to_sym do
-              cloned_controller_block_map[key].call controller_dsl, self, outcome
+          cloned_controller_block_map.keys.each do |key|
+            if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
+              format.send key.to_sym do
+                cloned_controller_block_map[key].call controller_dsl, self, outcome
+              end
             end
           end
         end
