@@ -51,7 +51,7 @@
       if (options.animate && allCards < stageWidth && stageWidth > $(window).width()) {
         $.my.stage.stop().animate({width: allCards}, function(e) {
           $.my.stage
-          .width(allCards)
+          .width(allCards + 40)
           .bind('resize.fluxx.stage', options.callback)
           .trigger('resize.fluxx.stage');
         });
