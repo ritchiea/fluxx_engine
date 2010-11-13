@@ -612,8 +612,9 @@ table .partial { margin: 0.25em 0; }
         &.green,&.selected {
           @include linear-gradient(#8fcb3a, #8fcb3a);
           a {
+            background: #ECF2E3;
             @include linear-gradient(#ecf2e3, #e3ead9);
-            border-left: 6px solid #8FCB3A; 
+            border-left: 5px solid #8FCB3A; 
           } 
         }
         &.orange,&.latest {

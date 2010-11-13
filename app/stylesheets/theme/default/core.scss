@@ -43,7 +43,7 @@ body {
 ===============================*/
 h1,h2,h3,h4,h5,h6 {
   @include default-font;
-  font-weight:normal;
+  font-weight:200;
   margin: 0;
 }
 h1 { font-size: 171.4%; }           /* 24px / 18pt */
