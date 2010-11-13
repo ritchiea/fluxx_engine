@@ -42,7 +42,8 @@ body {
   Headings
 ===============================*/
 h1,h2,h3,h4,h5,h6 {
-  font-weight:500;
+  @include default-font;
+  font-weight:normal;
   margin: 0;
 }
 h1 { font-size: 171.4%; }           /* 24px / 18pt */
