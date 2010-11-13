@@ -1,0 +1,23 @@
+body, div.description, dt, dd, h1, h2, h3, div, span, p {
+  font-family: Helvetica, sans-serif;
+  font-size: 12pt;
+  background: white;
+  color: black !important;
+  font-family: Helvetica, sans-serif;
+  font-size: 12pt;
+  margin: 0px;
+  padding: 0px;
+  width: 540px;
+}
+
+h1 {
+  font-size: 18pt;
+  font-weight: 500;
+  line-height: 120%;
+}
+
+a,form, input, .with-more-info
+ {
+   display: none;
+   background: white;
+ }
