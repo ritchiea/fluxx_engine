@@ -1,4 +1,20 @@
 @import "/stylesheets/fluxx_engine/lib/Quicksand-fontfacekit/stylesheet.css";
+
+// Fonts
+
+
+$icon_dimension: 48px;
+$icon_margin_top: 25px;
+$icon_margin_bottom: 25px;
+$footer_height: $icon_dimension + $icon_margin_top + $icon_margin_bottom;
+$header_height: 78px;
+
+@mixin fluxx-font {
+  font-family: "QuicksandBook", Helvetica, sans-serif; }
+
+@mixin default-font {
+  font-family: "Helvetica Neue", sans-serif; }
+
 // Color Pallete
 @mixin bg($bg: rgb(255, 255, 255), $fg: rgb(0, 0, 0)) {
   background-color: $bg;
@@ -18,20 +34,6 @@
 @mixin body-bg($bg: #eeeeee, $fg: black) {
   @include bg($bg, $fg); 
 }
-// Fonts
-
-
-$icon_dimension: 48px;
-$icon_margin_top: 25px;
-$icon_margin_bottom: 25px;
-$footer_height: $icon_dimension + $icon_margin_top + $icon_margin_bottom;
-$header_height: 78px;
-
-@mixin fluxx-font {
-  font-family: "QuicksandBook", Helvetica, sans-serif; }
-
-@mixin default-font {
-  font-family: "Helvetica Neue", sans-serif; }
 
 // Rotations
 
