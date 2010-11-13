@@ -1,3 +1,4 @@
+@import "/stylesheets/fluxx_engine/lib/Quicksand-fontfacekit/stylesheet.css";
 // Color Pallete
 @mixin bg($bg: rgb(255, 255, 255), $fg: rgb(0, 0, 0)) {
   background-color: $bg;
@@ -18,7 +19,7 @@
   @include bg($bg, $fg); 
 }
 // Fonts
-@import "/stylesheets/fluxx_engine/lib/Quicksand-fontfacekit/stylesheet.css";
+
 
 $icon_dimension: 48px;
 $icon_margin_top: 25px;

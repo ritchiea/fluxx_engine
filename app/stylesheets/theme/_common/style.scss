@@ -115,16 +115,14 @@
   margin: 10px 0px;
 }
 #card-table{
-  margin-top: $header_height;
-  margin-bottom: $footer_height;
   position: absolute;
   top: 0px;
   bottom: 0px;
+  margin: $header_height 20 $footer_height 20;
 }
 #hand{
   height: 100%;
   width: 100%;
-  padding: 0 15px;
 }
 #footer{
   position: fixed;
@@ -255,7 +253,7 @@
 ===============================*/
 .card {
   @include inline-block;
-  margin: 20px 5px;
+  margin: 20px 30px 20px 0;
   position: relative;
   vertical-align: top;
 }
@@ -539,7 +537,6 @@ table .partial { margin: 0.25em 0; }
     } 
   }
   .body {
-    @include bg(#f9f9f9);
     border-bottom: 1px solid #9b9b9b;
     overflow: auto;
     .list {
