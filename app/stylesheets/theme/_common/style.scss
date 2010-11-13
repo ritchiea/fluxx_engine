@@ -1,6 +1,6 @@
+@import "_helpers.scss";
 @import "/stylesheets/fluxx_engine/lib/ui-lightness/jquery-ui-1.8.2.custom.css";
 @import "/stylesheets/fluxx_engine/lib/plupload/css/plupload.queue.css";
-@import "_helpers.scss";
 
 #colorbox { color: white; }
 /*=============================
@@ -360,7 +360,8 @@
       } 
     }
     .titlebar[minimized=true] {
-      border-bottom: 1px solid #999;
+      background: #c4c4c4;
+      border-bottom: 1px solid #c4c4c4;
       .icon {
         width: 100%;
         margin-left: auto;
@@ -899,12 +900,12 @@ table .partial { margin: 0.25em 0; }
       .label {
         @include inline-block;
         font-size: 85.7%;
-        color:#eeeeee;
+        color:#ccc;
         border: 1px solid #444;
         border-bottom: 1px solid transparent;
         @include linear-gradient(#555555, #333333);
         &:hover {
-          @include bg(#4a4a4a, #eeeeee);
+          color:#fff;
           @include linear-gradient(#5a5a5a, #3a3a3a);
         }
         &.selected {
@@ -912,7 +913,7 @@ table .partial { margin: 0.25em 0; }
           @include linear-gradient(#e3e7ea, #e3e7ea);
           @include chiseled-text;
         }
-        @include rounded-top(4px);
+        @include rounded-top(5px);
         @include border-box;
         @include chiseled-text-light;
         @include box-shadow(2px, 0px);
