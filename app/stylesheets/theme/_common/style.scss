@@ -266,10 +266,10 @@
   }
 }
 .card .actions {
-  @include inline-block;
   float: right;
   font-weight: normal;
   font-size: 80%;
+  padding: 0;
 }
 .card-box{
   position: relative;
@@ -620,12 +620,51 @@ table .partial { margin: 0.25em 0; }
 }
 .show {
   margin: 20px 38px;
+  h2 {
+    border-bottom: 1px solid #D6D6D6;
+    clear: both;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 16px 0px 10px;
+  }
   h3 {border-bottom: 1px solid #d6d6d6; margin-bottom:0.5em;}
   ul, ol, dl {
     margin: 0 0 1em 0;
   }
   ol li { list-style: decimal inside;}
   a {font-size: 13px;}
+  .view-workflow {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    color: black !important;
+    li {
+      list-style: none !important;
+      display: block;
+      margin: 0px;
+      padding: 0px 10px;
+      color: black !important;
+      border-bottom: white 1px solid;
+      height: 30px;
+      line-height: 30px;
+      &.state {
+        color: black !important;
+        background: #eee; 
+      }
+      &.first {
+        -webkit-border-top-left-radius: 5px;
+        -webkit-border-top-right-radius: 5px; 
+      }
+      &.last {
+        -webkit-border-bottom-left-radius: 5px;
+        -webkit-border-bottom-right-radius: 5px;
+        border-bottom: none; 
+      }
+      &.selected {
+        background: #fff; 
+      }
+    }
+  }
 }
 .edit {
   position: relative;
@@ -939,7 +978,6 @@ table .partial { margin: 0.25em 0; }
   width: 100%;
   @include rounded;
   color: #666666;
-  border: 1px solid #9b9b9b;
   margin: 0.75em 0;
   thead {  
     tr {
@@ -958,6 +996,9 @@ table .partial { margin: 0.25em 0; }
   th,td { text-align:left; margin:0; font-weight:normal;  }
   th { 
     @include rounded-top;
+    border-top: 1px solid #9B9B9B;
+    border-left: 1px solid #9B9B9B;
+    border-right: 1px solid #9B9B9B;
     text-transform: uppercase;
     color: #666;
     padding: 4px;
@@ -965,22 +1006,25 @@ table .partial { margin: 0.25em 0; }
     text-align:center;
   }
   td {
-    border-top: 1px solid #9b9b9b;
+    border-top: 1px solid #9B9B9B;
+    border-left: 1px solid #9B9B9B;
+    border-right: 1px solid #9B9B9B;
     padding: 15px;
     span { 
       font-size: 11px;
-      clear: both;
       display: block;
       float: left;
       padding-top: 4px;
     }
+    .delete-button {float:right;}
+    .edit_link {float:left;padding-right:5px;}
   }
   tr:hover th[scope="row"],
   tr:hover tbody th.sub { }
   tr:hover td { }
 
   tr:last-child {
-    td:last-child { @include rounded-bottom; }
+    td:last-child { @include rounded-bottom;border-bottom: 1px solid #9B9B9B; }
     td:empty:last-child {
       @include rounded-bottom;
       border-bottom: 1px solid #9B9B9B;

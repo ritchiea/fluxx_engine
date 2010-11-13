@@ -1,0 +1,34 @@
+body, div.description, dt, dd, h1, h2, h3, div, span, p {
+  font-family: Helvetica, sans-serif;
+  font-size: 14px;
+  background: white;
+  color: black !important;
+  margin: 0px;
+  padding: 0px;
+}
+
+h1 {
+  font-size: 18pt;
+  font-weight: 500;
+  line-height: 120%;
+}
+
+.pairs .value.with-more-info a {
+  background-image: none;
+  text-decoration: none;
+  cursor: default;
+}
+a,form, input, #card-drawer, #card-settings, .actions 
+ {
+   display: none;
+ }
+ 
+#card-table {
+  margin: 0px;
+  #hand, .pairs {
+    padding: 0px;
+    &:hover {
+      background: white;
+    }
+  }
+}
