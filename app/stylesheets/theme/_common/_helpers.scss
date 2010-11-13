@@ -307,14 +307,14 @@ $header_height: 78px;
   .required {}
   input,textarea {
     width: 100%;
-    max-width: 396px;
+    max-width: 251px;
     padding: 5px;
   }
   select {
     @include inline-block;
     @include border-box;
     width: 100%;
-    max-width: 396px;
+    max-width: 251px;
     padding: 2px; 
   }
   .inline-errors { margin-left: 0px; } 

@@ -420,6 +420,52 @@ table .partial { margin: 0.25em 0; }
 }
 .content .pairs { font-size: 12px; line-height:1.25em;}
 
+.edit, .filters {
+  @include pretty-forms;
+  .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-one-line; }
+  .text,.multiple-select-transfer { @include form-field-two-line; }
+  .datetime,.date {
+    input {
+      background: #{inline_image("/images/fluxx_engine/theme/default/icons/calendar.png")} 99% center no-repeat;
+      background-color: white; 
+    } 
+  }
+  .commit,.hidden { display: none; }
+  .required {
+    label {
+      font-weight: bold;
+      abbr { display: none; } 
+    } 
+  }
+  .error {
+    label { color: #aa3333; }
+    input,textarea,select {
+      border-color: #aa3333;
+      margin-bottom: 2px;
+    }
+    input,textarea { border-left-width: 4px; }
+    .inline-errors {
+      color: #aa3333;
+      font-size: 10px;
+      line-height: 14px;
+    } 
+  }
+  textarea { overflow: hidden; }
+  form {
+    margin-left: 10%;
+    fieldset {
+      border: none;
+      padding: 0 0 1em 0;
+      margin: 0 0 1em 0;
+      width: auto; 
+    }
+    ol {
+      margin: 0;
+      padding: 0;
+      display: block; 
+    } 
+  }
+}
 .filters {
   position: absolute;
   top: 0px;
@@ -429,6 +475,7 @@ table .partial { margin: 0.25em 0; }
   background: #666666;
   color: #FFF;
   border: 3px solid #cccccc;
+  .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-two-line; }
   .header {
     @include linear-gradient(#777777, #555555);
     @include box-shadow-inset;
@@ -458,7 +505,6 @@ table .partial { margin: 0.25em 0; }
     }
     .inline-aft { display: none; }
     select.add-another {
-      width: 54%;
       margin-top: 5px; 
     } 
   }
@@ -671,52 +717,7 @@ table .partial { margin: 0.25em 0; }
   position: relative;
   margin: 20px 38px;
 }
-.edit, .filters {
-  @include pretty-forms;
-  .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-one-line; }
-  .text,.multiple-select-transfer { @include form-field-two-line; }
-  .datetime,.date {
-    input {
-      background: #{inline_image("/images/fluxx_engine/theme/default/icons/calendar.png")} 99% center no-repeat;
-      background-color: white; 
-    } 
-  }
-  .commit,.hidden { display: none; }
-  .required {
-    label {
-      font-weight: bold;
-      abbr { display: none; } 
-    } 
-  }
-  .error {
-    label { color: #aa3333; }
-    input,textarea,select {
-      border-color: #aa3333;
-      margin-bottom: 2px;
-    }
-    input,textarea { border-left-width: 4px; }
-    .inline-errors {
-      color: #aa3333;
-      font-size: 10px;
-      line-height: 14px;
-    } 
-  }
-  textarea { overflow: hidden; }
-  form {
-    margin-left: 10%;
-    fieldset {
-      border: none;
-      padding: 0 0 1em 0;
-      margin: 0 0 1em 0;
-      width: auto; 
-    }
-    ol {
-      margin: 0;
-      padding: 0;
-      display: block; 
-    } 
-  }
-}
+
 .minimized {
   width: 100px;
   position: relative;
