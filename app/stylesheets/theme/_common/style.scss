@@ -124,6 +124,7 @@
 #hand{
   height: 100%;
   width: 100%;
+  padding: 0 15px;
 }
 #footer{
   position: fixed;
@@ -254,7 +255,7 @@
 ===============================*/
 .card {
   @include inline-block;
-  margin: 10px;
+  margin: 20px 5px;
   position: relative;
   vertical-align: top;
 }
@@ -394,6 +395,7 @@
 table .partial { margin: 0.25em 0; }
 .pairs {
   width: 100%;
+  line-height: 1.75em;
   padding: 2px 5px;
   &:hover {background: rgba(0,0,0, 0.05);}
   .key {
@@ -416,6 +418,7 @@ table .partial { margin: 0.25em 0; }
     } 
   }
 }
+.content .pairs { font-size: 12px; line-height:1.25em;}
 
 .filters {
   position: absolute;
@@ -440,7 +443,7 @@ table .partial { margin: 0.25em 0; }
     @include box-shadow-inset;
     background: #333333;
     overflow:auto;
-    a { color: white; }
+    a { color: #ffffff; }
     a.do-add-another {
       @include inline-block;
       @include border-box;
@@ -565,7 +568,7 @@ table .partial { margin: 0.25em 0; }
           @include linear-gradient(#8fcb3a, #8fcb3a);
           a {
             @include linear-gradient(#ecf2e3, #e3ead9);
-            border-left: 6px solid #65ab01; 
+            border-left: 6px solid #8FCB3A; 
           } 
         }
         &.orange,&.latest {
@@ -773,16 +776,18 @@ table .partial { margin: 0.25em 0; }
       float: right; 
     } 
   } 
+  .to-modal {display:none;}
 }
 .info {
   width: 254px;
   position: absolute;
-  top: 47px;
+  top: 60px;
   right: 2px;
-  bottom: 7px;
+  bottom: 40px;
   margin-left: -225px;
   z-index: 1;
   overflow: hidden;
+  padding-bottom:10px;
   .drawer {
     display: none;
     width: 223px;
@@ -805,12 +810,12 @@ table .partial { margin: 0.25em 0; }
             text-decoration: none;
           }
           .fluxx-card-content-metadata-section-title {
-            font-size: 11pt;
-            font-weight: 700;
+            font-size: 15px;
+            font-weight: 500;
           }
           .fluxx-card-content-metadata-section-info {
             display: block;
-            font-size: 10pt;
+            font-size: 13px;
           } 
         } 
       } 
@@ -829,7 +834,7 @@ table .partial { margin: 0.25em 0; }
     a {
       @include inline-block;
       width: 11px;
-      color: #000;
+      //color: #000;
       &.tabs-left {
         text-align: right;
         margin-left: 0px;
@@ -889,6 +894,7 @@ table .partial { margin: 0.25em 0; }
   &.open {
     overflow: visible;
     margin-left: 0px;
+    margin-bottom:35px;
     .drawer {
       @include box-shadow;
       display: block;
@@ -930,64 +936,47 @@ table .partial { margin: 0.25em 0; }
   padding: 0px 10px; 
 }
 
-.edit_link {
-  clear: none;
-  float: right;
-  padding: 0 5px 0 0;
-}
-.uploader {
-  padding-left: 20px ;
-}
-.delete-button {
-  clear: none;
-  float: right;
-  padding-top: 0;
-}
+
 .tabular {
   width: 100%;
   @include rounded;
   color: #666666;
   border: 1px solid #9b9b9b;
   margin: 0.75em 0;
-  thead, tfoot { background: #dfdfdf; }
+  thead {  
+    tr {
+      @include rounded-top;
+      background: #dfdfdf;
+      border-bottom: 1px solid #9B9B9B;
+    }
+  }
   tbody { background: #f9f7f8; }
+  tfoot{
+    @include rounded-bottom;
+    border-bottom: 1px solid #9B9B9B;
+    background-color: #dfdfdf;
+    padding: 6px;
+  }
   th,td { text-align:left; margin:0; font-weight:normal;  }
   th { 
     @include rounded-top;
     text-transform: uppercase;
-    color: #333;
+    color: #666;
     padding: 4px;
-    border-top: 1px solid #9B9B9B;
-    border-left: 1px solid #9B9B9B;
-    border-right: 1px solid #9B9B9B;
+    background: transparent;
+    text-align:center;
   }
   td {
     border-top: 1px solid #9b9b9b;
-    border-left: 1px solid #9B9B9B;
-    border-right: 1px solid #9B9B9B;
     padding: 15px;
-    .air-download {float: left;}
-    .docIcon {
-      background: transparent url(/images/fluxx_engine/theme/default/icons/page.png) no-repeat 0px 4px;
-      display: inline-block;
-      min-height: 16px;
-      padding: 4px 4px 0px 20px;
-      width: 160px;
-    }
     span { 
       font-size: 11px;
       clear: both;
       display: block;
       float: left;
       padding-top: 4px;
-      .delete-button {
-        clear: none;
-        float: right;
-        padding-top: 0;
-      }
     }
   }
-
   tr:hover th[scope="row"],
   tr:hover tbody th.sub { }
   tr:hover td { }

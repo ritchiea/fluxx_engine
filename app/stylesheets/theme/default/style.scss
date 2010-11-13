@@ -161,3 +161,16 @@
 .file-type-word {background: transparent url(/images/fluxx_engine/theme/default/icons/page_word.png) no-repeat 0px 4px;}
 .file-type-excel {background: transparent url(/images/fluxx_engine/theme/default/icons/page_excel.png) no-repeat 0px 4px;}
 .file-type-powerpoint {background: transparent url(/images/fluxx_engine/theme/default/icons/page_white_powerpoint.png) no-repeat 0px 4px;}
+
+
+.docIcon {
+  background: transparent url(/images/fluxx_engine/theme/default/icons/page.png) no-repeat 0px 4px;
+  display: inline-block;
+  min-height: 16px;
+  padding: 4px 4px 0px 20px;
+  width: 160px;
+}
+
+.uploader {
+  padding-left: 20px ;
+}
