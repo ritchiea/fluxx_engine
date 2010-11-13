@@ -210,6 +210,7 @@ $header_height: 78px;
       @include border-box;
       @include chiseled-text($tscolor, 0px, $tspos);
       color: $color;
+      font-weight: 500;
       text-decoration: none;
       text-align: center;
       padding: $padding;
@@ -322,7 +323,7 @@ $header_height: 78px;
 @mixin pretty-forms {
   label {
     line-height: 1.5em;
-    border: 1px solid transparent; 
+    border: 1px solid transparent;
   }
   input,select,textarea {
     line-height: 1.5em;
@@ -342,5 +343,12 @@ $header_height: 78px;
   }
   input[type=checkbox] {
     margin-right: 0.25em;
+  }
+  .commit,.hidden { display: none; }
+  .required {
+    label {
+      font-weight: 700;
+      abbr { display: none; } 
+    } 
   }
 }

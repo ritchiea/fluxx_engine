@@ -430,13 +430,6 @@ table .partial { margin: 0.25em 0; }
       background-color: white; 
     } 
   }
-  .commit,.hidden { display: none; }
-  .required {
-    label {
-      font-weight: bold;
-      abbr { display: none; } 
-    } 
-  }
   .error {
     label { color: #aa3333; }
     input,textarea,select {
@@ -592,6 +585,7 @@ table .partial { margin: 0.25em 0; }
         background: linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%);
         border-top: 1px solid white;
         h2 { color: #333333; }
+        p {font-size: 92.9%;}
         a {
           background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7))");
           background: unquote("-moz-linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%)");
