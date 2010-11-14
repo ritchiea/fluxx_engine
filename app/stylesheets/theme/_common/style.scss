@@ -517,6 +517,7 @@ table .partial { margin: 0.25em 0; }
 .listing {
   @include inline-block;
   width: 336px;
+  font-weight: 200;
   .header {
     background: #aaaaaa;
     &.actions-open {
@@ -584,7 +585,7 @@ table .partial { margin: 0.25em 0; }
       .entry {
         background: linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%);
         border-top: 1px solid white;
-        h2 { color: #333333; }
+        h2 { color: #333333; font-weight: 200; }
         p {font-size: 92.9%;}
         a {
           background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7))");
@@ -1067,8 +1068,10 @@ table .partial { margin: 0.25em 0; }
   } 
 }
 
-.content .actions { position:absolute; top:2px; left:-12px; display:none; float:left;}
-.content:hover>.actions:first-of-type  {display:block;}
+.action-item { position:relative; }
+.action-item .actions { position:absolute; top:2px; left:-12px; display:none; float:left;}
+.action-item:hover>.actions:first-of-type  {display:block;}
+.action-item:hover { background: rgba(0,0,0, 0.05); }
 
 
 .ui-datepicker { display: none; }

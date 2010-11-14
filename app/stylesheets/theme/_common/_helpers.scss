@@ -326,6 +326,8 @@ $header_height: 78px;
     border: 1px solid transparent;
   }
   input,select,textarea {
+    @include default-font;
+    color: #666;
     line-height: 1.5em;
     padding: 0px 6px; 
     border: 1px solid #ccc;

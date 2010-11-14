@@ -37,14 +37,14 @@ body {
   background: #EEE;
   text-align:left;
   overflow-x: scroll;
-  font-weight:200;
+  //font-weight:200;
 }
 /*=============================
   Headings
 ===============================*/
 h1,h2,h3,h4,h5,h6 {
   @include default-font;
-  font-weight:200;
+  font-weight:500;
   margin: 0;
   margin-bottom: 0.1em;
 }
@@ -123,7 +123,6 @@ tr:hover td { }
 /*=============================
   Generic Content Classes 
 ===============================*/
-.content { position:relative; padding:2px 10px;  }
 .caption {font-size: 85%; color:#666;}
 .warning {
   background: #{inline_image("/images/fluxx_engine/theme/default/icons/information.png")} no-repeat left center;
