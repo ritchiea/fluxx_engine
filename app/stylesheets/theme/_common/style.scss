@@ -271,6 +271,10 @@
   font-weight: normal;
   font-size: 80%;
   padding: 0;
+  a {
+    font-size: 12px;
+    padding-left: 2px;
+  }
 }
 .card-box{
   position: relative;
@@ -1072,7 +1076,7 @@ table .partial { margin: 0.25em 0; }
   } 
 }
 
-.content .actions { position:absolute; top:2px; left:-12px; display:none; float:left;}
+.content .actions { display:none; float:right;}
 .content:hover>.actions:first-of-type  {display:block;}
 
 
