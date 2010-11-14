@@ -2,6 +2,7 @@
 @import "/stylesheets/fluxx_engine/lib/ui-lightness/jquery-ui-1.8.2.custom.css";
 @import "/stylesheets/fluxx_engine/lib/plupload/css/plupload.queue.css";
 
+
 #colorbox { color: white; }
 /*=============================
   Layout Elements
@@ -423,7 +424,7 @@ table .partial { margin: 0.25em 0; }
 .edit, .filters {
   @include pretty-forms;
   .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-one-line; }
-  .text,.multiple-select-transfer { @include form-field-two-line; }
+  .text,.multiple-select-transfer, textarea { @include form-field-two-line; }
   .datetime,.date {
     input {
       background: #{inline_image("/images/fluxx_engine/theme/default/icons/calendar.png")} 99% center no-repeat;
@@ -517,7 +518,6 @@ table .partial { margin: 0.25em 0; }
 .listing {
   @include inline-block;
   width: 336px;
-  font-weight: 200;
   .header {
     background: #aaaaaa;
     &.actions-open {
@@ -585,7 +585,7 @@ table .partial { margin: 0.25em 0; }
       .entry {
         background: linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%);
         border-top: 1px solid white;
-        h2 { color: #333333; font-weight: 200; }
+        h2 { color: #333333; }
         p {font-size: 92.9%;}
         a {
           background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7))");
@@ -667,14 +667,19 @@ table .partial { margin: 0.25em 0; }
     border-bottom: 1px solid #D6D6D6;
     clear: both;
     font-size: 16px;
-    font-weight: normal;
     margin: 16px 0px 10px;
   }
   h3 {border-bottom: 1px solid #d6d6d6; margin-bottom:0.5em;}
   ul, ol, dl {
-    margin: 0 0 1em 0;
+    margin: 0 0 0.5em 0;
   }
   ol li { list-style: decimal inside;}
+  dl.inline {
+    font-size: 87.5%;
+    line-height: 16px;
+    dt { @include inline-block; width:25%; margin: 0; }
+    dd { @include inline-block; width:70%; margin: 0; }
+  }
   a {font-size: 13px;}
   .view-workflow {
     display: block;
@@ -1068,7 +1073,7 @@ table .partial { margin: 0.25em 0; }
   } 
 }
 
-.action-item { position:relative; }
+.action-item { position:relative; padding: 3px 10px; }
 .action-item .actions { position:absolute; top:2px; left:-12px; display:none; float:left;}
 .action-item:hover>.actions:first-of-type  {display:block;}
 .action-item:hover { background: rgba(0,0,0, 0.05); }

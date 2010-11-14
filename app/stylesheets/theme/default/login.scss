@@ -39,7 +39,7 @@ body {
     h2 {
       @include fluxx-font;
       margin: 0;
-      padding: 0;
+      padding: 5px 0;
       text-transform: uppercase;
       font-weight: normal; }
     label[for=user_email],label[for=user_password] {
