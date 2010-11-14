@@ -37,13 +37,16 @@ body {
   background: #EEE;
   text-align:left;
   overflow-x: scroll;
+  //font-weight:200;
 }
 /*=============================
   Headings
 ===============================*/
 h1,h2,h3,h4,h5,h6 {
+  @include default-font;
   font-weight:500;
   margin: 0;
+  margin-bottom: 0.1em;
 }
 h1 { font-size: 171.4%; }           /* 24px / 18pt */
 h2 { font-size: 135.7%; }           /* 19px / 14pt */
@@ -74,7 +77,7 @@ blockquote, cite,q {
   font-style:italic;
 }
 blockquote { margin: 0 0 1em 1.6em; }
-strong,b { font-weight: bold; }
+strong,b { font-weight: 500; }
 em,i { font-style: italic; }
 mark { color:#000; font-weight:bold; }
 del { text-decoration: line-through; }
@@ -109,7 +112,6 @@ tbody { }
 th,td { padding: 4px 2px; text-align:left; margin:0; font-weight:normal; }
 th { 
   border-bottom: 1px solid #d6d6d6;
-  font-weight: 700; 
 }
 td {
   span { font-size: 11px; }
@@ -121,8 +123,12 @@ tr:hover td { }
 /*=============================
   Generic Content Classes 
 ===============================*/
+<<<<<<< HEAD
 .content { position:relative; padding:2px 10px;  }
 .caption {font-size: 11px; color:#666;}
+=======
+.caption {font-size: 85%; color:#666;}
+>>>>>>> b82ccc4c3a0a2fc0d04a5b01843596007dde5d35
 .warning {
   background: #{inline_image("/images/fluxx_engine/theme/default/icons/information.png")} no-repeat left center;
   padding: 10px 0 10px 20px;

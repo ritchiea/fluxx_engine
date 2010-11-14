@@ -1,11 +1,12 @@
+@import "_helpers.scss";
 @import "/stylesheets/fluxx_engine/lib/ui-lightness/jquery-ui-1.8.2.custom.css";
 @import "/stylesheets/fluxx_engine/lib/plupload/css/plupload.queue.css";
-@import "_helpers.scss";
 
 #colorbox { color: white; }
 /*=============================
   Layout Elements
 ===============================*/
+
 #fluxx{}
 #stage{
   position: relative;
@@ -115,16 +116,14 @@
   margin: 10px 0px;
 }
 #card-table{
-  margin-top: $header_height;
-  margin-bottom: $footer_height;
   position: absolute;
   top: 0px;
   bottom: 0px;
+  margin: $header_height 20 $footer_height 20;
 }
 #hand{
   height: 100%;
   width: 100%;
-  padding: 0 15px;
 }
 #footer{
   position: fixed;
@@ -255,7 +254,7 @@
 ===============================*/
 .card {
   @include inline-block;
-  margin: 20px 5px;
+  margin: 20px 30px 20px 0;
   position: relative;
   vertical-align: top;
 }
@@ -365,7 +364,8 @@
       } 
     }
     .titlebar[minimized=true] {
-      border-bottom: 1px solid #999;
+      background: #c4c4c4;
+      border-bottom: 1px solid #c4c4c4;
       .icon {
         width: 100%;
         margin-left: auto;
@@ -424,6 +424,45 @@ table .partial { margin: 0.25em 0; }
 }
 .content .pairs { font-size: 12px; line-height:1.25em;}
 
+.edit, .filters {
+  @include pretty-forms;
+  .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-one-line; }
+  .text,.multiple-select-transfer { @include form-field-two-line; }
+  .datetime,.date {
+    input {
+      background: #{inline_image("/images/fluxx_engine/theme/default/icons/calendar.png")} 99% center no-repeat;
+      background-color: white; 
+    } 
+  }
+  .error {
+    label { color: #aa3333; }
+    input,textarea,select {
+      border-color: #aa3333;
+      margin-bottom: 2px;
+    }
+    input,textarea { border-left-width: 4px; }
+    .inline-errors {
+      color: #aa3333;
+      font-size: 10px;
+      line-height: 14px;
+    } 
+  }
+  textarea { overflow: hidden; }
+  form {
+    margin-left: 10%;
+    fieldset {
+      border: none;
+      padding: 0 0 1em 0;
+      margin: 0 0 1em 0;
+      width: auto; 
+    }
+    ol {
+      margin: 0;
+      padding: 0;
+      display: block; 
+    } 
+  }
+}
 .filters {
   position: absolute;
   top: 0px;
@@ -433,6 +472,7 @@ table .partial { margin: 0.25em 0; }
   background: #666666;
   color: #FFF;
   border: 3px solid #cccccc;
+  .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-two-line; }
   .header {
     @include linear-gradient(#777777, #555555);
     @include box-shadow-inset;
@@ -462,7 +502,6 @@ table .partial { margin: 0.25em 0; }
     }
     .inline-aft { display: none; }
     select.add-another {
-      width: 54%;
       margin-top: 5px; 
     } 
   }
@@ -482,6 +521,7 @@ table .partial { margin: 0.25em 0; }
 .listing {
   @include inline-block;
   width: 336px;
+  font-weight: 200;
   .header {
     background: #aaaaaa;
     &.actions-open {
@@ -543,14 +583,14 @@ table .partial { margin: 0.25em 0; }
     } 
   }
   .body {
-    @include bg(#f9f9f9);
     border-bottom: 1px solid #9b9b9b;
     overflow: auto;
     .list {
       .entry {
         background: linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%);
         border-top: 1px solid white;
-        h2 { color: #333333; }
+        h2 { color: #333333; font-weight: 200; }
+        p {font-size: 92.9%;}
         a {
           background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7))");
           background: unquote("-moz-linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%)");
@@ -571,6 +611,7 @@ table .partial { margin: 0.25em 0; }
         &.green,&.selected {
           @include linear-gradient(#8fcb3a, #8fcb3a);
           a {
+            background: #ECF2E3;
             @include linear-gradient(#ecf2e3, #e3ead9);
             border-left: 6px solid #8FCB3A; 
           } 
@@ -676,52 +717,7 @@ table .partial { margin: 0.25em 0; }
   position: relative;
   margin: 20px 38px;
 }
-.edit, .filters {
-  @include pretty-forms;
-  .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-one-line; }
-  .text,.multiple-select-transfer { @include form-field-two-line; }
-  .datetime,.date {
-    input {
-      background: #{inline_image("/images/fluxx_engine/theme/default/icons/calendar.png")} 99% center no-repeat;
-      background-color: white; 
-    } 
-  }
-  .commit,.hidden { display: none; }
-  .required {
-    label {
-      font-weight: bold;
-      abbr { display: none; } 
-    } 
-  }
-  .error {
-    label { color: #aa3333; }
-    input,textarea,select {
-      border-color: #aa3333;
-      margin-bottom: 2px;
-    }
-    input,textarea { border-left-width: 4px; }
-    .inline-errors {
-      color: #aa3333;
-      font-size: 10px;
-      line-height: 14px;
-    } 
-  }
-  textarea { overflow: hidden; }
-  form {
-    margin-left: 10%;
-    fieldset {
-      border: none;
-      padding: 0 0 1em 0;
-      margin: 0 0 1em 0;
-      width: auto; 
-    }
-    ol {
-      margin: 0;
-      padding: 0;
-      display: block; 
-    } 
-  }
-}
+
 .minimized {
   width: 100px;
   position: relative;
@@ -905,12 +901,12 @@ table .partial { margin: 0.25em 0; }
       .label {
         @include inline-block;
         font-size: 85.7%;
-        color:#eeeeee;
+        color:#ccc;
         border: 1px solid #444;
         border-bottom: 1px solid transparent;
         @include linear-gradient(#555555, #333333);
         &:hover {
-          @include bg(#4a4a4a, #eeeeee);
+          color:#fff;
           @include linear-gradient(#5a5a5a, #3a3a3a);
         }
         &.selected {
@@ -918,7 +914,7 @@ table .partial { margin: 0.25em 0; }
           @include linear-gradient(#e3e7ea, #e3e7ea);
           @include chiseled-text;
         }
-        @include rounded-top(4px);
+        @include rounded-top(5px);
         @include border-box;
         @include chiseled-text-light;
         @include box-shadow(2px, 0px);
@@ -1076,8 +1072,15 @@ table .partial { margin: 0.25em 0; }
   } 
 }
 
+<<<<<<< HEAD
 .content .actions { display:none; float:right;}
 .content:hover>.actions:first-of-type  {display:block;}
+=======
+.action-item { position:relative; }
+.action-item .actions { position:absolute; top:2px; left:-12px; display:none; float:left;}
+.action-item:hover>.actions:first-of-type  {display:block;}
+.action-item:hover { background: rgba(0,0,0, 0.05); }
+>>>>>>> b82ccc4c3a0a2fc0d04a5b01843596007dde5d35
 
 
 .ui-datepicker { display: none; }
