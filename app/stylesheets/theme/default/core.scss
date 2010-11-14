@@ -124,6 +124,8 @@ tr:hover td { }
 /*=============================
   Generic Content Classes 
 ===============================*/
+.content { position:relative; padding:2px 10px;  }
+.caption {font-size: 11px; color:#666;}
 .caption {font-size: 85%; color:#666;}
 .warning {
   background: #{inline_image("/images/fluxx_engine/theme/default/icons/information.png")} no-repeat left center;

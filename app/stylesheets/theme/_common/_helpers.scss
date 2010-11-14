@@ -324,7 +324,7 @@ $header_height: 78px;
 @mixin pretty-forms {
   label {
     line-height: 1.5em;
-    border: 1px solid transparent;
+    border: 1px solid transparent; 
   }
   input,select,textarea {
     @include default-font;

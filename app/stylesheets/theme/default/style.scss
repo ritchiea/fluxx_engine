@@ -174,3 +174,21 @@
 .uploader {
   padding-left: 20px ;
 }
+
+.primary {float:right;clear:both;}
+.primary a {font-size: 11px;}
+.edit_row_links {
+display: inline;
+float: right;
+font-size: 11px;
+text-align: right;
+padding-bottom: 5px;
+}
+.edit_row_links .actions a {font-size: 11px;}
+.org_row {
+clear: both;
+color: #666;
+display: block;
+font-size: 14px;
+margin: 10px 0px;
+}
