@@ -1072,15 +1072,16 @@ table .partial { margin: 0.25em 0; }
   } 
 }
 
-<<<<<<< HEAD
+
 .content .actions { display:none; float:right;}
 .content:hover>.actions:first-of-type  {display:block;}
-=======
+/*=============================
+  TODO ESH: this came through in a merge, please verify it is supposed to be there
+===============================*/
 .action-item { position:relative; }
 .action-item .actions { position:absolute; top:2px; left:-12px; display:none; float:left;}
 .action-item:hover>.actions:first-of-type  {display:block;}
 .action-item:hover { background: rgba(0,0,0, 0.05); }
->>>>>>> b82ccc4c3a0a2fc0d04a5b01843596007dde5d35
 
 
 .ui-datepicker { display: none; }
