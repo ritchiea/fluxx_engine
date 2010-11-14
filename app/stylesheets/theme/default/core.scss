@@ -37,7 +37,6 @@ body {
   background: #EEE;
   text-align:left;
   overflow-x: scroll;
-  //font-weight:200;
 }
 /*=============================
   Headings
@@ -79,7 +78,7 @@ blockquote, cite,q {
   font-style:italic;
 }
 blockquote { margin: 0 0 1em 1.6em; }
-strong,b { font-weight: 700; }
+strong,b { font-weight: 700; font-size:92.9%; }
 em,i { font-style: italic; }
 mark { color:#000; font-weight:bold; }
 del { text-decoration: line-through; }
