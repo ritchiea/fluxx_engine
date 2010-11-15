@@ -33,6 +33,7 @@ html * { font-size: 100.01%; }
 body {
   @include default-font;
   font-size: 87.50%;
+  font-weight:normal;
   color: #666;
   background: #EEE;
   text-align:left;
@@ -43,7 +44,7 @@ body {
 ===============================*/
 h1,h2,h3,h4,h5,h6 {
   @include default-font;
-  font-weight:400;
+  font-weight:normal;
   margin: 0;
   margin-bottom: 0.2em;
 }

@@ -211,7 +211,7 @@ $header_height: 78px;
       @include border-box;
       @include chiseled-text($tscolor, 0px, $tspos);
       color: $color;
-      font-weight: 500;
+      //font-weight: 500;
       text-decoration: none;
       text-align: center;
       padding: $padding;

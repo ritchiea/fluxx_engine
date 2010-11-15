@@ -470,7 +470,7 @@ table .partial { margin: 0.25em 0; }
     padding-left:10px;
     line-height:2em;
     font-size: 15px;
-    font-weight: 200;
+    //font-weight: 200;
     text-transform: uppercase;
     overflow:hidden;
   }
@@ -512,7 +512,7 @@ table .partial { margin: 0.25em 0; }
 .listing {
   @include inline-block;
   width: 336px;
-  font-weight: 200;
+  //font-weight: 200;
   .header {
     background: #aaaaaa;
     &.actions-open {
@@ -580,8 +580,8 @@ table .partial { margin: 0.25em 0; }
       .entry {
         background: linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%);
         border-top: 1px solid white;
-        h2 { font-weight: 200; color: #333333; }
-        h4 { font-weight: 200; }
+        h2 { color: #333333; }
+        h4 { }
         p {font-size: 92.9%;}
         a {
           background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7))");
@@ -838,7 +838,6 @@ table .partial { margin: 0.25em 0; }
     display: none;
     width: 223px;
     height: 100%;
-    font-weight: 500;
     @include bg(#e3e7ea);
     border-left: none;
     overflow: auto;
@@ -857,7 +856,7 @@ table .partial { margin: 0.25em 0; }
           }
           .fluxx-card-content-metadata-section-title {
             font-size: 15px;
-            font-weight: 500;
+            //font-weight: 500;
           }
           .fluxx-card-content-metadata-section-info {
             display: block;
@@ -931,7 +930,7 @@ table .partial { margin: 0.25em 0; }
         height: 29px;
         line-height: 26px;
         letter-spacing: 1px;
-        font-weight: 400;
+        //font-weight: 400;
       }
       .entries { display: none; }
     } 
