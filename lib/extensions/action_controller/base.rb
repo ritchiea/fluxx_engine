@@ -425,7 +425,7 @@ class ActionController::Base
           flash[:info] = t(:insta_successful_delete, :name => model_class.name) unless delete_object.dont_display_flash_message
           insta_respond_to delete_object, :success do |format|
             format.html do
-              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path"))
+              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || url_for(@model))
             end
             format.xml  { head :ok }
           end
@@ -434,7 +434,7 @@ class ActionController::Base
           flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name) unless flash[:error]
           insta_respond_to delete_object, :error do |format|
             format.html do
-              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || send("#{model_class.name.underscore.pluralize.downcase}_path"))
+              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || url_for(@model))
             end
             format.xml  { head :ok }
           end
