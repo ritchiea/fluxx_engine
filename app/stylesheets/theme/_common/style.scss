@@ -266,16 +266,6 @@
     }
   }
 }
-.card .actions {
-  float: right;
-  font-weight: normal;
-  font-size: 80%;
-  padding: 0;
-  a {
-    font-size: 12px;
-    padding-left: 2px;
-  }
-}
 .card-box{
   position: relative;
   z-index: 2;
@@ -665,6 +655,16 @@ table .partial { margin: 0.25em 0; }
       overflow: hidden; 
     } 
   } 
+  .actions {
+    float: right;
+    font-weight: normal;
+    font-size: 80%;
+    padding: 0;
+    a {
+      font-size: 12px;
+      padding-left: 2px;
+    }
+  }
   .edit { margin-top:30px;}
 }
 .show {
@@ -726,7 +726,7 @@ table .partial { margin: 0.25em 0; }
 }
 
 .minimized {
-  width: 100px;
+  width: 98px;
   position: relative;
   @include bg(#c4c4c4);
   .header { border: 0px; }
