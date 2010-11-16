@@ -215,6 +215,15 @@
               $.fn.fluxxAjaxCall($elem, 'PUT');
             }
           ],
+          'a.as-put': [
+           'change', function(e) {
+             $.fluxx.util.itEndsWithMe(e);
+             var $elem = $(this);
+             if ($elem.hasClass('with-note') && !$elem.data('has_note'))
+               return;
+             $.fn.fluxxAjaxCall($elem, 'PUT');
+           }
+         ],
           'a.as-post': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
