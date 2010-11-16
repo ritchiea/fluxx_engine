@@ -250,6 +250,15 @@
             ).each(function(){
               var $area     = $(this),
                   $areaBody = $('.body', $area);
+              if ($area.hasClass('modal')) {
+                var $arrow = $('.arrow', $area);
+                if ($card.height() - 8 < $area.data('target').offset().top - $('.card-header', $card).height())
+                  $arrow.hide();
+                else
+                  $arrow.show();
+                $area.height($card.height());
+              }   
+               
               $areaBody.height(
                 $areaBody.parent().innerHeight() -
                 _.addUp(
@@ -678,8 +687,9 @@
               var targetPosition = target.position().top,
                   targetHeight = target.outerHeight(true),
                   arrowHeight = $arrow.outerHeight(true);
+              var headerHeight = $('.card-header', $card).height();
               $arrow.css({
-                top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2))
+                top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2)) + headerHeight
               });
  
               var parentOffset = (
@@ -693,7 +703,8 @@
                   arrowWidth   = $arrow.outerWidth(true) / 2,
                   leftPosition = parentOffset + targetWidth + arrowWidth;
               $modal.css({
-                left: parseInt(leftPosition)
+                left: parseInt(leftPosition),
+                top: -headerHeight
               });
               totalWidth = parseInt(leftPosition) + $modal.outerWidth(true);
               overage = totalWidth - $('.card-body:first', options.target.fluxxCard()).outerWidth(true);
