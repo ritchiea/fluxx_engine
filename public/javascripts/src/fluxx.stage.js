@@ -58,7 +58,7 @@
       } else {
         $.my.stage
         .stop()
-        .width(allCards)
+        .width(allCards + 40)
         .bind('resize.fluxx.stage', options.callback)
         .trigger('resize.fluxx.stage');
       }
