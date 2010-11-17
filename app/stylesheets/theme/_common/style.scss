@@ -641,16 +641,6 @@ table .partial { margin: 0.25em 0; }
       overflow: hidden; 
     } 
   } 
-  .actions {
-    float: right;
-    font-weight: normal;
-    font-size: 80%;
-    padding: 0;
-    a {
-      font-size: 12px;
-      padding-left: 2px;
-    }
-  }
   .edit { margin-top:30px;}
 }
 .show {
@@ -1064,10 +1054,6 @@ table .partial { margin: 0.25em 0; }
   } 
 }
 
-.action-item { position:relative; padding: 3px 10px 3px 22px; margin-left:-22px; }
-.action-item .actions { position:absolute; top:2px; left: 2px; display:none; float:left;}
-.action-item:hover>.actions:first-of-type  {display:block;}
-.action-item:hover { @include rounded; background: rgba(0,0,0, 0.05); }
 
 
 .ui-datepicker { display: none; }
