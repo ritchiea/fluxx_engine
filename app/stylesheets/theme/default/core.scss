@@ -148,10 +148,6 @@ td.check, td.actions {
 .action-item:hover>.actions:first-of-type  {display:block;}
 .action-item:hover { @include rounded; background: rgba(0,0,0, 0.05); }
 
-td .action-item { margin-left: -34px; padding-left: 44px;}
-
-
-
 /*=============================
   Generic Content Classes 
 ===============================*/

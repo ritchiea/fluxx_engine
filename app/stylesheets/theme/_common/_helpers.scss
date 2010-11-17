@@ -181,8 +181,8 @@ $header_height: 78px;
 
 @mixin btn-color($color: #cccccc, $hover: true, $textColor: black) {
   $top: $color * 1.5;
-  $mid: $color * 0.8;
-  $bot: $color * 0.7;
+  $mid: $color * 0.90;
+  $bot: $color * 0.85;
   background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(0.51, #{$color}),    color-stop(0.51, #{$mid}), color-stop(0.88, #{$bot}))");
   background: unquote("-moz-linear-gradient(center top,#{$top} 0%,#{$color} 51%,#{$mid} 51%,#{$bot} 88%)");
   color: $textColor;
@@ -197,7 +197,7 @@ $header_height: 78px;
   } 
 }
 
-@mixin button($size: 12px, $rounding: 3px, $bgcolor: #cccccc, $color: black, $tscolor: rgba(255, 255, 255, 0.5), $tspos: 1px, $padding: $rounding) {
+@mixin button($size: 12px, $rounding: 3px, $bgcolor: #cccccc, $color: black, $bordercolor: #666666, $tscolor: rgba(255, 255, 255, 0.5), $tspos: 1px, $padding: $rounding) {
   font-size: $size;
   line-height: $size;
   li {
@@ -211,14 +211,13 @@ $header_height: 78px;
       @include border-box;
       @include chiseled-text($tscolor, 0px, $tspos);
       color: $color;
-      //font-weight: 500;
       text-decoration: none;
       text-align: center;
       padding: $padding;
       display: block;
       min-width: $size + $padding * 2;
       @include rounded($rounding);
-      border: 1px solid #666666; 
+      border: 1px solid $bordercolor; 
     } 
   } 
 }

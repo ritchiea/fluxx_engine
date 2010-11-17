@@ -489,7 +489,7 @@ table .partial { margin: 0.25em 0; }
       margin-top: 3px;
     }
     .workflow {
-      @include buttons(12px, 3px, #99ff99);
+      @include buttons(12px, 3px, #99ff99, #000, #4D804D );
       margin-top: 3px;
       float: right; 
     } 
@@ -636,7 +636,7 @@ table .partial { margin: 0.25em 0; }
       padding: 0; 
     }
     .workflow {
-      @include button(12px, 3px, #99ff99);
+      @include button(12px, 3px, #99ff99, #000, #4D804D);
       float: right;
       overflow: hidden; 
     } 
@@ -794,7 +794,7 @@ table .partial { margin: 0.25em 0; }
     overflow: hidden;
     .buttons { @include buttons(12px, 3px); }
     .workflow {
-      @include buttons(12px, 3px, #99ff99);
+      @include buttons(12px, 3px, #99ff99, #000, #4D804D);
       float: right; 
     } 
   } 
