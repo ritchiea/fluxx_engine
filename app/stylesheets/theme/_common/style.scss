@@ -440,7 +440,7 @@ table .partial { margin: 0.25em 0; }
   }
   textarea { overflow: hidden; }
   form {
-    margin-left: 10%;
+    /*margin-left: 10%;*/
     fieldset {
       border: none;
       padding: 0 0 1em 0;
@@ -1087,3 +1087,4 @@ table .partial { margin: 0.25em 0; }
 .ui-datepicker { display: none; }
 
 .show table.relData {font-size: 100%;}
+.edit .select select #grant_request_initiative_type_ids {height: 6em;}
