@@ -207,26 +207,6 @@
   
   
   var keyboardShortcuts = {
-    'Space+c': ['Reload Stylesheets', function() {
-      $.fluxx.log('Reloading Stylesheets');
-      $('link[type="text/css"]').each(function(){
-        var $l=$(this),$m=$l.clone();
-        $l.remove();
-        $m
-          .attr('href', $m.attr('href') + _.uniqueId())
-          .appendTo($('head'));
-      });
-    }],
-    'Space+j': ['Reload JavaScript', function() {
-      $.fluxx.log('Reloading JavaScript');
-      $('script[src]').each(function(){
-        var $l=$(this),$m=$l.clone();
-        $l.remove();
-        $m
-          .attr('src', $m.attr('src') + _.uniqueId())
-          .appendTo($('head'));
-      });
-    }],
     'Space+u': ['Force update', function() {
       var rtu = $.fluxx.realtime_updates;
       if (!rtu) return;
@@ -249,6 +229,9 @@
     }],
     'Space+h': ['This help message', function() {
       $.fluxx.log.apply($.fluxx.log, _.map(keyboardShortcuts, function(v,k){return [k, v[0]].join(': ')}))
+    }],
+    'Space+c': ['Close all cards', function() {
+      $.my.cards.removeFluxxCard();
     }],
     'p+s': ['start/stop polling', function () {
       var rtu = $.fluxx.realtime_updates;
