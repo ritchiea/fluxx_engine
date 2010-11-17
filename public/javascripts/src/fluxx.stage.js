@@ -98,7 +98,7 @@
     
     fluxxAjaxCall: function($elem, type) {
       var onSuccess = $elem.attr('data-on-success');
-      if (onSuccess && onSuccess.replace(/\s/g, '').split(/,/).indexOf('refreshCaller') != -1) { 
+      if (onSuccess && onSuccess.replace(/\s/g, '').split(/,/).indexOf('refreshCaller') != -1) {
         $.ajax({
           url: $elem.attr('href'),
           type: type,
@@ -206,7 +206,7 @@
           'a.noop': [
             'click', $.fluxx.util.itEndsHere
           ],
-          'a.as-put': [
+          '.as-put': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
@@ -215,23 +215,14 @@
               $.fn.fluxxAjaxCall($elem, 'PUT');
             }
           ],
-          'a.as-put': [
-           'change', function(e) {
-             $.fluxx.util.itEndsWithMe(e);
-             var $elem = $(this);
-             if ($elem.hasClass('with-note') && !$elem.data('has_note'))
-               return;
-             $.fn.fluxxAjaxCall($elem, 'PUT');
-           }
-         ],
-          'a.as-post': [
+          '.as-post': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               $.fn.fluxxAjaxCall($elem, 'POST');
             }
           ],
-          'a.as-delete': [
+          '.as-delete': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
@@ -675,7 +666,7 @@
               var target = $(this).attr("href");
               var $card = $(target);
               $card.focusFluxxCard({}, function() {
-                $('.toolbar, .titlebar, .card-footer', $card);// .effect('highlight', {}, 500);
+//                $('.toolbar, .titlebar, .card-footer', $card).effect('highlight', {}, 500);
                 location.hash = target;              
               });
             }

@@ -205,8 +205,9 @@
       } else {
         targetLeft = targetLeft - margin;
       } 
+      var distance = Math.abs($(window).scrollLeft() - targetLeft);
       //perform animated scrolling
-      $('html,body').stop().animate({scrollLeft: targetLeft}, 1000, 'swing', function()
+      $('html,body').stop().animate({scrollLeft: targetLeft}, distance / 4, 'swing', function()
       {
         if (onComplete)
           onComplete.call();
@@ -250,6 +251,15 @@
             ).each(function(){
               var $area     = $(this),
                   $areaBody = $('.body', $area);
+              if ($area.hasClass('modal')) {
+                var $arrow = $('.arrow', $area);
+                if ($card.height() - 8 < $area.data('target').offset().top - $('.card-header', $card).height())
+                  $arrow.hide();
+                else
+                  $arrow.show();
+                $area.height($card.height());
+              }   
+               
               $areaBody.height(
                 $areaBody.parent().innerHeight() -
                 _.addUp(
@@ -678,8 +688,9 @@
               var targetPosition = target.position().top,
                   targetHeight = target.outerHeight(true),
                   arrowHeight = $arrow.outerHeight(true);
+              var headerHeight = $('.card-header', $card).height();
               $arrow.css({
-                top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2))
+                top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2)) + headerHeight + 10
               });
  
               var parentOffset = (
@@ -693,7 +704,8 @@
                   arrowWidth   = $arrow.outerWidth(true) / 2,
                   leftPosition = parentOffset + targetWidth + arrowWidth;
               $modal.css({
-                left: parseInt(leftPosition)
+                left: parseInt(leftPosition),
+                top: -headerHeight - 10
               });
               totalWidth = parseInt(leftPosition) + $modal.outerWidth(true);
               overage = totalWidth - $('.card-body:first', options.target.fluxxCard()).outerWidth(true);
@@ -734,6 +746,7 @@
           .bind('click', function(e) {
             $.fluxx.util.itEndsWithMe(e);
           });
+          // TODO Disable scrolling
       });
     },
     enableFluxxArea: function () {
