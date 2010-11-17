@@ -205,8 +205,9 @@
       } else {
         targetLeft = targetLeft - margin;
       } 
+      var distance = Math.abs($(window).scrollLeft() - targetLeft);
       //perform animated scrolling
-      $('html,body').stop().animate({scrollLeft: targetLeft}, 1000, 'swing', function()
+      $('html,body').stop().animate({scrollLeft: targetLeft}, distance / 4, 'swing', function()
       {
         if (onComplete)
           onComplete.call();

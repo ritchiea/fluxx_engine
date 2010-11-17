@@ -170,7 +170,7 @@
               var $elem = $(this);
               var card = {
                 detail: {url: $elem.attr('href')},
-                title: ($elem.attr('title') || $elem.text())
+                title: ($elem.attr('data-title') || $elem.text())
               };
               if ($elem.attr('data-insert') == 'after') {
                 card.position = function($card) {$card.insertAfter($elem.fluxxCard())};
@@ -666,7 +666,7 @@
               var target = $(this).attr("href");
               var $card = $(target);
               $card.focusFluxxCard({}, function() {
-                $('.toolbar, .titlebar, .card-footer', $card);// .effect('highlight', {}, 500);
+//                $('.toolbar, .titlebar, .card-footer', $card).effect('highlight', {}, 500);
                 location.hash = target;              
               });
             }

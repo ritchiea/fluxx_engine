@@ -19,7 +19,7 @@
             '<select class="selected" multiple="multiple"></select>',
           '</div>'
         ].join('')).css({
-          height: 150,
+          height: 100,
           width: $original.css('width'),
           display: $original.css('display')
         });
