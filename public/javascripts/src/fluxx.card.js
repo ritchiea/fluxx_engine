@@ -689,7 +689,7 @@
                   arrowHeight = $arrow.outerHeight(true);
               var headerHeight = $('.card-header', $card).height();
               $arrow.css({
-                top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2)) + headerHeight
+                top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2)) + headerHeight + 10
               });
  
               var parentOffset = (
@@ -704,7 +704,7 @@
                   leftPosition = parentOffset + targetWidth + arrowWidth;
               $modal.css({
                 left: parseInt(leftPosition),
-                top: -headerHeight
+                top: -headerHeight - 10
               });
               totalWidth = parseInt(leftPosition) + $modal.outerWidth(true);
               overage = totalWidth - $('.card-body:first', options.target.fluxxCard()).outerWidth(true);
@@ -745,6 +745,7 @@
           .bind('click', function(e) {
             $.fluxx.util.itEndsWithMe(e);
           });
+          // TODO Disable scrolling
       });
     },
     enableFluxxArea: function () {
