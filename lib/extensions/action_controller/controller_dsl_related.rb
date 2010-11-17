@@ -47,7 +47,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
       rd.search_block.call model
     end || []
     related_models.compact.map do |model|
-      {:display_template => display_template, :model => model}
+      {:display_template => display_template, :model => model, :title => rd.generate_title(model)}
     end
   end
   
@@ -61,8 +61,25 @@ class ActionController::ModelRelationship
   attr_accessor :search_block
   # Template used to display the results
   attr_accessor :display_template
+  # Block to translate the model into a title to be used when opening a new show card for that model object
+  attr_accessor :title_block
   
+  def add_title_block &block_title
+    self.title_block = block_title
+  end
+
   def for_search &block_search
     self.search_block = block_search
+  end
+  
+  def generate_title model
+    p "ESH: 111 in generate_title for model self.title_block=#{self.title_block.inspect}"
+    if self.title_block && self.title_block.is_a?(Proc)
+      p "ESH: 222 in generate_title for model"
+      self.title_block.call model
+    else
+      p "ESH: 333 in generate_title for model"
+      model.class.to_s.humanize
+    end
   end
 end

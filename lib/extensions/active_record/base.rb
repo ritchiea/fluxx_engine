@@ -1,4 +1,44 @@
 class ActiveRecord::Base
+  
+  # insta_template do |insta|
+  #   insta.add_entity :request do |insta_entity|
+  #     insta_entity.load_entity {|model| model}
+  #     insta_entity.fields do |insta_field|
+  #       insta_field.add_methods [:main_org, :primary_org]
+  #       insta_field.remove_methods [:main_org, :primary_org]
+  #     end
+  #   end
+  #   insta.add_entity :program_organization do |insta_entity|
+  #     insta_entity.load_entity {|model| model.program_organization}
+  #     insta_entity.fields do |insta_field|
+  #       insta_field.add_methods [:main_org, :primary_org]
+  #       insta_field.remove_methods [:main_org, :primary_org]
+  #     end
+  #   end
+  # end
+  
+  def self.insta_template
+    if respond_to?(:template_object) && template_object
+      yield template_object if block_given?
+    else
+      local_template_object = ActiveRecord::ModelDslTemplate.new(self)
+      class_inheritable_reader :template_object
+      write_inheritable_attribute :template_object, local_template_object
+      yield local_template_object if block_given?
+    end
+
+    self.instance_eval do
+      def template_process document
+        # Use the curly-brace markup to annotate the document
+        template_object.process_template self, document
+      end
+      
+      def template_variables
+        template_object.template_variables
+      end
+    end
+  end
+    
   def self.insta_search
     if respond_to?(:search_object) && search_object
       yield search_object if block_given?
