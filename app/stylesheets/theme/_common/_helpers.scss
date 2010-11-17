@@ -274,6 +274,7 @@ $header_height: 78px;
     width: 251px;
     padding: 5px;
     vertical-align: top;
+    overflow:hidden;
   }
   select {
     @include inline-block;
@@ -322,6 +323,18 @@ $header_height: 78px;
   .inline-errors { margin-left: 0px; } 
 }
 @mixin pretty-forms {
+  form{ margin-left:10%; }
+  fieldset {
+    border: none;
+    padding: 0 0 1em 0;
+    margin: 0 0 1em 0;
+    width: auto; 
+  }
+  ol {
+    margin: 0;
+    padding: 0;
+    display: block; 
+  }
   label {
     line-height: 1.5em;
     border: 1px solid transparent; 
