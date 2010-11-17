@@ -666,7 +666,7 @@
               var target = $(this).attr("href");
               var $card = $(target);
               $card.focusFluxxCard({}, function() {
-                $('.toolbar, .titlebar, .card-footer', $card);// .effect('highlight', {}, 500);
+//                $('.toolbar, .titlebar, .card-footer', $card).effect('highlight', {}, 500);
                 location.hash = target;              
               });
             }
