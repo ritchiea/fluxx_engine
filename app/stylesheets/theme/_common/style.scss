@@ -384,13 +384,13 @@
     background: #{inline_image("/images/fluxx_engine/theme/_common/loaders/ajax-loader-666666.gif")} no-repeat center center;
     height: 200px;
   }
-  &.contact-info { margin-top:0.15em;}
+  &.contact-info { matablrgin-top:0.15em;}
   .partial { margin: 0.25em 0;}
 }
 table .partial { margin: 0.25em 0; }
 .pairs {
   width: 100%;
-  line-height: 1.75em;
+  line-height: 1.5em;
   padding: 2px 5px;
   &:hover {background: rgba(0,0,0, 0.05);}
   .key {
@@ -440,7 +440,7 @@ table .partial { margin: 0.25em 0; }
   }
   textarea { overflow: hidden; }
   form {
-    margin-left: 10%;
+    /*margin-left: 10%;*/
     fieldset {
       border: none;
       padding: 0 0 1em 0;
@@ -684,7 +684,7 @@ table .partial { margin: 0.25em 0; }
     font-size: 87.5%;
     line-height: 16px;
     dt { @include inline-block; width:25%; margin: 0; }
-    dd { @include inline-block; width:70%; margin: 0; }
+    dd { @include inline-block; width:70%; margin: 0; font-size:100%;}
   }
   a {font-size: 13px;}
   .view-workflow {
@@ -1085,3 +1085,6 @@ table .partial { margin: 0.25em 0; }
 
 
 .ui-datepicker { display: none; }
+
+.show table.relData {font-size: 100%;}
+.edit .select select #grant_request_initiative_type_ids {height: 6em;}

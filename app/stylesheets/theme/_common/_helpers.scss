@@ -268,7 +268,7 @@ $header_height: 78px;
     vertical-align: top;
     .required {}
   }
-  input,textarea {
+  input,textarea, input[type='search'] {
     @include inline-block;
     @include border-box;
     width: 251px;
@@ -279,7 +279,7 @@ $header_height: 78px;
     @include inline-block;
     @include border-box;
     width: 251px;
-    height: 2em;
+    height: auto; /*2em;*/
     padding: 2px 6px;
     vertical-align: top;
   }
@@ -306,7 +306,6 @@ $header_height: 78px;
     width: 100%;
     line-height: 1.5em; 
   }
-  .required {}
   input,textarea {
     width: 97%;
     max-width: 396px;
@@ -319,6 +318,7 @@ $header_height: 78px;
     max-width: 251px;
     padding: 2px; 
   }
+  .required {}
   .inline-errors { margin-left: 0px; } 
 }
 @mixin pretty-forms {
@@ -329,7 +329,6 @@ $header_height: 78px;
   input,select,textarea {
     @include default-font;
     font-size:92.9%;
-    //color: #666;
     line-height: 1.5em;
     padding: 0px 6px; 
     border: 1px solid #ccc;
