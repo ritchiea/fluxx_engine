@@ -135,16 +135,24 @@
 
 .wysiwyg {
   background-color: white;
-  width: 340px; 
+  width: 510px;
+  @include rounded(4px);
+  border: solid 1px #777777;
+  background-color: #f9f7f8;
+  padding: 10px;
+  position: relative;
+  top: -20px;
 }
 
 .rte-toolbar {
   float: right;
+  position: relative;
+  top: -20px;
   .bold, .italic, .underline, .strikethrough, .unorderedlist {
     background-color: white;
     padding: 8px 4px 0px 4px;
     @include rounded(4px);
-    @include box-shadow; 
+    @include box-shadow-with-inset;
   } 
 }
 

@@ -45,7 +45,7 @@
     },
     resizeFluxxStage: function(options, onComplete) {
       if (!this.length) return this;
-      var options = $.fluxx.util.options_with_callback({animate: true}, options, onComplete);
+      var options = $.fluxx.util.options_with_callback({animate: false}, options, onComplete);
       var allCards = _.addUp($.my.cards, 'outerWidth', true);
       var stageWidth = $.my.stage.width();
       if (options.animate && allCards < stageWidth && stageWidth > $(window).width()) {
@@ -172,6 +172,7 @@
                 detail: {url: $elem.attr('href')},
                 title: ($elem.attr('data-title') || $elem.text())
               };
+
               if ($elem.attr('data-insert') == 'after') {
                 card.position = function($card) {$card.insertAfter($elem.fluxxCard())};
               } else if ($elem.attr('data-insert') == 'before') {
