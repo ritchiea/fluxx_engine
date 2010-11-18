@@ -73,12 +73,9 @@ class ActionController::ModelRelationship
   end
   
   def generate_title model
-    p "ESH: 111 in generate_title for model self.title_block=#{self.title_block.inspect}"
     if self.title_block && self.title_block.is_a?(Proc)
-      p "ESH: 222 in generate_title for model"
       self.title_block.call model
     else
-      p "ESH: 333 in generate_title for model"
       model.class.to_s.humanize
     end
   end

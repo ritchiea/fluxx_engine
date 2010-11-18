@@ -13,6 +13,8 @@ class Instrument < ActiveRecord::Base
   insta_lock do |insta|
   end
   insta_multi
+  insta_realtime do |insta|
+  end
   
   def to_s
     name

@@ -39,4 +39,17 @@ class ModelDslRealtimeTest < ActiveSupport::TestCase
     assert_equal @musician.id, rt.model_id
     assert_equal @musician.class.name, rt.model_class
   end
+
+  test "check after realtime callbacks" do
+    musician = Musician.make
+    instrument = Instrument.make
+    assert_difference 'RealtimeUpdate.count', 3 do
+       MusicianInstrument.make :musician => musician, :instrument => instrument
+    end
+    
+    rt = RealtimeUpdate.find :last
+    assert_equal 'update', rt.action
+    assert_equal instrument.id, rt.model_id
+    assert_equal instrument.class.name, rt.model_class
+  end
 end

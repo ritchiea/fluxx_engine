@@ -61,3 +61,6 @@ User.blueprint do
   first_name Sham.first_name
   last_name Sham.last_name
 end
+
+MusicianInstrument.blueprint do
+end

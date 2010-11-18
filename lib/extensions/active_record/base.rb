@@ -110,6 +110,11 @@ class ActiveRecord::Base
           returning(block.call) { write_inheritable_attribute :realtime_disabled, false unless realtime_was_disabled }
         end
       end
+      
+      define_method :trigger_realtime_update do
+        local_realtime_object.realtime_update_callback self
+      end
+      
     end
   end
   
