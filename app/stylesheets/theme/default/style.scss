@@ -148,7 +148,7 @@
   float: right;
   position: relative;
   top: -20px;
-  .bold, .italic, .underline, .strikethrough, .unorderedlist {
+  .bold, .italic, .underline, .strikethrough, .unorderedlist, .link, .image, .disable {
     background-color: white;
     padding: 8px 4px 0px 4px;
     @include rounded(4px);

@@ -523,10 +523,16 @@
       $.fluxx.util.autoGrowTextArea($('textarea', $area));      
       $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $area).selectTransfer();
       $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
-      $('.wysiwyg', $area).rte({
-        content_css_url: '/stylesheets/fluxx_engine/lib/rte/css/rte.css',
-        media_url: '/stylesheets/fluxx_engine/lib/rte/img/'
+      
+      $('.wysiwyg', $area).each(function() {
+        var $elem = $(this);
+        $elem.rte({
+          content_css_url: '/stylesheets/fluxx_engine/lib/rte/css/rte.css',
+          media_url: '/stylesheets/fluxx_engine/lib/rte/img/',
+          buttons: $(this).data('wysiwyg-buttons').replace(/\s+/, '').split(',')
+        });
       });
+
 
       var once = false;
       $('[data-trigger-field]', $area).each(function() {

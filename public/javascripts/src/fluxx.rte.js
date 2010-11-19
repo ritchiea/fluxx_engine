@@ -17,7 +17,14 @@ if(typeof $.fn.rte === "undefined") {
         media_url: "",
         content_css_url: "rte.css",
         dot_net_button_class: null,
-        max_height: 350
+        bold: true,
+        italic: true,
+        underline: true,
+        strikethrough: true,
+        unorderedlist: true,
+        link: false,
+        image: false,
+        disable: false
     };
 
     $.fn.rte = function(options) {
@@ -28,6 +35,13 @@ if(typeof $.fn.rte === "undefined") {
 
     // build main options before element iteration
     var opts = $.extend(defaults, options);
+    
+    if (opts.hasOwnProperty('buttons')) {
+      var b = opts.buttons; 
+      for ( var i=b.length-1; i>=0; --i ){
+        opts[b[i]] = true;
+      }
+    }
 
     // iterate and construct the RTEs
     return this.each( function() {
@@ -140,7 +154,8 @@ if(typeof $.fn.rte === "undefined") {
 
         // create toolbar and bind events to it's elements
         function toolbar() {
-            var tb = $("<div class='rte-toolbar' id='toolbar-"+ element_id +"'><div>" +
+            var timestamp = Number(new Date());
+            var tb = $("<div class='rte-toolbar' id='toolbar-"+ element_id + timestamp +"'><div>" +
 //                <p>\
 //                    <select>\
 //                        <option value=''>Block style</option>\
@@ -149,15 +164,15 @@ if(typeof $.fn.rte === "undefined") {
 //                        <option value='address'>Address</option>\
 //                    </select>\
 //                </p>\
-                "<p>\
-                    <a href='#' class='bold'><img src='"+opts.media_url+"text_bold.png' alt='bold' /></a>\
-                    <a href='#' class='italic'><img src='"+opts.media_url+"text_italic.png' alt='italic' /></a>\
-                    <a href='#' class='underline'><img src='"+opts.media_url+"text_underline.png' alt='underline' /></a>\
-                    <a href='#' class='strikethrough'><img src='"+opts.media_url+"text_strikethrough.png' alt='strikethrough' /></a>\
-                    <a href='#' class='unorderedlist'><img src='"+opts.media_url+"text_list_bullets.png' alt='unordered list' /></a>" +
-//                    <a href='#' class='link'><img src='"+opts.media_url+"link.png' alt='link' /></a>\
-//                    <a href='#' class='image'><img src='"+opts.media_url+"image.png' alt='image' /></a>\
-//                    <a href='#' class='disable'><img src='"+opts.media_url+"close.gif' alt='close rte' /></a>\
+                "<p>" +
+                    (opts.bold ? "<a href='#' class='bold' title='Bold'><img src='"+opts.media_url+"text_bold.png' alt='bold' /></a> " : "") +
+                    (opts.italic ? "<a href='#' class='italic' title='Italic'><img src='"+opts.media_url+"text_italic.png' alt='italic' /></a> " : "") +
+                    (opts.underline ? "<a href='#' class='underline' title='Underline'><img src='"+opts.media_url+"text_underline.png' alt='underline' /></a> " : "") +
+                    (opts.strikethrough ? "<a href='#' class='strikethrough' title='Strikethrough'><img src='"+opts.media_url+"text_strikethrough.png' alt='strikethrough' /></a> " : "") +
+                    (opts.unorderedlist ? "<a href='#' class='unorderedlist' title='List'><img src='"+opts.media_url+"text_list_bullets.png' alt='unordered list' /></a> " : "") +
+                    (opts.link ? "<a href='#' class='link' title='Add Link'><img src='"+opts.media_url+"link.png?t=1' alt='link' /></a> " : "") +
+                    (opts.image ? "<a href='#' class='image' title='Add Image'><img src='"+opts.media_url+"image.png?t=1' alt='image' /></a> " : "") +
+                    (opts.disable ? "<a href='#' class='disable' title='Plain Text'><img src='"+opts.media_url+"code.png' alt='close rte' /></a> " : "") +
                 "</p></div></div>");
 
             $('select', tb).change(function(){
