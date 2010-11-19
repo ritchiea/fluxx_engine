@@ -728,15 +728,16 @@
         );
       });
     },
-    closeCardModal: function(options, onComplete) {
-      var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options, onComplete);
+    closeCardModal: function(options) {
+      var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options);
       return this.each(function(){
         var $modal = $('.modal', $(this).fluxxCard());
         if ($modal.length > 0) {
           $('.loading-indicator', $modal.fluxxCard()).removeClass('loading');
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
-            $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
+            $('.area', $card).enableFluxxArea();
+            $modal.trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
             $(this).fluxxCard().animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
               $card.resizeFluxxCard();
@@ -1171,6 +1172,25 @@
             if (this.data('target').attr('target')) {
               $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();
             }
+          },
+          openDetail: function() {           
+            if (! this.data('target')) return;
+            var $elem = this.data('target');
+            var $card = $elem.fluxxCard();
+
+            $('.area', $card).bind('close.fluxx.modal', function(e, $target, url) {
+              $(this).unbind('close.fluxx.modal');
+              var card = {
+                detail: {url: url},
+                title: ($elem.attr('data-title') || $elem.text())
+              };
+              if ($elem.attr('data-insert') == 'after') {
+                card.position = function($card) {$card.insertAfter($elem.fluxxCard())};
+              } else if ($elem.attr('data-insert') == 'before') {
+                card.position = function($card) {$card.insertBefore($elem.fluxxCard())};
+              }
+              $.my.hand.addFluxxCard(card);
+            });                        
           }
         }
       }
