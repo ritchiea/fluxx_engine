@@ -1,0 +1,33 @@
+# This class encapsulates:
+#  * bindings which link a particular model instance to an entity
+class ActiveRecord::ModelTemplateBinding
+  attr_accessor :bindings
+  
+  def initialize bindings_param = {}
+    self.bindings = bindings_param
+  end
+  
+  def add_binding var_name, model
+    bindings[var_name.to_s] = model
+  end
+  
+  def clone
+    ActiveRecord::ModelTemplateBinding.new bindings.clone
+  end
+  
+  def model_evaluate variable_name, method_name
+    model = bindings[variable_name]
+    if model && model.respond_to?(:evaluate_model_method)
+      model.evaluate_model_method method_name
+    end
+  end
+
+  def model_list_evaluate variable_name, method_name
+    model = bindings[variable_name]
+    p "ESH: model_list_evaluate 111a have model=#{model.inspect}"
+    if model && model.respond_to?(:evaluate_model_list_method)
+      p "ESH: model_list_evaluate 111b calling method #{method_name}"
+      model.evaluate_model_list_method method_name
+    end
+  end
+end

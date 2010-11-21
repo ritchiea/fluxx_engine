@@ -1,4 +1,5 @@
 source "http://gemcutter.org"
+p "ESH: inside the fluxx_engine Gemfile "
 
 gem 'rails', '3.0.0'
 gem "capybara", "0.3.7"

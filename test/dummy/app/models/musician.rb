@@ -19,6 +19,16 @@ class Musician < ActiveRecord::Base
   insta_utc do |insta|
     insta.time_attributes = [:date_of_birth]
   end
+  
+  insta_template do |insta|
+    insta.add_methods [:first_name_backwards]
+    insta.add_list_method :instruments, Instrument
+    insta.remove_methods [:date_of_birth]
+  end
+  
+  def first_name_backwards
+    first_name.reverse
+  end
 
   def to_s
     "#{first_name} #{last_name}"

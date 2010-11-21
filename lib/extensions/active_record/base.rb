@@ -1,20 +1,10 @@
 class ActiveRecord::Base
   
   # insta_template do |insta|
-  #   insta.add_entity :request do |insta_entity|
-  #     insta_entity.load_entity {|model| model}
-  #     insta_entity.fields do |insta_field|
-  #       insta_field.add_methods [:main_org, :primary_org]
-  #       insta_field.remove_methods [:main_org, :primary_org]
-  #     end
-  #   end
-  #   insta.add_entity :program_organization do |insta_entity|
-  #     insta_entity.load_entity {|model| model.program_organization}
-  #     insta_entity.fields do |insta_field|
-  #       insta_field.add_methods [:main_org, :primary_org]
-  #       insta_field.remove_methods [:main_org, :primary_org]
-  #     end
-  #   end
+  #   insta_entity.add_methods [:main_org, :primary_org]
+  #   insta_entity.add_list_method :request_transactions, RequestTransaction
+  #   insta_entity.remove_methods [:main_org, :primary_org]
+  #   insta_entity.load {|model| model}
   # end
   
   def self.insta_template
@@ -28,14 +18,38 @@ class ActiveRecord::Base
     end
 
     self.instance_eval do
-      def template_process document
-        # Use the curly-brace markup to annotate the document
-        template_object.process_template self, document
+      # TODO ESH: the API for allowed_template_methods needs to be a bit refined:
+      #   * combine allowed_template_methods & allowed_template_list_methods
+      #   * identify the english name if any 
+      #   * identify if the return value is a collection
+      #   * identify if the return value is an object and what type it is
+      
+      # Get a list of all allowed methods that may be exposed to the user
+      def allowed_template_methods
+        template_object.all_methods_allowed self
       end
       
-      def template_variables
-        template_object.template_variables
+      # Get a list of all allowed list methods that may be exposed to the user
+      def allowed_template_list_methods
+        template_object.all_list_methods_allowed self
       end
+    end
+    
+    # TODO ESH: the API for evaluate_model_method needs to be a bit refined:
+    #    * rather than evaluate_model_list_method, we should call it something that includes list as well as methods that return a complex object
+    #    ** either that or have two methods; evaluate_model_list_method and evaluate_model_object_method
+    #    *** if we do that then we should have add_methods, add_list_method, add_object_method
+    define_method :evaluate_model_method do |method_name|
+      local_template_object.evaluate_model_method self, method_name
+    end
+
+    define_method :evaluate_model_list_method do |method_name|
+      local_template_object.evaluate_model_list_method self, method_name
+    end
+    
+    define_method :process_curly_template do |document|
+      # Use the curly-brace markup to annotate the document
+      local_template_object.process_template self, document
     end
   end
     

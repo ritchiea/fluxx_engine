@@ -26,6 +26,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   end
 
   def model_search q_search, request_params, results_per_page=25, options={}
+    p "ESH: in model_search q_search=#{q_search.inspect}, request_params=#{request_params.inspect}"
     local_model_class = options[:actual_model_class] || model_class
     if local_model_class.respond_to?(:sphinx_indexes) && local_model_class.sphinx_indexes
       sphinx_model_search q_search, request_params, results_per_page, options
@@ -35,6 +36,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   end
 
   def sql_model_search q_search, request_params, results_per_page=25, options={}
+    p "ESH: in sql_model_search q_search=#{q_search.inspect}, request_params=#{request_params.inspect}"
     request_params = HashWithIndifferentAccess.new(request_params)
     local_model_class = options[:actual_model_class] || model_class
     local_model_request_params = request_params[local_model_class.calculate_form_name] || {}
@@ -98,6 +100,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   end
 
   def sphinx_model_search q_search, request_params, results_per_page=25, options={}
+    p "ESH: in sphinx_model_search q_search=#{q_search.inspect}, request_params=#{request_params.inspect}"
     local_model_class = options[:actual_model_class] || model_class
     local_model_request_params = request_params[local_model_class.calculate_form_name] || {}
     model_request_params = request_params[model_class.calculate_form_name] || {}

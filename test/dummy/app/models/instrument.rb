@@ -16,6 +16,10 @@ class Instrument < ActiveRecord::Base
   insta_realtime do |insta|
   end
   
+  insta_template do |insta|
+    insta.add_methods []
+    insta.remove_methods []
+  end
   def to_s
     name
   end
