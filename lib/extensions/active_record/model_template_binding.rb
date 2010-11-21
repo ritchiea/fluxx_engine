@@ -19,6 +19,9 @@ class ActiveRecord::ModelTemplateBinding
     model = bindings[variable_name]
     if model && model.respond_to?(:evaluate_model_method)
       model.evaluate_model_method method_name
+    else
+      ActiveRecord::Base.logger.warn "Looks like model class #{model.class.name} for name #{variable_name} does not respond to evaluate_model_method.  Perhaps you forgot to invoke insta_template on the model?"
+      nil
     end
   end
 
