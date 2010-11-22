@@ -10,6 +10,7 @@ class CreateMusicians < ActiveRecord::Migration
       t.string :state
       t.string :zip
       t.datetime :date_of_birth
+      t.integer :music_type_id
     end
   end
 

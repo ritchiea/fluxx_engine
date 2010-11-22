@@ -9,6 +9,7 @@ class CreateInstruments < ActiveRecord::Migration
       t.integer :updated_by_id
       t.datetime :locked_until
       t.integer :locked_by_id
+      t.integer :first_instrument_id
     end
   end
 

@@ -19,6 +19,7 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
     <html>
       <body>
         How are you {{value variable='musician' method='first_name'/}}?
+        So your first instrument was {{value variable='musician' method='first_instrument.name'/}}, I like to play that too!
         I see that your name backwards is {{value variable='musician' method='first_name_backwards'/}}.
         <table>
         <tr>
@@ -36,8 +37,9 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
       </html>
     "
     
-    musician = Musician.make
-    (1..2).to_a.each do |i|
+    first_instrument = Instrument.make
+    musician = Musician.make :first_instrument => first_instrument
+    (1..4).to_a.each do |i|
       instrument = Instrument.make
       MusicianInstrument.make :instrument => instrument, :musician => musician
     end
@@ -45,6 +47,12 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
     
     result = musician.process_curly_template template
     p "ESH: result=#{result}"
+    assert result.index "So your first instrument was #{first_instrument.name}"
+    assert result.index "I see that your name backwards is #{musician.first_name_backwards}"
+    musician.instruments.each do |instrument|
+      assert result.index "<td>#{instrument.name}</td>"
+      assert result.index "<td>#{instrument.date_of_birth}</td>"
+    end
   end
 
   # t.string :first_name

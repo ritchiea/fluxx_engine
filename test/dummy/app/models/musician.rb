@@ -1,4 +1,5 @@
 class Musician < ActiveRecord::Base
+  belongs_to :first_instrument, :class_name => 'Instrument', :foreign_key => :first_instrument_id
   has_many :musician_instruments
   has_many :instruments, :through => :musician_instruments
   
@@ -21,7 +22,7 @@ class Musician < ActiveRecord::Base
   end
   
   insta_template do |insta|
-    insta.add_methods [:first_name_backwards]
+    insta.add_methods [:first_name_backwards, :first_instrument]
     insta.add_list_method :instruments, Instrument
     insta.remove_methods [:date_of_birth]
   end

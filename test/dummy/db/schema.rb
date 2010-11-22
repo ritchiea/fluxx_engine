@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20100714054627) do
     t.integer  "updated_by_id"
     t.datetime "locked_until"
     t.integer  "locked_by_id"
+    t.integer  "first_instrument_id"
   end
 
   create_table "multi_element_choices", :force => true do |t|
@@ -78,7 +79,8 @@ ActiveRecord::Schema.define(:version => 20100714054627) do
     t.datetime "updated_at"
     t.string   "description"
     t.string   "value"
-    t.integer  "multi_element_group_id", :limit => 12
+    t.integer  "multi_element_group_id",           :limit => 12
+    t.integer  "dependent_multi_element_value_id"
   end
 
   add_index "multi_element_values", ["multi_element_group_id"], :name => "index_multi_element_values_on_multi_element_group_id"

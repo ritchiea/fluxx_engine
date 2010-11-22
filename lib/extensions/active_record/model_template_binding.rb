@@ -27,9 +27,7 @@ class ActiveRecord::ModelTemplateBinding
 
   def model_list_evaluate variable_name, method_name
     model = bindings[variable_name]
-    p "ESH: model_list_evaluate 111a have model=#{model.inspect}"
     if model && model.respond_to?(:evaluate_model_list_method)
-      p "ESH: model_list_evaluate 111b calling method #{method_name}"
       model.evaluate_model_list_method method_name
     end
   end
