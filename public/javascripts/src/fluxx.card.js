@@ -1086,7 +1086,7 @@
                   });
                 } else {
                   $card.data('lastWidth', $card.width());
-                  $card.animateWidthTo($card.fluxxCardMinimized().width(), function() {
+                  $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
                     $titlebar.attr('minimized', 'true');
                     $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');
                     $('.title', $card).hide();
