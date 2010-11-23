@@ -1,4 +1,4 @@
-(function($){
+ (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
       $.fluxx.log("*******> addFluxxCard");
@@ -287,7 +287,7 @@
               .children()
               .filter(':visible')
               .filter(function(){ return $(this).css('position') != 'absolute'; }),
-            'outerWidth', false) + $('.drawer', $card).parent().filter(':visible').outerWidth(true);
+            'outerWidth', false) + ($('.drawer', $card).parent().filter(':visible').outerWidth(true) / 2);
         $card.width(cardWidth);
         _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
@@ -296,9 +296,8 @@
       var $card = this.fluxxCard();
       $('.drawer', $card).parent().addClass('empty');
 
-      var newWidth = $card.data('listing-width');
-      if (!newWidth)
-        newWidth = $card.width() - $card.fluxxCardDetail().width() - 29;
+      // include the width of the .card-box border or the card header and footer will be too small
+      newWidth = $card.fluxxCardListing().width() + parseInt($('.card-box', $card).css('border-left-width')) + parseInt($('.card-box', $card).css('border-right-width')); 
       $card.closeCardModal().animateWidthTo(newWidth, function() {
         $card.fluxxCardDetail().hide();
         $card.trigger('lifetimeComplete.fluxx.card');
@@ -962,7 +961,6 @@
             }
             var $card = options.area.fluxxCard();
             if (!options.area.is(':visible') && options.area.width() > 0) {
-              $card.data('listing-width', $card.width());
               $card.animateWidthTo($card.width() + options.area.width(), function() {
                 options.area.css('display', 'inline-block');
                 complete(); 
