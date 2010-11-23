@@ -287,13 +287,18 @@
               .children()
               .filter(':visible')
               .filter(function(){ return $(this).css('position') != 'absolute'; }),
-            'outerWidth', false) + ($('.drawer', $card).parent().filter(':visible').outerWidth(true) / 2);
+              'outerWidth', false) + ($('.drawer', $card).parent().is(':visible') ? 12 : 0);
+// Hard coding 12 pixels in for tab width to force a smaller margin between cards when tabs are visible
+// original calculation below        
+//            'outerWidth', false) + ($('.drawer', $card).parent().filter(':visible').outerWidth(true) / 2);
+
         $card.width(cardWidth);
         _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
     },
     closeDetail: function() {
       var $card = this.fluxxCard();
+      var $drawer = $('.drawer', $card);
       $('.drawer', $card).parent().addClass('empty');
 
       // include the width of the .card-box border or the card header and footer will be too small
@@ -1025,8 +1030,9 @@
         $('#card-table').width( $('#stage').width() + widthTo);
 
       // Animate the right margin so that cards slide to the left
-      $card.animate({'margin-right': widthTo - (ow - 8)}, speed, 'swing');
-      $('.card-box', $card).animate({width: widthTo}, speed, 'swing', function() {
+      var mr = parseInt($card.css('margin-right'));
+      $card.animate({'margin-right': widthTo - (ow - mr)}, speed);
+      $('.card-box', $card).animate({width: widthTo}, speed, function() {
         $card.width(widthTo).css('margin-right', margin);
         $('.title', $card).show();
         $('#card-table').width('100%');

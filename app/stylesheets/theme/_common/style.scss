@@ -258,6 +258,7 @@
   margin: 20px 30px 20px 0;
   position: relative;
   vertical-align: top;
+  white-space: nowrap;
 }
 .card {
   &.updates-available {
@@ -369,6 +370,9 @@
     background: #{inline_image("/images/fluxx_engine/theme/default/cards/body-bg.png")};
     border-bottom: 1px solid #626262;
   }
+  .area {
+    white-space: normal;
+  } 
   .card-footer {
     @include rounded-bottom(6px);
     @include bg(#999999);
@@ -875,7 +879,7 @@ table .partial { margin: 0.25em 0; }
     z-index: 0;
     width: 100%;
     top: 0px;
-    left: 253px;
+    left: 254px;
     right: 0px;
     bottom: 0px;
     height: 29px;
