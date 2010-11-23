@@ -42,7 +42,7 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
   end
   
   def all_methods_allowed model
-    if model.instance_of? self.model_class
+    if model.kind_of? self.model_class
       string_extra_methods = extra_methods.map {|meth| meth.to_s}
       string_do_not_use_methods = do_not_use_methods.map {|meth| meth.to_s}
       @method_list + string_extra_methods - string_do_not_use_methods
@@ -50,20 +50,20 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
   end
 
   def all_list_methods_allowed model
-    if model.instance_of? self.model_class
+    if model.kind_of? self.model_class
       extra_list_methods
     end || []
   end
 
   def method_allowed? model, method_name
-    if model.instance_of? self.model_class
+    if model.kind_of? self.model_class
       all_methods_allowed(model).include? method_name
     end
   end
   
   
   def list_method_allowed? model, method_name
-    if model.instance_of? self.model_class
+    if model.kind_of? self.model_class
       extra_list_methods.map{|method_pair| method_pair.first.to_s}.include? method_name
     end
   end
@@ -82,6 +82,7 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
     # method.method.method, etc.
     methods = method_name.split "."
     method_name = methods.first
+    
     result = model.send(method_name) if method_allowed?(model, method_name)
     if methods.size == 1
       result
@@ -119,7 +120,6 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
     doc.each do |element|
       if element.element_name == 'iterator'
         iter_map = element.attributes
-# {{iterator method='instruments' new_variable='instrument' variable='musician'}}
         variable_name = iter_map['variable']
         new_variable_name = iter_map['new_variable']
         
