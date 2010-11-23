@@ -1181,7 +1181,7 @@
             $('.area', $card).bind('close.fluxx.modal', function(e, $target, url) {
               $(this).unbind('close.fluxx.modal');
               var card = {
-                detail: {url: url},
+                detail: {url: url + '/edit'},
                 title: ($elem.attr('data-title') || $elem.text())
               };
               if ($elem.attr('data-insert') == 'after') {
