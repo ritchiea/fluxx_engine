@@ -378,19 +378,19 @@
   
 }
 .partial {
-  margin: 1.5em 0;
+  margin: 0.5em 0;
   &.updating {
     @include box-shadow-inset;
     background: #{inline_image("/images/fluxx_engine/theme/_common/loaders/ajax-loader-666666.gif")} no-repeat center center;
     height: 200px;
   }
-  &.contact-info { matablrgin-top:0.15em;}
+  &.contact-info { margin-top:0.15em;}
   .partial { margin: 0.25em 0;}
 }
 table .partial { margin: 0.25em 0; }
 .pairs {
   width: 100%;
-  line-height: 1.5em;
+  line-height: 1.25em;
   padding: 2px 5px;
   &:hover {background: rgba(0,0,0, 0.05);}
   .key {
@@ -961,7 +961,6 @@ table .partial { margin: 0.25em 0; }
   padding: 0px 10px; 
 }
 
-
 .tabular {
   width: 100%;
   @include rounded;
@@ -1058,7 +1057,26 @@ table .partial { margin: 0.25em 0; }
   } 
 }
 
-
+.list {
+  border-bottom: 1px dotted #999;
+  ul li {
+    list-style: none inside;
+  }
+  ul.todo li {
+    list-style: none;
+  }
+  p.add-item {
+    padding-left: 15px;
+  }
+}
+.relationship {
+  padding: 0.5em 0;
+  line-height: 1.25em;
+  .caption{
+    border-bottom: 1px dotted #999;
+    padding-bottom:0.5em;
+  }
+}
 
 .ui-datepicker { display: none; }
 

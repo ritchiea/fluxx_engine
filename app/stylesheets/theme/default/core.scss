@@ -143,16 +143,39 @@ td.check, td.actions {
   white-space:nowrap;
   vertical-align:middle;
 }
-.action-item { position:relative; padding: 3px 10px 3px 22px; margin-left:-22px; }
-.action-item .actions { position:absolute; top:2px; left: 2px; display:none; float:left;}
-.action-item:hover>.actions:first-of-type  {display:block;}
-.action-item:hover { @include rounded; background: rgba(0,0,0, 0.05); }
+.action-item {
+  position:relative; 
+  .actions { display:none; padding-top:4px; }
+  &:hover>.actions:first-of-type  {
+    display:block;
+  }
+}
+li.action-item { 
+  position:relative; 
+  padding: 3px 10px 3px 27px; 
+  margin-left:-27px; 
+  .actions { position:absolute; top:0; left: 0; display:none; padding-top:4px; float:left; }
+  &:hover>.actions:first-of-type  {
+    @include rounded-left;
+    @include box-shadow(-2px, 0px, 3px, rgba(0, 0, 0, 0.3));
+    background: rgba(255,255,255, 1);
+    display:block;
+  }
+  &:hover {}
+}
+td.action-item {
+  position:relative; 
+  .actions { display:none; padding-top:4px; float:right; }
+  &:hover>.actions:first-of-type  {
+    display:block;
+  }
+}
 
 /*=============================
   Generic Content Classes 
 ===============================*/
-.float_left { float: left; display:inline; margin-right: 1em; margin-bottom: 0.15em; }
-.float_right { float: right; display:inline; margin-left: 1em; margin-bottom: 0.15em; }
+.float_left { float: left; display:inline; margin-right: 7px; margin-bottom: 0.15em; }
+.float_right { float: right; display:inline; margin-left: 7px; margin-bottom: 0.15em; }
 .ar { text-align:right; }
 .al { text-align: left; }
 .ac { text-align: center;}
