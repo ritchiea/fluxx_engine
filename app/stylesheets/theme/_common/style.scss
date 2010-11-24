@@ -1,4 +1,3 @@
-@import "_helpers.scss";
 @import "/stylesheets/fluxx_engine/lib/ui-lightness/jquery-ui-1.8.2.custom.css";
 @import "/stylesheets/fluxx_engine/lib/plupload/css/plupload.queue.css";
 
@@ -824,7 +823,8 @@ table .partial { margin: 0.25em 0; }
     height: 100%;
     @include bg(#e3e7ea);
     border-left: none;
-    overflow: hidden;
+    white-space: normal;
+    overflow: hidden;    
     .section {
       .label { display: none; }
       .entries {
