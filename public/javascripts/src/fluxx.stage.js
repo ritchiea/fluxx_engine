@@ -537,16 +537,18 @@
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
                 $('.drawer .entries', $card).removeClass('selected');
                 $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
-                $('.info', $card).addClass('open', 1, function(){
-                  // TODO: probably shouldn't hardcode this number
-                  $.my.stage.width($.my.stage.width()+228);
-                  $card.animate({width: '+=228'}, function() {
-                    $('.info', $card).css('z-index', 2);
-                    $card.resizeFluxxCard();
-                    if (!$card.cardVisibleRight())
-                      $card.focusFluxxCard({scrollEdge: 'right'});
-                  });
-                ;});
+                var $info = $('.info', $card);
+                if (!$info.hasClass('open')) 
+                  $info.addClass('open', 1, function(){
+                    // TODO: probably shouldn't hardcode this number
+                    $.my.stage.width($.my.stage.width()+228);
+                    $card.animate({width: '+=228'}, function() {
+                      $info.css('z-index', 2);
+                      $card.resizeFluxxCard();
+                      if (!$card.cardVisibleRight())
+                        $card.focusFluxxCard({scrollEdge: 'right'});
+                    });
+                  ;});
               }
             }
           ],
