@@ -382,7 +382,7 @@
   
 }
 .partial {
-  margin: 1em 0;
+  margin-bottom: 30px;
   &.updating {
     @include box-shadow-inset;
     background: #{inline_image("/images/fluxx_engine/theme/_common/loaders/ajax-loader-666666.gif")} no-repeat center center;
@@ -391,20 +391,24 @@
   &.contact-info { margin-top:0.15em;}
   .partial { margin: 0.25em 0;}
 }
+.warning { margin:1em 0;}
 table .partial { margin: 0.25em 0; }
 .pairs {
   width: 100%;
   line-height: 1.5em;
-  padding: 2px 5px;
+  padding: 2px 0;
   &:hover {background: rgba(0,0,0, 0.05);}
   .key {
     @include inline-block;
-    width: 36%; }
+    width: 39%;
+    vertical-align:top;
+  }
   .value {
     @include inline-block;
     width: 60%;
     border: transparent 1px solid;
     padding: 0px 5px;
+    vertical-align:top;
     &.with-more-info {
       background: #ffffcc;
       border-color: #eeeebb;
@@ -655,7 +659,7 @@ table .partial { margin: 0.25em 0; }
     font-size: 16px;
     margin: 16px 0px 10px;
   }
-  h3 {border-bottom: 1px solid #d6d6d6; margin-bottom:0.5em;}
+  h3 {border-bottom: 1px solid #d6d6d6; margin-bottom:0.5em; padding-bottom:0.2em;}
   ul, ol, dl {
     margin: 0 0 0.5em 0;
   }
@@ -1013,6 +1017,7 @@ table .partial { margin: 0.25em 0; }
       float: left;
       padding-top: 4px;
     }
+    span.actions {float:right;}
     .delete-button {float:right;}
     .edit_link {float:left;padding-right:5px;}
   }
