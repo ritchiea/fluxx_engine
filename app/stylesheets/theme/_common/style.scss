@@ -925,6 +925,7 @@ table .partial { margin: 0.25em 0; }
     overflow: visible;
     margin-left: -14px;
     margin-bottom:35px;
+    z-index: 2;
     .drawer {
       @include box-shadow;
       display: block;
