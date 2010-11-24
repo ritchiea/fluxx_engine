@@ -247,7 +247,7 @@
   };
   
   $(document).shortkeys(_.extend.apply(_, _.map(keyboardShortcuts, function(v,k){var o={}; o[k] = v[1]; return o})));
-  jQuery.fx.interval = 1;
+  jQuery.fx.interval = 2;
 })(jQuery);
 
 jQuery(function($){

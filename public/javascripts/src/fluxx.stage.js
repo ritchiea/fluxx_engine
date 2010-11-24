@@ -16,12 +16,12 @@
         $.my.hand   = $('#hand');
         $.my.header = $('#header');
         $.my.footer = $('#footer');
+        $.my.stage.animating = false;
         $.my.stage.bind({
           'complete.fluxx.stage': _.callAll(
             _.bind($.fn.setupFluxxPolling, $.my.stage),
             _.bind($.fn.installFluxxDecorators, $.my.stage),
             _.bind($.fn.addFluxxCards, $.my.hand, {cards: $.fluxx.config.cards}),
-            //$.fancybox.init,
             options.callback
           )
         });
@@ -44,12 +44,12 @@
       });
     },
     resizeFluxxStage: function(options, onComplete) {
-      if (!this.length) return this;
+      if ($.my.stage.animating || !this.length) return this;
       var options = $.fluxx.util.options_with_callback({animate: false}, options, onComplete);
       var allCards = _.addUp($.my.cards, 'outerWidth', true);
       var stageWidth = $.my.stage.width();
       if (options.animate && allCards < stageWidth && stageWidth > $(window).width()) {
-        $.my.stage.stop().animate({width: allCards}, function(e) {
+        $.my.stage.stop().animate({width: allCards + 40}, function(e) {
           $.my.stage
           .width(allCards + 40)
           .bind('resize.fluxx.stage', options.callback)
@@ -529,7 +529,6 @@
               var $elem = $(this), label = $elem.text(), $card = $elem.fluxxCard();
               if ($elem.hasClass('selected')) {
                 $elem.removeClass('selected');
-                $('.info', $card).css('z-index', 1);
                 $card.animate({width: '-=226'}, function() {
                   $('.info', $card).removeClass('open').resizeFluxxCard();
                 });
@@ -543,7 +542,6 @@
                     // TODO: probably shouldn't hardcode this number
                     $.my.stage.width($.my.stage.width()+226);
                     $card.animate({width: '+=226'}, function() {
-                      $info.css('z-index', 2);
                       $card.resizeFluxxCard();
                       if (!$card.cardVisibleRight())
                         $card.focusFluxxCard({scrollEdge: 'right'});
