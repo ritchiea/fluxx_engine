@@ -286,12 +286,16 @@
             $card
               .children()
               .filter(':visible')
-              .filter(function(){ return $(this).css('position') != 'absolute'; }),
-              'outerWidth', false) + ($('.drawer', $card).parent().is(':visible') ? 12 : 0);
+              .filter(function(){ return $(this).css('position') != 'absolute'; }), 'outerWidth', false);
 // Hard coding 12 pixels in for tab width to force a smaller margin between cards when tabs are visible
 // original calculation below        
-//            'outerWidth', false) + ($('.drawer', $card).parent().filter(':visible').outerWidth(true) / 2);
-
+//            + ($('.drawer', $card).parent().filter(':visible').outerWidth(true));
+        
+        if ($('.drawer', $card).is(':visible')) {
+          cardWidth += $('.drawer', $card).parent().filter(':visible').outerWidth(true);
+        } else if ($('.drawer', $card).parent().is(':visible')) {
+          cardWidth += 12;
+        }
         $card.width(cardWidth);
         _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
@@ -1021,7 +1025,7 @@
       
       if (widthTo < 300)
         $('.title', $card).hide();
-      $('.drawer', $card).parent().addClass('empty');
+
       var margin = $card.css('margin-right');
       var ow = $card.outerWidth();
       
@@ -1072,6 +1076,7 @@
                   if (cw == 0) 
                     cw = _.addUp($('.area[minimized=true]', $card), 'outerWidth', true);
                   $card.animateWidthTo(cw, function() {
+                    $('.drawer', $card).parent().show();
                     $titlebar.attr('minimized', 'false');
                     $('.maximize-card', $card).removeClass('maximize-card').addClass('minimize-card');
                     $('.title', $card).show();
@@ -1086,6 +1091,7 @@
                   });
                 } else {
                   $card.data('lastWidth', $card.width());
+                  $('.drawer', $card).parent().hide();
                   $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
                     $titlebar.attr('minimized', 'true');
                     $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');
