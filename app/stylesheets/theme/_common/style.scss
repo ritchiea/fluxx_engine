@@ -382,7 +382,7 @@
   
 }
 .partial {
-  margin: 0.5em 0;
+  margin: 1em 0;
   &.updating {
     @include box-shadow-inset;
     background: #{inline_image("/images/fluxx_engine/theme/_common/loaders/ajax-loader-666666.gif")} no-repeat center center;
