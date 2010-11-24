@@ -302,7 +302,11 @@
     },
     closeDetail: function() {
       var $card = this.fluxxCard();
-      $('.detail, .tabs', $card).fadeOut( function() {
+      // For some reason executing fadeOut on both tabs and detail at the same time causes
+      // modal windows opened in the detail area to be clipped later on.
+      // Workaround is to animate separately.  
+      $('.detail', $card).fadeOut();
+      $('.tabs', $card).fadeOut( function() {
         $('.drawer', $card).parent().addClass('empty');
         // include the width of the .card-box border or the card header and footer will be too small
         newWidth = $card.fluxxCardListing().width() + parseInt($('.card-box', $card).css('border-left-width')) + parseInt($('.card-box', $card).css('border-right-width')); 
@@ -1026,10 +1030,9 @@
       
       if (widthTo < 300)
         $('.title', $card).hide();
-      var ow = $card.outerWidth();
       
       // Prevent last card from wrapping and falling below the stage
-      if (ow < widthTo)
+      if ($card.outerWidth() < widthTo)
         $('#card-table').width( $('#stage').width() + widthTo);      
       
       var cardID = $card.attr('id');
