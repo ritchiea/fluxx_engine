@@ -302,17 +302,18 @@
     },
     closeDetail: function() {
       var $card = this.fluxxCard();
-      var $drawer = $('.drawer', $card);
-      $('.drawer', $card).parent().addClass('empty');
-
-      // include the width of the .card-box border or the card header and footer will be too small
-      newWidth = $card.fluxxCardListing().width() + parseInt($('.card-box', $card).css('border-left-width')) + parseInt($('.card-box', $card).css('border-right-width')); 
-      $card.closeCardModal().animateWidthTo(newWidth, function() {
-        $card.fluxxCardDetail().hide();
-        $card.trigger('lifetimeComplete.fluxx.card');
-      });      
-      $card.fluxxCardDetail().fluxxCardArea().data('history')[0] = {};
-      $card.saveDashboard();
+      $('.detail, .tabs', $card).fadeOut( function() {
+        $('.drawer', $card).parent().addClass('empty');
+        // include the width of the .card-box border or the card header and footer will be too small
+        newWidth = $card.fluxxCardListing().width() + parseInt($('.card-box', $card).css('border-left-width')) + parseInt($('.card-box', $card).css('border-right-width')); 
+        $card.closeCardModal().animateWidthTo(newWidth, function() {
+          $card.fluxxCardDetail().hide();
+          $card.trigger('lifetimeComplete.fluxx.card');
+          $('.tabs', $card).show();
+        });      
+        $card.fluxxCardDetail().fluxxCardArea().data('history')[0] = {};
+        $card.saveDashboard();
+      });
     },
     /* Accessors */
     fluxxCard: function() {
@@ -1020,24 +1021,19 @@
     },
     animateWidthTo: function (widthTo, callback, speed) {
       if (typeof speed == 'undefined')
-        speed = 'slow';
+        speed = 250;
       var $card = this;
       
       if (widthTo < 300)
         $('.title', $card).hide();
-
-      var margin = $card.css('margin-right');
       var ow = $card.outerWidth();
       
       // Prevent last card from wrapping and falling below the stage
       if (ow < widthTo)
-        $('#card-table').width( $('#stage').width() + widthTo);
-
-      // Animate the right margin so that cards slide to the left
-      var mr = parseInt($card.css('margin-right'));
-      $card.animate({'margin-right': widthTo - (ow - mr)}, speed);
-      $('.card-box', $card).animate({width: widthTo}, speed, function() {
-        $card.width(widthTo).css('margin-right', margin);
+        $('#card-table').width( $('#stage').width() + widthTo);      
+      
+      var cardID = $card.attr('id');
+      $('#' + cardID + ',' + '#' + cardID + '>.card-box').stop().animate({width: widthTo}, speed, function() {
         $('.title', $card).show();
         $('#card-table').width('100%');
         $.my.stage.resizeFluxxStage();
@@ -1076,7 +1072,6 @@
                   if (cw == 0) 
                     cw = _.addUp($('.area[minimized=true]', $card), 'outerWidth', true);
                   $card.animateWidthTo(cw, function() {
-                    $('.drawer', $card).parent().show();
                     $titlebar.attr('minimized', 'false');
                     $('.maximize-card', $card).removeClass('maximize-card').addClass('minimize-card');
                     $('.title', $card).show();
@@ -1091,7 +1086,6 @@
                   });
                 } else {
                   $card.data('lastWidth', $card.width());
-                  $('.drawer', $card).parent().hide();
                   $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
                     $titlebar.attr('minimized', 'true');
                     $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');

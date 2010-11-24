@@ -254,7 +254,8 @@
 ===============================*/
 .card {
   @include inline-block;
-  margin: 20px 30px 20px 0;
+  margin: 20px 0px 20px 0;
+  padding-right: 30px;
   position: relative;
   vertical-align: top;
   white-space: nowrap;
@@ -808,10 +809,10 @@ table .partial { margin: 0.25em 0; }
   .to-modal {display:none;}
 }
 .info {
-  width: 254px;
+  width: 256px;
   position: absolute;
   top: 58px;
-  right: -13px;
+  right: -19px;
   bottom: -5px;
   margin-left: -225px;
   z-index: 1;
@@ -820,6 +821,7 @@ table .partial { margin: 0.25em 0; }
   .drawer {
     display: none;
     width: 223px;
+    margin-left: -30px;
     height: 100%;
     @include bg(#e3e7ea);
     border-left: none;
@@ -880,7 +882,7 @@ table .partial { margin: 0.25em 0; }
     z-index: 0;
     width: 100%;
     top: 0px;
-    left: 253px;
+    left: 223px;
     right: 0px;
     bottom: 0px;
     height: 29px;
@@ -908,7 +910,7 @@ table .partial { margin: 0.25em 0; }
         @include rounded-top(5px);
         @include border-box;
         @include chiseled-text-light;
-        @include box-shadow(2px, 0px);
+        @include box-shadow(3px, -3px, 3px);
         margin: 0px 5px;
         padding: 0px 10px;
         text-transform: uppercase;
@@ -920,10 +922,13 @@ table .partial { margin: 0.25em 0; }
       .entries { display: none; }
     } 
   }
-  &.empty { display: none; }
+  &.empty {
+    display: none; 
+    opacity: 0;
+  }
   &.open {
     overflow: visible;
-    margin-left: -14px;
+    margin-left: -20px;
     margin-bottom:35px;
     .drawer {
       @include box-shadow;
