@@ -360,6 +360,7 @@
       border-bottom: 1px solid #c4c4c4;
       .icon {
         width: 100%;
+        margin-top:3px;
         margin-left: auto;
         margin-right: auto; 
       } 
@@ -506,7 +507,6 @@ table .partial { margin: 0.25em 0; }
 .listing {
   @include inline-block;
   width: 336px;
-  //font-weight: 200;
   .header {
     background: #aaaaaa;
     &.actions-open {
