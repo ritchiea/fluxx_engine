@@ -214,10 +214,10 @@
       });
       return this
     },
-    resizeFluxxCard: function(options, onComplete) {
+    resizeFluxxCard: function(options, onComplete) {      
+      if ($.my.stage.animating || !$.my.hand) return this;
+      
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
-      if (!$.my.hand) return this;
-
       return this.each(function() {
         var $card = $(this).fluxxCard();
         $('.card-box', $card)
@@ -699,7 +699,6 @@
             header: '<span>' + options.header + '</span>',
             caller: options.target,
             init: function(e) {
-              $('.info.open', $card).css('z-index', 1);
               $modal.appendTo($card.fluxxCardBody());
               $('.area', $card).not('.modal').disableFluxxArea();
               var $arrow = $('.arrow', $modal);
@@ -751,7 +750,6 @@
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
             $('.area', $card).enableFluxxArea();
-            $('.info.open', $card).css('z-index', 2);
             $modal.trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
             $(this).fluxxCard().animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
@@ -1026,6 +1024,7 @@
       return this.fluxxCardLoadContent(options);
     },
     animateWidthTo: function (widthTo, callback, speed) {
+      $.my.stage.animating = true;
       if (typeof speed == 'undefined')
         speed = 250;
       var $card = this;
@@ -1038,10 +1037,12 @@
         $('#card-table').width( $('#stage').width() + widthTo);      
       
       var cardID = $card.attr('id');
-      $('#' + cardID + ',' + '#' + cardID + '>.card-box').stop().animate({width: widthTo}, speed, function() {
+      var $elems =$('#' + cardID + ',' + '#' + cardID + '>.card-box'); 
+      $elems.stop().animate({width: widthTo}, speed, function() {
         $('.title', $card).show();
         $('#card-table').width('100%');
-        $.my.stage.resizeFluxxStage();
+        $.my.stage.animating = false;
+        $.my.stage.resizeFluxxStage();        
         return _.bind(callback, $card)();
       });
     }
@@ -1057,12 +1058,15 @@
           unload: 
             function($card) {
               if ($card) {
-                $(this).animate({opacity: 0}, function() {
-                  $(this).animateWidthTo(0, function() {
-                    this.remove();
+                $card = $(this);
+                $.my.stage.animating = true;
+                $card.animate({opacity: 0}, 250, function() {
+                  $card.animate({'margin-right': -$card.outerWidth(true)}, function() {
+                    $card.remove();
                     $.my.cards = $('.card');
+                    $.my.stage.animating = false;
                     $.my.stage.resizeFluxxStage({animate: true});
-                    this.saveDashboard();
+                    $card.saveDashboard();
                   });
                 });
               }

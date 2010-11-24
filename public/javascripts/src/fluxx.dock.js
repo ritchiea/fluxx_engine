@@ -151,6 +151,8 @@
       $.my.iconlist.width(ilWidth);
     },
     fluxxDockUpdateViewing: function(e){
+      if ($.my.stage.animating)
+        return;
       $.my.dock.fluxxDockSizeIconlist(e);
       var $cards = $.my.cards;
       var $glass = $.my.lookingGlass;
