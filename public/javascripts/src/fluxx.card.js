@@ -699,6 +699,7 @@
             header: '<span>' + options.header + '</span>',
             caller: options.target,
             init: function(e) {
+              $('.info.open', $card).css('z-index', 1);
               $modal.appendTo($card.fluxxCardBody());
               $('.area', $card).not('.modal').disableFluxxArea();
               var $arrow = $('.arrow', $modal);
@@ -750,6 +751,7 @@
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
             $('.area', $card).enableFluxxArea();
+            $('.info.open', $card).css('z-index', 2);
             $modal.trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
             $(this).fluxxCard().animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
