@@ -813,7 +813,7 @@ table .partial { margin: 0.25em 0; }
   position: absolute;
   top: 60px;
   right: -13px;
-  bottom: 40px;
+  bottom: -5px;
   margin-left: -225px;
   z-index: 1;
   overflow: hidden;
@@ -824,7 +824,7 @@ table .partial { margin: 0.25em 0; }
     height: 100%;
     @include bg(#e3e7ea);
     border-left: none;
-    overflow: auto;
+    overflow: hidden;
     .section {
       .label { display: none; }
       .entries {
@@ -837,6 +837,7 @@ table .partial { margin: 0.25em 0; }
           a {
             display: block;
             text-decoration: none;
+            word-wrap: break-word;
           }
           .fluxx-card-content-metadata-section-title {
             font-size: 15px;
@@ -879,7 +880,7 @@ table .partial { margin: 0.25em 0; }
     z-index: 0;
     width: 100%;
     top: 0px;
-    left: 254px;
+    left: 253px;
     right: 0px;
     bottom: 0px;
     height: 29px;
