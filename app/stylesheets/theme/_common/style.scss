@@ -258,6 +258,7 @@
   margin: 20px 30px 20px 0;
   position: relative;
   vertical-align: top;
+  white-space: nowrap;
 }
 .card {
   &.updates-available {
@@ -369,6 +370,9 @@
     background: #{inline_image("/images/fluxx_engine/theme/default/cards/body-bg.png")};
     border-bottom: 1px solid #626262;
   }
+  .area {
+    white-space: normal;
+  } 
   .card-footer {
     @include rounded-bottom(6px);
     @include bg(#999999);
@@ -808,8 +812,8 @@ table .partial { margin: 0.25em 0; }
   width: 254px;
   position: absolute;
   top: 60px;
-  right: 2px;
-  bottom: 40px;
+  right: -13px;
+  bottom: -5px;
   margin-left: -225px;
   z-index: 1;
   overflow: hidden;
@@ -820,7 +824,7 @@ table .partial { margin: 0.25em 0; }
     height: 100%;
     @include bg(#e3e7ea);
     border-left: none;
-    overflow: auto;
+    overflow: hidden;
     .section {
       .label { display: none; }
       .entries {
@@ -833,6 +837,7 @@ table .partial { margin: 0.25em 0; }
           a {
             display: block;
             text-decoration: none;
+            word-wrap: break-word;
           }
           .fluxx-card-content-metadata-section-title {
             font-size: 15px;
@@ -918,7 +923,7 @@ table .partial { margin: 0.25em 0; }
   &.empty { display: none; }
   &.open {
     overflow: visible;
-    margin-left: 0px;
+    margin-left: -14px;
     margin-bottom:35px;
     .drawer {
       @include box-shadow;

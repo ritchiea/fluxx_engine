@@ -1,4 +1,4 @@
-(function($){
+ (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
       $.fluxx.log("*******> addFluxxCard");
@@ -286,19 +286,27 @@
             $card
               .children()
               .filter(':visible')
-              .filter(function(){ return $(this).css('position') != 'absolute'; }),
-            'outerWidth', false) + $('.drawer', $card).parent().filter(':visible').outerWidth(true);
+              .filter(function(){ return $(this).css('position') != 'absolute'; }), 'outerWidth', false);
+// Hard coding 12 pixels in for tab width to force a smaller margin between cards when tabs are visible
+// original calculation below        
+//            + ($('.drawer', $card).parent().filter(':visible').outerWidth(true));
+        
+        if ($('.drawer', $card).is(':visible')) {
+          cardWidth += $('.drawer', $card).parent().filter(':visible').outerWidth(true);
+        } else if ($('.drawer', $card).parent().is(':visible')) {
+          cardWidth += 12;
+        }
         $card.width(cardWidth);
         _.bind($.fn.resizeFluxxStage, $.my.stage)();
       });
     },
     closeDetail: function() {
       var $card = this.fluxxCard();
+      var $drawer = $('.drawer', $card);
       $('.drawer', $card).parent().addClass('empty');
 
-      var newWidth = $card.data('listing-width');
-      if (!newWidth)
-        newWidth = $card.width() - $card.fluxxCardDetail().width() - 29;
+      // include the width of the .card-box border or the card header and footer will be too small
+      newWidth = $card.fluxxCardListing().width() + parseInt($('.card-box', $card).css('border-left-width')) + parseInt($('.card-box', $card).css('border-right-width')); 
       $card.closeCardModal().animateWidthTo(newWidth, function() {
         $card.fluxxCardDetail().hide();
         $card.trigger('lifetimeComplete.fluxx.card');
@@ -962,7 +970,6 @@
             }
             var $card = options.area.fluxxCard();
             if (!options.area.is(':visible') && options.area.width() > 0) {
-              $card.data('listing-width', $card.width());
               $card.animateWidthTo($card.width() + options.area.width(), function() {
                 options.area.css('display', 'inline-block');
                 complete(); 
@@ -1018,7 +1025,7 @@
       
       if (widthTo < 300)
         $('.title', $card).hide();
-      $('.drawer', $card).parent().addClass('empty');
+
       var margin = $card.css('margin-right');
       var ow = $card.outerWidth();
       
@@ -1027,8 +1034,9 @@
         $('#card-table').width( $('#stage').width() + widthTo);
 
       // Animate the right margin so that cards slide to the left
-      $card.animate({'margin-right': widthTo - (ow - 8)}, speed, 'swing');
-      $('.card-box', $card).animate({width: widthTo}, speed, 'swing', function() {
+      var mr = parseInt($card.css('margin-right'));
+      $card.animate({'margin-right': widthTo - (ow - mr)}, speed);
+      $('.card-box', $card).animate({width: widthTo}, speed, function() {
         $card.width(widthTo).css('margin-right', margin);
         $('.title', $card).show();
         $('#card-table').width('100%');
@@ -1068,6 +1076,7 @@
                   if (cw == 0) 
                     cw = _.addUp($('.area[minimized=true]', $card), 'outerWidth', true);
                   $card.animateWidthTo(cw, function() {
+                    $('.drawer', $card).parent().show();
                     $titlebar.attr('minimized', 'false');
                     $('.maximize-card', $card).removeClass('maximize-card').addClass('minimize-card');
                     $('.title', $card).show();
@@ -1082,7 +1091,8 @@
                   });
                 } else {
                   $card.data('lastWidth', $card.width());
-                  $card.animateWidthTo($card.fluxxCardMinimized().width(), function() {
+                  $('.drawer', $card).parent().hide();
+                  $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
                     $titlebar.attr('minimized', 'true');
                     $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');
                     $('.title', $card).hide();
