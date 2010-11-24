@@ -1,7 +1,7 @@
 source "http://gemcutter.org"
 p "ESH: inside the fluxx_engine Gemfile "
 
-gem 'rails', '3.0.0'
+gem 'rails', '3.0.3'
 gem "capybara", "0.3.7"
 gem "sqlite3-ruby", :require => "sqlite3"
 if RUBY_VERSION < '1.9'
