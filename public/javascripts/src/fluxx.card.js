@@ -1060,7 +1060,7 @@
                   $(this).animateWidthTo(0, function() {
                     this.remove();
                     $.my.cards = $('.card');
-                    $.my.stage.resizeFluxxStage();
+                    $.my.stage.resizeFluxxStage({animate: true});
                     this.saveDashboard();
                   });
                 });
