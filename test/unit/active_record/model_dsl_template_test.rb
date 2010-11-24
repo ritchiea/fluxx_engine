@@ -18,7 +18,8 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
     template = "
     <html>
       <body>
-        How are you {{value variable='musician' method='first_name'/}}?
+       {{value variable='today' method='mdy'/}}
+       How are you {{value variable='musician' method='first_name'/}}?
         So your first instrument was {{value variable='musician' method='first_instrument.name'/}}, I like to play that too!
         I see that your name backwards is {{value variable='musician' method='first_name_backwards'/}}.
         <table>
@@ -29,7 +30,7 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
         {{iterator method='instruments' new_variable='instrument' variable='musician'}}
           <tr>
             <td>{{value variable='instrument' method='name'/}}</td>
-            <td>{{value variable='instrument' method='date_of_birth'/}}</td>
+            <td>{{value variable='instrument' method='date_of_birth' as='date_mdy'/}}</td>
           </tr>
         {{/iterator}}
       
@@ -51,7 +52,7 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
     assert result.index "I see that your name backwards is #{musician.first_name_backwards}"
     musician.instruments.each do |instrument|
       assert result.index "<td>#{instrument.name}</td>"
-      assert result.index "<td>#{instrument.date_of_birth}</td>"
+      assert result.index "<td>#{instrument.date_of_birth.mdy}</td>"
     end
   end
 

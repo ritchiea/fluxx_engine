@@ -112,7 +112,7 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
     binding.add_binding entity_name, model
     binding
   end
-
+  
   # This will replace fluxx_iterator, fluxx_conditional, fluxx_value elements within a curly_parser instance
   MAX_DEPTH = 100
   def evaluate_template model, doc, binding, sb = StringIO.new, depth=0
@@ -136,6 +136,9 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
       elsif element.element_name == 'value'
         iter_map = element.attributes
         replacement_value = binding.model_evaluate iter_map['variable'], iter_map['method']
+        if iter_map['as']
+          replacement_value = render_as(iter_map['as'], replacement_value)
+        end
         sb << replacement_value
       elsif element.element_name == 'text'
         sb << element.text
@@ -143,5 +146,11 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
     end
 
     sb
+  end
+  
+  def render_as as, value
+    case as
+    when 'date_mdy' then value.mdy if value.kind_of?(Time)
+    end || value
   end
 end
