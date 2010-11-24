@@ -530,7 +530,7 @@
               if ($elem.hasClass('selected')) {
                 $elem.removeClass('selected');
                 $('.info', $card).css('z-index', 1);
-                $card.animate({width: '-=228'}, function() {
+                $card.animate({width: '-=226'}, function() {
                   $('.info', $card).removeClass('open').resizeFluxxCard();
                 });
               } else {
@@ -541,8 +541,8 @@
                 if (!$info.hasClass('open')) 
                   $info.addClass('open', 1, function(){
                     // TODO: probably shouldn't hardcode this number
-                    $.my.stage.width($.my.stage.width()+228);
-                    $card.animate({width: '+=228'}, function() {
+                    $.my.stage.width($.my.stage.width()+226);
+                    $card.animate({width: '+=226'}, function() {
                       $info.css('z-index', 2);
                       $card.resizeFluxxCard();
                       if (!$card.cardVisibleRight())
