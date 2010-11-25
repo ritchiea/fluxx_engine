@@ -886,10 +886,10 @@ table .partial { margin: 0.25em 0; }
     z-index: 0;
     width: 100%;
     top: 0px;
-    left: 223px;
+    left: 228px;
     right: 0px;
     bottom: 0px;
-    height: 29px;
+    height: 34px;
     overflow: hidden;
     .section {
       @include inline-block;
@@ -914,8 +914,8 @@ table .partial { margin: 0.25em 0; }
         @include rounded-top(5px);
         @include border-box;
         @include chiseled-text-light;
-        @include box-shadow(2px, 0px);
-        margin: 0px 5px;
+        @include box-shadow(3px, -3px, 3px);
+        margin: 5px 5px;
         padding: 0px 10px;
         text-transform: uppercase;
         height: 29px;
