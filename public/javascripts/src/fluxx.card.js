@@ -976,11 +976,16 @@
             var $card = options.area.fluxxCard();
             if (!options.area.is(':visible') && options.area.width() > 0) {
               $card.animateWidthTo($card.width() + options.area.width(), function() {
-                options.area.css('display', 'inline-block');
-                complete(); 
+                // Wait a bit before displaying content to avoid an animation jump 
+                setTimeout(function () {
+                  options.area.fadeIn(1000);
+                  complete();
+                }, 50); 
                 if (!$card.cardVisibleRight())
                   $card.focusFluxxCard({scrollEdge: 'right'});
-              });
+              // Animate the card width an additional 12 pixels to account for connected data tabs.
+              // This helps prevent a jump when the tabs are displayed
+              }, null, (options.area.attr('data-has-drawer') ? 12 : 0));
             } else {
               if (!$card.cardVisibleRight())
                 $card.focusFluxxCard({scrollEdge: 'right'});
@@ -1023,12 +1028,14 @@
       var options = $.fluxx.util.options_with_callback({area: this.fluxxCardDetail()},options,onComplete);
       return this.fluxxCardLoadContent(options);
     },
-    animateWidthTo: function (widthTo, callback, speed) {
+    animateWidthTo: function (widthTo, callback, speed, additonalCardWidth) {
       $.my.stage.animating = true;
       if (typeof speed == 'undefined')
-        speed = 250;
+        speed = 400;
+      if (typeof additonalCardWidth == 'undefined')
+        additonalCardWidth = 0;
       var $card = this;
-      
+
       if (widthTo < 300)
         $('.title', $card).hide();
       
@@ -1037,8 +1044,9 @@
         $('#card-table').width( $('#stage').width() + widthTo);      
       
       var cardID = $card.attr('id');
-      var $elems =$('#' + cardID + ',' + '#' + cardID + '>.card-box'); 
-      $elems.stop().animate({width: widthTo}, speed, function() {
+      var $elems =$('.card-box', $card);
+      $card.stop().animate({width: widthTo + additonalCardWidth}, speed);
+      $elems.stop().animate({width: widthTo}, speed, 'swing', function() {
         $('.title', $card).show();
         $('#card-table').width('100%');
         $.my.stage.animating = false;

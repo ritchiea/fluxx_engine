@@ -914,7 +914,7 @@ table .partial { margin: 0.25em 0; }
         @include rounded-top(5px);
         @include border-box;
         @include chiseled-text-light;
-        @include box-shadow(3px, -3px, 3px);
+        @include box-shadow(2px, 0px);
         margin: 0px 5px;
         padding: 0px 10px;
         text-transform: uppercase;
