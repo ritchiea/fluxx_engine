@@ -1043,12 +1043,16 @@
       if ($card.outerWidth() < widthTo)
         $('#card-table').width( $('#stage').width() + widthTo);      
       
-      var cardID = $card.attr('id');
-      var $elems =$('.card-box', $card);
+      var $box = $('.card-box', $card);
+      // Workaround to prevent the bottom dropshadow from disappearing when the card is animating
+      $card.height($card.height() + 20);
       $card.stop().animate({width: widthTo + additonalCardWidth}, speed);
-      $elems.stop().animate({width: widthTo}, speed, 'swing', function() {
+      // Add 10 to the card-box width initially as the animation momentarily shrinks the
+      // card by a few pixels, unexplainably 
+      $box.width($box.width() + 10).stop().animate({width: widthTo}, speed, 'swing', function() {
         $('.title', $card).show();
-        $('#card-table').width('100%');
+        $('#card-table').width('100%')
+        $card.height($card.height() - 20);
         $.my.stage.animating = false;
         $.my.stage.resizeFluxxStage();        
         return _.bind(callback, $card)();

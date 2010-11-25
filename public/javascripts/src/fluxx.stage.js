@@ -184,7 +184,7 @@
           'a.close-detail': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              var $elem = $(this);
+              var $elem = $(this).fadeOut('slow');
               $elem.closeDetail();
             }
           ],
@@ -527,21 +527,33 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this), label = $elem.text(), $card = $elem.fluxxCard();
+              $.my.stage.animating = true;
+              var $info = $('.info', $card);
               if ($elem.hasClass('selected')) {
                 $elem.removeClass('selected');
+                $info.css({bottom: '15px'});
+                // Workaround to prevent the bottom dropshadow from disappearing when the drawer is animating
+                $card.height($card.height() + 20);
                 $card.animate({width: '-=226'}, function() {
-                  $('.info', $card).removeClass('open').resizeFluxxCard();
+                  $info.css({bottom: '-5px'});
+                  $card.height($card.height() - 20);
+                  $.my.stage.animating = false;
+                  $info.removeClass('open').resizeFluxxCard();
                 });
               } else {
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
                 $('.drawer .entries', $card).removeClass('selected');
-                $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
-                var $info = $('.info', $card);
+                $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');                
                 if (!$info.hasClass('open')) 
                   $info.addClass('open', 1, function(){
+                    $info.css({bottom: '15px'});
+                    $card.height($card.height() + 20);
                     // TODO: probably shouldn't hardcode this number
                     $.my.stage.width($.my.stage.width()+226);
                     $card.animate({width: '+=226'}, function() {
+                      $info.css({bottom: '-5px'});
+                      $card.height($card.height() - 20);
+                      $.my.stage.animating = false;
                       $card.resizeFluxxCard();
                       if (!$card.cardVisibleRight())
                         $card.focusFluxxCard({scrollEdge: 'right'});
