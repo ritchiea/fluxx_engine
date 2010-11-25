@@ -580,6 +580,7 @@
           var $elem = $(this);          
           if ($elem.val()) {
             // Put the organization ID into the link to create a new user
+            // TODO This form name should not be hardcoded
             $link.attr('href', $link.show().attr('href')
               .replace(/([\&\?])user\[temp_organization_id\]=\n*/, "$1user[temp_organization_id]=" + $elem.val()));
           } else {
@@ -749,8 +750,7 @@
           $('.loading-indicator', $modal.fluxxCard()).removeClass('loading');
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
-            $('.area', $card).enableFluxxArea();
-            $modal.trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
+            $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
             $(this).fluxxCard().animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
               $card.resizeFluxxCard();
