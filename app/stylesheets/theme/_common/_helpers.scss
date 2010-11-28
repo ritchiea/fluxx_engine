@@ -260,7 +260,6 @@ $header_height: 78px;
 // Forms
 @mixin form-field-one-line {
   margin: 12px 0px;
-  width: 100%;
   position: relative;
   label {
     @include inline-block;
@@ -272,17 +271,12 @@ $header_height: 78px;
   input,textarea, input[type='search'] {
     @include inline-block;
     @include border-box;
-    width: 251px;
-    padding: 5px;
     vertical-align: top;
     overflow:hidden;
   }
   select {
     @include inline-block;
     @include border-box;
-    width: 251px;
-    height: auto; /*2em;*/
-    padding: 2px 6px;
     vertical-align: top;
   }
   div.select-transfer { width: 100%px;}
@@ -301,24 +295,14 @@ $header_height: 78px;
   }
   .inline-errors { margin-left: 40%; } 
 }
-
 @mixin form-field-two-line {
   @include form-field-one-line;
   label {
     width: 100%;
-    line-height: 1.5em; 
-  }
-  input,textarea {
-    width: 97%;
-    max-width: 396px;
-    padding: 1.5%;
   }
   select {
     @include inline-block;
     @include border-box;
-    width: 100%;
-    max-width: 251px;
-    padding: 2px; 
   }
   .required {}
   .inline-errors { margin-left: 0px; } 
@@ -337,33 +321,36 @@ $header_height: 78px;
     display: block; 
   }
   label {
-    line-height: 1.5em;
     border: 1px solid transparent; 
   }
   input,select,textarea {
     @include default-font;
-    font-size:92.9%;
-    line-height: 1.5em;
-    padding: 0px 6px; 
+    font-size:78.6%;
+    padding: 7px 5px;
     border: 1px solid #ccc;
+    overflow: hidden;
   }
   input,textarea {
     @include linear-gradient(#fcfcfc, white);
     @include box-shadow-inset(0px, 1px, 2px, rgba(0, 0, 0, 0.1)); 
   }
+  input, select { width:251px; }
+  textarea { width:100%; max-width:396px; }
   select {
-    height: 2.0em;
+    height: 24px;
     &[multiple=multiple] {
       height: auto; 
     } 
   }
+  input[type=search] {  }
   input[type=checkbox] {
     margin-right: 0.25em;
+    width:auto;
   }
   .commit,.hidden { display: none; }
   .required {
     label {
-      font-weight: 700;
+      font-weight: bold;
       abbr { display: none; } 
     } 
   }

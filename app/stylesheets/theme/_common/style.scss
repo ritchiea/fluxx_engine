@@ -424,7 +424,9 @@ table .partial { margin: 0.25em 0; }
 }
 .content .pairs { font-size: 12px; line-height:1.25em;}
 
-.edit, .filters {
+.edit {
+  position: relative;
+  margin: 20px 38px 20px 0;
   @include pretty-forms;
   .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-one-line; }
   .text,.multiple-select-transfer, textarea { @include form-field-two-line; }
@@ -447,7 +449,6 @@ table .partial { margin: 0.25em 0; }
       line-height: 14px;
     } 
   }
-  textarea { overflow: hidden; }
 }
 .filters {
   position: absolute;
@@ -458,7 +459,8 @@ table .partial { margin: 0.25em 0; }
   background: #666666;
   color: #FFF;
   border: 3px solid #cccccc;
-  .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-two-line; }
+  @include pretty-forms;
+  .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone,.text,.multiple-select-transfer, textarea  { @include form-field-two-line; }
   .header {
     @include linear-gradient(#777777, #555555);
     @include box-shadow-inset;
@@ -504,6 +506,77 @@ table .partial { margin: 0.25em 0; }
     } 
   } 
 }
+.modal {
+  @include bg(#333333, #FFF);
+  width: 450px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  @include box-shadow;
+  @include rounded(10px);
+  opacity: 0.95;
+  border: 3px solid #FFF;
+  .controls {
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    li {
+      width: 20px;
+      height: 20px;
+      display: block;
+      a {
+        display: block;
+        text-indent: -2000em; 
+      }
+      a.close-modal { background: transparent url("/images/fluxx_engine/theme/default/controls/close.png") no-repeat center center; } 
+    } 
+  }
+  .arrow {
+    position: absolute;
+    background: transparent url("/images/fluxx_engine/theme/default/modal/arrow-left.png") no-repeat right center;
+    height: 50px;
+    width: 50px;
+    &.left {
+      left: -50px;
+      top: 0px;
+    }
+  }
+  .header {
+    @include linear-gradient(#666666, #777777);
+    @include rounded-top(10px);
+    padding-left:10px;
+    line-height:2.5em;
+    font-size: 15px;
+    font-weight: 200;
+    text-transform: uppercase;
+    overflow:hidden;
+  }
+  .body {
+    @include bg(#333333, #ffffff);
+    @include rounded(9px);
+    overflow: auto;
+    form {
+      @include pretty-forms;
+      @include form-field-two-line;
+      width: 80%;
+      margin-left: 10%;
+    } 
+  }
+  .footer {
+    @include rounded-bottom(9px);
+    @include linear-gradient(#777777, #666666);
+    padding: 4px 10px;
+    overflow: hidden;
+    .buttons { @include buttons(12px, 3px); }
+    .workflow {
+      @include buttons(12px, 3px, #99ff99, #000, #4D804D);
+      float: right; 
+    } 
+  } 
+  .to-modal {display:none;}
+}
+
 .listing {
   @include inline-block;
   width: 336px;
@@ -704,10 +777,6 @@ table .partial { margin: 0.25em 0; }
     }
   }
 }
-.edit {
-  position: relative;
-  margin: 20px 38px 20px 0;
-}
 .wiki_document {
   position: relative;
   left: -14px;
@@ -741,76 +810,6 @@ table .partial { margin: 0.25em 0; }
       } 
     } 
   }
-}
-.modal {
-  @include bg(#333333, #FFF);
-  width: 450px;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  @include box-shadow;
-  @include rounded(10px);
-  opacity: 0.95;
-  border: 3px solid #FFF;
-  .controls {
-    position: absolute;
-    right: 5px;
-    top: 10px;
-    li {
-      width: 20px;
-      height: 20px;
-      display: block;
-      a {
-        display: block;
-        text-indent: -2000em; 
-      }
-      a.close-modal { background: transparent url("/images/fluxx_engine/theme/default/controls/close.png") no-repeat center center; } 
-    } 
-  }
-  .arrow {
-    position: absolute;
-    background: transparent url("/images/fluxx_engine/theme/default/modal/arrow-left.png") no-repeat right center;
-    height: 50px;
-    width: 50px;
-    &.left {
-      left: -50px;
-      top: 0px;
-    }
-  }
-  .header {
-    @include linear-gradient(#666666, #777777);
-    @include rounded-top(10px);
-    padding-left:10px;
-    line-height:2.5em;
-    font-size: 15px;
-    font-weight: 200;
-    text-transform: uppercase;
-    overflow:hidden;
-  }
-  .body {
-    @include bg(#333333, #ffffff);
-    @include rounded(9px);
-    overflow: auto;
-    form {
-      @include form-field-two-line;
-      width: 80%;
-      margin-left: 10%;
-      /*li { height: 60px; }*/ 
-    } 
-  }
-  .footer {
-    @include rounded-bottom(9px);
-    @include linear-gradient(#777777, #666666);
-    padding: 4px 10px;
-    overflow: hidden;
-    .buttons { @include buttons(12px, 3px); }
-    .workflow {
-      @include buttons(12px, 3px, #99ff99, #000, #4D804D);
-      float: right; 
-    } 
-  } 
-  .to-modal {display:none;}
 }
 .info {
   width: 256px;
