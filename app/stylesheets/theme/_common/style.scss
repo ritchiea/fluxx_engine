@@ -647,7 +647,6 @@ table .partial { margin: 0.25em 0; }
     overflow: auto;
     .list {
       .entry {
-        background: linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%);
         border-top: 1px solid white;
         h2 { color: #333333; }
         h4 { }
@@ -670,15 +669,13 @@ table .partial { margin: 0.25em 0; }
           a { border-left: 1px solid #ff6666; } 
         }
         &.green,&.selected {
-          @include linear-gradient(#8fcb3a, #8fcb3a);
           a {
-            background: #ECF2E3;
-            @include linear-gradient(#ecf2e3, #e3ead9);
+            background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #ecf2e3), color-stop(1, #dbe1d3))");
+            background: unquote("-moz-linear-gradient(center top, #ecf2e3 80%, #dbe1d3 100%)");
             border-left: 6px solid #8FCB3A; 
           } 
         }
         &.orange,&.latest {
-          @include linear-gradient(#ffcc00, #eebb00);
           a { border-left: 6px solid #ea8d00; } 
         }
         &.blue {
