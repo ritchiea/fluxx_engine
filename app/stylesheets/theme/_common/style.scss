@@ -497,15 +497,7 @@ table .partial { margin: 0.25em 0; }
   }
   .footer {
     padding:4px 10px;
-    .buttons {
-      @include buttons;
-      margin-top: 3px;
-    }
-    .workflow {
-      @include buttons(12px, 3px, #99ff99, #000, #4D804D );
-      margin-top: 3px;
-      float: right; 
-    } 
+    overflow:hidden;
   } 
 }
 .modal {
@@ -570,15 +562,16 @@ table .partial { margin: 0.25em 0; }
     @include linear-gradient(#777777, #666666);
     padding: 4px 10px;
     overflow: hidden;
-    .buttons { @include buttons(12px, 3px); }
-    .workflow {
-      @include buttons(12px, 3px, #99ff99, #000, #4D804D);
-      float: right; 
-    } 
   } 
   .to-modal {display:none;}
 }
-
+.buttons {
+  @include buttons;
+}
+.workflow {
+  @include buttons(12px, 3px, #99ff99, #000, #4D804D);
+  float: right; 
+}
 .listing {
   @include inline-block;
   width: 336px;
@@ -710,16 +703,6 @@ table .partial { margin: 0.25em 0; }
     overflow: hidden;
     padding: 4px 10px;
     background: #EEE;
-    .buttons {
-      @include button;
-      overflow: hidden;
-      padding: 0; 
-    }
-    .workflow {
-      @include button(12px, 3px, #99ff99, #000, #4D804D);
-      float: right;
-      overflow: hidden; 
-    } 
   } 
   .edit { margin-top:30px;}
 }

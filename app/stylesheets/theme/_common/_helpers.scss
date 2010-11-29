@@ -197,7 +197,7 @@ $header_height: 78px;
   } 
 }
 
-@mixin button($size: 12px, $rounding: 3px, $bgcolor: #cccccc, $color: black, $bordercolor: #666666, $tscolor: rgba(255, 255, 255, 0.5), $tspos: 1px, $padding: $rounding) {
+@mixin buttons($size: 12px, $rounding: 3px, $bgcolor: #cccccc, $color: #000, $bordercolor: #666666, $tscolor: rgba(255, 255, 255, 0.5), $tspos: 1px, $padding: 3px, $rounding: 3px) {
   font-size: $size;
   line-height: $size;
   li {
@@ -222,40 +222,6 @@ $header_height: 78px;
     } 
   } 
 }
-
-@mixin buttons($size: 12px, $rounding: 3px, $bgcolor: #cccccc, $color: black, $tscolor: rgba(255, 255, 255, 0.5), $tspos: 1px, $padding: $rounding) {
-  @include rounded($rounding + 1);
-  @include inline-block;
-  @include btn-color($bgcolor / 3, false);
-  font-size: $size;
-  line-height: $size;
-  li {
-    @include btn-color($bgcolor);
-    color: $color;
-    margin: 1px 1px 1px 0px;
-    display: block;
-    float: left;
-    a,span {
-      @include border-box;
-      @include chiseled-text($tscolor, 0px, $tspos);
-      color: $color;
-      text-decoration: none;
-      text-align: center;
-      text-transform: capitalize;
-      padding: $padding;
-      display: block;
-      min-width: $size + $padding * 2; 
-    }
-    &:first-child {
-      @include rounded-left($rounding);
-      margin-left: 1px; 
-    }
-    &:last-child {
-      @include rounded-right($rounding); 
-    } 
-  } 
-}
-
 
 // Forms
 @mixin form-field-one-line {
