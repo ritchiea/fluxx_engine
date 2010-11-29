@@ -396,8 +396,7 @@
 table .partial { margin: 0.25em 0; }
 .pairs {
   width: 100%;
-  line-height: 1.5em;
-  padding: 2px 0;
+  line-height: 1.75em;
   &:hover {background: rgba(0,0,0, 0.05);}
   .key {
     @include inline-block;
@@ -407,7 +406,7 @@ table .partial { margin: 0.25em 0; }
   .value {
     @include inline-block;
     width: 60%;
-    border: transparent 1px solid;
+    //border: transparent 1px solid;
     padding: 0px 5px;
     vertical-align:top;
     &.with-more-info {
