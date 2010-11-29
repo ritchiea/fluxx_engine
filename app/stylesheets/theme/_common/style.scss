@@ -224,8 +224,6 @@
   background: url("/images/fluxx_engine/theme/default/dock-icons/mid.png") repeat-x top right;
   height: $footer_height;
   margin: 0 14px;
-}
-.dock {
   .icon {
     @include inline-block;
     position: relative;

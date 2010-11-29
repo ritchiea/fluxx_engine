@@ -114,71 +114,63 @@ $header_height: 78px;
   *display: inline;
   zoom: 1; 
 }
-
+// Rounded
 @mixin rounded-left($radius: 10px) {
   -webkit-border-top-left-radius: $radius;
   -webkit-border-bottom-left-radius: $radius;
   -moz-border-radius-topleft: $radius;
   -moz-border-radius-bottomleft: $radius; 
 }
-
 @mixin rounded-right($radius: 10px) {
   -webkit-border-top-right-radius: $radius;
   -webkit-border-bottom-right-radius: $radius;
   -moz-border-radius-topright: $radius;
   -moz-border-radius-bottomright: $radius; 
 }
-
 @mixin rounded-top($radius: 10px) {
   -webkit-border-top-left-radius: $radius;
   -webkit-border-top-right-radius: $radius;
   -moz-border-radius-topleft: $radius;
   -moz-border-radius-topright: $radius; 
 }
-
 @mixin rounded-bottom($radius: 10px) {
   -webkit-border-bottom-left-radius: $radius;
   -webkit-border-bottom-right-radius: $radius;
   -moz-border-radius-bottomleft: $radius;
   -moz-border-radius-bottomright: $radius; 
 }
-
 @mixin rounded($radius: 10px) {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
   border-radius: $radius;
   behavior: url(border-radius.htc); 
 }
-
+// Shadow
 @mixin no-box-shadow {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none; 
 }
-
 @mixin box-shadow($left: 5px, $top: 5px, $spread: 12px, $color: rgba(0, 0, 0, 0.5)) {
   -webkit-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}");
   -moz-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}");
   box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}");
 }
-
 @mixin box-shadow-inset($left: 0px, $top: 1px, $spread: 2px, $color: rgba(0, 0, 0, 0.4)) {
   -webkit-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}");
   -moz-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}");
   box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}");
 }
-
 @mixin box-shadow-with-inset($left: 1px, $top: 1px, $spread: 2px, $color: rgba(0, 0, 0, 0.2)) {
   -webkit-box-shadow: unquote("inset #{$left} #{$top} #{$spread} #{$color}, #{$left} #{$top} #{$spread} #{$color}");
   -moz-box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}");
   box-shadow: unquote("inset #{$left/2} #{$top/2} #{$spread/2} #{$color*0.4}, #{$left} #{$top} #{$spread} #{$color}");
 }
-
 @mixin linear-gradient($top: rgb(255, 255, 255), $bottom: rgb(0, 0, 0)) {
   background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0, #{$top}), color-stop(1, #{$bottom}))");
   background: unquote("-moz-linear-gradient(center top, #{$top} 0%, #{$bottom} 100%)");
 }
-
+// Buttons
 @mixin btn-color($color: #cccccc, $hover: true, $textColor: black) {
   $top: $color * 1.5;
   $mid: $color * 0.90;
@@ -196,7 +188,6 @@ $header_height: 78px;
     } 
   } 
 }
-
 @mixin buttons($size: 12px, $rounding: 3px, $bgcolor: #cccccc, $color: #000, $bordercolor: #666666, $tscolor: rgba(255, 255, 255, 0.5), $tspos: 1px, $padding: 3px, $rounding: 3px) {
   font-size: $size;
   line-height: $size;
@@ -222,7 +213,50 @@ $header_height: 78px;
     } 
   } 
 }
-
+// Icons
+@mixin icon-32 {
+  .link {
+    height: 32px;
+    width: 32px;
+    margin-bottom: $icon_margin_bottom + 4px;
+    margin-top: $icon_margin_top + 6px;
+    margin-left: 16px;
+    margin-right: 0;
+    .label {
+      top: 42px;
+      margin-left: -16px; 
+    } 
+  } 
+}
+@mixin icon-34 {
+  .link {
+    height: 34px;
+    width: 34px;
+    margin-bottom: $icon_margin_bottom + 4px;
+    margin-top: $icon_margin_top + 6px;
+    margin-left: 16px;
+    margin-right: 2px;
+    .label {
+      top: 42px;
+      margin-left: -16px; 
+    } 
+  } 
+}
+@mixin icon-24 {
+  .link {
+    @include rounded(4px);
+    height: 24px;
+    width: 24px;
+    margin-bottom: $icon_margin_bottom + 12px;
+    margin-top: $icon_margin_top + 12px;
+    margin-left: 22px;
+    margin-right: 22px;
+    .label {
+      top: 36px;
+      margin-left: -22px; 
+    } 
+  } 
+}
 // Forms
 @mixin form-field-one-line {
   margin: 12px 0px;
