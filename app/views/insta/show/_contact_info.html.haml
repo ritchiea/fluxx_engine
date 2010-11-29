@@ -16,7 +16,6 @@
       - if location.geo_state && location.geo_state.name
         %abbr.state{:title => location.geo_state.name}= location.geo_state.abbreviation
       - if location.postal_code
-        %nbsp;
         %span.zipcode= location.postal_code
       - if location.geo_country && location.geo_country.name
         <br/>

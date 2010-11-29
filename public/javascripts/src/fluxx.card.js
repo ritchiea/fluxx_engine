@@ -1230,7 +1230,7 @@
         ' available',
       '</a>',
       ' ',
-      '<ul class="buttons controls">',
+      '<ul class="controls">',
         '<li class="first"><a href="#" class="close-detail"><-</a></li>',
         '<li><a href="#" class="minimize-card">-</a></li>',
         '<li class="last"><a href="#" class="close-card">&times;</a></li>',
