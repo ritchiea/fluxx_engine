@@ -18,7 +18,8 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
     template = "
     <html>
       <body>
-       {{value variable='today' method='mdy'/}}
+      MDY: {{value variable='today' as='date_mdy'/}}
+      FULL: {{value variable='today' as='date_full'/}}
        How are you {{value variable='musician' method='first_name'/}}?
         So your first instrument was {{value variable='musician' method='first_instrument.name'/}}, I like to play that too!
         I see that your name backwards is {{value variable='musician' method='first_name_backwards'/}}.
@@ -29,11 +30,23 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
         </tr>
         {{iterator method='instruments' new_variable='instrument' variable='musician'}}
           <tr>
-            <td>{{value variable='instrument' method='name'/}}</td>
+            {{if variable='instrument' method='name' is_blank='true'}}
+              INSIDE_FALSE_IF_STATEMENT{{value variable='instrument' method='name'/}}
+            {{/if}}
+              <td>{{value variable='instrument' method='name'/}}</td>
             <td>{{value variable='instrument' method='date_of_birth' as='date_mdy'/}}</td>
+            * Currency: {{value variable='instrument' method='price' as='currency' unit='*'/}}
+            $ Currency: {{value variable='instrument' method='price' as='currency'/}}
           </tr>
         {{/iterator}}
-      
+        {{if variable='musician' method='first_name' is_blank='true'}}
+          {{else}}
+          WE_ARE_IN_THE_ELSE_CLAUSE
+          {{/else}}
+        {{/if}}
+          Before template:
+        {{template file_name='musicians/_musician_show.html.haml' variable='musician' local_variable_name='model'/}}
+          After template:
       </body>
       </html>
     "
@@ -53,15 +66,13 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
     musician.instruments.each do |instrument|
       assert result.index "<td>#{instrument.name}</td>"
       assert result.index "<td>#{instrument.date_of_birth.mdy}</td>"
+      assert !result.index("INSIDE_FALSE_IF_STATEMENT#{instrument.name}")
     end
+    assert result.index("WE_ARE_IN_THE_ELSE_CLAUSE")
+    offset = result.index("Before template:")
+    template_part = result[offset..result.length-1]
+    assert template_part.index musician.first_name
+    assert template_part.index musician.last_name
+    assert template_part.index musician.street_address
   end
-
-  # t.string :first_name
-  # t.string :last_name
-  # t.integer :music_type_id
-  # t.string :street_address
-  # t.string :city
-  # t.string :state
-  # t.string :zip
-  # t.datetime :date_of_birth
 end

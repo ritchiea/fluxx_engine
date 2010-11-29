@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20100714054627) do
     t.integer  "updated_by_id"
     t.datetime "locked_until"
     t.integer  "locked_by_id"
+    t.integer  "price"
     t.integer  "first_instrument_id"
   end
 

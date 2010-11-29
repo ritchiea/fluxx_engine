@@ -32,6 +32,7 @@ end
 
 Instrument.blueprint do
   name Sham.word
+  price rand(100000)
   date_of_birth Time.now
 end
 
