@@ -98,7 +98,12 @@
             display: block;
             color: #dddddd;
           }
-          .new-dashboard-input { width: 192px; }
+          .new-dashboard-input { 
+            width: 182px;            
+            position: relative;
+            left: 5px;
+            top: 3px;
+          }
         } 
       } 
     }
