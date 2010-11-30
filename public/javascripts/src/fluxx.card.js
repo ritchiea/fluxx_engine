@@ -254,7 +254,7 @@
             ).each(function(){
               var $area     = $(this),
                   $areaBody = $('.body', $area);
-              if ($area.hasClass('modal')) {
+              if ($area.hasClass('modal') && $area.data('target')) {
                 var $arrow = $('.arrow', $area);
                 if ($card.height() - 8 < $area.data('target').offset().top - $('.card-header', $card).height())
                   $arrow.hide();
@@ -279,7 +279,7 @@
 
         // Size the minimized card area and center it in the available space
         $min = $('.minimized-info', $card);
-        if ($min.length) {
+        if ($min.length && $card.fluxxCardMinimized()) {
           $min.width($min.parent().height()).css('margin-top', $min.parent().height() + 'px');
           var padding = Math.floor(($card.fluxxCardMinimized().width() - $('ul', $min).height()) / 2) - 4;
           if (padding < 0)
@@ -366,6 +366,7 @@
         var $partial = $(this).fluxxCardPartial();
         
         if (options.animate) {
+          $.fluxx.log('!!!!! here', $partial, $partial.attr('data-src'));
           $.ajax({
             url: $partial.attr('data-src'),
             beforeSend: function() {
@@ -375,6 +376,7 @@
                 .fadeTo(300, 0);
             },
             success: function(data, status, xhr){
+              $partial.html('foo').removeClass('updating').children().fadeIn();
               $partial.html($(data)).removeClass('updating').children().fadeIn();
               if (onComplete)
                 onComplete();
@@ -1204,7 +1206,6 @@
                   var href = $target.attr('href');
                   $this.data('target', $('[href=' + href + ']', $area));
                 };
-                  
             if ($target.parents('.partial').length) {
               $.fluxx.log("Refreshing PARTIAL");
               $target.refreshAreaPartial({}, resetTarget);
