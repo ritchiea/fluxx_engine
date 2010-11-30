@@ -1108,7 +1108,7 @@
                     $('.title', $card).show();
                     $card.fluxxCardMinimized().hide();
                     $('.footer', $card).css('opacity', 1);
-                    $('.area, .info', $card).filter('[minimized=true]').show().attr('minimized', 'false');;
+                    $('.area, .info', $card).filter('[minimized=true]').fadeIn('slow').attr('minimized', 'false');;
                     $card.resizeFluxxCard();
                     $card.trigger('lifetimeComplete.fluxx.card');
                     if (!$card.fromClientStore() && !$card.cardFullyVisible())
@@ -1117,17 +1117,20 @@
                   });
                 } else {
                   $card.data('lastWidth', $card.width());
-                  $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
-                    $titlebar.attr('minimized', 'true');
-                    $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');
-                    $('.title', $card).hide();
-                    $('.footer', $card).css('opacity', 0);
-                    $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');
-                    $card.fluxxCardMinimized().show();
-                    $('.card-body', $card).css('opacity', 1);
-                    $card.resizeFluxxCard();
-                    $card.trigger('lifetimeComplete.fluxx.card');
-                    $card.saveDashboard();
+                  $('.detail, .listing, .tabs, .filters', $card).fadeOut('slow', function() {
+                    $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
+                      $('.detail, .listing, .tabs, .filters', $card).show();
+                      $titlebar.attr('minimized', 'true');
+                      $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');
+                      $('.title', $card).hide();
+                      $('.footer', $card).css('opacity', 0);
+                      $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');
+                      $card.fluxxCardMinimized().show();
+                      $('.card-body', $card).css('opacity', 1);
+                      $card.resizeFluxxCard();
+                      $card.trigger('lifetimeComplete.fluxx.card');
+                      $card.saveDashboard();
+                    });
                   });
                 }
             }
