@@ -1117,9 +1117,13 @@
                   });
                 } else {
                   $card.data('lastWidth', $card.width());
-                  $('.detail, .listing, .tabs, .filters', $card).fadeOut('slow', function() {
+                  $('.detail, .tabs, .filters', $card).fadeOut('slow');
+                  listingVisible = $('.listing', $card).is(':visible');
+                  $('.listing', $card).fadeOut('slow', function() {
                     $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
-                      $('.detail, .listing, .tabs, .filters', $card).show();
+                      $('.detail, .tabs, .filters', $card).show();
+                      if (listingVisible)
+                        $('.listing', $card).show();
                       $titlebar.attr('minimized', 'true');
                       $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');
                       $('.title', $card).hide();
