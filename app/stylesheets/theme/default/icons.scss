@@ -5,12 +5,13 @@
       left: 0px;
       right: auto;
       .arrow {
-        left: 15px; } } }
+        left: 15px;
+      } 
+    } 
+  }
   .icon {
-    &.small {
-      @include icon-32; }
-    &.tiny {
-      @include icon-32; }
+    &.small { @include icon-32; }
+    &.tiny { @include icon-32; }
     &.plus {
       @include icon-34;
       .link {
@@ -20,7 +21,10 @@
         @include rounded(($icon_dimension + 2) / 2);
         background: #{inline_image("/images/fluxx_engine/theme/default/dock-icons/plus.png")} #585858 no-repeat 50% 50%;
         .label {
-          display: none; } } }
+          display: none;
+        } 
+      } 
+    }
     .popup {
       $size: 7px;
       @include bg(transparent);
@@ -35,7 +39,8 @@
         position: absolute;
         right: 22px;
         bottom: -14px;
-        z-index: 3; }
+        z-index: 3; 
+      }
       ul {
         // +non-list
         @include bg(#07b2ef, white);
@@ -50,8 +55,11 @@
           line-height: 24px;
           a {
             text-decoration: none;
-            &:hover {
-              text-decoration: underline; } } } } }
+            &:hover { text-decoration: underline; } 
+          } 
+        } 
+      } 
+    }
     .link {
       @include linear-gradient(white, #dddddd);
       border: 1px #666666 solid;
@@ -69,7 +77,8 @@
         text-align: center;
         width: $icon_dimension + 20px;
         margin-left: -10px;
-        @include border-box; }
+        @include border-box; 
+      }
       .badge {
         @include border-box;
         @include inline-block;
@@ -88,84 +97,114 @@
         text-align: center;
         line-height: 13px;
         border: 2px solid white;
-        display: none; } }
+        display: none; 
+      } 
+    }
     &.style-blue {
-      .link {
-        @include linear-gradient(#ccccff, #9999ff); } }
+      .link { @include linear-gradient(#ccccff, #9999ff); } 
+    }
     &.style-green {
-      .link {
-        @include linear-gradient(#ccffcc, #99ff99); } }
+      .link { @include linear-gradient(#ccffcc, #99ff99); } 
+    }
     &.style-red {
-      .link {
-        @include linear-gradient(#cc9999, #993333); } }
+      .link { @include linear-gradient(#cc9999, #993333); } 
+    }
     &.style-purple {
-      .link {
-        @include linear-gradient(#cc99cc, #993399); } }
+      .link { @include linear-gradient(#cc99cc, #993399); } 
+    }
     &.style-ql-documents {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Documents_32x32.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Documents_32x32.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-ql-library {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/LibraryFolder_32x32.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/LibraryFolder_32x32.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-ql-user {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/UsersFolder_32x32.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/UsersFolder_32x32.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-ql-project {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Project_32x32.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Project_32x32.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-organizations {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_orgs.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_orgs.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-users {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_people.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_people.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-projects {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_projects.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_projects.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-grant-requests {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_requests.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_requests.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-fip-requests {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_requests.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_requests.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-granted-requests {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_grants.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_grants.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-reports {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_reports.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_reports.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-transactions {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_transactions.png")} transparent no-repeat 50% 50%; } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_transactions.png")} transparent no-repeat 50% 50%; 
+      } 
+    }
     &.style-wiki {
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_wiki.png")} transparent no-repeat 50% 50%; } } } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_wiki.png")} transparent no-repeat 50% 50%; 
+      } 
+    } 
+  } 
+}
 
 .card {
   .titlebar {
@@ -178,38 +217,46 @@
       width: 24px;
       vertical-align: bottom;
       margin-right: 10px;
-      &.style-blue {
-        @include linear-gradient(#ccccff, #9999ff); }
-      &.style-green {
-        @include linear-gradient(#ccffcc, #99ff99); }
-      &.style-red {
-        @include linear-gradient(#cc9999, #993333); }
-      &.style-purple {
-        @include linear-gradient(#cc99cc, #993399); }
+      &.style-blue { @include linear-gradient(#ccccff, #9999ff); }
+      &.style-green { @include linear-gradient(#ccffcc, #99ff99); }
+      &.style-red { @include linear-gradient(#cc9999, #993333); }
+      &.style-purple { @include linear-gradient(#cc99cc, #993399); }
       &.style-organizations {
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_orgs.png")} transparent no-repeat 50% 50%; }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_orgs.png")} transparent no-repeat 50% 50%; 
+      }
       &.style-users {
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_people.png")} transparent no-repeat 50% 50%; }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_people.png")} transparent no-repeat 50% 50%; 
+      }
       &.style-projects {
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_projects.png")} transparent no-repeat 50% 50%; }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_projects.png")} transparent no-repeat 50% 50%; 
+      }
       &.style-grant-requests {
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_requests.png")} transparent no-repeat 50% 50%; }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_requests.png")} transparent no-repeat 50% 50%; 
+      }
       &.style-fip-requests {
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_requests.png")} transparent no-repeat 50% 50%; }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_requests.png")} transparent no-repeat 50% 50%; 
+      }
       &.style-granted-requests {
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_grants.png")} transparent no-repeat 50% 50%; }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_grants.png")} transparent no-repeat 50% 50%; 
+      }
       &.style-reports {
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_reports.png")} transparent no-repeat 50% 50%; }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_reports.png")} transparent no-repeat 50% 50%; 
+      }
       &.style-transactions {
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_transactions.png")} transparent no-repeat 50% 50%; }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_transactions.png")} transparent no-repeat 50% 50%; 
+      }
       &.style-wiki {
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_wiki.png")} transparent no-repeat 50% 50%; } } } }
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_wiki.png")} transparent no-repeat 50% 50%; 
+      } 
+    } 
+  } 
+}

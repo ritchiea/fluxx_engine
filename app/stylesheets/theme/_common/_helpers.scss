@@ -1,21 +1,13 @@
 @import "/stylesheets/fluxx_engine/lib/Quicksand-fontfacekit/stylesheet.css";
-@import "/stylesheets/fluxx_engine/lib/helveticaneue-fontfacekit/stylesheet.css";
-
-// Fonts
-
 
 $icon_dimension: 48px;
 $icon_margin_top: 25px;
 $icon_margin_bottom: 25px;
 $footer_height: $icon_dimension + $icon_margin_top + $icon_margin_bottom;
 $header_height: 78px;
-
-@mixin fluxx-font {
-  font-family: "QuicksandBook", Helvetica, sans-serif; }
-
-@mixin default-font {
-  font-family: "Helvetica Neue", sans-serif; }
-
+// Fonts
+@mixin fluxx-font { font-family: "QuicksandBook", Helvetica, sans-serif; }
+@mixin default-font { font-family: "Helvetica Neue", sans-serif; }
 // Color Pallete
 @mixin bg($bg: rgb(255, 255, 255), $fg: rgb(0, 0, 0)) {
   background-color: $bg;
@@ -27,21 +19,16 @@ $header_height: 78px;
 @mixin header-bg($bg: #333333, $fg: white) {
   @include bg($bg, $fg); 
 }
-
 @mixin footer-bg($bg: #333333, $fg: white) {
   @include bg($bg, $fg); 
 }
-
 @mixin body-bg($bg: #eeeeee, $fg: black) {
   @include bg($bg, $fg); 
 }
-
 // Rotations
-
 @mixin transform-origin($left: 100%, $top: 100%) {
   transform-origin: $left $top;
 }
-
 @mixin rot0 {
   -webkit-transform: rotate(0deg);
   -webkit-transform-origin: 0px 0px;
@@ -49,7 +36,6 @@ $header_height: 78px;
   -moz-transform-origin: 0px 0px;
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
 }
-
 @mixin rot90 {
   -webkit-transform: rotate(90deg);
   -webkit-transform-origin: 0px 0px;
@@ -57,7 +43,6 @@ $header_height: 78px;
   -moz-transform-origin: 0px 0px;
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
 }
-
 @mixin rot180 {
   -webkit-transform: rotate(180deg);
   -webkit-transform-origin: 0px 0px;
@@ -65,7 +50,6 @@ $header_height: 78px;
   -moz-transform-origin: 0px 0px;
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
 }
-
 @mixin rot270 {
   -webkit-transform: rotate(270deg);
   -webkit-transform-origin: 0px 0px;
@@ -73,42 +57,34 @@ $header_height: 78px;
   -moz-transform-origin: 0px 0px;
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
 }
-
 // Styles for inline properties
 @mixin chiseled-text($color: rgba(255, 255, 255, 0.5), $left: 0px, $top: 1px, $spread: 0px) {
   text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}"); 
 }
-
 @mixin chiseled-text-light($color: rgba(0, 0, 0, 0.5), $left: 0px, $top: -1px, $spread: 0px) {
   @include chiseled-text($color, $left, $top, $spread); 
 }
-
 @mixin text-shadow($color: rgba(0, 0, 0, 0.5), $left: 0px, $top: 1px, $spread: 1px) {
   text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}"); 
 }
-
 @mixin ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden; 
 }
-
 // Styles for box properties
-
 @mixin border-box {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -o-box-sizing: border-box;
   box-sizing: border-box;
 }
-
 @mixin content-box {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   -o-box-sizing: content-box;
   box-sizing: content-box;
 }
-
 @mixin inline-block {
   display: inline-block;
   *display: inline;
@@ -279,20 +255,19 @@ $header_height: 78px;
     @include border-box;
     vertical-align: top;
   }
-  div.select-transfer { width: 100%px;}
+  div.select-transfer { width: 100%;}
   .inline-aft {
     @include inline-block;
     @include border-box;
     position: relative;
-    display:none;
     top: 0px;
     line-height: 1.5em;
     height: 1.5em;
     margin-left: 6px;
     vertical-align: baseline;
-    width: 60px;
+    width: auto;
     margin-top: 1px;
-    .icon { margin-top: (24px - 16px) / 2; } 
+    .icon { margin-top: 4px; } 
   }
   .inline-errors { margin-left: 140px; } 
 }
