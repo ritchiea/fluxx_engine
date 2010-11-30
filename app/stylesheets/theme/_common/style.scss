@@ -351,7 +351,11 @@
         @include bg(rgba(255, 255, 255, 0.3), #333333);
         padding: 0px 5px;
         margin-left: -5px;
-      } 
+      }
+      .refresh-card {
+        margin: 4px 4px;
+        float: right;
+      }
     }
     .titlebar[minimized=true] {
       background: #c4c4c4;
@@ -774,18 +778,16 @@ table .partial { margin: 0.25em 0; }
     .minimized-info {
       @include inline-block;
       position: relative;
-      height: 100px;
-      margin-top: 4000px;
-      width: 4000px;
+      padding: 0px 6px 0px 0px;
       @include rot270;
-      padding: 10px 10px 5px 2px;
       text-align: right;
       font-family: "Helvetica Neue", sans-serif;
+      fount-size: 14px;
       font-weight: 200;
       text-shadow: white -1px 0px 1px;
       .minimized-title {
         @include inline-block;
-        font-size: 34px;
+        font-size: 36px;
         text-transform: uppercase; 
       } 
     } 

@@ -3,8 +3,10 @@ Time::DATE_FORMATS[:date_time] = "%m/%d/%Y %H:%M"
 Time::DATE_FORMATS[:time] = "%B %Y"
 Time::DATE_FORMATS[:mdy] = "%m/%d/%Y"
 Time::DATE_FORMATS[:star_mdy] = "*%m/*%d/%y"
+Time::DATE_FORMATS[:star_dmy] = "*%d/*%m/%y"
 Time::DATE_FORMATS[:full] = "%B %d, %Y"
 Time::DATE_FORMATS[:star_full] = "%B *%d, %Y"
+Time::DATE_FORMATS[:star_full_dmy] = "*%d %B %Y"
 Time::DATE_FORMATS[:hours_minutes] = "%H:%M"
 Time::DATE_FORMATS[:star_hours_minutes] = "*%H:%M"
 Time::DATE_FORMATS[:hours_minutes_ampm] = "%I:%M %p"
@@ -48,9 +50,16 @@ class Time
   def mdy
     strip_zeros_from_date(self.to_s(:star_mdy))
   end
+  def dmy
+    strip_zeros_from_date(self.to_s(:star_dmy))
+  end
   
   def full
     strip_zeros_from_date(self.to_s(:star_full))
+  end
+  
+  def full_dmy
+    strip_zeros_from_date(self.to_s(:star_full_dmy))
   end
   
   def date_time_seconds
