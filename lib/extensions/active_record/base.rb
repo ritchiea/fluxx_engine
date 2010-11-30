@@ -47,9 +47,9 @@ class ActiveRecord::Base
       local_template_object.evaluate_model_list_method self, method_name
     end
     
-    define_method :process_curly_template do |document|
+    define_method :process_curly_template do |document, view_context|
       # Use the curly-brace markup to annotate the document
-      local_template_object.process_template self, document
+      local_template_object.process_template self, document, view_context
     end
   end
     

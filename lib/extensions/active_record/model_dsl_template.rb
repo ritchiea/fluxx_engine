@@ -95,12 +95,12 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
     model.send(method_name) if list_method_allowed?(model, method_name)
   end
   
-  def process_template model, document
+  def process_template model, document, view_context
     binding = create_bindings model
     c = CurlyParser.new
     doc = c.parse document
     
-    sb = evaluate_template model, doc, binding
+    sb = evaluate_template model, doc, binding, view_context
     sb.string
   end
   
@@ -110,16 +110,18 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
     # build a variable for each entity to create bindings
     binding = ActiveRecord::ModelTemplateBinding.new
     binding.add_binding entity_name, model
+    binding.add_binding 'today', Time.now
     binding
   end
   
   # This will replace fluxx_iterator, fluxx_conditional, fluxx_value elements within a curly_parser instance
   MAX_DEPTH = 100
-  def evaluate_template model, doc, binding, sb = StringIO.new, depth=0
+  def evaluate_template model, doc, binding, view_context, sb = StringIO.new, depth=0
     return sb if depth > MAX_DEPTH
     doc.each do |element|
+      iter_map = element.attributes
       if element.element_name == 'iterator'
-        iter_map = element.attributes
+        # {{iterator method='instruments' new_variable='instrument' variable='musician'}}{{/iterator}}
         variable_name = iter_map['variable']
         new_variable_name = iter_map['new_variable']
         
@@ -131,15 +133,59 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
         list.each do |new_model|
           cloned_binding = binding.clone
           cloned_binding.add_binding new_variable_name, new_model
-          evaluate_template model, element.children, cloned_binding, sb, depth + 1
+          evaluate_template model, element.children, cloned_binding, view_context, sb, depth + 1
+        end
+      elsif element.element_name == 'if'
+        # {{if variable='instrument' method='name' is_blank='true'}}{{else}}{{/else}}{{/if}}
+        variable_name = iter_map['variable']
+        method_value = if iter_map['is_blank']
+          binding.model_evaluate iter_map['variable'], iter_map['method']
+        elsif iter_map['is_empty']
+          binding.model_list_evaluate iter_map['variable'], iter_map['method']
+        end
+        if iter_map['is_blank'] && iter_map['is_blank'].downcase.strip == 'true' && method_value.blank?
+          evaluate_template model, element.children, binding, view_context, sb, depth + 1
+        elsif iter_map['is_blank'] && iter_map['is_blank'].downcase.strip == 'false' && !method_value.blank?
+          evaluate_template model, element.children, binding, view_context, sb, depth + 1
+        elsif iter_map['is_empty'] && iter_map['is_empty'].downcase.strip == 'true' && method_value && method_value.empty?
+          evaluate_template model, element.children, binding, view_context, sb, depth + 1
+        elsif iter_map['is_empty'] && iter_map['is_empty'].downcase.strip == 'false' && method_value && !method_value.empty?
+          evaluate_template model, element.children, binding, view_context, sb, depth + 1
+        else
+          # try to find an else condition among the children
+          else_clause = element.children.select{|child_element| child_element.element_name == 'else'}.first
+          evaluate_template model, else_clause.children, binding, view_context, sb, depth + 1 if else_clause
         end
       elsif element.element_name == 'value'
-        iter_map = element.attributes
-        replacement_value = binding.model_evaluate iter_map['variable'], iter_map['method']
+        # {{value variable='instrument' method='name'/}}
+        replacement_value = if iter_map['method']
+          binding.model_evaluate iter_map['variable'], iter_map['method']
+        else
+          binding.bindings[iter_map['variable']]
+        end
         if iter_map['as']
-          replacement_value = render_as(iter_map['as'], replacement_value)
+          options = if iter_map['unit']
+            {:unit => iter_map['unit']}
+          end || {}
+          replacement_value = render_as(iter_map['as'], replacement_value, options)
         end
         sb << replacement_value
+      elsif element.element_name == 'template'
+        # {{template file_name='request_evaluation_metrics/_request_evaluation_metrics_list.html.haml' variable='request' method='grant_agreement_at' local_variable_name='model'/}}
+        method_value = if iter_map['method']
+          binding.model_evaluate iter_map['variable'], iter_map['method']
+        else
+          binding.bindings[iter_map['variable']]
+        end
+        local_variable_name = iter_map['local_variable_name'] || :model
+        file_name = iter_map['file_name']
+        possible_files = ActionController::Base.view_paths.map {|v| "#{v.instance_variable_get '@path'}/#{file_name}"}
+        found_file_name = possible_files.map{|file_name| file_name if File.exist?(file_name) }.compact.first
+        # TODO ESH: limit the templates available via an API
+        if found_file_name
+          template = File.read(found_file_name)
+          sb << Haml::Engine.new(template).render(view_context, {local_variable_name => method_value, :invoked_from_template => true})
+        end
       elsif element.element_name == 'text'
         sb << element.text
       end
@@ -148,9 +194,14 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
     sb
   end
   
-  def render_as as, value
+  def render_as as, value, options={}
     case as
+    when 'date_dmy' then value.dmy if value.kind_of?(Time)
+    when 'date_full_dmy' then value.full_dmy if value.kind_of?(Time)
     when 'date_mdy' then value.mdy if value.kind_of?(Time)
+    when 'date_full' then value.full if value.kind_of?(Time)
+    when 'currency' then value.to_currency(options) if value.kind_of?(Fixnum)
+      
     end || value
   end
 end
