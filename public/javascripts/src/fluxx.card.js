@@ -1121,10 +1121,11 @@
                     });
                   });
                 } else {
+                  var timeout = ($card.data('fromClientStore') ? 0 : 600);
                   $card.data('lastWidth', $card.width());                  
                   listingVisible = $('.listing', $card).is(':visible');
                   detailVisible = $('.detail', $card).is(':visible');
-                  $('.detail, .tabs, .filters, .listing', $card).fadeOut('slow');
+                  $('.detail, .tabs, .filters, .listing', $card).fadeOut(timeout);
                   setTimeout(function() {
                     $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
                       $('.tabs, .filters', $card).show();
@@ -1142,8 +1143,8 @@
                       $card.resizeFluxxCard();
                       $card.trigger('lifetimeComplete.fluxx.card');
                       $card.saveDashboard();
-                    });
-                  }, 610);
+                    }, timeout);
+                  }, timeout + 10);
                 }
             }
           },
