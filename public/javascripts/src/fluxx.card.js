@@ -33,6 +33,9 @@
                   $close.show();
                 else
                   $close.hide();
+                $refresh = $('.titlebar .refresh-card', $card).hide();
+                if (!$card.fluxxCardListing().is(':visible'))
+                  $refresh.show();
              
                 if ($card.data && $card.data('icon'))
                   $card
@@ -1261,6 +1264,9 @@
         '<span class="title">',
           options.title,
         '</span>',
+        '<a href="#" class="refresh-card" title="Refresh Card">',
+        '<img alt="Refresh Card" src="/images/fluxx_engine/theme/default/icons/arrow_refresh.png">',
+        '</a>',
       '</div>'
     ];
   };
