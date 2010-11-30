@@ -6,7 +6,6 @@
 /*=============================
   Layout Elements
 ===============================*/
-
 #fluxx{}
 #stage{
   position: relative;
@@ -401,34 +400,6 @@
 }
 .warning { margin:1em 0;}
 table .partial { margin: 0.25em 0; }
-.pairs {
-  width: 100%;
-  line-height: 1.75em;
-  &:hover {background: rgba(0,0,0, 0.05);}
-  .key {
-    @include inline-block;
-    width: 39%;
-    vertical-align:top;
-  }
-  .value {
-    @include inline-block;
-    width: 60%;
-    //border: transparent 1px solid;
-    padding: 0px 5px;
-    vertical-align:top;
-    &.with-more-info {
-      background: #ffffcc;
-      border-color: #eeeebb;
-      a {
-        display: block;
-        background: #{inline_image("/images/fluxx_engine/theme/default/icons/arrow_right.png")} no-repeat right center;
-        color: #666666 !important;
-        text-decoration: none; 
-      } 
-    } 
-  }
-}
-.content .pairs { font-size: 12px; line-height:1.25em;}
 
 .edit {
   position: relative;
@@ -456,7 +427,6 @@ table .partial { margin: 0.25em 0; }
       line-height: 14px;
     } 
   }
-  .inline-aft { display: none; }
   .select-transfer { width:396px;}
 }
 .filters {
@@ -497,7 +467,6 @@ table .partial { margin: 0.25em 0; }
       margin-top: 1px;
       background: transparent url("/images/fluxx_engine/theme/default/icons/add.png") no-repeat center center;
     }
-    .inline-aft { display: none; }
     select.add-another {
       margin-top: 5px; 
     } 
@@ -930,6 +899,34 @@ table .partial { margin: 0.25em 0; }
     } 
   }
 }
+.pairs {
+  width: 100%;
+  line-height: 1.75em;
+  &:hover {background: rgba(0,0,0, 0.05);}
+  .key {
+    @include inline-block;
+    width: 39%;
+    vertical-align:top;
+  }
+  .value {
+    @include inline-block;
+    width: 60%;
+    //border: transparent 1px solid;
+    padding: 0px 5px;
+    vertical-align:top;
+    &.with-more-info {
+      background: #ffffcc;
+      border-color: #eeeebb;
+      a {
+        display: block;
+        background: #{inline_image("/images/fluxx_engine/theme/default/icons/arrow_right.png")} no-repeat right center;
+        color: #666666 !important;
+        text-decoration: none; 
+      } 
+    } 
+  }
+}
+.content .pairs { font-size: 12px; line-height:1.25em;}
 
 .paginate {
   @include bg(transparent, black);
