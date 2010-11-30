@@ -258,8 +258,8 @@
                 else
                   $arrow.show();
                 $area.height($card.height());
-              }   
-               
+              }
+
               $areaBody.height(
                 $areaBody.parent().innerHeight() -
                 _.addUp(
@@ -273,6 +273,16 @@
               );
             })
           });
+
+        // Size the minimized card area and center it in the available space
+        $min = $('.minimized-info', $card);
+        if ($min.length) {
+          $min.width($min.parent().height()).css('margin-top', $min.parent().height() + 'px');
+          var padding = Math.floor(($card.fluxxCardMinimized().width() - $('ul', $min).height()) / 2) - 4;
+          if (padding < 0)
+            padding = 0
+          $min.css({'padding-top': padding, 'padding-bottom': padding});
+        }
         
         var $tabs = $('.tabs', $card);
         $tabs.width($('.drawer', $card).height());
@@ -316,6 +326,8 @@
           $('.tabs', $card).show();
         });      
         $card.fluxxCardDetail().fluxxCardArea().data('history')[0] = {};
+        $('.show', $card.fluxxCardDetail()).remove();
+        
         $card.saveDashboard();
       });
     },
@@ -391,10 +403,8 @@
     setMinimizedProperties: function(options) {
       var options = $.fluxx.util.options_with_callback({info: []}, options);
       var $body = $('.body', $(this).fluxxCardMinimized());
-      $body.html('<div class="minimized-info"><ul><li class="minimized-title">' + options.info.join('</li><li>') + '</li></ul></div>');
-      var padding = Math.floor(($body.width() - $('.minimized-info > ul', $body).height()) / 2);
-      if (padding > 0)
-        $('.minimized-info', $body).css({'padding-top': padding, 'padding-bottom': padding});
+      $min = $('<div class="minimized-info"><ul><li class="minimized-title">' + options.info.join('</li><li>') + '</li></ul></div>');
+      $body.html($min).fluxxCard().resizeFluxxCard();
       return this;
     },
     fluxxCardTitle: function() {
@@ -406,7 +416,7 @@
       var filter = $card.fluxxCardFilterText();
       var search =  $('.filter', $card).val();
       var detail;
-      if ($('.detail:visible', $card).length) {
+      if ($('.detail', $card).length) {
           var $pulls = $('.detail .show .minimize-detail-pull', $card);
           if (!$pulls.length) $pulls = $('.detail h1:first', $card);
           var text = [];
@@ -645,7 +655,7 @@
                     $elem.attr('name', $elem.attr('name') + '[]')
                 } 
               });
-              $filterText.val(criterion.join('<br/>'));
+              $filterText.val(criterion.join(', '));
             });
           var $filterText = $('<input type="hidden" name="filter-text" value =""/>').appendTo($form);
           
@@ -1113,7 +1123,7 @@
                     $('.title', $card).hide();
                     $('.footer', $card).css('opacity', 0);
                     $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');
-                    $card.fluxxCardMinimized().show();                    
+                    $card.fluxxCardMinimized().show();
                     $('.card-body', $card).css('opacity', 1);
                     $card.resizeFluxxCard();
                     $card.trigger('lifetimeComplete.fluxx.card');
