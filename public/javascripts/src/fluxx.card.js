@@ -1122,11 +1122,14 @@
                   $card.data('lastWidth', $card.width());
                   $('.detail, .tabs, .filters', $card).fadeOut('slow');
                   listingVisible = $('.listing', $card).is(':visible');
+                  detailVisible = $('.detail', $card).is(':visible');
                   $('.listing', $card).fadeOut('slow', function() {
                     $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
-                      $('.detail, .tabs, .filters', $card).show();
+                      $('.tabs, .filters', $card).show();
                       if (listingVisible)
                         $('.listing', $card).show();
+                      if (detailVisible)
+                        $('.detail', $card).show();
                       $titlebar.attr('minimized', 'true');
                       $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');
                       $('.title', $card).hide();

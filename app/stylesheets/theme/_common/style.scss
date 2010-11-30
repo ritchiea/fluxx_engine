@@ -775,6 +775,9 @@ table .partial { margin: 0.25em 0; }
     overflow: hidden;
     background-color: #c4c4c4;
     border-bottom: 1px solid transparent;
+    width: 98px;
+    position: relative;
+    top: -18px;
     .minimized-info {
       @include inline-block;
       position: relative;
@@ -782,14 +785,14 @@ table .partial { margin: 0.25em 0; }
       @include rot270;
       text-align: right;
       font-family: "Helvetica Neue", sans-serif;
-      fount-size: 14px;
+      font-size: 14px;
       font-weight: 200;
       text-shadow: white -1px 0px 1px;
       .minimized-title {
         @include inline-block;
         font-size: 36px;
         text-transform: uppercase; 
-      } 
+      }
     } 
   }
 }
