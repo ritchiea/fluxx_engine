@@ -224,8 +224,6 @@
   background: url("/images/fluxx_engine/theme/default/dock-icons/mid.png") repeat-x top right;
   height: $footer_height;
   margin: 0 14px;
-}
-.dock {
   .icon {
     @include inline-block;
     position: relative;
@@ -396,8 +394,7 @@
 table .partial { margin: 0.25em 0; }
 .pairs {
   width: 100%;
-  line-height: 1.5em;
-  padding: 2px 0;
+  line-height: 1.75em;
   &:hover {background: rgba(0,0,0, 0.05);}
   .key {
     @include inline-block;
@@ -407,7 +404,7 @@ table .partial { margin: 0.25em 0; }
   .value {
     @include inline-block;
     width: 60%;
-    border: transparent 1px solid;
+    //border: transparent 1px solid;
     padding: 0px 5px;
     vertical-align:top;
     &.with-more-info {
@@ -777,18 +774,16 @@ table .partial { margin: 0.25em 0; }
     .minimized-info {
       @include inline-block;
       position: relative;
-      height: 100px;
-      margin-top: 4000px;
-      width: 4000px;
+      padding: 0px 6px 0px 0px;
       @include rot270;
-      padding: 10px 10px 5px 2px;
       text-align: right;
       font-family: "Helvetica Neue", sans-serif;
+      fount-size: 14px;
       font-weight: 200;
       text-shadow: white -1px 0px 1px;
       .minimized-title {
         @include inline-block;
-        font-size: 34px;
+        font-size: 36px;
         text-transform: uppercase; 
       } 
     } 

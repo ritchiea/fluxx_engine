@@ -20,7 +20,6 @@
           '</div>'
         ].join('')).css({
           height: 100,
-          width: $original.css('width'),
           display: $original.css('display')
         });
         var $unselected = $('.unselected', $container).keydown(function(e){
