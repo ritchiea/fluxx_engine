@@ -1105,18 +1105,20 @@
                   var cw = $card.data('lastWidth');
                   if (cw == 0) 
                     cw = _.addUp($('.area[minimized=true]', $card), 'outerWidth', true);
-                  $card.animateWidthTo(cw, function() {
-                    $titlebar.attr('minimized', 'false');
-                    $('.maximize-card', $card).removeClass('maximize-card').addClass('minimize-card');
-                    $('.title', $card).show();
-                    $card.fluxxCardMinimized().hide();
-                    $('.footer', $card).css('opacity', 1);
-                    $('.area, .info', $card).filter('[minimized=true]').fadeIn('slow').attr('minimized', 'false');;
-                    $card.resizeFluxxCard();
-                    $card.trigger('lifetimeComplete.fluxx.card');
-                    if (!$card.fromClientStore() && !$card.cardFullyVisible())
-                      $('a', $card.data('icon')).click();
-                    $card.saveDashboard();
+                  $card.fluxxCardMinimized().fadeOut('fast', function() {
+                    $card.animateWidthTo(cw, function() {
+                      $titlebar.attr('minimized', 'false');
+                      $('.maximize-card', $card).removeClass('maximize-card').addClass('minimize-card');
+                      $('.title', $card).show();
+                      $card.fluxxCardMinimized().hide();
+                      $('.footer', $card).css('opacity', 1);
+                      $('.area, .info', $card).filter('[minimized=true]').fadeIn('slow').attr('minimized', 'false');;
+                      $card.resizeFluxxCard();
+                      $card.trigger('lifetimeComplete.fluxx.card');
+                      if (!$card.fromClientStore() && !$card.cardFullyVisible())
+                        $('a', $card.data('icon')).click();
+                      $card.saveDashboard();
+                    });
                   });
                 } else {
                   $card.data('lastWidth', $card.width());                  
@@ -1135,7 +1137,7 @@
                       $('.title', $card).hide();
                       $('.footer', $card).css('opacity', 0);
                       $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');
-                      $card.fluxxCardMinimized().show();
+                      $card.fluxxCardMinimized().fadeIn('slow');
                       $('.card-body', $card).css('opacity', 1);
                       $card.resizeFluxxCard();
                       $card.trigger('lifetimeComplete.fluxx.card');
