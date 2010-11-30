@@ -1119,11 +1119,11 @@
                     $card.saveDashboard();
                   });
                 } else {
-                  $card.data('lastWidth', $card.width());
-                  $('.detail, .tabs, .filters', $card).fadeOut('slow');
+                  $card.data('lastWidth', $card.width());                  
                   listingVisible = $('.listing', $card).is(':visible');
                   detailVisible = $('.detail', $card).is(':visible');
-                  $('.listing', $card).fadeOut('slow', function() {
+                  $('.detail, .tabs, .filters, .listing', $card).fadeOut('slow');
+                  setTimeout(function() {
                     $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
                       $('.tabs, .filters', $card).show();
                       if (listingVisible)
@@ -1141,7 +1141,7 @@
                       $card.trigger('lifetimeComplete.fluxx.card');
                       $card.saveDashboard();
                     });
-                  });
+                  }, 610);
                 }
             }
           },
