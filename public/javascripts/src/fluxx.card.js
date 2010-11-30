@@ -426,11 +426,9 @@
           $pulls.each(function(){ text.push($(this).text()) });
           detail = text.join(' ');
       }
-      
       if (filter)
-        info.push('<span><strong>Filters:</strong> ' + filter + '</span>');
-      if (search)
-        info.push('<span><strong>Search:</strong> ' + search + '</span>');
+        info.push('<span><strong>Filters:</strong> ' + filter +
+        (search ? ' | <strong>Search:</strong> ' + search : '') + '</span>');
       if (detail)
         info.push('<span><strong>Detail:</strong> ' + detail + '</span>');
 
@@ -1121,7 +1119,8 @@
                     });
                   });
                 } else {
-                  var timeout = ($card.data('fromClientStore') ? 0 : 600);
+                  // don't do animations when first loading minimized cards into the dashboard
+                  var timeout = ($card.data('fromClientStore') ? 1 : 600);
                   $card.data('lastWidth', $card.width());                  
                   listingVisible = $('.listing', $card).is(':visible');
                   detailVisible = $('.detail', $card).is(':visible');
