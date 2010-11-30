@@ -426,11 +426,9 @@
           $pulls.each(function(){ text.push($(this).text()) });
           detail = text.join(' ');
       }
-      
       if (filter)
-        info.push('<span><strong>Filters:</strong> ' + filter + '</span>');
-      if (search)
-        info.push('<span><strong>Search:</strong> ' + search + '</span>');
+        info.push('<span><strong>Filters:</strong> ' + filter +
+        (search ? ' | <strong>Search:</strong> ' + search : '') + '</span>');
       if (detail)
         info.push('<span><strong>Detail:</strong> ' + detail + '</span>');
 
@@ -1105,40 +1103,47 @@
                   var cw = $card.data('lastWidth');
                   if (cw == 0) 
                     cw = _.addUp($('.area[minimized=true]', $card), 'outerWidth', true);
-                  $card.animateWidthTo(cw, function() {
-                    $titlebar.attr('minimized', 'false');
-                    $('.maximize-card', $card).removeClass('maximize-card').addClass('minimize-card');
-                    $('.title', $card).show();
-                    $card.fluxxCardMinimized().hide();
-                    $('.footer', $card).css('opacity', 1);
-                    $('.area, .info', $card).filter('[minimized=true]').fadeIn('slow').attr('minimized', 'false');;
-                    $card.resizeFluxxCard();
-                    $card.trigger('lifetimeComplete.fluxx.card');
-                    if (!$card.fromClientStore() && !$card.cardFullyVisible())
-                      $('a', $card.data('icon')).click();
-                    $card.saveDashboard();
+                  $card.fluxxCardMinimized().fadeOut('fast', function() {
+                    $card.animateWidthTo(cw, function() {
+                      $titlebar.attr('minimized', 'false');
+                      $('.maximize-card', $card).removeClass('maximize-card').addClass('minimize-card');
+                      $('.title', $card).show();
+                      $card.fluxxCardMinimized().hide();
+                      $('.footer', $card).css('opacity', 1);
+                      $('.area, .info', $card).filter('[minimized=true]').fadeIn('slow').attr('minimized', 'false');;
+                      $card.resizeFluxxCard();
+                      $card.trigger('lifetimeComplete.fluxx.card');
+                      if (!$card.fromClientStore() && !$card.cardFullyVisible())
+                        $('a', $card.data('icon')).click();
+                      $card.saveDashboard();
+                    });
                   });
                 } else {
-                  $card.data('lastWidth', $card.width());
-                  $('.detail, .tabs, .filters', $card).fadeOut('slow');
+                  // don't do animations when first loading minimized cards into the dashboard
+                  var timeout = ($card.data('fromClientStore') ? 1 : 600);
+                  $card.data('lastWidth', $card.width());                  
                   listingVisible = $('.listing', $card).is(':visible');
-                  $('.listing', $card).fadeOut('slow', function() {
+                  detailVisible = $('.detail', $card).is(':visible');
+                  $('.detail, .tabs, .filters, .listing', $card).fadeOut(timeout);
+                  setTimeout(function() {
                     $card.animateWidthTo($card.fluxxCardMinimized().width() + 2, function() {
-                      $('.detail, .tabs, .filters', $card).show();
+                      $('.tabs, .filters', $card).show();
                       if (listingVisible)
                         $('.listing', $card).show();
+                      if (detailVisible)
+                        $('.detail', $card).show();
                       $titlebar.attr('minimized', 'true');
                       $('.minimize-card', $card).removeClass('minimize-card').addClass('maximize-card');
                       $('.title', $card).hide();
                       $('.footer', $card).css('opacity', 0);
                       $('.area, .info', $card).filter(':visible').hide().attr('minimized', 'true');
-                      $card.fluxxCardMinimized().show();
+                      $card.fluxxCardMinimized().fadeIn('slow');
                       $('.card-body', $card).css('opacity', 1);
                       $card.resizeFluxxCard();
                       $card.trigger('lifetimeComplete.fluxx.card');
                       $card.saveDashboard();
-                    });
-                  });
+                    }, timeout);
+                  }, timeout + 10);
                 }
             }
           },
