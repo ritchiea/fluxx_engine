@@ -45,9 +45,13 @@ body {
     label[for=user_email],label[for=user_password] {
       display: none; }
     input[type=text],input[type=password] {
+      font-size:100%;
       @include border-box;
       width: 300px; }
     input[type=submit] {
+      width:auto;
+      padding:5px 10px;
+      font-size:100%;
       @include rounded(3px);
       float: right; }
     .shared-links {
