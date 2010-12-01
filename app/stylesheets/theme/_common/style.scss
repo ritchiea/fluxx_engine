@@ -390,7 +390,7 @@
   
 }
 .partial {
-  margin-top: 30px;
+  margin-bottom: 30px;
   &.updating {
     @include box-shadow-inset;
     background: #{inline_image("/images/fluxx_engine/theme/_common/loaders/ajax-loader-666666.gif")} no-repeat center center;
@@ -703,6 +703,7 @@ table .partial { margin: 0.25em 0; }
     dd { @include inline-block; width:70%; margin: 0; font-size:100%;}
   }
   a {font-size: 13px;}
+  .partial:first-of-type {margin-top:30px;}
   .view-workflow {
     display: block;
     margin: 0px;
