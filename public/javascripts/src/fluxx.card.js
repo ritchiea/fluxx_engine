@@ -71,16 +71,16 @@
         );
         $card.fluxxCardLoadListing(options.listing, function(){
           $card.fluxxCardLoadDetail(options.detail, function(){
-            if (options.hasOwnProperty('minimized') && options.minimized.minimized) {
-              $card.trigger('minimize.fluxx.card');
-            }
             $card.trigger('complete.fluxx.card');
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
             $card.trigger('lifetimeComplete.fluxx.card');
-            _.bind($.fn.resizeFluxxCard, $card)();    
+            _.bind($.fn.resizeFluxxCard, $card)();
             // Bring the card into focus if we are not restoring a dashboard after a page refresh
             if (!$card.fromClientStore() && !$card.cardFullyVisible())
-              $('a', $card.data('icon')).click();                
+              $('a', $card.data('icon')).click();
+            if (options.hasOwnProperty('minimized') && options.minimized.minimized) {
+              $card.trigger('minimize.fluxx.card');
+            }
           })
         });
         $.my.cards = $('.card');
@@ -376,7 +376,6 @@
                 .fadeTo(300, 0);
             },
             success: function(data, status, xhr){
-              $partial.html('foo').removeClass('updating').children().fadeIn();
               $partial.html($(data)).removeClass('updating').children().fadeIn();
               if (onComplete)
                 onComplete();
@@ -1064,10 +1063,10 @@
       var $box = $('.card-box', $card);
       // Workaround to prevent the bottom dropshadow from disappearing when the card is animating
       $card.height($card.height() + 20);
-      $card.stop().animate({width: widthTo + additonalCardWidth}, speed);
+      $card.animate({width: widthTo + additonalCardWidth}, speed);
       // Add 10 to the card-box width initially as the animation momentarily shrinks the
       // card by a few pixels, unexplainably 
-      $box.width($box.width() + 10).stop().animate({width: widthTo}, speed, 'swing', function() {
+      $box.width($box.width() + 10).animate({width: widthTo}, speed, 'swing', function() {
         $('.title', $card).show();
         $('#card-table').width('100%')
         $card.height($card.height() - 20);
@@ -1126,8 +1125,7 @@
                     });
                   });
                 } else {
-                  // don't do animations when first loading minimized cards into the dashboard
-                  var timeout = ($card.data('fromClientStore') ? 1 : 600);
+                  var timeout = ($card.data('fromClientStore') ? 0 : 600);
                   $card.data('lastWidth', $card.width());                  
                   listingVisible = $('.listing', $card).is(':visible');
                   detailVisible = $('.detail', $card).is(':visible');
@@ -1152,8 +1150,8 @@
                     }, timeout);
                   }, timeout + 10);
                 }
-            }
-          },
+              }
+            },
           update: $.noop,
           position: function($card) { $card.appendTo($.my.hand);},
           listing: {
