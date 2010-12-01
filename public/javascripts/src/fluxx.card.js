@@ -366,7 +366,6 @@
         var $partial = $(this).fluxxCardPartial();
         
         if (options.animate) {
-          $.fluxx.log('!!!!! here', $partial, $partial.attr('data-src'));
           $.ajax({
             url: $partial.attr('data-src'),
             beforeSend: function() {
