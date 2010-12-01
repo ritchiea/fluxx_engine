@@ -428,9 +428,13 @@
           $pulls.each(function(){ text.push($(this).text()) });
           detail = text.join(' ');
       }
+      var concat = [];
       if (filter)
-        info.push('<span><strong>Filters:</strong> ' + filter +
-        (search ? ' | <strong>Search:</strong> ' + search : '') + '</span>');
+        concat.push('<strong>Filters:</strong> ' + filter);
+      if (search)
+        concat.push('<strong>Search:</strong> ' + search);
+      if (concat.length)
+        info.push('<span>' + concat.join() + '</span>'); 
       if (detail)
         info.push('<span><strong>Detail:</strong> ' + detail + '</span>');
 
