@@ -322,10 +322,11 @@
       $('.tabs', $card).fadeOut( function() {
         $('.drawer', $card).parent().addClass('empty');
         // include the width of the .card-box border or the card header and footer will be too small
-        newWidth = $card.fluxxCardListing().width() + parseInt($('.card-box', $card).css('border-left-width')) + parseInt($('.card-box', $card).css('border-right-width')); 
+        newWidth = $card.fluxxCardListing().width() + parseInt($('.card-box', $card).css('border-left-width')) + parseInt($('.card-box', $card).css('border-right-width'));        
         $card.closeCardModal().animateWidthTo(newWidth, function() {
           $card.fluxxCardDetail().hide();
           $card.trigger('lifetimeComplete.fluxx.card');
+          $card.width(newWidth);
           $('.tabs', $card).show();
         });      
         $card.fluxxCardDetail().fluxxCardArea().data('history')[0] = {};
