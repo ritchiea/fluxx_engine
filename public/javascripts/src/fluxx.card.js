@@ -630,6 +630,7 @@
           },
         }, function () {
           $('.date input', $filters).datepicker();
+          // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {
               var criterion = []; 
@@ -647,9 +648,9 @@
                     if ($elem.attr('checked') == true)
                       criterion.push(label);
                   } else if (type == 'select-one') {
-                    criterion.push(label + ': ' + $("option[value='" + val + "']", $elem).text());
+                    criterion.push($("option[value='" + val + "']", $elem).text());
                   } else if (type == 'text') {
-                    criterion.push(label + ': ' + val);
+                    criterion.push(val);
                   }
                   
                   // Pass multi value form fields so that rails recognizes them as an array
