@@ -217,9 +217,8 @@
       });
       return this
     },
-    resizeFluxxCard: function(options, onComplete) {      
-      if ($.my.stage.animating || !$.my.hand) return this;
-      
+    resizeFluxxCard: function(options, onComplete) {
+      if (!$.my.hand) return this;
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       return this.each(function() {
         var $card = $(this).fluxxCard();
