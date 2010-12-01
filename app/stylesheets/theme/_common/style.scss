@@ -918,8 +918,8 @@ table .partial { margin: 0.25em 0; }
     padding: 0px 5px;
     vertical-align:top;
     &.with-more-info {
-      background: #ffffcc;
-      border-color: #eeeebb;
+      background: #FDFEBA;
+      border: 1px solid #DFE1B2;
       a {
         display: block;
         background: #{inline_image("/images/fluxx_engine/theme/default/icons/arrow_right.png")} no-repeat right center;
