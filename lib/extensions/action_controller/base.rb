@@ -269,7 +269,7 @@ class ActionController::Base
         if create_result
           response.headers['fluxx_result_success'] = 'create'
           
-          flash[:info] = t(:insta_successful_create, :name => model_class.name) unless create_object.dont_display_flash_message
+          flash[:info] = t(:insta_successful_create, :name => model_class.model_name.human) unless create_object.dont_display_flash_message
           insta_respond_to create_object, :success do |format|
             format.html do
               handle_successful_create
@@ -347,7 +347,7 @@ class ActionController::Base
         
           if update_result
             response.headers['fluxx_result_success'] = 'update'
-            flash[:info] = t(:insta_successful_update, :name => model_class.name) unless update_object.dont_display_flash_message
+            flash[:info] = t(:insta_successful_update, :name => model_class.model_name.human) unless update_object.dont_display_flash_message
             insta_respond_to update_object, :success do |format|
               format.html do
                 if update_object.render_inline 
@@ -422,7 +422,7 @@ class ActionController::Base
         delete_object.invoke_post self, @model
         if delete_result
           response.headers['fluxx_result_success'] = 'delete'
-          flash[:info] = t(:insta_successful_delete, :name => model_class.name) unless delete_object.dont_display_flash_message
+          flash[:info] = t(:insta_successful_delete, :name => model_class.model_name.human) unless delete_object.dont_display_flash_message
           insta_respond_to delete_object, :success do |format|
             format.html do
               head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || url_for(@model))
@@ -431,7 +431,7 @@ class ActionController::Base
           end
         else
           response.headers['fluxx_result_failure'] = 'delete'
-          flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.name) unless flash[:error]
+          flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.model_name.human) unless flash[:error]
           insta_respond_to delete_object, :error do |format|
             format.html do
               head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || url_for(@model))
