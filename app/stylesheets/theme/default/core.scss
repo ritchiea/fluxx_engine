@@ -136,6 +136,13 @@ tr:hover td { }
     padding-left: 2px;
   }
 }
+.actions-left {
+  font-weight: normal;
+  padding: 0;
+  a {
+    padding-left: 2px;
+  }
+}
 td.check, td.actions {
   width:20px;
   white-space:nowrap;

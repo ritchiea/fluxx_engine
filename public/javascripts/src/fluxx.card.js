@@ -71,16 +71,16 @@
         );
         $card.fluxxCardLoadListing(options.listing, function(){
           $card.fluxxCardLoadDetail(options.detail, function(){
-            if (options.hasOwnProperty('minimized') && options.minimized.minimized) {
-              $card.trigger('minimize.fluxx.card');
-            }
             $card.trigger('complete.fluxx.card');
             $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
             $card.trigger('lifetimeComplete.fluxx.card');
-            _.bind($.fn.resizeFluxxCard, $card)();    
+            _.bind($.fn.resizeFluxxCard, $card)();
             // Bring the card into focus if we are not restoring a dashboard after a page refresh
             if (!$card.fromClientStore() && !$card.cardFullyVisible())
-              $('a', $card.data('icon')).click();                
+              $('a', $card.data('icon')).click();
+            if (options.hasOwnProperty('minimized') && options.minimized.minimized) {
+              $card.trigger('minimize.fluxx.card');
+            }
           })
         });
         $.my.cards = $('.card');
@@ -254,7 +254,7 @@
             ).each(function(){
               var $area     = $(this),
                   $areaBody = $('.body', $area);
-              if ($area.hasClass('modal')) {
+              if ($area.hasClass('modal') && $area.data('target')) {
                 var $arrow = $('.arrow', $area);
                 if ($card.height() - 8 < $area.data('target').offset().top - $('.card-header', $card).height())
                   $arrow.hide();
@@ -279,7 +279,7 @@
 
         // Size the minimized card area and center it in the available space
         $min = $('.minimized-info', $card);
-        if ($min.length) {
+        if ($min.length && $card.fluxxCardMinimized()) {
           $min.width($min.parent().height()).css('margin-top', $min.parent().height() + 'px');
           var padding = Math.floor(($card.fluxxCardMinimized().width() - $('ul', $min).height()) / 2) - 4;
           if (padding < 0)
@@ -322,10 +322,11 @@
       $('.tabs', $card).fadeOut( function() {
         $('.drawer', $card).parent().addClass('empty');
         // include the width of the .card-box border or the card header and footer will be too small
-        newWidth = $card.fluxxCardListing().width() + parseInt($('.card-box', $card).css('border-left-width')) + parseInt($('.card-box', $card).css('border-right-width')); 
+        newWidth = $card.fluxxCardListing().width() + parseInt($('.card-box', $card).css('border-left-width')) + parseInt($('.card-box', $card).css('border-right-width'));        
         $card.closeCardModal().animateWidthTo(newWidth, function() {
           $card.fluxxCardDetail().hide();
           $card.trigger('lifetimeComplete.fluxx.card');
+          $card.width(newWidth);
           $('.tabs', $card).show();
         });      
         $card.fluxxCardDetail().fluxxCardArea().data('history')[0] = {};
@@ -426,9 +427,13 @@
           $pulls.each(function(){ text.push($(this).text()) });
           detail = text.join(' ');
       }
+      var concat = [];
       if (filter)
-        info.push('<span><strong>Filters:</strong> ' + filter +
-        (search ? ' | <strong>Search:</strong> ' + search : '') + '</span>');
+        concat.push('<strong>Filters:</strong> ' + filter);
+      if (search)
+        concat.push('<strong>Search:</strong> ' + search);
+      if (concat.length)
+        info.push('<span>' + concat.join() + '</span>'); 
       if (detail)
         info.push('<span><strong>Detail:</strong> ' + detail + '</span>');
 
@@ -629,6 +634,7 @@
           },
         }, function () {
           $('.date input', $filters).datepicker();
+          // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {
               var criterion = []; 
@@ -646,9 +652,9 @@
                     if ($elem.attr('checked') == true)
                       criterion.push(label);
                   } else if (type == 'select-one') {
-                    criterion.push(label + ': ' + $("option[value='" + val + "']", $elem).text());
+                    criterion.push($("option[value='" + val + "']", $elem).text());
                   } else if (type == 'text') {
-                    criterion.push(label + ': ' + val);
+                    criterion.push(val);
                   }
                   
                   // Pass multi value form fields so that rails recognizes them as an array
@@ -1057,10 +1063,10 @@
       var $box = $('.card-box', $card);
       // Workaround to prevent the bottom dropshadow from disappearing when the card is animating
       $card.height($card.height() + 20);
-      $card.stop().animate({width: widthTo + additonalCardWidth}, speed);
+      $card.animate({width: widthTo + additonalCardWidth}, speed);
       // Add 10 to the card-box width initially as the animation momentarily shrinks the
       // card by a few pixels, unexplainably 
-      $box.width($box.width() + 10).stop().animate({width: widthTo}, speed, 'swing', function() {
+      $box.width($box.width() + 10).animate({width: widthTo}, speed, 'swing', function() {
         $('.title', $card).show();
         $('#card-table').width('100%')
         $card.height($card.height() - 20);
@@ -1119,8 +1125,7 @@
                     });
                   });
                 } else {
-                  // don't do animations when first loading minimized cards into the dashboard
-                  var timeout = ($card.data('fromClientStore') ? 1 : 600);
+                  var timeout = ($card.data('fromClientStore') ? 0 : 600);
                   $card.data('lastWidth', $card.width());                  
                   listingVisible = $('.listing', $card).is(':visible');
                   detailVisible = $('.detail', $card).is(':visible');
@@ -1145,8 +1150,8 @@
                     }, timeout);
                   }, timeout + 10);
                 }
-            }
-          },
+              }
+            },
           update: $.noop,
           position: function($card) { $card.appendTo($.my.hand);},
           listing: {
@@ -1204,7 +1209,6 @@
                   var href = $target.attr('href');
                   $this.data('target', $('[href=' + href + ']', $area));
                 };
-                  
             if ($target.parents('.partial').length) {
               $.fluxx.log("Refreshing PARTIAL");
               $target.refreshAreaPartial({}, resetTarget);

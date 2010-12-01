@@ -12,6 +12,7 @@
   height: auto;
   height: 100%;
   min-height: 100%;
+  white-space: nowrap;
 }
 #header{
   height: $header_height;
@@ -97,7 +98,12 @@
             display: block;
             color: #dddddd;
           }
-          .new-dashboard-input { width: 192px; }
+          .new-dashboard-input { 
+            width: 182px;            
+            position: relative;
+            left: 5px;
+            top: 3px;
+          }
         } 
       } 
     }
@@ -889,6 +895,7 @@ table .partial { margin: 0.25em 0; }
     margin-left: -20px;
     margin-bottom:35px;
     .drawer {
+      overflow-y: auto;
       @include box-shadow;
       display: block;
       border: 1px solid #444;
