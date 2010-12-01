@@ -894,6 +894,7 @@ table .partial { margin: 0.25em 0; }
     margin-left: -20px;
     margin-bottom:35px;
     .drawer {
+      overflow-y: auto;
       @include box-shadow;
       display: block;
       border: 1px solid #444;
