@@ -1062,12 +1062,15 @@ table .partial { margin: 0.25em 0; }
 }
 
 .list {
-  border-bottom: 1px dotted #999;
+  border-bottom: 1px dotted #999;  
   ul li {
     list-style: none inside;
   }
   ul.todo li {
     list-style: none;
+  }
+  ul.bullets li{
+    list-style: disc inside;
   }
   p.add-item {
     padding-left: 15px;
