@@ -3,8 +3,6 @@ body, div.description, dt, dd, h1, h2, h3, div, span, p {
   font-size: 14px;
   background: white;
   color: black !important;
-  margin: 0px;
-  padding: 0px;
 }
 h1 {
   font-size: 18pt;
@@ -32,5 +30,5 @@ a,form, input, #card-drawer, #card-settings, .actions
   }
 }
 
-//Start of new Printable Styles
-/*.show { width:612px; }*/
+// Fix width to match paper size
+.show { width:612px; }
