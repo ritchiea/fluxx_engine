@@ -57,7 +57,8 @@
             text-decoration: none;
             &:hover { text-decoration: underline; } 
           } 
-        } 
+        }
+        li:first-of-type{ font-size: 107%;}
       } 
     }
     .link {
