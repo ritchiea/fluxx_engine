@@ -21,7 +21,7 @@ gem 'thinking-sphinx', '2.0.0.rc1', :require => 'thinking_sphinx'
 gem 'compass'
 
 gem "aasm", '2.2.0'
-gem 'acts_as_audited_rails3', '>=1.1.1.5'
+gem 'acts_as_audited_rails3', '>=1.1.2'
 
 if RUBY_VERSION < '1.9'
   gem "ruby-debug", ">= 0.10.3"
