@@ -561,19 +561,15 @@
         });
       });
 
-
       var once = false;
       $('[data-trigger-field]', $area).each(function() {
         if (!once) {
           once = true;
-          // Refresh autocomplete fields when closing a modal
+          // Refresh dropdowns when closing a modal
           $area.bind('close.fluxx.modal', function (e, $target, url) {
+            // Capture the url returned from the create operation, this will contain the ID
+            // of the newly created element.
             var $select = $target.parent().prev();
-            //TODO: We are using the last URL loaded into the modal to get the newly created user ID.
-            // If the user edits the user or does something else in the URL in the modal and then closes
-            // the card, we will not match the user ID. The worst case scenario is that the user will not be
-            // autoselected, but they will still be added to the list.
-            // This may need to be rethough and made a bit more robust
             var userID = url.match(/\/(\d+)$/);
             if (userID)
               userID = userID.pop();
@@ -970,7 +966,7 @@
             }
           } else {          
             var complete = function () {
-              var $document = $('<div/>').html(data);
+              var $document = $('<div/>').html(data);                  
               var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
                 $('#card-header', $document).html() : options.header);
               $('.header', options.area).html(header.trim());
@@ -990,6 +986,7 @@
                 .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
             }
             var $card = options.area.fluxxCard();
+            options.area.attr('data-src', options.area.fluxxCardAreaRequest().url);
             if (!options.area.is(':visible') && options.area.width() > 0) {
               $card.animateWidthTo($card.width() + options.area.width(), function() {
                 // Wait a bit before displaying content to avoid an animation jump 
@@ -1226,6 +1223,7 @@
               $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();
             }
           },
+          // Open a new detail only card
           openDetail: function() {           
             if (! this.data('target')) return;
             var $elem = this.data('target');
@@ -1244,6 +1242,32 @@
               }
               $.my.hand.addFluxxCard(card);
             });                        
+          },
+          // Populate an input field with the success value from a create operation in a modal
+          populateField: function() {
+            if (! this.data('target')) return;
+            var $elem = this.data('target');
+            var $card = $elem.fluxxCard();
+            if (this.data('target').attr('target')) {
+              $field = $(this.data('target').attr('target'), this.data('target').fluxxCardArea());
+              $('.area', $card).bind('close.fluxx.modal', function(e, $target, url) {
+                $('.area', $card).unbind('close.fluxx.modal');
+                var objectID = url.match(/\/(\d+)$/);
+                if (objectID) {
+                  objectID = objectID.pop();
+                  // We need to do some special handling for autocomplete inputs
+                  if ($field.attr('data-autocomplete')) {
+                    // TODO: add real value here
+                    $field.val('test').next().val(objectID);
+                    $field.trigger('change', function () {
+                      $field.next().trigger('change');
+                    });
+                  } else {
+                    $field.val(objectID);
+                  }
+                }
+              });              
+            }
           }
         }
       }

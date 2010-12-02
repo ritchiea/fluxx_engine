@@ -306,7 +306,7 @@
             }
           ],
           '[data-related-child]': [
-            'change', function (e) {
+            'change', function (e, callback) {
               var updateChild = function ($child, parentId) {
                 var query = {};
                 query[$child.attr('data-param')] = parentId;
@@ -328,13 +328,17 @@
               }
 
               var $parent   = $(this),
-                  $children = $($parent.attr('data-related-child'), $parent.parents('form').eq(0));
-
+                  $children = $($parent.attr('data-related-child'), $parent.parents('form').eq(0));      
               if ($parent.attr('data-sibling')) {
                 $('[data-sibling='+ $parent.attr('data-sibling') +']', $parent.parent()).not($parent)
-                  .one('change', function(){
+                  .one('change', function(){ 
                     updateChildren($children, $(this).val());
                   });
+                  // this callback is used when populating an autocomplete field from code. We need to
+                  // be sure that the change event is registered on the autocomplete field first before
+                  // triggering a change on the value field
+                  if (callback) 
+                    callback.call();
               } else {
                 updateChildren($children, $parent.val());
               }
@@ -680,6 +684,7 @@
               });
             }
           ],
+          //TODO : implement
           'input[data-duplicate-lookup]': [
              'focus', function (e) {
                $.fluxx.util.itEndsWithMe(e);
