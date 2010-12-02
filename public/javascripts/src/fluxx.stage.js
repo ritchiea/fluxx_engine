@@ -328,7 +328,8 @@
               }
 
               var $parent   = $(this),
-                  $children = $($parent.attr('data-related-child'), $parent.parents('form').eq(0));      
+                  $children = $($parent.attr('data-related-child'), $parent.parents('form').eq(0));
+              
               if ($parent.attr('data-sibling')) {
                 $('[data-sibling='+ $parent.attr('data-sibling') +']', $parent.parent()).not($parent)
                   .one('change', function(){ 
