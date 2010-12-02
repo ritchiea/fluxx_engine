@@ -1213,15 +1213,17 @@
               $target.refreshCardArea(resetTarget);
             }
           },
+          // Refresh a card area named in the target parameter of the element that launched this modal.
           refreshNamed: function(){
-            // Refresh a card area named in the target parameter of the element that launched this modal
-            // NOTE: This does not yet preserve this.data('target') so it may not be reliable for multiple
-            // refreshes if the calling element is inside the refreshed area. In most cases you would
-            // simply use refreshCaller instead, so this should not be an issue.
             if (! this.data('target')) return;
             if (this.data('target').attr('target')) {
               $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();
             }
+          },
+          //Refresh the entire detail area
+          refreshDetail: function(){
+            if (! this.data('target')) return;
+            $target.refreshCardArea(resetTarget);
           },
           // Open a new detail only card
           openDetail: function() {           
