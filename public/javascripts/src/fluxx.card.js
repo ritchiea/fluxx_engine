@@ -1259,8 +1259,9 @@
                   if ($field.attr('data-autocomplete')) {
                     // TODO: add real value here
                     $field.val('test').next().val(objectID);
+                    // TODO: Pass url override so that autocomplete query does hit Thinking Sphinx
                     $field.trigger('change', function () {
-                      $field.next().trigger('change');
+                      $field.next().trigger('change', {});
                     });
                   } else {
                     $field.val(objectID);

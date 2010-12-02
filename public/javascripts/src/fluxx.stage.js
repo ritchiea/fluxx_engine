@@ -329,10 +329,9 @@
 
               var $parent   = $(this),
                   $children = $($parent.attr('data-related-child'), $parent.parents('form').eq(0));
-              
               if ($parent.attr('data-sibling')) {
                 $('[data-sibling='+ $parent.attr('data-sibling') +']', $parent.parent()).not($parent)
-                  .one('change', function(){ 
+                  .one('change', function(){                    
                     updateChildren($children, $(this).val());
                   });
                   // this callback is used when populating an autocomplete field from code. We need to
