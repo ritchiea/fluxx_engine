@@ -1214,6 +1214,8 @@
             }
           },
           // Refresh a card area named in the target parameter of the element that launched this modal.
+          //TODO: The original target becomes orphaned after the refresh. May want to implement
+          // resetTarget like in refreshCaller
           refreshNamed: function(){
             if (! this.data('target')) return;
             if (this.data('target').attr('target')) {
@@ -1221,6 +1223,8 @@
             }
           },
           //Refresh the entire detail area
+          //TODO: The original target becomes orphaned after the refresh. May want to implement
+          // resetTarget like in refreshCaller
           refreshDetail: function(){
             if (! this.data('target')) return;
             this.data('target').refreshCardArea();
@@ -1250,24 +1254,38 @@
             if (! this.data('target')) return;
             var $elem = this.data('target');
             var $card = $elem.fluxxCard();
-            if (this.data('target').attr('target')) {
+            var lookupURL = this.data('target').attr('data-src');
+            if (this.data('target').attr('target') && lookupURL) {
               $field = $(this.data('target').attr('target'), this.data('target').fluxxCardArea());
               $('.area', $card).bind('close.fluxx.modal', function(e, $target, url) {
                 $('.area', $card).unbind('close.fluxx.modal');
                 var objectID = url.match(/\/(\d+)$/);
                 if (objectID) {
                   objectID = objectID.pop();
-                  // We need to do some special handling for autocomplete inputs
-                  if ($field.attr('data-autocomplete')) {
-                    // TODO: add real value here
-                    $field.val('test').next().val(objectID);
-                    // TODO: Pass url override so that autocomplete query does hit Thinking Sphinx
-                    $field.trigger('change', function () {
-                      $field.next().trigger('change', {});
-                    });
-                  } else {
-                    $field.val(objectID);
-                  }
+                  var query = {'find_by_id': 'true', id: objectID};
+                  alert(lookupURL + ' is it');
+                  $.getJSON(lookupURL, query, function(data, status) {
+                    data = data.pop();
+                    // We need to do some special handling for autocomplete inputs
+                    if ($field.attr('data-autocomplete')) {
+                      // We need to strip " - headquarters" from the label we get back from the server if this an organization query
+                      var name = (lookupURL == '/organizations.autocomplete' ? data.label.replace(/ - headquarters$/, '') : data.label);
+                      $field.val(name).next().val(objectID);
+                      var child = $field.attr('data-related-child')
+                      if (child) {
+                        var $child = $(child, $card);
+                        if ($child.attr('data-required')) {
+                          $child.empty();
+                        } else {
+                          $child.html('<option></option>');
+                        }
+                        $('<option></option>').val(data.value).html(data.label).appendTo($child);
+                        $child.val($child.children().first().val()).trigger('options.updated').change();
+                      }
+                    } else {
+                    $field.val(name);
+                    }
+                  });
                 }
               });              
             }

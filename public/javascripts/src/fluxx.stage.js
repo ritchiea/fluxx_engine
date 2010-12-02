@@ -306,7 +306,7 @@
             }
           ],
           '[data-related-child]': [
-            'change', function (e, callback) {
+            'change', function (e) {
               var updateChild = function ($child, parentId) {
                 var query = {};
                 query[$child.attr('data-param')] = parentId;
@@ -334,11 +334,6 @@
                   .one('change', function(){                    
                     updateChildren($children, $(this).val());
                   });
-                  // this callback is used when populating an autocomplete field from code. We need to
-                  // be sure that the change event is registered on the autocomplete field first before
-                  // triggering a change on the value field
-                  if (callback) 
-                    callback.call();
               } else {
                 updateChildren($children, $parent.val());
               }
