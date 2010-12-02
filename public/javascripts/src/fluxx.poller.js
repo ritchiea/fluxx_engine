@@ -80,7 +80,7 @@
       },
       implementations: {
         polling: {
-          interval: $.fluxx.util.seconds(30),
+          interval: $.fluxx.util.seconds(15),
           last_id: '',
           decay: 1.2, /* not used presently */
           maxInterval: $.fluxx.util.minutes(60),
