@@ -1205,7 +1205,7 @@
                   var href = $target.attr('href');
                   $this.data('target', $('[href=' + href + ']', $area));
                 };
-            if ($target.parents('.partial').length) {
+            if ($target.parents('.partial').length && $target.parents('.partial').attr('data-src')) {
               $.fluxx.log("Refreshing PARTIAL");
               $target.refreshAreaPartial({}, resetTarget);
             } else {
