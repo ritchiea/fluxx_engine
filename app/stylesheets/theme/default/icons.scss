@@ -6,7 +6,8 @@
       right: auto;
       .arrow {
         left: 15px;
-      } 
+      }
+      li:first-of-type{ font-size: 107%;}
     } 
   }
   .icon {
@@ -57,7 +58,7 @@
             text-decoration: none;
             &:hover { text-decoration: underline; } 
           } 
-        } 
+        }
       } 
     }
     .link {
