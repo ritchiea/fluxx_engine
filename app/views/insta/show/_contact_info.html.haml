@@ -6,7 +6,7 @@
       - if location.street_address
         %span.address1= location.street_address
         <br/>
-      - if location.street_address2 
+      - unless location.street_address2.blank?
         %span.address2= location.street_address2 
         <br/>
       - if location.city

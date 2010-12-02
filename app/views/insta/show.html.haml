@@ -19,7 +19,7 @@
               - else
                 - element[:model].to_s
               %li.entry
-                = link_to(element[:model], :class => 'new-detail', 'data-insert' => 'after', 'data-title' => element[:title]) do
+                = link_to(element[:model], :class => 'new-detail', 'data-insert' => 'after', 'data-title' => truncate(element[:title], :length => 45)) do
                   %span= section_title
 
   %div{:id=>"card-footer"}

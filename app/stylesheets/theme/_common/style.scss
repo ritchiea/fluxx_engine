@@ -991,7 +991,7 @@ table .partial { margin: 0.25em 0; }
     border-right: 1px solid #9B9B9B;
     text-transform: uppercase;
     color: #666;
-    padding: 4px;
+    padding: 4px 4px 4px 0;
     background: transparent;
     text-align:center;
   }
@@ -1015,7 +1015,7 @@ table .partial { margin: 0.25em 0; }
   tr:hover td { }
 
   tr:last-child {
-    td:last-child { @include rounded-bottom;border-bottom: 1px solid #9B9B9B; }
+    td:last-child { @include rounded-bottom; }
     td:empty:last-child {
       @include rounded-bottom;
       border-bottom: 1px solid #9B9B9B;
@@ -1026,14 +1026,17 @@ table .partial { margin: 0.25em 0; }
 }
 .audit-detail {
   display: none;
+  font-size: 11px;
   width: 100%;
   border-collapse: collapse;
   color: #666666;
   margin-bottom: 24px;
   td,th {
+    padding: 4px 0;
     border: none;
     text-align: left;
   }
+  th { font-weight:bold; }
   tr {
     .attribute {
       width: 30%;
