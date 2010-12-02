@@ -1223,7 +1223,7 @@
           //Refresh the entire detail area
           refreshDetail: function(){
             if (! this.data('target')) return;
-            $target.refreshCardArea(resetTarget);
+            this.data('target').refreshCardArea(resetTarget);
           },
           // Open a new detail only card
           openDetail: function() {           
