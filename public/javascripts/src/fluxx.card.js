@@ -363,8 +363,10 @@
       $.fluxx.log("**> refreshAreaPartial");
       var options = $.fluxx.util.options_with_callback({animate: true}, options, onComplete);
       return this.each(function(){
-        var $partial = $(this).fluxxCardPartial();
-        
+        // if the current context has a data-src attribute, we assume it is a partial. 
+        // By doing this we really don't need to give a specific area the partial class when
+        // targeting it using the "refreshNamed" action.
+        var $partial = ($(this).attr('data-src') ? $(this) : $(this).fluxxCardPartial());
         if (options.animate) {
           $.ajax({
             url: $partial.attr('data-src'),
@@ -1218,7 +1220,7 @@
           // resetTarget like in refreshCaller
           refreshNamed: function(){
             if (! this.data('target')) return;
-            if (this.data('target').attr('target')) {
+            if (this.data('target').attr('target')) {           
               $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();
             }
           },
