@@ -28,7 +28,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   def model_search q_search, request_params, results_per_page=25, options={}
     p "ESH: in model_search q_search=#{q_search.inspect}, request_params=#{request_params.inspect}"
     local_model_class = options[:actual_model_class] || model_class
-    if local_model_class.respond_to?(:sphinx_indexes) && local_model_class.sphinx_indexes
+    if !(request_params[:force_sql]) && local_model_class.respond_to?(:sphinx_indexes) && local_model_class.sphinx_indexes
       sphinx_model_search q_search, request_params, results_per_page, options
     else
       sql_model_search q_search, request_params, results_per_page, options
