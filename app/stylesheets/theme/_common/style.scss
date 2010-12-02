@@ -1011,9 +1011,8 @@ table .partial { margin: 0.25em 0; }
     .edit_link {float:left;padding-right:5px;}
   }
   tr:hover th[scope="row"],
-  tr:hover tbody th.sub { }
-  tr:hover td { }
-
+  tr:hover tbody th.sub {}
+  tr:hover td {}
   tr:last-child {
     td:last-child { @include rounded-bottom; }
     td:empty:last-child {
