@@ -19,6 +19,7 @@
       return STATES[this.state];
     },
     start: function () {
+      return;
       if (this.state == S_ON) return;
       this.state = S_ON;
       this._start();

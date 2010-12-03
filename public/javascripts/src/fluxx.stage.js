@@ -679,13 +679,50 @@
               });
             }
           ],
-          //TODO : implement
           'input[data-duplicate-lookup]': [
-             'focus', function (e) {
+             'focusout', function (e) {
                $.fluxx.util.itEndsWithMe(e);
                var $elem = $(this);
                var endPoint = $elem.attr('data-duplicate-lookup');
-             }
+               // The data-related parameter allow you to concat two field for duplicate lookup.
+               // This is useful in the case of first and last name.
+               var related = $elem.attr('data-related');
+               var val = jQuery.trim($elem.val());
+               if (related) {
+                 var rVal = $(related).val().trim();
+                 // This is kind of lame, determining the order by looking for the string
+                 // "first" in the ID of the input element
+                 if ($elem.attr('id').match(/first/)) 
+                   val = val + ' ' + rVal;
+                 else
+                   val = rVal+ ' ' + val;
+               }
+               query = {term: val}
+               $.getJSON(endPoint, query, function(data, status) {
+                 var match = false;
+                 _.each(data, function(i){
+                   if (jQuery.trim(i.label.toLowerCase()) == val.toLowerCase())
+                     match = true;
+                 });
+                 if (match) {
+                   var clearError = function(e) {
+                     $elem.unbind('focus').parent().removeClass('error').children('.inline-errors').remove();
+                     if (related)
+                       $(related).unbind('focus').parent().removeClass('error').children('.inline-errors').remove();
+                   };                   
+                   
+                   clearError();
+                   $elem.parent().addClass('error');
+                   $('<p class="inline-errors">The name ' + val + ' has already been taken, please choose another.</p>').appendTo($elem.parent());
+                   
+                   $elem.focus(clearError);
+                   if (related) {
+                     $(related).parent().addClass('error');
+                     $(related).focus(clearError);
+                   }
+                 }
+               });
+             },
            ],
           'a.scroll-to-card': [
             'click', function(e) {
