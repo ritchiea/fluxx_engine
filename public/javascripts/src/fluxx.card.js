@@ -15,8 +15,9 @@
             minimized: $('.minimized:eq(0)',    $card),
             box:       $('.card-box:eq(0)',  $card),
             body:      $('.card-body:eq(0)', $card),
-            fromClientStore: fromClientStore
-          })
+            fromClientStore: fromClientStore,
+            locked:    (options.settings ? options.settings.locked : false)
+          })         
           .bind({
             'complete.fluxx.card': _.callAll(
               $.fluxx.util.itEndsHere,
@@ -33,6 +34,10 @@
                   $close.show();
                 else
                   $close.hide();
+                if ($card.data('locked'))
+                  $('.close-card', $card).hide();
+                else
+                  $('.close-card', $card).show();
                 $refresh = $('.titlebar .refresh-card', $card).hide();
                 if (!$card.fluxxCardListing().is(':visible'))
                   $refresh.show();
@@ -78,7 +83,7 @@
             // Bring the card into focus if we are not restoring a dashboard after a page refresh
             if (!$card.fromClientStore() && !$card.cardFullyVisible())
               $('a', $card.data('icon')).click();
-            if (options.hasOwnProperty('minimized') && options.minimized.minimized) {
+            if (options.hasOwnProperty('settings') && options.settings.minimized) {
               $card.trigger('minimize.fluxx.card');
             }
           })
@@ -109,7 +114,9 @@
         title:   $card.fluxxCardTitle(),
         listing: $card.fluxxCardListing().fluxxCardAreaRequest() || {},
         detail:  $card.fluxxCardDetail().fluxxCardAreaRequest() || {},
-        minimized: {minimized: $card.cardIsMinimized()}
+        // TODO remove function and use data
+        settings: {minimized: $card.cardIsMinimized(),
+                   locked: $card.data('locked')}
       };
     },
     subscribeFluxxCardToUpdates: function () {
@@ -593,7 +600,7 @@
           var $elem = $(this);          
           if ($elem.val()) {
             // Put the organization ID into the link to create a new user
-            // TODO This form name should not be hardcoded
+            // TODO This field name should not be hardcoded
             $link.attr('href', $link.show().attr('href')
               .replace(/([\&\?])user\[temp_organization_id\]=\n*/, "$1user[temp_organization_id]=" + $elem.val()));
           } else {
@@ -636,7 +643,7 @@
             function() {
               var criterion = []; 
               $filterText.val('');
-               
+              $card.data('locked', $('#lock-card').attr('checked'));
               $filters.find(':input').each(function(index, elem) {
                 var $elem = $(elem);
                 var id = $elem.attr('id');
@@ -661,6 +668,22 @@
               });
               $filterText.val(criterion.join(', '));
             });
+          var $lock = $('<li class="boolean optional lock-card"><label for="lock-card"><input id="lock-card" type="checkbox"' + 
+            ($card.data('locked') ? ' checked="true"' : '') +
+            '(>Lock Card</label></li>').prependTo($form);
+          $lock.change(function() {
+            // TODO: Better filter locking
+            if ($('#lock-card', $lock).attr('checked')) {
+              $form.addClass('locked');
+              $('a.do-add-another', $form).removeClass('do-add-another').addClass('do-add-another-disabled');
+              $('input,select', $form).not('#lock-card').attr("disabled", "disabled");
+            } else {              
+              $form.removeClass('locked');
+              $('a.do-add-another-disabled', $form).removeClass('do-add-another-disabled').addClass('do-add-another');
+              $('input,select', $form).not('#lock-card').removeAttr("disabled");
+            }
+          }).change();
+          
           var $filterText = $('<input type="hidden" name="filter-text" value =""/>').appendTo($form);
           
           var found = {};

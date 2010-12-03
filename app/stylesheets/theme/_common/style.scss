@@ -470,7 +470,28 @@ table .partial { margin: 0.25em 0; }
     }
     select.add-another {
       margin-top: 5px; 
-    } 
+    }
+    .locked {
+      color: #9f9f9f;
+      a.do-add-another-disabled {
+        @include inline-block;
+        @include border-box;
+        text-indent: -2000em;
+        line-height: 24px;
+        height: 24px;
+        margin-left: 5px;
+        vertical-align: middle;
+        width: 15px;
+        margin-top: 1px;
+        background: transparent url("/images/fluxx_engine/theme/default/icons/add_disabled.png") no-repeat center center;
+        cursor: normal;
+      }
+    }
+    .lock-card {
+      margin-top: 14px;
+      color: #fff;
+    }
+     
   }
   .footer {
     padding:4px 10px;
