@@ -22,14 +22,14 @@ module Formtastic #:nodoc:
         unless options[:collection]
           group = MultiElementGroup.find_for_model_or_super @object, column.to_s
           if group
-            options[:collection] = MultiElementValue.find(:all, :conditions => ['multi_element_group_id = ?', group.id]).collect {|p| [ (p.description || p.value), p.id ] }
+            options[:collection] = MultiElementValue.find(:all, :conditions => ['multi_element_group_id = ?', group.id], :order => 'description asc, value asc').collect {|p| [ (p.description || p.value), p.id ] }
           end
         end
       elsif   (@object.class.respond_to?(:single_multi_element_names) && @object.class.single_multi_element_names && @object.class.single_multi_element_names.include?(column.to_s))
         unless options[:collection]
           group = MultiElementGroup.find_for_model_or_super @object, column.to_s
           if group
-            options[:collection] = MultiElementValue.find(:all, :conditions => ['multi_element_group_id = ?', group.id]).collect {|p| [ (p.description || p.value), p.id ] }
+            options[:collection] = MultiElementValue.find(:all, :conditions => ['multi_element_group_id = ?', group.id], :order => 'description asc, value asc').collect {|p| [ (p.description || p.value), p.id ] }
           end
         end
       end
