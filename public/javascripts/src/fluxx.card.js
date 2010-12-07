@@ -597,7 +597,7 @@
         }
         var $link = $(this);
         $($link.attr('data-trigger-field'), $area).change(function () {
-          var $elem = $(this);          
+          var $elem = $(this);
           if ($elem.val()) {
             // Put the organization ID into the link to create a new user
             // TODO This field name should not be hardcoded
@@ -672,7 +672,6 @@
             ($card.data('locked') ? ' checked="true"' : '') +
             '(>Lock Card</label></li>').prependTo($form);
           $lock.change(function() {
-            // TODO: Better filter locking
             if ($('#lock-card', $lock).attr('checked')) {
               $form.addClass('locked');
               $('a.do-add-another', $form).removeClass('do-add-another').addClass('do-add-another-disabled');
@@ -1295,10 +1294,10 @@
                     if ($field.attr('data-autocomplete')) {
                       // We need to strip " - headquarters" from the label we get back from the server if this an organization query
                       var name = (lookupURL == '/organizations.autocomplete' ? data.label.replace(/ - headquarters$/, '') : data.label);
-                      $field.val(name).next().val(objectID);
-                      var child = $field.attr('data-related-child')
+                      $field.val(name).next().val(objectID).change();;
+                      var child = $field.attr('data-related-child');
                       if (child) {
-                        var $child = $(child, $card);
+                        var $child = $(child, $card);                        
                         if ($child.attr('data-required')) {
                           $child.empty();
                         } else {
