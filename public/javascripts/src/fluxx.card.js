@@ -1288,7 +1288,7 @@
                 if (objectID) {
                   objectID = objectID.pop();
                   var query = {'find_by_id': 'true', id: objectID};
-                  alert(lookupURL + ' is it');
+                  // alert(lookupURL + ' is it');
                   $.getJSON(lookupURL, query, function(data, status) {
                     data = data.pop();
                     // We need to do some special handling for autocomplete inputs
