@@ -95,14 +95,21 @@
             var i = (typeof(intervalOverride) == 'number' ? intervalOverride : this.interval);
             var doPoll = _.bind(function(){
               $.fluxx.log("this.last_id = " + this.last_id + ' which is NaN? ' + _.isNaN(this.last_id));
-              $.getJSON(this.url, (!_.isNaN(this.last_id) ? {last_id: this.last_id} : {}), _.bind(function(data, status){
-                if (typeof data != 'undefined' && data) {
-                  this.last_id = parseInt(data.last_id);
-                  $.cookie('last_id', this.last_id);
-                  this.message(data, status);
-                }
-                this._poll();
-              }, this));
+              
+              $.ajax({
+                url: this.url,
+                dataType: 'json',
+                data: (!_.isNaN(this.last_id) ? {last_id: this.last_id} : {}),
+                success: _.bind(function(data, status){
+                  if (typeof data != 'undefined' && data) {
+                    this.last_id = parseInt(data.last_id);
+                    $.cookie('last_id', this.last_id);
+                    this.message(data, status);
+                  }                 
+                }, this),
+               complete: _.bind(function(XMLHttpRequest, textStatus) {
+                 this._poll();
+               }, this)});
             }, this);
             this._timeoutID = setTimeout(doPoll, i);
           },
