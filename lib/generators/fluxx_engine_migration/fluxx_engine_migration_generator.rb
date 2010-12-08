@@ -25,19 +25,16 @@ class FluxxEngineMigrationGenerator < Rails::Generators::Base
   
   def create_multi_element_groups
     handle_migration 'create_multi_element_groups.rb', 'db/migrate/fluxx_engine_create_multi_element_groups.rb'
-    sleep 1
     handle_migration 'create_multi_element_values.rb', 'db/migrate/fluxx_engine_create_multi_element_values.rb'
-    sleep 1
     handle_migration 'create_multi_element_choices.rb', 'db/migrate/fluxx_engine_create_multi_element_choices.rb'
-    sleep 1
     handle_migration 'create_client_stores.rb', 'db/migrate/fluxx_engine_create_client_stores.rb'
-    sleep 1
   end
   
   private
   def handle_migration name, filename
     begin
       migration_template name, filename
+      sleep 1
     rescue Exception => e
       p e.to_s
     end

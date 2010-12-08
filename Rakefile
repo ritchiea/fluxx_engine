@@ -5,7 +5,9 @@ begin
     gem.summary = "Fluxx Engine"
     gem.email = "fluxx@acesfconsulting.com"
     gem.authors = ["Eric Hansen"]
-    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "{public}/**/*"]
+    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "{public}/**/*", "{bin}/**/*"]
+    gem.bindir = "bin"
+    gem.executables = %w(fluxxgen)
   end
   Jeweler::GemcutterTasks.new
 rescue
