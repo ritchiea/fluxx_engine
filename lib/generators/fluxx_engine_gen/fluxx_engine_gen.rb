@@ -155,7 +155,7 @@ end
   end
 
 ", {}
-      template "migrate_template.rb", "#{directory}/templates/#{@migration_name}.rb"
+      template "migrate_template.rb", "#{directory}/templates/#{migration_name}.rb"
     elsif possible_files.size > 1
       say_status "warn", "Cannot determine which migration file to use out of #{possible_files.inspect}"
     else
