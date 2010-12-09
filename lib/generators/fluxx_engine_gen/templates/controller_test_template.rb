@@ -24,8 +24,7 @@ class <%= controller_class_name %>ControllerTest < ActionController::TestCase
     lookup_instance = <%= controller_class_singular_name %>.make
     get :index, :name => lookup_instance.name, :format => :autocomplete
     a = @response.body.de_json # try to deserialize the JSON to an array
-    assert_equal lookup_instance.autocomplete_to_s, a.first['label']
-    assert_equal lookup_instance.id, a.first['value']
+    assert_equal lookup_instance.id, a.last['value']
   end
 
   test "should confirm that name_exists" do

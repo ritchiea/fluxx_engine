@@ -29,10 +29,10 @@ class FluxxEngineGen < Rails::Generators::Base
       if File.exist?(model_lib_dir_name) && File.exist?(app_model_dir_name) && File.exist?(unit_test_dir_name) && File.exist?(blueprint_file_name)
         model_filename = genresultname.underscore 
         # Create the dummy model first
-        template "dummy_model_template.rb", "#{model_lib_dir_name}/#{model_filename}.rb"
+        template "dummy_model_template.rb", "#{app_model_dir_name}/#{model_filename}.rb"
 
         # Create the lib model
-        template "lib_model_template.rb", "#{app_model_dir_name}/fluxx_#{model_filename}.rb"
+        template "lib_model_template.rb", "#{model_lib_dir_name}/fluxx_#{model_filename}.rb"
 
         # Add the model to the blueprint file
         open(blueprint_file_name, 'a') { |f|
@@ -50,9 +50,11 @@ end
         @migrate_up = "    create_table \"#{@model_singular_name.pluralize}\", :force => true do |t|
       t.timestamps
       t.integer :created_by_id, :updated_by_id, :null => true, :limit => 12
-        "
-        @migrate_down = "drop_table \"#{@model_singular_name.pluralize}\"
-        "
+    end
+    
+    add_constraint '#{@model_singular_name.pluralize}', '#{@model_singular_name.pluralize}_created_by_id', 'created_by_id', 'users', 'id'
+    add_constraint '#{@model_singular_name.pluralize}', '#{@model_singular_name.pluralize}_updated_by_id', 'updated_by_id', 'users', 'id'"
+        @migrate_down = "drop_table \"#{@model_singular_name.pluralize}\""
         perform_create_migration "create_#{genresultname}"
       else
         say_status "warn", "Cannot find #{model_lib_dir_name} or #{app_model_dir_name} or #{unit_test_dir_name} or #{blueprint_file_name}, you must be in the home directory of the gem you are adding to.  If you are, making sure that these directories exist."
@@ -69,10 +71,10 @@ end
       functional_test_dir_name = 'test/functional'
       if File.exist?(controller_lib_dir_name) && File.exist?(app_controller_dir_name) && File.exist?(functional_test_dir_name) && File.exist?(app_views_dir_name)
         # Create the dummy controller first
-        template "dummy_controller_template.rb", "#{controller_lib_dir_name}/#{controller_class_plural_table_name}_controller.rb"
+        template "dummy_controller_template.rb", "#{app_controller_dir_name}/#{controller_class_plural_table_name}_controller.rb"
 
         # Create the lib controller
-        template "lib_controller_template.rb", "#{app_controller_dir_name}/fluxx_#{controller_class_plural_table_name}_controller.rb"
+        template "lib_controller_template.rb", "#{controller_lib_dir_name}/fluxx_#{controller_class_plural_table_name}_controller.rb"
         
         # Add a test functional file
         template "controller_test_template.rb", "#{functional_test_dir_name}/#{controller_class_plural_table_name}_controller_test.rb"
@@ -148,7 +150,7 @@ end
       class_prefix = basename.split(search_string).first
       say_status "insert", "adding a migration #{migration_name} to #{migration_file}"
       @migration_name = "#{class_prefix}_#{migration_name}"
-      klass_name = basename.gsub(".rb", "").first.titlecase.gsub(' ', '')
+      klass_name = basename.gsub(".rb", "").titlecase.gsub(' ', '')
       inject_into_class migration_file, klass_name, "  def #{migration_name}
     handle_migration '#{migration_name}.rb', 'db/migrate/#{@migration_name}.rb'
     sleep 1
