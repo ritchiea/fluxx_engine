@@ -575,14 +575,13 @@
         if (!once) {
           once = true;
           // Refresh dropdowns when closing a modal
-          $area.bind('close.fluxx.modal', function (e, $target, url) {
+          $area.fluxxCard().bind('close.fluxx.modal', function (e, $target, url) {
             // Capture the url returned from the create operation, this will contain the ID
             // of the newly created element.
             var $select = $target.parent().prev();
             var userID = url.match(/\/(\d+)$/);
             if (userID)
               userID = userID.pop();
-
             if ($select.length) {
               $select.change(function() { 
                 $select.unbind('change');
@@ -786,8 +785,9 @@
           $('.loading-indicator', $modal.fluxxCard()).removeClass('loading');
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
-            $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
-            $(this).fluxxCard().animate({marginRight: $card.data('lastMarginRight')}, function() {
+            $('.area', $card).enableFluxxArea();
+            $card.trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')])
+              .animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
               $card.resizeFluxxCard();
               $.my.stage.resizeFluxxStage();
@@ -1259,8 +1259,8 @@
             var $elem = this.data('target');
             var $card = $elem.fluxxCard();
 
-            $('.area', $card).bind('close.fluxx.modal', function(e, $target, url) {
-              $(this).unbind('close.fluxx.modal');
+            $card.bind('close.fluxx.modal', function(e, $target, url) {
+              $card.unbind('close.fluxx.modal');
               var card = {
                 detail: {url: url + '/edit'},
                 title: ($elem.attr('data-title') || $elem.text())
@@ -1281,8 +1281,8 @@
             var lookupURL = this.data('target').attr('data-src');
             if (this.data('target').attr('target') && lookupURL) {
               $field = $(this.data('target').attr('target'), this.data('target').fluxxCardArea());
-              $('.area', $card).bind('close.fluxx.modal', function(e, $target, url) {
-                $('.area', $card).unbind('close.fluxx.modal');
+              $card.bind('close.fluxx.modal', function(e, $target, url) {
+                $card.unbind('close.fluxx.modal');
                 var objectID = url.match(/\/(\d+)$/);
                 if (objectID) {
                   objectID = objectID.pop();
