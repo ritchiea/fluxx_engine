@@ -225,9 +225,10 @@
           ],
           '.as-delete': [
             'click', function(e) {
-              $.fluxx.util.itEndsWithMe(e);
+              $.fluxx.util.itEndsWithMe(e);              
               var $elem = $(this);
-              $.fn.fluxxAjaxCall($elem, 'DELETE');
+              if (confirm('This record will be deleted. Are you sure?'))
+                $.fn.fluxxAjaxCall($elem, 'DELETE');
             }
           ],
           'a.refresh-card': [
