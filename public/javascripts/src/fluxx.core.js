@@ -229,9 +229,6 @@
     'Space+h': ['This help message', function() {
       $.fluxx.log.apply($.fluxx.log, _.map(keyboardShortcuts, function(v,k){return [k, v[0]].join(': ')}))
     }],
-    'Space+c': ['Close all cards', function() {
-      $.my.cards.removeFluxxCard();
-    }],
     'p+s': ['start/stop polling', function () {
       var rtu = $.fluxx.realtime_updates;
       if (!rtu) return;

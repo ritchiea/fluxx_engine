@@ -785,9 +785,8 @@
           $('.loading-indicator', $modal.fluxxCard()).removeClass('loading');
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
-            $('.area', $card).enableFluxxArea();
-            $card.trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')])
-              .animate({marginRight: $card.data('lastMarginRight')}, function() {
+            $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
+            $card.animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
               $card.resizeFluxxCard();
               $.my.stage.resizeFluxxStage();
@@ -1254,24 +1253,22 @@
             this.data('target').refreshCardArea();
           },
           // Open a new detail only card
-          openDetail: function() {           
+          openDetail: function() {     
             if (! this.data('target')) return;
-            var $elem = this.data('target');
-            var $card = $elem.fluxxCard();
-
-            $card.bind('close.fluxx.modal', function(e, $target, url) {
-              $card.unbind('close.fluxx.modal');
-              var card = {
-                detail: {url: url + '/edit'},
-                title: ($elem.attr('data-title') || $elem.text())
-              };
-              if ($elem.attr('data-insert') == 'after') {
-                card.position = function($card) {$card.insertAfter($elem.fluxxCard())};
-              } else if ($elem.attr('data-insert') == 'before') {
-                card.position = function($card) {$card.insertBefore($elem.fluxxCard())};
-              }
-              $.my.hand.addFluxxCard(card);
-            });                        
+            var $elem = this.data('target'),
+                $card = $elem.fluxxCard(),
+                $modal = $('.modal', $card);
+            
+            var card = {
+              detail: {url: this.data('url') + '/edit'},
+              title: ($elem.attr('data-title') || $elem.text())
+            };
+            if ($elem.attr('data-insert') == 'after') {
+              card.position = function($card) {$card.insertAfter($elem.fluxxCard())};
+            } else if ($elem.attr('data-insert') == 'before') {
+              card.position = function($card) {$card.insertBefore($elem.fluxxCard())};
+            }
+            $.my.hand.addFluxxCard(card);                        
           },
           // Populate an input field with the success value from a create operation in a modal
           populateField: function() {
@@ -1280,38 +1277,35 @@
             var $card = $elem.fluxxCard();
             var lookupURL = this.data('target').attr('data-src');
             if (this.data('target').attr('target') && lookupURL) {
-              $field = $(this.data('target').attr('target'), this.data('target').fluxxCardArea());
-              $card.bind('close.fluxx.modal', function(e, $target, url) {
-                $card.unbind('close.fluxx.modal');
-                var objectID = url.match(/\/(\d+)$/);
-                if (objectID) {
-                  objectID = objectID.pop();
-                  var query = {'find_by_id': 'true', id: objectID};
-                  // alert(lookupURL + ' is it');
-                  $.getJSON(lookupURL, query, function(data, status) {
-                    data = data.pop();
-                    // We need to do some special handling for autocomplete inputs
-                    if ($field.attr('data-autocomplete')) {
-                      // We need to strip " - headquarters" from the label we get back from the server if this an organization query
-                      var name = (lookupURL == '/organizations.autocomplete' ? data.label.replace(/ - headquarters$/, '') : data.label);
-                      $field.val(name).next().val(objectID).change();;
-                      var child = $field.attr('data-related-child');
-                      if (child) {
-                        var $child = $(child, $card);                        
-                        if ($child.attr('data-required')) {
-                          $child.empty();
-                        } else {
-                          $child.html('<option></option>');
-                        }
-                        $('<option></option>').val(data.value).html(data.label).appendTo($child);
-                        $child.val($child.children().first().val()).trigger('options.updated').change();
+            $field = $(this.data('target').attr('target'), this.data('target').fluxxCardArea());
+              var objectID = this.data('url').match(/\/(\d+)$/);
+              if (objectID) {
+                objectID = objectID.pop();
+                var query = {'find_by_id': 'true', id: objectID};
+                // alert(lookupURL + ' is it');
+                $.getJSON(lookupURL, query, function(data, status) {
+                  data = data.pop();
+                  // We need to do some special handling for autocomplete inputs
+                  if ($field.attr('data-autocomplete')) {
+                    // We need to strip " - headquarters" from the label we get back from the server if this an organization query
+                    var name = (lookupURL == '/organizations.autocomplete' ? data.label.replace(/ - headquarters$/, '') : data.label);
+                    $field.val(name).next().val(objectID).change();
+                    var child = $field.attr('data-related-child');
+                    if (child) {
+                      var $child = $(child, $card);                        
+                      if ($child.attr('data-required')) {
+                        $child.empty();
+                      } else {
+                        $child.html('<option></option>');
                       }
-                    } else {
-                    $field.val(name);
+                      $('<option></option>').val(data.value).html(data.label).appendTo($child);
+                      $child.val($child.children().first().val()).trigger('options.updated').change();
                     }
-                  });
-                }
-              });              
+                  } else {
+                  $field.val(name);
+                  }
+                });
+              }              
             }
           }
         }
