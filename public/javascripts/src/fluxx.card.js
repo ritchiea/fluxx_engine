@@ -893,7 +893,6 @@
     
     /* Data Loaders */
     fluxxCardLoadContent: function (options, onComplete) {
-      // alert (options.header);
       $.fluxx.log("**> fluxxCardLoadContent");
       var defaults = {
         area: undefined,
