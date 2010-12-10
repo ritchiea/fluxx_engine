@@ -25,7 +25,7 @@
             options.callback
           )
         });
-        // Add browser specific classes so we can do special handling in scss
+        // Add browser specific class(es) so we can do special handling in scss
         if (jQuery.browser.mozilla) 
           $('body').addClass('mozilla');
         $(window).resize(function(e){
