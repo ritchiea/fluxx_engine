@@ -463,7 +463,7 @@ class ActionController::Base
       end
 
       define_method :load_related_data do |model|
-        local_related_object.load_related_data model
+        local_related_object.load_related_data self, model
       end
     end
   end

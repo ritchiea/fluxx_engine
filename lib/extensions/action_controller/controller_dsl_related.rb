@@ -27,7 +27,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
   end
   
   # Returns an array of formatted data per related class
-  def load_related_data model
+  def load_related_data controller, model
     model_relations = []
     
     if relations && !relations.empty?
@@ -35,19 +35,19 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
     end
     
     model_relations.map do |rd|
-      formatted_data = calculate_related_data_row(model, rd).uniq_by{|element| element[:model]}
+      formatted_data = calculate_related_data_row(controller, model, rd).uniq_by{|element| element[:model]}
       {:formatted_data => formatted_data, :display_name => rd.display_name}
     end
   end
   
-  def calculate_related_data_row model, rd
+  def calculate_related_data_row controller, model, rd
     display_template = rd.display_template
     
     related_models = if rd.search_block
       rd.search_block.call model
     end || []
     related_models.compact.map do |model|
-      {:display_template => display_template, :model => model, :title => rd.generate_title(model)}
+      {:display_template => display_template, :model => model, :title => rd.generate_title(model), :model_url => rd.generate_url(controller, model)}
     end
   end
   
@@ -63,9 +63,15 @@ class ActionController::ModelRelationship
   attr_accessor :display_template
   # Block to translate the model into a title to be used when opening a new show card for that model object
   attr_accessor :title_block
+  # Block to return the URL for a related model
+  attr_accessor :url_block
   
   def add_title_block &block_title
     self.title_block = block_title
+  end
+  
+  def add_model_url_block &block_url
+    self.url_block = block_url
   end
 
   def for_search &block_search
@@ -77,6 +83,12 @@ class ActionController::ModelRelationship
       self.title_block.call model
     else
       model.class.to_s.humanize
+    end
+  end
+  
+  def generate_url controller, model
+    if self.url_block && self.url_block.is_a?(Proc)
+      self.url_block.call controller, model
     end
   end
 end
