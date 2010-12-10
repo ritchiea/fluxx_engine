@@ -262,13 +262,17 @@
   position: relative;
   vertical-align: top;
   white-space: nowrap;
-  float: left;
 }
 .card {
   &.updates-available {
     .card-header {
       .toolbar { background: red; @include linear-gradient(#aa9900, #996600); }
     }
+  }
+}
+.mozilla {
+  .card {
+    float: left;
   }
 }
 .card-box{

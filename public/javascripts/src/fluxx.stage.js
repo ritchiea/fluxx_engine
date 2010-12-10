@@ -25,6 +25,9 @@
             options.callback
           )
         });
+        // Add browser specific classes so we can do special handling in scss
+        if (jQuery.browser.mozilla) 
+          $('body').addClass('mozilla');
         $(window).resize(function(e){
           $.my.cards.resizeFluxxCard();
         }).resize();
