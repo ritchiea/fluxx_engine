@@ -169,6 +169,11 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
           end || {}
           replacement_value = render_as(iter_map['as'], replacement_value, options)
         end
+        
+        # NOTE convert linebreaks must come last in the list of modifiers because it calls to_s
+        unless iter_map['convert_linebreaks'] == 'false'
+          replacement_value = (replacement_value || '').to_s.gsub("\n","<br>\n")
+        end
         sb << replacement_value
       elsif element.element_name == 'template'
         # {{template file_name='request_evaluation_metrics/_request_evaluation_metrics_list.html.haml' variable='request' method='grant_agreement_at' local_variable_name='model'/}}

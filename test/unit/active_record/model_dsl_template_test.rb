@@ -21,7 +21,7 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
       MDY: {{value variable='today' as='date_mdy'/}}
       FULL: {{value variable='today' as='date_full'/}}
        How are you {{value variable='musician' method='first_name'/}}?
-        So your first instrument was {{value variable='musician' method='first_instrument.name'/}}, I like to play that too!
+        So your first instrument was the {{value variable='musician' method='first_instrument.name' convert_linebreaks='false'/}}, I like to play that too!
         I see that your name backwards is {{value variable='musician' method='first_name_backwards'/}}.
         <table>
         <tr>
@@ -51,7 +51,7 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
       </html>
     "
     
-    first_instrument = Instrument.make
+    first_instrument = Instrument.make :name => "Brightest Instrument\n\nIn Town"
     musician = Musician.make :first_instrument => first_instrument
     (1..4).to_a.each do |i|
       instrument = Instrument.make
