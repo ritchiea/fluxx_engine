@@ -26,16 +26,16 @@
   font-size: 12px;
 }
 #header {
-  .actions { 
+  .actions {
     @include inline-block;
     line-height: $header_height;
     position: absolute;
     top: 0px;
     right: 10px;
-    li { 
+    li {
       @include inline-block;
       margin: 0px 10px 0px 10px;
-      vertical-align: top; 
+      vertical-align: top;
     }
     .dashboard {
       margin-right: 30px;
@@ -76,9 +76,9 @@
                 width: 16px;
                 text-align: center;
                 font-size: 80%;
-              } 
-            } 
-          } 
+              }
+            }
+          }
         }
         li {
           display: none;
@@ -98,16 +98,16 @@
             display: block;
             color: #dddddd;
           }
-          .new-dashboard-input { 
-            width: 182px;            
+          .new-dashboard-input {
+            width: 182px;
             position: relative;
             left: 5px;
             top: 3px;
           }
-        } 
-      } 
+        }
+      }
     }
-  } 
+  }
 }
 #logo {
   @include inline-block;
@@ -159,12 +159,12 @@
     &:first-of-type {
       border-left: 1px solid #cccccc;
       border-right: 1px solid #cccccc;
-      padding: 0px 18px; 
+      padding: 0px 18px;
     }
     .icon {
       &:first-of-type {
-        .link { margin-left: 0; } 
-      } 
+        .link { margin-left: 0; }
+      }
     }
   }
 }
@@ -191,18 +191,18 @@
     &:hover {
       background: #666666;
       text-decoration: none !important;
-      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
+      box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     }
     &.left {
       float: left;
-      margin-left: -5px; 
+      margin-left: -5px;
     }
     &.right {
       float: right;
-      margin-left: 0px; 
-    } 
+      margin-left: 0px;
+    }
   }
-} 
+}
 #lookingglass{
   position: fixed;
   display: none;
@@ -223,7 +223,7 @@
   @include inline-block;
   width: 0px;
   z-index: 1;
-  position: relative; 
+  position: relative;
 }
 .dock{
   background: url("/images/fluxx_engine/theme/default/dock-icons/mid.png") repeat-x top right;
@@ -244,12 +244,12 @@
         padding: 0px 10px;
         font-size: 8px;
       }
-      .badge {} 
+      .badge {}
     }
     .popup { display: none; }
     &:first-of-type {
-      .link { margin-left: 5px; } 
-    } 
+      .link { margin-left: 5px; }
+    }
   }
 }
 /*=============================
@@ -268,11 +268,6 @@
     .card-header {
       .toolbar { background: red; @include linear-gradient(#aa9900, #996600); }
     }
-  }
-}
-.mozilla {
-  .card {
-    float: left;
   }
 }
 .card-box{
@@ -307,7 +302,7 @@
         .available {
           background: #{inline_image("/images/fluxx_engine/theme/default/icons/arrow_refresh_small.png")} transparent no-repeat center left;
           padding-left: 16px;
-        } 
+        }
       }
       .loading-indicator {
         @include inline-block;
@@ -374,25 +369,25 @@
         width: 100%;
         margin-top:3px;
         margin-left: auto;
-        margin-right: auto; 
-      } 
-    } 
+        margin-right: auto;
+      }
+    }
   }
-  .card-body { 
+  .card-body {
     position:relative;
     background: #{inline_image("/images/fluxx_engine/theme/default/cards/body-bg.png")};
     border-bottom: 1px solid #626262;
   }
   .area {
     white-space: normal;
-  } 
+  }
   .card-footer {
     @include rounded-bottom(6px);
     @include bg(#999999);
     min-height: 8px;
-    border-top: 1px solid #eeeeee; 
+    border-top: 1px solid #eeeeee;
   }
-  
+
 }
 .partial {
   margin-bottom: 30px;
@@ -417,8 +412,14 @@ table .partial { margin: 0.25em 0; }
   .datetime,.date {
     input {
       background: #{inline_image("/images/fluxx_engine/theme/default/icons/calendar.png")} 99% center no-repeat;
-      background-color: white; 
-    } 
+      background-color: white;
+    }
+  }
+  input,select,textarea {
+    font-size:90%;
+  }
+  select {
+    padding: 1px 5px;
   }
   .error {
     label { color: #aa3333; }
@@ -431,7 +432,7 @@ table .partial { margin: 0.25em 0; }
       color: #aa3333;
       font-size: 10px;
       line-height: 14px;
-    } 
+    }
   }
   .select-transfer { width:396px;}
 }
@@ -474,7 +475,7 @@ table .partial { margin: 0.25em 0; }
       background: transparent url("/images/fluxx_engine/theme/default/icons/add.png") no-repeat center center;
     }
     select.add-another {
-      margin-top: 5px; 
+      margin-top: 5px;
     }
     .locked {
       color: #9f9f9f;
@@ -496,12 +497,12 @@ table .partial { margin: 0.25em 0; }
       margin-top: 14px;
       color: #fff;
     }
-     
+
   }
   .footer {
     padding:4px 10px;
     overflow:hidden;
-  } 
+  }
 }
 .modal {
   @include bg(#333333, #FFF);
@@ -524,10 +525,10 @@ table .partial { margin: 0.25em 0; }
       display: block;
       a {
         display: block;
-        text-indent: -2000em; 
+        text-indent: -2000em;
       }
-      a.close-modal { background: transparent url("/images/fluxx_engine/theme/default/controls/close.png") no-repeat center center; } 
-    } 
+      a.close-modal { background: transparent url("/images/fluxx_engine/theme/default/controls/close.png") no-repeat center center; }
+    }
   }
   .arrow {
     position: absolute;
@@ -575,14 +576,14 @@ table .partial { margin: 0.25em 0; }
       @include form-field-two-line;
       width: 80%;
       margin-left: 10%;
-    } 
+    }
   }
   .footer {
     @include rounded-bottom(9px);
     @include linear-gradient(#777777, #666666);
     padding: 4px 10px;
     overflow: hidden;
-  } 
+  }
   .to-modal {display:none;}
 }
 .buttons {
@@ -590,7 +591,7 @@ table .partial { margin: 0.25em 0; }
 }
 .workflow {
   @include buttons(12px, 3px, #99ff99, #000, #4D804D);
-  float: right; 
+  float: right;
 }
 .listing {
   @include inline-block;
@@ -604,7 +605,7 @@ table .partial { margin: 0.25em 0; }
         right: 0px;
         left: auto;
         li:first-child { @include linear-gradient(#cccccc, #aaaaaa); }
-      } 
+      }
     }
     padding: 2px;
     position: relative;
@@ -646,14 +647,14 @@ table .partial { margin: 0.25em 0; }
           width: 13px;
           border: 1px solid #666666;
           border-right: none;
-          &:hover { @include linear-gradient(#cccccc, aaa); } 
+          &:hover { @include linear-gradient(#cccccc, aaa); }
         }
         a {
           text-decoration: none;
-          color: inherit; 
-        } 
-      } 
-    } 
+          color: inherit;
+        }
+      }
+    }
   }
   .body {
     border-bottom: 1px solid #9b9b9b;
@@ -679,30 +680,30 @@ table .partial { margin: 0.25em 0; }
         }
         &.red {
           @include linear-gradient(#ffcccc, #eebbbb);
-          a { border-left: 1px solid #ff6666; } 
+          a { border-left: 1px solid #ff6666; }
         }
         &.green,&.selected {
           a {
             background: unquote("-webkit-gradient(linear, left top, left bottom, color-stop(0.8, #ecf2e3), color-stop(1, #dbe1d3))");
             background: unquote("-moz-linear-gradient(center top, #ecf2e3 80%, #dbe1d3 100%)");
-            border-left: 6px solid #8FCB3A; 
-          } 
+            border-left: 6px solid #8FCB3A;
+          }
         }
         &.orange,&.latest {
-          a { border-left: 6px solid #ea8d00; } 
+          a { border-left: 6px solid #ea8d00; }
         }
         &.blue {
           @include linear-gradient(#ccccff, #bbbbee);
-          a { border-left: 1px solid #6666ff; } 
-        } 
-      } 
-    } 
+          a { border-left: 1px solid #6666ff; }
+        }
+      }
+    }
   }
   .footer {
     @include linear-gradient(#cccccc, #aaaaaa);
     border-top: #eeeeee;
     padding:3px;
-  } 
+  }
 }
 .detail {
   @include inline-block;
@@ -723,7 +724,7 @@ table .partial { margin: 0.25em 0; }
     overflow: hidden;
     padding: 4px 10px;
     background: #EEE;
-  } 
+  }
   .edit { margin-top:30px;}
 }
 .show {
@@ -763,19 +764,19 @@ table .partial { margin: 0.25em 0; }
       line-height: 30px;
       &.state {
         color: black !important;
-        background: #eee; 
+        background: #eee;
       }
       &.first {
         -webkit-border-top-left-radius: 5px;
-        -webkit-border-top-right-radius: 5px; 
+        -webkit-border-top-right-radius: 5px;
       }
       &.last {
         -webkit-border-bottom-left-radius: 5px;
         -webkit-border-bottom-right-radius: 5px;
-        border-bottom: none; 
+        border-bottom: none;
       }
       &.selected {
-        background: #fff; 
+        background: #fff;
       }
     }
   }
@@ -810,9 +811,9 @@ table .partial { margin: 0.25em 0; }
       .minimized-title {
         @include inline-block;
         font-size: 36px;
-        text-transform: uppercase; 
+        text-transform: uppercase;
       }
-    } 
+    }
   }
 }
 .info {
@@ -833,7 +834,7 @@ table .partial { margin: 0.25em 0; }
     @include bg(#e3e7ea);
     border-left: none;
     white-space: normal;
-    overflow: hidden;    
+    overflow: hidden;
     .section {
       .label { display: none; }
       .entries {
@@ -855,10 +856,10 @@ table .partial { margin: 0.25em 0; }
           .fluxx-card-content-metadata-section-info {
             display: block;
             font-size: 13px;
-          } 
-        } 
-      } 
-    } 
+          }
+        }
+      }
+    }
   }
   .scroller {
     @include chiseled-text;
@@ -879,8 +880,8 @@ table .partial { margin: 0.25em 0; }
         margin-left: 0px;
       }
       &.tabs-right { text-align: left; }
-      text-decoration: none; 
-    } 
+      text-decoration: none;
+    }
   }
   .tabs {
     @include rot90;
@@ -927,10 +928,10 @@ table .partial { margin: 0.25em 0; }
         //font-weight: 400;
       }
       .entries { display: none; }
-    } 
+    }
   }
   &.empty {
-    display: none; 
+    display: none;
     opacity: 0;
   }
   &.open {
@@ -942,7 +943,7 @@ table .partial { margin: 0.25em 0; }
       @include box-shadow;
       display: block;
       border: 1px solid #444;
-    } 
+    }
   }
 }
 .pairs {
@@ -967,9 +968,9 @@ table .partial { margin: 0.25em 0; }
         display: block;
         background: #{inline_image("/images/fluxx_engine/theme/default/icons/arrow_right.png")} no-repeat right center;
         color: #666666 !important;
-        text-decoration: none; 
-      } 
-    } 
+        text-decoration: none;
+      }
+    }
   }
 }
 .content .pairs { font-size: 12px; line-height:1.25em;}
@@ -989,12 +990,12 @@ table .partial { margin: 0.25em 0; }
     width: 180px;
     border-right: 1px solid #999999;
     border-left: 1px solid #999999;
-    .disabled { opacity: 1; } 
+    .disabled { opacity: 1; }
   }
   .next {
     float: right;
-    width: 50px; 
-  } 
+    width: 50px;
+  }
 }
 .no-pagination {
   text-align: center;
@@ -1004,7 +1005,7 @@ table .partial { margin: 0.25em 0; }
   @include border-box;
   @include inline-block;
   font-size: 12px;
-  padding: 0px 10px; 
+  padding: 0px 10px;
 }
 
 .tabular {
@@ -1012,7 +1013,7 @@ table .partial { margin: 0.25em 0; }
   @include rounded;
   color: #666666;
   margin: 0.75em 0;
-  thead {  
+  thead {
     tr {
       @include rounded-top;
       background: #dfdfdf;
@@ -1027,7 +1028,7 @@ table .partial { margin: 0.25em 0; }
     padding: 6px;
   }
   th,td { text-align:left; margin:0; font-weight:normal;  }
-  th { 
+  th {
     @include rounded-top;
     border-top: 1px solid #9B9B9B;
     border-left: 1px solid #9B9B9B;
@@ -1043,7 +1044,7 @@ table .partial { margin: 0.25em 0; }
     border-left: 1px solid #9B9B9B;
     border-right: 1px solid #9B9B9B;
     padding: 15px;
-    span { 
+    span {
       font-size: 11px;
       display: block;
       float: left;
@@ -1101,13 +1102,13 @@ table .partial { margin: 0.25em 0; }
     .empty {
       @include chiseled-text;
       text-transform: uppercase;
-      color: #999999; 
-    } 
-  } 
+      color: #999999;
+    }
+  }
 }
 
 .list {
-  border-bottom: 1px dotted #999;  
+  border-bottom: 1px dotted #999;
   ul li {
     list-style: none inside;
   }
@@ -1135,3 +1136,13 @@ table .partial { margin: 0.25em 0; }
 
 .show table.relData {font-size: 100%;}
 .edit .select select #grant_request_initiative_type_ids {height: 6em;}
+
+/*=============================
+  Browser Specific Adjustments
+===============================*/
+
+.mozilla {
+  .card {
+    float: left;
+  }
+}
