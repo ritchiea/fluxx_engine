@@ -48,70 +48,6 @@ module Formtastic #:nodoc:
       label("#{method}:", :label => options[:label]) + text_field(method, options)
     end
     
-    # derived from the formtastic::select_input method
-    # This will use the http://mypaaji.com/index.php/2009/06/29/jquery-plugin-multiple-select-transfer/ plugin to use two selectboxes
-    def select_transfer_input(method, options)
-      collection = find_collection_for_column(method, options)
-      html_options = options.delete(:input_html) || {}
-
-      unless options.key?(:include_blank) || options.key?(:prompt)
-        options[:include_blank] = true
-      end
-
-      reflection = self.reflection_for(method)
-      
-      if reflection && [ :has_many, :has_and_belongs_to_many ].include?(reflection.macro)
-        options[:include_blank]   = false
-        html_options[:multiple] = true if html_options[:multiple].nil?
-        html_options[:size]     ||= 5
-      end
-
-      class_added_selector = html_options[:class_added_selector] || 'fluxx_select_transfer_added'
-      class_right_selector = html_options[:class_right_selector] || 'fluxx-card-form-transfer-select-right-side'
-      class_left_selector = html_options[:class_left_selector] || 'fluxx-card-form-transfer-select-left-side'
-      class_add_button = html_options[:class_left_selector] || 'fluxx-card-form-transfer-add-button'
-      class_remove_button = html_options[:class_left_selector] || 'fluxx-card-form-transfer-remove-button'
-      
-      extra_class = html_options[:class]
-      extra_class_left_selector = extra_class ? "#{extra_class}-left" : ''
-      extra_class_right_selector = extra_class ? "#{extra_class}-right" : ''
-      extra_class_add_button = extra_class ? "#{extra_class}-add" : ''
-      extra_class_remove_button = extra_class ? "#{extra_class}-remove" : ''
-      label_class = html_options[:label_class]
-
-      input_name = generate_association_input_name(method)
-      rand_id = generate_random_id
-      not_used_selectbox_id = "not_used_select_#{rand_id}"
-      used_selectbox_id = "used_select_#{rand_id}"
-      add_button_id = "add_button_#{rand_id}"
-      remove_button_id = "remove_button_#{rand_id}"
-      html_options[:id] = used_selectbox_id
-      selected_elements = (@object.send(method) || []).map {|p| [ ((p.respond_to?(:description) && p.description) || (p.respond_to?(:value) && p.value)) || p.to_s, p.id  ] }
-      not_selected_elements = collection - selected_elements
-      not_select_options = self.options_for_select not_selected_elements, selected_elements, class_added_selector
-      selected_options = self.options_for_select(selected_elements, selected_elements, class_added_selector)
-      select_transfer_function =  "$('body').one('fluxxCardLoadContent',function(e, $area){$('##{not_used_selectbox_id}').transfer({
-      	to:'##{used_selectbox_id}',//selector of second multiple select box
-      	addId:'##{add_button_id}',//add buttong id
-      	removeId:'##{remove_button_id}' // remove button id
-      	});
-      })"
-      form_name = @object.class.name.tableize.singularize.downcase
-      
-      select_input_name = "#{form_name}[#{input_name}]"
-      # TODO ESH: refactor this to put more of it on the client side.  Had to hard-code the image path which could pose issues for asset servers
-      label(method, options_for_label(options).merge(:input_name => input_name, :class => label_class)) + "<li class='select-left'>" +
-        select_tag("ignored", not_select_options, html_options.merge(:id => not_used_selectbox_id, :class => "#{class_left_selector}  #{extra_class_left_selector}")) + 
-        "</li><li class='#{class_add_button} #{extra_class_add_button}' id='#{add_button_id}'>" + 
-        "<image src='/images/icon_select_add.png' width='35' height='26', alt='Add'>" + #image_tag('/images/icon_select_add.png', :width=>'35', :height=>'26', :alt=>'Add') + 
-        "<ol>" +
-        "<li class='#{class_remove_button} #{extra_class_remove_button}' id='#{remove_button_id}'>" + 
-        "<image src='/images/icon_select_remove.png' width='35' height='26', alt='Remove'>" #image_tag('/images/icon_select_remove.png', :width=>'35', :height=>'26', :alt=>'Remove') + 
-        "</li></ol></li>" +
-        "<li class='select-right'>" + select_tag(select_input_name, selected_options, html_options.merge(:id => used_selectbox_id, :class => "#{class_right_selector} #{extra_class_right_selector}")) + "</li>" +
-        javascript_tag(select_transfer_function)
-    end
-    
     # Pass in autocomplete_url as the URL that should be invoked to load the results
     # Pass in :related_attribute_name in the options for the form.input to specify the attribute on the related object that should be called
     # So if a user_organization has an attribute organization that should be autocompleted, you want to display the organization's name.  
@@ -135,16 +71,5 @@ module Formtastic #:nodoc:
       (rand * 999999999).to_i
     end
     
-    def options_for_select container, selected_list, class_name
-      class_decorator = if class_name
-        "class='#{class_name}'" 
-      end
-      options_for_select = container.inject([]) do |options, text_value|
-        text, value = text_value
-        options << %(<option value="#{html_escape(value.to_s)}" "#{class_decorator if class_decorator && selected_list.include?(text_value)}">#{html_escape(text.to_s)}</option>)
-      end
-      
-      options_for_select.join("\n")
-    end
   end
 end

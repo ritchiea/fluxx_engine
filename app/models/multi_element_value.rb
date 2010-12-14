@@ -11,4 +11,8 @@ class MultiElementValue < ActiveRecord::Base
   def to_s
     description || value
   end
+  
+  def children_values
+    MultiElementValue.where(:dependent_multi_element_value_id => self.id).all
+  end
 end
