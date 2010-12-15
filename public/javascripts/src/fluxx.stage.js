@@ -26,7 +26,7 @@
           )
         });
         // Add browser specific class(es) so we can do special handling in scss
-        if (jQuery.browser.mozilla) 
+        if (jQuery.browser.mozilla)
           $('body').addClass('mozilla');
         $(window).resize(function(e){
           $.my.cards.resizeFluxxCard();
@@ -66,7 +66,7 @@
         .trigger('resize.fluxx.stage');
       }
       return this;
-    },    
+    },
     addFluxxCards: function(options, callback) {
       var options = $.fluxx.util.options_with_callback({}, options, callback);
       if (!options.cards.length) {
@@ -82,23 +82,23 @@
       });
       return this;
     },
-    
+
     serializeFluxxCards: function () {
       return _.map($.my.cards, function(i){return $(i).serializeFluxxCard()});
     },
-    
+
     installFluxxDecorators: function() {
       _.each($.fluxx.stage.decorators, function(val,key) {
         $(key).live.apply($(key), val);
       });
     },
-    
+
     setupFluxxPolling: function () {
       if (! $.fluxx.config.realtime_updates.enabled) return;
       $.fluxx.realtime_updates = $.fluxxPoller($.fluxx.config.realtime_updates.options);
       $.fluxx.realtime_updates.start();
     },
-    
+
     fluxxAjaxCall: function($elem, type) {
       var onSuccess = $elem.attr('data-on-success');
       if (onSuccess && onSuccess.replace(/\s/g, '').split(/,/).indexOf('refreshCaller') != -1) {
@@ -106,7 +106,10 @@
           url: $elem.attr('href'),
           type: type,
           complete: function (){
-            $elem.refreshCardArea();
+            if ($elem.parents('.partial').length && $elem.parents('.partial').attr('data-src'))
+              $elem.refreshAreaPartial({});
+            else
+              $elem.refreshCardArea();
           }
         });
       } else {
@@ -118,7 +121,7 @@
       }
     }
   });
-  
+
   $.extend(true, {
     fluxx: {
       config: {
@@ -228,7 +231,7 @@
           ],
           '.as-delete': [
             'click', function(e) {
-              $.fluxx.util.itEndsWithMe(e);              
+              $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               if (confirm('This record will be deleted. Are you sure?'))
                 $.fn.fluxxAjaxCall($elem, 'DELETE');
@@ -255,7 +258,7 @@
               var $elem = $(this),
                 $parent = $elem.parents($elem.attr('data-parent')).first();
               if (!$parent.length) return;
-              
+
               // Take the element that contains the hidden destroy element and prepend it to the parent and set the value to 1
               var deleteFlagElement = $($elem.attr('data-hidden-destroy'), $parent);
               if(deleteFlagElement != null) {
@@ -263,13 +266,13 @@
                 $parent.parents().first().prepend(clonedDeleteFlagElement);
                 clonedDeleteFlagElement.val(1);
               }
-              
+
               // Take the element that contains the model ID and clone it and prepend it to the parent
               var hiddenIdElement = $($elem.attr('data-hidden-id'), $parent);
               if(hiddenIdElement != null) {
                 var clonedhiddenIdElement = hiddenIdElement.clone();
                 $parent.parents().first().prepend(clonedhiddenIdElement);
-              }              
+              }
 
               $parent.remove();
             }
@@ -322,7 +325,7 @@
                   }
                   _.each(data, function(i){ $('<option></option>').val(i.value).html(i.label).appendTo($child)  });
                   $child.val($child.children().first().val()).trigger('options.updated').change();
-                });                  
+                });
               };
 
               var updateChildren = function($children, parentId) {
@@ -335,7 +338,7 @@
                   $children = $($parent.attr('data-related-child'), $parent.parents('form').eq(0));
               if ($parent.attr('data-sibling')) {
                 $('[data-sibling='+ $parent.attr('data-sibling') +']', $parent.parent()).not($parent)
-                  .one('change', function(){                    
+                  .one('change', function(){
                     updateChildren($children, $(this).val());
                   });
               } else {
@@ -357,7 +360,7 @@
                 var $card = $(this);
                 $.my.dock.removeViewPortIcon({card: $(this)});
                 $card.remove();
-              });              
+              });
               var dashboard = $selected.data('dashboard');
               if (dashboard && dashboard.data && dashboard.data.cards) {
                 $('a.to-dashboard[href*=' + dashboard.url + ']').parent().addClass('selected').siblings().removeClass('selected');
@@ -390,7 +393,7 @@
                 $.fluxx.util.itEndsWithMe(e);
                 var dashboard = $(this).parent().parent().parent().find('a.to-dashboard').data('dashboard');
                 $('#manager-container').fadeTo(500,0.2);
-                jConfirm('<p>You are about to delete the dashboard</p><span class="manager-title">' + dashboard.name + '</span>', 
+                jConfirm('<p>You are about to delete the dashboard</p><span class="manager-title">' + dashboard.name + '</span>',
                   'Can you confirm this?', function(r) {
                     $('#manager-container').fadeTo(500, 1);
                     if (r)
@@ -403,7 +406,7 @@
                  $.fluxx.util.itEndsWithMe(e);
                  var dashboard = $(this).parent().parent().parent().find('a.to-dashboard').data('dashboard');
                  $('#manager-container').fadeTo(500,0.2);
-                 jPrompt('Rename dashboard ' + dashboard.name + ' to:', 
+                 jPrompt('Rename dashboard ' + dashboard.name + ' to:',
                    dashboard.name, '', function(r) {
                    $('#manager-container').fadeTo(500, 1);
                    if (r)
@@ -545,8 +548,8 @@
               } else {
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
                 $('.drawer .entries', $card).removeClass('selected');
-                $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');                
-                if (!$info.hasClass('open')) 
+                $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
+                if (!$info.hasClass('open'))
                   $info.addClass('open', 1, function(){
                     $info.css({bottom: '15px'});
                     $card.height($card.height() + 20);
@@ -574,7 +577,7 @@
           'a.close-card': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              $(this).removeFluxxCard(); 
+              $(this).removeFluxxCard();
             }
           ],
           'a.minimize-card, a.maximize-card': ['click', function (e) {
@@ -634,7 +637,7 @@
                var $elem = $(this);
                var $card = $elem.fluxxCard();
                var data = $card.fluxxCardListing().fluxxCardAreaRequest().data;
-               data = ($.isArray(data) ? data.concat($elem.serializeArray()) : $elem.serializeArray()); 
+               data = ($.isArray(data) ? data.concat($elem.serializeArray()) : $elem.serializeArray());
                var properties = {
                  area: $elem.fluxxCardArea(),
                  url: $elem.attr('action'),
@@ -653,7 +656,7 @@
               $elem.data('autocomplete_initialized', 1);
 
               var endPoint = $elem.attr('data-autocomplete');
-              
+
               $elem.autocomplete({
                 source: function (query, response) {
                   $.getJSON(
@@ -676,7 +679,7 @@
                     .not($elem)
                     .val(ui.item.value)
                     .change();
-                  
+
                   return false;
                 }
               });
@@ -695,7 +698,7 @@
                  var rVal = $(related).val().trim();
                  // This is kind of lame, determining the order by looking for the string
                  // "first" in the ID of the input element
-                 if ($elem.attr('id').match(/first/)) 
+                 if ($elem.attr('id').match(/first/))
                    val = val + ' ' + rVal;
                  else
                    val = rVal+ ' ' + val;
@@ -712,12 +715,12 @@
                      $elem.unbind('focus').parent().removeClass('error').children('.inline-errors').remove();
                      if (related)
                        $(related).unbind('focus').parent().removeClass('error').children('.inline-errors').remove();
-                   };                   
-                   
+                   };
+
                    clearError();
                    $elem.parent().addClass('error');
                    $('<p class="inline-errors">The name ' + val + ' has already been taken, please choose another.</p>').appendTo($elem.parent());
-                   
+
                    $elem.focus(clearError);
                    if (related) {
                      $(related).parent().addClass('error');
@@ -734,7 +737,7 @@
               var $card = $(target);
               $card.focusFluxxCard({}, function() {
 //                $('.toolbar, .titlebar, .card-footer', $card).effect('highlight', {}, 500);
-                location.hash = target;              
+                location.hash = target;
               });
             }
           ],
@@ -755,7 +758,7 @@
               var $link = $(e.target),
                 $elem = $link.parent().prev(),
                 $area = $(this).fluxxCardArea();
-              
+
               var $autosel = $('[data-related-child=.' + $elem.attr('class') + ']');
               $elem.val('').children('option').remove();
               $autosel.val('').next().val('').change();
@@ -764,7 +767,7 @@
                 $('select' + this, $area).val('').children('option').remove();
               });
             }
-          ], 
+          ],
           'div.toolbar': [
             'mousedown', function(e) {
               var $window = $('html,body');
@@ -784,7 +787,7 @@
                 $window.data('lastOffset', offset);
                 $window.data('lastPageX', e.pageX + offset);
                 $window.scrollLeft(scrollLeft);
-              });           
+              });
             }
           ],
           'html,body': [
@@ -794,7 +797,7 @@
                 return;
               $window.data('scrolling', false);
               $window.unbind('mousemove');
-              $('#fluxx').css('-webkit-user-select', 'auto').css('-moz-user-select', 'auto');              
+              $('#fluxx').css('-webkit-user-select', 'auto').css('-moz-user-select', 'auto');
             }
           ]
         }
@@ -812,7 +815,7 @@
     '</div>'
   ])};
   $.fluxx.stage.ui.cardTable = [
-    '<div id="card-table">',    
+    '<div id="card-table">',
       '<ul id="hand">',
       '</ul>',
     '</div>'
@@ -820,7 +823,7 @@
   $.fluxx.stage.ui.footer = [
     '<div id="footer"></div>'
   ].join('');
-  
+
   $(window).resize(function(e){
     if (!$.my.stage) return;
     $.my.stage.resizeFluxxStage();
