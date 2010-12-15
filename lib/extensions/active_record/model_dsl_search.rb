@@ -61,7 +61,9 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     end
 
     sort_attr = grab_param(:sort_attribute, local_model_request_params, model_request_params, request_params)
+    sort_attr = sort_attr.first if sort_attr.is_a?(Array)
     sort_order = grab_param(:sort_order, local_model_request_params, model_request_params, request_params)
+    sort_order = sort_order.first if sort_order.is_a?(Array)
     order_clause = if !sort_attr.blank? && !sort_order.blank?
       "#{sort_attr} #{sort_order}"
     else
