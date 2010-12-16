@@ -1,4 +1,4 @@
-module Fluxx<%= controller_class_plural_table_name %>Controller
+module Fluxx<%= controller_class_name %>Controller
   ICON_STYLE = 'style-<%= controller_class_plural_table_name.gsub('_', '-') %>'
   def self.included(base)
     base.insta_index <%= controller_class_singular_name %> do |insta|
