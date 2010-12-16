@@ -176,7 +176,7 @@
               var $elem = $(this);
               var card = {
                 detail: {url: $elem.attr('href')},
-                title: ($elem.attr('data-title') || $elem.text())
+                title: ($elem.attr('title') || $elem.text())
               };
 
               if ($elem.attr('data-insert') == 'after') {
