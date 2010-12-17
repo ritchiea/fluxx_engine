@@ -519,7 +519,7 @@ class ActionController::Base
           @class_format_block_map.store.keys.each do |key|
             if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
               format.send key.to_sym do
-                cloned_controller_block_map[key].call controller_dsl, self, outcome, @class_format_block_map.store[key]
+                self.instance_exec([controller_dsl, outcome, @class_format_block_map.store[key]], &cloned_controller_block_map[key])
                 cloned_controller_block_map.delete key
               end
             elsif @class_format_block_map.store[key] && @class_format_block_map.store[key].is_a?(Proc)
@@ -531,7 +531,7 @@ class ActionController::Base
           cloned_controller_block_map.keys.each do |key|
             if cloned_controller_block_map[key] && cloned_controller_block_map[key].is_a?(Proc)
               format.send key.to_sym do
-                cloned_controller_block_map[key].call controller_dsl, self, outcome
+                self.instance_exec([controller_dsl, outcome], &cloned_controller_block_map[key])
               end
             end
           end

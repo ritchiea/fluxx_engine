@@ -61,7 +61,7 @@ class ModelDslTemplateTest < ActiveSupport::TestCase
     
     result = musician.process_curly_template template, Object.new
     p "ESH: result=#{result}"
-    assert result.index "So your first instrument was #{first_instrument.name}"
+    assert result.index "So your first instrument was the #{first_instrument.name}"
     assert result.index "I see that your name backwards is #{musician.first_name_backwards}"
     musician.instruments.each do |instrument|
       assert result.index "<td>#{instrument.name}</td>"

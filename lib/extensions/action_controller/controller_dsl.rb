@@ -91,7 +91,7 @@ class ActionController::ControllerDsl
   def invoke_pre controller
     @pre_blocks.each do |pre_block|
       if pre_block && pre_block.is_a?(Proc)
-        pre_block.call self, controller
+        controller.instance_exec(self, &pre_block)
       end
     end
   end
@@ -99,7 +99,7 @@ class ActionController::ControllerDsl
   def invoke_post controller, model
     @post_blocks.each do |post_block|
       if post_block && post_block.is_a?(Proc)
-        post_block.call self, controller, model
+        controller.instance_exec([self, model], &post_block)
       end
     end
   end

@@ -1,15 +1,16 @@
 class InstrumentsController < ApplicationController
   def self.add_test_headers insta
-    insta.pre do |controller_dsl, controller|
-      controller.response.headers[:pre_invoked] = true
+    insta.pre do |controller_dsl|
+      response.headers[:pre_invoked] = true
     end
-    insta.post do |controller_dsl, controller|
-      controller.response.headers[:post_invoked] = true
+    insta.post do |controller_dsl|
+      response.headers[:post_invoked] = true
     end
     insta.format do |format|
-      format.html do |controller_dsl, controller, outcome, default_block|
-        controller.response.headers[:format_invoked] = true
-        controller.render :text => 'howdy'
+      format.html do |triple|
+        controller_dsl, outcome, default_block = triple
+        response.headers[:format_invoked] = true
+        render :text => 'howdy'
       end
     end
   end

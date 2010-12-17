@@ -88,7 +88,7 @@ class ActionController::ModelRelationship
   
   def generate_url controller, model
     if self.url_block && self.url_block.is_a?(Proc)
-      self.url_block.call controller, model
+      controller.instance_exec model, &self.url_block
     end
   end
 end
