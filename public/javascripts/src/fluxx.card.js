@@ -945,7 +945,15 @@
           $.fluxx.util.itEndsWithMe,
           _.bind($.fn.areaDetailTransform, options.area),
           _.bind($.fn.resizeFluxxCard, options.area.fluxxCard()),
-          options.callback
+          options.callback,
+          function() {
+            // Render render visualizations if available.
+            // This needs to run after the callback in order for
+            // charts to render correctly.
+            if ($.fluxx.hasOwnProperty('visualizations')) {
+              $('.chart', options.area).renderChart();
+            }
+          }
         ));
 
       options.area
