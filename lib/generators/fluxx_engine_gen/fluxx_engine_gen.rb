@@ -28,11 +28,13 @@ class FluxxEngineGen < Rails::Generators::Base
   
   def generate_model
     if genaction == 'model'
+      perform_create_model genresultname
     end
   end
   
   def generate_controller
     if genaction == 'controller'
+      perform_create_controller genresultname
     end
   end
   
