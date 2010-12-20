@@ -843,15 +843,17 @@ table .partial { margin: 0.25em 0; }
         .entry {
           border-bottom: 1px solid #aaaaaa;
           border-top: 1px solid white;
-          padding: 18px 15px 18px 25px;
+          padding: 18px 15px 18px 30px;
+          font-size:13px;
           a {
             display: block;
             text-decoration: none;
             word-wrap: break-word;
           }
+          .file-type { margin-left:-20px; font-weight: 200; }
+          .upload-date { font-weight: 200;}
           .fluxx-card-content-metadata-section-title {
             font-size: 15px;
-            //font-weight: 500;
           }
           .fluxx-card-content-metadata-section-info {
             display: block;
