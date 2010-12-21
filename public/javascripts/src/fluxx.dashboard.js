@@ -20,7 +20,7 @@
       $.cookie('dashboard', $item.click().attr('href'));
       $item.parent().addClass('selected').siblings().removeClass('selected');
     },
-    
+
     getDashboards: function (callback) {
       var options = $.fluxx.util.options_with_callback({},callback);
       $.fluxx.storage.getStored({type: 'dashboard'}, function(items) {
@@ -63,7 +63,7 @@
         $('<input type="text" class="new-dashboard-input"/>').keypress(function(e){
           if (e.which == 13 || e.which == 10) {
             e.preventDefault();
-            var name = $(e.target).val(); 
+            var name = $(e.target).val();
             if (name.length > 0) {
               var dashboard = $.fluxx.config.dashboard.default_dashboard;
               dashboard.name = name;
@@ -108,7 +108,7 @@
       $('a.to-dashboard[href*=' + dashboard.url + ']').html(name);
     }
   });
-  
+
   $.extend(true, {
     fluxx: {
       config: {
@@ -145,14 +145,14 @@
         },
         manager: {
           init: function () {
-            
+
             var $dashboards = $.my.dashboardPicker
               .find('.item')
               .clone(true)
               .wrapAll('<ul class="manager-list" />')
               .parent()
               .before('<h1 class="manager-title">My Dashboards</h1>');
-            
+
             $dashboards.find('li').each(function() {
               var $item = $('a', $(this));
               var dashboard = $item.data('dashboard');
@@ -160,7 +160,7 @@
                   '<li><a href="#" class="rename-dashboard"></a></li>' +
                  '<li><a href="#" class="delete-dashboard"></a></li>' +
                  '</ul><div class="manager-card-count">' +
-                 dashboard.data.cards.length + 
+                 dashboard.data.cards.length +
                  ' cards</div>');
             });
             $dashboards.modal({
@@ -205,10 +205,10 @@
   $('#stage').live('complete.fluxx.stage', function(e) {
     $.my.header.initFluxxDashboard();
   });
-  
+
   $('.area').live('lifetimeComplete.fluxx.area', function(e) {
     var $area = $(this).fluxxCardArea();
-    if (($area.data('history')[0].type.toUpperCase() == 'GET' && ($area.hasClass('detail') || $area.hasClass('listing'))) && !$(this).fluxxCard().fromClientStore()) {
+    if ($area && ($area.data('history')[0].type.toUpperCase() == 'GET' && ($area.hasClass('detail') || $area.hasClass('listing'))) && !$(this).fluxxCard().fromClientStore()) {
         $(this).saveDashboard();
     }
   });
