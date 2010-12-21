@@ -13,7 +13,7 @@
           //$('.loading-indicator', $chart.fluxxCard()).addClass('loading');
 
           $.getJSON(dataURL, query, function(data, status) {
-            $chart.append('<div id="' + chartID + '"></div>');
+            $chart.html("").append('<div id="' + chartID + '"></div>');
             //$('.loading-indicator', $chart.fluxxCard()).removeClass('loading');
             $.jqplot.config.enablePlugins = true;
 
