@@ -7,7 +7,7 @@
         var chartID = 'chart' + $.fluxx.visualizations.counter++;
 
         var dataURL = $chart.attr('data-src');
-        var query = {};
+        var query = {'request_ids': $chart.attr('request-ids')};
         if (dataURL) {
           //TODO: This isn't working
           //$('.loading-indicator', $chart.fluxxCard()).addClass('loading');

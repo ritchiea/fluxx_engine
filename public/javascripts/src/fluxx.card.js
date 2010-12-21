@@ -1016,7 +1016,8 @@
                 .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
             }
             var $card = options.area.fluxxCard();
-            options.area.attr('data-src', options.area.fluxxCardAreaRequest().url);
+            if (options.area.fluxxCardAreaRequest())
+              options.area.attr('data-src', options.area.fluxxCardAreaRequest().url);
             if (!options.area.is(':visible') && options.area.width() > 0) {
               $card.animateWidthTo($card.width() + options.area.width(), function() {
                 // Wait a bit before displaying content to avoid an animation jump
