@@ -314,9 +314,10 @@
           ],
           '[data-related-child]': [
             'change', function (e) {
-              var updateChild = function ($child, parentId) {
+              var updateChild = function ($child, parentId, relatedChildParam) {
+                var relatedChildParam = relatedChildParam ? relatedChildParam : $child.attr('data-param');
                 var query = {};
-                query[$child.attr('data-param')] = parentId;
+                query[relatedChildParam] = parentId;
                 $.getJSON($child.attr('data-src'), query, function(data, status) {
                   if ($child.attr('data-required')) {
                     $child.empty();
@@ -328,21 +329,20 @@
                 });
               };
 
-              var updateChildren = function($children, parentId) {
+              var updateChildren = function($children, parentId, relatedChildParam) {
                 $children.each(function(){
-                  updateChild($(this), parentId);
+                  updateChild($(this), parentId, relatedChildParam);
                 });
               }
-
               var $parent   = $(this),
                   $children = $($parent.attr('data-related-child'), $parent.parents('form').eq(0));
               if ($parent.attr('data-sibling')) {
                 $('[data-sibling='+ $parent.attr('data-sibling') +']', $parent.parent()).not($parent)
                   .one('change', function(){
-                    updateChildren($children, $(this).val());
+                    updateChildren($children, $(this).val(), $parent.attr('data-related-child-param'));
                   });
               } else {
-                updateChildren($children, $parent.val());
+                updateChildren($children, $parent.val(), $parent.attr('data-related-child-param'));
               }
             }
           ],
