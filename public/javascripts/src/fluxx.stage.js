@@ -318,6 +318,8 @@
                 var relatedChildParam = relatedChildParam ? relatedChildParam : $child.attr('data-param');
                 var query = {};
                 query[relatedChildParam] = parentId;
+                if ($child.attr('data-require-parent-id') && !parentId)
+                  return;
                 $.getJSON($child.attr('data-src'), query, function(data, status) {
                   if ($child.attr('data-required')) {
                     $child.empty();
