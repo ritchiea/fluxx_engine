@@ -466,7 +466,7 @@
                $.get($elem.attr('href'), function(data, status) {
                  $('.loading-indicator', $elem.fluxxCard()).removeClass('loading');
                  $elem.parent().children('.closeable-div').remove();
-                 var $div = $('<div class="closeable-div"><a class="close-parent" href="#"><img src="/images/fluxx_engine/theme/default/icons/cancel.png" /></a></div>').append(data);
+                 var $div = $('<div class="closeable-div partial" data-src="' + $elem.attr('href') + '"><a class="close-parent" href="#"><img src="/images/fluxx_engine/theme/default/icons/cancel.png" /></a></div>').append(data);
                  $elem.after($div.fadeIn('slow'));
 
                });
