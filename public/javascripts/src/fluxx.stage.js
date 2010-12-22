@@ -458,6 +458,20 @@
               });
             }
           ],
+          'a.to-div': [
+             'click', function(e) {
+               $.fluxx.util.itEndsWithMe(e);
+               var $elem = $(this);
+               $('.loading-indicator', $elem.fluxxCard()).addClass('loading');
+               $.get($elem.attr('href'), function(data, status) {
+                 $('.loading-indicator', $elem.fluxxCard()).removeClass('loading');
+                 $elem.parent().children('.closeable-div').remove();
+                 var $div = $('<div class="closeable-div"><a class="close-parent" href="#"><img src="/images/fluxx_engine/theme/default/icons/cancel.png" /></a></div>').append(data);
+                 $elem.after($div.fadeIn('slow'));
+
+               });
+             }
+           ],
           'a.close-modal': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);

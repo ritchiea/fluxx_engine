@@ -134,7 +134,6 @@
 #popup_prompt { margin: 0.5em 0em; }
 
 .wysiwyg {
-  background-color: white;
   width: 510px;
   @include rounded(4px);
   border: solid 1px #777777;
@@ -186,19 +185,19 @@
 .primary {float:right;clear:both;font-size: 11px;}
 .primary a {font-size: 11px;}
 .edit_row_links {
-display: inline;
-float: right;
-font-size: 11px;
-text-align: right;
-padding-bottom: 5px;
+  display: inline;
+  float: right;
+  font-size: 11px;
+  text-align: right;
+  padding-bottom: 5px;
 }
 .edit_row_links .actions a {font-size: 11px;}
 .org_row {
-clear: both;
-color: #666;
-display: block;
-font-size: 14px;
-margin: 10px 0px;
+  clear: both;
+  color: #666;
+  display: block;
+  font-size: 14px;
+  margin: 10px 0px;
 }
 
 .visualizations {
@@ -216,5 +215,17 @@ margin: 10px 0px;
   .buttons {
     float: right;
     margin-right: 10px;
+  }
+}
+.closeable-div {
+  @include rounded(4px);
+  border: solid 1px #777777;
+  background-color: #f9f7f8;
+  padding: 15px 10px 10px 10px;
+  margin-bottom: 10px;
+  .close-parent {
+    position: relative;
+    top: -10px;
+    left: 494px;
   }
 }
