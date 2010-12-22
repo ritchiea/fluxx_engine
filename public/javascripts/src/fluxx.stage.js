@@ -74,11 +74,14 @@
         return this;
       }
       $.each(options.cards, function(i, v) {
-        $.my.hand.addFluxxCard(this, function(){
-          if (i == options.cards.length - 1) {
-            options.callback();
-          }
-        }, true);
+
+        if ((this.detail && this.listing) && (this.detail.url || this.listing.url)) {
+          $.my.hand.addFluxxCard(this, function(){
+            if (i == options.cards.length - 1) {
+              options.callback();
+            }
+          }, true);
+        }
       });
       return this;
     },
