@@ -241,6 +241,13 @@ class ActiveRecord::Base
     end
   end
 
+  # Make it possible to update AASM event definitions
+  def aasm_event_extend name, options = {}, &block
+    events = AASM::StateMachine[self].events
+    events.delete name if events[name]
+    aasm_event name, options, &block
+  end
+  
   # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update
   def update_attribute_without_log key, value
     if self.class.respond_to?(:sphinx_indexes) && self.class.sphinx_indexes
