@@ -640,6 +640,7 @@
           // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {
+              $('input,select', $form).removeAttr("disabled");
               var criterion = [];
               $filterText.val('');
               $card.data('locked', $('#lock-card').attr('checked'));
