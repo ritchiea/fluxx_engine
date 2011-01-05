@@ -268,7 +268,7 @@
                   $arrow.show();
                 $area.height($card.height());
               }
-
+              $box.css('overflow-y', 'visible');
               $areaBody.height(
                 $areaBody.parent().innerHeight() -
                 _.addUp(
