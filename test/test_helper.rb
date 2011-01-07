@@ -64,11 +64,12 @@ class SimpleFormat
   end
 end
 
+include FluxxEngineTestHelper
 # Swap out the thinking sphinx sphinx interface with actual SQL
 module ThinkingSphinx
   module SearchMethods
     module ClassMethods
-      
+    
       def search_for_ids(*args)
         paged_objects = search *args
         raw_ids = paged_objects.map &:id
@@ -76,7 +77,7 @@ module ThinkingSphinx
           pager.replace raw_ids
         end
       end
-      
+    
       def search(*args)
         self.paginate(:page => 1)
       end
