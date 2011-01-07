@@ -18,6 +18,23 @@ ATTRIBUTES = {}
     Sham.email { Faker::Internet.email }
     Sham.url { "http://#{Faker::Internet.domain_name}/#{Faker::Lorem.words(1).first}"  }
   
+    RealtimeUpdate.blueprint do
+      action 'create'
+      model_id 1
+      type_name 'Musician'
+      model_class 'Musician'
+      delta_attributes ''
+    end
+
+    MultiElementGroup.blueprint do
+    end
+    MultiElementValue.blueprint do
+    end
+    ClientStore.blueprint do
+      name Sham.word
+      client_store_type Sham.word
+    end
+  
     base.extend(ModelClassMethods)
     base.class_eval do
       include ModelInstanceMethods

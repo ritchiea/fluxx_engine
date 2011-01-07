@@ -16,25 +16,8 @@ Instrument.blueprint do
   date_of_birth Time.now
 end
 
-RealtimeUpdate.blueprint do
-  action 'create'
-  model_id 1
-  type_name 'Musician'
-  model_class 'Musician'
-  delta_attributes ''
-end
-
-MultiElementGroup.blueprint do
-end
-MultiElementValue.blueprint do
-end
 
 Orchestra.blueprint do
-end
-
-ClientStore.blueprint do
-  name Sham.word
-  client_store_type Sham.word
 end
 
 User.blueprint do
