@@ -181,6 +181,8 @@
                 detail: {url: $elem.attr('href')},
                 title: ($elem.attr('title') || $elem.text())
               };
+              if ($elem.hasClass('area-data'))
+                card.detail.data = $.param($elem.fluxxCardAreaData());
 
               if ($elem.attr('data-insert') == 'after') {
                 card.position = function($card) {$card.insertAfter($elem.fluxxCard())};
@@ -244,6 +246,20 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               $(this).fluxxCardAreas().refreshCardArea();
+            }
+          ],
+          'select.visualization-selector' : [
+            'change', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              reportID = parseInt($(this).val())
+              if ( reportID > 0) {
+                var req = $(this).fluxxCardArea().fluxxCardAreaRequest();
+                req.url = req.url.replace(/\?visualizations=\d*$/, '?visualizations=' + reportID);
+                var $card = $(this).fluxxCard();
+                $card.fluxxCardLoadDetail(req, function() {
+                  $card.saveDashboard();
+                });
+              }
             }
           ],
           'a.clone-template': [
