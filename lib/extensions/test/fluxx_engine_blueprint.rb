@@ -9,7 +9,9 @@ ATTRIBUTES = {}
   def self.included(base)
     # For faker formats see http://faker.rubyforge.org/rdoc/
 
+    Sham.document { Tempfile.new('the attached document') }
     Sham.word { Faker::Lorem.words(2).join '' }
+    Sham.words { Faker::Lorem.words(3).join ' ' }
     Sham.sentence { Faker::Lorem.sentence }
     Sham.company_name { Faker::Company.name }
     Sham.first_name { Faker::Name.first_name }
@@ -17,7 +19,7 @@ ATTRIBUTES = {}
     Sham.login { Faker::Internet.user_name }
     Sham.email { Faker::Internet.email }
     Sham.url { "http://#{Faker::Internet.domain_name}/#{Faker::Lorem.words(1).first}"  }
-  
+    
     RealtimeUpdate.blueprint do
       action 'create'
       model_id 1
@@ -45,6 +47,14 @@ ATTRIBUTES = {}
   end
   
   module ModelInstanceMethods
+    def rand_nums
+      "#{(99999999/rand).floor}#{Time.now.to_i}"
+    end
+
+    def generate_word
+      "#{Sham.word}_#{rand_nums}"
+    end
+    
     def bp_attrs
       ATTRIBUTES
     end
