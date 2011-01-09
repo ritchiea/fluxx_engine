@@ -36,7 +36,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     if models
       models
     else 
-      results_per_page = if format && (format.csv? || format.xls?)
+      results_per_page = if (params[:all_results] && params[:all_results].to_i == 1) || (format && (format.csv? || format.xls?))
         ActionController::ControllerDslIndex.max_sphinx_results
       else
         self.results_per_page || 25
