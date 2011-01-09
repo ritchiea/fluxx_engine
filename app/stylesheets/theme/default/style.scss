@@ -201,17 +201,26 @@
 }
 
 .visualizations {
+  .chart {
+    display: none;
+    position: relative;
+    left: -20px;
+    width: 494px;
+  }
   .jqplot-title {
-    margin: 10px 0px 80px 0px;
+    margin: 10px 0px 80px 30px;
     font-size: 180%;
   }
   .jqplot-table-legend {
     width: 75px;
     font-size: .65em;
     padding: 0px;
+    position: relative;
+    left: 494px;
+    margin-top: 0px;
     margin-left: 0px;
   }
-  .visualization_selector {margin-left: 10px;}
+  .visualization-selector {margin-left: 10px;}
   .buttons {
     float: right;
     margin-right: 10px;
