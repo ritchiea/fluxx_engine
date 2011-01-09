@@ -2,16 +2,12 @@
   $.fn.extend({
     renderChart: function() {
       return this.each(function() {
-
         var $chart = $(this);
         if ($chart.children().length > 0)
           return;
 
-        var $card = $chart.fluxxCard();
-
         var data = $.parseJSON($chart.html());
-//        $chart.show();
-//        return;
+
         $chart.html('').show().parent();
         var chartID = 'chart' + $.fluxx.visualizations.counter++;
 
@@ -20,6 +16,12 @@
           $.jqplot.config.enablePlugins = true;
 
           plot = $.jqplot(chartID, data.data, {
+            axesDefaults: {
+              tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+              tickOptions: {
+                fontSize: '10pt'
+              }
+            },
             title: data.title,
             height: 450,
             width: 220,
