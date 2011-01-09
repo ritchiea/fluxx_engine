@@ -254,7 +254,7 @@
               reportID = parseInt($(this).val())
               if ( reportID > 0) {
                 var req = $(this).fluxxCardArea().fluxxCardAreaRequest();
-                req.url = req.url.replace(/\?visualizations=\d*$/, '?visualizations=' + reportID);
+                req.url = req.url.replace(/([\?\&])visualizations=\d*$/, '$1visualizations=' + reportID);
                 var $card = $(this).fluxxCard();
                 $card.fluxxCardLoadDetail(req, function() {
                   $card.saveDashboard();
