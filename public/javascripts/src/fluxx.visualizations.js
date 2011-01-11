@@ -7,13 +7,20 @@
           return;
 
         var data = $.parseJSON($chart.html());
-
+        $.fluxx.log('********> RenderChart', data);
+//        return;
         $chart.html('').show().parent();
         var chartID = 'chart' + $.fluxx.visualizations.counter++;
 
         if (data) {
           $chart.html("").append('<div id="' + chartID + '"></div>');
           $.jqplot.config.enablePlugins = true;
+
+          if (data.type == 'bar') {
+            if (!data.seriesDefaults)
+              data.seriesDefaults = {};
+            data.seriesDefaults.renderer = $.jqplot.BarRenderer;
+          }
 
           plot = $.jqplot(chartID, data.data, {
             axesDefaults: {
