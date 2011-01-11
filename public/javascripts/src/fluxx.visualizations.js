@@ -32,13 +32,15 @@
             title: data.title,
             height: 450,
             width: 220,
-            stackSeries: true,
+            stackSeries: data.stackSeries,
             legend:{show: true},
             grid:{background:'#fefbf3', borderWidth:2.5},
             seriesDefaults: data.seriesDefaults,
             axes: data.axes,
             series: data.series
           });
+          if (data.description)
+            $chart.append('<div class="description">' + data.description + '</div>');
         }
       });
     }
