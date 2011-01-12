@@ -65,11 +65,24 @@ class ActionController::Base
         else
           @template = index_object.template
           @models = index_object.load_results params, request.format, pre_models
+          @first_report_id = self.respond_to?(:insta_index_report_list) && !(insta_index_report_list.empty?) && insta_index_report_list.first.report_id
           instance_variable_set index_object.plural_model_instance_name, @models
       
           index_object.invoke_post self, @models
           insta_respond_to index_object do |format|
-            format.html { render((index_object.view || "#{insta_path}/index").to_s, :layout => false) }
+            format.html do
+              @report = if params[:fluxxreport_id] && @first_report_id
+                insta_report_find_by_id params[:fluxxreport_id].to_i
+              end
+              if @report
+                @report_list = insta_index_report_list
+                @report_data = @report.compute_index_plot_data self, index_object, params, @models
+                fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
+                   :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
+              else
+                render((index_object.view || "#{insta_path}/index").to_s, :layout => false) 
+              end
+            end
             format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
             format.json do
               render :text => @models.to_json
@@ -125,7 +138,17 @@ class ActionController::Base
           @related = load_related_data(@model) if self.respond_to? :load_related_data
           insta_respond_to show_object, :success do |format|
             format.html do 
-              fluxx_show_card show_object, show_object.calculate_show_options(@model, params)
+              @report = if params[:fluxxreport_id] && self.respond_to?(:insta_show_report_list) && !(insta_show_report_list.empty?)
+                insta_report_find_by_id params[:fluxxreport_id].to_i
+              end
+              if @report
+                @reports = insta_show_report_list
+                @report_data = @report.compute_show_plot_data self, index_object, params
+                fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
+                   :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
+              else
+                fluxx_show_card show_object, show_object.calculate_show_options(@model, params)
+              end
             end
             format.json do
               render :inline => {@model.class.name.tableize.singularize => @model.attributes, :url => url_for(@model)}.to_json
@@ -466,6 +489,45 @@ class ActionController::Base
         local_related_object.load_related_data self, model
       end
     end
+  end
+
+  def self.insta_report model_class=nil
+    if respond_to?(:class_report_object) && class_report_object
+      yield class_report_object if block_given?
+    else
+      local_report_object = ActionController::ControllerDslReport.new(self, model_class)
+      class_inheritable_reader :class_report_object
+      write_inheritable_attribute :class_report_object, local_report_object
+      yield local_report_object if block_given?
+
+      define_method :insta_report_object do
+        local_report_object
+      end
+      
+      define_method :insta_report_find_by_id do |report_id|
+        class_report_object.reports.select{|rep| rep.report_id == report_id}.first
+      end
+    
+      define_method :insta_report_list do
+        class_report_object.reports
+      end
+
+      define_method :insta_show_report_list do
+        class_report_object.reports.select{|rep| rep.class.is_show?}
+      end
+
+      define_method :insta_index_report_list do
+        class_report_object.reports.select{|rep| rep.class.is_index?}
+      end
+
+      self.instance_eval do
+        def insta_class_report_object
+          class_report_object
+        end
+      end
+    end
+    
+    class_report_object.instantiate_reports
   end
   
   def fluxx_current_user

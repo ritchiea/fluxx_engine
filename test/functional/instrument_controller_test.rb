@@ -41,10 +41,18 @@ class InstrumentsControllerTest < ActionController::TestCase
   end
 
   test "should get index check on pre and post and format" do
-    get :index
+    get :index, :format => :xml
     assert response.headers[:pre_invoked]
     assert response.headers[:post_invoked]
     assert response.headers[:format_invoked]
+  end
+  
+  test "should get index with average index plot" do
+    controller = InstrumentsController.new
+    reports = controller.insta_index_report_list
+    avg_rep = reports.select{|rep| rep.is_a? AverageInstrumentsReport}.first
+    get :index, :fluxxreport_id => avg_rep.report_id
+    p "ESH: have body = #{@response.body}"
   end
 
   test "should get index with pagination" do
@@ -171,4 +179,15 @@ class InstrumentsControllerTest < ActionController::TestCase
     assert_equal lookup_instrument2.id, a.second['value']
   end
   
+  test "make sure that we can get the list of reports" do
+    controller = InstrumentsController.new
+    assert controller.respond_to? :insta_report_list
+    assert controller.insta_report_list
+    assert_equal 2, controller.insta_report_list.size
+    assert_equal 1, controller.insta_report_list.first.report_id
+    assert controller.insta_report_list.map{|rep| rep.class}.include?(TotalInstrumentsReport)
+    assert_equal 1, controller.insta_show_report_list.size
+    assert controller.insta_show_report_list.first.is_a?(TotalInstrumentsReport)
+    assert controller.insta_index_report_list.first.is_a?(AverageInstrumentsReport)
+  end
 end

@@ -27,12 +27,13 @@ class ActionController::ControllerDsl
   
   def initialize model_class_param
     self.model_class = model_class_param
-    
-    self.model_name = model_class.name.underscore.downcase
-    @model_human_name = @model_name.gsub('_', ' ').titlecase
-    @plural_model_name = @model_name.pluralize
-    self.singular_model_instance_name = "@#{@model_name}".to_sym
-    self.plural_model_instance_name = "@#{@plural_model_name}".to_sym
+    if model_class_param
+      self.model_name = model_class.name.underscore.downcase
+      @model_human_name = @model_name.gsub('_', ' ').titlecase
+      @plural_model_name = @model_name.pluralize
+      self.singular_model_instance_name = "@#{@model_name}".to_sym
+      self.plural_model_instance_name = "@#{@plural_model_name}".to_sym
+    end
     @pre_blocks = []
     @post_blocks = []
   end
@@ -102,5 +103,10 @@ class ActionController::ControllerDsl
         controller.instance_exec([self, model], &post_block)
       end
     end
+  end
+  
+  # Find the path of controllers.  Note that we piggy-back the view_paths, which gives us essentially the same information
+  def self.controller_load_path
+    ActionController::Base.view_paths.map{|abv| abv.instance_variable_get '@path'}.map{|path| path.gsub /\/app\/views$/, '/app/controllers'}
   end
 end

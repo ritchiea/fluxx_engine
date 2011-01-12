@@ -251,10 +251,11 @@
           'select.visualization-selector' : [
             'change', function(e) {
               $.fluxx.util.itEndsWithMe(e);
+              
               reportID = parseInt($(this).val())
               if ( reportID > 0) {
                 var req = $(this).fluxxCardArea().fluxxCardAreaRequest();
-                req.url = req.url.replace(/([\?\&])visualizations=\d*$/, '$1visualizations=' + reportID);
+                req.url = req.url.replace(/fluxxreport_id=\d*$/, 'fluxxreport_id=' + reportID);
                 var $card = $(this).fluxxCard();
                 $card.fluxxCardLoadDetail(req, function() {
                   $card.saveDashboard();

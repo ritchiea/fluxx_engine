@@ -1,5 +1,5 @@
 class InstrumentsController < ApplicationController
-  def self.add_test_headers insta
+  def self.add_test_headers insta, format_type = :html
     insta.pre do |controller_dsl|
       response.headers[:pre_invoked] = true
     end
@@ -7,7 +7,7 @@ class InstrumentsController < ApplicationController
       response.headers[:post_invoked] = true
     end
     insta.format do |format|
-      format.html do |triple|
+      format.send(format_type) do |triple|
         controller_dsl, outcome, default_block = triple
         response.headers[:format_invoked] = true
         render :text => 'howdy'
@@ -16,7 +16,7 @@ class InstrumentsController < ApplicationController
   end
 
   insta_index Instrument do |insta|
-    InstrumentsController.add_test_headers insta
+    InstrumentsController.add_test_headers insta, :xml
     insta.template = 'instrument_list'
 
   end
@@ -44,5 +44,7 @@ class InstrumentsController < ApplicationController
     InstrumentsController.add_test_headers insta
     insta.template = 'instrument_form'
   end
+  
+  insta_report
   
 end
