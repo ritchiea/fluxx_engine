@@ -7,10 +7,10 @@ class ActionController::ReportBase
   attr_accessor :report_type
   # template path for rendering the page that displays the plot; nil will just use the default
   attr_accessor :plot_template
+  # template path for rendering the filter; nil would suggest that there is no filter to be supplied
+  attr_accessor :filter_template
   # footer template path for rendering the report footer; nil will just use the default
   attr_accessor :plot_template_footer
-  
-  # TODO ESH: add support for a custom filter screen
   
   def initialize report_id
     self.report_id = report_id
