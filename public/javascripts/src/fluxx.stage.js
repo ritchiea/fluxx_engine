@@ -238,7 +238,9 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              if (confirm('This record will be deleted. Are you sure?'))
+              if ($elem.hasClass('no-confirm'))
+                $.fn.fluxxAjaxCall($elem, 'DELETE');
+              else if (confirm('This record will be deleted. Are you sure?'))
                 $.fn.fluxxAjaxCall($elem, 'DELETE');
             }
           ],
@@ -251,7 +253,7 @@
           'select.visualization-selector' : [
             'change', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              
+
               reportID = parseInt($(this).val())
               if ( reportID > 0) {
                 var req = $(this).fluxxCardArea().fluxxCardAreaRequest();
