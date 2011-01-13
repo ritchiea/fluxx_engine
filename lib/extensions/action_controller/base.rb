@@ -126,8 +126,15 @@ class ActionController::Base
       define_method :show do
         show_object.invoke_pre self
 
-        @model = show_object.perform_show params, pre_model
+        @model = if params[:id] && self.respond_to?(:insta_show_report_list) && !(insta_show_report_list.empty?)
+          @report = insta_report_find_by_id params[:id].to_i
+          @report_list = insta_index_report_list
+          @report
+        else
+          show_object.perform_show params, pre_model
+        end
         @model_class = show_object.model_class
+        
         raise UnauthorizedException.new('view', (@model || @model_class)) unless fluxx_current_user.has_view_for_model?(@model || @model_class)
         @icon_style = show_object.icon_style
         @model_name = @model ? @model.class.name.underscore.downcase : show_object.model_name
@@ -138,13 +145,13 @@ class ActionController::Base
           @related = load_related_data(@model) if self.respond_to? :load_related_data
           insta_respond_to show_object, :success do |format|
             format.html do 
-              @report = if params[:fluxxreport_id] && self.respond_to?(:insta_show_report_list) && !(insta_show_report_list.empty?)
-                insta_report_find_by_id params[:fluxxreport_id].to_i
-              end
-              if @report
+              if @report && @report.filter_template && params[:fluxxreport_filter] 
+                @filter_template = @report.filter_template
+                render 'insta/report_filter', :layout => false
+              elsif @report
                 @reports = insta_show_report_list
-                @report_data = @report.compute_show_plot_data self, index_object, params
-                fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
+                @report_data = @report.compute_show_plot_data self, show_object, params
+                fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
                    :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
               else
                 fluxx_show_card show_object, show_object.calculate_show_options(@model, params)

@@ -52,8 +52,19 @@ class InstrumentsControllerTest < ActionController::TestCase
     reports = controller.insta_index_report_list
     avg_rep = reports.select{|rep| rep.is_a? AverageInstrumentsReport}.first
     get :index, :fluxxreport_id => avg_rep.report_id
-    p "ESH: have body = #{@response.body}"
+    assert @response.body =~ /visualizations/
+    assert @response.body =~ /#{avg_rep.report_label}/
   end
+  
+  test "should get index with total index plot" do
+    controller = InstrumentsController.new
+    reports = controller.insta_index_report_list
+    total_rep = reports.select{|rep| rep.is_a? TotalInstrumentsReport}.first
+    get :index, :fluxxreport_id => total_rep.report_id
+    assert @response.body =~ /visualizations/
+    assert @response.body =~ /#{total_rep.report_label}/
+  end
+  
 
   test "should get index with pagination" do
     instruments = (1..51).map {Instrument.make}
@@ -186,8 +197,8 @@ class InstrumentsControllerTest < ActionController::TestCase
     assert_equal 2, controller.insta_report_list.size
     assert_equal 1, controller.insta_report_list.first.report_id
     assert controller.insta_report_list.map{|rep| rep.class}.include?(TotalInstrumentsReport)
-    assert_equal 1, controller.insta_show_report_list.size
-    assert controller.insta_show_report_list.first.is_a?(TotalInstrumentsReport)
-    assert controller.insta_index_report_list.first.is_a?(AverageInstrumentsReport)
+    assert_equal 0, controller.insta_show_report_list.size
+    assert controller.insta_index_report_list.first.is_a?(TotalInstrumentsReport)
+    assert controller.insta_index_report_list.last.is_a?(AverageInstrumentsReport)
   end
 end
