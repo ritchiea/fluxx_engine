@@ -253,7 +253,6 @@
           'select.visualization-selector' : [
             'change', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-
               reportID = parseInt($(this).val())
               if ( reportID > 0) {
                 var req = $(this).fluxxCardArea().fluxxCardAreaRequest();
@@ -263,6 +262,52 @@
                   $card.saveDashboard();
                 });
               }
+            }
+          ],
+          'a.reports-modal' : [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $.ajax({
+                url: $elem.attr('href'),
+                success: function(data, status, xhr) {
+                  $.modal(data,{
+                    position: ["15%",],
+                    containerId: 'report-modal',
+                    onOpen: function (dialog) {
+                      dialog.overlay.fadeIn('fast', function () {
+                        dialog.data.hide();
+                        dialog.container.fadeIn('fast', function () {
+                          dialog.data.fadeIn('fast');
+                        });
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          ],
+          'div.report-info' : [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $.ajax({
+                url: $elem.attr('data-filter-url'),
+                success: function(data, status, xhr) {
+                  $elem.parent().hide('slide', { direction: 'left' }, 'slow', function() {
+                    $('.report-filter').html(data).fadeIn('slow');
+                  });
+                }
+              });
+            }
+          ],
+          'a.reports-modal-back' : [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $elem.parent().hide('slide', { direction: 'right' }, 'slow', function() {
+                $('.report-list').fadeIn('slow');
+              });
             }
           ],
           'a.clone-template': [
