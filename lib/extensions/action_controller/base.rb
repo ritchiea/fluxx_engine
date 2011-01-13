@@ -23,7 +23,7 @@ class ActionController::Base
   #   partial_new: the name of the new partial.  Defaults to 'partial_new'
   # If you pass in a parameter skip_wrapper=true, just the partial will be rendered with no #card-header, #card-body, #card-footer wrapping
   #
-  def self.insta_index model_class
+  def self.insta_index model_class=nil
     if respond_to?(:class_index_object) && class_index_object
       yield class_index_object if block_given?
     else
@@ -50,14 +50,15 @@ class ActionController::Base
         @delta_type = if index_object.delta_type
           index_object.delta_type
         else
-          model_class.name
+          model_class ? model_class.name : nil
         end
       
         @model_class = index_object.model_class
         @icon_style = index_object.icon_style
         @suppress_model_anchor_tag = index_object.suppress_model_anchor_tag
         @suppress_model_iteration = index_object.suppress_model_iteration
-        @skip_wrapper = @skip_wrapper || params[:skip_wrapper]
+        @skip_wrapper = @skip_wrapper || params[:skip_wrapper] || index_object.always_skip_wrapper
+        
         if params[:view] == 'filter'
           @filter_title = index_object.filter_title || "Filter #{index_object.model_class.name.humanize.downcase.pluralize}"
           @filter_template = index_object.filter_template
@@ -66,7 +67,7 @@ class ActionController::Base
           @template = index_object.template
           @models = index_object.load_results params, request.format, pre_models
           @first_report_id = self.respond_to?(:insta_index_report_list) && !(insta_index_report_list.empty?) && insta_index_report_list.first.report_id
-          instance_variable_set index_object.plural_model_instance_name, @models
+          instance_variable_set index_object.plural_model_instance_name, @models if index_object.plural_model_instance_name
       
           index_object.invoke_post self, @models
           insta_respond_to index_object do |format|
@@ -102,7 +103,7 @@ class ActionController::Base
     end
   end
   
-  def self.insta_show model_class
+  def self.insta_show model_class=nil
     if respond_to?(:class_show_object) && class_show_object
       yield class_show_object if block_given?
     else
@@ -138,7 +139,7 @@ class ActionController::Base
         raise UnauthorizedException.new('view', (@model || @model_class)) unless fluxx_current_user.has_view_for_model?(@model || @model_class)
         @icon_style = show_object.icon_style
         @model_name = @model ? @model.class.name.underscore.downcase : show_object.model_name
-        @skip_wrapper = @skip_wrapper || params[:skip_wrapper]
+        @skip_wrapper = @skip_wrapper || params[:skip_wrapper] || show_object.always_skip_wrapper
 
         show_object.invoke_post self, @model
         if @model
