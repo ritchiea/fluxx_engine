@@ -454,9 +454,18 @@
               var updateChild = function ($child, parentId, relatedChildParam) {
                 var relatedChildParam = relatedChildParam ? relatedChildParam : $child.attr('data-param');
                 var query = {};
-                query[relatedChildParam] = parentId;
                 if ($child.attr('data-require-parent-id') && !parentId)
                   return;
+                if ($child.attr('data-param-list')) {
+                  _.each($child.attr('data-param-list').split(','), function(field) {
+                    var names = field.split('=');
+                    if (names.length != 2)
+                      return;
+                    query[names[0]] = $(names[1]).val();
+                  });
+                } else {
+                  query[relatedChildParam] = parentId;
+                }
                 $.getJSON($child.attr('data-src'), query, function(data, status) {
                   if ($child.attr('data-required')) {
                     $child.empty();
@@ -751,6 +760,9 @@
           'a.area-url': [
             'click', function(e) {
               var $elem = $(this);
+              var current = $elem.fluxxCard().fluxxCardAreaRequest();
+//              $.fluxx.log('>>>>-------------------------------------------------', current.data);
+//              return;
               $elem.attr('href', $elem.fluxxCardAreaURL());
             }
           ],
