@@ -202,13 +202,18 @@
 
 .visualizations {
   .chart {
-    position: relative;
-    left: -20px;
-    width: 494px;
+    width: 610px;
   }
   .description {
     margin: 10px 0px 10px 0px;
     text-align: center;
+    background-color: #e9edf9;
+    position: relative;
+    left: -40px;
+    margin-right: -91px;
+    padding: 10px 0px 10px 0px;
+    border-top: 1px solid #444444;
+    border-bottom: 1px solid #444444;
   }
   .jqplot-title {
     margin: 10px 0px 80px 30px;
