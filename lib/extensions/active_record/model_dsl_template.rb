@@ -104,6 +104,10 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
     sb.string
   end
   
+  def process_liquid_template model, document, view_context
+    Liquid::Template.parse(document).render(entity_name => model)
+  end
+  
   protected
   
   def create_bindings model

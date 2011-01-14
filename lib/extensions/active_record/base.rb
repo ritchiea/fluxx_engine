@@ -51,6 +51,12 @@ class ActiveRecord::Base
       # Use the curly-brace markup to annotate the document
       local_template_object.process_template self, document, view_context
     end
+
+    define_method :process_liquid_template do |document, view_context|
+      # Use liquid markup to annotate the document
+      local_template_object.process_liquid_template self, document, view_context
+    end
+    
   end
     
   def self.insta_search
