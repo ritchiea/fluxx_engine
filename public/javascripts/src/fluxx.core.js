@@ -59,7 +59,7 @@
     },
     isFilterMatch: function (filter, test) {
       $.fluxx.log('--- isFilterMatch ---', filter, test);
-      
+
       var keys = _.intersect(_.keys(filter), _.keys(test));
       _.each([filter, test], function(obj) {
         _.each(_.keys(obj), function(key) {
@@ -84,7 +84,7 @@
       return result;
     }
   });
-  
+
   $.extend(true, {
     my: {
       cards: $()
@@ -172,18 +172,39 @@
       },
       sessionData: function(key, value) {
         if (window.sessionStorage)
-          if (value) 
+          if (value)
             window.sessionStorage[key] = value;
           else if (key)
             return window.sessionStorage[key];
+      },
+      unparam: function(query) {
+        var query_string = {};
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+          var pair = vars[i].split("=");
+          pair[0] = decodeURIComponent(pair[0]);
+          pair[1] = decodeURIComponent(pair[1]);
+              // If first entry with this name
+          if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = pair[1];
+              // If second entry with this name
+          } else if (typeof query_string[pair[0]] === "string") {
+            var arr = [ query_string[pair[0]], pair[1] ];
+            query_string[pair[0]] = arr;
+              // If third or later entry with this name
+          } else {
+            query_string[pair[0]].push(pair[1]);
+          }
+        }
+        return query_string;
       }
     }
   });
 
 
-  $('html').ajaxComplete(function(e, xhr, options) {    
+  $('html').ajaxComplete(function(e, xhr, options) {
     if ($.cookie('user_credentials'))
-      $.fluxx.sessionData('user_credentials', $.cookie('user_credentials')); 
+      $.fluxx.sessionData('user_credentials', $.cookie('user_credentials'));
     // Look for a HTTP response header called fluxx_template. If it has a value of login we are not logged in.
     if (xhr.getResponseHeader('fluxx_template') == 'login')
       window.location.href = window.location.href;
@@ -193,7 +214,7 @@
         $.fluxx.log("user_credentials cookie set from local session store");
         $.cookie('user_credentials', $.fluxx.sessionData('user_credentials'));
         // Cookie has been lost so session will be lost
-        // Use value stored in session store and do a synchronous ajax call to restore the cookie. 
+        // Use value stored in session store and do a synchronous ajax call to restore the cookie.
         jQuery.ajax({
           url: window.location.href,
           async:   false,
@@ -204,7 +225,7 @@
       }
     }
   });
-    
+
   var keyboardShortcuts = {
     'Space+u': ['Force update', function() {
       var rtu = $.fluxx.realtime_updates;
@@ -241,7 +262,7 @@
       }
     }]
   };
-  
+
   $(document).shortkeys(_.extend.apply(_, _.map(keyboardShortcuts, function(v,k){var o={}; o[k] = v[1]; return o})));
   jQuery.fx.interval = 2;
 })(jQuery);

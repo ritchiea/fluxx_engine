@@ -54,7 +54,7 @@
         $('.break', $controls).css({
           height: 24
         });
-        
+
         var updateOriginal = function() {
           var sel = [];
           $selected.children().each(function () {
@@ -71,27 +71,27 @@
           $selected.find(':selected').remove().appendTo($unselected);
           updateOriginal();
         });
-        
+
         $unselected.dblclick(function(e) {$select.click();});
-        $selected.dblclick(function(e) {$unselect.click();});          
-        
+        $selected.dblclick(function(e) {$unselect.click();});
+
         $original.hide();
-        
+
         $original.bind('options.updated', function () {
           var items = [];
-          $selected.children().each(function() {items.push($(this).val());});          
+          $selected.children().each(function() {items.push($(this).val());});
           $unselected.children().remove();
           $original.children().clone().appendTo($unselected);
           $selected.children().remove();
           $unselected.children().each(function() {
             $.fluxx.log("Looking " + items.indexOf($(this).val()));
             if (items.indexOf($(this).val()) >= 0)
-                $(this).appendTo($selected)                
+                $(this).appendTo($selected)
           });
-          updateOriginal();          
+          updateOriginal();
         });
-        
-        $container.insertAfter($original);        
+
+        $container.insertAfter($original);
       });
     }
   });

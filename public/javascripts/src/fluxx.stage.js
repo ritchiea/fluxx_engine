@@ -204,6 +204,19 @@
               $.my.hand.addFluxxCard(card);
             }
           ],
+          'form.edit-detail': [
+            'submit', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $card = $elem.data('card');
+              var req = $card.fluxxCardDetail().fluxxCardAreaRequest();
+              req.data = $elem.serialize();
+              $card.fluxxCardLoadDetail(req, function() {
+                $card.saveDashboard();
+              });
+              $.modal.close();
+            }
+          ],
           'a.close-detail': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
@@ -323,6 +336,42 @@
               var $modal = $('#report-modal');
               $('.report-filter', $modal).hide('slide', { direction: 'right' }, 'slow', function() {
                 $('.report-list', $modal).fadeIn('slow');
+              });
+            }
+          ],
+          'a.edit-report-filter': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var $card = $elem.fluxxCard();
+              $.ajax({
+                url: $card.fluxxCardDetail().fluxxCardAreaRequest().url + '?fluxxreport_filter=1',
+                success: function(data, status, xhr) {
+                  $.modal('<div class="report-modal"><div class="report-filter">' + data + '</div></div>',{
+                    position: ["15%",],
+                    containerId: 'report-modal',
+                    onOpen: function (dialog) {
+                      var $form = $('form', dialog.data);
+                      $form.removeClass('new-detail').addClass('edit-detail');
+                      $form.data('card', $card);
+                      _.each($.fluxx.unparam($card.fluxxCardDetail().fluxxCardAreaData()), function(value, name) {
+                        var $felem = $('[name="' + name + '"]', $form);
+                        if ($felem.length) {
+                          var type = $felem.attr('type');
+                          if (type != 'hidden')
+                            $felem.val(value);
+                        }
+                      });
+                      $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $form).selectTransfer();
+                      dialog.overlay.fadeIn('fast', function () {
+                        dialog.data.hide();
+                        dialog.container.fadeIn('fast', function () {
+                          dialog.data.fadeIn('fast');
+                        });
+                      });
+                    }
+                  });
+                }
               });
             }
           ],
