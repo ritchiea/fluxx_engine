@@ -183,12 +183,24 @@
               };
               if ($elem.hasClass('area-data'))
                 card.detail.data = $.param($elem.fluxxCardAreaData());
-
               if ($elem.attr('data-insert') == 'after') {
                 card.position = function($card) {$card.insertAfter($elem.fluxxCard())};
               } else if ($elem.attr('data-insert') == 'before') {
                 card.position = function($card) {$card.insertBefore($elem.fluxxCard())};
               }
+              $.my.hand.addFluxxCard(card);
+            }
+          ],
+          'form.new-detail': [
+            'submit', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var card = {
+                detail: {url: $elem.attr('action'),
+                         data: $elem.serialize()},
+                title: $elem.attr('data-title')
+              };
+              $.modal.close();
               $.my.hand.addFluxxCard(card);
             }
           ],
@@ -295,7 +307,8 @@
                 url: $elem.attr('data-filter-url'),
                 success: function(data, status, xhr) {
                   $elem.parent().hide('slide', { direction: 'left' }, 'slow', function() {
-                    $('.report-filter').html(data).fadeIn('slow');
+                    $('.report-filter').html(data).append('<div><a href="#" class="reports-modal-back"><</a></div>').fadeIn('slow');
+                    $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $('.report-filter')).selectTransfer();
                   });
                 }
               });
