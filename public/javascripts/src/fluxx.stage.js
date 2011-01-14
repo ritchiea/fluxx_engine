@@ -304,15 +304,16 @@
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               var $modal = $('#report-modal');
-              $.ajax({
-                url: $elem.attr('data-filter-url'),
-                success: function(data, status, xhr) {
-                  $elem.parent().hide('slide', { direction: 'left' }, 'slow', function() {
+              $elem.parent().hide('slide', { direction: 'left' }, 'slow', function() {
+                $.ajax({
+                  url: $elem.attr('data-filter-url'),
+                  success: function(data, status, xhr) {
                     $('.report-filter', $modal).html(data + '<div><a href="#" class="report-modal-back"><</a></div>').fadeIn('slow');
                     $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $modal).selectTransfer();
-                  });
-                }
+                  }
+                });
               });
+
             }
           ],
           'a.report-modal-back' : [
