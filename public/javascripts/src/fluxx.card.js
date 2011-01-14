@@ -38,9 +38,16 @@
                   $('.close-card', $card).hide();
                 else
                   $('.close-card', $card).show();
+
                 $refresh = $('.titlebar .refresh-card', $card).hide();
                 if (!$card.fluxxCardListing().is(':visible'))
                   $refresh.show();
+
+                $editReport = $('.titlebar .edit-report-filter', $card).hide();
+                // TODO: Currently don't support editing filters on visualizations, but we do on live reports
+                // Turn off icon for visualizations. This is a crappy way of doing it. Works for now.
+                if ($('.report-area', $card).length && $card.fluxxCardTitle() != 'Visualizations')
+                  $editReport.show();
 
                 if ($card.data && $card.data('icon'))
                   $card
