@@ -276,7 +276,7 @@
               }
             }
           ],
-          'a.reports-modal' : [
+          'a.report-modal' : [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
@@ -307,14 +307,14 @@
                 url: $elem.attr('data-filter-url'),
                 success: function(data, status, xhr) {
                   $elem.parent().hide('slide', { direction: 'left' }, 'slow', function() {
-                    $('.report-filter').html(data).append('<div><a href="#" class="reports-modal-back"><</a></div>').fadeIn('slow');
+                    $('.report-filter').html(data).append('<div><a href="#" class="report-modal-back"><</a></div>').fadeIn('slow');
                     $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $('.report-filter')).selectTransfer();
                   });
                 }
               });
             }
           ],
-          'a.reports-modal-back' : [
+          'a.report-modal-back' : [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);

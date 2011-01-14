@@ -8,7 +8,6 @@
 
         var data = $.parseJSON($chart.html());
         $.fluxx.log('********> RenderChart', data);
-//        return;
         $chart.html('').show().parent();
         var chartID = 'chart' + $.fluxx.visualizations.counter++;
 
