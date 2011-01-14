@@ -303,12 +303,13 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              var $modal = $('#report-modal');
               $.ajax({
                 url: $elem.attr('data-filter-url'),
                 success: function(data, status, xhr) {
                   $elem.parent().hide('slide', { direction: 'left' }, 'slow', function() {
-                    $('.report-filter').html(data).append('<div><a href="#" class="report-modal-back"><</a></div>').fadeIn('slow');
-                    $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $('.report-filter')).selectTransfer();
+                    $('.report-filter', $modal).html(data + '<div><a href="#" class="report-modal-back"><</a></div>').fadeIn('slow');
+                    $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $modal).selectTransfer();
                   });
                 }
               });
@@ -318,8 +319,9 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              $elem.parent().hide('slide', { direction: 'right' }, 'slow', function() {
-                $('.report-list').fadeIn('slow');
+              var $modal = $('#report-modal');
+              $('.report-filter', $modal).hide('slide', { direction: 'right' }, 'slow', function() {
+                $('.report-list', $modal).fadeIn('slow');
               });
             }
           ],

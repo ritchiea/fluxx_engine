@@ -1,4 +1,6 @@
 %div.filter
+  .report-title
+    = @report.report_label
   = semantic_form_for ModelStub.generate_class_instance(ActiveRecord::Base), :url => {:controller => controller.controller_name, :action => 'show'}, :html => {:class => 'new-detail', :method => 'get', 'data-title' => @report.report_label} do |form|
     %input{:type=>'hidden', :name=>'id', :value => @report.report_id}
 
