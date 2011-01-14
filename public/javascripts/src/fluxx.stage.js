@@ -211,9 +211,7 @@
               $card = $elem.data('card');
               var req = $card.fluxxCardDetail().fluxxCardAreaRequest();
               req.data = $elem.serialize();
-              $card.fluxxCardLoadDetail(req, function() {
-                $card.saveDashboard();
-              });
+              $card.fluxxCardLoadDetail(req);
               $.modal.close();
             }
           ],
@@ -352,17 +350,24 @@
                     containerId: 'report-modal',
                     onOpen: function (dialog) {
                       var $form = $('form', dialog.data);
+                      $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $form).selectTransfer();
                       $form.removeClass('new-detail').addClass('edit-detail');
                       $form.data('card', $card);
                       _.each($.fluxx.unparam($card.fluxxCardDetail().fluxxCardAreaData()), function(value, name) {
                         var $felem = $('[name="' + name + '"]', $form);
                         if ($felem.length) {
                           var type = $felem.attr('type');
-                          if (type != 'hidden')
+                          if (type == 'select-multiple') {
+                            multiple = value;
+                          }
+                          if (type == 'select-multiple') {
+                            $felem.parent().find('.unselected').val(value);
+                            $felem.parent().find('.select').click();
+                          } else if (type != 'hidden')
                             $felem.val(value);
                         }
                       });
-                      $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $form).selectTransfer();
+
                       dialog.overlay.fadeIn('fast', function () {
                         dialog.data.hide();
                         dialog.container.fadeIn('fast', function () {
