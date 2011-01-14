@@ -1,8 +1,9 @@
 .visualizations
-  %select.visualization-selector
-    %option= '- Select One -'
-    - @report_list.each do |report|
-      %option{:value => report.report_id}= report.report_label
+  - if @model_class == Request
+    %select.visualization-selector
+      %option= '- Select One -'
+      - @report_list.each do |report|
+        %option{:value => report.report_id}= report.report_label
 
   %ul.buttons
     %li= link_to 'Export', '#', :target => "_blank", :class => 'btn area-url'
