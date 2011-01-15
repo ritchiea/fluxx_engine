@@ -287,6 +287,18 @@
               }
             }
           ],
+          'select.refresh-partial' : [
+            'change', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var $partial = $($elem.attr('data-target'));
+              if ($partial.length) {
+                var param = $elem.attr('name').replace(/\w+\[(\w+)\]/, "$1");
+                var re = new RegExp('([?&]' + param + '=).*[^&]');
+                $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val())).refreshAreaPartial();
+              }
+            }
+          ],
           'a.report-modal' : [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
