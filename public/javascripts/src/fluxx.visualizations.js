@@ -7,13 +7,14 @@
           return;
 
         var data = $.parseJSON($chart.html());
-        $.fluxx.log('********> RenderChart', data);
         $chart.html('').show().parent();
         var chartID = 'chart' + $.fluxx.visualizations.counter++;
 
         if (data) {
-          $card = $chart.fluxxCard();
-          $card.fluxxCardDetail().addClass('report-area');
+          if (typeof $chart.fluxxCard == 'function') {
+            $card = $chart.fluxxCard();
+            $card.fluxxCardDetail().addClass('report-area');
+          }
 
           $chart.html("").append('<div id="' + chartID + '"></div>');
           $.jqplot.config.enablePlugins = true;

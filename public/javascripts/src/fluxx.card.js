@@ -490,12 +490,16 @@
     fluxxCardAreaURL: function(options) {
       var options = $.fluxx.util.options_with_callback({without: []},options);
       var current = this.fluxxCardAreaRequest();
-      var withoutNames = _.pluck(options.without, 'name');
-      var params  = _.reject(current.data, function(elem) {
-        return _.indexOf(withoutNames, elem.name) == -1 ? false : true;
-      });
-      /* Remove anything from current.data that's in options.without */
-      return current.url + '?' + $.param(params);
+      if (current.data &&  typeof current.data == 'object') {
+        var withoutNames = _.pluck(options.without, 'name');
+        var params  = _.reject(current.data, function(elem) {
+          return _.indexOf(withoutNames, elem.name) == -1 ? false : true;
+        });
+        /* Remove anything from current.data that's in options.without */
+        return current.url + '?' + $.param(params);
+      } else {
+        return current.url + '?' + current.data;
+      }
     },
     fluxxCardAreaData: function() {
       return this.fluxxCardArea().data('history')[0].data;
