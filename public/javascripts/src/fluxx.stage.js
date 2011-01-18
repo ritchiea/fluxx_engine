@@ -375,7 +375,7 @@
                     onOpen: function (dialog) {
                       var $form = $('form', dialog.data);
                       $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $form).selectTransfer();
-                      $('.new-detail', $form).removeClass('new-detail').addClass('edit-detail');
+                      $('.new-detail', $form).removeClass('new-detail').addClass('edit-detail').val('Update Report');
                       $form.data('card', $card);
                       _.each($.fluxx.unparam($card.fluxxCardDetail().fluxxCardAreaData()), function(value, name) {
                         var $felem = $('[name="' + name + '"]', $form);
@@ -387,7 +387,7 @@
                           if (type == 'select-multiple') {
                             $felem.parent().find('.unselected').val(value);
                             $felem.parent().find('.select').click();
-                          } else if (type != 'hidden')
+                          } else if (type != 'hidden' && type != 'button')
                             $felem.val(value);
                         }
                       });
