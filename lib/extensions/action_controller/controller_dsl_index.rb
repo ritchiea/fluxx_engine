@@ -9,6 +9,8 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :order_clause
   # any additional relationships to include
   attr_accessor :include_relation
+  # any joins
+  attr_accessor :joins
   # the view to display for the filter
   attr_accessor :filter_view
   # the optional title of the filter
@@ -68,7 +70,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         end
       else
         model_class.model_search(q_search, params, results_per_page, 
-          {:search_conditions => extra_search_conditions, :order_clause => self.order_clause, :include_relation => include_relation})
+          {:search_conditions => extra_search_conditions, :order_clause => self.order_clause, :include_relation => include_relation, :joins => joins})
       end
       instance_variable_set @plural_model_instance_name, model_ids
       

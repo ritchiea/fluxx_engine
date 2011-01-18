@@ -86,9 +86,11 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     # Grab a list of models with just the ID, then swap out the list of models with a list of the IDs
     # TODO ESH: should upgrade to arel syntax
     p "searching for #{local_model_class.name}, sql_conditions='#{sql_conditions}', search_conditions=#{modified_search_conditions}, page=#{page_clause}, per_page=#{results_per_page}, :order=#{order_clause}"
-    models = local_model_class.paginate :select => :id, :conditions => "#{sql_conditions} #{(!sql_conditions.blank? && !modified_search_conditions.blank?) ? " AND " : ''} #{modified_search_conditions}", 
+    
+    models = local_model_class.paginate :select => "#{local_model_class.table_name}.id", :conditions => "#{sql_conditions} #{(!sql_conditions.blank? && !modified_search_conditions.blank?) ? " AND " : ''} #{modified_search_conditions}", 
       :page => page_clause, :per_page => results_per_page, 
-      :order => order_clause, :include => options[:include_relation]
+      :order => order_clause, :include => options[:include_relation],
+      :joins => options[:joins]
     models.replace models.map(&:id)
     models
   end
