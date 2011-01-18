@@ -321,6 +321,7 @@
                     position: ["15%",],
                     containerId: 'report-modal',
                     onOpen: function (dialog) {
+                      $('.simplemodal-wrap', dialog.container).css('overflow', 'hidden');
                       dialog.overlay.fadeIn('fast', function () {
                         dialog.data.hide();
                         dialog.container.fadeIn('fast', function () {

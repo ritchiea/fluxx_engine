@@ -265,6 +265,14 @@
     text-transform: uppercase;
     font-weight: bold;
   }
+  .report-modal {
+    margin: 0px;
+  }
+  .report-list {
+    height: 330px;
+    overflow: auto;
+    margin: 0px;
+  }
   .report-info {
     padding: 20px 150px 10px 45px;
     height: 120px;
