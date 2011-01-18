@@ -191,14 +191,15 @@
               $.my.hand.addFluxxCard(card);
             }
           ],
-          'form.new-detail': [
-            'submit', function(e) {
+          'form.new-detail :submit': [
+            'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              var $form = $elem.parents('form:eq(0)');
               var card = {
-                detail: {url: $elem.attr('action'),
-                         data: $elem.serialize()},
-                title: $elem.attr('data-title')
+                detail: {url: $form.attr('action'),
+                         data: $form.serialize() + '&' + $elem.attr('name') + '=' + $elem.val()},
+                title: $form.attr('data-title')
               };
               $.modal.close();
               $.my.hand.addFluxxCard(card);
@@ -210,7 +211,7 @@
               var $elem = $(this);
               $card = $elem.data('card');
               var req = $card.fluxxCardDetail().fluxxCardAreaRequest();
-              req.data = $elem.serialize();
+              req.data = $elem.serialize() + '&' + $elem.attr('name') + '=' + $elem.val();
               $card.fluxxCardLoadDetail(req);
               $.modal.close();
             }

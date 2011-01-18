@@ -6,16 +6,16 @@ class ActionController::Base
 
   helper_method :grab_param if respond_to?(:helper_method)
   helper_method :grab_param_or_model if respond_to?(:helper_method)
-  
-  
+
+
   def grab_param form_name, param_name
     params[param_name] || (params[form_name] ? params[form_name][param_name] : '')
   end
-  
+
   def grab_param_or_model form_name, param_name, model
     grab_param(form_name, param_name).blank? ? model.send(param_name) : grab_param(form_name, param_name)
   end
-  
+
   #
   # model_class is the name of the model to generate CRUD methods for
   # options include:
@@ -31,11 +31,11 @@ class ActionController::Base
       class_inheritable_reader :class_index_object
       write_inheritable_attribute :class_index_object, index_object
       yield index_object if block_given?
-    
+
       define_method :insta_index_object do
         index_object
       end
-    
+
       self.instance_eval do
         def insta_class_index_object
           class_index_object
@@ -45,20 +45,20 @@ class ActionController::Base
       define_method :index do
         raise UnauthorizedException.new("listview", index_object.model_class) unless fluxx_current_user.has_listview_for_model?(index_object.model_class)
         index_object.invoke_pre self
-      
+
         # This tells the front end the name of the type of object that is represented in this card
         @delta_type = if index_object.delta_type
           index_object.delta_type
         else
           model_class ? model_class.name : nil
         end
-      
+
         @model_class = index_object.model_class
         @icon_style = index_object.icon_style
         @suppress_model_anchor_tag = index_object.suppress_model_anchor_tag
         @suppress_model_iteration = index_object.suppress_model_iteration
         @skip_wrapper = @skip_wrapper || params[:skip_wrapper] || index_object.always_skip_wrapper
-        
+
         if params[:view] == 'filter'
           @filter_title = index_object.filter_title || "Filter #{index_object.model_class.name.humanize.downcase.pluralize}"
           @filter_template = index_object.filter_template
@@ -68,7 +68,7 @@ class ActionController::Base
           @models = index_object.load_results params, request.format, pre_models
           @first_report_id = self.respond_to?(:insta_index_report_list) && !(insta_index_report_list.empty?) && insta_index_report_list.first.report_id
           instance_variable_set index_object.plural_model_instance_name, @models if index_object.plural_model_instance_name
-      
+
           index_object.invoke_post self, @models
           insta_respond_to index_object do |format|
             format.html do
@@ -84,12 +84,16 @@ class ActionController::Base
                   controller = self
                   render :text => @report.compute_index_document_data(controller, index_object, params, @models)
                 else
+                @report_label = @report.report_label
+                @report_filter_text = @report.report_filter_text self, index_object, params
+                @report_summary = @report.report_summary self, index_object, params
+                @report_legend = @report.report_legend self, index_object, params
                 @report_data = @report.compute_index_plot_data self, index_object, params, @models
-                fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
+                fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'),
                    :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
               else
-                render((index_object.view || "#{insta_path}/index").to_s, :layout => false) 
+                render((index_object.view || "#{insta_path}/index").to_s, :layout => false)
               end
             end
             format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
@@ -110,7 +114,7 @@ class ActionController::Base
       end
     end
   end
-  
+
   def self.insta_show model_class=nil
     if respond_to?(:class_show_object) && class_show_object
       yield class_show_object if block_given?
@@ -123,13 +127,13 @@ class ActionController::Base
       define_method :insta_show_object do
         show_object
       end
-    
+
       self.instance_eval do
         def insta_class_show_object
           class_show_object
         end
       end
-    
+
       # GET /models/1
       # GET /models/1.xml
       define_method :show do
@@ -143,7 +147,7 @@ class ActionController::Base
           show_object.perform_show params, pre_model
         end
         @model_class = show_object.model_class
-        
+
         raise UnauthorizedException.new('view', (@model || @model_class)) unless fluxx_current_user.has_view_for_model?(@model || @model_class)
         @icon_style = show_object.icon_style
         @model_name = @model ? @model.class.name.underscore.downcase : show_object.model_name
@@ -153,8 +157,8 @@ class ActionController::Base
         if @model
           @related = load_related_data(@model) if self.respond_to? :load_related_data
           insta_respond_to show_object, :success do |format|
-            format.html do 
-              if @report && @report.filter_template && params[:fluxxreport_filter] 
+            format.html do
+              if @report && @report.filter_template && params[:fluxxreport_filter]
                 @filter_template = @report.filter_template
                 render 'insta/report_filter', :layout => false
               elsif @report
@@ -165,8 +169,12 @@ class ActionController::Base
                   add_headers headers[0], headers[1]
                   render :text => @report.compute_show_document_data(self, show_object, params)
                 else
+                @report_label = @report.report_label
+                @report_filter_text = @report.report_filter_text self, show_object, params
+                @report_summary = @report.report_summary self, show_object, params
+                @report_legend = @report.report_legend self, show_object, params
                 @report_data = @report.compute_show_plot_data self, show_object, params
-                fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
+                fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'),
                    :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
               else
@@ -180,7 +188,7 @@ class ActionController::Base
           end
         else
           insta_respond_to show_object, :error do |format|
-            format.html do 
+            format.html do
               fluxx_show_card show_object, :template => 'insta/missing_record'
             end
             format.xml  { render :xml => @model }
@@ -202,13 +210,13 @@ class ActionController::Base
       define_method :insta_new_object do
         new_object
       end
-    
+
       self.instance_eval do
         def insta_class_new_object
           class_new_object
         end
       end
-    
+
       # GET /models/new
       # GET /models/new.xml
       define_method :new do
@@ -217,7 +225,7 @@ class ActionController::Base
         @model_class = new_object.model_class
         raise UnauthorizedException.new('create', @model_class) unless fluxx_current_user.has_create_for_model?(@model_class)
         @icon_style = new_object.icon_style
-      
+
         instance_variable_set new_object.singular_model_instance_name, @model
         @template = new_object.template
         @form_class = new_object.form_class
@@ -244,7 +252,7 @@ class ActionController::Base
       define_method :insta_edit_object do
         edit_object
       end
-    
+
       self.instance_eval do
         def insta_class_edit_object
           class_edit_object
@@ -254,7 +262,7 @@ class ActionController::Base
       # GET /models/1/edit
       define_method :edit do
         edit_object.invoke_pre self
-      
+
         @model = edit_object.perform_edit params, pre_model, fluxx_current_user
         @model_class = edit_object.model_class
         raise UnauthorizedException.new('update', (@model || @model_class)) unless fluxx_current_user.has_update_for_model?(@model || @model_class)
@@ -288,13 +296,13 @@ class ActionController::Base
       define_method :insta_create_object do
         create_object
       end
-    
+
       self.instance_eval do
         def insta_class_create_object
           class_create_object
         end
       end
-    
+
       # POST /models
       # POST /models.xml
       define_method :create do
@@ -310,11 +318,11 @@ class ActionController::Base
         @form_url = create_object.form_url
         @link_to_method = create_object.link_to_method
         create_result = create_object.perform_create params, @model, fluxx_current_user
-      
+
         create_object.invoke_post self, @model
         if create_result
           response.headers['fluxx_result_success'] = 'create'
-          
+
           flash[:info] = t(:insta_successful_create, :name => model_class.model_name.human) unless create_object.dont_display_flash_message
           insta_respond_to create_object, :success do |format|
             format.html do
@@ -338,7 +346,7 @@ class ActionController::Base
           end
         end
       end
-      
+
       define_method :handle_successful_create do
         if create_object.render_inline
           render :inline => create_object.render_inline
@@ -362,7 +370,7 @@ class ActionController::Base
       define_method :insta_update_object do
         update_object
       end
-    
+
       self.instance_eval do
         def insta_class_update_object
           class_update_object
@@ -371,36 +379,36 @@ class ActionController::Base
 
       # PUT /models/1
       # PUT /models/1.xml
-      define_method :update do 
+      define_method :update do
         update_object.invoke_pre self
 
         @template = update_object.template
         @form_class = update_object.form_class
         @form_url = update_object.form_url
-      
+
         @model = update_object.load_existing_model params, pre_model
         @model_class = update_object.model_class
         unless fluxx_current_user.has_update_for_model?(@model || @model_class)
           p "ESH: fluxx_current_user has #{fluxx_current_user.inspect}"
-          raise UnauthorizedException.new('update', (@model || @model_class)) 
+          raise UnauthorizedException.new('update', (@model || @model_class))
         end
         @icon_style = update_object.icon_style
         instance_variable_set update_object.singular_model_instance_name, @model
-        
+
         if update_object.editable? @model, fluxx_current_user
           update_result = update_object.perform_update params, @model, fluxx_current_user
           update_object.invoke_post self, @model
-        
+
           if update_result
             response.headers['fluxx_result_success'] = 'update'
             flash[:info] = t(:insta_successful_update, :name => model_class.model_name.human) unless update_object.dont_display_flash_message
             insta_respond_to update_object, :success do |format|
               format.html do
-                if update_object.render_inline 
+                if update_object.render_inline
                   render :inline => update_object.render_inline
                 else
                   extra_options = {:id => @model.id}
-                  head 201, :location => (update_object.redirect ? self.send(update_object.redirect, extra_options) : @model) 
+                  head 201, :location => (update_object.redirect ? self.send(update_object.redirect, extra_options) : @model)
                 end
               end
               format.xml do
@@ -447,7 +455,7 @@ class ActionController::Base
       define_method :insta_delete_object do
         delete_object
       end
-    
+
       self.instance_eval do
         def insta_class_delete_object
           class_delete_object
@@ -488,7 +496,7 @@ class ActionController::Base
       end
     end
   end
-  
+
   def self.insta_related model_class
     if respond_to?(:class_related_object) && class_related_object
       yield class_related_object if block_given?
@@ -501,7 +509,7 @@ class ActionController::Base
       define_method :insta_related_object do
         local_related_object
       end
-    
+
       self.instance_eval do
         def insta_class_related_object
           class_related_object
@@ -526,11 +534,11 @@ class ActionController::Base
       define_method :insta_report_object do
         local_report_object
       end
-      
+
       define_method :insta_report_find_by_id do |report_id|
         class_report_object.reports.select{|rep| rep.report_id == report_id}.first
       end
-    
+
       define_method :insta_report_list do
         class_report_object.reports
       end
@@ -549,14 +557,14 @@ class ActionController::Base
         end
       end
     end
-    
+
     class_report_object.instantiate_reports
   end
-  
+
   def fluxx_current_user
     current_user if respond_to?(:current_user)
   end
-  
+
   protected
   def insta_path
     "#{File.dirname(__FILE__).to_s}/../../../app/views/insta"
@@ -586,24 +594,24 @@ class ActionController::Base
     @layout = options[:layout] if !options[:layout].nil? # If options[:layout] is false, respect that
     render((show_object.view || "#{insta_path}/show").to_s, :layout => @layout)
   end
-  
+
   def fluxx_edit_card edit_object, template_param=nil, form_class_param=nil, form_url_param=nil
     @template = template_param || edit_object.template
     @form_class = form_class_param || edit_object.form_class
     @form_url = form_url_param || edit_object.form_url
     render((edit_object.view || "#{insta_path}/edit").to_s, :layout => false)
   end
-  
+
   def has_redirected_already?
     response.headers['Location']
   end
-  
+
   # Find overridden format blocks and prefer those.  Pass in params of:
   #   * the controller_dsl object
   #   * outcome = :success, :locked, :error
   def insta_respond_to controller_dsl, outcome = :success
     unless has_redirected_already?
-    
+
       if block_given?
         if @class_format_block_map
           yield @class_format_block_map if block_given?

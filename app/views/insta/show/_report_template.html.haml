@@ -1,3 +1,11 @@
 .visualizations
-  %div{:class => "chart"}
+  .title
+    = @report_label
+  .filter
+    = @report_filter_text
+  .chart
     #{@report_data}
+  .summary
+    = @report_summary
+  .legend
+    = @report_legend
