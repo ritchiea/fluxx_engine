@@ -202,7 +202,9 @@
 
 .visualizations {
   .chart {
-    width: 550px;
+    width: 745px;
+    margin-left: 24px;
+    height: 325px;
   }
   .description {
     margin: 10px 0px 10px 0px;
@@ -215,9 +217,17 @@
     border-top: 1px solid #444444;
     border-bottom: 1px solid #444444;
   }
-  .jqplot-title {
-    margin: 10px 0px 80px 30px;
+  .title {
+    margin: 10px 0px 0px 60px;
     font-size: 180%;
+    color: #000;
+  }
+  .summary {
+    margin: 20px 0px 30px 60px;
+    font-size: 180%;
+  }
+  .filter {
+    margin: 4px 10px 10px 60px;
   }
   .jqplot-table-legend {
     width: 75px;

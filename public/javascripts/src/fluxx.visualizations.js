@@ -14,6 +14,10 @@
           if (typeof $chart.fluxxCard == 'function') {
             $card = $chart.fluxxCard();
             $card.fluxxCardDetail().addClass('report-area');
+            if (data.hasOwnProperty('class'))
+                $card.fluxxCardDetail().addClass(data.class);
+            if (data.hasOwnProperty('width'))
+                $card.fluxxCardDetail().width(data.width);
           }
 
           $chart.html("").append('<div id="' + chartID + '"></div>');
@@ -32,11 +36,10 @@
                 fontSize: '10pt'
               }
             },
-            title: data.title,
-            height: 450,
-            width: 220,
+            title: {show: false},
+            height: $chart.css('height'),
+            width: $chart.css('width'),
             stackSeries: data.stackSeries,
-            legend:{show: true},
             grid:{background:'#fefbf3', borderWidth:2.5},
             seriesDefaults: data.seriesDefaults,
             axes: data.axes,
