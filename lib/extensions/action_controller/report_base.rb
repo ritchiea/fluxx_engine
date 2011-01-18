@@ -4,12 +4,6 @@ class ActionController::ReportBase
   attr_accessor :report_id
   # label for this report
   attr_accessor :report_label
-  # optional text describing aspects of the filter for this report, example: date range
-  attr_accessor :report_filter_text
-  # optional legend for this report
-  attr_accessor :report_legend
-  # optional summary for this report
-  attr_accessor :report_summary
   # description for this report
   attr_accessor :report_description
   # report type; list or show
@@ -58,13 +52,16 @@ class ActionController::ReportBase
       self.is_index? && self.respond_to?(:compute_index_document_data) && self.respond_to?(:compute_index_document_headers)
   end
 
-  # Optional items
+  # optional descrition for this report
   def report_description controller, index_object, params, *models
   end
+  # optional text describing aspects of the filter for this report, example: date range
   def report_filter_text controller, index_object, params, *models
   end
+  # optional legend for this report
   def report_legend controller, index_object, params, *models
   end
+  # optional summary for this report
   def report_summary controller, index_object, params, *models
   end
   # implement methods such as:

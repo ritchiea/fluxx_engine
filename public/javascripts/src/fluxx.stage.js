@@ -191,7 +191,7 @@
               $.my.hand.addFluxxCard(card);
             }
           ],
-          'form.new-detail :submit': [
+          'input.new-detail': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
@@ -205,17 +205,27 @@
               $.my.hand.addFluxxCard(card);
             }
           ],
-          'form.edit-detail': [
-            'submit', function(e) {
+          'input.edit-detail': [
+            'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              $card = $elem.data('card');
+              var $form = $elem.parents('form:eq(0)');
+              $card = $form.data('card');
               var req = $card.fluxxCardDetail().fluxxCardAreaRequest();
-              req.data = $elem.serialize() + '&' + $elem.attr('name') + '=' + $elem.val();
+              req.data = $form.serialize() + '&' + $elem.attr('name') + '=' + $elem.val();
               $card.fluxxCardLoadDetail(req);
               $.modal.close();
             }
           ],
+          'input.new-page': [
+             'click', function(e) {
+               $.fluxx.util.itEndsWithMe(e);
+               var $elem = $(this);
+               var $form = $elem.parents('form:eq(0)');
+               window.open($form.attr('action') + '?' + $form.serialize() + '&' + $elem.attr('name') + '=' + $elem.val());
+               $.modal.close();
+             }
+           ],
           'a.close-detail': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
@@ -364,7 +374,7 @@
                     onOpen: function (dialog) {
                       var $form = $('form', dialog.data);
                       $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $form).selectTransfer();
-                      $form.removeClass('new-detail').addClass('edit-detail');
+                      $('.new-detail', $form).removeClass('new-detail').addClass('edit-detail');
                       $form.data('card', $card);
                       _.each($.fluxx.unparam($card.fluxxCardDetail().fluxxCardAreaData()), function(value, name) {
                         var $felem = $('[name="' + name + '"]', $form);
