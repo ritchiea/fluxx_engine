@@ -23,4 +23,12 @@ class DummyReportsControllerTest < ActionController::TestCase
     p "ESH: have a body of #{@response.body}"
   end
   
+  test "should get show document" do
+    controller = DummyReportsController.new
+    reports = controller.insta_show_report_list
+    dummy_rep = reports.select{|rep| rep.is_a? TotalDummyReport}.first
+    get :show, :id => dummy_rep.report_id, :document => 1
+    p "ESH: have a body of #{@response.body}"
+    assert_equal 'A total dummy show document', @response.body
+  end
 end

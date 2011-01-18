@@ -11,7 +11,12 @@ class TotalInstrumentsReport < ActionController::ReportBase
     [1, 2, 3, 4]
   end
   
-  def compute_index_excel_data controller, index_object, params, models
-    [1, 2, 3, 4, 5]
+  def compute_index_document_headers controller, index_object, params, models
+    ['filename', 'excel']
   end
+  
+  def compute_index_document_data controller, index_object, params, models
+    "A total instruments index document"
+  end
+  
 end

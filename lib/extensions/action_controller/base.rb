@@ -77,9 +77,16 @@ class ActionController::Base
               end
               if @report
                 @report_list = insta_index_report_list
-                @report_data = @report.compute_index_plot_data self, index_object, params, @models
-                fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
-                   :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
+                if params[:document]
+                  headers = @report.compute_index_document_headers self, index_object, params, @models
+                  add_headers headers[0], headers[1]
+                  controller = self
+                  render :text => @report.compute_index_document_data(controller, index_object, params, @models)
+                else
+                  @report_data = @report.compute_index_plot_data self, index_object, params, @models
+                  fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
+                     :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
+                end
               else
                 render((index_object.view || "#{insta_path}/index").to_s, :layout => false) 
               end
@@ -151,9 +158,15 @@ class ActionController::Base
                 render 'insta/report_filter', :layout => false
               elsif @report
                 @reports = insta_show_report_list
-                @report_data = @report.compute_show_plot_data self, show_object, params
-                fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
-                   :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
+                if params[:document]
+                  headers = @report.compute_show_document_headers self, show_object, params
+                  add_headers headers[0], headers[1]
+                  render :text => @report.compute_show_document_data(self, show_object, params)
+                else
+                  @report_data = @report.compute_show_plot_data self, show_object, params
+                  fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
+                     :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
+                end
               else
                 fluxx_show_card show_object, show_object.calculate_show_options(@model, params)
               end
@@ -545,6 +558,20 @@ class ActionController::Base
   protected
   def insta_path
     "#{File.dirname(__FILE__).to_s}/../../../app/views/insta"
+  end
+  
+  def add_headers filename, content_type
+    if request.env['HTTP_USER_AGENT'] =~ /msie/i
+      #this is required if you want this to work with IE
+      headers['Pragma'] = 'public'
+      headers["Content-type"] = "text/plain"
+      headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
+      headers['Expires'] = "0"
+    else
+      headers["Content-Type"] ||= content_type
+      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
+    end
   end
 
   def fluxx_show_card show_object, options

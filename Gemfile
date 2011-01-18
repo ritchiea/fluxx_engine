@@ -24,6 +24,7 @@ gem "aasm", '2.2.0'
 gem 'acts_as_audited_rails3', '>=1.1.2'
 
 gem 'liquid'
+gem 'writeexcel', '>=0.6.1'
 
 if RUBY_VERSION < '1.9'
   gem "ruby-debug", ">= 0.10.3"

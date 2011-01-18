@@ -11,7 +11,11 @@ class TotalDummyReport < ActionController::ReportBase
     [1, 2, 3, 4]
   end
   
-  def compute_show_excel_data controller, show_object, params
-    [1, 2, 3, 4, 5]
+  def compute_show_document_headers controller, show_object, params
+    ['filename', 'excel']
+  end
+  
+  def compute_show_document_data controller, show_object, params
+    "A total dummy show document"
   end
 end

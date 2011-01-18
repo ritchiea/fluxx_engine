@@ -65,6 +65,13 @@ class InstrumentsControllerTest < ActionController::TestCase
     assert @response.body =~ /#{total_rep.report_label}/
   end
   
+  test "should get show document" do
+    controller = InstrumentsController.new
+    reports = controller.insta_index_report_list
+    total_rep = reports.select{|rep| rep.is_a? TotalInstrumentsReport}.first
+    get :index, :fluxxreport_id => total_rep.report_id, :document => 1
+    assert_equal 'A total instruments index document', @response.body
+  end
 
   test "should get index with pagination" do
     instruments = (1..51).map {Instrument.make}

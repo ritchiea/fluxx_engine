@@ -41,20 +41,32 @@ class ActionController::ReportBase
   def self.is_index?
     @report_type == :index
   end
-
-  def compute_index_plot_data controller, index_object, params, models
-    raise Exception.new 'Not implemented; if your report handles index plot data, please override'
+  
+  def self.has_plot?
+    self.is_show? && self.respond_to?(:compute_show_plot_data) ||
+      self.is_index? && self.respond_to?(:compute_index_plot_data)
   end
-
-  def compute_index_excel_data controller, index_object, params, models
-    raise Exception.new 'Not implemented; if your report handles index excel data, please override'
+  def self.has_document?
+    self.is_show? && self.respond_to?(:compute_show_document_data) && self.respond_to?(:compute_show_document_headers) ||
+      self.is_index? && self.respond_to?(:compute_index_document_data) && self.respond_to?(:compute_index_document_headers)
   end
+  
+  # implement methods such as:
+  # INDEX:
+  # compute_index_plot_data controller, index_object, params, models
+  #   * should return a string that contains JSON, etc. to render and be used to draw the chart
+  # compute_index_document_headers controller, index_object, params, models
+  #   * should return an array of the [filename, content-type]
+  # compute_index_document_data controller, index_object, params, models
+  #   * should return a string that contains the document to be sent to the browser
+  # OR SHOW:
+  # compute_show_plot_data controller, index_object, params
+  #   * should return a string that contains JSON, etc. to render and be used to draw the chart
+  # compute_show_document_headers controller, index_object, params, models
+  #   * should return an array of the [filename, content-type]
+  # compute_show_document_data controller, index_object, params
+  #   * should return a string that contains the document to be sent to the browser
+  # BUT NOT BOTH
+  
 
-  def compute_show_plot_data controller, index_object, params
-    raise Exception.new 'Not implemented; if your report handles show plot data, please override'
-  end
-
-  def compute_show_excel_data controller, index_object, params
-    raise Exception.new 'Not implemented; if your report handles show excel data, please override'
-  end
 end
