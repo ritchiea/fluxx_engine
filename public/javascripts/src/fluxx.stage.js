@@ -772,9 +772,7 @@
           'a.area-url': [
             'click', function(e) {
               var $elem = $(this);
-              var current = $elem.fluxxCard().fluxxCardAreaRequest();
-//              $.fluxx.log('>>>>-------------------------------------------------', current.data);
-//              return;
+              var current = $elem.fluxxCardAreaRequest();
               $elem.attr('href', $elem.fluxxCardAreaURL());
             }
           ],

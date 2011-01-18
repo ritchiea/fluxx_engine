@@ -73,6 +73,7 @@ class ActionController::Base
           insta_respond_to index_object do |format|
             format.html do
               @report = if params[:fluxxreport_id] && @first_report_id
+                @show_report_dropdown = true
                 insta_report_find_by_id params[:fluxxreport_id].to_i
               end
               if @report
@@ -83,9 +84,9 @@ class ActionController::Base
                   controller = self
                   render :text => @report.compute_index_document_data(controller, index_object, params, @models)
                 else
-                  @report_data = @report.compute_index_plot_data self, index_object, params, @models
-                  fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
-                     :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
+                @report_data = @report.compute_index_plot_data self, index_object, params, @models
+                fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
+                   :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
               else
                 render((index_object.view || "#{insta_path}/index").to_s, :layout => false) 
@@ -157,15 +158,16 @@ class ActionController::Base
                 @filter_template = @report.filter_template
                 render 'insta/report_filter', :layout => false
               elsif @report
+                @show_report_dropdown = false
                 @reports = insta_show_report_list
                 if params[:document]
                   headers = @report.compute_show_document_headers self, show_object, params
                   add_headers headers[0], headers[1]
                   render :text => @report.compute_show_document_data(self, show_object, params)
                 else
-                  @report_data = @report.compute_show_plot_data self, show_object, params
-                  fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
-                     :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
+                @report_data = @report.compute_show_plot_data self, show_object, params
+                fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'), 
+                   :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
               else
                 fluxx_show_card show_object, show_object.calculate_show_options(@model, params)
@@ -559,7 +561,7 @@ class ActionController::Base
   def insta_path
     "#{File.dirname(__FILE__).to_s}/../../../app/views/insta"
   end
-  
+
   def add_headers filename, content_type
     if request.env['HTTP_USER_AGENT'] =~ /msie/i
       #this is required if you want this to work with IE
