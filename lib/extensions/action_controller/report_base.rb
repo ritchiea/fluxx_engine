@@ -1,3 +1,4 @@
+require 'writeexcel'
 class ActionController::ReportBase
   # unique identifier for this report
   attr_accessor :report_id
