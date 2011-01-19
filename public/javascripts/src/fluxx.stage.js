@@ -312,7 +312,7 @@
             'change', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              var $partial = $($elem.attr('data-target'));
+              var $partial = $($elem.attr('data-target'), $elem.fluxxCardArea());
               if ($partial.length) {
                 var param = $elem.attr('name').replace(/\w+\[(\w+)\]/, "$1");
                 var re = new RegExp('([?&]' + param + '=).*[^&]');
