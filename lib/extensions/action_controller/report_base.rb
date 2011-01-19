@@ -1,5 +1,6 @@
 require 'writeexcel'
 class ActionController::ReportBase
+  include ActionView::Helpers::NumberHelper
   # unique identifier for this report
   attr_accessor :report_id
   # label for this report

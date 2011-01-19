@@ -84,11 +84,11 @@ class ActionController::Base
                   controller = self
                   render :text => @report.compute_index_document_data(controller, index_object, params, @models)
                 else
+                  @report_data = @report.compute_index_plot_data self, index_object, params, @models
                   @report_label = @report.report_label
                   @report_filter_text = @report.report_filter_text self, index_object, params, @models
                   @report_summary = @report.report_summary self, index_object, params, @models
                   @report_legend = @report.report_legend self, index_object, params, @models
-                  @report_data = @report.compute_index_plot_data self, index_object, params, @models
                   fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'),
                      :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
@@ -169,11 +169,11 @@ class ActionController::Base
                   add_headers headers[0], headers[1]
                   render :text => @report.compute_show_document_data(self, show_object, params)
                 else
+                  @report_data = @report.compute_show_plot_data self, show_object, params
                   @report_label = @report.report_label
                   @report_filter_text = @report.report_filter_text self, show_object, params
                   @report_summary = @report.report_summary self, show_object, params
                   @report_legend = @report.report_legend self, show_object, params
-                  @report_data = @report.compute_show_plot_data self, show_object, params
                   fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'),
                      :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
