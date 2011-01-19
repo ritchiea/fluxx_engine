@@ -46,7 +46,7 @@
                 $editReport = $('.titlebar .edit-report-filter', $card).hide();
                 // TODO: Currently don't support editing filters on visualizations, but we do on live reports
                 // Turn off icon for visualizations. This is a crappy way of doing it. Works for now.
-                if ($('.report-area', $card).length && $card.fluxxCardTitle() != 'Visualizations')
+                if ($('.report-area', $card).length)
                   $editReport.show();
 
                 if ($card.data && $card.data('icon'))
@@ -628,11 +628,11 @@
 
       return this;
     },
-    openListingFilters: function() {
+    openListingFilters: function(openInDetail) {
       $.fluxx.log("**> openListingFilters");
       return this.each(function(){
         var $card    = $(this).fluxxCard(),
-            $listing = $card.fluxxCardListing();
+            $listing = (openInDetail ? $card.fluxxCardDetail() : $card.fluxxCardListing());
         var $filters = $($.fluxx.util.resultOf(
           $.fluxx.card.ui.area,
           {
@@ -697,26 +697,27 @@
           var $filterText = $('<input type="hidden" name="filter-text" value =""/>').appendTo($form);
 
           var found = {};
-          _.each($listing.fluxxCardAreaRequest().data, function(obj) {
-            if (obj.value) {
-              var selector = '[name*=' + obj.name + ']';
-              var $elem = $(selector, $filters).last();
-              if (found.hasOwnProperty(obj.name)) {
-                var $add  = $elem.clone();
-                $elem.after($add);
-                $add.before($('<label/>'));
-                $elem = $add;
+          if ($listing.fluxxCardAreaRequest())
+            _.each($listing.fluxxCardAreaRequest().data, function(obj) {
+              if (obj.value) {
+                var selector = '[name*=' + obj.name + ']';
+                var $elem = $(selector, $filters).last();
+                if (found.hasOwnProperty(obj.name)) {
+                  var $add  = $elem.clone();
+                  $elem.after($add);
+                  $add.before($('<label/>'));
+                  $elem = $add;
+                }
+                $elem.val(obj.value);
+                $(selector + ":checkbox", $filters)
+                  .attr('checked', true)
+                  .change(function () {
+                    $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
+                  });
+                if ($elem.hasClass('add-another'))
+                  found[obj.name] = true;
               }
-              $elem.val(obj.value);
-              $(selector + ":checkbox", $filters)
-                .attr('checked', true)
-                .change(function () {
-                  $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
-                });
-              if ($elem.hasClass('add-another'))
-                found[obj.name] = true;
-            }
-          });
+            });
         });
       });
     },

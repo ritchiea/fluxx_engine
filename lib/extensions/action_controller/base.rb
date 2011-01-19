@@ -73,7 +73,7 @@ class ActionController::Base
           insta_respond_to index_object do |format|
             format.html do
               @report = if params[:fluxxreport_id] && @first_report_id
-                @show_report_dropdown = true
+                @from_request_card = true
                 insta_report_find_by_id params[:fluxxreport_id].to_i
               end
               if @report
@@ -162,7 +162,7 @@ class ActionController::Base
                 @filter_template = @report.filter_template
                 render 'insta/report_filter', :layout => false
               elsif @report
-                @show_report_dropdown = false
+                @from_request_card = false
                 @reports = insta_show_report_list
                 if params[:commit] && params[:commit] =~ /document/i
                   headers = @report.compute_show_document_headers self, show_object, params
