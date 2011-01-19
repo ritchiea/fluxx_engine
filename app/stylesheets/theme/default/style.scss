@@ -226,6 +226,15 @@
     margin: 20px 0px 30px 60px;
     font-size: 160%;
   }
+  .legend-table{
+    .legend-color-swatch {
+      @include inline-block;
+      width: 10px;
+      height: 10px;
+      @include rounded(1px);
+      margin-right: 5px;
+    }
+  }
   .filter {
     margin: 4px 10px 10px 60px;
   }

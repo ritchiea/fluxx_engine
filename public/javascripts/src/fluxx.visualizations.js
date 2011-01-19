@@ -37,7 +37,6 @@
               }
             },
             title: {show: false},
-            height: $chart.css('height'),
             width: $chart.css('width'),
             stackSeries: data.stackSeries,
             grid:{background:'#fefbf3', borderWidth:2.5},
@@ -45,6 +44,20 @@
             axes: data.axes,
             series: data.series
           });
+          $.fluxx.log('---------------------------------', plot.series);
+          var colors = {};
+          _.each(plot.series, function(key) {
+            colors[key.label] = key.color;
+          });
+          $('.legend table.legend-table tr').each(function() {
+           var $td = $('td:first', $(this))
+           if ($td.length) {
+             $td.prepend('<span class="legend-color-swatch" style="background-color: ' + colors[$.trim($td.text())] + '"/>');
+//            $td.css('background-color', colors[$.trim($td.text())]);
+           }
+          });
+
+          // TODO Remove this
           if (data.description)
             $chart.append('<div class="description">' + data.description + '</div>');
         }
