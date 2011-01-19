@@ -153,7 +153,7 @@ class ActionController::Base
         @model_name = @model ? @model.class.name.underscore.downcase : show_object.model_name
         @skip_wrapper = @skip_wrapper || params[:skip_wrapper] || show_object.always_skip_wrapper
 
-        show_object.invoke_post self, @model
+        show_object.invoke_post self, @model, (@model ? :success : :error)
         if @model
           @related = load_related_data(@model) if self.respond_to? :load_related_data
           insta_respond_to show_object, :success do |format|
@@ -267,8 +267,9 @@ class ActionController::Base
         @model_class = edit_object.model_class
         raise UnauthorizedException.new('update', (@model || @model_class)) unless fluxx_current_user.has_update_for_model?(@model || @model_class)
         @icon_style = edit_object.icon_style
-        edit_object.invoke_post self, @model
-        unless edit_object.editable? @model, fluxx_current_user
+        editable = edit_object.editable? @model, fluxx_current_user
+        edit_object.invoke_post self, @model, (editable ? :success : :error)
+        unless editable
           # Provide a locked error message
           flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
           @not_editable=true
@@ -319,7 +320,7 @@ class ActionController::Base
         @link_to_method = create_object.link_to_method
         create_result = create_object.perform_create params, @model, fluxx_current_user
 
-        create_object.invoke_post self, @model
+        create_object.invoke_post self, @model, (create_result ? :success : :error)
         if create_result
           response.headers['fluxx_result_success'] = 'create'
 
@@ -397,7 +398,7 @@ class ActionController::Base
 
         if update_object.editable? @model, fluxx_current_user
           update_result = update_object.perform_update params, @model, fluxx_current_user
-          update_object.invoke_post self, @model
+          update_object.invoke_post self, @model, (update_result ? :success : :error)
 
           if update_result
             response.headers['fluxx_result_success'] = 'update'
@@ -428,7 +429,7 @@ class ActionController::Base
           end
         else
           response.headers['fluxx_result_failure'] = 'update'
-          update_object.invoke_post self, @model
+          update_object.invoke_post self, @model, :locked
           flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
           @not_editable=true
           insta_respond_to update_object, :locked do |format|
@@ -473,7 +474,7 @@ class ActionController::Base
         @icon_style = delete_object.icon_style
         instance_variable_set delete_object.singular_model_instance_name, @model
         delete_result = delete_object.perform_delete params, @model, fluxx_current_user
-        delete_object.invoke_post self, @model
+        delete_object.invoke_post self, @model, (delete_result ? :success : :error)
         if delete_result
           response.headers['fluxx_result_success'] = 'delete'
           flash[:info] = t(:insta_successful_delete, :name => model_class.model_name.human) unless delete_object.dont_display_flash_message

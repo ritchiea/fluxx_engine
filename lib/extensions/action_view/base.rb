@@ -30,8 +30,10 @@ class ActionView::Base
         end
       end
     end
-
-    will_paginate models, :page_links => false, :renderer => FluxxLinkRenderer, :previous_label => '&laquo; Prev', :next_label => "Next &raquo;"
+    
+    unless models.empty? || !models.respond_to?(:total_pages)
+      will_paginate models, :page_links => false, :renderer => FluxxLinkRenderer, :previous_label => '&laquo; Prev', :next_label => "Next &raquo;"
+    end
   end
   
   def flash_info 

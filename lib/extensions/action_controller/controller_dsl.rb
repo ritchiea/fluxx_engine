@@ -97,10 +97,10 @@ class ActionController::ControllerDsl
     end
   end
   
-  def invoke_post controller, model
+  def invoke_post controller, model, outcome = :success
     @post_blocks.each do |post_block|
       if post_block && post_block.is_a?(Proc)
-        controller.instance_exec([self, model], &post_block)
+        controller.instance_exec([self, model, outcome], &post_block)
       end
     end
   end
