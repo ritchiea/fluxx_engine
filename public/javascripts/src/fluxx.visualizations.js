@@ -11,14 +11,17 @@
         var chartID = 'chart' + $.fluxx.visualizations.counter++;
 
         if (data) {
+          var $card;
           if (typeof $chart.fluxxCard == 'function') {
             $card = $chart.fluxxCard();
-            $card.fluxxCardDetail().addClass('report-area');
-            if (data.hasOwnProperty('class'))
-                $card.fluxxCardDetail().addClass(data.class);
-            if (data.hasOwnProperty('width'))
-                $card.fluxxCardDetail().width(data.width);
+          } else {
+            $card = $chart.parents('.card');
           }
+          $card.fluxxCardDetail().addClass('report-area');
+          if (data.hasOwnProperty('class'))
+              $card.fluxxCardDetail().addClass(data.class);
+          if (data.hasOwnProperty('width'))
+              $card.fluxxCardDetail().width(data.width);
 
           $chart.html("").append('<div id="' + chartID + '"></div>');
           $.jqplot.config.enablePlugins = true;
@@ -44,22 +47,25 @@
             axes: data.axes,
             series: data.series
           });
-          $.fluxx.log('---------------------------------', plot.series);
-          var colors = {};
+
+          var legend = {};
           _.each(plot.series, function(key) {
-            colors[key.label] = key.color;
-          });
-          $('.legend table.legend-table tr').each(function() {
-           var $td = $('td:first', $(this))
-           if ($td.length) {
-             $td.prepend('<span class="legend-color-swatch" style="background-color: ' + colors[$.trim($td.text())] + '"/>');
-//            $td.css('background-color', colors[$.trim($td.text())]);
-           }
+            legend[key.label] = key;
           });
 
-          // TODO Remove this
-          if (data.description)
-            $chart.append('<div class="description">' + data.description + '</div>');
+          $('.legend table.legend-table tr', $card).each(function() {
+           var $td = $('td:first', $(this));
+           if ($td.length) {
+             $td.prepend('<span class="legend-color-swatch" style="background-color: ' + legend[$.trim($td.text())].color + '"/>');
+           }
+          })
+          .hover(function(e) {
+            var $td = $('td:first', $(this));
+            legend[$.trim($td.text())].canvas._elem.css('opacity', '.5');
+          }, function(e) {
+            var $td = $('td:first', $(this));
+            legend[$.trim($td.text())].canvas._elem.css('opacity', '1');
+          });
         }
       });
     }
