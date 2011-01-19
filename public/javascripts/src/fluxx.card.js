@@ -427,7 +427,7 @@
       return this;
     },
     fluxxCardTitle: function() {
-      return $.trim($('.title', this.fluxxCard()).text()).replace(/[\n\r\t]/g, '');
+      return $.trim($('.titlebar .title', this.fluxxCard()).text()).replace(/[\n\r\t]/g, '');
     },
     fluxxCardInfo: function() {
       var $card = $(this);
