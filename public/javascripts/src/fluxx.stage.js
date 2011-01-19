@@ -205,7 +205,7 @@
               $.my.hand.addFluxxCard(card);
             }
           ],
-          'input.edit-detail': [
+          'input.to-detail': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
@@ -215,6 +215,16 @@
               req.data = $form.serialize() + '&' + $elem.attr('name') + '=' + $elem.val();
               $card.fluxxCardLoadDetail(req);
               $.modal.close();
+            }
+          ],
+          'form.to-detail': [
+            'submit', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var $card = $elem.fluxxCard();
+              var req = $card.fluxxCardDetail().fluxxCardAreaRequest();
+              req.data = $elem.serialize();
+              $card.fluxxCardLoadDetail(req);
             }
           ],
           'input.new-page': [
@@ -366,42 +376,51 @@
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               var $card = $elem.fluxxCard();
-              $.ajax({
-                url: $card.fluxxCardDetail().fluxxCardAreaRequest().url + '?fluxxreport_filter=1',
-                success: function(data, status, xhr) {
-                  $.modal('<div class="report-modal"><div class="report-filter">' + data + '</div></div>',{
-                    position: ["15%",],
-                    containerId: 'report-modal',
-                    onOpen: function (dialog) {
-                      var $form = $('form', dialog.data);
-                      $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $form).selectTransfer();
-                      $('.new-detail', $form).removeClass('new-detail').addClass('edit-detail').val('Update Report');
-                      $form.data('card', $card);
-                      _.each($.fluxx.unparam($card.fluxxCardDetail().fluxxCardAreaData()), function(value, name) {
-                        var $felem = $('[name="' + name + '"]', $form);
-                        if ($felem.length) {
-                          var type = $felem.attr('type');
-                          if (type == 'select-multiple') {
-                            multiple = value;
-                          }
-                          if (type == 'select-multiple') {
-                            $felem.parent().find('.unselected').val(value);
-                            $felem.parent().find('.select').click();
-                          } else if (type != 'hidden' && type != 'button')
-                            $felem.val(value);
-                        }
-                      });
-
-                      dialog.overlay.fadeIn('fast', function () {
-                        dialog.data.hide();
-                        dialog.container.fadeIn('fast', function () {
-                          dialog.data.fadeIn('fast');
-                        });
-                      });
-                    }
-                  });
+              var fromRequestCard = $('.visualizations', $card).attr('data-from-request-card') == 'true';
+              if (fromRequestCard) {
+                if ($('.filters', $(this).fluxxCard()).length) {
+                  $(this).closeListingFilters(true);
+                } else {
+                  $(this).openListingFilters(true);
                 }
-              });
+              } else {
+                $.ajax({
+                  url: $card.fluxxCardDetail().fluxxCardAreaRequest().url + '?fluxxreport_filter=1',
+                  success: function(data, status, xhr) {
+                    $.modal('<div class="report-modal"><div class="report-filter">' + data + '</div></div>',{
+                      position: ["15%",],
+                      containerId: 'report-modal',
+                      onOpen: function (dialog) {
+                        var $form = $('form', dialog.data);
+                        $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $form).selectTransfer();
+                        $('.new-detail', $form).removeClass('new-detail').addClass('to-detail').val('Update Report');
+                        $form.data('card', $card);
+                        _.each($.fluxx.unparam($card.fluxxCardDetail().fluxxCardAreaData()), function(value, name) {
+                          var $felem = $('[name="' + name + '"]', $form);
+                          if ($felem.length) {
+                            var type = $felem.attr('type');
+                            if (type == 'select-multiple') {
+                              multiple = value;
+                            }
+                            if (type == 'select-multiple') {
+                              $felem.parent().find('.unselected').val(value);
+                              $felem.parent().find('.select').click();
+                            } else if (type != 'hidden' && type != 'button')
+                              $felem.val(value);
+                          }
+                        });
+
+                        dialog.overlay.fadeIn('fast', function () {
+                          dialog.data.hide();
+                          dialog.container.fadeIn('fast', function () {
+                            dialog.data.fadeIn('fast');
+                          });
+                        });
+                      }
+                    });
+                  }
+                });
+              }
             }
           ],
           'a.clone-template': [

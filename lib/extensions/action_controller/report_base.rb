@@ -1,5 +1,6 @@
 require 'writeexcel'
 class ActionController::ReportBase
+  include ActionView::Helpers::NumberHelper
   # unique identifier for this report
   attr_accessor :report_id
   # label for this report
@@ -60,6 +61,7 @@ class ActionController::ReportBase
   end
   # optional legend for this report
   def report_legend controller, index_object, params, *models
+    [[]]
   end
   # optional summary for this report
   def report_summary controller, index_object, params, *models

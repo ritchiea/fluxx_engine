@@ -73,7 +73,7 @@ class ActionController::Base
           insta_respond_to index_object do |format|
             format.html do
               @report = if params[:fluxxreport_id] && @first_report_id
-                @show_report_dropdown = true
+                @from_request_card = true
                 insta_report_find_by_id params[:fluxxreport_id].to_i
               end
               if @report
@@ -84,11 +84,11 @@ class ActionController::Base
                   controller = self
                   render :text => @report.compute_index_document_data(controller, index_object, params, @models)
                 else
+                  @report_data = @report.compute_index_plot_data self, index_object, params, @models
                   @report_label = @report.report_label
                   @report_filter_text = @report.report_filter_text self, index_object, params, @models
                   @report_summary = @report.report_summary self, index_object, params, @models
                   @report_legend = @report.report_legend self, index_object, params, @models
-                  @report_data = @report.compute_index_plot_data self, index_object, params, @models
                   fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'),
                      :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
@@ -162,18 +162,18 @@ class ActionController::Base
                 @filter_template = @report.filter_template
                 render 'insta/report_filter', :layout => false
               elsif @report
-                @show_report_dropdown = false
+                @from_request_card = false
                 @reports = insta_show_report_list
                 if params[:commit] && params[:commit] =~ /document/i
                   headers = @report.compute_show_document_headers self, show_object, params
                   add_headers headers[0], headers[1]
                   render :text => @report.compute_show_document_data(self, show_object, params)
                 else
+                  @report_data = @report.compute_show_plot_data self, show_object, params
                   @report_label = @report.report_label
                   @report_filter_text = @report.report_filter_text self, show_object, params
                   @report_summary = @report.report_summary self, show_object, params
                   @report_legend = @report.report_legend self, show_object, params
-                  @report_data = @report.compute_show_plot_data self, show_object, params
                   fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'),
                      :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end

@@ -46,7 +46,7 @@
                 $editReport = $('.titlebar .edit-report-filter', $card).hide();
                 // TODO: Currently don't support editing filters on visualizations, but we do on live reports
                 // Turn off icon for visualizations. This is a crappy way of doing it. Works for now.
-                if ($('.report-area', $card).length && $card.fluxxCardTitle() != 'Visualizations')
+                if ($('.report-area', $card).length)
                   $editReport.show();
 
                 if ($card.data && $card.data('icon'))
@@ -133,7 +133,7 @@
 
         var $card = $(this);
         $.fluxx.realtime_updates.subscribe(function(e, data, status) {
-          $.fluxx.log("Found " + data.deltas.length + " deltas.");
+//          $.fluxx.log("Found " + data.deltas.length + " deltas.");
           var poller = e.target;
           $card.fluxxCardAreas().each(function(){
             var $area = $(this),
@@ -149,7 +149,7 @@
             });
 
             updates = _.values(updates);
-            $.fluxx.log("triggering update.fluxx.area["+$card.attr('id') + ' :: ' + model+"]: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
+//            $.fluxx.log("triggering update.fluxx.area["+$card.attr('id') + ' :: ' + model+"]: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
             if (updates.length) $area.trigger('update.fluxx.area', [updates]);
           });
         });
@@ -427,7 +427,7 @@
       return this;
     },
     fluxxCardTitle: function() {
-      return $.trim($('.title', this.fluxxCard()).text()).replace(/[\n\r\t]/g, '');
+      return $.trim($('.titlebar .title', this.fluxxCard()).text()).replace(/[\n\r\t]/g, '');
     },
     fluxxCardInfo: function() {
       var $card = $(this);
@@ -628,11 +628,11 @@
 
       return this;
     },
-    openListingFilters: function() {
+    openListingFilters: function(openInDetail) {
       $.fluxx.log("**> openListingFilters");
       return this.each(function(){
         var $card    = $(this).fluxxCard(),
-            $listing = $card.fluxxCardListing();
+            $listing = (openInDetail ? $card.fluxxCardDetail() : $card.fluxxCardListing());
         var $filters = $($.fluxx.util.resultOf(
           $.fluxx.card.ui.area,
           {
@@ -697,7 +697,23 @@
           var $filterText = $('<input type="hidden" name="filter-text" value =""/>').appendTo($form);
 
           var found = {};
-          _.each($listing.fluxxCardAreaRequest().data, function(obj) {
+
+          var data = $listing.fluxxCardAreaRequest().data;
+          $.fluxx.log(data);
+          if (typeof data == "string") {
+            $form.removeClass('to-listing').addClass('to-detail');
+            data = [];
+            _.each($.fluxx.unparam($listing.fluxxCardAreaData()), function(val, key) {
+              if ($.isArray(val)) {
+                _.each(val, function(singleValue) {
+                  data.push({name: key, value: singleValue});
+                });
+              } else {
+                data.push({name: key, value: val});
+              }
+            });
+          }
+          _.each(data, function(obj) {
             if (obj.value) {
               var selector = '[name*=' + obj.name + ']';
               var $elem = $(selector, $filters).last();

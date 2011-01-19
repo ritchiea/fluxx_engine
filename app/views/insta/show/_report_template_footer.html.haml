@@ -1,5 +1,5 @@
 .visualizations
-  - if @show_report_dropdown
+  - if @from_request_card
     %select.visualization-selector
       %option= '- Select One -'
       - @report_list.each do |report|
