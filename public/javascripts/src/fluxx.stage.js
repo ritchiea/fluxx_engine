@@ -205,7 +205,7 @@
               $.my.hand.addFluxxCard(card);
             }
           ],
-          'input.edit-detail': [
+          'input.to-detail': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
@@ -215,6 +215,16 @@
               req.data = $form.serialize() + '&' + $elem.attr('name') + '=' + $elem.val();
               $card.fluxxCardLoadDetail(req);
               $.modal.close();
+            }
+          ],
+          'form.to-detail': [
+            'submit', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var $card = $elem.fluxxCard();
+              var req = $card.fluxxCardDetail().fluxxCardAreaRequest();
+              req.data = $elem.serialize();
+              $card.fluxxCardLoadDetail(req);
             }
           ],
           'input.new-page': [
@@ -383,7 +393,7 @@
                       onOpen: function (dialog) {
                         var $form = $('form', dialog.data);
                         $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $form).selectTransfer();
-                        $('.new-detail', $form).removeClass('new-detail').addClass('edit-detail').val('Update Report');
+                        $('.new-detail', $form).removeClass('new-detail').addClass('to-detail').val('Update Report');
                         $form.data('card', $card);
                         _.each($.fluxx.unparam($card.fluxxCardDetail().fluxxCardAreaData()), function(value, name) {
                           var $felem = $('[name="' + name + '"]', $form);

@@ -697,27 +697,42 @@
           var $filterText = $('<input type="hidden" name="filter-text" value =""/>').appendTo($form);
 
           var found = {};
-          if ($listing.fluxxCardAreaRequest())
-            _.each($listing.fluxxCardAreaRequest().data, function(obj) {
-              if (obj.value) {
-                var selector = '[name*=' + obj.name + ']';
-                var $elem = $(selector, $filters).last();
-                if (found.hasOwnProperty(obj.name)) {
-                  var $add  = $elem.clone();
-                  $elem.after($add);
-                  $add.before($('<label/>'));
-                  $elem = $add;
-                }
-                $elem.val(obj.value);
-                $(selector + ":checkbox", $filters)
-                  .attr('checked', true)
-                  .change(function () {
-                    $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
-                  });
-                if ($elem.hasClass('add-another'))
-                  found[obj.name] = true;
+
+          var data = $listing.fluxxCardAreaRequest().data;
+          $.fluxx.log(data);
+          if (typeof data == "string") {
+            $form.removeClass('to-listing').addClass('to-detail');
+            data = [];
+            _.each($.fluxx.unparam($listing.fluxxCardAreaData()), function(val, key) {
+              if ($.isArray(val)) {
+                _.each(val, function(singleValue) {
+                  data.push({name: key, value: singleValue});
+                });
+              } else {
+                data.push({name: key, value: val});
               }
             });
+          }
+          _.each(data, function(obj) {
+            if (obj.value) {
+              var selector = '[name*=' + obj.name + ']';
+              var $elem = $(selector, $filters).last();
+              if (found.hasOwnProperty(obj.name)) {
+                var $add  = $elem.clone();
+                $elem.after($add);
+                $add.before($('<label/>'));
+                $elem = $add;
+              }
+              $elem.val(obj.value);
+              $(selector + ":checkbox", $filters)
+                .attr('checked', true)
+                .change(function () {
+                  $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
+                });
+              if ($elem.hasClass('add-another'))
+                found[obj.name] = true;
+            }
+          });
         });
       });
     },
