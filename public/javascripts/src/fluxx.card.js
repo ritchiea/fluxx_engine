@@ -133,7 +133,7 @@
 
         var $card = $(this);
         $.fluxx.realtime_updates.subscribe(function(e, data, status) {
-          $.fluxx.log("Found " + data.deltas.length + " deltas.");
+//          $.fluxx.log("Found " + data.deltas.length + " deltas.");
           var poller = e.target;
           $card.fluxxCardAreas().each(function(){
             var $area = $(this),
@@ -149,7 +149,7 @@
             });
 
             updates = _.values(updates);
-            $.fluxx.log("triggering update.fluxx.area["+$card.attr('id') + ' :: ' + model+"]: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
+//            $.fluxx.log("triggering update.fluxx.area["+$card.attr('id') + ' :: ' + model+"]: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
             if (updates.length) $area.trigger('update.fluxx.area', [updates]);
           });
         });

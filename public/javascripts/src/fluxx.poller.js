@@ -3,7 +3,7 @@
   var STATES = [ 'off', 'on' ],
       S_OFF  = 0,
       S_ON   = 1;
-  
+
   function Poller(options) {
     var options = $.fluxx.util.options_with_callback($.fluxx.poller.defaults,options);
     options.id  = options.id();
@@ -52,7 +52,7 @@
       delete this;
     }
   });
-  
+
   $.extend({
     fluxxPoller: function(options) {
       return new Poller(options);
@@ -66,7 +66,7 @@
       });
     }
   });
-  
+
   $.extend(true, {
     fluxx: {
       pollers: [],
@@ -84,7 +84,7 @@
           last_id: '',
           decay: 1.2, /* not used presently */
           maxInterval: $.fluxx.util.minutes(60),
-          
+
           _timeoutID: null,
           _init: function () {
             _.bindAll(this, 'start', 'stop', '_poll');
@@ -94,8 +94,8 @@
             if (this.state == S_OFF) return;
             var i = (typeof(intervalOverride) == 'number' ? intervalOverride : this.interval);
             var doPoll = _.bind(function(){
-              $.fluxx.log("this.last_id = " + this.last_id + ' which is NaN? ' + _.isNaN(this.last_id));
-              
+//              $.fluxx.log("this.last_id = " + this.last_id + ' which is NaN? ' + _.isNaN(this.last_id));
+
               $.ajax({
                 url: this.url,
                 dataType: 'json',
@@ -105,7 +105,7 @@
                     this.last_id = parseInt(data.last_id);
                     $.cookie('last_id', this.last_id);
                     this.message(data, status);
-                  }                 
+                  }
                 }, this),
                complete: _.bind(function(XMLHttpRequest, textStatus) {
                  this._poll();
