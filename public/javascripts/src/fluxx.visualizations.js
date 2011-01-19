@@ -14,10 +14,10 @@
           var $card;
           if (typeof $chart.fluxxCard == 'function') {
             $card = $chart.fluxxCard();
+            $card.fluxxCardDetail().addClass('report-area');
           } else {
-            $card = $chart.parents('.card');
+            $card = $('#hand');
           }
-          $card.fluxxCardDetail().addClass('report-area');
           if (data.hasOwnProperty('class'))
               $card.fluxxCardDetail().addClass(data.class);
           if (data.hasOwnProperty('width'))
