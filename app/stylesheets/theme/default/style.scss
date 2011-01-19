@@ -206,27 +206,35 @@
     margin-left: 24px;
     height: 325px;
   }
-  .description {
-    margin: 10px 0px 10px 0px;
-    text-align: center;
-    background-color: #e9edf9;
-    position: relative;
-    left: -40px;
-    margin-right: -151px;
-    padding: 10px 0px 10px 0px;
-    border-top: 1px solid #444444;
-    border-bottom: 1px solid #444444;
-  }
   .title {
     margin: 10px 0px 0px 60px;
     font-size: 180%;
     color: #000;
   }
   .summary {
-    margin: 20px 0px 30px 60px;
+    margin: 0px 0px 20px 60px;
     font-size: 160%;
   }
   .legend-table{
+    border-collapse: collapse;
+    width: 695px;
+    margin-left: 60px;
+    td, th {
+      padding: 8px 20px 8px 20px;
+      margin: 0px;
+      border: 1px solid #444444;
+    }
+    td {
+      text-align: right;
+    }
+    th:first-child, td:first-child  {
+      text-align: left;
+    }
+    th {
+      text-align: center;
+      background-color: #e5e5e5;
+      color: #000;
+    }
     .legend-color-swatch {
       @include inline-block;
       width: 10px;
