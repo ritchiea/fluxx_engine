@@ -28,6 +28,8 @@
         // Add browser specific class(es) so we can do special handling in scss
         if (jQuery.browser.mozilla)
           $('body').addClass('mozilla');
+        if (navigator.userAgent.search(' Windows '))
+          $('body').addClass('windows');
         $(window).resize(function(e){
           $.my.cards.resizeFluxxCard();
         }).resize();

@@ -13,17 +13,17 @@ $header_height: 78px;
   background-color: $bg;
   color: $fg;
   a {
-    color: $fg; 
-  } 
+    color: $fg;
+  }
 }
 @mixin header-bg($bg: #333333, $fg: white) {
-  @include bg($bg, $fg); 
+  @include bg($bg, $fg);
 }
 @mixin footer-bg($bg: #333333, $fg: white) {
-  @include bg($bg, $fg); 
+  @include bg($bg, $fg);
 }
 @mixin body-bg($bg: #eeeeee, $fg: black) {
-  @include bg($bg, $fg); 
+  @include bg($bg, $fg);
 }
 // Rotations
 @mixin transform-origin($left: 100%, $top: 100%) {
@@ -59,18 +59,18 @@ $header_height: 78px;
 }
 // Styles for inline properties
 @mixin chiseled-text($color: rgba(255, 255, 255, 0.5), $left: 0px, $top: 1px, $spread: 0px) {
-  text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}"); 
+  text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}");
 }
 @mixin chiseled-text-light($color: rgba(0, 0, 0, 0.5), $left: 0px, $top: -1px, $spread: 0px) {
-  @include chiseled-text($color, $left, $top, $spread); 
+  @include chiseled-text($color, $left, $top, $spread);
 }
 @mixin text-shadow($color: rgba(0, 0, 0, 0.5), $left: 0px, $top: 1px, $spread: 1px) {
-  text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}"); 
+  text-shadow: unquote("#{$color} #{$left} #{$top} #{$spread}");
 }
 @mixin ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden; 
+  overflow: hidden;
 }
 // Styles for box properties
 @mixin border-box {
@@ -88,44 +88,44 @@ $header_height: 78px;
 @mixin inline-block {
   display: inline-block;
   *display: inline;
-  zoom: 1; 
+  zoom: 1;
 }
 // Rounded
 @mixin rounded-left($radius: 10px) {
   -webkit-border-top-left-radius: $radius;
   -webkit-border-bottom-left-radius: $radius;
   -moz-border-radius-topleft: $radius;
-  -moz-border-radius-bottomleft: $radius; 
+  -moz-border-radius-bottomleft: $radius;
 }
 @mixin rounded-right($radius: 10px) {
   -webkit-border-top-right-radius: $radius;
   -webkit-border-bottom-right-radius: $radius;
   -moz-border-radius-topright: $radius;
-  -moz-border-radius-bottomright: $radius; 
+  -moz-border-radius-bottomright: $radius;
 }
 @mixin rounded-top($radius: 10px) {
   -webkit-border-top-left-radius: $radius;
   -webkit-border-top-right-radius: $radius;
   -moz-border-radius-topleft: $radius;
-  -moz-border-radius-topright: $radius; 
+  -moz-border-radius-topright: $radius;
 }
 @mixin rounded-bottom($radius: 10px) {
   -webkit-border-bottom-left-radius: $radius;
   -webkit-border-bottom-right-radius: $radius;
   -moz-border-radius-bottomleft: $radius;
-  -moz-border-radius-bottomright: $radius; 
+  -moz-border-radius-bottomright: $radius;
 }
 @mixin rounded($radius: 10px) {
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
   border-radius: $radius;
-  behavior: url(border-radius.htc); 
+  behavior: url(border-radius.htc);
 }
 // Shadow
 @mixin no-box-shadow {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none; 
+  box-shadow: none;
 }
 @mixin box-shadow($left: 5px, $top: 5px, $spread: 12px, $color: rgba(0, 0, 0, 0.5)) {
   -webkit-box-shadow: unquote("#{$left} #{$top} #{$spread} #{$color}");
@@ -160,9 +160,9 @@ $header_height: 78px;
       background: linear-gradient(center top,#{$top + #111111} 0%,#{$color + #111111} 51%,#{$mid + #111111} 51%,#{$bot + #111111} 88%);
       color: $textColor + #111111; }
     &:active {
-      background: linear-gradient(center top,#{$bot + #111111} 0%,#{$mid + #111111} 51%,#{$color + #111111} 51%,#{$top + #111111} 88%); 
-    } 
-  } 
+      background: linear-gradient(center top,#{$bot + #111111} 0%,#{$mid + #111111} 51%,#{$color + #111111} 51%,#{$top + #111111} 88%);
+    }
+  }
 }
 @mixin buttons($size: 12px, $rounding: 3px, $bgcolor: #cccccc, $color: #000, $bordercolor: #666666, $tscolor: rgba(255, 255, 255, 0.5), $tspos: 1px, $padding: 3px, $rounding: 3px) {
   font-size: $size;
@@ -185,9 +185,9 @@ $header_height: 78px;
       display: block;
       min-width: $size + $padding * 2;
       @include rounded($rounding);
-      border: 1px solid $bordercolor; 
-    } 
-  } 
+      border: 1px solid $bordercolor;
+    }
+  }
 }
 // Icons
 @mixin icon-32 {
@@ -200,9 +200,9 @@ $header_height: 78px;
     margin-right: 0;
     .label {
       top: 42px;
-      margin-left: -16px; 
-    } 
-  } 
+      margin-left: -16px;
+    }
+  }
 }
 @mixin icon-34 {
   .link {
@@ -214,9 +214,9 @@ $header_height: 78px;
     margin-right: 2px;
     .label {
       top: 42px;
-      margin-left: -16px; 
-    } 
-  } 
+      margin-left: -16px;
+    }
+  }
 }
 @mixin icon-24 {
   .link {
@@ -229,9 +229,9 @@ $header_height: 78px;
     margin-right: 22px;
     .label {
       top: 36px;
-      margin-left: -22px; 
-    } 
-  } 
+      margin-left: -22px;
+    }
+  }
 }
 // Forms
 @mixin form-field-one-line {
@@ -267,9 +267,9 @@ $header_height: 78px;
     vertical-align: baseline;
     width: auto;
     margin-top: 1px;
-    .icon { margin-top: 4px; } 
+    .icon { margin-top: 4px; }
   }
-  .inline-errors { margin-left: 140px; } 
+  .inline-errors { margin-left: 140px; }
 }
 @mixin form-field-two-line {
   @include form-field-one-line;
@@ -281,7 +281,7 @@ $header_height: 78px;
     @include border-box;
   }
   .required {}
-  .inline-errors { margin-left: 0px; } 
+  .inline-errors { margin-left: 0px; }
 }
 @mixin pretty-forms {
   form{ margin-left:10%; }
@@ -289,15 +289,15 @@ $header_height: 78px;
     border: none;
     padding: 0 0 1em 0;
     margin: 0 0 1em 0;
-    width: auto; 
+    width: auto;
   }
   ol {
     margin: 0;
     padding: 0;
-    display: block; 
+    display: block;
   }
   label {
-    border: 1px solid transparent; 
+    border: 1px solid transparent;
   }
   input,select,textarea {
     @include default-font;
@@ -308,7 +308,7 @@ $header_height: 78px;
   }
   input,textarea {
     @include linear-gradient(#fcfcfc, white);
-    @include box-shadow-inset(0px, 1px, 2px, rgba(0, 0, 0, 0.1)); 
+    @include box-shadow-inset(0px, 1px, 2px, rgba(0, 0, 0, 0.1));
   }
   input, select { width:251px; }
   textarea { width:100%; max-width:396px; }
@@ -316,8 +316,8 @@ $header_height: 78px;
     height: 24px;
     &[multiple=multiple] {
       width: 140px;
-      height: auto; 
-    } 
+      height: auto;
+    }
   }
   input[type=search] {  }
   input[type=checkbox] {
@@ -328,7 +328,7 @@ $header_height: 78px;
   .required {
     label {
       font-weight: bold;
-      abbr { display: none; } 
-    } 
+      abbr { display: none; }
+    }
   }
 }
