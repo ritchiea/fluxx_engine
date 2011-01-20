@@ -5,6 +5,8 @@
     %input{:type=>'hidden', :name=>'id', :value => @report.report_id}
 
     = render :partial => @filter_template, :locals => { :form => form} if @filter_template
-
-    %input{:type => 'button', :name => 'commit', :class => 'commit new-detail', :value => 'View Report'}
-    %input{:type => 'button', :name => 'commit', :class => 'commit new-page', :value => 'View Document'}
+    
+    - if @report.has_plot?
+      %input{:type => 'button', :name => 'commit', :class => 'commit new-detail', :value => 'View Report'}
+    - if @report.has_document?
+      %input{:type => 'button', :name => 'commit', :class => 'commit new-page', :value => 'View Document'}

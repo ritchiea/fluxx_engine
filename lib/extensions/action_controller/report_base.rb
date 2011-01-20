@@ -44,13 +44,19 @@ class ActionController::ReportBase
     @report_type == :index
   end
 
-  def self.has_plot?
-    self.is_show? && self.respond_to?(:compute_show_plot_data) ||
-      self.is_index? && self.respond_to?(:compute_index_plot_data)
+  def self.report_has_plot?
+    self.is_show? && self.public_method_defined?(:compute_show_plot_data) ||
+      self.is_index? && self.public_method_defined?(:compute_index_plot_data)
   end
-  def self.has_document?
-    self.is_show? && self.respond_to?(:compute_show_document_data) && self.respond_to?(:compute_show_document_headers) ||
-      self.is_index? && self.respond_to?(:compute_index_document_data) && self.respond_to?(:compute_index_document_headers)
+  def has_plot?
+    self.class.report_has_plot?
+  end
+  def self.report_has_document?
+    self.is_show? && self.public_method_defined?(:compute_show_document_data) && self.public_method_defined?(:compute_show_document_headers) ||
+      self.is_index? && self.public_method_defined?(:compute_index_document_data) && self.public_method_defined?(:compute_index_document_headers)
+  end
+  def has_document?
+    self.class.report_has_document?
   end
 
   # optional descrition for this report
