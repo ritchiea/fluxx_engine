@@ -1312,13 +1312,14 @@
             var $elem = this.data('target');
             var $card = $elem.fluxxCard();
             var lookupURL = this.data('target').attr('data-src');
+            if (!lookupURL)
+              lookupURL = $(this.data('target').attr('target')).attr('data-autocomplete');
             if (this.data('target').attr('target') && lookupURL) {
-            $field = $(this.data('target').attr('target'), this.data('target').fluxxCardArea());
+              $field = $(this.data('target').attr('target'), this.data('target').fluxxCardArea());
               var objectID = this.data('url').match(/\/(\d+)$/);
               if (objectID) {
                 objectID = objectID.pop();
                 var query = {'find_by_id': 'true', id: objectID};
-                // alert(lookupURL + ' is it');
                 $.getJSON(lookupURL, query, function(data, status) {
                   data = data.pop();
                   // We need to do some special handling for autocomplete inputs
