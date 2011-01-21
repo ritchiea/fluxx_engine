@@ -14,7 +14,6 @@
           var $card;
           if (typeof $chart.fluxxCard == 'function') {
             $card = $chart.fluxxCard();
-            $card.fluxxCardDetail().addClass('report-area');
           } else {
             $card = $('#hand');
           }
