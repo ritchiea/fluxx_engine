@@ -462,10 +462,22 @@
           '.listing .actions': [
             'click', function (e) {
               var $head = $('.listing .header', $(this).fluxxCard());
+              var $actions = $('.actions', $head);
               if ($head.hasClass('actions-open')) {
-                $head.removeClass('actions-open');
+                $('.search', $head).fadeIn();
+                $actions.animate({left: $head.outerWidth(true)}, function() {
+                  $head.removeClass('actions-open');
+                });
               } else {
-                $head.addClass('actions-open');
+                $('.search', $head).fadeOut();
+                $actions.animate({left: $head.width() -
+                  _.addUp(
+                      $('li:not(.open-listing-actions)', $actions),
+                      'outerWidth', true
+                    ) + 3
+                  }
+                );
+                $head.addClass('actions-open').show()
               }
             }
           ],
