@@ -14,7 +14,7 @@
               ui.helper.css('position','absolute').css('margin-left', offset);
             }
           },
-          beforeStop: function (event, ui) { 
+          beforeStop: function (event, ui) {
             if ((ui.offset !== undefined )) {
               ui.helper.css('margin-left', 0);
             }
@@ -33,7 +33,7 @@
             $.my.stage.resizeFluxxStage();
             $card.saveDashboard();
           }
-        });  
+        });
 
         $.my.quicklinks = $('#quicklinks');
         $.my.lookingGlass = $('#lookingglass');
@@ -56,7 +56,7 @@
         });
       });
     },
-    
+
     addViewPortIcon: function(options) {
       var options = $.fluxx.util.options_with_callback({}, options);
       return this.each(function(){
@@ -93,7 +93,7 @@
         $icon.remove('.popup');
         $('.popup', $icon).html($.fluxx.dock.ui.popup(options));
       });
-    }, 
+    },
     removeViewPortIcon: function(options) {
       var options = $.fluxx.util.options_with_callback({}, options);
       return this.each(function(){
@@ -114,7 +114,7 @@
       var $ql = ('.qllist', $.my.quicklinks);
       var $scrollers = $('.dock-list-scroller', $.my.viewport);;
       var numIcons = $icons.length;
-      var ilWidth = $ql.offset().left - $.my.iconlist.offset().left - $scrollers.last().outerWidth(true);
+      var ilWidth =  $ql.offset().left - $.my.iconlist.offset().left - $scrollers.last().outerWidth(true) - 10;
       var iconWidth = $icons.first().outerWidth(true);
       var lastIcon = Math.floor(ilWidth / iconWidth)
       if (lastIcon < numIcons)  {
@@ -125,7 +125,7 @@
           firstIcon += numRight;
           numRight = 0;
         }
-      
+
         var goLeft = $(e.currentTarget).hasClass('left');
         var goRight = $(e.currentTarget).hasClass('right')
         if (goLeft && firstIcon > 1)
@@ -135,12 +135,12 @@
         var numRight = numIcons - lastIcon - firstIcon + 1;
         $.my.iconlist.data('firstIcon', firstIcon);
         $('span.n-cards', $scrollers.first()).html(firstIcon - 1);
-        $('span.n-cards', $scrollers.last()).html(numRight);        
+        $('span.n-cards', $scrollers.last()).html(numRight);
         $('.dock-list-scroller').show();
         $icons.each(function(i) {
           var $icon = $(this);
           if (i >= firstIcon - 1 && i + 1 < (lastIcon + firstIcon))
-            $icon.show();           
+            $icon.show();
           else
             $icon.hide();
         });
@@ -160,16 +160,16 @@
         $glass.hide();
         return;
       }
-     
+
       var $viewport = $.my.viewport;
       var left = 0;
       var right = 0;
       var scroll = $(window).scrollLeft();
-      var viewportFound = false; 
+      var viewportFound = false;
       var lastID = $('a', $.my.iconlist).last().attr('href');
       var showViewport = true;
       var leftFound = false;
-      
+
       $cards.each(function(){
         var $card = $(this);
         var cardWidth = $card.width();
@@ -187,23 +187,23 @@
         var iconHidden = ($icon.not(':visible').length == 1);
         if (!viewportFound && !iconHidden)
           viewportFound = true;
-        
+
         if (!leftFound && scroll < cardArea) {
           if (iconHidden) {
             if (viewportFound) {
               showViewport = false;
               return false;
             }
-            left = iconMargin; 
+            left = iconMargin;
           } else if (pixelsIn > cardWidth) {
             percentOver = (pixelsIn - cardWidth) / cardMargin;
-            left = Math.round((iconLeft - scroll + $icon.width() - iconMargin) + (iconMargin * percentOver)); 
+            left = Math.round((iconLeft - scroll + $icon.width() - iconMargin) + (iconMargin * percentOver));
           } else if (pixelsIn >= 0) {
             percentOver = (scroll - cardLeft - cardMargin) / cardWidth;
             left = Math.round((iconLeft - scroll - iconMargin) + ($icon.width() * percentOver));
-          } else { 
+          } else {
             percentOver = (cardMargin + pixelsIn) / cardMargin;
-            left = Math.round((iconLeft - scroll - (iconMargin * 2)) + (iconMargin * percentOver)); 
+            left = Math.round((iconLeft - scroll - (iconMargin * 2)) + (iconMargin * percentOver));
           }
           leftFound = true;
         }
@@ -226,18 +226,18 @@
           pixelsIn = (rightEdge - cardLeft);
           if (pixelsIn > cardWidth) {
             percentOver = (pixelsIn - cardWidth) / cardMargin;
-            right = Math.round((iconLeft - scroll + $icon.width() - iconMargin) + (iconMargin * percentOver)); 
+            right = Math.round((iconLeft - scroll + $icon.width() - iconMargin) + (iconMargin * percentOver));
           } else if (pixelsIn >= 0) {
-            percentOver = (rightEdge - cardLeft - cardMargin) / cardWidth;            
+            percentOver = (rightEdge - cardLeft - cardMargin) / cardWidth;
             right = Math.round((iconLeft - scroll - iconMargin) + ($icon.width() * percentOver));
-          } else {  
+          } else {
             percentOver = (cardMargin + pixelsIn) / cardMargin;
-            right = Math.round((iconLeft - scroll - iconMargin - (iconMargin / 2)) + (iconMargin * percentOver)); 
+            right = Math.round((iconLeft - scroll - iconMargin - (iconMargin / 2)) + (iconMargin * percentOver));
           }
           return false;
         }
       });
-      if (showViewport && left > 0) { 
+      if (showViewport && left > 0) {
         $glass.css({left: left, top: $viewport.offset().top});
         $glass.show();
         $glass.width(Math.round(right - left));
@@ -323,7 +323,7 @@
       className: 'scroll-to-card',
       type: null
     }, options);
-    
+
     return $($.fluxx.util.resultOf([
       '<li class="icon ', options.type, '">',
         '<a class="link ', options.className, '" href="', options.url, '" title="', options.label, '">',
@@ -336,7 +336,7 @@
       '</li>'
     ]));
   };
-  
+
   $(function($){
     $('#stage').live('complete.fluxx.stage', function(e) {
       $.my.footer.addFluxxDock(function(){
