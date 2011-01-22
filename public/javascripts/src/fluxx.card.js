@@ -150,7 +150,7 @@
 
             updates = _.values(updates);
 //            $.fluxx.log("triggering update.fluxx.area["+$card.attr('id') + ' :: ' + model+"]: " + updates.length + " ("+$area.attr('class')+" "+ $area.fluxxCard().attr('id')+")")
-            if (updates.length) $area.trigger('update.fluxx.area', [updates]);
+            if (typeof updates == 'object' && updates.length) $area.trigger('update.fluxx.area', [updates]);
           });
         });
       });
