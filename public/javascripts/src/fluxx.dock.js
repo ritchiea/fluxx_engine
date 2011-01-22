@@ -110,6 +110,7 @@
       return Math.floor($.my.iconlist.margin / 2);
     },
     fluxxDockSizeIconlist: function(e) {
+//      return;
       var $icons = $('li.icon', $.my.iconlist);
       var $ql = ('.qllist', $.my.quicklinks);
       var $scrollers = $('.dock-list-scroller', $.my.viewport);;

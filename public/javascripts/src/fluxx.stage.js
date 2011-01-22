@@ -465,8 +465,9 @@
               var $actions = $('.actions', $head);
               if ($head.hasClass('actions-open')) {
                 $('.search', $head).fadeIn();
+                $head.removeClass('actions-open');
                 $actions.animate({left: $head.outerWidth(true)}, function() {
-                  $head.removeClass('actions-open');
+
                 });
               } else {
                 $('.search', $head).fadeOut();
@@ -475,9 +476,11 @@
                       $('li:not(.open-listing-actions)', $actions),
                       'outerWidth', true
                     ) + 3
+                  }, function() {
+                    $head.addClass('actions-open').show()
                   }
                 );
-                $head.addClass('actions-open').show()
+
               }
             }
           ],
