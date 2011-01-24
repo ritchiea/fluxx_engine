@@ -24,7 +24,9 @@
       if (_.isEqual(one, two)) return one;
       var intersect = {};
       _.each(one, function (val, key) {
-        if (val == two[key]) intersect[key] = val;
+         _.each(val, function(single) {
+           if (single == two[key]) intersect[key] = single;
+         });
       });
       return intersect;
     },
@@ -53,7 +55,13 @@
       /* Cheap deep clone. */
       _.each(list, function(entry) {
         var entry = filter(_.clone(entry));
-        object[entry.name] = entry.value;
+        if (object[entry.name]) {
+          if (!$.isArray(object[entry.name]))
+            object[entry.name] =[ object[entry.name] ]
+          object[entry.name].push(entry.value);
+        } else {
+          object[entry.name] = entry.value;
+        }
       });
       return object;
     },
