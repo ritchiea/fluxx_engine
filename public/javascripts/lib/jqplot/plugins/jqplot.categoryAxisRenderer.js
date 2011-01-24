@@ -1,30 +1,30 @@
 /**
  * Copyright (c) 2009 - 2010 Chris Leonello
- * jqPlot is currently available for use in all personal or commercial projects 
- * under both the MIT and GPL version 2.0 licenses. This means that you can 
- * choose the license that best suits your project and use it accordingly. 
+ * jqPlot is currently available for use in all personal or commercial projects
+ * under both the MIT and GPL version 2.0 licenses. This means that you can
+ * choose the license that best suits your project and use it accordingly.
  *
  * The author would appreciate an email letting him know of any substantial
- * use of jqPlot.  You can reach the author at: chris at jqplot dot com 
- * or see http://www.jqplot.com/info.php .  This is, of course, 
+ * use of jqPlot.  You can reach the author at: chris at jqplot dot com
+ * or see http://www.jqplot.com/info.php .  This is, of course,
  * not required.
  *
  * If you are feeling kind and generous, consider supporting the project by
  * making a donation at: http://www.jqplot.com/donate.php .
  *
  * Thanks for using jqPlot!
- * 
+ *
  */
-(function($) {   
+(function($) {
     /**
     *  class: $.jqplot.CategoryAxisRenderer
     *  A plugin for jqPlot to render a category style axis, with equal pixel spacing between y data values of a series.
-    *  
+    *
     *  To use this renderer, include the plugin in your source
     *  > <script type="text/javascript" language="javascript" src="plugins/jqplot.categoryAxisRenderer.js"></script>
-    *  
+    *
     *  and supply the appropriate options to your plot
-    *  
+    *
     *  > {axes:{xaxis:{renderer:$.jqplot.CategoryAxisRenderer}}}
     **/
     $.jqplot.CategoryAxisRenderer = function(options) {
@@ -42,15 +42,15 @@
         // With sortMergedLabels set to false, tick labels will be:
         // > [2006, 2008, 2009, 2007]
         //
-        // Note, this property is specified on the renderOptions for the 
+        // Note, this property is specified on the renderOptions for the
         // axes when creating a plot:
         // > axes:{xaxis:{renderer:$.jqplot.CategoryAxisRenderer, rendererOptions:{sortMergedLabels:true}}}
         this.sortMergedLabels = false;
     };
-    
+
     $.jqplot.CategoryAxisRenderer.prototype = new $.jqplot.LinearAxisRenderer();
     $.jqplot.CategoryAxisRenderer.prototype.constructor = $.jqplot.CategoryAxisRenderer;
-    
+
     $.jqplot.CategoryAxisRenderer.prototype.init = function(options){
         this.groups = 1;
         this.groupLabels = [];
@@ -58,7 +58,7 @@
         this._grouped = false;
         this._barsPerGroup = null;
         // prop: tickRenderer
-        // A class of a rendering engine for creating the ticks labels displayed on the plot, 
+        // A class of a rendering engine for creating the ticks labels displayed on the plot,
         // See <$.jqplot.AxisTickRenderer>.
         // this.tickRenderer = $.jqplot.AxisTickRenderer;
         // this.labelRenderer = $.jqplot.AxisLabelRenderer;
@@ -72,8 +72,8 @@
                 this.groups = s.groups;
             }
             var d = s.data;
-            
-            for (var j=0; j<d.length; j++) { 
+
+            for (var j=0; j<d.length; j++) {
                 if (this.name == 'xaxis' || this.name == 'x2axis') {
                     if (d[j][0] < db.min || db.min == null) {
                         db.min = d[j][0];
@@ -81,7 +81,7 @@
                     if (d[j][0] > db.max || db.max == null) {
                         db.max = d[j][0];
                     }
-                }              
+                }
                 else {
                     if (d[j][1] < db.min || db.min == null) {
                         db.min = d[j][1];
@@ -89,15 +89,15 @@
                     if (d[j][1] > db.max || db.max == null) {
                         db.max = d[j][1];
                     }
-                }              
+                }
             }
         }
-        
+
         if (this.groupLabels.length) {
             this.groups = this.groupLabels.length;
         }
     };
- 
+
 
     $.jqplot.CategoryAxisRenderer.prototype.createTicks = function() {
         // we're are operating on an axis here
@@ -160,19 +160,19 @@
             else {
                 dim = this._plotDimensions.height;
             }
-            
+
             // if min, max and number of ticks specified, user can't specify interval.
             if (this.min != null && this.max != null && this.numberTicks != null) {
                 this.tickInterval = null;
             }
-            
+
             // if max, min, and interval specified and interval won't fit, ignore interval.
             if (this.min != null && this.max != null && this.tickInterval != null) {
                 if (parseInt((this.max-this.min)/this.tickInterval, 10) != (this.max-this.min)/this.tickInterval) {
                     this.tickInterval = null;
                 }
             }
-        
+
             // find out how many categories are in the lines and collect labels
             var labels = [];
             var numcats = 0;
@@ -190,19 +190,19 @@
                     }
                     if ($.inArray(val, labels) == -1) {
                         isMerged = true;
-                        numcats += 1;      
+                        numcats += 1;
                         labels.push(val);
                     }
                 }
             }
-            
+
             if (isMerged && this.sortMergedLabels) {
                 labels.sort(function(a,b) { return a - b; });
             }
-            
+
             // keep a reference to these tick labels to use for redrawing plot (see bug #57)
             this.ticks = labels;
-            
+
             // now bin the data values to the right lables.
             for (var i=0; i<this._series.length; i++) {
                 var s = this._series[i];
@@ -224,7 +224,7 @@
                     }
                 }
             }
-            
+
             // adjust with blanks if we have groups
             if (this.groups > 1 && !this._grouped) {
                 var l = labels.length;
@@ -235,7 +235,7 @@
                 }
                 this._grouped = true;
             }
-        
+
             max = numcats + 0.5;
             if (this.numberTicks == null) {
                 this.numberTicks = 2*numcats + 1;
@@ -245,7 +245,7 @@
             this.min = min;
             this.max = max;
             var track = 0;
-            
+
             // todo: adjust this so more ticks displayed.
             var maxVisibleTicks = parseInt(3+dim/20, 10);
             var skip = parseInt(numcats/maxVisibleTicks, 10);
@@ -272,7 +272,7 @@
                     else {
                         t.showLabel = true;
                         track = 0;
-                    } 
+                    }
                     t.label = t.formatter(t.formatString, labels[(i-1)/2]);
                     t.showMark = false;
                     t.showGridline = false;
@@ -281,9 +281,9 @@
                 this._ticks.push(t);
             }
         }
-        
+
     };
-    
+
     // called with scope of axis
     $.jqplot.CategoryAxisRenderer.prototype.draw = function(ctx) {
         if (this.show) {
@@ -300,16 +300,16 @@
             if (this._elem) {
                 this._elem.empty();
             }
-            
+
             this._elem = this._elem || $('<div class="jqplot-axis jqplot-'+this.name+'" style="position:absolute;"></div>');
-            
+
             if (this.name == 'xaxis' || this.name == 'x2axis') {
                 this._elem.width(this._plotDimensions.width);
             }
             else {
                 this._elem.height(this._plotDimensions.height);
             }
-            
+
             // create a _label object.
             this.labelOptions.axis = this.name;
             this._label = new this.labelRenderer(this.labelOptions);
@@ -317,7 +317,7 @@
                 var elem = this._label.draw(ctx);
                 elem.appendTo(this._elem);
             }
-    
+
             var t = this._ticks;
             for (var i=0; i<t.length; i++) {
                 var tick = t[i];
@@ -326,7 +326,7 @@
                     elem.appendTo(this._elem);
                 }
             }
-        
+
             this._groupLabels = [];
             // now make group labels
             for (var i=0; i<this.groupLabels.length; i++)
@@ -339,9 +339,9 @@
         }
         return this._elem;
     };
-    
+
     // called with scope of axis
-    $.jqplot.CategoryAxisRenderer.prototype.set = function() { 
+    $.jqplot.CategoryAxisRenderer.prototype.set = function() {
         var dim = 0;
         var temp;
         var w = 0;
@@ -363,7 +363,7 @@
                     }
                 }
             }
-            
+
             var dim2 = 0;
             for (var i=0; i<this._groupLabels.length; i++) {
                 var l = this._groupLabels[i];
@@ -377,10 +377,10 @@
                     dim2 = temp;
                 }
             }
-            
+
             if (lshow) {
                 w = this._label._elem.outerWidth(true);
-                h = this._label._elem.outerHeight(true); 
+                h = this._label._elem.outerHeight(true);
             }
             if (this.name == 'xaxis') {
                 dim += dim2 + h;
@@ -404,9 +404,9 @@
                     this._label._elem.css('width', w+'px');
                 }
             }
-        }  
+        }
     };
-    
+
     // called with scope of axis
     $.jqplot.CategoryAxisRenderer.prototype.pack = function(pos, offsets) {
         var ticks = this._ticks;
@@ -415,25 +415,25 @@
         var offmax = offsets.max;
         var offmin = offsets.min;
         var lshow = (this._label == null) ? false : this._label.show;
-        
+
         for (var p in pos) {
             this._elem.css(p, pos[p]);
         }
-        
+
         this._offsets = offsets;
         // pixellength will be + for x axes and - for y axes becasue pixels always measured from top left.
         var pixellength = offmax - offmin;
         var unitlength = max - min;
-        
+
         // point to unit and unit to point conversions references to Plot DOM element top left corner.
         this.p2u = function(p){
             return (p - offmin) * unitlength / pixellength + min;
         };
-        
+
         this.u2p = function(u){
             return (u - min) * pixellength / unitlength + offmin;
         };
-                
+
         if (this.name == 'xaxis' || this.name == 'x2axis'){
             this.series_u2p = function(u){
                 return (u - min) * pixellength / unitlength;
@@ -442,7 +442,7 @@
                 return p * unitlength / pixellength + min;
             };
         }
-        
+
         else {
             this.series_u2p = function(u){
                 return (u - max) * pixellength / unitlength;
@@ -451,14 +451,14 @@
                 return p * unitlength / pixellength + max;
             };
         }
-        
+
         if (this.show) {
             if (this.name == 'xaxis' || this.name == 'x2axis') {
                 for (i=0; i<ticks.length; i++) {
                     var t = ticks[i];
                     if (t.show && t.showLabel) {
                         var shim;
-                        
+
                         if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
                             // will need to adjust auto positioning based on which axis this is.
                             var temp = (this.name == 'xaxis') ? 1 : -1;
@@ -495,7 +495,7 @@
                         t.pack();
                     }
                 }
-                
+
                 var labeledge=['bottom', 0];
                 if (lshow) {
                     var w = this._label._elem.outerWidth(true);
@@ -510,7 +510,7 @@
                     }
                     this._label.pack();
                 }
-                
+
                 // draw the group labels
                 var step = parseInt(this._ticks.length/this.groups, 10);
                 for (i=0; i<this._groupLabels.length; i++) {
@@ -532,7 +532,7 @@
             else {
                 for (i=0; i<ticks.length; i++) {
                     var t = ticks[i];
-                    if (t.show && t.showLabel) {                        
+                    if (t.show && t.showLabel) {
                         var shim;
                         if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
                             // will need to adjust auto positioning based on which axis this is.
@@ -573,13 +573,13 @@
                         else {
                             shim = -t.getHeight()/2;
                         }
-                        
+
                         var val = this.u2p(t.value) + shim + 'px';
                         t._elem.css('top', val);
                         t.pack();
                     }
                 }
-                
+
                 var labeledge=['left', 0];
                 if (lshow) {
                     var h = this._label._elem.outerHeight(true);
@@ -591,10 +591,10 @@
                     else {
                         this._label._elem.css('right', '0px');
                         labeledge = ['right', this._label._elem.outerWidth(true)];
-                    }   
+                    }
                     this._label.pack();
                 }
-                
+
                 // draw the group labels, position top here, do left after label position.
                 var step = parseInt(this._ticks.length/this.groups, 10);
                 for (i=0; i<this._groupLabels.length; i++) {
@@ -611,11 +611,11 @@
                     mid = mid/count;
                     this._groupLabels[i].css({'top':mid - this._groupLabels[i].outerHeight()/2});
                     this._groupLabels[i].css(labeledge[0], labeledge[1]);
-                    
+
                 }
             }
         }
-    };    
-    
-    
+    };
+
+
 })(jQuery);

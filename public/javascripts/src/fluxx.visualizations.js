@@ -31,6 +31,9 @@
             data.seriesDefaults.renderer = $.jqplot.BarRenderer;
           }
 
+         if (data.axes.xaxis.ticks.length > 0 && !$.isArray(data.axes.xaxis.ticks[0]))
+           data.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
+
           plot = $.jqplot(chartID, data.data, {
             axesDefaults: {
               tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
