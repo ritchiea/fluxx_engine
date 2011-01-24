@@ -18,7 +18,7 @@
             $card = $('#hand');
           }
           if (data.hasOwnProperty('class'))
-              $card.fluxxCardDetail().addClass(data.class);
+              $card.fluxxCardDetail().addClass(data['class']);
           if (data.hasOwnProperty('width'))
               $card.fluxxCardDetail().width(data.width);
 
