@@ -600,8 +600,10 @@ table .partial { margin: 0.25em 0; }
     background: #aaaaaa;
     &.actions-open {
       background: #{inline_image("/images/fluxx_engine/theme/default/cards/body-bg.png")};
+      .search { display: none; }
       .actions {
         right: 0;
+        left: auto;
         li:first-child { @include linear-gradient(#cccccc, #aaaaaa); }
       }
     }
