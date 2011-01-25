@@ -571,7 +571,7 @@
               });
               var dashboard = $selected.data('dashboard');
               if (dashboard && dashboard.data && dashboard.data.cards) {
-                $('a.to-dashboard[href*=' + dashboard.url + ']').parent().addClass('selected').siblings().removeClass('selected');
+                $('a.to-dashboard[href=#' + dashboard.url + ']').parent().addClass('selected').siblings().removeClass('selected');
                 $.my.hand
                   .addFluxxCards({cards: dashboard.data.cards}, function(){
                     $selected.data('locked', false);
