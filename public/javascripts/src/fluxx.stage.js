@@ -245,14 +245,16 @@
               $elem.closeDetail();
             }
           ],
-          'a.new-listing': [
+          'a.new-listing, td.new-listing': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               var card = {
                 listing: {url: $elem.attr('href')},
-                title: ($elem.attr('title') || $elem.text())
+                title: (this.tagName == 'TD' ? $elem.parent().find('td:first').text() : $elem.attr('title') || $elem.text())
               };
+              if ($elem.attr('data-filter'))
+                card.listing.data = $.fluxx.unparamToArray($elem.attr('data-filter'));
               if ($elem.attr('data-insert') == 'after') {
                 card.position = function($card) {$card.insertAfter($elem.fluxxCard())};
               } else if ($elem.attr('data-insert') == 'before') {
@@ -464,11 +466,10 @@
               var $head = $('.listing .header', $(this).fluxxCard());
               var $actions = $('.actions', $head);
               if ($head.hasClass('actions-open')) {
+
                 $('.search', $head).fadeIn();
                 $head.removeClass('actions-open');
-                $actions.animate({left: $head.outerWidth(true)}, function() {
-
-                });
+                $actions.animate({left: $head.outerWidth(true)});
               } else {
                 $('.search', $head).fadeOut();
                 $actions.animate({left: $head.width() -

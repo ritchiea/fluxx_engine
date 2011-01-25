@@ -701,7 +701,6 @@
           var found = {};
 
           var data = $listing.fluxxCardAreaRequest().data;
-          $.fluxx.log(data);
           if (typeof data == "string") {
             $form.removeClass('to-listing').addClass('to-detail');
             data = [];

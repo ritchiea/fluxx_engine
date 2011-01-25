@@ -11,10 +11,10 @@
     %table{:class => 'legend-table'}
       - @report_legend.each_index do |index|
         %tr
-          - @report_legend[index].each do |item|
+          - @report_legend[index][:table].each do |item|
             - if index == 0
               %th
                 =item
             - else
-              %td
+              %td{:href => granted_requests_path, :class => @report_legend[index][:filter].blank? ? "" : "new-listing", "data-insert".to_sym => "after", "data-filter".to_sym => @report_legend[index][:filter]}
                 =item
