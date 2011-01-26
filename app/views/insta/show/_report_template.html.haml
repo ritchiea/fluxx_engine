@@ -16,5 +16,12 @@
               %th
                 =item
             - else
-              %td{:href => granted_requests_path, :class => @report_legend[index][:filter].blank? ? "" : "new-listing", "data-insert".to_sym => "after", "data-filter".to_sym => @report_legend[index][:filter]}
+              %td
                 =item
+          - if index == 0
+            %th
+          - else
+            %td
+              - if !@report_legend[index][:filter].blank?
+                %a{:href => @report_legend[index]["listing_url".to_sym], :class => "new-listing", "data-insert".to_sym => "after", "data-filter".to_sym => @report_legend[index][:filter], :title => @report_legend[index]["card_title".to_sym]}
+                  Open in Card

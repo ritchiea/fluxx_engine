@@ -229,6 +229,13 @@
     }
     td {
       text-align: right;
+      a {
+        text-align: left;
+        display: block;
+        text-indent: -1000em;
+        background: transparent url("/images/fluxx_engine/theme/default/icons/table.png") no-repeat center center;
+        height: 21px;
+      }
     }
     th:first-child, td:first-child  {
       text-align: left;

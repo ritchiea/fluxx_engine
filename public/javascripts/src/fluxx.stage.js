@@ -245,13 +245,13 @@
               $elem.closeDetail();
             }
           ],
-          'a.new-listing, td.new-listing': [
+          'a.new-listing': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               var card = {
                 listing: {url: $elem.attr('href')},
-                title: (this.tagName == 'TD' ? $elem.parent().find('td:first').text() : $elem.attr('title') || $elem.text())
+                title: $elem.attr('title') || $elem.text()
               };
               if ($elem.attr('data-filter'))
                 card.listing.data = $.fluxx.unparamToArray($elem.attr('data-filter'));
