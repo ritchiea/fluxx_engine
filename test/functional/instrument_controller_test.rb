@@ -70,7 +70,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     reports = controller.insta_index_report_list
     total_rep = reports.select{|rep| rep.is_a? TotalInstrumentsReport}.first
     get :index, :fluxxreport_id => total_rep.report_id, :document => 1
-    assert_equal 'A total instruments index document', @response.body
+    assert_response :success
   end
 
   test "should get index with pagination" do
