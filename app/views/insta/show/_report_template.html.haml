@@ -9,19 +9,20 @@
     = @report_summary
   .legend
     %table{:class => 'legend-table'}
-      - @report_legend.each_index do |index|
-        %tr
-          - @report_legend[index][:table].each do |item|
+      - @report_legend.each_with_index do |report_legend_row, index|
+        - unless report_legend_row.empty?
+          %tr
+            - report_legend_row[:table].each do |item|
+              - if index == 0
+                %th
+                  =item
+              - else
+                %td
+                  =item
             - if index == 0
               %th
-                =item
             - else
               %td
-                =item
-          - if index == 0
-            %th
-          - else
-            %td
-              - if !@report_legend[index][:filter].blank?
-                %a{:href => @report_legend[index]["listing_url".to_sym], :class => "new-listing", "data-insert".to_sym => "after", "data-filter".to_sym => @report_legend[index][:filter], :title => @report_legend[index]["card_title".to_sym]}
-                  Open in Card
+                - if !report_legend_row[:filter].blank?
+                  %a{:href => report_legend_row["listing_url".to_sym], :class => "new-listing", "data-insert".to_sym => "after", "data-filter".to_sym => report_legend_row[:filter], :title => report_legend_row["card_title".to_sym]}
+                    Open in Card

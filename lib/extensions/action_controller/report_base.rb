@@ -67,7 +67,7 @@ class ActionController::ReportBase
   end
   # optional legend for this report
   def report_legend controller, index_object, params, *models
-    [[]]
+    [{}]
   end
   # optional summary for this report
   def report_summary controller, index_object, params, *models
