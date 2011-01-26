@@ -90,7 +90,7 @@ class ActionController::Base
                   @report_summary = @report.report_summary self, index_object, params, @models
                   @report_legend = @report.report_legend self, index_object, params, @models
                   fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'),
-                     :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer'), :layout => false}
+                     :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
               else
                 render((index_object.view || "#{insta_path}/index").to_s, :layout => false)
@@ -175,7 +175,7 @@ class ActionController::Base
                   @report_summary = @report.report_summary self, show_object, params
                   @report_legend = @report.report_legend self, show_object, params
                   fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'),
-                     :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer'), :layout => false}
+                     :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
               else
                 fluxx_show_card show_object, show_object.calculate_show_options(@model, params)
