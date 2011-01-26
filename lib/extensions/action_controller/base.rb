@@ -591,7 +591,7 @@ class ActionController::Base
     @footer_template = options[:footer_template]
     # TODO ESH: chase down where exclude_related_data and layout comes from...
     @exclude_related_data = show_object.exclude_related_data
-    @layout = options[:layout] || show_object.layout || 'printable_show'
+    @layout = options[:layout] || show_object.layout || params[:printable] ? 'printable_show' : false
     @layout = options[:layout] if !options[:layout].nil? # If options[:layout] is false, respect that
     render((show_object.view || "#{insta_path}/show").to_s, :layout => @layout)
   end

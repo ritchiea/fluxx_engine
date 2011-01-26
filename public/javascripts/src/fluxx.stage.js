@@ -822,7 +822,8 @@
             'click', function(e) {
               var $elem = $(this);
               var current = $elem.fluxxCardAreaRequest();
-              $elem.attr('href', $elem.fluxxCardAreaURL());
+              var url = $elem.fluxxCardAreaURL();
+              $elem.attr('href', url + (url.match(/\?/) ? '&' : '?') + 'printable=1');
             }
           ],
           'a.area-data': [
