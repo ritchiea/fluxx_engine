@@ -82,6 +82,8 @@
             if (i == options.cards.length - 1) {
               options.callback();
             }
+            if ($('#fluxx-loading-bar').length)
+              $('#fluxx-loading-bar').fadeOut('slow', function() { $(this).remove();});
           }, true);
         }
       });
@@ -1038,6 +1040,7 @@
             return ['<li>', action, '</li>'];
           }),
         '</ul>',
+        '<img src="/images/fluxx_engine/theme/_common/loaders/loading-bar.gif" id="fluxx-loading-bar">',
     '</div>'
   ])};
   $.fluxx.stage.ui.cardTable = [
