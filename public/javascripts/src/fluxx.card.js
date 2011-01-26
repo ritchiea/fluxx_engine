@@ -44,8 +44,6 @@
                   $refresh.show();
 
                 $editReport = $('.titlebar .edit-report-filter', $card).hide();
-                // TODO: Currently don't support editing filters on visualizations, but we do on live reports
-                // Turn off icon for visualizations. This is a crappy way of doing it. Works for now.
                 if ($('.report-area', $card).length && !$card.cardIsMinimized())
                   $editReport.show();
 

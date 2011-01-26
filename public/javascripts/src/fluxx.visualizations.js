@@ -9,9 +9,9 @@
         var data = $.parseJSON($chart.html());
         $chart.html('').show().parent();
         var chartID = 'chart' + $.fluxx.visualizations.counter++;
-
         if (data) {
           var $card;
+
           if (typeof $chart.fluxxCard == 'function') {
             $card = $chart.fluxxCard();
           } else {
