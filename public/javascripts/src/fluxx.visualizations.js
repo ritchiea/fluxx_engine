@@ -7,6 +7,7 @@
           return;
 
         var data = $.parseJSON($chart.html());
+        var saveHTML = $chart.html();
         $chart.html('').show().parent();
         var chartID = 'chart' + $.fluxx.visualizations.counter++;
         if (data) {
@@ -33,8 +34,9 @@
 
          if (data.axes && data.axes.xaxis && data.axes.xaxis.ticks.length > 0 && !$.isArray(data.axes.xaxis.ticks[0]))
            data.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
-
-          plot = $.jqplot(chartID, data.data, {
+         var error = false;
+         try {
+           plot = $.jqplot(chartID, data.data, {
             axesDefaults: {
               tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
               tickOptions: {
@@ -48,26 +50,31 @@
             seriesDefaults: data.seriesDefaults,
             axes: data.axes,
             series: data.series
-          });
+           });
+         } catch(e) {
+           $chart.html(saveHTML);
+           error = true;
+         }
+         if (!error) {
+            var legend = {};
+            _.each(plot.series, function(key) {
+              legend[key.label] = key;
+            });
 
-          var legend = {};
-          _.each(plot.series, function(key) {
-            legend[key.label] = key;
-          });
-
-          $('.legend table.legend-table tr', $card).each(function() {
-           var $td = $('td:first', $(this));
-           if ($td.length) {
-             $td.prepend('<span class="legend-color-swatch" style="background-color: ' + legend[$.trim($td.text())].color + '"/>');
-           }
-          })
-          .hover(function(e) {
-            var $td = $('td:first', $(this));
-            legend[$.trim($td.text())].canvas._elem.css('opacity', '.5');
-          }, function(e) {
-            var $td = $('td:first', $(this));
-            legend[$.trim($td.text())].canvas._elem.css('opacity', '1');
-          });
+            $('.legend table.legend-table tr', $card).each(function() {
+             var $td = $('td:first', $(this));
+             if ($td.length) {
+               $td.prepend('<span class="legend-color-swatch" style="background-color: ' + legend[$.trim($td.text())].color + '"/>');
+             }
+            })
+            .hover(function(e) {
+              var $td = $('td:first', $(this));
+              legend[$.trim($td.text())].canvas._elem.css('opacity', '.5');
+            }, function(e) {
+              var $td = $('td:first', $(this));
+              legend[$.trim($td.text())].canvas._elem.css('opacity', '1');
+            });
+          }
         }
       });
     }

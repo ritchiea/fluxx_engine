@@ -1175,6 +1175,9 @@
                       $card.trigger('lifetimeComplete.fluxx.card');
                       if (!$card.fromClientStore() && !$card.cardFullyVisible())
                         $('a', $card.data('icon')).click();
+                      // Charts that load minized don't render do to issues with the plotting library
+                      // renderChart will only render a chart once.
+                      $('.chart', $card).renderChart();
                       $card.saveDashboard();
                     });
                   });
