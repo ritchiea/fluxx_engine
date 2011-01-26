@@ -338,6 +338,7 @@
       }
     }
     .titlebar {
+      overflow: hidden;
       position:relative;
       @include bg(#cccccc, #333333);
       @include linear-gradient(#cccccc, #aaaaaa);
