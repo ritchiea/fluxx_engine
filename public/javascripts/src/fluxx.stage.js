@@ -72,6 +72,7 @@
     addFluxxCards: function(options, callback) {
       var options = $.fluxx.util.options_with_callback({}, options, callback);
       if (!options.cards.length) {
+		$('#fluxx-loading-bar').fadeOut('slow', function() { $(this).remove();});
         options.callback();
         return this;
       }
@@ -81,12 +82,11 @@
           $.my.hand.addFluxxCard(this, function(){
             if (i == options.cards.length - 1) {
               options.callback();
-            }
-            if ($('#fluxx-loading-bar').length)
-              $('#fluxx-loading-bar').fadeOut('slow', function() { $(this).remove();});
+            }           
           }, true);
         }
       });
+      $('#fluxx-loading-bar').fadeOut('slow', function() { $(this).remove();});
       return this;
     },
 
