@@ -37,7 +37,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     @max_sphinx_results || 500000
   end
   
-  def load_results params, format=nil, models=nil
+  def load_results params, format=nil, models=nil, controller=nil
     if models
       models
     else 
@@ -58,7 +58,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       end
       
       extra_search_conditions = if self.search_conditions.is_a? Proc
-        self.search_conditions.call params, self
+        self.search_conditions.call params, self, controller
       else
         self.search_conditions
       end
