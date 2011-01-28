@@ -28,9 +28,10 @@
     - else
       %ul.workflow
       %ul.buttons
-        - if !current_user.respond_to?(:has_update_for_model) || current_user.has_update_for_model?(@model)
-          %li= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'to-self', :link_class => 'btn'
-        - if !current_user.respond_to?(:has_delete_for_model) || current_user.has_delete_for_model?(@model)
-          %li= link_to 'Delete', send("#{@model_name}_path", @model), :class => 'as-delete', 'data-on-success' => 'refreshCaller', :link_class => 'btn'
-        %li= link_to 'Printable', '#', :target => "_blank", :class => 'btn area-url'
+        - if @model
+          - if !current_user.respond_to?(:has_update_for_model) || current_user.has_update_for_model?(@model)
+            %li= link_to 'Edit', send("edit_#{@model_name}_path", @model), :class => 'to-self', :link_class => 'btn'
+          - if !current_user.respond_to?(:has_delete_for_model) || current_user.has_delete_for_model?(@model)
+            %li= link_to 'Delete', send("#{@model_name}_path", @model), :class => 'as-delete', 'data-on-success' => 'refreshCaller', :link_class => 'btn'
+          %li= link_to 'Printable', '#', :target => "_blank", :class => 'btn area-url'
   = render :partial => 'insta/card_settings'
