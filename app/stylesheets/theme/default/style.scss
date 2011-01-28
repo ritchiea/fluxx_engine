@@ -318,6 +318,8 @@
     top: -52;
   }
   .report-filter {
+	height: 330px;
+    overflow: auto;
     padding: 20px 45px 10px 45px;
     .report-title {
       text-align: center;
