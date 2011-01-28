@@ -26,7 +26,6 @@
     - if @footer_template
       = render :partial => @footer_template, :locals => { :model => @model}
     - else
-      %ul.workflow
       %ul.buttons
         - if @model
           - if !current_user.respond_to?(:has_update_for_model) || current_user.has_update_for_model?(@model)
