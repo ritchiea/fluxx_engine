@@ -162,6 +162,13 @@
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_projects.png")} transparent no-repeat 50% 50%;
       }
     }
+    &.style-work-tasks {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_work_tasks.png")} transparent no-repeat 50% 50%;
+      }
+    }
     &.style-grant-requests {
       .link {
         @include no-box-shadow;
@@ -247,6 +254,10 @@
       &.style-projects {
         border: none;
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_projects.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-work-tasks {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_work_tasks.png")} transparent no-repeat 50% 50%;
       }
       &.style-grant-requests {
         border: none;
