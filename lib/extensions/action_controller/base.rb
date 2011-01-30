@@ -9,7 +9,7 @@ class ActionController::Base
 
 
   def grab_param form_name, param_name
-    params[param_name] || (params[form_name] ? params[form_name][param_name] : '')
+    params[param_name] || (params[form_name] ? params[form_name][param_name] : nil)
   end
 
   def grab_param_or_model form_name, param_name, model
