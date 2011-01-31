@@ -65,8 +65,9 @@
             e.preventDefault();
             var name = $(e.target).val();
             if (name.length > 0) {
-              var dashboard = $.fluxx.config.dashboard.default_dashboard;
+              var dashboard = jQuery.extend(true, {cards: []}, $.fluxx.config.dashboard.default_dashboard);
               dashboard.name = name;
+
               $.fluxx.storage.createStore(dashboard, function(item) {
                 $($.fluxx.dashboard.ui.pickerItem({url: item.url, name: item.name}))
                 .find('a').data('dashboard', item)
@@ -93,7 +94,7 @@
        if ($li.hasClass('selected')) {
          var $first = $('a.to-dashboard').first();
          if ($first.length > 0)
-           $.first.click();
+           $first.click();
          else {
            $('.dashboard').remove();
            $.my.header.initFluxxDashboard();
