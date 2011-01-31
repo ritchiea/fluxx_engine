@@ -19,7 +19,7 @@
   padding: 12px;
   @include rounded(10px);
   ul {
-    height: 310px;
+    height: 280px;
     overflow: auto;
     padding: 10px 0 0 0;
     .selected { background-color: #e9eeff; }

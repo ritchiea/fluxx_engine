@@ -580,7 +580,7 @@
                     $selected.data('locked', false);
                     $previous.data('locked', false);
                   });
-                $.cookie('dashboard', dashboard.url);
+                $.cookie('dashboard', '#' + dashboard.url);
               } else {
                 $selected.data('locked', false);
                 $previous.data('locked', false);
