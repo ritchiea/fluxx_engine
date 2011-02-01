@@ -30,8 +30,15 @@
           $('body').addClass('mozilla');
         if (navigator.userAgent.search(' Windows '))
           $('body').addClass('windows');
+				var timerRunning = false;
         $(window).resize(function(e){
-          $.my.cards.resizeFluxxCard();
+					if (!timerRunning) {
+						timerRunning = true;
+					  setTimeout(function(e) {
+							timerRunning = false;
+							$.my.cards.resizeFluxxCard();
+						}, 600);
+				  }
         }).resize();
         $.my.stage.trigger('complete.fluxx.stage');
       });
