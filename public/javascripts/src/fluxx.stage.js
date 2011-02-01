@@ -581,6 +581,7 @@
                     $previous.data('locked', false);
                   });
                 $.cookie('dashboard', '#' + dashboard.url);
+              	$.my.stage.resizeFluxxStage();
               } else {
                 $selected.data('locked', false);
                 $previous.data('locked', false);
