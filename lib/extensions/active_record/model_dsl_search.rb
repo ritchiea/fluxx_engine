@@ -44,7 +44,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     string_fields = local_model_class.columns.select {|col| col.type == :string}.map &:name
     queries = q_search.split ' '
     queries = queries.reject {|q| q.blank?}
-    sql_conditions = string_fields.map {|field| queries.map {|q| local_model_class.send :sanitize_sql, ["#{field} like ?", "%#{q}%"]} }.flatten.compact.join ' OR '
+    sql_conditions = string_fields.map {|field| queries.map {|q| local_model_class.send :sanitize_sql, ["#{local_model_class.table_name}.#{field} like ?", "%#{q}%"]} }.flatten.compact.join ' OR '
     sql_conditions = "(#{sql_conditions})" unless sql_conditions.blank?
     sql_conditions += " #{sql_conditions.blank? ? '' : ' AND '} deleted_at IS NULL " unless really_delete
     if options[:with]
