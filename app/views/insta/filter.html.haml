@@ -4,7 +4,7 @@
 
 #card-body
 
-  = semantic_form_for ModelStub.generate_class_instance(@model_class), :url => {:controller => controller.controller_name, :action => 'index'}, :html => {:class => 'to-listing filters-form', :method => 'get'} do |form|
+  = semantic_form_for ModelStub.generate_class_instance(@model_class), :url => {:controller => controller.controller_name, :action => 'index'}, :html => {:class => 'to-listing filters-form ignore-empty', :method => 'get'} do |form|
     = form.input :q, :as => :string, :label => 'Search Terms', :input_html => {:name => 'q[q]', :value => params[:q], :type => 'search'}
     = render :partial => @filter_template, :locals => { :form => form} if @filter_template
     = form.commit_button 'Create'

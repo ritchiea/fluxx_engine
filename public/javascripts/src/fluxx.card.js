@@ -1000,11 +1000,17 @@
       } else {
         options.area.data('history').unshift(options);
       }
-
+		
+			// Don't send empty form variables if the form has class "ingnore-empty"
+			var data = options.data;
+			if ($(this).hasClass('ignore-empty')) {
+				data = _.objectWithoutEmpty(options.data, ['filter-text']);
+		  }
+		
       $.ajax({
         url: options.url,
         type: options.type,
-        data: _.objectWithoutEmpty(options.data, ['filter-text']),
+        data: data,
         success: function (data, status, xhr) {
           if (xhr.status == 201) {
 

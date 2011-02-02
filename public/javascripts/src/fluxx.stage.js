@@ -857,14 +857,22 @@
             'submit', function (e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+							// Don't send blank password type input fields, that would force a password change
+							// every time a user was edited.
+							$('input:password', $elem).each(function() {
+								var $pwe = $(this);
+								if (!$pwe.val())
+									$pwe.attr("disabled", "disabled");
+							});
               var properties = {
                 area: $elem.fluxxCardArea(),
                 url: $elem.attr('action'),
                 data: $elem.serializeArray()
               };
+							$('input:password', $elem).removeAttr("disabled");
               if ($elem.attr('method'))
                 properties.type = $elem.attr('method');
-              $elem.fluxxCardLoadContent(properties)
+              $elem.fluxxCardLoadContent(properties)							
             },
           ],
           'form.listing-search': [
