@@ -321,7 +321,7 @@
           cardWidth += 12;
         }
 				if ($card.width() != cardWidth)
-        	$card.width(cardWidth);        
+        	$card.width(cardWidth);
       });
 			_.bind($.fn.resizeFluxxStage, $.my.stage)();
     },
@@ -1000,13 +1000,13 @@
       } else {
         options.area.data('history').unshift(options);
       }
-		
+
 			// Don't send empty form variables if the form has class "ingnore-empty"
 			var data = options.data;
 			if ($(this).hasClass('ignore-empty')) {
 				data = _.objectWithoutEmpty(options.data, ['filter-text']);
 		  }
-		
+
       $.ajax({
         url: options.url,
         type: options.type,
@@ -1026,6 +1026,7 @@
             // If one of the loading operations was a close, don't proceed
             if (!closeCard) {
               var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
+							opts.data = [];
               options.area.fluxxCardLoadContent(opts);
             }
           } else {
