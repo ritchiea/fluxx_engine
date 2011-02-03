@@ -269,16 +269,25 @@ class ActionController::Base
         @icon_style = edit_object.icon_style
         editable = edit_object.editable? @model, fluxx_current_user
         edit_object.invoke_post self, @model, (editable ? :success : :error)
-        unless editable
-          # Provide a locked error message
-          flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
-          @not_editable=true
-          insta_respond_to edit_object, :locked do |format|
-            format.html { fluxx_edit_card edit_object }
+        if @model
+          unless editable
+            # Provide a locked error message
+            flash[:error] = t(:record_is_locked, :name => (@model.locked_by ? @model.locked_by.to_s : ''), :lock_expiration => @model.locked_until.mdy_time)
+            @not_editable=true
+            insta_respond_to edit_object, :locked do |format|
+              format.html { fluxx_edit_card edit_object }
+            end
+          else
+            insta_respond_to edit_object, :success do |format|
+              format.html { fluxx_edit_card edit_object }
+            end
           end
         else
-          insta_respond_to edit_object, :success do |format|
-            format.html { fluxx_edit_card edit_object }
+          insta_respond_to show_object, :error do |format|
+            format.html do
+              fluxx_show_card show_object, :template => 'insta/missing_record'
+            end
+            format.xml  { render :xml => @model }
           end
         end
       end
