@@ -131,7 +131,7 @@
 
         var $card = $(this);
         $.fluxx.realtime_updates.subscribe(function(e, data, status) {
-//          $.fluxx.log("Found " + data.deltas.length + " deltas.");
+         // $.fluxx.log("Found " + data.deltas.length + " deltas.");
           var poller = e.target;
           $card.fluxxCardAreas().each(function(){
             var $area = $(this),
@@ -1230,7 +1230,7 @@
           },
         },
         attrs: {
-          'class': 'card',
+          'class': 'card ignore-empty',
           id: function(){return _.uniqueId('fluxx-card-')}
         },
         ui: function(options) {

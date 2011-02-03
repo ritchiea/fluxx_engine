@@ -24,9 +24,12 @@
       if (_.isEqual(one, two)) return one;
       var intersect = {};
       _.each(one, function (val, key) {
-         _.each(val, function(single) {
-           if (single == two[key]) intersect[key] = single;
-         });
+				if ($.isArray(val))
+         	_.each(val, function(single) {
+           	if (single == two[key]) intersect[key] = single;
+         	});
+				else 
+					if (val == two[key]) intersect[key] = val;
       });
       return intersect;
     },
@@ -58,7 +61,8 @@
         if (object[entry.name]) {
           if (!$.isArray(object[entry.name]))
             object[entry.name] =[ object[entry.name] ]
-          object[entry.name].push(entry.value);
+					if (object[entry.name].indexOf(entry.value) == -1)
+          	object[entry.name].push(entry.value);
         } else {
           object[entry.name] = entry.value;
         }
