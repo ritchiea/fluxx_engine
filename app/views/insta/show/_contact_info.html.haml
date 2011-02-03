@@ -12,9 +12,10 @@
       - if location.city
         %span.city>= location.city
         - if location.city &&  location.geo_state && location.geo_state.name
-          ,
+          ,&nbsp;
       - geo_state_name = location.geo_state && location.geo_state.name if location.geo_state && location.geo_state.name
       %abbr.state{:title => geo_state_name}= (location.geo_state ? (location.geo_state.abbreviation || location.geo_state.name) : ' ')
+      &nbsp;
       - if location.postal_code
         %span.zipcode= location.postal_code
       - if location.geo_country && location.geo_country.name
