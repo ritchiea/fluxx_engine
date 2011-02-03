@@ -15,7 +15,10 @@ class CurrencyHelper
     currency = CURRENCY_MAPPER_FROM_SIGN[currency_symbol]
     currency ? currency[:short_name] : nil
   end
-  
+
+  def self.current_symbol
+    I18n.t('number.currency.format.unit')
+  end
   def self.current_long_name
     translate_symbol_to_long_name(I18n.t('number.currency.format.unit'))
   end
