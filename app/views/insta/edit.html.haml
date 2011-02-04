@@ -8,5 +8,6 @@
   %ul.workflow
   %ul.buttons
     - unless params[:as_modal] == '1'
-      %li= link_to 'Cancel', @model, :class => 'to-self'
+      - if @model_name && @model
+        %li= link_to 'Cancel', send("#{@model_name}_path", :id => @model.id, :unlock => 1), :class => 'to-self'
 = render :partial => 'insta/card_settings'

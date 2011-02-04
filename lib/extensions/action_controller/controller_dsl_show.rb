@@ -7,7 +7,7 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
   # Send the list of models to the supplied template and do not try to iterate through in the insta index.html.haml file
   attr_accessor :always_skip_wrapper
   
-  def perform_show params, model=nil
+  def perform_show params, model=nil, fluxx_current_user=nil
     model = if params[:audit_id]
       new_model = model_class.new
       audit = Audit.find params[:audit_id] rescue nil
@@ -24,6 +24,8 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
       end
     end
     model = model || load_existing_model(params)
+    remove_lock(model, fluxx_current_user) if params[:unlock] == '1' && model && fluxx_current_user
+    model
   end
   
   def calculate_show_options model, params

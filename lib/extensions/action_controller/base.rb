@@ -144,7 +144,7 @@ class ActionController::Base
           @report_list = insta_index_report_list
           @report
         else
-          show_object.perform_show params, pre_model
+          show_object.perform_show params, pre_model, fluxx_current_user
         end
         @model_class = show_object.model_class
 
@@ -265,6 +265,7 @@ class ActionController::Base
 
         @model = edit_object.perform_edit params, pre_model, fluxx_current_user
         @model_class = edit_object.model_class
+        @model_name = (@model ? @model.class.name.underscore.downcase : edit_object.model_name) || (@model_class ? @model_class.name.underscore.downcase : nil)
         raise UnauthorizedException.new('update', (@model || @model_class)) unless fluxx_current_user.has_update_for_model?(@model || @model_class)
         @icon_style = edit_object.icon_style
         editable = edit_object.editable? @model, fluxx_current_user
