@@ -170,6 +170,10 @@ li.action-item {
   &:hover {}
   p.desc{font-size:90%; padding-left:17px;}
 }
+ol li.action-item {
+  padding-left: 38px;
+  text-indent: -17px;
+}
 td.action-item {
   position:relative; 
   .actions { display:none; padding-top:4px; float:right; }
