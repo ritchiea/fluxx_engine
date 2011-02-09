@@ -407,7 +407,7 @@ class ActionController::Base
         instance_variable_set update_object.singular_model_instance_name, @model
 
         if update_object.editable? @model, fluxx_current_user
-          update_result = update_object.perform_update params, @model, fluxx_current_user
+          update_result = update_object.perform_update params, @model, fluxx_current_user, self
           update_object.invoke_post self, @model, (update_result ? :success : :error)
 
           if update_result

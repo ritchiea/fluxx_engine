@@ -1,4 +1,8 @@
 class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
+  SKIP_VALIDATION_CONSTANT = "@skip_validation_for_this_model"
+  def self.skip_validation_constant
+    SKIP_VALIDATION_CONSTANT
+  end
 # GETTERS/SETTERS stored here:
   attr_accessor :link_to_method
   # A message to send back after a successful completion of the creation
@@ -14,13 +18,15 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
   # A call to make after the save occurs
   attr_accessor :post_save_call
   
-  def perform_update params, model, fluxx_current_user=nil
+  def perform_update params, model, fluxx_current_user=nil, controller=nil
     post_save_call_proc = self.post_save_call || lambda{|fluxx_current_user, model, params|true}
     modified_by_map = {}
     if model.respond_to?(:updated_by_id) && fluxx_current_user
       modified_by_map[:updated_by_id] = fluxx_current_user.id
     end
-    if editable?(model, fluxx_current_user) && model.update_attributes(modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})) && model.valid? && post_save_call_proc.call(fluxx_current_user, model, params)
+    skip_validation = model.send :instance_variable_get, ActionController::ControllerDslUpdate.skip_validation_constant
+    
+    if editable?(model, fluxx_current_user) && (model.attributes = modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})) && model.save(false) && (skip_validation || model.valid?) && post_save_call_proc.call(fluxx_current_user, model, params)
       remove_lock model, fluxx_current_user
       true
     else
