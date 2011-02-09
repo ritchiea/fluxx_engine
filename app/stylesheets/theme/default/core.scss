@@ -157,10 +157,9 @@ td.check, td.actions {
 }
 li.action-item { 
   position:relative; 
-  padding: 3px 10px 3px 37px; 
-  margin-left:-27px;
-  text-indent: -12px;
-  .actions { position:absolute; top:0; left: 0; display:none; padding-top:4px; float:left; text-indent:0; }
+  padding: 3px 10px 3px 27px; 
+  margin-left:-27px; 
+  .actions { position:absolute; top:0; left: 0; display:none; padding-top:4px; float:left; }
   &:hover>.actions:first-of-type  {
     @include rounded-left;
     @include box-shadow(-2px, 0px, 3px, rgba(0, 0, 0, 0.3));
