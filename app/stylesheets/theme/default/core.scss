@@ -159,7 +159,7 @@ li.action-item {
   position:relative; 
   padding: 3px 10px 3px 27px; 
   margin-left:-27px; 
-  .actions { position:absolute; top:0; left: 0; display:none; padding-top:4px; float:left; }
+  .actions { position:absolute; top:0; left: 0; display:none; padding-top:4px; float:left; text-indent:0; }
   &:hover>.actions:first-of-type  {
     @include rounded-left;
     @include box-shadow(-2px, 0px, 3px, rgba(0, 0, 0, 0.3));
@@ -169,8 +169,12 @@ li.action-item {
   &:hover {}
   p.desc{font-size:90%; padding-left:17px;}
 }
+ul.bullets li.action-item, ul.todo li.action-item  {
+  padding-left: 40px;
+  text-indent: -13px;
+}
 ol li.action-item {
-  padding-left: 38px;
+  padding-left: 45px;
   text-indent: -17px;
 }
 td.action-item {
