@@ -226,29 +226,31 @@
 
 
   $('html').ajaxComplete(function(e, xhr, options) {
-    if ($.cookie('user_credentials'))
-      $.fluxx.sessionData('user_credentials', $.cookie('user_credentials'));
-    // Look for a HTTP response header called fluxx_template. If it has a value of login we are not logged in.
-    if (xhr.getResponseHeader('fluxx_template') == 'login')
-      window.location.href = window.location.href;
-  }).ajaxSend(function(e, xhr, options) {
-    if (!$.cookie('user_credentials')) {
-      if ($.fluxx.sessionData('user_credentials')) {
-        $.fluxx.log("user_credentials cookie set from local session store");
-        $.cookie('user_credentials', $.fluxx.sessionData('user_credentials'));
-        // Cookie has been lost so session will be lost
-        // Use value stored in session store and do a synchronous ajax call to restore the cookie.
-        jQuery.ajax({
-          url: window.location.href,
-          async:   false,
-          success: function() {
-            $.noop;
-          }
-        });
+      if ($.cookie('user_credentials'))
+        $.fluxx.sessionData('user_credentials', $.cookie('user_credentials'));
+      // Look for a HTTP response header called fluxx_template. If it has a value of login we are not logged in.
+      if (xhr.getResponseHeader('fluxx_template') == 'login')
+        window.location.href = window.location.href;
+    }).ajaxSend(function(e, xhr, options) {
+			// Make all URLS local
+  		options.url = options.url.replace(/^http\:\/\/[^/]+/, '');
+      if (!$.cookie('user_credentials')) {
+        if ($.fluxx.sessionData('user_credentials')) {
+          $.fluxx.log("user_credentials cookie set from local session store");
+          $.cookie('user_credentials', $.fluxx.sessionData('user_credentials'));
+          // Cookie has been lost so session will be lost
+          // Use value stored in session store and do a synchronous ajax call to restore the cookie.
+          jQuery.ajax({
+            url: window.location.href,
+            async:   false,
+            success: function() {
+              $.noop;
+            }
+          });
+        }
       }
-    }
-  });
-
+    });
+  
   var keyboardShortcuts = {
     'Space+u': ['Force update', function() {
       var rtu = $.fluxx.realtime_updates;
