@@ -1031,6 +1031,9 @@
             }
           } else {
             var complete = function () {
+							// Don't try and render an entire document, forcing the page to be overwritten
+							if (data.search("<html>") != -1)
+								return;
               var $document = $('<div/>').html(data);
               var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
                 $('#card-header', $document).html() : options.header);
