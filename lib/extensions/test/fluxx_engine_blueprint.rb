@@ -17,7 +17,7 @@ ATTRIBUTES = {}
     Sham.first_name { Faker::Name.first_name }
     Sham.last_name { Faker::Name.last_name }
     Sham.login { Faker::Internet.user_name }
-    Sham.email { Faker::Internet.email }
+    Sham.email { "#{rand(9999)}_#{Faker::Internet.email}" }
     Sham.url { "http://#{Faker::Internet.domain_name}/#{Faker::Lorem.words(1).first}"  }
     
     RealtimeUpdate.blueprint do

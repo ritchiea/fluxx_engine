@@ -25,7 +25,13 @@ module ActiveRecord
         end
       end
       
-      
+      def current_time_function
+        if adapter_name =~ /mysql/i
+          "now()"
+        else
+          "null"
+        end
+      end
     end
   end
 end
