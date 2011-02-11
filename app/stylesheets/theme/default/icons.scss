@@ -120,6 +120,14 @@
         background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Documents_32x32.png")} transparent no-repeat 50% 50%;
       }
     }
+    &.style-ql-deal {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Deals_32x32.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    
     &.style-ql-library {
       .link {
         @include no-box-shadow;
