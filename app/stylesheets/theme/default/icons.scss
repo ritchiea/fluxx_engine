@@ -120,6 +120,14 @@
         background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Documents_32x32.png")} transparent no-repeat 50% 50%;
       }
     }
+    &.style-ql-deal {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Deals_32x32.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    
     &.style-ql-library {
       .link {
         @include no-box-shadow;
@@ -174,6 +182,13 @@
         @include no-box-shadow;
         border: none;
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_requests.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-deals {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_deals.png")} transparent no-repeat 50% 50%;
       }
     }
     &.style-admin-cards {
@@ -262,6 +277,10 @@
       &.style-grant-requests {
         border: none;
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_requests.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-deals {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_deals.png")} transparent no-repeat 50% 50%;
       }
       &.style-admin-cards {
         border: none;
