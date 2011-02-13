@@ -22,54 +22,54 @@ module BasePermissionUser
       end
     end
     
-    def has_role! role, model_class
-      # p "ESH: setting @#{role}_#{class_perm_name(model_class)} true"
-      instance_variable_set "@#{role}_#{class_perm_name(model_class)}", true
+    def has_permission! permission, model_class
+      # p "ESH: setting @#{permission}_#{class_perm_name(model_class)} true"
+      instance_variable_set "@#{permission}_#{class_perm_name(model_class)}", true
     end
     
-    def clear_role role, model_class
-      instance_variable_set "@#{role}_#{class_perm_name(model_class)}", false
+    def clear_permission permission, model_class
+      instance_variable_set "@#{permission}_#{class_perm_name(model_class)}", false
     end
     
-    def has_role? role, model_class
-      # p "ESH: checking @#{role}_#{class_perm_name(model_class)} #{instance_variable_get("@#{role}_#{class_perm_name(model_class)}")}"
-      instance_variable_get "@#{role}_#{class_perm_name(model_class)}"
+    def has_permission? permission, model_class
+      # p "ESH: checking @#{permission}_#{class_perm_name(model_class)} #{instance_variable_get("@#{permission}_#{class_perm_name(model_class)}")}"
+      instance_variable_get "@#{permission}_#{class_perm_name(model_class)}"
     end
     
     def has_create_for_own_model? model_class
-      has_role? 'create_own', model_class
+      has_permission? 'create_own', model_class
     end
     
     def has_create_for_model? model_class
-      has_role? 'create', model_class
+      has_permission? 'create', model_class
     end
     
     def has_update_for_own_model? model
-      has_role? 'update_own', model_class
+      has_permission? 'update_own', model_class
     end
 
     def has_update_for_model? model_class
-      has_role? 'update', model_class
+      has_permission? 'update', model_class
     end
     
     def has_delete_for_own_model? model
-      has_role? 'delete_own', model_class
+      has_permission? 'delete_own', model_class
     end
 
     def has_delete_for_model? model_class
-      has_role? 'delete', model_class
+      has_permission? 'delete', model_class
     end
     
     def has_listview_for_model? model_class
-      has_role? 'listview', model_class
+      has_permission? 'listview', model_class
     end
     
     def has_view_for_own_model? model
-      has_role? 'view_own', model_class
+      has_permission? 'view_own', model_class
     end
 
     def has_view_for_model? model_class
-      has_role? 'view', model_class
+      has_permission? 'view', model_class
     end
   end
 end

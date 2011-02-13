@@ -16,9 +16,31 @@ ATTRIBUTES = {}
     Sham.company_name { Faker::Company.name }
     Sham.first_name { Faker::Name.first_name }
     Sham.last_name { Faker::Name.last_name }
-    Sham.login { Faker::Internet.user_name }
-    Sham.email { "#{rand(9999)}_#{Faker::Internet.email}" }
+    Sham.login { "#{rand(999999)}_#{Faker::Internet.user_name}" }
+    Sham.email { "#{rand(999999)}_#{Faker::Internet.email}" }
     Sham.url { "http://#{Faker::Internet.domain_name}/#{Faker::Lorem.words(1).first}"  }
+    
+    def random_email
+      "#{rand(999999)}_#{Faker::Internet.email}"
+    end
+    def random_login
+      "#{rand(999999)}_#{Faker::Internet.user_name}"
+    end
+    def random_first_name
+      "#{rand(999999)}_#{Faker::Name.first_name}"
+    end
+    def random_last_name
+      "#{rand(999999)}_#{Faker::Name.last_name}"
+    end
+    def random_word
+      "#{rand(999999)}_#{Faker::Lorem.words(2).join ''}"
+    end
+    def random_words
+      "#{rand(999999)}_#{Faker::Lorem.words(3).join ' '}"
+    end
+    def random_sentence
+      "#{rand(999999)}_#{Faker::Lorem.sentence}"
+    end
     
     RealtimeUpdate.blueprint do
       action 'create'
