@@ -54,7 +54,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     unless filter_fields.blank?
       filter_fields.each do |attr|
         unless grab_param(attr, local_model_request_params, model_request_params, request_params).blank?
-          attr_sql = local_model_class.send :sanitize_sql, [" #{attr} in (?) ", grab_param(attr, local_model_request_params, model_request_params, request_params)]
+          attr_sql = local_model_class.send :sanitize_sql, [" #{local_model_class.table_name}.#{attr} in (?) ", grab_param(attr, local_model_request_params, model_request_params, request_params)]
           sql_conditions += " #{sql_conditions.blank? ? '' : ' AND '}  #{attr_sql}" 
         end
       end
