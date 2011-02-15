@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fluxx_engine}
-  s.version = "0.0.20"
+  s.version = "0.0.21"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Hansen"]
-  s.date = %q{2011-01-14}
+  s.date = %q{2011-02-15}
   s.default_executable = %q{fluxxgen}
   s.email = %q{fluxx@acesfconsulting.com}
   s.executables = ["fluxxgen"]
@@ -85,6 +85,8 @@ Gem::Specification.new do |s|
     "lib/extensions/array_extension.rb",
     "lib/extensions/blob_struct.rb",
     "lib/extensions/curly_parser.rb",
+    "lib/extensions/currency_helper.rb",
+    "lib/extensions/daemons_gem_patch.rb",
     "lib/extensions/directory_sync.rb",
     "lib/extensions/file.rb",
     "lib/extensions/file_extension.rb",
@@ -128,6 +130,7 @@ Gem::Specification.new do |s|
     "public/images/theme/_common/loaders/ajax-loader-666666.gif",
     "public/images/theme/_common/loaders/ajax-loader-cccccc.gif",
     "public/images/theme/_common/loaders/ajax-loader-eeeeee.gif",
+    "public/images/theme/_common/loaders/loading-bar.gif",
     "public/images/theme/_common/logo.png",
     "public/images/theme/_common/pinwheels/logo_pinwheel_128.png",
     "public/images/theme/_common/pinwheels/logo_pinwheel_16.png",
@@ -136,7 +139,9 @@ Gem::Specification.new do |s|
     "public/images/theme/_common/pinwheels/logo_pinwheel_36.png",
     "public/images/theme/_common/pinwheels/logo_pinwheel_48.png",
     "public/images/theme/_common/pinwheels/logo_pinwheel_512.png",
+    "public/images/theme/default/card-icons/WorkTask_32x32.png",
     "public/images/theme/default/card-icons/button_card_admin_cards.png",
+    "public/images/theme/default/card-icons/button_card_deals.png",
     "public/images/theme/default/card-icons/button_card_fiprequests.png",
     "public/images/theme/default/card-icons/button_card_grants.png",
     "public/images/theme/default/card-icons/button_card_orgs.png",
@@ -146,6 +151,8 @@ Gem::Specification.new do |s|
     "public/images/theme/default/card-icons/button_card_requests.png",
     "public/images/theme/default/card-icons/button_card_transactions.png",
     "public/images/theme/default/card-icons/button_card_wiki.png",
+    "public/images/theme/default/card-icons/button_card_work_tasks.png",
+    "public/images/theme/default/card-icons/button_deals.png",
     "public/images/theme/default/card-icons/button_dock_admin_cards.png",
     "public/images/theme/default/card-icons/button_dock_fiprequests.png",
     "public/images/theme/default/card-icons/button_dock_grants.png",
@@ -156,6 +163,7 @@ Gem::Specification.new do |s|
     "public/images/theme/default/card-icons/button_dock_requests.png",
     "public/images/theme/default/card-icons/button_dock_transactions.png",
     "public/images/theme/default/card-icons/button_dock_wiki.png",
+    "public/images/theme/default/card-icons/button_dock_work_tasks.png",
     "public/images/theme/default/cards/body-bg.png",
     "public/images/theme/default/controls/close.png",
     "public/images/theme/default/controls/maximize.png",
@@ -1181,6 +1189,7 @@ Gem::Specification.new do |s|
     "public/images/theme/default/modal/circle-arrow-right.png",
     "public/images/theme/default/modal/modal_close.png",
     "public/images/theme/default/modal/overlay-bg.png",
+    "public/images/theme/default/ql-icons/Deals_32x32.png",
     "public/images/theme/default/ql-icons/Documents_128x128.png",
     "public/images/theme/default/ql-icons/Documents_16x16.png",
     "public/images/theme/default/ql-icons/Documents_24x24.png",
@@ -1214,6 +1223,7 @@ Gem::Specification.new do |s|
     "public/javascripts/lib/jqplot.barRenderer.min.js",
     "public/javascripts/lib/jqplot.canvasAxisTickRenderer.min.js",
     "public/javascripts/lib/jqplot.canvasTextRenderer.min.js",
+    "public/javascripts/lib/jqplot.categoryAxisRenderer.min.js",
     "public/javascripts/lib/jqplot/MIT-LICENSE.txt",
     "public/javascripts/lib/jqplot/README.txt",
     "public/javascripts/lib/jqplot/changes.txt",
@@ -1541,7 +1551,7 @@ Gem::Specification.new do |s|
     "public/javascripts/lib/jquery.json-2.2.min.js",
     "public/javascripts/lib/jquery.shortkeys.js",
     "public/javascripts/lib/jquery.simplemodal-1.4.js",
-    "public/javascripts/lib/plupload.full.min.js",
+    "public/javascripts/lib/plupload.js",
     "public/javascripts/lib/underscore-min.js",
     "public/javascripts/src/fluxx.alerts.js",
     "public/javascripts/src/fluxx.card.js",
@@ -1773,6 +1783,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<aasm>, ["= 2.2.0"])
       s.add_runtime_dependency(%q<acts_as_audited_rails3>, [">= 1.1.2"])
       s.add_runtime_dependency(%q<liquid>, [">= 0"])
+      s.add_runtime_dependency(%q<writeexcel>, [">= 0.6.1"])
     else
       s.add_dependency(%q<rails>, ["= 3.0.3"])
       s.add_dependency(%q<capybara>, ["= 0.3.7"])
@@ -1790,6 +1801,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<aasm>, ["= 2.2.0"])
       s.add_dependency(%q<acts_as_audited_rails3>, [">= 1.1.2"])
       s.add_dependency(%q<liquid>, [">= 0"])
+      s.add_dependency(%q<writeexcel>, [">= 0.6.1"])
     end
   else
     s.add_dependency(%q<rails>, ["= 3.0.3"])
@@ -1808,6 +1820,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<aasm>, ["= 2.2.0"])
     s.add_dependency(%q<acts_as_audited_rails3>, [">= 1.1.2"])
     s.add_dependency(%q<liquid>, [">= 0"])
+    s.add_dependency(%q<writeexcel>, [">= 0.6.1"])
   end
 end
 
