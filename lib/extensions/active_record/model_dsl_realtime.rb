@@ -29,7 +29,8 @@ class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl
   
   def calculate_attributes model
     if delta_attributes
-      delta_attributes.inject({}) do |acc, attribute|
+      delta_attributes.inject({}) do |acc, attribute_pair|
+        attribute, table_name = attribute_pair
         acc[attribute] = model.send(attribute)
         acc
       end
