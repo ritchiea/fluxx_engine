@@ -52,9 +52,10 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     end
     
     unless filter_fields.blank?
-      filter_fields.each do |attr|
+      filter_fields.each do |attr_pair|
+        attr, attr_table = attr_pair
         unless grab_param(attr, local_model_request_params, model_request_params, request_params).blank?
-          attr_sql = local_model_class.send :sanitize_sql, [" #{local_model_class.table_name}.#{attr} in (?) ", grab_param(attr, local_model_request_params, model_request_params, request_params)]
+          attr_sql = local_model_class.send :sanitize_sql, [" #{attr_table || local_model_class.table_name}.#{attr} in (?) ", grab_param(attr, local_model_request_params, model_request_params, request_params)]
           sql_conditions += " #{sql_conditions.blank? ? '' : ' AND '}  #{attr_sql}" 
         end
       end
@@ -119,7 +120,8 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     search_with_attributes[:deleted_at] = 0 unless really_delete
 
     unless filter_fields.blank?
-      filter_fields.each do |attr|
+      filter_fields.each do |attr_pair|
+        attr, attr_table = attr_pair
         unless grab_param(attr, local_model_request_params, model_request_params, request_params).blank?
           if derived_filters && derived_filters[attr] # some attributes have filtering methods; if so call it
             derived_filters[attr].call(search_with_attributes, request_params, attr, grab_param(attr, local_model_request_params, model_request_params, request_params)) # Send the raw un-split value
