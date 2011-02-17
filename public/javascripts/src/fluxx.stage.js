@@ -321,6 +321,12 @@
               }
             }
           ],
+					'a.refresh-partial' : [
+						'click', function(e) {
+							$.fluxx.util.itEndsWithMe(e);
+							$(this).refreshAreaPartial();
+						}
+					],
           'select.refresh-partial' : [
             'change', function(e) {
               $.fluxx.util.itEndsWithMe(e);
