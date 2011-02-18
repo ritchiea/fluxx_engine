@@ -1144,6 +1144,30 @@ table .partial { margin: 0.25em 0; }
   }
 }
 
+.charity-check {
+	@include rounded;
+  background-color: #fcfce5;
+	padding: 20px;
+	margin: 10px 0px 20px 0px;
+  border: 1px solid #999999;
+	h1 {		
+		font-size: 16px;
+		padding-left: 30px;
+		margin-bottom: 14px;
+	}
+	h1.approved { background: url("/images/fluxx_engine/theme/default/icons/accept.png") no-repeat 0px 1px; }
+	h1.declined	{ background: url("/images/fluxx_engine/theme/default/icons/exclamation.png") no-repeat 0px 1px; }	
+	.pairs {
+		font-size: 13px;
+		padding-left: 30px;
+		line-height: 1.25em;
+	}
+	a {
+		padding-left: 30px;
+	}
+		
+}
+
 .ui-datepicker { display: none; }
 
 .show table.relData {font-size: 100%;}
