@@ -35,17 +35,20 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
     end
     
     model_relations.map do |rd|
-      formatted_data = calculate_related_data_row(controller, model, rd).uniq_by{|element| element[:model]}
-      {:formatted_data => formatted_data, :display_name => rd.display_name}
+      if rd.lazy_load
+        {:lazy_load_url => rd.generate_url(controller, model), :display_name => rd.display_name}
+      else      
+        formatted_data = calculate_related_data_row(controller, model, rd).uniq_by{|element| element[:model]}
+        {:formatted_data => formatted_data, :display_name => rd.display_name}
+      end
     end
   end
   
   def calculate_related_data_row controller, model, rd
-    display_template = rd.display_template
-    
+    display_template = rd.display_template    
     related_models = if rd.search_block
       rd.search_block.call model
-    end || []
+    end || []    
     related_models.compact.map do |model|
       {:display_template => display_template, :model => model, :title => rd.generate_title(model), :model_url => rd.generate_url(controller, model)}
     end
@@ -65,6 +68,7 @@ class ActionController::ModelRelationship
   attr_accessor :title_block
   # Block to return the URL for a related model
   attr_accessor :url_block
+  attr_accessor :lazy_load
   
   def add_title_block &block_title
     self.title_block = block_title
@@ -72,6 +76,11 @@ class ActionController::ModelRelationship
   
   def add_model_url_block &block_url
     self.url_block = block_url
+  end
+
+  def add_lazy_load_url &ll_url
+    self.url_block = ll_url
+    self.lazy_load = true
   end
 
   def for_search &block_search

@@ -786,6 +786,16 @@
                   $info.removeClass('open').resizeFluxxCard();
                 });
               } else {
+								// Some related data areas only load when the drawer is opened
+								if ($elem.hasClass('lazy-load')) {
+									var $entries = $elem.next().html('');
+									$.ajax({
+					          url: $elem.attr('data-src'),
+										success: function(data, status, xhr){
+											$('.section .lazy-load[data-src=' + $elem.attr('data-src') + ']').next().html(data);
+					          }
+					        });
+								}
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
                 $('.drawer .entries', $card).removeClass('selected');
                 $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
@@ -1017,7 +1027,7 @@
                 $('select' + this, $area).val('').children('option').remove();
               });
             }
-          ],
+					],
           'div.toolbar': [
             'mousedown', function(e) {
               var $window = $('html,body');
