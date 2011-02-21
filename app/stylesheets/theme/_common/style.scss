@@ -834,8 +834,8 @@ table .partial { margin: 0.25em 0; }
   bottom: -5px;
   margin-left: -225px;
   z-index: 1;
-  overflow: hidden;
   padding-bottom:10px;
+  white-space: normal;
   .drawer {
     display: none;
     width: 223px;
@@ -877,22 +877,26 @@ table .partial { margin: 0.25em 0; }
     @include chiseled-text;
     display: none;
     position: absolute;
-    right: 1px;
+    right: 35px;
     top: -15px;
     height: 15px;
     line-height: 15px;
-    font-size: 11px;
+    font-size: 16px;
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
     span { color: #aaaaaa; }
     a {
       @include inline-block;
       width: 11px;
-      //color: #000;
+      color: #000;
       &.tabs-left {
         text-align: right;
         margin-left: 0px;
       }
       &.tabs-right { text-align: left; }
       text-decoration: none;
+			&.disabled {
+				color: #a7a7a7;
+			}
     }
   }
   .tabs {

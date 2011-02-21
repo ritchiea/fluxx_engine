@@ -302,9 +302,17 @@
         $tabs.width($('.drawer', $card).height());
         var tabsWidth = $tabs.width(), innerWidth = _.addUp($('.label', $tabs), 'outerWidth', true);
         if (($tabs.width() < _.addUp($('.label', $tabs), 'outerWidth', true)) && $tabs.is(':visible')) {
-          $('.info .scroller').show();
+					if ($tabs.scrollTop() == 0)
+						$('.tabs-left', $card).addClass('disabled');
+					else
+						$('.tabs-left', $card).removeClass('disabled');
+					if ($tabs.attr("scrollHeight") - $tabs.scrollTop() - 5 == $tabs.outerHeight())
+						$('.tabs-right', $card).addClass('disabled');	
+					else
+						$('.tabs-right', $card).removeClass('disabled');	
+          $('.info .scroller', $card).show();
         } else {
-          $('.info .scroller').hide();
+          $('.info .scroller', $card).hide();
         }
         var cardWidth = _.addUp(
             $card

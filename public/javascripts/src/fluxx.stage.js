@@ -754,18 +754,31 @@
           ],
           '.tabs-right': [
             'click', function(e) {
-              $.fluxx.util.itEndsWithMe(e);
+              $.fluxx.util.itEndsWithMe(e);						
               var $elem = $(this);
-              var $tabs = $('.tabs', $elem.fluxxCard());
-              $tabs.scrollTop( $tabs.scrollTop() + 30 );
+							if ($elem.hasClass('disabled'))
+								return;
+							var $card = $elem.fluxxCard();
+              var $tabs = $('.tabs', $card);
+							$('.tabs-left', $card).removeClass('disabled');
+              $tabs.scrollTop( $tabs.scrollTop() + 44 );
+							if ($tabs.attr("scrollHeight") - $tabs.scrollTop() - 5 == $tabs.outerHeight())
+								$elem.addClass('disabled');
             }
           ],
           '.tabs-left': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              var $tabs = $('.tabs', $elem.fluxxCard());
-              $tabs.scrollTop( $tabs.scrollTop() - 30 );
+							if ($elem.hasClass('disabled'))
+								return;
+							var $card = $elem.fluxxCard();
+	 					  var $tabs = $('.tabs', $card);
+							$('.tabs-right', $card).removeClass('disabled');
+              $tabs.scrollTop( $tabs.scrollTop() - 44 );
+							if ($tabs.scrollTop() == 0)
+								$elem.addClass('disabled');
+
             }
           ],
           '.tabs .label': [
