@@ -299,7 +299,7 @@
         }
 
         var $tabs = $('.tabs', $card);
-        $tabs.width($('.drawer', $card).height());
+        $tabs.width($('.drawer', $card).height() - ($('.info', $card).hasClass('open') ? 0 : 40));
         var tabsWidth = $tabs.width(), innerWidth = _.addUp($('.label', $tabs), 'outerWidth', true);
         if (($tabs.width() < _.addUp($('.label', $tabs), 'outerWidth', true)) && $tabs.is(':visible')) {
 					if ($tabs.scrollTop() == 0)

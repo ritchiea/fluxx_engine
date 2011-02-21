@@ -881,13 +881,14 @@ table .partial { margin: 0.25em 0; }
     top: -15px;
     height: 15px;
     line-height: 15px;
-    font-size: 16px;
-		text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+    font-size: 14px;
     span { color: #aaaaaa; }
     a {
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
       @include inline-block;
       width: 11px;
       color: #000;
+			font-size: 16px;
       &.tabs-left {
         text-align: right;
         margin-left: 0px;
