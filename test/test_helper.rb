@@ -96,11 +96,11 @@ end
 
 def add_perms user
   [ClientStore, Instrument, Musician, MusicianInstrument, Orchestra, TotalDummyReport].each do |klass|
-    user.has_role! 'listview', klass
-    user.has_role! 'view', klass
-    user.has_role! 'create', klass
-    user.has_role! 'update', klass
-    user.has_role! 'delete', klass
+    user.has_permission! 'listview', klass
+    user.has_permission! 'view', klass
+    user.has_permission! 'create', klass
+    user.has_permission! 'update', klass
+    user.has_permission! 'delete', klass
   end
 end
 
