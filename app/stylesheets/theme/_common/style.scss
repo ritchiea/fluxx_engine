@@ -863,12 +863,24 @@ table .partial { margin: 0.25em 0; }
           .file-type { margin-left:-20px; font-weight: 200; }
           .upload-date { font-weight: 200;}
           .fluxx-card-content-metadata-section-title {
-            font-size: 15px;
+            font-size: 15px;						
           }
           .fluxx-card-content-metadata-section-info {
             display: block;
             font-size: 13px;
           }
+					.paging {
+						word-wrap: normal;
+						white-space: nowrap;
+						.next-page {
+							margin-left: 5px;
+							display: inline;
+						}
+						.prev-page {
+							margin-right: 5px;
+							display: inline;
+						}
+					}
         }
       }
     }

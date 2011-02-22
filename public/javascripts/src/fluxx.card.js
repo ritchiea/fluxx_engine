@@ -818,7 +818,7 @@
       return this.each(function(){
         var $modal = $('.modal', $(this).fluxxCard());
         if ($modal.length > 0) {
-          $('.loading-indicator', $modal.fluxxCard()).removeClass('loading');
+          $modal.fluxxCard().showLoadingIndicator();
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
             $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
@@ -1100,13 +1100,18 @@
             .trigger('complete.fluxx.area')
             .trigger('lifetimeComplete.fluxx.area');
         },
-        beforeSend: function() { $('.loading-indicator', options.area.fluxxCard()).addClass('loading') },
-        complete: function() { $('.loading-indicator', options.area.fluxxCard()).removeClass('loading') }
+        beforeSend: function() { options.area.fluxxCard().showLoadingIndicator() },
+        complete: function() { options.area.fluxxCard().hideLoadingIndicator() }
       });
 
       return this;
     },
-
+		showLoadingIndicator: function() {
+			$('.loading-indicator', $(this)).addClass('loading');
+		},
+		hideLoadingIndicator: function() {
+			$('.loading-indicator', $(this)).removeClass('loading');
+		},	
     fluxxCardLoadListing: function (options, onComplete) {
       $.fluxx.log("**> fluxxCardLoadListing");
       var options = $.fluxx.util.options_with_callback({area: this.fluxxCardListing()},options,onComplete);

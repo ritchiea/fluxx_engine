@@ -112,7 +112,6 @@
       $.fluxx.realtime_updates = $.fluxxPoller($.fluxx.config.realtime_updates.options);
       $.fluxx.realtime_updates.start();
     },
-
     fluxxAjaxCall: function($elem, type) {
       var onSuccess = $elem.attr('data-on-success');
       if (onSuccess && onSuccess.replace(/\s/g, '').split(/,/).indexOf('refreshCaller') != -1) {
@@ -133,7 +132,23 @@
           type: type
         });
       }
-    }
+    },
+		loadRelatedData: function($elem, pageIncrement) {
+			$elem.fluxxCard().showLoadingIndicator();
+			if (pageIncrement != 0)
+				$elem.attr('data-src', $elem.attr('data-src').replace(/\&pagenum=(\d)+$/, function(a,b){
+							var pagenum = parseInt(b) + pageIncrement;
+				      return '&pagenum=' + pagenum;
+				 }));			
+			var $drawers = $('.section .lazy-load[data-src=' + $elem.attr('data-src') + ']').next().html('');			
+			$.ajax({
+        url: $elem.attr('data-src'),
+				success: function(data, status, xhr){
+					$drawers.html(data);
+					$elem.fluxxCard().hideLoadingIndicator();
+        }
+      });							
+		}
   });
 
   $.extend(true, {
@@ -752,6 +767,26 @@
               $elem.closeListingFilters();
             }
           ],
+					'.next-page': [
+						'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+							var $elem = $(this);
+							if (!$elem.hasClass('disabled')) {
+								var $link = $elem.parents().find('.lazy-load');
+								$.fn.loadRelatedData($link, 1);
+						  }
+						}
+					],
+					'.prev-page': [
+						'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+							var $elem = $(this);
+							if (!$elem.hasClass('disabled')) {					
+								var $link = $elem.parents().find('.lazy-load');
+								$.fn.loadRelatedData($link, -1);
+							}
+						}
+					],					
           '.tabs-right': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);						
@@ -802,13 +837,7 @@
 								// Some related data areas only load when the drawer is opened
 								if ($elem.hasClass('lazy-load')) {
 									var $entries = $elem.next().html('');
-									$.ajax({
-					          url: $elem.attr('data-src'),
-										success: function(data, status, xhr){
-											$('.section .lazy-load[data-src=' + $elem.attr('data-src') + ']').next().html(data);
-					          }
-					        });
-								}
+								$.fn.loadRelatedData($elem, 0);								}
                 $elem.addClass('selected').parent().siblings().children().removeClass('selected');
                 $('.drawer .entries', $card).removeClass('selected');
                 $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
