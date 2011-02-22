@@ -834,8 +834,8 @@ table .partial { margin: 0.25em 0; }
   bottom: -5px;
   margin-left: -225px;
   z-index: 1;
-  overflow: hidden;
   padding-bottom:10px;
+  white-space: normal;
   .drawer {
     display: none;
     width: 223px;
@@ -863,12 +863,24 @@ table .partial { margin: 0.25em 0; }
           .file-type { margin-left:-20px; font-weight: 200; }
           .upload-date { font-weight: 200;}
           .fluxx-card-content-metadata-section-title {
-            font-size: 15px;
+            font-size: 15px;						
           }
           .fluxx-card-content-metadata-section-info {
             display: block;
             font-size: 13px;
           }
+					.paging {
+						word-wrap: normal;
+						white-space: nowrap;
+						.next-page {
+							margin-left: 5px;
+							display: inline;
+						}
+						.prev-page {
+							margin-right: 5px;
+							display: inline;
+						}
+					}
         }
       }
     }
@@ -877,22 +889,27 @@ table .partial { margin: 0.25em 0; }
     @include chiseled-text;
     display: none;
     position: absolute;
-    right: 1px;
+    right: 35px;
     top: -15px;
     height: 15px;
     line-height: 15px;
-    font-size: 11px;
+    font-size: 14px;
     span { color: #aaaaaa; }
     a {
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
       @include inline-block;
       width: 11px;
-      //color: #000;
+      color: #000;
+			font-size: 16px;
       &.tabs-left {
         text-align: right;
         margin-left: 0px;
       }
       &.tabs-right { text-align: left; }
       text-decoration: none;
+			&.disabled {
+				color: #a7a7a7;
+			}
     }
   }
   .tabs {

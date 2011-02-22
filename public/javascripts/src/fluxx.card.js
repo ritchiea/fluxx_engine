@@ -299,12 +299,20 @@
         }
 
         var $tabs = $('.tabs', $card);
-        $tabs.width($('.drawer', $card).height());
+        $tabs.width($('.drawer', $card).height() - ($('.info', $card).hasClass('open') ? 0 : 40));
         var tabsWidth = $tabs.width(), innerWidth = _.addUp($('.label', $tabs), 'outerWidth', true);
         if (($tabs.width() < _.addUp($('.label', $tabs), 'outerWidth', true)) && $tabs.is(':visible')) {
-          $('.info .scroller').show();
+					if ($tabs.scrollTop() == 0)
+						$('.tabs-left', $card).addClass('disabled');
+					else
+						$('.tabs-left', $card).removeClass('disabled');
+					if ($tabs.attr("scrollHeight") - $tabs.scrollTop() - 5 == $tabs.outerHeight())
+						$('.tabs-right', $card).addClass('disabled');	
+					else
+						$('.tabs-right', $card).removeClass('disabled');	
+          $('.info .scroller', $card).show();
         } else {
-          $('.info .scroller').hide();
+          $('.info .scroller', $card).hide();
         }
         var cardWidth = _.addUp(
             $card
@@ -810,7 +818,7 @@
       return this.each(function(){
         var $modal = $('.modal', $(this).fluxxCard());
         if ($modal.length > 0) {
-          $('.loading-indicator', $modal.fluxxCard()).removeClass('loading');
+          $modal.fluxxCard().showLoadingIndicator();
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
             $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
@@ -1092,13 +1100,18 @@
             .trigger('complete.fluxx.area')
             .trigger('lifetimeComplete.fluxx.area');
         },
-        beforeSend: function() { $('.loading-indicator', options.area.fluxxCard()).addClass('loading') },
-        complete: function() { $('.loading-indicator', options.area.fluxxCard()).removeClass('loading') }
+        beforeSend: function() { options.area.fluxxCard().showLoadingIndicator() },
+        complete: function() { options.area.fluxxCard().hideLoadingIndicator() }
       });
 
       return this;
     },
-
+		showLoadingIndicator: function() {
+			$('.loading-indicator', $(this)).addClass('loading');
+		},
+		hideLoadingIndicator: function() {
+			$('.loading-indicator', $(this)).removeClass('loading');
+		},	
     fluxxCardLoadListing: function (options, onComplete) {
       $.fluxx.log("**> fluxxCardLoadListing");
       var options = $.fluxx.util.options_with_callback({area: this.fluxxCardListing()},options,onComplete);
