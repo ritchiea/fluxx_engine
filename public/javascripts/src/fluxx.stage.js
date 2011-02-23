@@ -140,7 +140,7 @@
 							var pagenum = parseInt(b) + pageIncrement;
 				      return '&pagenum=' + pagenum;
 				 }));			
-			var $drawers = $('.section .lazy-load[data-src=' + $elem.attr('data-src') + ']').next().html('');			
+			var $drawers = $('.section .lazy-load[data-src=' + $elem.attr('data-src') + ']').next().html('');
 			$.ajax({
         url: $elem.attr('data-src'),
 				success: function(data, status, xhr){
