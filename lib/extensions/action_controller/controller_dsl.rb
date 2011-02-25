@@ -78,6 +78,10 @@ class ActionController::ControllerDsl
     @pre_blocks << block
   end
   
+  def template_file controller
+    @template && @template.is_a?(Proc) ? controller.instance_exec(self, &template) : @template
+  end
+  
   # Add a block to be executed after the action has taken place but before the view has been rendered
   def post &block
     @post_blocks << block
