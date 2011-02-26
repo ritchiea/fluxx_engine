@@ -608,9 +608,10 @@ class ActionController::Base
 
   def fluxx_edit_card edit_object, template_param=nil, form_class_param=nil, form_url_param=nil
     @template = template_param || edit_object.template_file(self)
+    @layout = edit_object.layout || false    
     @form_class = form_class_param || edit_object.form_class
     @form_url = form_url_param || edit_object.form_url
-    render((edit_object.view || "#{insta_path}/edit").to_s, :layout => false)
+    render((edit_object.view || "#{insta_path}/edit").to_s, :layout => @layout)
   end
 
   def has_redirected_already?
