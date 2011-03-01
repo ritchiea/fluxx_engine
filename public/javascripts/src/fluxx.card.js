@@ -910,7 +910,6 @@
               _.map($entries, function (e) { return $(e).attr('data-model-id') }),
               _.map($('.entry', $area), function (e) { return $(e).attr('data-model-id') })
             );
-
             _.each(
               IDs,
               function(id) {$removals = $removals.add($('.entry[data-model-id='+id+']', $area))}
@@ -918,7 +917,7 @@
             $removals.remove();
             $entries.addClass('latest').prependTo($('.list', $area));
             $area.data('updates_seen', []);
-            delete _.last($('.listing:first').data('history')).data.id;
+            delete _.last($('.listing:first', $area.fluxxCard()).data('history')).data.id;
             $area.fluxxCard().trigger('update.fluxx.card', [-1 * $entries.length, 'getFluxxListingUpdate'])
           }
         }
