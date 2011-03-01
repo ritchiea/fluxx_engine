@@ -21,6 +21,8 @@ class ActionController::ControllerDsl
   attr_accessor :icon_style
   # Don't display flash message
   attr_accessor :dont_display_flash_message
+  # use redirect not 201
+  attr_accessor :use_redirect_not_201
 
   # Allow you to pass in a block to initialize a new model object
   attr_accessor :new_block
