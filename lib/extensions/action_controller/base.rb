@@ -45,6 +45,8 @@ class ActionController::Base
       define_method :index do
         raise UnauthorizedException.new("listview", index_object.model_class) unless fluxx_current_user.has_listview_for_model?(index_object.model_class)
         index_object.invoke_pre self
+        return if index_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
+        
 
         # This tells the front end the name of the type of object that is represented in this card
         @delta_type = if index_object.delta_type
@@ -138,6 +140,7 @@ class ActionController::Base
       # GET /models/1.xml
       define_method :show do
         show_object.invoke_pre self
+        return if show_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
 
         @model = if params[:id] && self.respond_to?(:insta_show_report_list) && !(insta_show_report_list.empty?)
           @report = insta_report_find_by_id params[:id].to_i
@@ -221,6 +224,7 @@ class ActionController::Base
       # GET /models/new.xml
       define_method :new do
         new_object.invoke_pre self
+        return if new_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
         @model = new_object.load_new_model params, pre_model
         @model_class = new_object.model_class
         raise UnauthorizedException.new('create', @model_class) unless fluxx_current_user.has_create_for_model?(@model_class)
@@ -262,6 +266,7 @@ class ActionController::Base
       # GET /models/1/edit
       define_method :edit do
         edit_object.invoke_pre self
+        return if edit_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
 
         @model = edit_object.perform_edit params, pre_model, fluxx_current_user
         @model_class = edit_object.model_class
@@ -318,6 +323,7 @@ class ActionController::Base
       # POST /models.xml
       define_method :create do
         create_object.invoke_pre self
+        return if create_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
 
         @model = create_object.load_new_model params, pre_model
         @model_class = create_object.model_class
@@ -363,7 +369,7 @@ class ActionController::Base
           render :inline => create_object.render_inline
         else
           extra_options = {:id => @model.id}
-          head 201, :location => create_object.redirect ? self.send(create_object.redirect, extra_options) : url_for(@model)
+          head 201, :location => create_object.redirect ? self.send(create_object.redirect, extra_options) : current_show_path(@model.id)
         end
       end
     end
@@ -392,6 +398,7 @@ class ActionController::Base
       # PUT /models/1.xml
       define_method :update do
         update_object.invoke_pre self
+        return if update_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
 
         @template = update_object.template_file self
         @form_class = update_object.form_class
@@ -419,7 +426,7 @@ class ActionController::Base
                   render :inline => update_object.render_inline
                 else
                   extra_options = {:id => @model.id}
-                  head 201, :location => (update_object.redirect ? self.send(update_object.redirect, extra_options) : @model)
+                  head 201, :location => (update_object.redirect ? self.send(update_object.redirect, extra_options) : current_show_path(@model.id))
                 end
               end
               format.xml do
@@ -477,6 +484,7 @@ class ActionController::Base
       # DELETE /models/1.xml
       define_method :destroy do
         delete_object.invoke_pre self
+        return if delete_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
 
         @model = delete_object.load_existing_model params, pre_model
         @model_class = delete_object.model_class
@@ -490,7 +498,7 @@ class ActionController::Base
           flash[:info] = t(:insta_successful_delete, :name => model_class.model_name.human) unless delete_object.dont_display_flash_message
           insta_respond_to delete_object, :success do |format|
             format.html do
-              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || url_for(@model))
+              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || current_show_path(@model.id))
             end
             format.xml  { head :ok }
           end
@@ -499,7 +507,7 @@ class ActionController::Base
           flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.model_name.human) unless flash[:error]
           insta_respond_to delete_object, :error do |format|
             format.html do
-              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || url_for(@model))
+              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || current_show_path(@model.id))
             end
             format.xml  { head :ok }
           end
@@ -617,6 +625,11 @@ class ActionController::Base
   def has_redirected_already?
     response.headers['Location']
   end
+  
+  def current_show_path model_id, options={}
+    send "#{self.controller_path.singularize}_path", options.merge({:id => model_id})
+  end
+  
 
   # Find overridden format blocks and prefer those.  Pass in params of:
   #   * the controller_dsl object

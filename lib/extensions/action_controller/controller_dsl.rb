@@ -78,6 +78,10 @@ class ActionController::ControllerDsl
     @pre_blocks << block
   end
   
+  def force_redirect &block
+    @force_redirect_block = block
+  end
+  
   def template_file controller
     @template && @template.is_a?(Proc) ? controller.instance_exec(self, &template) : @template
   end
@@ -100,6 +104,16 @@ class ActionController::ControllerDsl
       end
     end
   end
+  
+  def invoke_force_redirect controller
+    if @force_redirect_block && @force_redirect_block.is_a?(Proc)
+      controller.instance_exec(self, &@force_redirect_block)
+      true
+    else
+      false
+    end
+  end
+  
   
   def invoke_post controller, model, outcome = :success
     @post_blocks.each do |post_block|

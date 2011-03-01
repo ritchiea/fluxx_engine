@@ -24,6 +24,13 @@ Dir.glob("#{File.dirname(__FILE__).to_s}/fluxx_engine/**/*.rb").each do |fluxx_e
   require fluxx_engine_rb.gsub /\.rb$/, ''
 end
 
+ActiveSupport::Dependencies.autoload_paths << File.dirname(__FILE__) + 
+"/../app/helpers"
+  Dir[File.dirname(__FILE__) + "/../app/helpers/**/*_helper.rb"].each do 
+|file|
+      ActionController::Base.helper "#{File.basename(file,'.rb').camelize}".constantize
+  end
+
 public_dir = File.join(File.dirname(__FILE__), '../public')
 DirectorySync.new [
   ["#{public_dir}/images", '/images/fluxx_engine'],

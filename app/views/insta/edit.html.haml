@@ -1,7 +1,7 @@
 %div{:id=>"card-header"}= raw "#{raw flash_info} #{raw flash_error}"
 %div{:id=>"card-body"}
   %div.edit
-    = semantic_form_for @model, :url => @form_url, :html => {:class => 'to-self' + (@form_class || '')} do |form|
+    = semantic_form_for @model, :url => (@form_url || current_put_path(@model.id)), :html => {:class => 'to-self' + (@form_class || '')} do |form|
       = render :partial => @template, :locals => { :form => form, :model => @model}
 
 %div{:id=>"card-footer"}
@@ -9,5 +9,6 @@
   %ul.buttons
     - unless params[:as_modal] == '1'
       - if @model_name && @model
-        %li= link_to 'Cancel', send("#{@model_name}_path", :id => @model.id, :unlock => 1), :class => 'to-self'
+        %li= link_to('Cancel', current_show_path(@model.id, :unlock => 1), :class => 'to-self')
 = render :partial => 'insta/card_settings'
+
