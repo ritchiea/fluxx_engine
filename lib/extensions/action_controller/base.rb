@@ -369,7 +369,7 @@ class ActionController::Base
           render :inline => create_object.render_inline
         else
           extra_options = {:id => @model.id}
-          fluxx_redirect create_object, ate_object.redirect ? self.send(create_object.redirect, extra_options) : current_show_path(@model.id)
+          fluxx_redirect create_object, create_object.redirect ? self.send(create_object.redirect, extra_options) : current_show_path(@model.id)
         end
       end
     end
