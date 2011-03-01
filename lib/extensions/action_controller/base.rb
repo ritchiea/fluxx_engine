@@ -369,7 +369,7 @@ class ActionController::Base
           render :inline => create_object.render_inline
         else
           extra_options = {:id => @model.id}
-          head 201, :location => create_object.redirect ? self.send(create_object.redirect, extra_options) : current_show_path(@model.id)
+          fluxx_redirect create_object, ate_object.redirect ? self.send(create_object.redirect, extra_options) : current_show_path(@model.id)
         end
       end
     end
@@ -426,7 +426,7 @@ class ActionController::Base
                   render :inline => update_object.render_inline
                 else
                   extra_options = {:id => @model.id}
-                  head 201, :location => (update_object.redirect ? self.send(update_object.redirect, extra_options) : current_show_path(@model.id))
+                  fluxx_redirect update_object, (update_object.redirect ? self.send(update_object.redirect, extra_options) : current_show_path(@model.id))
                 end
               end
               format.xml do
@@ -498,7 +498,7 @@ class ActionController::Base
           flash[:info] = t(:insta_successful_delete, :name => model_class.model_name.human) unless delete_object.dont_display_flash_message
           insta_respond_to delete_object, :success do |format|
             format.html do
-              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || current_show_path(@model.id))
+              fluxx_redirect delete_object, ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || current_show_path(@model.id))
             end
             format.xml  { head :ok }
           end
@@ -507,7 +507,7 @@ class ActionController::Base
           flash[:error] = t(:insta_unsuccessful_delete, :name => model_class.model_name.human) unless flash[:error]
           insta_respond_to delete_object, :error do |format|
             format.html do
-              head 201, :location => ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || current_show_path(@model.id))
+              fluxx_redirect delete_object, ((delete_object.redirect ? self.send(delete_object.redirect) : nil) || current_show_path(@model.id))
             end
             format.xml  { head :ok }
           end
@@ -620,6 +620,15 @@ class ActionController::Base
     @form_class = form_class_param || edit_object.form_class
     @form_url = form_url_param || edit_object.form_url
     render((edit_object.view || "#{insta_path}/edit").to_s, :layout => @layout)
+  end
+  
+  def fluxx_redirect config, url
+    if config.use_redirect_not_201
+      redirect_to url
+    else
+      head 201, :location => url
+    end
+    
   end
 
   def has_redirected_already?
