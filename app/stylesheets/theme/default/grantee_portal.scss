@@ -69,6 +69,7 @@ body {
       font-size:100%;
       @include rounded(3px);
       float: right; }
+		.commit,.hidden { display: block; }
     .shared-links {
       clear: both;
       a {

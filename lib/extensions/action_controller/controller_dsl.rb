@@ -23,6 +23,8 @@ class ActionController::ControllerDsl
   attr_accessor :dont_display_flash_message
   # use redirect not 201
   attr_accessor :use_redirect_not_201
+  # Don't show the card footer
+  attr_accessor :skip_card_footer
 
   # Allow you to pass in a block to initialize a new model object
   attr_accessor :new_block
