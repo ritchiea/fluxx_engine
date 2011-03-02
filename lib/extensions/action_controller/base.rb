@@ -611,6 +611,7 @@ class ActionController::Base
     @exclude_related_data = show_object.exclude_related_data
     @layout = options[:layout] || show_object.layout || params[:printable] ? 'printable_show' : false
     @layout = options[:layout] if !options[:layout].nil? # If options[:layout] is false, respect that
+    @skip_card_footer = options[:skip_card_footer]
     render((show_object.view || "#{insta_path}/show").to_s, :layout => @layout)
   end
 
@@ -619,6 +620,7 @@ class ActionController::Base
     @layout = edit_object.layout || false
     @form_class = form_class_param || edit_object.form_class
     @form_url = form_url_param || edit_object.form_url
+    @skip_card_footer = edit_object.skip_card_footer
     render((edit_object.view || "#{insta_path}/edit").to_s, :layout => @layout)
   end
   

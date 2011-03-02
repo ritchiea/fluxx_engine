@@ -26,7 +26,7 @@
                 %li.entry
                   = link_to((element[:model_url] || current_show_path((element[:model]).id)), :class => 'new-detail', 'data-insert' => 'after', 'title' => truncate(element[:title], :length => 45)) do
                     %span= section_title
-  - if :skip_card_footer != true
+  - if !@skip_card_footer
     %div{:id=>"card-footer"}
       - if @footer_template
         = render :partial => @footer_template, :locals => { :model => @model}
