@@ -32,6 +32,7 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
     options = {}
     options[:template] = template
     options[:footer_template] = footer_template
+#    options[:layout] = layout
     if params[:audit_id]
       # Allows the user to load up a history record
       options[:template] = audit_template if audit_template
