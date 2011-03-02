@@ -4,12 +4,11 @@
     = semantic_form_for @model, :url => (@form_url || current_put_path(@model.id)), :html => {:class => 'to-self' + (@form_class || '')} do |form|
       = render :partial => @template, :locals => { :form => form, :model => @model}
 
-- if !:skip_card_footer
-  %div{:id=>"card-footer"}
-    %ul.workflow
-    %ul.buttons
-      - unless params[:as_modal] == '1'
-        - if @model_name && @model
-          %li= link_to('Cancel', current_show_path(@model.id, :unlock => 1), :class => 'to-self')
-  = render :partial => 'insta/card_settings'
+%div{:id=>"card-footer"}
+  %ul.workflow
+  %ul.buttons
+    - unless params[:as_modal] == '1'
+      - if @model_name && @model
+        %li= link_to('Cancel', current_show_path(@model.id, :unlock => 1), :class => 'to-self')
+= render :partial => 'insta/card_settings'
 
