@@ -8,7 +8,7 @@ class ActiveRecord::ModelDslUtc < ActiveRecord::ModelDsl
       time_attributes.each do |name|
         model_class.send :define_method, name do
           value = read_attribute(name.to_sym)
-          Time.utc(value.year,value.month,value.day,0,0,0) if value
+          Time.utc(value.year,value.month,value.day,0,0,0) if value rescue nil
         end
       
         model_class.send :define_method, "#{name}=" do |date|
