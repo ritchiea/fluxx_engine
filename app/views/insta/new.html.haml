@@ -3,7 +3,7 @@
   %div.edit
     = semantic_form_for @model, :url => (@form_url || current_create_path), :html => {:class => ('to-self ' + (@form_class || ''))} do |form|
       = render :partial => @template, :locals => { :form => form, :model => @model}
-
-%div{:id=>"card-footer"}
-  %ul.workflow
-= render :partial => 'insta/card_settings'
+- if !@skip_card_footer
+  %div{:id=>"card-footer"}
+    %ul.workflow
+  = render :partial => 'insta/card_settings'
