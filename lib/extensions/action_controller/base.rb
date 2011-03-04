@@ -237,7 +237,9 @@ class ActionController::Base
 
         new_object.invoke_post self, @model
         insta_respond_to new_object do |format|
-          format.html { render((new_object.view || "#{insta_path}/new").to_s, :layout => false)}
+          @layout = new_object.layout || false
+          @skip_card_footer = new_object.skip_card_footer
+          format.html { render((new_object.view || "#{insta_path}/new").to_s, :layout => @layout)}
           format.xml  { render :xml => @model }
         end
       end
