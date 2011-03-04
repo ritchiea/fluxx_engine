@@ -602,6 +602,12 @@ class ActionController::Base
       headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
     end
   end
+  def fluxx_show_card_with_text show_object, text
+    @text_message = text
+    fluxx_show_card show_object, {:template => ('insta/show/show_text'),
+       :footer_template => "insta/simple_footer"}
+    
+  end
 
   def fluxx_show_card show_object, options
     @model_name = show_object.model_name unless @model_name

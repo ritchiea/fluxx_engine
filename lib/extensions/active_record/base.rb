@@ -254,6 +254,27 @@ class ActiveRecord::Base
     aasm_event name, options, &block
   end
   
+  def self.extract_own_class_names
+    extract_classes(self).map(&:name)
+  end
+  
+  def self.extract_classes model
+    model_class = if model.is_a? Class
+      model
+    else
+      model.class
+    end
+    
+    class_names = []
+    while model_class 
+      class_names << model_class
+      model_class = model_class.superclass
+      model_class = nil if model_class == ActiveRecord::Base || model_class == Object
+    end
+    
+    class_names
+  end
+  
   # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update
   def update_attribute_without_log key, value
     if self.class.respond_to?(:sphinx_indexes) && self.class.sphinx_indexes
