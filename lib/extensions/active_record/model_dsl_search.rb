@@ -114,7 +114,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     end || {}
     
     search_with_attributes.keys.each do |k|
-      search_with_attributes[k] = search_with_attributes[k].to_crc32 unless search_with_attributes[k].to_s.is_numeric?
+      search_with_attributes[k] = search_with_attributes[k].to_s.to_crc32 unless search_with_attributes[k].to_s.is_numeric?
     end
 
     search_with_attributes[:deleted_at] = 0 unless really_delete
@@ -127,7 +127,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
             derived_filters[attr].call(search_with_attributes, request_params, attr, grab_param(attr, local_model_request_params, model_request_params, request_params)) # Send the raw un-split value
           elsif grab_param(attr, local_model_request_params, model_request_params, request_params).select{|split_param| !split_param.to_s.is_numeric?}.size > 0 # Check to see if any params are NOT numeric
             # Sphinx doesn't allow string attributes, so if we get a non-numeric value, search for the crc32 hash of it
-            values = grab_param(attr, local_model_request_params, model_request_params, request_params).map{|val|val.to_crc32}
+            values = grab_param(attr, local_model_request_params, model_request_params, request_params).map{|val|val.to_s.to_crc32}
             search_with_attributes[attr] = values
           else
             search_with_attributes[attr] = grab_param(attr, local_model_request_params, model_request_params, request_params).map{|val| val.to_i}
