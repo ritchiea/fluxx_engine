@@ -1069,7 +1069,12 @@
                 $('select' + this, $area).val('').children('option').remove();
               });
             }
-					],
+		  ],
+          '#logo': [
+            'click', function(e) {
+               window.open('https://sites.google.com/site/projectfluxx/','_blank');
+             }
+          ],
           'div.toolbar': [
             'mousedown', function(e) {
               var $window = $('html,body');
