@@ -210,7 +210,9 @@ body {
 
 .header {
   float: right;
-  margin: 5px 20px 5px;
+  margin: 0px 20px 5px;
+  position: relative;
+  top: -14px;
   font-size: 120%;
   a {
     margin-left: 20px;
@@ -219,6 +221,7 @@ body {
 
 .container {
   position: relative;
+  top: 20px;
   width: 812px;
   height: 100%;
   margin: auto;
@@ -323,7 +326,7 @@ body {
         margin-right: 10px;
         font-size: 80%; } } } }
 
-.content.with-padding {
+.padded-container {
     padding: 20px 50px 70px;
 }
 .plupload, .plupload div,ul,ol,li,table,tr,td,th,dl,dt,dd {
