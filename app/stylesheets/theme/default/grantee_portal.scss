@@ -236,15 +236,30 @@ body {
     .title {
       background-color: #e4e4e4;
       font-size: 120%;
-      padding: 10px 50px;
+      padding: 10px 30px;
       @include rounded-top;
       border-bottom: 2px solid #f6f6f6;
+      .new-request {
+        float: right;
+        position: relative;
+        top: -7px;
+      }
     }
     span.paging {
       padding: 20px;
     }
     .edit-button {
       padding: 0px 20px 0px 20px;
+    }
+    .button {
+      text-align: center;
+      font-size: 14px;
+      width: 200px;
+      padding: 10px;
+    }
+    label {
+      float:left;
+      width: 600px;
     }
     @include rounded;
     @include box-shadow(0px, 10px, 20px, rgba(0, 0, 0, 0.5));
@@ -307,6 +322,10 @@ body {
         @include inline-block;
         margin-right: 10px;
         font-size: 80%; } } } }
+
+.content.with-padding {
+    padding: 20px 50px 70px;
+}
 .plupload, .plupload div,ul,ol,li,table,tr,td,th,dl,dt,dd {
   @include content-box; }
 
