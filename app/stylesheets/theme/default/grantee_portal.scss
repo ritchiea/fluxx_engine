@@ -72,7 +72,7 @@ hr {
 /*=============================
   Links
 ===============================*/
-a { color: #00f; background:transparent; text-decoration:none; }
+a { color: #00f; background:transparent;}
 a:visited  { color: #00f; }
 a:focus,
 a:hover,
@@ -208,14 +208,20 @@ body {
   overflow-x: scroll;
   overflow: auto; }
 
+
 .header {
   float: right;
   margin: 0px 20px 5px;
   position: relative;
-  top: -14px;
+  top: -30px;
   font-size: 120%;
   a {
     margin-left: 20px;
+  }
+  .logo {
+    position: relative;
+    top: 8px;
+    padding-right: 10px;
   }
 }
 
@@ -226,15 +232,6 @@ body {
   height: 100%;
   margin: auto;
   padding: 0px;
-  .pinwheel {
-    position: absolute;
-    left: 150px;
-    right: 150px;
-    top: 0px;
-    bottom: 0px;
-    opacity: 0.9;
-    background: transparent #{inline_image("/images/fluxx_engine/theme/_common/pinwheels/logo_pinwheel_512.png")} no-repeat right top;
-  }
   .content {
     .title {
       background-color: #e4e4e4;
@@ -263,6 +260,7 @@ body {
     label {
       float:left;
       width: 600px;
+      margin-top: 10px;
     }
     @include rounded;
     @include box-shadow(0px, 10px, 20px, rgba(0, 0, 0, 0.5));
@@ -324,11 +322,85 @@ body {
       a {
         @include inline-block;
         margin-right: 10px;
-        font-size: 80%; } } } }
-
-.padded-container {
-    padding: 20px 50px 70px;
+        font-size: 80%; } } }
+ .padded-container {
+   padding: 10px 50px 70px;
+   .title {
+     background-color: #fff;
+     border: none;
+     padding: 0;
+     font-size: 11pt;
+     color: #20108E;
+     background: none;   }
+ }
 }
+
+.partial {
+  background: none;
+  h3 {
+    font-size: 11pt;
+    color:#20108e;
+    border: none;
+    background: none;
+  }
+  p {
+    font-size: 9pt;
+    color:#4b87c6;
+  }
+  #eval_metrics {
+    table { padding:0; color:#000; }
+    th { padding:0;}
+    th {
+     &:first-child, &:last-child {display:none;}
+    }
+    td { border:none; }
+  }
+  table {
+    padding:0 3px;
+  }
+  td {
+    padding:0;
+    border: 1px solid #000;
+    &:first-child { border-right: none; }
+    p {
+      color:#000;
+      margin: 0;
+      padding:1px 1px 4px 1px;
+      border-bottom: 1px solid #000;
+      &:last-child { border:none; }
+    }
+  }
+}
+
+.pairs {
+  width: 100%;
+  line-height: 1.75em;
+  &:hover {background: rgba(0,0,0, 0.05);}
+  .key {
+    @include inline-block;
+    width: 39%;
+    vertical-align:top;
+  }
+  .value {
+    @include inline-block;
+    width: 60%;
+    //border: transparent 1px solid;
+    padding: 0px 5px;
+    vertical-align:top;
+    &.with-more-info {
+      background: #FDFEBA;
+      border: 1px solid #DFE1B2;
+      a {
+        display: block;
+        background: #{inline_image("/images/fluxx_engine/theme/default/icons/arrow_right.png")} no-repeat right center;
+        color: #666666 !important;
+        text-decoration: none;
+      }
+    }
+  }
+}
+.content .pairs { font-size: 14px; line-height:1.25em;}
+
 .plupload, .plupload div,ul,ol,li,table,tr,td,th,dl,dt,dd {
   @include content-box; }
 
