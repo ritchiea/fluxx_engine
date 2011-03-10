@@ -22,11 +22,18 @@ form, input, #card-drawer, #card-settings, .actions, #card-footer
  
 #card-table {
   margin: 0px;
+  position: static;
   #hand, .pairs {
     padding: 0px;
     &:hover {
       background: white;
     }
+  }
+}
+@media print{
+  .page-break {
+    display: block;
+    page-break-before: always;
   }
 }
 
