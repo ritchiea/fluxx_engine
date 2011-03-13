@@ -273,7 +273,6 @@
                   $arrow.show();
                 $area.height($card.height());
               }
-              $box.css('overflow-y', 'visible');
               $areaBody.height(
                 $areaBody.parent().innerHeight() -
                 _.addUp(
@@ -755,6 +754,7 @@
       if (!options.url || !options.target) return this;
       return this.each(function(){
         var $card = $(this).fluxxCard();
+        $card.css('overflow', 'visible');
         $card.data('lastMarginRight', $card.css('marginRight'));
         var $modal = $($.fluxx.util.resultOf(
             $.fluxx.card.ui.area,
@@ -771,7 +771,7 @@
             header: '<span>' + options.header + '</span>',
             caller: options.target,
             init: function(e) {
-              $modal.appendTo($card.fluxxCardBody());
+              $modal.appendTo($card.fluxxCard()).css('opacity', '0.1');
               $('.area', $card).not('.modal').disableFluxxArea();
               var $arrow = $('.arrow', $modal);
               var aftPosition = options.target.parent().hasClass('inline-aft');
@@ -796,7 +796,7 @@
                   leftPosition = parentOffset + targetWidth + arrowWidth;
               $modal.css({
                 left: parseInt(leftPosition),
-                top: -headerHeight - 10
+                top: -headerHeight + 46
               });
               totalWidth = parseInt(leftPosition) + $modal.outerWidth(true);
               overage = totalWidth - $('.card-body:first', options.target.fluxxCard()).outerWidth(true);
@@ -807,6 +807,7 @@
             }
           },
           function(e) {
+            $modal.fadeTo('slow', 1);
             $card.resizeFluxxCard();
             $.my.stage.resizeFluxxStage();
           }
@@ -818,7 +819,6 @@
       return this.each(function(){
         var $modal = $('.modal', $(this).fluxxCard());
         if ($modal.length > 0) {
-          $modal.fluxxCard().showLoadingIndicator();
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
             $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
