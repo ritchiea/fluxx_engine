@@ -54,6 +54,7 @@
                     style: $card.fluxxCardIconStyle(),
                     popup: $card.fluxxCardInfo()
                   });
+                $.my.stage.resizeFluxxStage();
               },
             'load.fluxx.card': options.load,
             'close.fluxx.card': options.close,
