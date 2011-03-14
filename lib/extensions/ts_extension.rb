@@ -18,7 +18,7 @@ module ThinkingSphinx
         @index.model.send(extra_block_name, self) if @index && @index.model && @index.model.respond_to?(extra_block_name)
         
         if no_fields?
-          raise "At least one field is necessary for an index"
+          raise "At least one field is necessary for an index, in #{@index.model.to_s}"
         end
       end
     end
