@@ -523,6 +523,7 @@ table .partial { margin: 0.25em 0; }
   @include box-shadow;
   @include rounded(10px);
   opacity: 0.95;
+  /*overflow-y: hidden;*/
   border: 3px solid #FFF;
   .controls {
     position: absolute;
@@ -552,6 +553,7 @@ table .partial { margin: 0.25em 0; }
   .header {
     @include linear-gradient(#666666, #777777);
     @include rounded-top(10px);
+    @include bg(#333333, #ffffff);
     padding-left:10px;
     line-height:2.5em;
     font-size: 15px;
@@ -577,10 +579,9 @@ table .partial { margin: 0.25em 0; }
     }
   }
   .body {
-    @include bg(#333333, #ffffff);
     @include rounded(9px);
     overflow: auto;
-    height: 640px;
+    height: 100%;
     form {
       @include pretty-forms;
       @include form-field-two-line;
@@ -595,6 +596,8 @@ table .partial { margin: 0.25em 0; }
     @include rounded-bottom(9px);
     @include linear-gradient(#777777, #666666);
     padding: 4px 10px;
+    position: relative;
+    top: -68px;
     overflow: hidden;
   }
   .to-modal {display:none;}
