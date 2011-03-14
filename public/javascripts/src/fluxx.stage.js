@@ -1070,9 +1070,14 @@
               });
             }
 		  ],
-          '#logo': [
+          '#help-logo': [
             'click', function(e) {
                window.open('https://sites.google.com/site/projectfluxx/','_blank');
+             }
+          ],
+          '#logo': [
+            'click', function(e) {
+               location.reload(true);
              }
           ],
           'div.toolbar': [
