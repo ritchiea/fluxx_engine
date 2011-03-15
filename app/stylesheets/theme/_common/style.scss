@@ -523,7 +523,6 @@ table .partial { margin: 0.25em 0; }
   @include box-shadow;
   @include rounded(10px);
   opacity: 0.95;
-  /*overflow-y: hidden;*/
   border: 3px solid #FFF;
   .controls {
     position: absolute;
@@ -596,8 +595,6 @@ table .partial { margin: 0.25em 0; }
     @include rounded-bottom(9px);
     @include linear-gradient(#777777, #666666);
     padding: 4px 10px;
-    position: relative;
-    top: -68px;
     overflow: hidden;
   }
   .to-modal {display:none;}

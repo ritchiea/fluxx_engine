@@ -330,6 +330,7 @@
         }
 				if ($card.width() != cardWidth)
         	$card.width(cardWidth);
+        $('.modal .body').height($.my.hand.height() - 102);
       });
 			_.bind($.fn.resizeFluxxStage, $.my.stage)();
     },
@@ -599,15 +600,14 @@
             // Capture the url returned from the create operation, this will contain the ID
             // of the newly created element.
             var $select = $target.parent().prev();
-            var userID = url.match(/\/(\d+)$/);
-            if (userID)
-              userID = userID.pop();
-            if ($select.length) {
+            var modelID = url.match(/\/(\d+)$/);
+            if (modelID)
+              modelID = modelID.pop();
+
+            if (modelID && $select.length) {
               $select.change(function() {
                 $select.unbind('change');
-                // Only auto select a user if we have an ID
-                if (userID)
-                  $select.val(userID)
+                $select.val(modelID)
               });
               // Refresh user dropdowns
               $('[data-related-child]', $area).change();
