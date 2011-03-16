@@ -891,7 +891,12 @@
               var $elem = $(this);
               var current = $elem.fluxxCardAreaRequest();
               var url = $elem.fluxxCardAreaURL();
-              $elem.attr('href', url + (url.match(/\?/) ? '&' : '?') + 'printable=1');
+              var params = url.match(/\?(.*)$/);
+
+              if (params && params.length > 0)
+                params = params[1];
+
+              $elem.attr('href', url.replace(/\?.*$/, '') + ($elem.hasClass('pdf') ? '.pdf' : '') + "?printable=1" + (params ? '&' + params : ''));
             }
           ],
           'a.area-data': [
