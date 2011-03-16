@@ -986,6 +986,18 @@
 
                   return false;
                 }
+              }).change(function(e) {
+                if ($elem.val() == '') {
+                  $elem
+                    .parent()
+                    .find('input[data-sibling='+ $elem.attr('data-sibling') +']')
+                    .not($elem)
+                    .val('').change();
+                  $elem.
+                    parent().parent()
+                    .find($elem.attr('data-related-child'))
+                    .val('').change();
+                }
               });
             }
           ],
