@@ -799,8 +799,8 @@
                 left: parseInt(leftPosition),
                 top: -headerHeight + 46
               });
-              totalWidth = parseInt(leftPosition) + $modal.outerWidth(true);
-              overage = totalWidth - $('.card-body:first', options.target.fluxxCard()).outerWidth(true);
+              totalWidth = parseInt(leftPosition) + $modal.outerWidth(true) + 30;
+              overage = totalWidth - options.target.fluxxCard().outerWidth(true);
               if (overage > 0)
                 $modal.fluxxCard().css({marginRight: overage});
               $card.resizeFluxxCard();

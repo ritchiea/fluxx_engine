@@ -48,14 +48,14 @@ class Time
     "#{self.mdy} #{strip_zeros_from_date(self.to_s(:star_hours_minutes))}" 
   end
   def mdy
-    strip_zeros_from_date(self.to_s(:star_mdy))
+    FLUXX_CONFIGURATION[:date_format] == 'dmy' ? strip_zeros_from_date(self.to_s(:star_dmy)) : strip_zeros_from_date(self.to_s(:star_mdy))
   end
   def dmy
     strip_zeros_from_date(self.to_s(:star_dmy))
   end
   
   def full
-    strip_zeros_from_date(self.to_s(:star_full))
+    FLUXX_CONFIGURATION[:date_format] == 'dmy' ? strip_zeros_from_date(self.to_s(:star_full_dmy)) : strip_zeros_from_date(self.to_s(:star_full))
   end
   
   def full_dmy

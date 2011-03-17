@@ -891,7 +891,12 @@
               var $elem = $(this);
               var current = $elem.fluxxCardAreaRequest();
               var url = $elem.fluxxCardAreaURL();
-              $elem.attr('href', url + (url.match(/\?/) ? '&' : '?') + 'printable=1');
+              var params = url.match(/\?(.*)$/);
+
+              if (params && params.length > 0)
+                params = params[1];
+
+              $elem.attr('href', url.replace(/\?.*$/, '') + ($elem.hasClass('pdf') ? '.pdf' : '') + "?printable=1" + (params ? '&' + params : ''));
             }
           ],
           'a.area-data': [
@@ -986,6 +991,18 @@
 
                   return false;
                 }
+              }).change(function(e) {
+                if ($elem.val() == '') {
+                  $elem
+                    .parent()
+                    .find('input[data-sibling='+ $elem.attr('data-sibling') +']')
+                    .not($elem)
+                    .val('').change();
+                  $elem.
+                    parent().parent()
+                    .find($elem.attr('data-related-child'))
+                    .val('').change();
+                }
               });
             }
           ],
@@ -1064,14 +1081,15 @@
                 $area = $(this).fluxxCardArea();
 
               var $autosel = $('[data-related-child=.' + $elem.attr('class') + ']');
-              $elem.val('').children('option').remove();
+               $elem.val('');
+              $elem.val('').html('<option value=""></option>').val('');
               $autosel.val('').next().val('').change();
               var children = $elem.data('related-child').split(',');
               $.each(children, function() {
                 $('select' + this, $area).val('').children('option').remove();
               });
             }
-		  ],
+		      ],
           '#help-logo': [
             'click', function(e) {
                window.open('https://sites.google.com/site/projectfluxx/','_blank');
