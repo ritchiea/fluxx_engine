@@ -13,7 +13,11 @@ class ActiveRecord::ModelDslUtc < ActiveRecord::ModelDsl
       
         model_class.send :define_method, "#{name}=" do |date|
           begin
-            date = Time.parse(date) if date.is_a?(String) && !(date.blank?)
+            date = if date.is_a?(String) && !(date.blank?)
+              found_date = Time.parse_localized(date) rescue nil
+              found_date = Time.parse(date) unless found_date && found_date.is_a?(Time)
+              found_date
+            end
             if date && (date.is_a?(Time) || date.is_a?(Date))
               write_attribute(name.to_sym, Time.utc(date.year,date.month,date.day,0,0,0))
             else

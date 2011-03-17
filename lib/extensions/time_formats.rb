@@ -49,32 +49,28 @@ class Time
     "#{self.mdy} #{strip_zeros_from_date(self.to_s(:star_hours_minutes))}" 
   end
   def mdy
-    # strip_zeros_from_date(self.to_s(:star_mdy))
-    short
+    fluxx_short
   end
   def dmy
-    # strip_zeros_from_date(self.to_s(:star_dmy))
-    short
+    fluxx_short
   end
-  def short
-    strip_zeros_from_date I18n.l(self, :format => :short)
+  def fluxx_short
+    strip_zeros_from_date I18n.l(self, :format => :fluxx_short)
   end
   def iso_date
     self.to_s(:iso_date)
   end
   
   def full
-    # strip_zeros_from_date(self.to_s(:star_full))
-    long
+    fluxx_long
   end
   
   def full_dmy
-    # strip_zeros_from_date(self.to_s(:star_full_dmy))
-    long
+    fluxx_long
   end
   
-  def long
-    strip_zeros_from_date I18n.l(self, :format => :long)
+  def fluxx_long
+    strip_zeros_from_date I18n.l(self, :format => :fluxx_long)
   end
   
   def date_time_seconds
