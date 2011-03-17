@@ -575,7 +575,7 @@
         $('.info', $area.fluxxCard()).removeClass('open');
       }
 
-      $('.datetime input', $area).datepicker({ changeMonth: true, changeYear: true });
+      $('.datetime input', $area).datepicker({ changeMonth: true, changeYear: true, dateFormat: 'yy-m-d' });
       $.fluxx.util.autoGrowTextArea($('textarea', $area));
       $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $area).selectTransfer();
       $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
@@ -656,7 +656,7 @@
             $filters.appendTo($card.fluxxCardBody());
           },
         }, function () {
-          $('.date input', $filters).datepicker({ changeMonth: true, changeYear: true });
+          $('.date input', $filters).datepicker({ changeMonth: true, changeYear: true, dateFormat: 'yy-m-d' });
           // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {

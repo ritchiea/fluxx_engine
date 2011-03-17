@@ -17,4 +17,28 @@ class TimeFormatTest < ActiveSupport::TestCase
     assert time_flavor
     assert String, time_flavor.class
   end
+  
+  test "strip_zeros_from_date" do
+    assert_equal strip_zeros_from_date('01/01/2011'), '1/1/2011'
+    assert_equal strip_zeros_from_date('01/10/2011'), '1/10/2011'
+    assert_equal strip_zeros_from_date('1/1/2011'), '1/1/2011'
+    assert_equal strip_zeros_from_date('1/01/2011'), '1/1/2011'
+    assert_equal strip_zeros_from_date('1/10/2011'), '1/10/2011'
+    assert_equal strip_zeros_from_date('10/01/2011'), '10/1/2011'
+    assert_equal strip_zeros_from_date('10/10/2011'), '10/10/2011'
+    assert_equal strip_zeros_from_date('01/01/01'), '1/1/01'
+    assert_equal strip_zeros_from_date('1/01/01'), '1/1/01'
+    assert_equal strip_zeros_from_date('1/1/01'), '1/1/01'
+
+    assert_equal strip_zeros_from_date('01-01-2011'), '1-1-2011'
+    assert_equal strip_zeros_from_date('01-10-2011'), '1-10-2011'
+    assert_equal strip_zeros_from_date('1-1-2011'), '1-1-2011'
+    assert_equal strip_zeros_from_date('1-01-2011'), '1-1-2011'
+    assert_equal strip_zeros_from_date('1-10-2011'), '1-10-2011'
+    assert_equal strip_zeros_from_date('10-01-2011'), '10-1-2011'
+    assert_equal strip_zeros_from_date('10-10-2011'), '10-10-2011'
+    assert_equal strip_zeros_from_date('01-01-01'), '1-1-01'
+    assert_equal strip_zeros_from_date('1-01-01'), '1-1-01'
+    assert_equal strip_zeros_from_date('1-1-01'), '1-1-01'   
+  end
 end
