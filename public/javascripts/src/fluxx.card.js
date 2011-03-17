@@ -575,7 +575,7 @@
         $('.info', $area.fluxxCard()).removeClass('open');
       }
 
-      $('.datetime input', $area).datepicker({ changeMonth: true, changeYear: true, dateFormat: 'yy-m-d' });
+      $('.datetime input', $area).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
       $.fluxx.util.autoGrowTextArea($('textarea', $area));
       $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $area).selectTransfer();
       $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
