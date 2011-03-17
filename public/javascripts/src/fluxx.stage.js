@@ -389,6 +389,7 @@
                   success: function(data, status, xhr) {
                     $('.report-filter', $modal).html(data + '<div><a href="#" class="report-modal-back"><</a></div>').fadeIn('slow');
                     $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $modal).selectTransfer();
+                    $('.date input', $modal).datepicker({ changeMonth: true, changeYear: true });
                   }
                 });
               });
@@ -443,7 +444,7 @@
                               $felem.val(value);
                           }
                         });
-
+                        $('.date input', $form).datepicker({ changeMonth: true, changeYear: true });
                         dialog.overlay.fadeIn('fast', function () {
                           dialog.data.hide();
                           dialog.container.fadeIn('fast', function () {
