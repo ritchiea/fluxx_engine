@@ -1081,14 +1081,15 @@
                 $area = $(this).fluxxCardArea();
 
               var $autosel = $('[data-related-child=.' + $elem.attr('class') + ']');
-              $elem.val('').children('option').remove();
+               $elem.val('');
+              $elem.val('').html('<option value=""></option>').val('');
               $autosel.val('').next().val('').change();
               var children = $elem.data('related-child').split(',');
               $.each(children, function() {
                 $('select' + this, $area).val('').children('option').remove();
               });
             }
-		  ],
+		      ],
           '#help-logo': [
             'click', function(e) {
                window.open('https://sites.google.com/site/projectfluxx/','_blank');
