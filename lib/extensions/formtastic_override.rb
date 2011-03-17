@@ -40,7 +40,7 @@ module Formtastic #:nodoc:
     def date_or_datetime_input(method, options)
       date_time = @object ? @object.send(method) : nil
       formatted_date_time = if date_time
-        date_time.mdy
+        date_time.iso_date
       else
         nil
       end
