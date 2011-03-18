@@ -259,6 +259,9 @@ ol li.action-item {
     line-height: 14px;
   }
 }
+#card-footer, #card-settings {
+  display: none;
+}
 .dimmed { 
   opacity: 0.5;
   -moz-opacity: 0.5;
