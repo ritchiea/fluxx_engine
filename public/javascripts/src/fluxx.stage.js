@@ -389,6 +389,7 @@
                   success: function(data, status, xhr) {
                     $('.report-filter', $modal).html(data + '<div><a href="#" class="report-modal-back"><</a></div>').fadeIn('slow');
                     $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $modal).selectTransfer();
+                    $('.date input', $modal).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
                   }
                 });
               });
@@ -443,7 +444,7 @@
                               $felem.val(value);
                           }
                         });
-
+                        $('.date input', $form).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
                         dialog.overlay.fadeIn('fast', function () {
                           dialog.data.hide();
                           dialog.container.fadeIn('fast', function () {
@@ -543,6 +544,10 @@
           '[data-related-child]': [
             'change', function (e) {
               var updateChild = function ($child, parentId, relatedChildParam) {
+                // Prevent stacking updates
+                if ($child.data('updating'))
+                  return;
+                $child.data('updating', true);
                 var relatedChildParam = relatedChildParam ? relatedChildParam : $child.attr('data-param');
                 var query = {};
                 if ($child.attr('data-require-parent-id') && !parentId)
@@ -558,13 +563,15 @@
                   query[relatedChildParam] = parentId;
                 }
                 $.getJSON($child.attr('data-src'), query, function(data, status) {
+                  var oldVal = $child.val();
                   if ($child.attr('data-required')) {
                     $child.empty();
                   } else {
                     $child.html('<option></option>');
                   }
                   _.each(data, function(i){ $('<option></option>').val(i.value).html(i.label).appendTo($child)  });
-                  $child.val($child.children().first().val()).trigger('options.updated').change();
+                  $child.val(oldVal).trigger('options.updated').change();
+                  $child.data('updating', false);
                 });
               };
 

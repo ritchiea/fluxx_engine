@@ -575,7 +575,7 @@
         $('.info', $area.fluxxCard()).removeClass('open');
       }
 
-      $('.datetime input', $area).datepicker({ changeMonth: true, changeYear: true });
+      $('.datetime input', $area).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
       $.fluxx.util.autoGrowTextArea($('textarea', $area));
       $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $area).selectTransfer();
       $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
@@ -609,8 +609,16 @@
                 $select.unbind('change');
                 $select.val(modelID)
               });
-              // Refresh user dropdowns
-              $('[data-related-child]', $area).change();
+
+              $('[data-related-child]', $area.fluxxCard()).each(function() {
+                $input = $(this);
+                _.each($input.attr('data-related-child').split(/,/), function($child) {
+                  $child = $child.replace(/^\./, '');
+                  if ($select.hasClass($child))
+                    $input.change();
+                });
+
+              });
             }
           });
         }
@@ -656,7 +664,7 @@
             $filters.appendTo($card.fluxxCardBody());
           },
         }, function () {
-          $('.date input', $filters).datepicker({ changeMonth: true, changeYear: true });
+          $('.date input', $filters).datepicker({ changeMonth: true, changeYear: true, dateFormat: 'yy-m-d' });
           // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {
@@ -822,7 +830,7 @@
         if ($modal.length > 0) {
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
-            $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
+            $('.area', $card).enableFluxxArea().first().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
             $card.animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
               $card.resizeFluxxCard();
