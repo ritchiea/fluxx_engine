@@ -756,6 +756,7 @@
       return this.each(function(){
         var $card = $(this).fluxxCard();
         $('.filters', $card).remove();
+        $('.actions', $card).click();
       });
     },
     openCardModal: function(options, onComplete) {
