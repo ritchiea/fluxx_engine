@@ -336,6 +336,8 @@
     },
     closeDetail: function() {
       var $card = this.fluxxCard();
+      if ($('.detail:visible', $card).length == 0)
+        return;
       // For some reason executing fadeOut on both tabs and detail at the same time causes
       // modal windows opened in the detail area to be clipped later on.
       // Workaround is to animate separately.
@@ -756,6 +758,7 @@
       return this.each(function(){
         var $card = $(this).fluxxCard();
         $('.filters', $card).remove();
+        $card.closeDetail();
         $('.actions', $card).click();
       });
     },
