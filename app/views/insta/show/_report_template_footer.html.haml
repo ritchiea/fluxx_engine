@@ -6,4 +6,5 @@
         %option{:value => report.report_id}= report.report_label
 
   %ul.buttons
-    %li= link_to 'Export', '#', :target => "_blank", :class => 'btn area-url'
+    %li= link_to 'Export', '#', :target => "_blank", :class => 'btn area-url' if FLUXX_CONFIGURATION[:show_printable_button]
+    %li= link_to 'PDF', '#', :target => "_blank", :class => 'btn area-url pdf' if FLUXX_CONFIGURATION[:show_pdf_button]
