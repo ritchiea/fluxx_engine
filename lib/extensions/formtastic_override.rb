@@ -37,8 +37,15 @@ module Formtastic #:nodoc:
     end
     alias_method_chain :find_collection_for_column, :multi
     
+    def retrieve_value(obj, method) 
+      @object ? @object.send(method) : nil
+    end
+    
+
+    
+    
     def date_or_datetime_input(method, options)
-      date_time = @object ? @object.send(method) : nil
+      date_time = ActionView::Helpers::InstanceTag.value(@object, method) 
       formatted_date_time = if date_time
         date_time.mdy
       else

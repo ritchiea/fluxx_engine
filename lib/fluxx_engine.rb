@@ -7,8 +7,8 @@ require "action_view"
 p "ESH: loading fluxx_engine"
 
 # Some classes need to be required before or after; put those in these lists
-EXTENSION_CLASSES_TO_PRELOAD = ['extensions/action_controller/controller_dsl', 'extensions/active_record/model_dsl', 'extensions/blob_struct']
-EXTENSION_CLASSES_TO_POSTLOAD = ['extensions/action_controller/base', 'extensions/active_record/base']
+EXTENSION_CLASSES_TO_PRELOAD = ["#{File.dirname(__FILE__).to_s}/extensions/action_controller/controller_dsl", "#{File.dirname(__FILE__).to_s}/extensions/active_record/model_dsl", "#{File.dirname(__FILE__).to_s}/extensions/blob_struct"]
+EXTENSION_CLASSES_TO_POSTLOAD = ["#{File.dirname(__FILE__).to_s}/extensions/action_controller/base", "#{File.dirname(__FILE__).to_s}/extensions/active_record/base"]
 
 EXTENSION_CLASSES_TO_NOT_AUTOLOAD = EXTENSION_CLASSES_TO_PRELOAD + EXTENSION_CLASSES_TO_POSTLOAD
 EXTENSION_CLASSES_TO_PRELOAD.each do |filename|
