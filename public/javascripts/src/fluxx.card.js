@@ -577,7 +577,16 @@
         $('.info', $area.fluxxCard()).removeClass('open');
       }
 
-      $('.datetime input', $area).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
+      //Datepicker does not like form elements that have the same ID
+      $('.datetime input', $area).each(function() {
+        var ts = new Date().getTime();
+        var $input = $(this);
+        var id = $input.attr('id');
+        if (id.match(/[a-zA-Z]/))
+          $input.attr('id', $input.attr('id') + '_' + ts);
+        $input.datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
+      })
+
       $.fluxx.util.autoGrowTextArea($('textarea', $area));
       $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $area).selectTransfer();
       $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
