@@ -544,10 +544,6 @@
           '[data-related-child]': [
             'change', function (e) {
               var updateChild = function ($child, parentId, relatedChildParam) {
-                // Prevent stacking updates
-                if ($child.data('updating'))
-                  return;
-                $child.data('updating', true);
                 var relatedChildParam = relatedChildParam ? relatedChildParam : $child.attr('data-param');
                 var query = {};
                 if ($child.attr('data-require-parent-id') && !parentId)
@@ -563,15 +559,13 @@
                   query[relatedChildParam] = parentId;
                 }
                 $.getJSON($child.attr('data-src'), query, function(data, status) {
-                  var oldVal = $child.val();
                   if ($child.attr('data-required')) {
                     $child.empty();
                   } else {
                     $child.html('<option></option>');
                   }
                   _.each(data, function(i){ $('<option></option>').val(i.value).html(i.label).appendTo($child)  });
-                  $child.val(oldVal).trigger('options.updated').change();
-                  $child.data('updating', false);
+                  $child.val($child.children().first().val()).trigger('options.updated').change();
                 });
               };
 

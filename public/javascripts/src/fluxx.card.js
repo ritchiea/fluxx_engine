@@ -611,16 +611,8 @@
                 $select.unbind('change');
                 $select.val(modelID)
               });
-
-              $('[data-related-child]', $area.fluxxCard()).each(function() {
-                $input = $(this);
-                _.each($input.attr('data-related-child').split(/,/), function($child) {
-                  $child = $child.replace(/^\./, '');
-                  if ($select.hasClass($child))
-                    $input.change();
-                });
-
-              });
+              // Refresh user dropdowns
+              $('[data-related-child]', $area).change();
             }
           });
         }
@@ -834,7 +826,7 @@
         if ($modal.length > 0) {
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
-            $('.area', $card).enableFluxxArea().first().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
+            $('.area', $card).enableFluxxArea().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
             $card.animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
               $card.resizeFluxxCard();
