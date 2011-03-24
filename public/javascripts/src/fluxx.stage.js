@@ -1094,6 +1094,24 @@
               });
             }
 		      ],
+          'select.date-presets': [
+            'change', function(e) {
+              $.fluxx.util.itEndsHere(e);
+              var $elem = $(this);
+              var $area = $elem.fluxxCardArea();
+              var $start_field = $($elem.attr('data-start-date-field'));
+              var $end_field = $($elem.attr('data-end-date-field'));
+              if ($elem.val() == 'this_week') {
+                var d = new Date();
+                $start_field.datepicker('setDate', '-' + d.getDay());
+                $end_field.datepicker('setDate', '+' + (6 - d.getDay()));
+              } else if ($elem.val() == 'last_week') {
+                  var d = new Date();
+                  $start_field.datepicker('setDate', '-' + (7 + d.getDay()));
+                  $end_field.datepicker('setDate', '-' + (7 - (6 - d.getDay())));
+              }
+            }
+          ],
           '#help-logo': [
             'click', function(e) {
                window.open('https://sites.google.com/site/projectfluxx/','_blank');
