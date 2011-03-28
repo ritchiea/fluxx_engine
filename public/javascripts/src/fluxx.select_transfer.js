@@ -34,8 +34,9 @@
         });
 
         var $controls = $('.controls', $container);
-        $original.find(':selected').appendTo($selected);
-        $original.children().clone().appendTo($unselected);
+        var $copy = $original.clone();
+        $copy.find(':selected').appendTo($selected);
+        $copy.children().appendTo($unselected);
 
         $('select', $container).css({
           width: '40%',
@@ -84,7 +85,6 @@
           $original.children().clone().appendTo($unselected);
           $selected.children().remove();
           $unselected.children().each(function() {
-            $.fluxx.log("Looking " + items.indexOf($(this).val()));
             if (items.indexOf($(this).val()) >= 0)
                 $(this).appendTo($selected)
           });
