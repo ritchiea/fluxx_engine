@@ -55,7 +55,7 @@ class Time
     fluxx_short
   end
   def fluxx_short
-    strip_zeros_from_date I18n.l(self, :format => :fluxx_short)
+    strip_zeros_from_date I18n.l(self, {:format => :fluxx_short}) rescue "%m/%d/%Y"
   end
   def iso_date
     self.to_s(:iso_date)
@@ -70,7 +70,7 @@ class Time
   end
   
   def fluxx_long
-    strip_zeros_from_date I18n.l(self, :format => :fluxx_long)
+    strip_zeros_from_date I18n.l(self, :format => :fluxx_long) rescue "%B %d, %Y"
   end
   
   def date_time_seconds
