@@ -949,7 +949,7 @@
                var $card = $elem.fluxxCard();
                var data = $card.fluxxCardListing().fluxxCardAreaRequest().data;
                if ($.isArray(data))
-                 data = _.select(data, function(obj){ $.fluxx.log(obj); if ( obj && obj.name && obj.name != 'utf8' && obj.name != 'q[q]') return obj; });
+                 data = _.select(data, function(obj){ if ( obj && obj.name && obj.name != 'utf8' && obj.name != 'q[q]') return obj; });
                data = ($.isArray(data) ? data.concat($elem.serializeArray()) : $elem.serializeArray());
                var properties = {
                  area: $elem.fluxxCardArea(),

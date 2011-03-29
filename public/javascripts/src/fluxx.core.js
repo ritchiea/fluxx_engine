@@ -220,6 +220,15 @@
           array.push({name: pair[0], value: pair[1]});
         }
         return array;
+      },
+      cleanupURL: function(url) {
+        if (!url)
+          return url;
+        var query = url.split(/\?/);
+        if (query.length > 1)
+          return query[0] + '?' + jQuery.param($.fluxx.unparam(query[1]));
+        else
+          return url;
       }
     }
   });
