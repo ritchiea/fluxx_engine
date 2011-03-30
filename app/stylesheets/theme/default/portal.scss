@@ -557,7 +557,28 @@ input[type=submit]:hover, input[type=button]:hover{
     abbr { display: none; }
   }
 }
-
+.request-review {
+  .text label { display: none;}
+  li { list-style: none; }
+  .radio label {display: inline;}
+  .text {padding-bottom: 20px;}
+  textarea {
+    width: 765px;
+    max-width: 765px;
+  }
+  .select label {
+    width: 130px;
+    position: relative;
+    top: -8px;
+  }
+  .radio {
+    input {width: 20px;}
+    label {width: 40px;}
+  }
+  strong.float_left {
+    margin-top: 10px;
+  }
+}
 
 
 
