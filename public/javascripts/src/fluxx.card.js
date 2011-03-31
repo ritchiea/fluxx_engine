@@ -565,7 +565,7 @@
         var $form   = $(this),
             $submit = $(':submit:first', $form);
         /* XXX GENERATE FROM $.fluxx.card.ui.workflowButton() !!! */
-        if ($submit.length > 0) {
+        if (!$submit.hasClass('ignore')) {
           $('<a>').attr('href', $form.attr('action')).text($submit.val()||'Submit').bind('click', function(e){
             $.fluxx.util.itEndsWithMe(e);
             $form.submit();
