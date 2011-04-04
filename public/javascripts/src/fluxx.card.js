@@ -81,7 +81,6 @@
           function(e) { $card.fluxxCardListing().trigger('get_update.fluxx.area'); }
         );
         options.listing.url = $.fluxx.cleanupURL(options.listing.url);
-        options.detail.url = $.fluxx.cleanupURL(options.detail.url);
         $card.fluxxCardLoadListing(options.listing, function(){
           $card.fluxxCardLoadDetail(options.detail, function(){
             $card.trigger('complete.fluxx.card');
