@@ -953,11 +953,11 @@
                data = ($.isArray(data) ? data.concat($elem.serializeArray()) : $elem.serializeArray());
                var properties = {
                  area: $elem.fluxxCardArea(),
-                 url: $elem.attr('action'),
+                 url: $.fluxx.cleanupURL($elem.attr('action')),
                  data: data
                };
                if ($elem.attr('method'))
-                 properties.type = $elem.attr('method');
+                 properties.type = $elem.attr('method');								
                $elem.fluxxCardLoadContent(properties)
              },
            ],
