@@ -565,11 +565,13 @@
         var $form   = $(this),
             $submit = $(':submit:first', $form);
         /* XXX GENERATE FROM $.fluxx.card.ui.workflowButton() !!! */
-        $('<a>').attr('href', $form.attr('action')).text($submit.val()||'Submit').bind('click', function(e){
-          $.fluxx.util.itEndsWithMe(e);
-          $form.submit();
-        }).wrap('<li>').parent().appendTo($flows);
-        $submit.hide();
+        if ($submit.length > 0) {
+          $('<a>').attr('href', $form.attr('action')).text($submit.val()||'Submit').bind('click', function(e){
+            $.fluxx.util.itEndsWithMe(e);
+            $form.submit();
+          }).wrap('<li>').parent().appendTo($flows);
+          $submit.hide();
+        }
       });
 
       if ($area.attr('data-has-drawer')) {
