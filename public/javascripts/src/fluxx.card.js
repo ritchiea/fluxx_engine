@@ -800,7 +800,7 @@
               var $arrow = $('.arrow', $modal);
               var aftPosition = options.target.parent().hasClass('inline-aft');
               var target = (aftPosition ? options.target.parent().parent() : options.target);
-              var targetPosition = target.position().top,
+              var targetPosition = target.offset().top - 160,
                   targetHeight = target.outerHeight(true),
                   arrowHeight = $arrow.outerHeight(true);
               var headerHeight = $('.card-header', $card).height();
