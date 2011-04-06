@@ -570,8 +570,8 @@
             $.fluxx.util.itEndsWithMe(e);
             $form.submit();
           }).wrap('<li>').parent().appendTo($flows);
-          $submit.hide();
         }
+        $submit.hide();
       });
 
       if ($area.attr('data-has-drawer')) {
