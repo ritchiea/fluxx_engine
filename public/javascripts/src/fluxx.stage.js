@@ -1114,7 +1114,7 @@
           ],
           '#help-logo': [
             'click', function(e) {
-               window.open('https://sites.google.com/site/projectfluxx/','_blank');
+               window.open('https://sites.google.com/a/fluxxlabs.com/fluxxlabs/','_blank');
              }
           ],
           '#logo': [
