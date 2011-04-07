@@ -1102,6 +1102,29 @@ table .partial { margin: 0.25em 0; }
     }
   }
 }
+
+.clean-table {
+  table, caption, tbody, tfoot, thead, tr, th, td, thead tr {
+    margin:0;
+    padding:2;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align: middle;
+    background: transparent;
+    text-transform: none;
+  }
+  td, tr:last-child td:last-child {
+    border: 1px solid #9B9B9B;
+    @include rounded-bottom(0);
+  }
+  td:first-child {
+    text-align:right;
+    border: 0px;
+  }
+  tfoot {@include rounded-bottom(0);}
+}
+
 .audit-detail {
   display: none;
   font-size: 11px;
