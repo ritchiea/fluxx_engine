@@ -314,7 +314,6 @@
     );
   },
   $.fluxx.dock.ui.icon = function(options) {
-    $.fluxx.log("--- pre-default icon options ---",options);
     var options = $.fluxx.util.options_with_callback({
       label: '',
       badge: '',

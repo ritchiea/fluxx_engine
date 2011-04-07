@@ -1220,6 +1220,16 @@ table .partial { margin: 0.25em 0; }
 .edit .select select #grant_request_initiative_type_ids {height: 6em;}
 
 /*=============================
+  Program/sub program/initiative/sub initiative request filter
+===============================*/
+.sub_program_filter {
+  img {float:left;}
+  li {margin-left: 20px;}
+}
+
+
+
+/*=============================
   Browser Specific Adjustments
 ===============================*/
 
