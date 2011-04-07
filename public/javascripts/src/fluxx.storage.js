@@ -1,6 +1,6 @@
 (function($){
   function Storage(options) {
-    var options = $.fluxx.util.options_with_callback({},options);
+    options = $.fluxx.util.options_with_callback({},options);
     this.name = options.name;
     this.data = options.data;
     this.type = options.type || options.client_store_type;
@@ -22,7 +22,7 @@
   $.extend(true, $.fluxx, {
     storage: {
       createStore: function(options, callback) {
-        var options = $.fluxx.util.options_with_callback({type: 'dashboard'},options,callback);
+        options = $.fluxx.util.options_with_callback({type: 'dashboard'},options,callback);
         var store = new Storage(options);
         $.ajax({
           type: 'POST',
@@ -37,7 +37,7 @@
         })
       },
       getStored: function(options, callback){
-        var options = $.fluxx.util.options_with_callback({type: 'dashboard', name: ''},options,callback);
+        options = $.fluxx.util.options_with_callback({type: 'dashboard', name: ''},options,callback);
         $.ajax($.extend(
           ( options.url ?
             {url: options.url} :
@@ -54,7 +54,6 @@
             dataType: 'json',
             success: function(data, xhr, status) {
             options.callback(_.map($.makeArray(data), function(i) {
-                $.fluxx.log(i);
                 var entry = i.client_store;
                 entry.data = $.parseJSON(entry.data);
                 return new Storage($.extend(entry,{url: i.url}));
@@ -64,7 +63,7 @@
         ));
       },
       updateStored: function(options, callback) {
-        var options = $.fluxx.util.options_with_callback({},options,callback);
+        options = $.fluxx.util.options_with_callback({},options,callback);
         $.ajax({
           type: 'PUT',
           url: options.store.url,
@@ -75,7 +74,7 @@
         })
       },
       deleteStored: function(options, callback) {
-        var options = $.fluxx.util.options_with_callback({},options,callback);
+        options = $.fluxx.util.options_with_callback({},options,callback);
         $.ajax({
           type: 'DELETE',
           url: options.store.url,

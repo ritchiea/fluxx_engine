@@ -84,14 +84,11 @@
         return this;
       }
       $.each(options.cards, function(i, v) {
-
-        if ((this.detail && this.listing) && (this.detail.url || this.listing.url)) {
-          $.my.hand.addFluxxCard(this, function(){
-            if (i == options.cards.length - 1) {
-              options.callback();
-            }           
-          }, true);
-        }
+        $.my.hand.addFluxxCard(this, function(){
+          if (i == options.cards.length - 1) {
+            options.callback();
+          }
+        }, true);
       });
       $('#fluxx-loading-bar').fadeOut('slow', function() { $(this).remove();});
       return this;

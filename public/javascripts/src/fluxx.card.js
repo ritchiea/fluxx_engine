@@ -2,7 +2,7 @@
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
       $.fluxx.log("*******> addFluxxCard");
-      if (!options.hasOwnProperty("listing") && !options.hasOwnProperty("detail"))
+      if (!options.hasOwnProperty("listing") && !options.hasOwnProperty("detail") || !(options.listing.url || options.detail.url))
         return onComplete.call();
       var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
       return this.each(function(){
