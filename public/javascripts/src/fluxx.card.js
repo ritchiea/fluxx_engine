@@ -2,101 +2,103 @@
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
       $.fluxx.log("*******> addFluxxCard");
-      if (!options.hasOwnProperty("listing") && !options.hasOwnProperty("detail") || !(options.listing.url || options.detail.url))
-        return onComplete.call();
-      var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
-      return this.each(function(){
-        var $card = $.fluxx.card.ui.call($.my.hand, options).hide();
-        options.position($card);
-        $card
-          .data({
-            listing:   $('.listing:eq(0)',   $card),
-            detail:    $('.detail:eq(0)',    $card),
-            minimized: $('.minimized:eq(0)',    $card),
-            box:       $('.card-box:eq(0)',  $card),
-            body:      $('.card-body:eq(0)', $card),
-            fromClientStore: fromClientStore,
-            locked:    (options.settings ? options.settings.locked : false)
-          })
-          .bind({
-            'complete.fluxx.card': _.callAll(
-              $.fluxx.util.itEndsHere,
-              function(){$card.fadeIn('slow');},
-              _.bind($.fn.editableCardTitle, $card),
-              _.bind($.fn.subscribeFluxxCardToUpdates, $card),
-              options.callback
-            ),
-            'lifetimeComplete.fluxx.card' :
-              function() {
-                var $close = $('.close-detail', $card);
-                if ($('.detail:visible', $card).length > 0 &&
-                    $('.listing:visible', $card).length > 0)
-                  $close.show();
-                else
-                  $close.hide();
-                if ($card.data('locked'))
-                  $('.close-card', $card).hide();
-                else
-                  $('.close-card', $card).show();
+      if ((options.hasOwnProperty("listing") && options.listing.url) || (options.hasOwnProperty("detail") && options.detail.url)) {
+        var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
+        return this.each(function(){
+          var $card = $.fluxx.card.ui.call($.my.hand, options).hide();
+          options.position($card);
+          $card
+            .data({
+              listing:   $('.listing:eq(0)',   $card),
+              detail:    $('.detail:eq(0)',    $card),
+              minimized: $('.minimized:eq(0)',    $card),
+              box:       $('.card-box:eq(0)',  $card),
+              body:      $('.card-body:eq(0)', $card),
+              fromClientStore: fromClientStore,
+              locked:    (options.settings ? options.settings.locked : false)
+            })
+            .bind({
+              'complete.fluxx.card': _.callAll(
+                $.fluxx.util.itEndsHere,
+                function(){$card.fadeIn('slow');},
+                _.bind($.fn.editableCardTitle, $card),
+                _.bind($.fn.subscribeFluxxCardToUpdates, $card),
+                options.callback
+              ),
+              'lifetimeComplete.fluxx.card' :
+                function() {
+                  var $close = $('.close-detail', $card);
+                  if ($('.detail:visible', $card).length > 0 &&
+                      $('.listing:visible', $card).length > 0)
+                    $close.show();
+                  else
+                    $close.hide();
+                  if ($card.data('locked'))
+                    $('.close-card', $card).hide();
+                  else
+                    $('.close-card', $card).show();
 
-                $refresh = $('.titlebar .refresh-card', $card).hide();
-                if (!$card.fluxxCardListing().is(':visible') && !$card.cardIsMinimized())
-                  $refresh.show();
+                  $refresh = $('.titlebar .refresh-card', $card).hide();
+                  if (!$card.fluxxCardListing().is(':visible') && !$card.cardIsMinimized())
+                    $refresh.show();
 
-                $editReport = $('.titlebar .edit-report-filter', $card).hide();
-                if ($('.report-area', $card).length && !$card.cardIsMinimized())
-                  $editReport.show();
+                  $editReport = $('.titlebar .edit-report-filter', $card).hide();
+                  if ($('.report-area', $card).length && !$card.cardIsMinimized())
+                    $editReport.show();
 
-                if ($card.data && $card.data('icon'))
-                  $card
-                  .setMinimizedProperties({info: $card.fluxxCardInfo()})
-                  .data('icon').setDockIconProperties({
-                    style: $card.fluxxCardIconStyle(),
-                    popup: $card.fluxxCardInfo()
-                  });
-                $.my.stage.resizeFluxxStage();
-              },
-            'load.fluxx.card': options.load,
-            'close.fluxx.card': options.close,
-            'minimize.fluxx.card': options.minimize,
-            'unload.fluxx.card': options.unload,
-            'update.fluxx.card': _.callAll(
-              _.bind($.fn.updateFluxxCard, $card),
-              options.update
-            ),
-            'click':
-              function() {
-                $card.data('fromClientStore', false);
-              }
+                  if ($card.data && $card.data('icon'))
+                    $card
+                    .setMinimizedProperties({info: $card.fluxxCardInfo()})
+                    .data('icon').setDockIconProperties({
+                      style: $card.fluxxCardIconStyle(),
+                      popup: $card.fluxxCardInfo()
+                    });
+                  $.my.stage.resizeFluxxStage();
+                },
+              'load.fluxx.card': options.load,
+              'close.fluxx.card': options.close,
+              'minimize.fluxx.card': options.minimize,
+              'unload.fluxx.card': options.unload,
+              'update.fluxx.card': _.callAll(
+                _.bind($.fn.updateFluxxCard, $card),
+                options.update
+              ),
+              'click':
+                function() {
+                  $card.data('fromClientStore', false);
+                }
+            });
+          $.my.dock.addViewPortIcon({ card: $card });
+          $card.fluxxCardMinimized().hide();
+          $('.updates', $card).hide();
+          $card.trigger('load.fluxx.card');
+          $card.fluxxCardListing().bind({
+            'listing_update.fluxx.area': _.bind($.fn.fluxxListingUpdate, $card.fluxxCardListing()),
+            'get_update.fluxx.area': _.bind($.fn.getFluxxListingUpdate, $card.fluxxCardListing())
           });
-        $.my.dock.addViewPortIcon({ card: $card });
-        $card.fluxxCardMinimized().hide();
-        $('.updates', $card).hide();
-        $card.trigger('load.fluxx.card');
-        $card.fluxxCardListing().bind({
-          'listing_update.fluxx.area': _.bind($.fn.fluxxListingUpdate, $card.fluxxCardListing()),
-          'get_update.fluxx.area': _.bind($.fn.getFluxxListingUpdate, $card.fluxxCardListing())
+          $('.updates', $card).click(
+            function(e) { $card.fluxxCardListing().trigger('get_update.fluxx.area'); }
+          );
+          options.listing.url = $.fluxx.cleanupURL(options.listing.url);
+          $card.fluxxCardLoadListing(options.listing, function(){
+            $card.fluxxCardLoadDetail(options.detail, function(){
+              $card.trigger('complete.fluxx.card');
+              $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
+              $card.trigger('lifetimeComplete.fluxx.card');
+              _.bind($.fn.resizeFluxxCard, $card)();
+              // Bring the card into focus if we are not restoring a dashboard after a page refresh
+              if (!$card.fromClientStore() && !$card.cardFullyVisible())
+                $('a', $card.data('icon')).click();
+              if (options.hasOwnProperty('settings') && options.settings.minimized) {
+                $card.trigger('minimize.fluxx.card');
+              }
+            })
+          });
+          $.my.cards = $('.card');
         });
-        $('.updates', $card).click(
-          function(e) { $card.fluxxCardListing().trigger('get_update.fluxx.area'); }
-        );
-        options.listing.url = $.fluxx.cleanupURL(options.listing.url);
-        $card.fluxxCardLoadListing(options.listing, function(){
-          $card.fluxxCardLoadDetail(options.detail, function(){
-            $card.trigger('complete.fluxx.card');
-            $('.titlebar .icon', $card).addClass($card.fluxxCardIconStyle());
-            $card.trigger('lifetimeComplete.fluxx.card');
-            _.bind($.fn.resizeFluxxCard, $card)();
-            // Bring the card into focus if we are not restoring a dashboard after a page refresh
-            if (!$card.fromClientStore() && !$card.cardFullyVisible())
-              $('a', $card.data('icon')).click();
-            if (options.hasOwnProperty('settings') && options.settings.minimized) {
-              $card.trigger('minimize.fluxx.card');
-            }
-          })
-        });
-        $.my.cards = $('.card');
-      });
+      } else {
+        return onComplete.call();
+      }
     },
     editableCardTitle: function() {
       var $card = $(this);
