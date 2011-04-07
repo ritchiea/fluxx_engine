@@ -836,7 +836,7 @@
             $modal.fadeTo('slow', 1);
             $card.resizeFluxxCard();
             $.my.stage.resizeFluxxStage();
-          }
+          }, true
         );
       });
     },
@@ -953,7 +953,7 @@
     },
 
     /* Data Loaders */
-    fluxxCardLoadContent: function (options, onComplete) {
+    fluxxCardLoadContent: function (options, onComplete, modal) {
       $.fluxx.log("**> fluxxCardLoadContent");
       var defaults = {
         area: undefined,
@@ -991,7 +991,7 @@
           return closeCard;
         }
       };
-      var options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
+      options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
       options.area
         .unbind('init.fluxx.area')
         .bind('init.fluxx.area', _.callAll(
@@ -1073,7 +1073,7 @@
               $('.header', options.area).html($.trim(header));
               $('.body',   options.area).html($.trim($('#card-body',   $document).html() || options.body));
               $('.footer', options.area).html($.trim($('#card-footer', $document).html() || options.footer));
-              $('.drawer', options.area.fluxxCard()).html($.trim($('#card-drawer', $document).html() || ''));
+              if (!modal) $('.drawer', options.area.fluxxCard()).html($.trim($('#card-drawer', $document).html() || ''));
               $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
               if (options.area.attr('data-has-drawer')) {
                 if ($('.drawer', options.area.fluxxCard()).filter(':empty').length) {
