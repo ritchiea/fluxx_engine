@@ -37,8 +37,8 @@ body {
   @include default-font;
   font-size: 87.50%;
   font-weight:normal;
-  color: #666;
-  background: #EEE;
+  color: #444444;
+  background: #ffffff;
   text-align:left;
   /*overflow-x: scroll;*/
 }
@@ -136,13 +136,13 @@ th,td { padding: 10px; text-align:right; margin:0; font-weight:normal; vertical-
 th {
   padding: 5px 10px;
   font-size: 110%;
-  border-bottom: 1px solid #e7e7e7;  
+  border-bottom: 1px solid #999999;  
   white-space: nowrap;
 }
 th:first-of-type, td:first-of-type { text-align:left; white-space: normal; }
 tr:hover th[scope="row"],
 tr:hover tbody th.sub { }
-tr:hover td { background-color: #eeeeee; color: #333333;}
+tr:hover td { background-color: #f2f2f2; color: #333333;}
 
 /*=============================
   Actions
@@ -218,7 +218,7 @@ ol li.action-item {
 
 .content {
   position: relative;
-  padding: 20px; 
+  padding: 0; 
   overflow:hidden;   
 }
 .caption {font-size: 11px; color:#666;}
@@ -277,7 +277,7 @@ ol li.action-item {
 
 
 /*=============================
-  Sort
+  Class specific styles
 ===============================*/
 .header {
   position: fixed;
@@ -296,7 +296,7 @@ ol li.action-item {
     border-left: 1px solid #ffffff;
   }
 }
-.logo { margin: 5px 20px; vertical-align:middle; }
+.logo { margin: 5px 0; vertical-align:middle; }
 .page {
   position: relative;
   width: 812px;
@@ -308,29 +308,34 @@ ol li.action-item {
 .container{
   position: relative;
   margin-bottom: 25px;
-  padding: 2px;
-  background:#ffffff;
-  color:#717171;
-  border: 1px solid #e7e7e7;
   overflow: hidden;
+/*====  padding: 2px;===*/
+
+/*====  background:#ffffff;
+  color:#717171;
+  border: 1px solid #e7e7e7;===*/
+
+  
   /*  @include rounded; */
   /*====@include pretty-forms;===*/
   
   /*====Progressive===*/
-  @include box-shadow( 1px, 1px, 5px, rgba(100, 100, 100, 0.5));
+  /*====@include box-shadow( 1px, 1px, 5px, rgba(100, 100, 100, 0.5));===*/
 }
 .titlebar {
   position:relative;
-  background-color: #e7e7e7;
-  color:#333;
-  text-transform: uppercase;
-  font-size: 120%;
-  padding: 10px 20px;
+  border-bottom: 2px solid #444444;
+  color:#444444;
+  text-transform: capitalize;
+  font-size: 150%;
+  padding: 10px;
+  /*====background-color: #e7e7e7;===*/
   /*====@include rounded-top;===*/
   /*====Progressive===*/
-  text-shadow: #ffffff 1px 1px 2px;
+  /*====text-shadow: #ffffff 1px 1px 2px;===*/
+  
   & input[type="submit"], input[type='button'] {
-    font-size: 80%;
+    font-size: 60%;
     margin: -3px -10px 0px 14px;
   }
 }
@@ -378,7 +383,7 @@ ol li.action-item {
  cursor: pointer;
 }===*/
 
-span.paging {padding: 20px;}
+p.paging {padding: 10px 20px; font-weight: bold; border-top: 1px solid #999999; border-bottom: 1px solid #999999;}
 /*====.edit-button {padding: 0px 20px 0px 20px;}
 .button {
   text-align: center;
