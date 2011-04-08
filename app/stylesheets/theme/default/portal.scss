@@ -73,6 +73,8 @@ ul, ol, dl { margin: 0 0 0.5em 0; }
 ul li { list-style: none; }
 ul ul li { list-style: none; }
 
+td ul { margin-left: 10px;}
+
 ol li { list-style: none; }
 ol ol li { list-style: none; }
 
@@ -128,12 +130,12 @@ a:active, :focus { outline:none; }
 table {
   width: 100%;
   margin: 0.75em 0;
-  font-size: 92.9%;
-  border: 1px solid #ffffff;
+  font-size: 92.9%;  
 }
 thead, tfoot { }
 tbody { }
-th,td { padding: 10px; text-align:right; margin:0; font-weight:normal; vertical-align:top; white-space: nowrap; }
+th,td { padding: 10px; text-align:right; margin:0; font-weight:normal; vertical-align:top; }
+
 th {
   padding: 5px 10px;
   font-size: 110%;
@@ -144,6 +146,61 @@ th:first-of-type, td:first-of-type { text-align:left; white-space: normal; }
 tr:hover th[scope="row"],
 tr:hover tbody th.sub { }
 tr:hover td { /*====background-color: #f2f2f2; color: #333333;===*/ }
+
+.tabular {
+  width: 100%;
+  float:right;
+  
+  @include rounded;
+  border: 1px solid #9B9B9B;
+  color: #666666;
+  margin: 0.75em 0;
+  margin-left: 20px;
+  margin-bottom:20px;
+  thead {
+    tr {
+      @include rounded-top;
+      background: #dfdfdf;  
+    }
+  }
+  tbody { background: #f9f7f8; }
+  tfoot{
+    @include rounded-bottom;
+    border-bottom: 1px solid #9B9B9B;
+    background-color: #dfdfdf;
+    padding: 6px;
+  }
+  th,td { text-align:left; margin:0; font-weight:normal;  }
+  th {
+    @include rounded-top;
+    text-transform: uppercase;
+    color: #666;
+    padding: 4px 4px 4px 0;
+    background: transparent;
+    text-align:center;
+  }
+  td {
+    border-top: 1px solid #9B9B9B;
+    padding: 15px;
+    span {
+      font-size: 11px;
+      display: block;
+      float: left;
+      padding-top: 4px;
+    }
+    span.actions {float:right;}
+    .delete-button {float:right;}
+    .edit_link {float:left;padding-right:5px;}
+  }
+  tr:hover th[scope="row"],
+  tr:hover tbody th.sub {}
+  tr:hover td {}
+  tr:last-child {
+    td:last-child { @include rounded-bottom; }
+    td:empty:last-child {
+    }
+  }
+}
 
 /*=============================
   Actions
@@ -216,7 +273,8 @@ ol li.action-item {
 .ar { text-align:right; }
 .al { text-align: left; }
 .ac { text-align: center;}
-
+.c60l {width:59%; float:left;}
+.c40r {width:39%; float:right;}
 .content {
   position: relative;
   padding: 0; 
