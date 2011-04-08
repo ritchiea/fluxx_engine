@@ -18,7 +18,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   padding:0;
   border:0;
   outline:0;
-  font-size:100%;
+  font-size:87.5%;
   vertical-align:baseline;
   background:transparent;
 }
@@ -35,7 +35,7 @@ html * { font-size: 100.01%; }
 /*--- standard font size 13px / 10pt ---*/
 body {
   @include default-font;
-  font-size: 87.50%;
+  font-size: 100%;
   font-weight:normal;
   color: #444444;
   background: #ffffff;
@@ -73,7 +73,8 @@ ul, ol, dl { margin: 0 0 0.5em 0; }
 ul li { list-style: none; }
 ul ul li { list-style: none; }
 
-td ul { margin-left: 10px;}
+td ul { margin: 10px 20px;}
+td ul li {line-height:1.75em; vertical-align:middle;}
 
 ol li { list-style: none; }
 ol ol li { list-style: none; }
@@ -130,19 +131,22 @@ a:active, :focus { outline:none; }
 table {
   width: 100%;
   margin: 0.75em 0;
-  font-size: 92.9%;  
+  /*====font-size: 92.9%;===*/
+    
 }
-thead, tfoot { }
+thead, tfoot { padding: 5px 0;}
 tbody { }
-th,td { padding: 10px; text-align:right; margin:0; font-weight:normal; vertical-align:top; }
+th,td { padding: 10px; text-align:left; margin:0; font-weight:normal; vertical-align:top; }
 
 th {
-  padding: 5px 10px;
-  font-size: 110%;
-  border-bottom: 1px solid #999999;  
+  padding: 5px 10px 8px 10px;
+  border-bottom: 1px solid #999999;
   white-space: nowrap;
+  font-size: 13px;
+  font-weight: bold;
 }
-th:first-of-type, td:first-of-type { text-align:left; white-space: normal; }
+/*====th:first-of-type, td:first-of-type { text-align:left; white-space: normal; }===*/
+tr:first-of-type td { padding-top:25px; }
 tr:hover th[scope="row"],
 tr:hover tbody th.sub { }
 tr:hover td { /*====background-color: #f2f2f2; color: #333333;===*/ }
@@ -179,9 +183,10 @@ tr:hover td { /*====background-color: #f2f2f2; color: #333333;===*/ }
     background: transparent;
     text-align:center;
   }
+  tr:first-of-type td { padding-top:15px; }
   td {
-    border-top: 1px solid #9B9B9B;
-    padding: 15px;
+    /*====border-top: 1px solid #9B9B9B;===*/
+    padding: 15px 30px;
     span {
       font-size: 11px;
       display: block;
@@ -353,7 +358,7 @@ ol li.action-item {
 .logo { margin: 5px 0; vertical-align:middle; }
 .page {
   position: relative;
-  width: 812px;
+  width: 950px;
   margin: 0 auto;
   padding: 0px;
   padding:80px 0;
@@ -365,16 +370,17 @@ ol li.action-item {
 }
 .titlebar {
   position:relative;
-  border-bottom: 2px solid #444444;
+  border-bottom: 3px solid #444444;
   color:#444444;
   text-transform: capitalize;
-  font-size: 150%;
+  font-size: 190%;
   padding: 10px;  
   & input[type="submit"], input[type='button'] {
-    font-size: 60%;
-    margin: -3px -10px 0px 14px;
+    font-size: 50%;
+    margin:5px 0 5px 5px;
   }
 }
+.show .content { padding: 10px;}
 .partial {
   margin-top:20px;
 }
@@ -445,8 +451,8 @@ p.paging {
 /*=============================
   Forms
 ===============================*/
-
-form {margin: 0px; padding: 0px; }
+.edit .content { width:700px;}
+form {margin: 0px; padding: 0px;}
 fieldset {
   border: none;
   padding: 0 0 1em 0;
