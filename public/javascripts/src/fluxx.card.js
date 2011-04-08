@@ -684,6 +684,33 @@
           var $form = $('form', $filters).submit(
             function() {
               $('input,select', $form).removeAttr("disabled");
+              var extra = {};
+              var rollup_field;
+              $('.hierarchical-filter', $form).each(function() {
+                var $section = $(this);
+                var rollup = [];
+                if (extra[$section.attr('data-rollup')])
+                  rollup = extra[$section.attr('data-rollup')];
+                else
+                  extra[$section.attr('data-rollup')] = rollup;
+                $section.find('select:not([data-related-child])').each(function() {
+                  $select = $(this);
+                  if (!rollup_field)
+                    rollup_field = $select.attr('name').replace(/\[.*/, '');
+                  var values = ['','','',''];
+                  for (i=3;i>=0;i--) {
+                    if ($select.val()) {
+                      values[i] = $select.val();
+                      break;
+                    }
+                  $select = $select.parent().parent().parent().children().find('select').not($select);
+                  }
+                  rollup.push(values.join('-'));
+                });
+              });
+              for (var rollup in extra) {
+                $('<input type="hidden" name="' + rollup_field + '[' + rollup + '][]" value="' + extra[rollup] + '"/>').appendTo($form);
+              }
               var criterion = [];
               $filterText.val('');
               $card.data('locked', $('#lock-card').attr('checked'));
