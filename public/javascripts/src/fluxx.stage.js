@@ -1074,7 +1074,7 @@
               if ($elem.val())
                 $elem.parent().parent().children('div').show();
               else
-                $elem.parent().parent().children('div').hide();
+                $elem.parent().parent().children('div').hide().find('select').val('');
             }
           ],
           'a.do-add-another': [

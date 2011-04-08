@@ -707,7 +707,7 @@
                   }
                   rollup.push(values.join('-'));
                 });
-              });
+              }).find('select').attr('disabled', true);
               for (var rollup in extra) {
                 $('<input type="hidden" name="' + rollup_field + '[' + rollup + '][]" value="' + extra[rollup] + '"/>').appendTo($form);
               }
