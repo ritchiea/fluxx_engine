@@ -683,7 +683,39 @@
           // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {
+              $.fluxx.log('submit');
               $('input,select', $form).removeAttr("disabled");
+              var extra = {};
+              var rollup_field;
+              $('.hierarchical-filter', $form).each(function() {
+                var $section = $(this);
+                var rollup = [];
+                if (extra[$section.attr('data-rollup')])
+                  rollup = extra[$section.attr('data-rollup')];
+                else
+                  extra[$section.attr('data-rollup')] = rollup;
+                $section.find('select:not([data-related-child])').each(function() {
+                  $select = $(this);
+                  if (!rollup_field)
+                    rollup_field = $select.attr('name').replace(/\[.*/, '');
+                  var values = ['','','',''];
+                  if ($select.val())
+                    values[3] = $select.val();
+                  else {
+                    for (i=2;i>=0;i--) {
+                      $select = $select.parent().parent().parent().children().find('select').not($select);
+                      if ($select.val()) {
+                        values[i] = $select.val();
+                        break;
+                      }
+                    }
+                    rollup.push(values.join('-'));
+                  }
+                });
+              });
+              for (var rollup in extra) {
+                $('<input type="hidden" name="' + rollup_field + '[' + rollup + '][]" value="' + extra[rollup] + '"/>').appendTo($form);
+              }
               var criterion = [];
               $filterText.val('');
               $card.data('locked', $('#lock-card').attr('checked'));
