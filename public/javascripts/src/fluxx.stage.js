@@ -1063,14 +1063,54 @@
               });
             }
           ],
+          '.show-child-if-selected"': [
+            'change', function(e) {
+              var $elem = $(this);
+              var $parent = $elem.parents().first('div').parent();
+              $('.sub_program_filter:gt(0)', $parent).remove();
+              $('.initiative_filter:gt(0)', $parent).remove();
+              $('.sub_initiative_filter:gt(0)', $parent).remove();
+              $('.do-add-another:gt(0)', $parent).show();
+              if ($elem.val())
+                $elem.parent().parent().children('div').show();
+              else
+                $elem.parent().parent().children('div').hide();
+            }
+          ],
           'a.do-add-another': [
             'click', function(e) {
               $.fluxx.util.itEndsHere(e);
               var $link = $(e.target);
               var $elem = $link.prev();
-              var $add  = $elem.clone();
-              $elem.after($add);
-              $add.before($('<label/>'));
+
+              if ($elem.parents('.hierarchical-filter').length > 0) {
+                var unique = _.uniqueNumber();
+                var $parent = $elem.parents().first('div').parent();
+                var $add = $parent.clone();
+                $('.sub_program_filter:gt(0)', $add).remove();
+                $('.initiative_filter:gt(0)', $add).remove();
+                $('.sub_initiative_filter:gt(0)', $add).remove();
+                $('.do-add-another', $add).show();
+                // Turns off the label
+//                $add.find('label').first().html('');
+                $link.hide();
+                $add.children('div').hide();
+                $('[data-related-child]', $add).each(function() {
+                  var $e = $(this);
+                  var children = [];
+                  _.each($e.attr('data-related-child').split(/,/), function(child) {
+                    var newChild = child + '_' + unique;
+                    children.push(newChild);
+                    $(child, $add).removeClass(child.replace('.', '')).addClass(newChild.replace('.', ''));
+                  });
+                  $e.attr('data-related-child', children.join(','));
+                });
+                $parent.after($add);
+              } else {
+                var $add  = $elem.clone();
+                $elem.after($add);
+                $add.before($('<label/>'));
+              }
               return false;
             }
           ],

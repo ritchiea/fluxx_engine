@@ -1222,10 +1222,28 @@ table .partial { margin: 0.25em 0; }
 /*=============================
   Program/sub program/initiative/sub initiative request filter
 ===============================*/
-.sub_program_filter {
-  img {float:left;}
-  li {margin-left: 20px;}
+.program_filter {
+  .select {margin-bottom: 0px;}
 }
+.sub_program_filter {
+  display: none;
+  .select {margin: 0 0 0 16px;}
+  select {width: 235px;}
+}
+.initiative_filter {
+  display: none;
+  margin-left: 16px;
+  select {width: 219px;}
+  .select {margin: 0 0 0 16px;}
+}
+.sub_initiative_filter {
+  display: none;
+  margin-left: 16px;
+  select {width: 203px;}
+  .select {margin: 0 0 0 16px;}
+}
+
+
 
 
 

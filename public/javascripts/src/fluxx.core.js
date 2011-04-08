@@ -94,6 +94,12 @@
       );
       $.fluxx.log('--- isFilterMatch ---');
       return result;
+    },
+    uniqueNumber: function() {
+      if ( typeof _.uniqueNumber.counter == 'undefined' ) {
+        _.uniqueNumber.counter = 0;
+      }
+      return _.uniqueNumber.counter++;
     }
   });
 
