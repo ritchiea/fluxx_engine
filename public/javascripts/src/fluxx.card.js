@@ -683,7 +683,6 @@
           // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {
-              $.fluxx.log('submit');
               $('input,select', $form).removeAttr("disabled");
               var extra = {};
               var rollup_field;
@@ -699,18 +698,14 @@
                   if (!rollup_field)
                     rollup_field = $select.attr('name').replace(/\[.*/, '');
                   var values = ['','','',''];
-                  if ($select.val())
-                    values[3] = $select.val();
-                  else {
-                    for (i=2;i>=0;i--) {
-                      $select = $select.parent().parent().parent().children().find('select').not($select);
-                      if ($select.val()) {
-                        values[i] = $select.val();
-                        break;
-                      }
+                  for (i=3;i>=0;i--) {
+                    if ($select.val()) {
+                      values[i] = $select.val();
+                      break;
                     }
-                    rollup.push(values.join('-'));
+                  $select = $select.parent().parent().parent().children().find('select').not($select);
                   }
+                  rollup.push(values.join('-'));
                 });
               });
               for (var rollup in extra) {
