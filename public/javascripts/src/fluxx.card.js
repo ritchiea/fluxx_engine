@@ -701,7 +701,6 @@
                   for (i=3;i>=0;i--) {
                     if ($select.val()) {
                       values[i] = $select.val();
-                      break;
                     }
                   $select = $select.parent().parent().parent().children().find('select').not($select);
                   }
@@ -773,22 +772,52 @@
           }
           _.each(data, function(obj) {
             if (obj.value) {
-              var selector = '[name*=' + obj.name + ']';
-              var $elem = $(selector, $filters).last();
-              if (found.hasOwnProperty(obj.name)) {
-                var $add  = $elem.clone();
-                $elem.after($add);
-                $add.before($('<label/>'));
-                $elem = $add;
-              }
-              $elem.val(obj.value);
-              $(selector + ":checkbox", $filters)
-                .attr('checked', true)
-                .change(function () {
-                  $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
+              var $rollup = $('[data-rollup=' + obj.name.replace(/\w+\[(\w+)\]\[\]/, "$1") + ']');
+              var i = 0;
+              if ($rollup.length > 0) {
+                var $addNew = $rollup.find('.do-add-another:first');
+                _.each(obj.value.split(','), function(item) {
+                  if (i++ > 0)
+                    $addNew.click();
+                  var $section = $('[data-rollup=' + $rollup.attr('data-rollup') + ']:last');
+                  $addNew = $section.find('.do-add-another:first');
+                  var vals = item.split('-');
+
+                  var setVal = function(e) {
+                    var $el = $(this);
+                    $el.val(e.data).change();
+                  };
+
+                  for ( var j=0, len=vals.length; j<len; ++j ) {
+                    if (vals[j]) {
+                      var $sel = $section.find('select:eq(' + j + ')');
+                      if (j == 0) {
+                        $sel.val(vals[0]).change();
+                      } else {
+                        $sel.bind('options.updated', vals[j], setVal);
+                      }
+                    }
+                  }
                 });
-              if ($elem.hasClass('add-another'))
-                found[obj.name] = true;
+
+              } else {
+                var selector = '[name*=' + obj.name + ']';
+                var $elem = $(selector, $filters).last();
+                if (found.hasOwnProperty(obj.name)) {
+                  var $add  = $elem.clone();
+                  $elem.after($add);
+                  $add.before($('<label/>'));
+                  $elem = $add;
+                }
+                $elem.val(obj.value);
+                $(selector + ":checkbox", $filters)
+                  .attr('checked', true)
+                  .change(function () {
+                    $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
+                  });
+                if ($elem.hasClass('add-another'))
+                  found[obj.name] = true;
+              }
             }
           });
         });
