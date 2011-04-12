@@ -693,18 +693,24 @@
                   rollup = extra[$section.attr('data-rollup')];
                 else
                   extra[$section.attr('data-rollup')] = rollup;
-                $section.find('select:not([data-related-child])').each(function() {
+                $section.find('select:first').each(function() {
                   $select = $(this);
                   if (!rollup_field)
                     rollup_field = $select.attr('name').replace(/\[.*/, '');
                   var values = ['','','',''];
-                  for (i=3;i>=0;i--) {
+                  var found = false;
+                  for (i=0;i<=3;i++) {
                     if ($select.val()) {
                       values[i] = $select.val();
+                      found = true;
+                    } else {
+                      break;
                     }
-                  $select = $select.parent().parent().parent().children().find('select').not($select);
+                    $select = $select.parent().parent().children().find('select:first').not($select);
+
                   }
-                  rollup.push(values.join('-'));
+                  if (found)
+                    rollup.push(values.join('-'));
                 });
               }).find('select').attr('disabled', true);
               for (var rollup in extra) {
