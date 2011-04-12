@@ -258,6 +258,11 @@ class ActiveRecord::Base
     extract_classes(self).map(&:name)
   end
   
+  def self.extract_class_names_for_model model
+    extract_classes(model).map(&:name)
+  end
+  
+  
   def self.extract_classes model
     model_class = if model.is_a? Class
       model
