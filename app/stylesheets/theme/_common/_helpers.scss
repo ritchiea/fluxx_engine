@@ -248,8 +248,8 @@ $header_height: 78px;
     @include inline-block;
     @include border-box;
     vertical-align: top;
-    overflow:hidden;
   }
+  input,input[type='search'] {overflow: hidden;}
   select {
     @include inline-block;
     @include border-box;
@@ -304,7 +304,7 @@ $header_height: 78px;
     font-size:78.6%;
     padding: 7px 5px;
     border: 1px solid #ccc;
-    overflow: hidden;
+    overflow: auto;
   }
   input,textarea {
     @include linear-gradient(#fcfcfc, white);
