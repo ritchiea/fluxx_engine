@@ -1133,7 +1133,7 @@
               var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
                 $('#card-header', $document).html() : options.header);
               $('.header', options.area).html($.trim(header));
-              $('.body',   options.area).html($.trim($('#card-body',   $document).html() || options.body));
+              $('.body',   options.area).html($.trim($('#card-body',   $document).html() || options.body)).scrollTop(0);
               $('.footer', options.area).html($.trim($('#card-footer', $document).html() || options.footer));
               if (!modal) $('.drawer', options.area.fluxxCard()).html($.trim($('#card-drawer', $document).html() || ''));
               $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
