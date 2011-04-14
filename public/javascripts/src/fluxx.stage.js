@@ -500,11 +500,11 @@
                 $actions.animate({left: $head.outerWidth(true)});
               } else {
                 $('.search', $head).fadeOut();
-                $actions.animate({left: $head.width() -
+                $actions.animate({left: $head.outerWidth() -
                   _.addUp(
                       $('li:not(.open-listing-actions)', $actions),
                       'outerWidth', true
-                    ) + 3
+                    ) - 1
                   }, function() {
                     $head.addClass('actions-open').show()
                   }
