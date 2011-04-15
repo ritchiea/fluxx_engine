@@ -697,20 +697,24 @@
                   $select = $(this);
                   if (!rollup_field)
                     rollup_field = $select.attr('name').replace(/\[.*/, '');
-                  var values = ['','','',''];
-                  var found = false;
+                  var program_filters = [['','','','']];
                   for (i=0;i<=3;i++) {
-                    if ($select.val()) {
-                      values[i] = $select.val();
-                      found = true;
-                    } else {
-                      break;
-                    }
+                    var j = 0;
+                    $('#' + $select.attr('id'), $card).each(function() {
+                      var $sel = $(this);
+                      if (!program_filters[j]) {
+                        program_filters.push(program_filters[j-1].slice(0));
+                      }
+                      program_filters[j][i] = $sel.val();
+                      j++;
+                    });
                     $select = $select.parent().parent().children().find('select:first').not($select);
-
                   }
-                  if (found)
-                    rollup.push(values.join('-'));
+                  _.each(program_filters, function(item) {
+                    var values = item.join('-');
+                    if (!values.match(/^\-/) && rollup.indexOf(values) == -1)
+                      rollup.push(values);
+                  });
                 });
               }).find('select').attr('disabled', true);
               for (var rollup in extra) {
@@ -785,7 +789,7 @@
                 _.each(obj.value.split(','), function(item) {
                   if (i++ > 0)
                     $addNew.click();
-                  var $section = $('[data-rollup=' + $rollup.attr('data-rollup') + ']:last');
+                  var $section = $('[data-rollup=' + $rollup.attr('data-rollup') + ']:last', $card);
                   $addNew = $section.find('.do-add-another:first');
                   var vals = item.split('-');
 
