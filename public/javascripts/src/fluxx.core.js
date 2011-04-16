@@ -20,16 +20,26 @@
         _.each(functions, function(f){f.apply(this_, args)});
       }
     },
-    intersectProperties: function (one, two) {
+    intersectProperties: function (one, two, hierarchies) {
       if (_.isEqual(one, two)) return one;
       var intersect = {};
       _.each(one, function (val, key) {
-				if ($.isArray(val))
-         	_.each(val, function(single) {
-           	if (single == two[key]) intersect[key] = single;
-         	});
-				else 
-					if (val == two[key]) intersect[key] = val;
+        if (!$.isArray(val))
+          val = val ? val.split('|~|') : [];
+        var twoVal = two[key];
+        _.each(val, function(single) {
+          if (hierarchies.indexOf(key) != -1) {
+            var i = 0;
+            twoVal = twoVal.split('-');
+            _.each(single.split('-'), function(id) {
+              if (!id)
+                twoVal[i] = '';
+              i++;
+            });
+            twoVal = twoVal.join('-');
+          }
+					if (single == twoVal) intersect[key] = single;
+        });
       });
       return intersect;
     },
@@ -73,9 +83,10 @@
       $.fluxx.log('--- isFilterMatch ---', filter, test);
 
       var keys = _.intersect(_.keys(filter), _.keys(test));
+      var hierarchies = (filter.hierarchies ? filter.hierarchies : []);
       _.each([filter, test], function(obj) {
         _.each(_.keys(obj), function(key) {
-          if (! _.detect(keys, function(i){return _.isEqual(key,i)})) {
+          if (! _.detect(keys, function(i){return _.isEqual(key,i);})) {
             delete obj[key];
           }
         });
@@ -87,9 +98,8 @@
         };
       });
       $.fluxx.log('--- Cleanded Filter and Test ---', filter, test);
-
       var result = _.isEqual(
-        (_.compose(_.size, _.intersectProperties))(filter, test),
+        (_.compose(_.size, _.intersectProperties))(filter, test, hierarchies),
         (_.compose(_.size, _.values))(filter)
       );
       $.fluxx.log('--- isFilterMatch ---');
