@@ -25,20 +25,21 @@
       var intersect = {};
       _.each(one, function (val, key) {
         if (!$.isArray(val))
-          val = val ? val.split('|~|') : [];
-        var twoVal = two[key];
+          val = [val];
         _.each(val, function(single) {
-          if (hierarchies.indexOf(key) != -1) {
-            var i = 0;
-            twoVal = twoVal.split('-');
-            _.each(single.split('-'), function(id) {
-              if (!id)
-                twoVal[i] = '';
-              i++;
-            });
-            twoVal = twoVal.join('-');
-          }
-					if (single == twoVal) intersect[key] = single;
+          _.each($.isArray(two[key]) ? two[key] : [two[key]], function(twoVal) {
+            if (hierarchies.indexOf(key) != -1) {
+              var i = 0;
+              twoVal = twoVal.split('-');
+              _.each(single.split('-'), function(id) {
+                if (!id)
+                  twoVal[i] = '';
+                i++;
+              });
+              twoVal = twoVal.join('-');
+            }
+            if (single == twoVal) intersect[key] = single;
+          });
         });
       });
       return intersect;
