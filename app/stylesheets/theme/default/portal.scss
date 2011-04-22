@@ -25,6 +25,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 div,ul,ol,li,table,tr,td,th,dl,dt,dd {
   @include border-box; }
 .plupload, .plupload div,ul,ol,li,table,tr,td,th,dl,dt,dd {
+  list-style: none;
   @include content-box; }
   
 /*=============================
@@ -50,6 +51,7 @@ h1,h2,h3,h4,h5,h6 {
   @include default-font;
   font-weight:normal;
   margin: 0;
+  clear: both;
 }
 h1 { font-size: 171.4%; }           /* 24px / 18pt */
 h2 { font-size: 135.7%; }           /* 19px / 14pt */
@@ -64,7 +66,13 @@ h2 {
   font-size: 16px;
   margin: 16px 0px 10px;
 }
-h3 {border-bottom: 1px solid #d6d6d6; margin-bottom:0.5em; padding-bottom:0.2em;}
+h3 {
+  border-bottom: 1px solid #d6d6d6;
+  margin-bottom:0.5em;
+  padding-bottom:0.2em;
+  padding-top: 1em;
+  color: #111111;
+}
 /*=============================
   Lists
 ===============================*/
@@ -153,18 +161,14 @@ tr:hover td { /*====background-color: #f2f2f2; color: #333333;===*/ }
 
 .tabular {
   width: 100%;
-  float:right;
-  
   @include rounded;
-  border: 1px solid #9B9B9B;
   color: #666666;
   margin: 0.75em 0;
-  margin-left: 20px;
-  margin-bottom:20px;
   thead {
     tr {
       @include rounded-top;
-      background: #dfdfdf;  
+      background: #dfdfdf;
+      border-bottom: 1px solid #9B9B9B;
     }
   }
   tbody { background: #f9f7f8; }
@@ -177,16 +181,20 @@ tr:hover td { /*====background-color: #f2f2f2; color: #333333;===*/ }
   th,td { text-align:left; margin:0; font-weight:normal;  }
   th {
     @include rounded-top;
+    border-top: 1px solid #9B9B9B;
+    border-left: 1px solid #9B9B9B;
+    border-right: 1px solid #9B9B9B;
     text-transform: uppercase;
     color: #666;
     padding: 4px 4px 4px 0;
     background: transparent;
     text-align:center;
   }
-  tr:first-of-type td { padding-top:15px; }
   td {
-    /*====border-top: 1px solid #9B9B9B;===*/
-    padding: 15px 30px;
+    border-top: 1px solid #9B9B9B;
+    border-left: 1px solid #9B9B9B;
+    border-right: 1px solid #9B9B9B;
+    padding: 15px;
     span {
       font-size: 11px;
       display: block;
@@ -203,9 +211,37 @@ tr:hover td { /*====background-color: #f2f2f2; color: #333333;===*/ }
   tr:last-child {
     td:last-child { @include rounded-bottom; }
     td:empty:last-child {
+      @include rounded-bottom;
+      border-bottom: 1px solid #9B9B9B;
+      background-color: #DFDFDF;
+      padding: 6px;
     }
   }
 }
+
+.clean-table {
+  table, caption, tbody, tfoot, thead, tr, th, td, thead tr {
+    margin:0;
+    padding:2;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align: middle;
+    background: transparent;
+    text-transform: none;
+    white-space: normal;
+  }
+  td, tr:last-child td:last-child {
+    border: 1px solid #9B9B9B;
+    @include rounded-bottom(0);
+  }
+  td:first-child {
+    text-align:right;
+    border: 0px;
+  }
+  tfoot {@include rounded-bottom(0);}
+}
+
 
 /*=============================
   Actions
@@ -446,6 +482,19 @@ p.paging {
 .file-type-word {background: transparent url(/images/fluxx_engine/theme/default/icons/page_word.png) no-repeat 0px 4px;}
 .file-type-excel {background: transparent url(/images/fluxx_engine/theme/default/icons/page_excel.png) no-repeat 0px 4px;}
 .file-type-powerpoint {background: transparent url(/images/fluxx_engine/theme/default/icons/page_white_powerpoint.png) no-repeat 0px 4px;}
+
+#modal-content {
+  background: #ffffff;
+  width: 500px;
+  height: 500px;
+  overflow: auto;
+  margin: 0px;
+  padding: 40px;
+  border: 2px solid #1B1B1B;
+  label {
+    width: 420px;
+  }
+}
 
 
 /*=============================
