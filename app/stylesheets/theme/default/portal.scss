@@ -369,7 +369,7 @@ ol li.action-item {
   filter:alpha(opacity=20);
 }
 .empty { display: none; }
-
+.text_right {text-align: right; float: right;}
 
 /*=============================
   Class specific styles
@@ -493,6 +493,9 @@ p.paging {
   border: 2px solid #1B1B1B;
   label {
     width: 420px;
+  }
+  .commit input {
+    margin-top: 20px;
   }
 }
 
