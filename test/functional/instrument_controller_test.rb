@@ -202,7 +202,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     assert controller.respond_to? :insta_report_list
     assert controller.insta_report_list
     assert_equal 2, controller.insta_report_list.size
-    assert_equal 1, controller.insta_report_list.first.report_id
+    assert_equal controller.insta_report_list.first.class.name.hash, controller.insta_report_list.first.report_id
     assert controller.insta_report_list.map{|rep| rep.class}.include?(TotalInstrumentsReport)
     assert_equal 0, controller.insta_show_report_list.size
     assert controller.insta_index_report_list.first.is_a?(TotalInstrumentsReport)

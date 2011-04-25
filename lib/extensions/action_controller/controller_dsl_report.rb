@@ -31,9 +31,8 @@ class ActionController::ControllerDslReport < ActionController::ControllerDsl
   
   # Automatically clears out the list of reports and rebuilds it
   def instantiate_reports
-    i=0
     self.reports = load_report_classes.sort_by{|rep| rep.get_order || 0}.map do |report_class|
-      report_class.new(i+=1)
+      report_class.new(report_class.name.hash)
     end
   end
 end

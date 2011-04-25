@@ -14,7 +14,7 @@ class ControllerDslReportTest < ActiveSupport::TestCase
   
   test "check that we can load reports and assign ids" do
     instrument_reports = @instrument_report_provider.instantiate_reports
-    assert_equal 1, instrument_reports.first.report_id
+    assert_equal instrument_reports.first.class.name.hash, instrument_reports.first.report_id
   end
   
   test "check that ordering works for reports" do
