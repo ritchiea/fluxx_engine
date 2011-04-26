@@ -49,6 +49,7 @@
           var $icon  = $(e.currentTarget);
           var $popup = $('.popup', $icon);
           if (e.type == 'mouseover') {
+            $('.popup', '.dock').not($popup).hide();
             $icon.data('hiding-popup', false);
             $popup.show();
           } else {
