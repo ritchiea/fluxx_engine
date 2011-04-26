@@ -49,9 +49,17 @@
           var $icon  = $(e.currentTarget);
           var $popup = $('.popup', $icon);
           if (e.type == 'mouseover') {
+            $icon.data('hiding-popup', false);
             $popup.show();
           } else {
-            $popup.hide();
+            $icon.data('hiding-popup', true);
+            setTimeout(function () {
+              if ($icon.data('hiding-popup')) {
+                $icon.data('hiding-popup', false);
+                $popup.fadeOut();
+              }
+            }, 2000);
+
           }
         });
       });
