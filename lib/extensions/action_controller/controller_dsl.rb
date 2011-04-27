@@ -42,7 +42,7 @@ class ActionController::ControllerDsl
     @post_blocks = []
   end
   
-  def load_existing_model params, model=nil
+  def load_existing_model params, model=nil, fluxx_current_user=nil
     model = if model
       model
     else 
@@ -50,14 +50,24 @@ class ActionController::ControllerDsl
       model_class.safe_find(model_id)
     end
   end
+
+  def pre_create_model?
+    FLUXX_ADMIN_CONFIGURATION[:pre_create] && FLUXX_ADMIN_CONFIGURATION[:pre_create].include?(@model_class.to_s)
+  end
   
-  def load_new_model params, model=nil
+  def load_new_model params, model=nil, fluxx_current_user=nil
     if model
       model
     elsif self.new_block && self.new_block.is_a?(Proc)
       self.new_block.call params
     else
-      model_class.new(params[model_class.name.underscore.downcase.to_sym])
+      model = model_class.new(params[model_class.name.underscore.downcase.to_sym])
+      if pre_create_model? && fluxx_current_user
+        model.update_attributes({:deleted_at => Time.now, :created_by_id => fluxx_current_user.id})
+        model.save(:validate => false)
+        model.errors.clear
+      end
+      model
     end
   end  
   

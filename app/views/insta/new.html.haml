@@ -1,7 +1,7 @@
 %div{:id=>"card-header"}= raw "#{raw flash_info} #{raw flash_error}"
 %div{:id=>"card-body"}
   %div.edit
-    = semantic_form_for @model, :url => (@form_url || current_create_path), :html => {:class => ('to-self ' + (@form_class || ''))} do |form|
+    = semantic_form_for @model, :url => (@form_url || (@model.id.nil? ? current_create_path : current_put_path(@model.id))), :html => {:class => ('to-self ' + (@form_class || ''))} do |form|
       = render :partial => @template, :locals => { :form => form, :model => @model}
 - if !@skip_card_footer
   %div{:id=>"card-footer"}

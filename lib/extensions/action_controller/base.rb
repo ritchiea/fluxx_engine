@@ -225,9 +225,9 @@ class ActionController::Base
       define_method :new do
         new_object.invoke_pre self
         return if new_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
-        @model = new_object.load_new_model params, pre_model
         @model_class = new_object.model_class
         raise UnauthorizedException.new('create', @model_class) unless fluxx_current_user.has_create_for_model?(@model_class)
+        @model = new_object.load_new_model params, pre_model, fluxx_current_user
         @icon_style = new_object.icon_style
 
         instance_variable_set new_object.singular_model_instance_name, @model
@@ -327,7 +327,7 @@ class ActionController::Base
         create_object.invoke_pre self
         return if create_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
 
-        @model = create_object.load_new_model params, pre_model
+        @model = create_object.load_new_model params, pre_model, fluxx_current_user
         @model_class = create_object.model_class
         raise UnauthorizedException.new('create', @model_class) unless fluxx_current_user.has_create_for_model?(@model_class)
         @icon_style = create_object.icon_style
@@ -405,10 +405,10 @@ class ActionController::Base
         @template = update_object.template_file self
         @form_class = update_object.form_class
         @form_url = update_object.form_url
-
+        is_pre_new_record = update_object.clear_deleted_at_if_pre_create params, fluxx_current_user
         @model = update_object.load_existing_model params, pre_model
         @model_class = update_object.model_class
-        unless fluxx_current_user.has_update_for_model?(@model || @model_class)
+        unless is_pre_new_record || fluxx_current_user.has_update_for_model?(@model || @model_class)
           p "ESH: fluxx_current_user has #{fluxx_current_user.inspect}"
           raise UnauthorizedException.new('update', (@model || @model_class))
         end
