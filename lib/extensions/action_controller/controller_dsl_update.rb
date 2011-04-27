@@ -26,7 +26,7 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
     end
     skip_validation = model.send :instance_variable_get, ActionController::ControllerDslUpdate.skip_validation_constant
     
-    if editable?(model, fluxx_current_user) && (model.attributes = modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})) && model.save(false) && (skip_validation || model.valid?) && post_save_call_proc.call(fluxx_current_user, model, params)
+    if editable?(model, fluxx_current_user) && (model.attributes = modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})) && model.save(:validate => false) && (skip_validation || model.valid?) && post_save_call_proc.call(fluxx_current_user, model, params)
       remove_lock model, fluxx_current_user
       true
     else
