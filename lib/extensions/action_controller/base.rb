@@ -405,10 +405,11 @@ class ActionController::Base
         @template = update_object.template_file self
         @form_class = update_object.form_class
         @form_url = update_object.form_url
-        is_pre_new_record = update_object.clear_deleted_at_if_pre_create params, fluxx_current_user
+        update_object.clear_deleted_at_if_pre_create params, fluxx_current_user
         @model = update_object.load_existing_model params, pre_model
         @model_class = update_object.model_class
-        unless is_pre_new_record || fluxx_current_user.has_update_for_model?(@model || @model_class)
+        update_object.populate_model params, @model, fluxx_current_user # This is important because the has_update_for_model may depend on elements posted to evaluate permissions
+        unless fluxx_current_user.has_update_for_model?(@model || @model_class)
           p "ESH: fluxx_current_user has #{fluxx_current_user.inspect}"
           raise UnauthorizedException.new('update', (@model || @model_class))
         end

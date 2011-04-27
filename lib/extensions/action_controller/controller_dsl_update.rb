@@ -18,15 +18,21 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
   # A call to make after the save occurs
   attr_accessor :post_save_call
   
+  def populate_model params, model, fluxx_current_user=nil
+    if editable?(model, fluxx_current_user)
+      modified_by_map = {}
+      if model.respond_to?(:updated_by_id) && fluxx_current_user
+        modified_by_map[:updated_by_id] = fluxx_current_user.id
+      end
+      model.attributes = modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})
+    end
+  end
+  
   def perform_update params, model, fluxx_current_user=nil, controller=nil
     post_save_call_proc = self.post_save_call || lambda{|fluxx_current_user, model, params|true}
-    modified_by_map = {}
-    if model.respond_to?(:updated_by_id) && fluxx_current_user
-      modified_by_map[:updated_by_id] = fluxx_current_user.id
-    end
     skip_validation = model.send :instance_variable_get, ActionController::ControllerDslUpdate.skip_validation_constant
     
-    if editable?(model, fluxx_current_user) && (model.attributes = modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})) && model.save(false) && (skip_validation || model.valid?) && post_save_call_proc.call(fluxx_current_user, model, params)
+    if editable?(model, fluxx_current_user) && model.save(false) && (skip_validation || model.valid?) && post_save_call_proc.call(fluxx_current_user, model, params)
       remove_lock model, fluxx_current_user
       true
     else
@@ -37,11 +43,11 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
   end
 
   def clear_deleted_at_if_pre_create params, fluxx_current_user=nil
-    if pre_create_model?
+    if pre_create_model
       model_id = params.is_a?(Fixnum) ? params : params[:id]
       model = model_class.find(model_id)
 #     AML: Make sure we only clear the deleted_at column in the current user owns this reocrd and the record deleted at time is less than one day before the current time
-      model.update_attribute(:deleted_at, nil) if (model.created_by_id == fluxx_current_user.id && model.deleted_at && (Time.now - model.deleted_at < 86400))
+      model.deleted_at = nil if (model.created_by_id == fluxx_current_user.id && model.deleted_at && (Time.now - model.deleted_at < 86400))
     end
   end
 end
