@@ -34,7 +34,9 @@ body {
     width: 400px;
     form {
       margin: 0px;
-      padding: 0px; }
+      padding: 0px; 
+      input {padding: 2px 5px;}
+    }
     ul { margin-bottom: 7px;}
     h2 {
       @include fluxx-font;
