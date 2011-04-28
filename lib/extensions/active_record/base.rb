@@ -74,9 +74,9 @@ class ActiveRecord::Base
           search_object.model_search q_search, request_params, results_per_page, {:actual_model_class => self}.merge(options)
         end
       
-        def safe_find model_id
+        def safe_find model_id, force_load=false
           # Pass in self in case the model class is a subclass of the original class
-          search_object.safe_find model_id, self
+          search_object.safe_find model_id, self, force_load
         end
       end
     

@@ -2,6 +2,8 @@
 %div{:id=>"card-body"}
   %div.edit
     = semantic_form_for @model, :url => (@form_url || current_put_path(@model.id)), :html => {:class => 'to-self' + (@form_class || '')} do |form|
+      - if params[:force_load_deleted] == '1'
+        <input type=hidden name='force_load_deleted' value='1'>
       = render :partial => @template, :locals => { :form => form, :model => @model}
 
 - if @skip_card_footer != true
