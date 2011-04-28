@@ -49,7 +49,7 @@ class ActionController::ControllerDsl
       model
     else 
       model_id = params.is_a?(Fixnum) ? params : params[:id]
-      model_class.safe_find(model_id)
+      model_class.safe_find(model_id, params[:force_load_deleted] == '1')
     end
   end
 

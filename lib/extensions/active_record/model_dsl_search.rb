@@ -5,9 +5,9 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   #  search_with_attributes is a Hash that adds in conditions to the query.  val contains the posted filter value.
   attr_accessor :derived_filters
 
-  def safe_find model_id, local_model_class
+  def safe_find model_id, local_model_class, force_load=false
     condition = ['id = ?', model_id]
-    condition = ['id = ? AND deleted_at IS NULL', model_id] unless really_delete
+    condition = ['id = ? AND deleted_at IS NULL', model_id] if !really_delete && !force_load
     local_model_class.find :first, :conditions => condition
   end
   
