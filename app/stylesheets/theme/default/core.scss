@@ -129,6 +129,7 @@ tr:hover td { }
   Actions
 ===============================*/
 .actions {
+  position: relative;
   float: right;
   font-weight: normal;
   padding: 0;
@@ -148,7 +149,48 @@ td.check, td.actions {
   white-space:nowrap;
   vertical-align:middle;
 }
+
 .action-item {
+  position:relative; 
+  .actions { display:none; padding-top:4px; }
+  &:hover>.actions:first-of-type  {
+    display:block;
+  }
+}
+li.action-item {
+  position:relative;
+  padding-top:3px;
+  p { padding: 0 0 0.25em 25px; margin-bottom:0.25em; }
+  img { }
+  .actions {
+    position: absolute;
+    top:0;
+    left:-25px;
+    float:none;
+    padding:3px 8px 0 0;
+    @include rounded-left;
+    @include box-shadow(-2px, 0px, 2px, rgba(0, 0, 0, 0.3));
+    /*====background: rgba(255,255,255, 1);===*/
+    display: block;
+    opacity: 0.0;
+    &:hover {
+      opacity: 1;
+      display:block;
+    }
+  }
+  &:hover>.actions:first-of-type  {
+    opacity: 1;
+    display:block;
+  }
+  p.desc{font-size:90%; }
+}
+ul.bullets li.action-item p, ul.todo li.action-item p  {
+  padding-left: 17px;
+}
+ol li.action-item p {
+  padding-left: 0px;
+}
+/*====.action-item {
   position:relative; 
   .actions { display:none; padding-top:4px; }
   &:hover>.actions:first-of-type  {
@@ -176,7 +218,8 @@ ul.bullets li.action-item, ul.todo li.action-item  {
 ol li.action-item {
   padding-left: 45px;
   text-indent: -17px;
-}
+}===*/
+
 td.action-item {
   position:relative; 
   .actions { display:none; padding-top:4px; float:right; }
