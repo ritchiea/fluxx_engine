@@ -30,6 +30,7 @@ class ControllerDslUpdateTest < ActiveSupport::TestCase
     fluxx_user = Musician.make
     instrument = Instrument.make
     @dsl_update = ActionController::ControllerDslUpdate.new Instrument
+    @dsl_update.populate_model({:instrument => {:name => 'trombone'}}, instrument, fluxx_user)
     @dsl_update.perform_update({:instrument => {:name => 'trombone'}}, instrument, fluxx_user)
     assert_equal 'trombone', instrument.reload.name
     assert fluxx_user.id, instrument.updated_by_id
