@@ -20,17 +20,11 @@ module Formtastic #:nodoc:
     def find_collection_for_column_with_multi(column, options)
       if (@object.class.respond_to?(:multi_element_names) && @object.class.multi_element_names && @object.class.multi_element_names.include?(column.to_s))
         unless options[:collection]
-          group = MultiElementGroup.find_for_model_or_super @object, column.to_s
-          if group
-            options[:collection] = MultiElementValue.find(:all, :conditions => ['multi_element_group_id = ?', group.id], :order => 'description asc, value asc').collect {|p| [ (p.description || p.value), p.id ] }
-          end
+          options[:collection] = MultiElementGroup.find_values @object, column.to_s
         end
       elsif   (@object.class.respond_to?(:single_multi_element_names) && @object.class.single_multi_element_names && @object.class.single_multi_element_names.include?(column.to_s))
         unless options[:collection]
-          group = MultiElementGroup.find_for_model_or_super @object, column.to_s
-          if group
-            options[:collection] = MultiElementValue.find(:all, :conditions => ['multi_element_group_id = ?', group.id], :order => 'description asc, value asc').collect {|p| [ (p.description || p.value), p.id ] }
-          end
+          options[:collection] = MultiElementGroup.find_values @object, column.to_s
         end
       end
       find_collection_for_column_without_multi column, options
