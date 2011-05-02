@@ -61,9 +61,11 @@ class ActionController::ControllerDsl
     else
       model = model_class.new(params[model_class.name.underscore.downcase.to_sym])
       if pre_create_model && fluxx_current_user
-        model.update_attributes({:deleted_at => Time.now, :created_by_id => fluxx_current_user.id})
-        model.save(:validate => false)
-        model.errors.clear
+        model.class.without_realtime do
+          model.update_attributes({:deleted_at => Time.now, :created_by_id => fluxx_current_user.id})
+          model.save(:validate => false)
+          model.errors.clear
+        end
       end
       model
     end
