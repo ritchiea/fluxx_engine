@@ -18,7 +18,7 @@ gem 'machinist', '>=1.0.6'
 gem 'faker', '>=0.3.1'
 gem 'rcov'
 gem 'thinking-sphinx', '>=2.0.1', :require => 'thinking_sphinx'
-gem 'compass'
+#gem 'compass'
 
 gem "aasm", '2.2.0'
 gem 'acts_as_audited_rails3', '>=1.1.2'

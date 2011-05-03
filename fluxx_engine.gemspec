@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Hansen"]
-  s.date = %q{2011-02-15}
+  s.date = %q{2011-05-03}
   s.default_executable = %q{fluxxgen}
   s.email = %q{fluxx@acesfconsulting.com}
   s.executables = ["fluxxgen"]
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
     "app/controllers/dashboard_controller.rb",
     "app/controllers/multi_element_values_controller.rb",
     "app/controllers/realtime_updates_controller.rb",
+    "app/helpers/application_engine_helper.rb",
     "app/models/client_store.rb",
     "app/models/multi_element_choice.rb",
     "app/models/multi_element_group.rb",
@@ -35,6 +36,7 @@ Gem::Specification.new do |s|
     "app/stylesheets/theme/default/icons.sass",
     "app/stylesheets/theme/default/icons.scss",
     "app/stylesheets/theme/default/login.scss",
+    "app/stylesheets/theme/default/portal.scss",
     "app/stylesheets/theme/default/printable.scss",
     "app/stylesheets/theme/default/style.scss",
     "app/views/client_stores/_client_store_show.html.haml",
@@ -53,6 +55,7 @@ Gem::Specification.new do |s|
     "app/views/insta/show/_contact_info_more_pairs.html.haml",
     "app/views/insta/show/_report_template.html.haml",
     "app/views/insta/show/_report_template_footer.html.haml",
+    "app/views/insta/show/_show_text.html.haml",
     "app/views/layouts/printable_show.html.haml",
     "bin/fluxxgen",
     "config/routes.rb",
@@ -87,14 +90,17 @@ Gem::Specification.new do |s|
     "lib/extensions/curly_parser.rb",
     "lib/extensions/currency_helper.rb",
     "lib/extensions/daemons_gem_patch.rb",
+    "lib/extensions/delocalize_override.rb",
     "lib/extensions/directory_sync.rb",
     "lib/extensions/file.rb",
     "lib/extensions/file_extension.rb",
     "lib/extensions/fixnum_extensions.rb",
     "lib/extensions/fluxx_builder.rb",
+    "lib/extensions/fluxx_module_helper.rb",
     "lib/extensions/formtastic_override.rb",
     "lib/extensions/inflections.rb",
     "lib/extensions/migration.rb",
+    "lib/extensions/pdfkit.rb",
     "lib/extensions/sass_extension.rb",
     "lib/extensions/test/fluxx_engine_blueprint.rb",
     "lib/extensions/test/fluxx_engine_test_helper.rb",
@@ -125,6 +131,7 @@ Gem::Specification.new do |s|
     "lib/generators/fluxx_engine_migration/templates/realtime_updates.rb",
     "lib/generators/fluxx_engine_public/fluxx_engine_public_generator.rb",
     "lib/tasks.rb",
+    "public/images/theme/_common/download_chrome_frame.png",
     "public/images/theme/_common/loaders/ajax-arrows-cccccc.gif",
     "public/images/theme/_common/loaders/ajax-arrows-eeeeee.gif",
     "public/images/theme/_common/loaders/ajax-loader-666666.gif",
@@ -139,6 +146,7 @@ Gem::Specification.new do |s|
     "public/images/theme/_common/pinwheels/logo_pinwheel_36.png",
     "public/images/theme/_common/pinwheels/logo_pinwheel_48.png",
     "public/images/theme/_common/pinwheels/logo_pinwheel_512.png",
+    "public/images/theme/_common/powered_by.png",
     "public/images/theme/default/card-icons/WorkTask_32x32.png",
     "public/images/theme/default/card-icons/button_card_admin_cards.png",
     "public/images/theme/default/card-icons/button_card_deals.png",
@@ -1552,6 +1560,7 @@ Gem::Specification.new do |s|
     "public/javascripts/lib/jquery.shortkeys.js",
     "public/javascripts/lib/jquery.simplemodal-1.4.js",
     "public/javascripts/lib/plupload.js",
+    "public/javascripts/lib/rails.js",
     "public/javascripts/lib/underscore-min.js",
     "public/javascripts/src/fluxx.alerts.js",
     "public/javascripts/src/fluxx.card.js",
@@ -1770,6 +1779,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rails>, ["= 3.0.3"])
       s.add_runtime_dependency(%q<capybara>, ["= 0.3.7"])
       s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 0"])
+      s.add_runtime_dependency(%q<fastercsv>, [">= 1.5.3"])
       s.add_runtime_dependency(%q<formtastic>, ["~> 1.1.0"])
       s.add_runtime_dependency(%q<haml>, [">= 3"])
       s.add_runtime_dependency(%q<will_paginate>, ["~> 3.0.pre2"])
@@ -1779,15 +1789,19 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<faker>, [">= 0.3.1"])
       s.add_runtime_dependency(%q<rcov>, [">= 0"])
       s.add_runtime_dependency(%q<thinking-sphinx>, [">= 2.0.1"])
-      s.add_runtime_dependency(%q<compass>, [">= 0"])
       s.add_runtime_dependency(%q<aasm>, ["= 2.2.0"])
       s.add_runtime_dependency(%q<acts_as_audited_rails3>, [">= 1.1.2"])
       s.add_runtime_dependency(%q<liquid>, [">= 0"])
+      s.add_runtime_dependency(%q<pdfkit>, [">= 0"])
+      s.add_runtime_dependency(%q<delocalize>, [">= 0"])
       s.add_runtime_dependency(%q<writeexcel>, [">= 0.6.1"])
+      s.add_runtime_dependency(%q<pdfkit>, [">= 0"])
+      s.add_runtime_dependency(%q<ruby-debug>, [">= 0.10.3"])
     else
       s.add_dependency(%q<rails>, ["= 3.0.3"])
       s.add_dependency(%q<capybara>, ["= 0.3.7"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
+      s.add_dependency(%q<fastercsv>, [">= 1.5.3"])
       s.add_dependency(%q<formtastic>, ["~> 1.1.0"])
       s.add_dependency(%q<haml>, [">= 3"])
       s.add_dependency(%q<will_paginate>, ["~> 3.0.pre2"])
@@ -1797,16 +1811,20 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<faker>, [">= 0.3.1"])
       s.add_dependency(%q<rcov>, [">= 0"])
       s.add_dependency(%q<thinking-sphinx>, [">= 2.0.1"])
-      s.add_dependency(%q<compass>, [">= 0"])
       s.add_dependency(%q<aasm>, ["= 2.2.0"])
       s.add_dependency(%q<acts_as_audited_rails3>, [">= 1.1.2"])
       s.add_dependency(%q<liquid>, [">= 0"])
+      s.add_dependency(%q<pdfkit>, [">= 0"])
+      s.add_dependency(%q<delocalize>, [">= 0"])
       s.add_dependency(%q<writeexcel>, [">= 0.6.1"])
+      s.add_dependency(%q<pdfkit>, [">= 0"])
+      s.add_dependency(%q<ruby-debug>, [">= 0.10.3"])
     end
   else
     s.add_dependency(%q<rails>, ["= 3.0.3"])
     s.add_dependency(%q<capybara>, ["= 0.3.7"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
+    s.add_dependency(%q<fastercsv>, [">= 1.5.3"])
     s.add_dependency(%q<formtastic>, ["~> 1.1.0"])
     s.add_dependency(%q<haml>, [">= 3"])
     s.add_dependency(%q<will_paginate>, ["~> 3.0.pre2"])
@@ -1816,11 +1834,14 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<faker>, [">= 0.3.1"])
     s.add_dependency(%q<rcov>, [">= 0"])
     s.add_dependency(%q<thinking-sphinx>, [">= 2.0.1"])
-    s.add_dependency(%q<compass>, [">= 0"])
     s.add_dependency(%q<aasm>, ["= 2.2.0"])
     s.add_dependency(%q<acts_as_audited_rails3>, [">= 1.1.2"])
     s.add_dependency(%q<liquid>, [">= 0"])
+    s.add_dependency(%q<pdfkit>, [">= 0"])
+    s.add_dependency(%q<delocalize>, [">= 0"])
     s.add_dependency(%q<writeexcel>, [">= 0.6.1"])
+    s.add_dependency(%q<pdfkit>, [">= 0"])
+    s.add_dependency(%q<ruby-debug>, [">= 0.10.3"])
   end
 end
 
