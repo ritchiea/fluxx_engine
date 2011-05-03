@@ -1,16 +1,8 @@
 module FluxxModuleHelper
   def included(base)
-    super
     base.instance_eval(&@included_block) if @included_block
-
     base.extend(@class_methods_module) if @class_methods_module
-
-    if @instance_methods_module
-      instance_methods_module = @instance_methods_module
-      base.class_eval do
-        include instance_methods_module
-      end
-    end
+    base.send(:include, @instance_methods_module) if @instance_methods_module
   end
 
   def when_included(&block)
@@ -18,14 +10,10 @@ module FluxxModuleHelper
   end
 
   def class_methods(&block)
-    @class_methods_module = Module.new do
-      module_eval(&block)
-    end
+    @class_methods_module = Module.new{ module_eval(&block) }
   end
 
   def instance_methods(&block)
-    @instance_methods_module = Module.new do
-      module_eval(&block)
-    end
+    @instance_methods_module = Module.new{ module_eval(&block) }
   end
 end
