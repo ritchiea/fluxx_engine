@@ -1,8 +1,9 @@
 @import "../_common/_helpers.scss";
 @import "../_common/style.scss";
 @import "../_common/jquery.colorbox.alerts.sass";
-@import "core";
+@import "core.scss";
 @import "icons.scss";
+@import "modify.scss";
 
 #manager-overlay {
   background-color: black;
