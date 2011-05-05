@@ -1157,12 +1157,21 @@ table .partial { margin: 0.25em 0; }
     padding-left: 8px;
   }
   tr:last-child {background-color: #fefdef;}
-  ul {margin-top: 4px;}
+  ul {margin-top: 0px;}
   li {
-    padding-left: 10px;
+    padding-left: 0px;
+    font-size: 90%;
+    a {font-size: 90%;}
     .actions {
       float: none;
+      left: 0px;
       top: 4px;
+      opacity: 0;
+    }
+    &:hover {
+      .actions {
+        opacity: 1;
+      }
     }
   }
 }
