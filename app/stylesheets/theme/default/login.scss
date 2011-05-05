@@ -62,3 +62,7 @@ body {
         @include inline-block;
         margin-right: 10px;
         font-size: 80%; } } } }
+
+  .error {
+    color: #ff0033;
+  }

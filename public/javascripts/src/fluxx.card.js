@@ -875,11 +875,10 @@
               $arrow.css({
                 top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2)) + headerHeight + 10
               });
-
               var parentOffset = (
                   //    options.target.css('float') || options.target.parent().css('float')
                   //  ?
-                      target.position().left + (options.target.fluxxCardListing().is(':visible') ? options.target.fluxxCardListing().outerWidth(true) : 0)
+                      (target.position().left == 0 ? target.parent().position().left : target.position().left) + (options.target.fluxxCardListing().is(':visible') ? options.target.fluxxCardListing().outerWidth(true) : 0)
                   //  :
                   //    options.target.offsetParent().position().left
                   ),
@@ -887,7 +886,7 @@
                   arrowWidth   = $arrow.outerWidth(true) / 2,
                   leftPosition = parentOffset + targetWidth + arrowWidth;
               $modal.css({
-                left: parseInt(leftPosition),
+                left: parseInt(leftPosition) + 10,
                 top: -headerHeight + 46
               });
               totalWidth = parseInt(leftPosition) + $modal.outerWidth(true) + 30;

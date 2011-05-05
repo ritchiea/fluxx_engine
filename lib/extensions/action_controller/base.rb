@@ -153,6 +153,7 @@ class ActionController::Base
 
         raise UnauthorizedException.new('view', (@model || @model_class)) unless fluxx_current_user.has_view_for_model?(@model || @model_class)
         @icon_style = show_object.icon_style
+        @extra_buttons = show_object.extra_buttons
         @model_name = @model ? @model.class.name.underscore.downcase : show_object.model_name
         @skip_wrapper = @skip_wrapper || params[:skip_wrapper] || show_object.always_skip_wrapper
 

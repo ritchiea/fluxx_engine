@@ -46,7 +46,8 @@ class PDFKit
     end
 
     def render_as_pdf?
-      request_path_is_pdf = @request.path.match(%r{\.pdf$})
+      # Don't take over this request if we are displaying a charity check PDF
+      request_path_is_pdf = @request.path.match(%r{\.pdf$}) && !@request.params().include?("run_charity_check")
 
       if request_path_is_pdf && @conditions[:only]
         rules = [@conditions[:only]].flatten
