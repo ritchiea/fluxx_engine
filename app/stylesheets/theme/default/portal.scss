@@ -321,7 +321,10 @@ ol li.action-item {
   padding: 0; 
   overflow:hidden;   
 }
-.caption {font-size: 11px; color:#666;}
+.caption {
+  font-size: 11px; color:#666;
+  padding-left: 12px;
+}
 .warning {
   background: #{inline_image("/images/fluxx_engine/theme/default/icons/information.png")} no-repeat left center;
   padding: 10px 0 10px 20px;
