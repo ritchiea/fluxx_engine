@@ -618,6 +618,9 @@ table .partial { margin: 0.25em 0; }
         right: 0;
         left: auto;
         li:first-child { @include linear-gradient(#cccccc, #aaaaaa); }
+        li:last-child {
+          width: 24px;
+        }
       }
     }
     padding: 2px;
