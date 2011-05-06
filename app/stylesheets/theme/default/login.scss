@@ -5,7 +5,6 @@ body {
   @include bg(#cccccc, black);
   @include linear-gradient(#f9f9f9, #cccccc);
   @include border-box;
-  padding: 50px;
   min-height: 512px;
   height: 100%;
   overflow: auto; }
