@@ -5,6 +5,8 @@ class ActionController::ControllerDsl
   attr_accessor :layout
   # template to be used
   attr_accessor :template
+  # An array describing the template to display if a given parameter is present
+  attr_accessor :template_map
   # view to be used
   attr_accessor :view
   # associated model class
@@ -99,7 +101,8 @@ class ActionController::ControllerDsl
   end
   
   def template_file controller
-    @template && @template.is_a?(Proc) ? controller.instance_exec(self, &template) : @template
+    local_template = template_map ? template_map.inject(@template) {|temp, mapping| controller.params[mapping.first] ? mapping.last : temp} : @template
+    local_template && local_template.is_a?(Proc) ? controller.instance_exec(self, &template_file) : local_template
   end
   
   # Add a block to be executed after the action has taken place but before the view has been rendered

@@ -751,6 +751,15 @@
               });
             }
           ],
+          'a.toggle-visibility': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var $area = $(this).fluxxCardArea();
+              $($elem.attr('data-target'), $area).toggle();
+              $area.find('.hidden').not($($elem.attr('data-target'), $area)).hide();
+            }
+          ],
           'form.to-listing': [
             'submit', function(e) {
               $.fluxx.util.itEndsWithMe(e);

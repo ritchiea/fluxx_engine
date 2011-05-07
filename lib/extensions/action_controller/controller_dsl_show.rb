@@ -30,7 +30,7 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
   
   def calculate_show_options model, params
     options = {}
-    options[:template] = template
+    options[:template] = template_map ? template_map.inject(template) {|temp, mapping| params[mapping.first] ? mapping.last : temp} : template
     options[:footer_template] = footer_template
     options[:layout] = layout
     options[:skip_card_footer] = skip_card_footer
