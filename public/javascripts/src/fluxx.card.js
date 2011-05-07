@@ -388,7 +388,7 @@
     },
     refreshAreaPartial: function(options, onComplete){
       $.fluxx.log("**> refreshAreaPartial");
-      var options = $.fluxx.util.options_with_callback({animate: true}, options, onComplete);
+      var options = $.fluxx.util.options_with_callback({animate: true, data: ""}, options, onComplete);
       return this.each(function(){
         // if the current context has a data-src attribute, we assume it is a partial.
         // By doing this we really don't need to give a specific area the partial class when
@@ -397,6 +397,7 @@
         if (options.animate) {
           $.ajax({
             url: $partial.attr('data-src'),
+            data: options.data,
             beforeSend: function() {
               $partial
                 .addClass('updating')
@@ -565,7 +566,7 @@
           $flows = $('.footer .workflow', $area);
       $forms.each(function(){
         var $form   = $(this),
-            $submit = $(':submit:first', $form);
+            $submit = $(':submit:last', $form);
         /* XXX GENERATE FROM $.fluxx.card.ui.workflowButton() !!! */
         if (!$submit.hasClass('ignore')) {
           $('<a>').attr('href', $form.attr('action')).text($submit.val()||'Submit').bind('click', function(e){
@@ -893,6 +894,8 @@
               overage = totalWidth - options.target.fluxxCard().outerWidth(true);
               if (overage > 0)
                 $modal.fluxxCard().css({marginRight: overage});
+              if (options.hideFooter)
+                $modal.find('.footer').hide();
               $card.resizeFluxxCard();
               $.my.stage.resizeFluxxStage();
             }

@@ -351,6 +351,15 @@
               }
             }
           ],
+          'input.refresh-partial' : [
+            'keyup', function(e) {
+              var $elem = $(this);
+              var $partial = $($elem.attr('data-target'), $elem.fluxxCardArea());
+              if ($partial.length) {
+                $partial.refreshAreaPartial({data: $elem.parents('form').serialize()});
+              }
+            }
+          ],
           'a.report-modal' : [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
@@ -695,7 +704,8 @@
               $elem.openCardModal({
                 url:    $elem.attr('href'),
                 header: $elem.attr('title') || $elem.text(),
-                target: $elem
+                target: $elem,
+                hideFooter: $elem.hasClass('hide-footer')
               });
             }
           ],
@@ -751,13 +761,18 @@
               });
             }
           ],
-          'a.toggle-visibility': [
+          'a.tab-open': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              var $elem = $(this);
+              var $elem = $(this).addClass('disabled');
               var $area = $(this).fluxxCardArea();
-              $($elem.attr('data-target'), $area).toggle();
-              $area.find('.hidden').not($($elem.attr('data-target'), $area)).hide();
+              $($elem.attr('data-target'), $area).show();
+              $area.find('.tab').not($($elem.attr('data-target'), $area)).hide();
+              $area.find('.tab-open').not($elem).removeClass('disabled');
+              if ($elem.hasClass('hide-footer'))
+                $area.find('.footer').hide();
+              else if ($elem.hasClass('show-footer'))
+                $area.find('.footer').show();
             }
           ],
           'form.to-listing': [
