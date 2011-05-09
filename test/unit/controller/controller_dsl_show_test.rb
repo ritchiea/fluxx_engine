@@ -48,15 +48,5 @@ class ControllerDslShowTest < ActiveSupport::TestCase
     assert_equal 'mode_template', options[:template]
     assert_equal 'footer_template', options[:footer_template]
   end
-
-  test "check that we can calculate_error_options without audit" do
-    message = @dsl_show.calculate_error_options({:id => 1})
-    assert message =~ /no record/i
-  end
-
-  test "check that we can calculate_error_options with audit" do
-    message = @dsl_show.calculate_error_options({:audit_id => 5, :id => 1})
-    assert message =~ /no history/i
-  end
 end
 
