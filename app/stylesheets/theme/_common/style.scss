@@ -1117,7 +1117,10 @@ table .partial { margin: 0.25em 0; }
     }
   }
 }
-
+.dark-table {
+  color: #ffffff;
+  td {vertical-align: top}
+}
 .clean-table {
   table, caption, tbody, tfoot, thead, tr, th, td, thead tr {
     margin:0;
