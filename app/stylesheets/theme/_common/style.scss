@@ -1247,7 +1247,7 @@ table .partial { margin: 0.25em 0; }
   }
 }
 
-.charity-check {
+.charity-check, .funding_warnings_title {
 	@include rounded;
   background-color: #fcfce5;
 	padding: 20px;
@@ -1268,8 +1268,19 @@ table .partial { margin: 0.25em 0; }
 	a {
 		padding-left: 30px;
 	}
-		
+  h3 {
+   background: url("/images/fluxx_engine/theme/default/icons/exclamation.png") no-repeat 0px 1px;
+   padding-left: 30px;
+   border: none;
+  }
+  .hide_warnings {display: none;}
+  ul.funding_warnings {
+    padding-left: 30px;
+    ol {padding-left: 20px;}
+  }
+
 }
+
 
 .ui-datepicker { display: none; }
 
