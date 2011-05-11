@@ -323,9 +323,9 @@
             'change', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               reportID = parseInt($(this).val())
-              if ( reportID > 0) {
+              if ( reportID ) {
                 var req = $(this).fluxxCardArea().fluxxCardAreaRequest();
-                req.url = req.url.replace(/fluxxreport_id=\d*$/, 'fluxxreport_id=' + reportID);
+                req.url = req.url.replace(/fluxxreport_id=[\-0-9]*$/, 'fluxxreport_id=' + reportID);
                 var $card = $(this).fluxxCard();
                 $card.fluxxCardLoadDetail(req, function() {
                   $card.saveDashboard();
