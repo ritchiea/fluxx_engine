@@ -1395,10 +1395,8 @@
           //TODO: The original target becomes orphaned after the refresh. May want to implement
           // resetTarget like in refreshCaller
           refreshNamed: function(){
-            $.fluxx.log('---------------------------');
             if (! this.data('target')) return;
             if (this.data('target').attr('target')) {
-              $.fluxx.log('!!!---------------------------',$(this.data('target').attr('target'), this.data('target').fluxxCardArea()),this.data('target').attr('target'));
               $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();
             }
           },
