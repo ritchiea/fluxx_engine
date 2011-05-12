@@ -75,14 +75,18 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       instance_variable_set @plural_model_instance_name, model_ids
       
       if format && (format.csv? || format.xls?)
-        unless model_csv_query.blank?
-          unpaged_models = model_class.connection.execute(model_class.send(:sanitize_sql, [model_csv_query, model_ids]))
-        else
-          unpaged_models = model_class.find model_ids
-        end
+        build_unpaged_models model_ids
       else
         model_class.page_by_ids model_ids
       end
+    end
+  end
+  
+  def build_unpaged_models model_ids
+    unless model_csv_query.blank?
+      unpaged_models = model_class.connection.execute(model_class.send(:sanitize_sql, [model_csv_query, model_ids]))
+    else
+      unpaged_models = model_class.find model_ids
     end
   end
   
