@@ -10,7 +10,7 @@
     - if @related && ! @exclude_related_data
       %ol{:id=>"card-drawer"}
         - @related.each do |rd|
-          - if rd[:display_name] && (rd[:lazy_load_url] ||!rd[:model_class] || (current_user.has_view_for_model?(rd[:model_class])))
+          - if rd[:display_name]
             %li.section
               - if rd[:lazy_load_url]
                 %span.label{:class => "lazy-load", "data-src".to_sym => rd[:lazy_load_url]}
