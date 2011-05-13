@@ -31,6 +31,8 @@ class ActionController::ControllerDsl
   attr_accessor :pre_create_model
   # Extra action buttons
   attr_accessor :extra_buttons
+  # Skip permission check
+  attr_accessor :skip_permission_check
 
   # Allow you to pass in a block to initialize a new model object
   attr_accessor :new_block

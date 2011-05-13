@@ -43,7 +43,7 @@ class ActionController::Base
       end
 
       define_method :index do
-        raise UnauthorizedException.new("listview", index_object.model_class) unless fluxx_current_user.has_listview_for_model?(index_object.model_class)
+        raise UnauthorizedException.new("listview", index_object.model_class) unless index_object.skip_permission_check || fluxx_current_user.has_listview_for_model?(index_object.model_class)
         index_object.invoke_pre self
         return if index_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
         
@@ -151,7 +151,7 @@ class ActionController::Base
         end
         @model_class = show_object.model_class
 
-        raise UnauthorizedException.new('view', (@model || @model_class)) unless fluxx_current_user.has_view_for_model?(@model || @model_class)
+        raise UnauthorizedException.new('view', (@model || @model_class)) unless show_object.skip_permission_check || fluxx_current_user.has_view_for_model?(@model || @model_class)
         @icon_style = show_object.icon_style
         @extra_buttons = show_object.extra_buttons
         @model_name = @model ? @model.class.name.underscore.downcase : show_object.model_name
@@ -227,7 +227,7 @@ class ActionController::Base
         new_object.invoke_pre self
         return if new_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
         @model_class = new_object.model_class
-        raise UnauthorizedException.new('create', @model_class) unless fluxx_current_user.has_create_for_model?(@model_class)
+        raise UnauthorizedException.new('create', @model_class) unless new_object.skip_permission_check || fluxx_current_user.has_create_for_model?(@model_class)
         @model = new_object.load_new_model params, pre_model, fluxx_current_user
         @icon_style = new_object.icon_style
 
@@ -274,7 +274,7 @@ class ActionController::Base
         @model = edit_object.perform_edit params, pre_model, fluxx_current_user
         @model_class = edit_object.model_class
         @model_name = (@model ? @model.class.name.underscore.downcase : edit_object.model_name) || (@model_class ? @model_class.name.underscore.downcase : nil)
-        raise UnauthorizedException.new('update', (@model || @model_class)) unless fluxx_current_user.has_update_for_model?(@model || @model_class)
+        raise UnauthorizedException.new('update', (@model || @model_class)) unless edit_object.skip_permission_check || fluxx_current_user.has_update_for_model?(@model || @model_class)
         @icon_style = edit_object.icon_style
         editable = edit_object.editable? @model, fluxx_current_user
         edit_object.invoke_post self, @model, (editable ? :success : :error)
@@ -330,7 +330,7 @@ class ActionController::Base
 
         @model = create_object.load_new_model params, pre_model, fluxx_current_user
         @model_class = create_object.model_class
-        raise UnauthorizedException.new('create', @model_class) unless fluxx_current_user.has_create_for_model?(@model_class)
+        raise UnauthorizedException.new('create', @model_class) unless create_object.skip_permission_check || fluxx_current_user.has_create_for_model?(@model_class)
         @icon_style = create_object.icon_style
         instance_variable_set create_object.singular_model_instance_name, @model
         @template = create_object.template_file self
@@ -410,8 +410,7 @@ class ActionController::Base
         update_object.clear_deleted_at_if_pre_create @model, params, fluxx_current_user
         @model_class = update_object.model_class
         update_object.populate_model params, @model, fluxx_current_user # This is important because the has_update_for_model may depend on elements posted to evaluate permissions
-        unless fluxx_current_user.has_update_for_model?(@model || @model_class)
-          p "ESH: fluxx_current_user has #{fluxx_current_user.inspect}"
+        unless update_object.skip_permission_check || fluxx_current_user.has_update_for_model?(@model || @model_class)
           raise UnauthorizedException.new('update', (@model || @model_class))
         end
         @icon_style = update_object.icon_style
@@ -492,7 +491,7 @@ class ActionController::Base
 
         @model = delete_object.load_existing_model params, pre_model
         @model_class = delete_object.model_class
-        raise UnauthorizedException.new('delete', (@model || @model_class)) unless fluxx_current_user.has_delete_for_model?(@model || @model_class)
+        raise UnauthorizedException.new('delete', (@model || @model_class)) unless delete_object.skip_permission_check || fluxx_current_user.has_delete_for_model?(@model || @model_class)
         @icon_style = delete_object.icon_style
         instance_variable_set delete_object.singular_model_instance_name, @model
         delete_result = delete_object.perform_delete params, @model, fluxx_current_user
