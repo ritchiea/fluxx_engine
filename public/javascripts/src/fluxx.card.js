@@ -594,7 +594,7 @@
       })
 
       $.fluxx.util.autoGrowTextArea($('textarea', $area));
-      $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $area).selectTransfer();
+      $('.multiple-select-transfer select[multiple="true"], .multiple-select-transfer select[multiple="multiple"]', $area).selectTransfer();
       $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
       if ($('.visualizations', $area).length)
         $area.addClass('report-area');
@@ -730,7 +730,7 @@
                 var id = $elem.attr('id');
                 var val = $elem.val();
                 if (val) {
-                  var label = $('[for*=' + id + ']', $filters).text();
+                  var label = $('[for*="' + id + '"]', $filters).text();
                   label = label.replace(/:$/, '');
                   var type = $elem.attr('type');
                   if (type == 'checkbox') {
@@ -784,14 +784,14 @@
           }
           _.each(data, function(obj) {
             if (obj.value) {
-              var $rollup = $('[data-rollup=' + obj.name.replace(/\w+\[(\w+)\]\[\]/, "$1") + ']');
+              var $rollup = $('[data-rollup="' + obj.name.replace(/\w+\[(\w+)\]\[\]/, "$1") + '"]');
               var i = 0;
               if ($rollup.length > 0) {
                 var $addNew = $rollup.find('.do-add-another:first');
                 _.each(obj.value.split(','), function(item) {
                   if (i++ > 0)
                     $addNew.click();
-                  var $section = $('[data-rollup=' + $rollup.attr('data-rollup') + ']:last', $card);
+                  var $section = $('[data-rollup="' + $rollup.attr('data-rollup') + '"]:last', $card);
                   $addNew = $section.find('.do-add-another:first');
                   var vals = item.split('-');
 
@@ -813,7 +813,7 @@
                 });
 
               } else {
-                var selector = '[name*=' + obj.name + ']';
+                var selector = '[name*="' + obj.name + '"]';
                 var $elem = $(selector, $filters).last();
                 if (found.hasOwnProperty(obj.name)) {
                   var $add  = $elem.clone();
@@ -1006,7 +1006,7 @@
             );
             _.each(
               IDs,
-              function(id) {$removals = $removals.add($('.entry[data-model-id='+id+']', $area))}
+              function(id) {$removals = $removals.add($('.entry[data-model-id="'+id+'"]', $area))}
             );
             $removals.remove();
             $entries.addClass('latest').prependTo($('.list', $area));
@@ -1153,6 +1153,7 @@
               options.area
                 .fluxxAreaSettings({settings: $('#card-settings', $document)})
                 .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
+              options.area.fluxxCard().trigger('lifetimeComplete.fluxx.card');
             }
             var $card = options.area.fluxxCard();
             if (options.area.fluxxCardAreaRequest())
@@ -1279,7 +1280,7 @@
                 if ($card.cardIsMinimized()) {
                   var cw = $card.data('lastWidth');
                   if (cw == 0)
-                    cw = _.addUp($('.area[minimized=true]', $card), 'outerWidth', true);
+                    cw = _.addUp($('.area[minimized="true"]', $card), 'outerWidth', true);
                   $card.fluxxCardMinimized().fadeOut('fast', function() {
                     $card.animateWidthTo(cw, function() {
                       $titlebar.attr('minimized', 'false');
@@ -1287,7 +1288,7 @@
                       $('.title', $card).show();
                       $card.fluxxCardMinimized().hide();
                       $('.footer', $card).css('opacity', 1);
-                      $('.area, .info', $card).filter('[minimized=true]').fadeIn('slow').attr('minimized', 'false');;
+                      $('.area, .info', $card).filter('[minimized="true"]').fadeIn('slow').attr('minimized', 'false');;
                       $card.resizeFluxxCard();
                       $card.trigger('lifetimeComplete.fluxx.card');
                       if (!$card.fromClientStore() && !$card.cardFullyVisible())
@@ -1381,7 +1382,7 @@
                 // element is removed from the DOM as new HTML as added after the ajax call.
                 resetTarget = function() {
                   var href = $target.attr('href');
-                  $this.data('target', $('[href=' + href + ']', $area));
+                  $this.data('target', $('[href="' + href + '"]', $area));
                 };
             if ($target.parents('.partial').length && $target.parents('.partial').attr('data-src')) {
               $.fluxx.log("Refreshing PARTIAL");

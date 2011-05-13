@@ -77,7 +77,7 @@
           type: options.card.fluxxCardIconStyle()
         }).updateIconBadge();
         if (options.card.prev().length) {
-            $icon.insertAfter($('a[href=#'+options.card.prev().attr('id')+']', $.my.iconlist).parents('.icon').first());
+            $icon.insertAfter($('a[href="#'+options.card.prev().attr('id')+'"]', $.my.iconlist).parents('.icon').first());
         } else {
           $icon.prependTo($.my.iconlist);
         }
@@ -186,7 +186,7 @@
         var cardMargin = $card.fluxxCardMargin();
         var cardLeft = $card.offset().left;
         var cardArea = cardLeft + cardWidth + cardMargin;
-        var $icon = $('a[href=#'+$card.attr('id')+']', $.my.iconlist);
+        var $icon = $('a[href="#'+$card.attr('id')+'"]', $.my.iconlist);
         if ($icon.length == 0)
           return false;
         var iconMargin = $icon.fluxxDockIconMargin();

@@ -13,7 +13,7 @@
     loadDashboard: function () {
       var $item = $('.item:first a', $(this));
       if ($.cookie('dashboard')) {
-        $found = $('.item a[href='+$.cookie('dashboard')+']', $(this));
+        $found = $('.item a[href="'+$.cookie('dashboard')+'"]', $(this));
         if ($found.length)
           $item = $found;
       }
@@ -90,7 +90,7 @@
     },
     deleteDashboard: function(dashboard) {
      $.fluxx.storage.deleteStored({store: dashboard}, function(item) {
-       var $li = $('a.to-dashboard[href*=' + dashboard.url + ']').parent().remove();
+       var $li = $('a.to-dashboard[href*="' + dashboard.url + '"]').parent().remove();
        if ($li.hasClass('selected')) {
          var $first = $('a.to-dashboard').first();
          if ($first.length > 0)
@@ -106,7 +106,7 @@
     renameDashboard: function(dashboard, name) {
       dashboard.name = name;
       $.fluxx.storage.updateStored({store: dashboard}, function(dashboard){});
-      $('a.to-dashboard[href*=' + dashboard.url + ']').html(name);
+      $('a.to-dashboard[href*="' + dashboard.url + '"]').html(name);
     }
   });
 

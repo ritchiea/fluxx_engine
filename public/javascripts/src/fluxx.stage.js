@@ -137,7 +137,7 @@
 							var pagenum = parseInt(b) + pageIncrement;
 				      return '&pagenum=' + pagenum;
 				 }));			
-			var $drawers = $('.section .lazy-load[data-src=' + $elem.attr('data-src') + ']').next().html('');
+			var $drawers = $('.section .lazy-load[data-src="' + $elem.attr('data-src') + '"]').next().html('');
 			$.ajax({
         url: $elem.attr('data-src'),
 				success: function(data, status, xhr){
@@ -511,11 +511,11 @@
                 $actions.animate({left: $head.outerWidth(true)});
               } else {
                 $('.search', $head).fadeOut();
-                $actions.animate({left: $head.outerWidth() -
+                $actions.animate({left: $head.outerWidth(true) -
                   _.addUp(
                       $('li:not(.open-listing-actions)', $actions),
                       'outerWidth', true
-                    ) - 1
+                    ) + $.fluxx.scrollBarWidth() - 2
                   }, function() {
                     $head.addClass('actions-open').show()
                   }
@@ -588,7 +588,7 @@
               var $parent   = $(this),
                   $children = $($parent.attr('data-related-child'), $parent.parents('form').eq(0));
               if ($parent.attr('data-sibling')) {
-                $('[data-sibling='+ $parent.attr('data-sibling') +']', $parent.parent()).not($parent)
+                $('[data-sibling="'+ $parent.attr('data-sibling') +'"]', $parent.parent()).not($parent)
                   .one('change', function(){
                     updateChildren($children, $(this).val(), $parent.attr('data-related-child-param'));
                   });
@@ -614,7 +614,7 @@
               });
               var dashboard = $selected.data('dashboard');
               if (dashboard && dashboard.data && dashboard.data.cards) {
-                $('a.to-dashboard[href=#' + dashboard.url + ']').parent().addClass('selected').siblings().removeClass('selected');
+                $('a.to-dashboard[href="#' + dashboard.url + '"]').parent().addClass('selected').siblings().removeClass('selected');
                 $.my.hand
                   .addFluxxCards({cards: dashboard.data.cards}, function(){
                     $selected.data('locked', false);
@@ -1147,7 +1147,7 @@
                 $elem = $link.parent().prev(),
                 $area = $(this).fluxxCardArea();
 
-              var $autosel = $('[data-related-child=.' + $elem.attr('class') + ']');
+              var $autosel = $('[data-related-child=".' + $elem.attr('class') + '"]');
                $elem.val('');
               $elem.val('').html('<option value=""></option>').val('');
               $autosel.val('').next().val('').change();
