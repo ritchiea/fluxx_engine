@@ -35,13 +35,15 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
     end
     
     model_relations.map do |rd|
-      if rd.lazy_load
-        {:lazy_load_url => rd.generate_url(controller, model), :display_name => rd.display_name, :model_class => rd.model_class}
-      else
-        formatted_data = calculate_related_data_row(controller, model, rd).uniq_by{|element| element[:model]}
-        {:formatted_data => formatted_data, :display_name => rd.display_name, :model_class => rd.model_class}
+      if rd.show_tab.nil? || rd.show_tab.call([controller, model])
+        if rd.lazy_load
+          {:lazy_load_url => rd.generate_url(controller, model), :display_name => rd.display_name}
+        else
+          formatted_data = calculate_related_data_row(controller, model, rd).uniq_by{|element| element[:model]}
+          {:formatted_data => formatted_data, :display_name => rd.display_name}
+        end
       end
-    end
+    end.compact
   end
   
   def calculate_related_data_row controller, model, rd
@@ -69,7 +71,7 @@ class ActionController::ModelRelationship
   # Block to return the URL for a related model
   attr_accessor :url_block
   attr_accessor :lazy_load
-  attr_accessor :model_class
+  attr_accessor :show_tab
   
   def add_title_block &block_title
     self.title_block = block_title
@@ -86,6 +88,10 @@ class ActionController::ModelRelationship
 
   def for_search &block_search
     self.search_block = block_search
+  end
+
+  def show_tab? &block_show_tab
+    self.show_tab = block_show_tab
   end
   
   def generate_title model

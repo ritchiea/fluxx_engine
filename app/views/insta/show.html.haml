@@ -10,7 +10,7 @@
     - if @related && ! @exclude_related_data
       %ol{:id=>"card-drawer"}
         - @related.each do |rd|
-          - if rd[:display_name] && (rd[:lazy_load_url] ||!rd[:model_class] || (current_user.has_view_for_model?(rd[:model_class])))
+          - if rd[:display_name]
             %li.section
               - if rd[:lazy_load_url]
                 %span.label{:class => "lazy-load", "data-src".to_sym => rd[:lazy_load_url]}
@@ -35,7 +35,7 @@
           - if @model
             - if !current_user.respond_to?(:has_update_for_model) || current_user.has_update_for_model?(@model)
               %li= link_to 'Edit', current_edit_path(@model.id), :class => 'to-self', :link_class => 'btn'
-            - if !current_user.respond_to?(:has_delete_for_model) || current_user.has_delete_for_model?(@model)
+            - if (!current_user.respond_to?(:has_delete_for_model) || current_user.has_delete_for_model?(@model)) && (!@model.respond_to?(:can_delete?) || @model.can_delete?)
               %li= link_to 'Delete', current_delete_path(@model.id), :class => 'as-delete', 'data-on-success' => 'refreshCaller', :link_class => 'btn'
             - if @model.respond_to?(:is_favorite_for?)
               - favorite = @model.is_favorite_for? current_user
