@@ -307,7 +307,9 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              if ($elem.hasClass('no-confirm'))
+              if ($elem.hasClass('disabled'))
+                alert('This record can not be deleted.');
+              else if ($elem.hasClass('no-confirm'))
                 $.fn.fluxxAjaxCall($elem, 'DELETE');
               else if (confirm('This record will be deleted. Are you sure?'))
                 $.fn.fluxxAjaxCall($elem, 'DELETE');
