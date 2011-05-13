@@ -20,7 +20,7 @@ module Fluxx<%= model_class_name %>
     base.insta_export do |insta|
       insta.filename = '<%= model_class_singular_table_name %>'
       insta.headers = [['Date Created', :date], ['Date Updated', :date]]
-      insta.sql_query = "select created_at, updated_at
+      insta.sql_query = "created_at, updated_at
                 from <%= model_class_plural_table_name %>
                 where id IN (?)"
     end

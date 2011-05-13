@@ -55,8 +55,8 @@ ATTRIBUTES = {}
     MultiElementValue.blueprint do
     end
     ClientStore.blueprint do
-      name Sham.word
-      client_store_type Sham.word
+      name random_word
+      client_store_type random_word
     end
   
     base.extend(ModelClassMethods)

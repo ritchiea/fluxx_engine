@@ -262,6 +262,21 @@ class ActiveRecord::Base
     extract_classes(model).map(&:name)
   end
   
+  def self.extract_base_class
+    model_class = self
+    
+    klass = model_class
+    while model_class 
+      model_class = model_class.superclass
+      if model_class == ActiveRecord::Base || model_class == Object
+        model_class = nil 
+      else
+        klass = model_class
+      end
+    end
+    klass
+  end
+  
   
   def self.extract_classes model
     model_class = if model.is_a? Class

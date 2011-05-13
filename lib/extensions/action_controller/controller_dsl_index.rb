@@ -84,7 +84,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   
   def build_unpaged_models model_ids
     unless model_csv_query.blank?
-      unpaged_models = model_class.connection.execute(model_class.send(:sanitize_sql, [model_csv_query, model_ids]))
+      unpaged_models = model_class.connection.execute(model_class.send(:sanitize_sql, ["select #{model_class.extract_base_class.name.tableize.singularize.downcase.pluralize}.id, #{model_csv_query}", model_ids]))
     else
       unpaged_models = model_class.find model_ids
     end
@@ -128,7 +128,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       stream_xls request, request_headers, filename, extract_type, headers, unpaged_models, model_class
     else
       stream_csv( request, request_headers, filename, extract_type ) do |csv|
-        headers = headers.map do |header_record| 
+        headers = extract_headers(headers, unpaged_models).map do |header_record| 
           if header_record.is_a?(Array)
             header_record.first
           else
@@ -139,8 +139,8 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         csv << headers
         
         unless model_csv_query.blank?
-          (1..unpaged_models.num_rows).each do
-            cur_row = unpaged_models.fetch_row
+          (1..extract_number_of_records(unpaged_models)).each do |offset|
+            cur_row = extract_row(unpaged_models, offset)
             csv << cur_row
           end
         else
@@ -169,6 +169,23 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     csv_processor.call nil, io
     io.string
   end
+
+  def extract_headers headers, unpaged_models
+    headers
+  end
+  
+  def extract_number_of_records unpaged_models
+    unpaged_models.is_a?(Array) ? unpaged_models.size : unpaged_models.num_rows
+  end
+  
+  def extract_row unpaged_models, offset
+    if unpaged_models.is_a?(Array)
+      unpaged_models[offset-1]
+    else
+      cur_row = unpaged_models.fetch_row
+      cur_row[1, cur_row.size-1]
+    end
+  end
   
   # Based on formatting tips in http://forums.asp.net/t/1038105.aspx
   # Useful reference: http://msdn.microsoft.com/en-us/library/aa140066(office.10).aspx
@@ -189,10 +206,10 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       </Styles>
       <Worksheet ss:Name="Sheet1">
       <Table>'
-      
-      if headers
+      ordered_headers = extract_headers(headers, unpaged_models)
+      if ordered_headers
         output.write "<Row>"
-        headers.each do |header_record| 
+        ordered_headers.each do |header_record| 
           header = if header_record.is_a?(Array)
             header_record.first
           else
@@ -202,18 +219,18 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         end
         output.write "</Row>"
       end    
-      ordered_headers = model_class.columns.map(&:name).sort
 
       if unpaged_models.is_a? Array
+        ordered_headers = model_class.columns.map(&:name).sort
         unpaged_models.each do |element|
           output.write "<Row>"
           generate_xls_row ordered_headers.map {|header| element.send header}, output, ordered_headers
           output.write "</Row>"
         end
       else
-        (1..unpaged_models.num_rows).each do
+        (1..extract_number_of_records(unpaged_models)).each do |offset|
           output.write "<Row>"
-          generate_xls_row unpaged_models.fetch_row, output, ordered_headers
+          generate_xls_row extract_row(unpaged_models, offset), output, ordered_headers
           output.write "</Row>"
         end
       end
