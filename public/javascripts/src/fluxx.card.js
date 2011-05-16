@@ -813,7 +813,7 @@
                 });
 
               } else {
-                var selector = '[name*="' + obj.name + '"]';
+                var selector = '[name="' + obj.name.replace(/\[\]$/,'') + '"]';
                 var $elem = $(selector, $filters).last();
                 if (found.hasOwnProperty(obj.name)) {
                   var $add  = $elem.clone();
