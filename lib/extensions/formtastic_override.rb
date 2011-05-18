@@ -56,16 +56,21 @@ module Formtastic #:nodoc:
     # = form.input :organization, :label => "Organization", :as => :autocomplete, :autocomplete_url => organizations_path(:format => :json), :related_attribute_name => :name
     def autocomplete_input(method, options)
       related_attribute_name = options[:related_attribute_name] || 'name'
-      related_object = @object.send method.to_sym
-      value_name = if related_object && related_object.respond_to?(related_attribute_name.to_sym)
-        related_object.send related_attribute_name.to_sym 
-      end || related_object
+      value_name = derive_autocomplete_value method, related_attribute_name
       
       input_name = generate_association_input_name(method)
       sibling_id = generate_random_id
       label("#{method}:", :label => options[:label]) + 
         text_field_tag(method, nil, (options[:input_html] || {}).merge({"data-sibling".to_sym => sibling_id.to_s, "data-autocomplete".to_sym => options[:autocomplete_url], :value => value_name})) + 
         hidden_field(input_name, {"data-sibling".to_sym => sibling_id.to_s, :class => options[:hidden_attribute_class]})
+    end
+    
+    def derive_autocomplete_value method, related_attribute_name
+      related_object = @object.send method if @object.respond_to?(method)
+      value_name = if related_object && related_object.respond_to?(related_attribute_name.to_sym)
+        related_object.send related_attribute_name
+      end || related_object
+      value_name
     end
     
     def generate_random_id
