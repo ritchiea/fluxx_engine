@@ -1,7 +1,7 @@
 @import "../_common/_helpers.scss";
 
 /*=============================
-  Reset 
+  Reset
 ===============================*/
 *{margin:0;padding:0}
 * html body *{overflow:visible}
@@ -27,7 +27,7 @@ div,ul,ol,li,table,tr,td,th,dl,dt,dd {
 .plupload, .plupload div,ul,ol,li,table,tr,td,th,dl,dt,dd {
   list-style: none;
   @include content-box; }
-  
+
 /*=============================
   Layout
 ===============================*/
@@ -140,7 +140,7 @@ table {
   width: 100%;
   margin: 0.75em 0;
   /*====font-size: 92.9%;===*/
-    
+
 }
 thead, tfoot { padding: 5px 0;}
 tbody { }
@@ -261,7 +261,7 @@ tr:hover td { /*====background-color: #f2f2f2; color: #333333;===*/ }
     padding-left: 2px;
   }
 }
-td.check, td.actions {  
+td.check, td.actions {
   white-space:nowrap;
   vertical-align:middle;
 }
@@ -314,12 +314,28 @@ ol li.action-item {
 .ar { text-align:right; }
 .al { text-align: left; }
 .ac { text-align: center;}
-.c60l {width:59%; float:left;}
-.c40r {width:39%; float:right;}
+.c60l {
+  width:59%;
+  float:left;
+  ul, li {
+    padding-left: 20px;
+    list-style-type: circle;
+    margin: 4px 0px 4px;
+    ul li {list-style-type: square;}
+  }
+}
+.c40r {
+  width:39%;
+  float:right;
+  .documents {
+    max-height: 150px;
+    overflow-y: auto;
+  }
+}
 .content {
   position: relative;
-  padding: 0; 
-  overflow:hidden;   
+  padding: 0;
+  overflow:hidden;
 }
 .caption {
   font-size: 11px; color:#666;
@@ -366,7 +382,7 @@ ol li.action-item {
 #card-footer, #card-settings {
   display: none;
 }
-.dimmed, .disabled { 
+.dimmed, .disabled {
   opacity: 0.2;
   -moz-opacity: 0.2;
   filter:alpha(opacity=20);
@@ -394,7 +410,7 @@ ol li.action-item {
     border-left: 1px solid #ffffff;
   }
 }
-.logo { margin: 5px 0; vertical-align:middle; }
+.logo { margin: -10px 0; vertical-align:middle; }
 .page {
   position: relative;
   width: 950px;
@@ -412,7 +428,7 @@ ol li.action-item {
   border-bottom: 3px solid #444444;
   color:#444444;
   font-size: 190%;
-  padding: 10px;  
+  padding: 10px;
   & input[type="submit"], input[type='button'] {
     font-size: 50%;
     margin:5px 0 5px 5px;
@@ -424,9 +440,9 @@ ol li.action-item {
 }
 
 .paging {
-  padding: 10px 20px; 
-  font-weight: bold; 
-  border-top: 1px solid #999999; 
+  padding: 10px 20px;
+  font-weight: bold;
+  border-top: 1px solid #999999;
   border-bottom: 1px solid #999999;
   a {color:#333333; font-weight:bold; text-decoration: none;}
 }
@@ -456,7 +472,7 @@ ol li.action-item {
       }
     }
   }
-}  
+}
 .simplemodal-overlay {
   background: url("/images/fluxx_engine/theme/default/modal/overlay-bg.png") black;
 }
@@ -553,7 +569,7 @@ input[type=checkbox] {
 input[type=text],input[type=password] {
   font-size:100%;
   @include border-box;
-  width: 300px; 
+  width: 300px;
 }
 input[type=submit], input[type=button] {
   /*====float: right;===*/
@@ -564,7 +580,7 @@ input[type=submit], input[type=button] {
   background: -webkit-gradient(linear, left top, left bottom, from(#e7e7e7), to(#f2f2f2));
   background: -moz-linear-gradient(top, #e7e7e7, #f2f2f2);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#e7e7e7, endColorstr=#f2f2f2);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#e7e7e7, endColorstr=#f2f2f2)";      
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#e7e7e7, endColorstr=#f2f2f2)";
   /*====Progressive===*/
   @include rounded(3px);
 }
@@ -573,7 +589,7 @@ input[type=submit]:hover, input[type=button]:hover{
     background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#e7e7e7));
     background: -moz-linear-gradient(top, #f2f2f2, #e7e7e7);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#f2f2f2, endColorstr=#e7e7e7);
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#f2f2f2, endColorstr=#e7e7e7)"; 
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#f2f2f2, endColorstr=#e7e7e7)";
 }
 .commit { list-style-type: none; display:inline;}
 .hidden { display: none; }
