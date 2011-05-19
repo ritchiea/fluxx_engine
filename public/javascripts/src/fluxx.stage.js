@@ -511,11 +511,8 @@
                 $actions.animate({left: $head.outerWidth(true)});
               } else {
                 $('.search', $head).fadeOut();
-                $actions.animate({left: $head.outerWidth(true) -
-                  _.addUp(
-                      $('li:not(.open-listing-actions)', $actions),
-                      'outerWidth', true
-                    ) + $.fluxx.scrollBarWidth() - 2
+                var iconWidth = $('li:not(.open-listing-actions):last', $actions).width();
+                $actions.animate({left: $head.outerWidth(true) - (iconWidth * ($('li:not(.open-listing-actions)', $actions).length-1))
                   }, function() {
                     $head.addClass('actions-open').show()
                   }
