@@ -250,7 +250,6 @@
     }
   });
 
-
   $('html').ajaxComplete(function(e, xhr, options) {
       if ($.cookie('user_credentials'))
         $.fluxx.sessionData('user_credentials', $.cookie('user_credentials'));
