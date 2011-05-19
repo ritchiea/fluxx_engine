@@ -317,12 +317,6 @@ ol li.action-item {
 .c60l {
   width:59%;
   float:left;
-  ul, li {
-    padding-left: 20px;
-    list-style-type: circle;
-    margin: 4px 0px 4px;
-    ul li {list-style-type: square;}
-  }
 }
 .c40r {
   width:39%;
@@ -336,6 +330,12 @@ ol li.action-item {
   position: relative;
   padding: 0;
   overflow:hidden;
+  ul.bullets, ul.bullets li {
+    padding-left: 20px;
+    list-style-type: circle;
+    margin: 4px 0px 4px;
+    ul li {list-style-type: square;}
+  }
 }
 .caption {
   font-size: 11px; color:#666;
