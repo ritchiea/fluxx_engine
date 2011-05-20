@@ -704,7 +704,8 @@
                 url:    $elem.attr('href'),
                 header: $elem.attr('title') || $elem.text(),
                 target: $elem,
-                hideFooter: $elem.hasClass('hide-footer')
+                hideFooter: $elem.hasClass('hide-footer'),
+                event: e
               });
             }
           ],

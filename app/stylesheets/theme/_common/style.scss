@@ -398,6 +398,13 @@
   }
 
 }
+.admin-card {
+  position: absolute;
+  top: -20px;
+  left: 0px;
+  #card-drawer, #card-settings {display: none;}
+}
+
 .partial {
   margin-bottom: 30px;
   &.updating {
@@ -1140,6 +1147,7 @@ table .partial { margin: 0.25em 0; }
   td:first-child {
     text-align:right;
     border: 0px;
+    white-space: nowrap;
   }
   tfoot {@include rounded-bottom(0);}
 }

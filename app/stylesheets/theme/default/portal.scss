@@ -238,6 +238,7 @@ tr:hover td { /*====background-color: #f2f2f2; color: #333333;===*/ }
   td:first-child {
     text-align:right;
     border: 0px;
+    white-space: nowrap;
   }
   tfoot {@include rounded-bottom(0);}
 }

@@ -238,6 +238,8 @@
       var options = $.fluxx.util.options_with_callback({},options,onComplete);
       return this.each(function() {
         var $card = $(this).fluxxCard();
+        if ($card.hasClass('admin-card'))
+         return;
         $('.card-box', $card)
           .height(
             $.my.cards.height(
@@ -519,7 +521,7 @@
       return this.fluxxCardArea().data('history')[0].data;
     },
     fluxxCardListing: function() {
-      return this.fluxxCard().data('listing');
+      return this.fluxxCard().data('listing') || $([]);
     },
     fluxxCardDetail: function () {
       return this.fluxxCard().data('detail');
@@ -864,7 +866,7 @@
             header: '<span>' + options.header + '</span>',
             caller: options.target,
             init: function(e) {
-              $modal.appendTo($card.fluxxCard()).css('opacity', '0.1');
+              $modal.appendTo($card).css('opacity', '0.1');
               $('.area', $card).not('.modal').disableFluxxArea();
               var $arrow = $('.arrow', $modal);
               var aftPosition = options.target.parent().hasClass('inline-aft');
@@ -873,34 +875,52 @@
                   targetHeight = target.outerHeight(true),
                   arrowHeight = $arrow.outerHeight(true);
               var headerHeight = $('.card-header', $card).height();
-              $arrow.css({
-                top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2)) + headerHeight + 10
-              });
-              var parentOffset = (
-                  //    options.target.css('float') || options.target.parent().css('float')
-                  //  ?
-                      (target.position().left == 0 ? target.parent().position().left : target.position().left) + (options.target.fluxxCardListing().is(':visible') ? options.target.fluxxCardListing().outerWidth(true) : 0)
-                  //  :
-                  //    options.target.offsetParent().position().left
-                  ),
-                  targetWidth  = target.outerWidth(true) - (aftPosition ? options.target.outerWidth(true) : 0),
-                  arrowWidth   = $arrow.outerWidth(true) / 2,
-                  leftPosition = parentOffset + targetWidth + arrowWidth;
-              $modal.css({
-                left: parseInt(leftPosition) + 10,
-                top: -headerHeight + 46
-              });
-              totalWidth = parseInt(leftPosition) + $modal.outerWidth(true) + 30;
-              overage = totalWidth - options.target.fluxxCard().outerWidth(true);
-              if (overage > 0)
-                $modal.fluxxCard().css({marginRight: overage});
+              if (options.target.parents('.admin-card').length) {
+                var $modalContainer = $('#modal-container');
+                $modal.css({left: options.event.pageX - $modalContainer.offset().left + 40,
+                            top: options.event.pageY - $modalContainer.offset().top - 102});
+              } else {
+                $arrow.css({
+                  top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2)) + headerHeight + 10
+                });
+                var parentOffset = (
+                    //    options.target.css('float') || options.target.parent().css('float')
+                    //  ?
+                        (target.position().left == 0 ? target.parent().position().left : target.position().left) + (options.target.fluxxCardListing().is(':visible') ? options.target.fluxxCardListing().outerWidth(true) : 0)
+                    //  :
+                    //    options.target.offsetParent().position().left
+                    ),
+                    targetWidth  = target.outerWidth(true) - (aftPosition ? options.target.outerWidth(true) : 0),
+                    arrowWidth   = $arrow.outerWidth(true) / 2,
+                    leftPosition = parentOffset + targetWidth + arrowWidth;
+                $modal.css({
+                  left: parseInt(leftPosition) + 10,
+                  top: -headerHeight + 46
+                });
+                totalWidth = parseInt(leftPosition) + $modal.outerWidth(true) + 30;
+                overage = totalWidth - options.target.fluxxCard().outerWidth(true);
+                if (overage > 0)
+                  $modal.fluxxCard().css({marginRight: overage});
+                $card.resizeFluxxCard();
+                $.my.stage.resizeFluxxStage();
+              }
               if (options.hideFooter)
                 $modal.find('.footer').hide();
-              $card.resizeFluxxCard();
-              $.my.stage.resizeFluxxStage();
             }
           },
           function(e) {
+            if (options.target.parents('.admin-card').length) {
+              var $modalContainer = $('#modal-container');
+              var modalHeight = $('.body div', $modalContainer).height() + 86;
+              $('.body', $modalContainer).height(modalHeight);
+
+              var cardHeight = $('.admin-card div').height();
+              alert("- " + modalHeight +"  -- "+cardHeight);
+
+              $modal.css({left: options.event.pageX - $modalContainer.offset().left + 40,
+                          top: 0,//options.event.pageY - $modalContainer.offset().top - 102,
+                          height: (modalHeight > cardHeight ? cardHeight : modalHeight)});
+            }
             $modal.fadeTo('slow', 1);
             $card.resizeFluxxCard();
             $.my.stage.resizeFluxxStage();
@@ -1398,6 +1418,7 @@
           refreshNamed: function(){
             if (! this.data('target')) return;
             if (this.data('target').attr('target')) {
+              $.fluxx.log(this.data('target').attr('target'));
               $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();
             }
           },
