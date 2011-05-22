@@ -1297,6 +1297,68 @@ table .partial { margin: 0.25em 0; }
 
 .indent {text-indent: 20px;}
 
+/*Horizontal Tabs*/
+
+.horizontal-tabs{
+  width: 100%;
+  padding: 0;
+}
+.ui-widget-header {
+  background: #f5f5f5;
+  border: none;
+  border-bottom: 1px solid #dbdbdb;
+}
+.ui-corner-all {
+  @include rounded(0px);
+}
+
+.ui-tabs .ui-tabs-nav {
+  padding-left: 20px;
+ }
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  background: none;
+}
+.ui-widget-content {
+  border: none;
+  background: none;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  border: 1px solid #f5f5f5;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+  border: 1px solid #dbdbdb;
+  background: #fff;
+  a {color: #323232;}
+}
+.ui-state-default a:link, .ui-state-default a:visited {
+  color: blue;
+}
+
+.ui-state-active a:link, .ui-state-active a:visited {
+  color: #323232;
+}
+
+.edit .inline .string label, .edit .inline .select label, .edit .inline .numeric label, .edit .inline .datetime label, .edit .inline .date label, .edit .inline .autocomplete label, .edit .inline .password label, .edit .inline .time_zone label {
+    width: 90px;
+    text-align: right;
+    padding-right: 10px;
+}
+.inline {
+  background: #f5f5f5;
+  padding: 20px;
+  .right {
+    margin-left: auto;
+    width: 433px;
+    text-align: right;
+  }
+  li {
+    display: inline;
+    input, select{ width: 120px;}
+  }
+}
+
+
 /*=============================
   Program/sub program/initiative/sub initiative request filter
 ===============================*/

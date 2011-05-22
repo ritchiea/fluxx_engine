@@ -661,6 +661,8 @@
         animate: false
       });
 
+      $('.horizontal-tabs', $area).tabs();
+
       return this;
     },
     openListingFilters: function(openInDetail) {
@@ -844,45 +846,119 @@
         $('.actions', $card).click();
       });
     },
-    openCardModal: function(options, onComplete) {
+    openNewCardModal: function(options, onComplete) {
       var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options, onComplete);
       if (!options.url || !options.target) return this;
       return this.each(function(){
         var $card = $(this).fluxxCard();
-        $card.css('overflow', 'visible');
-        $card.data('lastMarginRight', $card.css('marginRight'));
         var $modal = $($.fluxx.util.resultOf(
-            $.fluxx.card.ui.area,
-            {
-              type: 'modal',
-              arrow: 'left',
-              closeButton: true
-            }
-        )).data({url: options.url, target: options.target});
-        $card.fluxxCardLoadContent(
+          $.fluxx.card.ui.area,
           {
-            area: $modal,
-            url: options.url,
-            header: '<span>' + options.header + '</span>',
-            caller: options.target,
-            init: function(e) {
-              $modal.appendTo($card).css('opacity', '0.1');
-              $('.area', $card).not('.modal').disableFluxxArea();
+            type: 'modal',
+            arrow: 'left',
+            closeButton: true
+          }
+      )).data({url: options.url, target: options.target});
+      $card.fluxxCardLoadContent({
+        area: $modal,
+        url: options.url,
+        header: '<span>' + options.header + '</span>',
+        caller: options.target,
+        init: function(e) {
+          $card.showLoadingIndicator();
+          $modal.appendTo($card).css('opacity', '0');
+          $modal.data({cardX: options.event.pageX - $card.offset().left,
+                       cardY: options.event.pageY - $card.offset().top,
+                       pageX: options.event.pageX,
+                       pageY: options.event.pageY});
+
+          var originalScroll = $('.area', $card).not('.modal').scrollTop();
+          $('.area', $card).not('.modal').disableFluxxArea();
+          $modal.resizeModal = function() {
+            return this.each(function() {
+              $modal = $(this);
+              var $card = $('#fluxx-admin') || $modal.fluxxCard();
               var $arrow = $('.arrow', $modal);
-              var aftPosition = options.target.parent().hasClass('inline-aft');
-              var target = (aftPosition ? options.target.parent().parent() : options.target);
-              var targetPosition = target.offset().top - 160,
-                  targetHeight = target.outerHeight(true),
-                  arrowHeight = $arrow.outerHeight(true);
-              var headerHeight = $('.card-header', $card).height();
-              if (options.target.parents('.admin-card').length) {
-                var $modalContainer = $('#modal-container');
-                $modal.css({left: options.event.pageX - $modalContainer.offset().left + 40,
-                            top: options.event.pageY - $modalContainer.offset().top - 102});
+              // Adjust when not admin
+              var contentHeight = $('.body div', $modal).height();
+              var headerHeight = $('.header', $modal).outerHeight(true);
+              var borderHeight = parseInt($modal.css('borderTopWidth')) + parseInt($modal.css('borderBottomWidth'));
+              var footerHeight = $('.footer', $modal).is(":visible") ? $('.footer', $modal).outerHeight(true) : 0;
+              var maxHeight = $card.height() - (borderHeight + headerHeight + footerHeight);
+              var modalHeight = (contentHeight > maxHeight ? maxHeight : contentHeight) + borderHeight + headerHeight + footerHeight + 41;
+              $modal.height(modalHeight);
+              $('.body', $modal).height(modalHeight - headerHeight - footerHeight - borderHeight);
+
+              var modalTop = $modal.data('cardY') - (modalHeight * .2) - $arrow.outerWidth(true) - 7;
+              var modalLeft = 0
+
+              leftArrow = $modal.data('cardX') <= $card.width() / 2;
+              if (leftArrow) {
+                modalLeft = $modal.data('cardX') + 20;
               } else {
-                $arrow.css({
-                  top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2)) + headerHeight + 10
-                });
+                $arrow.addClass('right');
+                modalLeft = $modal.data('cardX') - $modal.outerWidth(true) - 20;
+              }
+
+              var cardHeight = $card.height();
+              var modalBottom = modalTop + $modal.height();
+              if (modalBottom > cardHeight)
+                modalTop = (cardHeight + 20) - modalHeight;
+              else if (modalTop < -20)
+                modalTop = -20
+              $modal.css({left: modalLeft, top: modalTop});
+
+              $arrow.offset({top: $modal.data('pageY') - 18});
+
+
+            });
+          };
+          if (options.hideFooter)
+            $modal.find('.footer').hide();
+          }
+        },
+        function(e) {
+          $modal.resizeModal().fadeTo('slow', 1);
+        }, true);
+      });
+    },
+    openCardModal: function(options, onComplete) {
+      var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options, onComplete);
+      if (!options.url || !options.target) return this;
+      if (options.target.parents('.admin-card').length) {
+        $(this).fluxxCard().openNewCardModal(options, onComplete);
+      } else {
+        return this.each(function(){
+          var $card = $(this).fluxxCard();
+          $card.css('overflow', 'visible');
+          $card.data('lastMarginRight', $card.css('marginRight'));
+          var $modal = $($.fluxx.util.resultOf(
+              $.fluxx.card.ui.area,
+              {
+                type: 'modal',
+                arrow: 'left',
+                closeButton: true
+              }
+          )).data({url: options.url, target: options.target});
+          $card.fluxxCardLoadContent(
+            {
+              area: $modal,
+              url: options.url,
+              header: '<span>' + options.header + '</span>',
+              caller: options.target,
+              init: function(e) {
+                $modal.appendTo($card).css('opacity', '0.1');
+                $('.area', $card).not('.modal').disableFluxxArea();
+                var $arrow = $('.arrow', $modal);
+                var aftPosition = options.target.parent().hasClass('inline-aft');
+                var target = (aftPosition ? options.target.parent().parent() : options.target);
+                var targetPosition = target.offset().top - 160,
+                    targetHeight = target.outerHeight(true),
+                    arrowHeight = $arrow.outerHeight(true);
+                var headerHeight = $('.card-header', $card).height();
+                  $arrow.css({
+                    top: parseInt(targetPosition - (arrowHeight/2 - targetHeight/2)) + headerHeight + 10
+                  });
                 var parentOffset = (
                     //    options.target.css('float') || options.target.parent().css('float')
                     //  ?
@@ -903,30 +979,18 @@
                   $modal.fluxxCard().css({marginRight: overage});
                 $card.resizeFluxxCard();
                 $.my.stage.resizeFluxxStage();
+                if (options.hideFooter)
+                  $modal.find('.footer').hide();
               }
-              if (options.hideFooter)
-                $modal.find('.footer').hide();
-            }
-          },
-          function(e) {
-            if (options.target.parents('.admin-card').length) {
-              var $modalContainer = $('#modal-container');
-              var modalHeight = $('.body div', $modalContainer).height() + 86;
-              $('.body', $modalContainer).height(modalHeight);
-
-              var cardHeight = $('.admin-card div').height();
-              alert("- " + modalHeight +"  -- "+cardHeight);
-
-              $modal.css({left: options.event.pageX - $modalContainer.offset().left + 40,
-                          top: 0,//options.event.pageY - $modalContainer.offset().top - 102,
-                          height: (modalHeight > cardHeight ? cardHeight : modalHeight)});
-            }
-            $modal.fadeTo('slow', 1);
-            $card.resizeFluxxCard();
-            $.my.stage.resizeFluxxStage();
-          }, true
-        );
-      });
+            },
+            function(e) {
+              $modal.fadeTo('slow', 1);
+              $card.resizeFluxxCard();
+              $.my.stage.resizeFluxxStage();
+            }, true
+          );
+        });
+      }
     },
     closeCardModal: function(options) {
       var options = $.fluxx.util.options_with_callback({url: null, header: 'Modal', target: null},options);
@@ -935,7 +999,7 @@
         if ($modal.length > 0) {
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
-            $('.area', $card).enableFluxxArea().first().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
+            $('.area', $card).not('.modal').enableFluxxArea().first().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
             $card.animate({marginRight: $card.data('lastMarginRight')}, function() {
               $modal.remove();
               $card.resizeFluxxCard();
@@ -947,7 +1011,7 @@
     },
     disableFluxxArea: function () {
       return this.each(function(){
-        $(this).fluxxCardArea().addClass('disabled')
+        $(this).fluxxCardArea().addClass('disabled').css({overflow: 'hidden'})
           .bind('click', function(e) {
             $.fluxx.util.itEndsWithMe(e);
           });
@@ -956,7 +1020,7 @@
     },
     enableFluxxArea: function () {
       return this.each(function(){
-        $(this).fluxxCardArea().removeClass('disabled')
+        $(this).fluxxCardArea().removeClass('disabled').css({overflow: 'auto'})
           .unbind('click');
       });
     },
