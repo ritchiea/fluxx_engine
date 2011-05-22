@@ -1232,8 +1232,14 @@ table .partial { margin: 0.25em 0; }
 }
 
 .indented-list {
+  a {
+    color: blue;
+    text-decoration: underline;
+    line-height: 1.8em;
+  }
   h1, h2 {
     border-bottom: 1px solid #D6D6D6;
+    margin-bottom: 10px;
   }
   h2 {
     margin-left: 20px;
@@ -1242,7 +1248,10 @@ table .partial { margin: 0.25em 0; }
     margin-left: 40px;
   }
   .pairs {
+    color: #707070;
+    line-height: 1.2em;
     margin-left: 20px;
+    margin-bottom: 4px;
     .key {width: 100px;}
   }
 }
