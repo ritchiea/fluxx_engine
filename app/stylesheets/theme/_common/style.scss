@@ -1329,46 +1329,44 @@ table .partial { margin: 0.25em 0; }
 .horizontal-tabs{
   width: 100%;
   padding: 0;
-}
-.ui-widget-header {
-  background: #f5f5f5;
-  border: none;
-  border-bottom: 1px solid #dbdbdb;
-}
-.ui-corner-all {
-  @include rounded(0px);
-}
-
-.ui-tabs .ui-tabs-nav {
-  padding-left: 20px;
-}
-
-.ui-tabs .ui-tabs-panel {
-  padding-left: 32px;
-}
-
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-  background: none;
-}
-.ui-widget-content {
   border: none;
   background: none;
-}
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-  border: 1px solid #f5f5f5;
-}
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
-  border: 1px solid #dbdbdb;
-  background: #fff;
-  a {color: #323232;}
-}
-.ui-state-default a:link, .ui-state-default a:visited {
-  color: blue;
+
+  .ui-widget-header {
+    background: #f5f5f5;
+    border: none;
+    border-bottom: 1px solid #dbdbdb;
+  }
+  .ui-corner-all {
+    @include rounded(0px);
+  }
+  .ui-tabs-nav {
+    padding-left: 20px;
+  }
+
+  .ui-tabs-panel {
+    padding-left: 32px;
+  }
+  .ui-state-default, .ui-widget-header .ui-state-default {
+    background: none;
+  }
+  .ui-state-default, .ui-widget-header .ui-state-default {
+    border: 1px solid #f5f5f5;
+  }
+  .ui-state-active, .ui-widget-header .ui-state-active {
+    border: 1px solid #dbdbdb;
+    background: #fff;
+    a {color: #323232;}
+  }
+  .ui-state-default a:link, .ui-state-default a:visited {
+    color: blue;
+  }
+
+  .ui-state-active a:link, .ui-state-active a:visited {
+    color: #323232;
+  }
 }
 
-.ui-state-active a:link, .ui-state-active a:visited {
-  color: #323232;
-}
 
 .edit .inline .string label, .edit .inline .select label, .edit .inline .numeric label, .edit .inline .datetime label, .edit .inline .date label, .edit .inline .autocomplete label, .edit .inline .password label, .edit .inline .time_zone label {
     width: 100px;
