@@ -1013,10 +1013,12 @@
       return this.each(function(){
         var $area = $(this).fluxxCardArea();
         $area.data('position', $area.css('position')).data('z-index', $area.css('z-index'));
-        $area.addClass('disabled').css({postion: 'relative', 'z-index': -1})
+        $area.addClass('disabled')
           .bind('click', function(e) {
             $.fluxx.util.itEndsWithMe(e);
           });
+        if ($area.hasClass('fluxx-admin-partial'))
+          $area.css({postion: 'relative', 'z-index': -1})
       });
     },
     enableFluxxArea: function () {
