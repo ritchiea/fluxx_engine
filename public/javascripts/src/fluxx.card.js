@@ -661,7 +661,17 @@
         animate: false
       });
 
-      $('.horizontal-tabs', $area).tabs();
+      var $tabs = $('.horizontal-tabs', $area).each(function() {
+        var $elem = $(this);
+        var cookieName = "fluxx_tabs_" + $elem.attr('name');
+        var tab_cookie_id = parseInt($.cookie(cookieName)) || 0;
+        $elem.tabs({
+          selected: tab_cookie_id,
+          select: function(e,ui) {
+            $.cookie(cookieName, ui.index);
+          }
+        });
+      });
 
       return this;
     },
