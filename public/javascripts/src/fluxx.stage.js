@@ -356,7 +356,7 @@
                   var re = new RegExp('([?&]' + param + '=)([a-z0-9\-]+)(\&)?');
                   $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
                 } else {
-                  var re = new RegExp('\/([0-9]+)\/edit');
+                  var re = new RegExp('\/([A-Za-z0-9\-]+)\/edit');
                   $partial.attr('data-src', $partial.attr('data-src').replace(re, '/' + $elem.val() + '/edit')).refreshAreaPartial();
                 }
               }

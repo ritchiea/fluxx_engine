@@ -10,7 +10,7 @@
   %div{:id=>"card-footer"}
     %ul.workflow
     %ul.buttons
-      - unless params[:as_modal] == '1'
+      - unless params[:as_modal]
         - if @model_name && @model
           %li= link_to('Cancel', current_show_path(@model.id, :unlock => 1), :class => 'to-self')
   = render :partial => 'insta/card_settings'

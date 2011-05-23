@@ -294,7 +294,7 @@ class ActionController::Base
         else
           insta_respond_to show_object, :error do |format|
             format.html do
-              fluxx_show_card show_object, :template => 'insta/missing_record'
+              fluxx_show_card show_object, :template => 'insta/xxmissing_record'
             end
             format.xml  { render :xml => @model }
           end
