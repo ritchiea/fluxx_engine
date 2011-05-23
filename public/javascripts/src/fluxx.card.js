@@ -407,7 +407,7 @@
                 .fadeTo(300, 0);
             },
             success: function(data, status, xhr){
-              $partial.html($(data)).removeClass('updating').children().fadeIn();
+              $partial.html($(data)).removeClass('updating').children().areaDetailTransform().fadeIn();
               if (onComplete)
                 onComplete();
             }
@@ -1011,17 +1011,20 @@
     },
     disableFluxxArea: function () {
       return this.each(function(){
-        $(this).fluxxCardArea().addClass('disabled').css({overflow: 'hidden'})
+        var $area = $(this).fluxxCardArea();
+        $area.data('position', $area.css('position')).data('z-index', $area.css('z-index'));
+        $area.addClass('disabled').css({postion: 'relative', 'z-index': -1})
           .bind('click', function(e) {
             $.fluxx.util.itEndsWithMe(e);
           });
-          // TODO Disable scrolling
       });
     },
     enableFluxxArea: function () {
       return this.each(function(){
-        $(this).fluxxCardArea().removeClass('disabled').css({overflow: 'auto'})
-          .unbind('click');
+        var $area = $(this).fluxxCardArea();
+        $area.removeClass('disabled').css({overflow: 'auto'})
+          .unbind('click')
+          .css({postion: $area.data('position'), 'z-index': $area.data('z-index')});
       });
     },
     fluxxAreaUpdate: function(e, updates) {

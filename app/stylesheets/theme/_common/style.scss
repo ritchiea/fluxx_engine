@@ -398,12 +398,6 @@
   }
 
 }
-.admin-card {
-  position: absolute;
-  top: -20px;
-  left: 0px;
-  #card-drawer, #card-settings {display: none;}
-}
 
 .partial {
   margin-bottom: 30px;
@@ -1237,6 +1231,13 @@ table .partial { margin: 0.25em 0; }
     text-decoration: underline;
     line-height: 1.8em;
   }
+  .caption {
+    padding-top: 10px;
+    margin-left: 20px;
+  }
+  .entry {
+    margin-bottom: 10px;
+  }
   h1, h2 {
     border-bottom: 1px solid #D6D6D6;
     margin-bottom: 10px;
@@ -1248,7 +1249,7 @@ table .partial { margin: 0.25em 0; }
     margin-left: 40px;
   }
   .pairs {
-    color: #707070;
+    color: #5b5b5b;
     line-height: 1.2em;
     margin-left: 20px;
     margin-bottom: 4px;
@@ -1339,7 +1340,11 @@ table .partial { margin: 0.25em 0; }
 
 .ui-tabs .ui-tabs-nav {
   padding-left: 20px;
- }
+}
+
+.ui-tabs .ui-tabs-panel {
+  padding-left: 32px;
+}
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
   background: none;
@@ -1365,23 +1370,26 @@ table .partial { margin: 0.25em 0; }
 }
 
 .edit .inline .string label, .edit .inline .select label, .edit .inline .numeric label, .edit .inline .datetime label, .edit .inline .date label, .edit .inline .autocomplete label, .edit .inline .password label, .edit .inline .time_zone label {
-    width: 90px;
+    width: 100px;
     text-align: right;
     padding-right: 10px;
 }
 .inline {
   background: #f5f5f5;
-  padding: 20px;
+  padding: 14px;
   .right {
     position: relative;
-    top: 10px;
+    top: 16px;
     margin-left: auto;
-    width: 433px;
+    width: 533px;
     text-align: right;
   }
   li {
     display: inline;
-    input, select{ width: 120px;}
+    input, select{ width: 140px;}
+  }
+  a {
+    margin-right: 4px;
   }
 }
 
