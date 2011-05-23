@@ -60,6 +60,8 @@
       var options = $.fluxx.util.options_with_callback({animate: false}, options, onComplete);
       var allCards = _.addUp($.my.cards, 'outerWidth', true);
       var stageWidth = $.my.stage.width();
+      $('#modal-container').css('height', '80%');
+      $('#fluxx-admin .detail').height($('#modal-container').height() - 46);
       if (options.animate && allCards < stageWidth && stageWidth > $(window).width()) {
         $.my.stage.stop().animate({width: allCards + 40}, function(e) {
           $.my.stage
@@ -345,11 +347,18 @@
             'change', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              var $partial = $($elem.attr('data-target'), $elem.fluxxCardArea());
+              var $partial = $($elem.attr('data-target'), $elem.fluxxCardArea())
+              if (!$partial.length)
+                $partial = $($elem.attr('data-target'), '#fluxx-admin');
               if ($partial.length) {
                 var param = $elem.attr('name').replace(/\w+\[(\w+)\]/, "$1");
-                var re = new RegExp('([?&]' + param + '=)([a-z0-9\-]+)(\&)?');
-                $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
+                if (param) {
+                  var re = new RegExp('([?&]' + param + '=)([a-z0-9\-]+)(\&)?');
+                  $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
+                } else {
+                  var re = new RegExp('\/([0-9]+)\/edit');
+                  $partial.attr('data-src', $partial.attr('data-src').replace(re, '/' + $elem.val() + '/edit')).refreshAreaPartial();
+                }
               }
             }
           ],
