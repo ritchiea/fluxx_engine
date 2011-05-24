@@ -809,3 +809,16 @@ li.plupload_droptext {
   border: 0;
   line-height: 165px;
 }
+
+/*=============================
+ Browser Specific Adjustments
+===============================*/
+
+select {
+ padding: 0px;
+}
+
+.body form select {
+ padding: 0px;
+}
+
