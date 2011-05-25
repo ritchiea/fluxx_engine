@@ -103,7 +103,7 @@ class ActionController::ControllerDsl
   end
   
   def template_file controller
-    local_template = template_map ? template_map.inject(@template) {|temp, mapping| controller.params[mapping.first] ? mapping.last : temp} : @template
+    local_template = (template_map or {}).keys.map { |key| template_map[key] if !!controller.params[key] }.compact.first || @template
     local_template && local_template.is_a?(Proc) ? controller.instance_exec(self, &template_file) : local_template
   end
   
