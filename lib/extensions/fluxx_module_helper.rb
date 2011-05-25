@@ -1,8 +1,8 @@
 module FluxxModuleHelper
   def included(base)
-    base.instance_eval(&@included_block) if @included_block
     base.extend(@class_methods_module) if @class_methods_module
     base.send(:include, @instance_methods_module) if @instance_methods_module
+    base.instance_eval(&@included_block) if @included_block
   end
 
   def when_included(&block)
