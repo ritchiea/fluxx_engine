@@ -67,15 +67,23 @@ class ActionController::ControllerDsl
     else
       model = model_class.new(params[model_class.name.underscore.downcase.to_sym])
       if pre_create_model && fluxx_current_user
-        model.class.without_realtime do
-          model.update_attributes({:deleted_at => Time.now, :created_by_id => fluxx_current_user.id})
-          model.save(:validate => false)
-          model.errors.clear
+        if model.class.respond_to? :without_realtime
+          model.class.without_realtime do
+            load_new_model_without_realtime model, fluxx_current_user
+          end
+        else
+          load_new_model_without_realtime model, fluxx_current_user
         end
       end
       model
     end
-  end  
+  end
+  
+  def load_new_model_without_realtime model, fluxx_current_user
+    model.update_attributes({:deleted_at => Time.now, :created_by_id => fluxx_current_user.id})
+    model.save(:validate => false)
+    model.errors.clear
+  end
   
   def editable? model, fluxx_current_user
     !model.respond_to?(:editable?) || model.editable?(fluxx_current_user)
