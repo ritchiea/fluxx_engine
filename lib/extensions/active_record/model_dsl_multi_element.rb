@@ -16,7 +16,7 @@ class ActiveRecord::ModelDslMultiElement < ActiveRecord::ModelDsl
       blank_model_obj = model_class.new
       groups.each do |group|
         if blank_model_obj.respond_to? "#{group.name.singularize}_id"
-          model_class.belongs_to group.name.singularize.to_sym, :class_name => 'MultiElementValue', :conditions => "multi_element_group_id = '#{group.id}'"
+          model_class.belongs_to group.name.singularize.to_sym, :class_name => 'MultiElementValue', :conditions => {:multi_element_group_id => '#{group.id}'}
           @single_element_attributes << group.name.singularize
         else
           model_class.has_many group.name.to_sym, :class_name => 'MultiElementValue', :through => :multi_element_choices, :source => 'multi_element_value', 
