@@ -590,10 +590,12 @@
         var ts = new Date().getTime();
         var $input = $(this);
         var id = $input.attr('id');
-        if (id.match(/[a-zA-Z]/))
+        if (!id)
+          $input.attr('id', 'input_' + ts);
+        else if (id.match(/[a-zA-Z]/))
           $input.attr('id', $input.attr('id') + '_' + ts);
         $input.datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
-      })
+      });
 
       $.fluxx.util.autoGrowTextArea($('textarea', $area));
       $('.multiple-select-transfer select[multiple="true"], .multiple-select-transfer select[multiple="multiple"]', $area).selectTransfer();
