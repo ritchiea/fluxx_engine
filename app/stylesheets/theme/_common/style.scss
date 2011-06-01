@@ -417,7 +417,7 @@ table .partial { margin: 0.25em 0; }
   margin: 20px 38px 20px 0;
   h3 {border-bottom: 1px solid #d6d6d6; margin-bottom:0.5em; padding-bottom:0.2em;}
   @include pretty-forms;
-  .string,.select,.numeric,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-one-line; }
+  .string,.select,.numeric,.amount,.datetime,.date,.autocomplete,.password,.time_zone { @include form-field-one-line; }
   .text,.multiple-select-transfer, textarea { @include form-field-two-line; }
   .datetime,.date {
     input {

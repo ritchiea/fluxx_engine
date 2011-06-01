@@ -35,8 +35,24 @@ module Formtastic #:nodoc:
       @object ? @object.send(method) : nil
     end
     
+    def default_input_type_with_override(method, options = {}) #:nodoc:
+      p "ESH: in default_input_type_with_override"
+      column = self.column_for(method)
+      p "ESH: for method=#{method}, column=#{column.inspect}"
+      if column && column.type == :decimal && column.name =~ /amount/i
+        :amount
+      else
+        default_input_type_without_override method, options
+      end
+    end
+    alias_method_chain :default_input_type, :override
 
-    
+    def amount_input(method, options)
+      amount = ActionView::Helpers::InstanceTag.value(@object, method) 
+      amount = amount.to_currency if amount.is_a?(BigDecimal)
+      options[:value] = amount if amount
+      label("#{method}:", :label => options[:label]) + text_field(method, options)
+    end
     
     def date_or_datetime_input(method, options)
       date_time = ActionView::Helpers::InstanceTag.value(@object, method) 
