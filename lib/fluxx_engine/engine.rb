@@ -1,13 +1,21 @@
 require "rails"
 require "action_controller"
 require "active_record"
+require "logger"
+
+unless defined?(FLUXX_LOGGER)
+  FLUXX_LOGGER = Logger.new(STDERR)
+  FLUXX_LOGGER.formatter = proc { |severity, time, prog, msg| 
+    "[#{time.strftime("%Y-%m-%d %H:%M:%S")}] #{severity}  #{msg}\n" 
+  }
+end
 
 module Fluxx
   def self.logger=(logger)
     @logger = logger
   end
   def self.logger
-    @logger ||= Logger.new(STDOUT)
+    @logger ||= FLUXX_LOGGER
   end
 end
 
