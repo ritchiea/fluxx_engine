@@ -36,9 +36,7 @@ module Formtastic #:nodoc:
     end
     
     def default_input_type_with_override(method, options = {}) #:nodoc:
-      p "ESH: in default_input_type_with_override"
       column = self.column_for(method)
-      p "ESH: for method=#{method}, column=#{column.inspect}"
       if column && column.type == :decimal && column.name =~ /amount/i
         :amount
       else
