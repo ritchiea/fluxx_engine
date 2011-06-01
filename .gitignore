@@ -4,7 +4,7 @@ coverage
 db/sphinx
 log/*
 public/documents
-tmp/*
+tmp
 *DS_Store
 public/stylesheets/compiled/*.css
 tmp/sass-cache
@@ -17,3 +17,12 @@ test/dummy/log
 Gemfile.lock
 test/dummy/db/development.sqlite3
 test/dummy/db/test.sqlite3
+*.gem
+tmtags
+*~
+\#*
+.\#*
+rdoc
+pkg
+*.tmproj
+*.swp
