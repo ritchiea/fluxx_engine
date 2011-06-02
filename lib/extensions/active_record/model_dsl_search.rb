@@ -86,7 +86,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
 
     # Grab a list of models with just the ID, then swap out the list of models with a list of the IDs
     # TODO ESH: should upgrade to arel syntax
-    p "searching for #{local_model_class.name}, sql_conditions='#{sql_conditions}', search_conditions=#{modified_search_conditions}, page=#{page_clause}, per_page=#{results_per_page}, :order=#{order_clause}"
+   Fluxx.logger.info "searching for #{local_model_class.name}, sql_conditions='#{sql_conditions}', search_conditions=#{modified_search_conditions}, page=#{page_clause}, per_page=#{results_per_page}, :order=#{order_clause}"
     
     models = local_model_class.paginate :select => "#{local_model_class.table_name}.id", :conditions => "#{sql_conditions} #{(!sql_conditions.blank? && !modified_search_conditions.blank?) ? " AND " : ''} #{modified_search_conditions}", 
       :page => page_clause, :per_page => results_per_page, 
@@ -148,7 +148,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     end
     page_clause = grab_param(:page, local_model_request_params, model_request_params, request_params)
 
-    p "searching for #{local_model_class.name}, '#{q_search}', with_clause = #{with_clause.inspect}, order_clause=#{order_clause.inspect}, page=#{page_clause}, per_page=#{results_per_page}"
+    Fluxx.logger.info "searching for #{local_model_class.name}, '#{q_search}', with_clause = #{with_clause.inspect}, order_clause=#{order_clause.inspect}, page=#{page_clause}, per_page=#{results_per_page}"
     model_ids = local_model_class.search_for_ids(
       q_search, :with => with_clause.merge(options[:with] || {}),
       :order => order_clause, :page => page_clause, 
