@@ -16,7 +16,7 @@
       = render :partial => @template,  :locals => {:models => @models, :suppress_model_iteration => true, :index_listing_display => true}
     - else
       %ul.list
-        - @models.compact.sort{|a, b| a.name <=> b.name }.each do |model|
+        - @models.compact.each do |model|
           %li.entry{'data-model-id' => model.id}
             - unless @suppress_model_anchor_tag
               %a.to-detail{:href => current_show_path(model.id)}
