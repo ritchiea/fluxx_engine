@@ -14,7 +14,6 @@ public/fluxx_engine/dist/*
 public/fluxx_engine/tmp
 .bundle
 test/dummy/log
-Gemfile.lock
 test/dummy/db/development.sqlite3
 test/dummy/db/test.sqlite3
 *.gem
