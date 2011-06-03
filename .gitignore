@@ -1,4 +1,5 @@
 config/database.yml
+Gemfile.lock
 config/*.sphinx.conf
 coverage
 db/sphinx
