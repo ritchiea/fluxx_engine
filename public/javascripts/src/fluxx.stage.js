@@ -340,7 +340,7 @@
 					'a.refresh-partial' : [
 						'click', function(e) {
 							$.fluxx.util.itEndsWithMe(e);
-							$(this).refreshAreaPartial();
+							($('#fluxx-admin').length ? $('#fluxx-admin .fluxx-admin-partial') : $(this)).refreshAreaPartial();
 						}
 					],
           'select.refresh-partial' : [

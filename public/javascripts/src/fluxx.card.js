@@ -665,6 +665,7 @@
 
       var $tabs = $('.horizontal-tabs', $area).each(function() {
         var $elem = $(this);
+        $area.find('.edit').addClass('withtabs');
         var cookieName = "fluxx_tabs_" + $elem.attr('name');
         var tab_cookie_id = parseInt($.cookie(cookieName)) || 0;
         $elem.tabs({
@@ -674,6 +675,20 @@
           }
         });
       });
+      if ($('#fluxx-admin').length) {
+        $('#admin-buttons').fadeOut();
+        var $adminForm = $('#fluxx-admin form').not('.modal form');
+        $adminForm.unbind('change').change(function() {
+          $('#admin-buttons').fadeIn();
+        }).unbind('keydown').keydown(function() {
+          $('#admin-buttons').fadeIn();
+        });
+
+        $('.admin-submit').unbind('click').click(function(e) {
+          $.fluxx.util.itEndsWithMe(e);
+          $adminForm.submit();
+        });
+      }
 
       return this;
     },
@@ -1236,6 +1251,7 @@
 							// Don't try and render an entire document, forcing the page to be overwritten
 							if (data.search("<html>") != -1)
 								return;
+              $.fluxx.log('***********');
               var $document = $('<div/>').html(data);
               var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
                 $('#card-header', $document).html() : options.header);
