@@ -22,6 +22,8 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
           new_model
         end
       end
+    else
+      model
     end
     model = model || load_existing_model(params)
     remove_lock(model, fluxx_current_user) if params[:unlock] == '1' && model && fluxx_current_user
