@@ -24,6 +24,17 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     
     model
   end
+  
+  # Override if you need to add extra sphinx conditions
+  def extra_sphinx_conditions
+    nil
+  end
+  
+  # Override if you need to add extra sql conditions
+  def extra_sql_conditions
+    nil
+  end
+  
 
   def model_search q_search, request_params, results_per_page=25, options={}
     #p "ESH: in model_search q_search=#{q_search.inspect}, request_params=#{request_params.inspect}"
@@ -88,7 +99,9 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     # TODO ESH: should upgrade to arel syntax
    Fluxx.logger.info "searching for #{local_model_class.name}, sql_conditions='#{sql_conditions}', search_conditions=#{modified_search_conditions}, page=#{page_clause}, per_page=#{results_per_page}, :order=#{order_clause}"
     
-    models = local_model_class.paginate :select => "#{local_model_class.table_name}.id", :conditions => "#{sql_conditions} #{(!sql_conditions.blank? && !modified_search_conditions.blank?) ? " AND " : ''} #{modified_search_conditions}", 
+    models = local_model_class.paginate :select => "#{local_model_class.table_name}.id", 
+      :conditions => "#{sql_conditions} #{(!sql_conditions.blank? && !modified_search_conditions.blank?) ? " AND " : ''} #{modified_search_conditions} 
+        #{((!sql_conditions.blank? || !modified_search_conditions.blank?) && !extra_sql_conditions.blank?) ? " AND " : ''} #{extra_sql_conditions }", 
       :page => page_clause, :per_page => results_per_page, 
       :order => order_clause, :include => options[:include_relation],
       :joins => options[:joins]
@@ -148,9 +161,9 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     end
     page_clause = grab_param(:page, local_model_request_params, model_request_params, request_params)
 
-    Fluxx.logger.info "searching for #{local_model_class.name}, '#{q_search}', with_clause = #{with_clause.inspect}, order_clause=#{order_clause.inspect}, page=#{page_clause}, per_page=#{results_per_page}"
+    Fluxx.logger.info "searching for #{local_model_class.name}, '#{q_search}', with_clause = #{with_clause.merge(options[:with] || {}).merge(extra_sphinx_conditions || {}).inspect}, order_clause=#{order_clause.inspect}, page=#{page_clause}, per_page=#{results_per_page}"
     model_ids = local_model_class.search_for_ids(
-      q_search, :with => with_clause.merge(options[:with] || {}),
+      q_search, :with => with_clause.merge(options[:with] || {}).merge(extra_sphinx_conditions || {}),
       :order => order_clause, :page => page_clause, 
       :per_page => results_per_page, :include => options[:include_relation])
     if model_ids.empty? && !page_clause.blank?

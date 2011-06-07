@@ -356,6 +356,11 @@ class ActiveRecord::Base
     end
   end
   
+  def masquerade_as_persisted
+    self.instance_variable_set '@new_record', false
+    self.instance_variable_set '@destroyed', false
+  end
+  
   # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update
   def update_attributes_without_log attr_map
     if self.class.respond_to?(:sphinx_indexes) && self.class.sphinx_indexes
