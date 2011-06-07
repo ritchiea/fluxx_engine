@@ -66,7 +66,7 @@ class ActionController::Base
           @filter_template = index_object.filter_template
           render((index_object.filter_view || "#{insta_path}/filter").to_s, :layout => false)
         else
-          @template = index_object.template_file self
+          @markup = index_object.template_file self
           @models = index_object.load_results params, request.format, pre_models, self
           @first_report_id = self.respond_to?(:insta_index_report_list) && !(insta_index_report_list.empty?) && insta_index_report_list.first.report_id
           instance_variable_set index_object.plural_model_instance_name, @models if index_object.plural_model_instance_name
@@ -232,7 +232,7 @@ class ActionController::Base
         @icon_style = new_object.icon_style
 
         instance_variable_set new_object.singular_model_instance_name, @model
-        @template = new_object.template_file self
+        @markup = new_object.template_file self
         @form_class = new_object.form_class
         @form_url = new_object.form_url
 
@@ -333,7 +333,7 @@ class ActionController::Base
         raise UnauthorizedException.new('create', @model_class) unless create_object.skip_permission_check || fluxx_current_user.has_create_for_model?(@model_class)
         @icon_style = create_object.icon_style
         instance_variable_set create_object.singular_model_instance_name, @model
-        @template = create_object.template_file self
+        @markup = create_object.template_file self
         @form_class = create_object.form_class
         @form_url = create_object.form_url
         @link_to_method = create_object.link_to_method
@@ -402,8 +402,7 @@ class ActionController::Base
       define_method :update do
         update_object.invoke_pre self
         return if update_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
-
-        @template = update_object.template_file self
+        @markup = update_object.template_file self
         @form_class = update_object.form_class
         @form_url = update_object.form_url
         @model = update_object.load_existing_model params, pre_model
@@ -614,7 +613,7 @@ class ActionController::Base
 
   def fluxx_show_card show_object, options
     @model_name = show_object.model_name unless @model_name
-    @template = options[:template]
+    @markup = options[:template]
     @footer_template = options[:footer_template]
     # TODO ESH: chase down where exclude_related_data and layout comes from...
     @exclude_related_data = show_object.exclude_related_data
@@ -625,7 +624,7 @@ class ActionController::Base
   end
 
   def fluxx_edit_card edit_object, template_param=nil, form_class_param=nil, form_url_param=nil
-    @template = template_param || edit_object.template_file(self)
+    @markup = template_param || edit_object.template_file(self)
     @layout = edit_object.layout || false
     @form_class = form_class_param || edit_object.form_class
     @form_url = form_url_param || edit_object.form_url

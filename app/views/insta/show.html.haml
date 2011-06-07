@@ -1,11 +1,11 @@
 - if @skip_wrapper
-  = render :partial => @template,  :locals => {:model => @model}
+  = render :partial => @markup,  :locals => {:model => @model}
 - else
   %div{:id=>"card-header"}= raw "#{raw flash_info} #{raw flash_error}"
 
   %div{:id=>"card-body"}
     %div.show
-      = render :partial => @template, :locals => { :model => @model }
+      = render :partial => @markup, :locals => { :model => @model }
   - if !@skip_card_footer
     - if @related && ! @exclude_related_data
       %ol{:id=>"card-drawer"}
