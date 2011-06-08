@@ -13,6 +13,8 @@ Gem::Specification.new do |s|
   s.description       = %q{Fluxx Engine}
 
   s.files             = `git ls-files`.split("\n")
+  s.bindir            = "bin"
+  s.executables       = `git ls-files bin`.split("\n").map{|filename| filename.gsub(/^bin\//, '')}
   s.test_files        = `git ls-files -- {test}/*`.split("\n")
   s.require_paths     = ["lib"]
 
