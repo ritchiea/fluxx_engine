@@ -21,8 +21,8 @@ module Fluxx
     if defined?(FluxxClient)
       FluxxClient.config key, type
     else
-      config = {:application.to_s => FLUXX_CONFIGURATION.map{|item| (item[1] == true || item[1] == false) ? (item[1] == true ? "1" : "0") : item[1]}, :charity_check.to_s => {:username.to_s => defined?(CHARITY_CHECK_USERNAME) ? CHARITY_CHECK_USERNAME : "", :password.to_s => defined?(CHARITY_CHECK_PASSWORD) ? CHARITY_CHECK_PASSWORD : "", :enabled.to_s => (defined?(CHARITY_CHECK_USERNAME) && !CHARITY_CHECK_USERNAME.empty?) ? "1" : "0"}}
-      config[type.to_s][key.to_s]
+      config = {:application.to_sym => FLUXX_CONFIGURATION.each{|key, val| FLUXX_CONFIGURATION[key] = (val == true ? "1" : "0") if (val == true || val == false)}, :charity_check => {:username => defined?(CHARITY_CHECK_USERNAME) ? CHARITY_CHECK_USERNAME : "", :password.to_s => defined?(CHARITY_CHECK_PASSWORD) ? CHARITY_CHECK_PASSWORD : "", :enabled => (defined?(CHARITY_CHECK_USERNAME) && !CHARITY_CHECK_USERNAME.empty?) ? "1" : "0"}}
+      config[type.to_sym][key.to_sym]
     end
   end
 end
