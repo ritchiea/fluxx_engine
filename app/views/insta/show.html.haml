@@ -43,8 +43,8 @@
                 %li= link_to 'Remove Favorite', favorite, {:class => 'as-delete no-confirm', 'data-on-success' => 'refreshCaller'}
               - else
                 %li= link_to 'Add As Favorite', favorites_path(:favorite => {:user_id => current_user.id, :favorable_id => @model.id, :favorable_type => @model.class}), {:class => 'as-post', 'data-on-success' => 'refreshCaller'}
-            %li= link_to 'Printable', '#', :target => "_blank", :class => 'btn area-url' if FLUXX_CONFIGURATION[:show_printable_button]
-            %li= link_to('PDF', '#', :target => "_blank", :class => 'btn area-url pdf') if FLUXX_CONFIGURATION[:show_pdf_button]
+            %li= link_to 'Printable', '#', :target => "_blank", :class => 'btn area-url' if Fluxx.config(:show_printable_button) == "1"
+            %li= link_to('PDF', '#', :target => "_blank", :class => 'btn area-url pdf') if Fluxx.config(:show_pdf_button) == "1"
             - if @extra_buttons
               - @extra_buttons.each do |button|
                 %li= link_to button[:name], button[:path], :class => "btn #{button[:class]}"
