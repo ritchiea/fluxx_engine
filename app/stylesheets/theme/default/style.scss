@@ -35,8 +35,6 @@
     padding: 8px 20px 8px 30px;
     a {
       display: inline;
-      font-size: 70%;
-      padding-right: 20px;
     }
     display: none;
   }
@@ -50,6 +48,7 @@
     z-index: 1;
   }
   .admin-card {
+    padding-bottom: 130px;
     position: absolute;
     top: -20px;
     left: 0px;
@@ -94,7 +93,10 @@
     color: #5c5c5c;
     white-space: normal;
     border: 1px solid #d8d8d8;
-    .body {border: none}
+    .body {
+      height: 100%;
+      border: none
+    }
     .inline-aft {z-index: 1;}
     #card-footer ul, #card-settings li, {display: none;}
     #card-header {
@@ -107,6 +109,9 @@
     }
 
     .edit {
+      padding-top: 32px;
+      margin-top: -20px;
+      height: 100%;
       color: #333;
       form {
         margin-right: 32px;
@@ -115,7 +120,7 @@
     }
     .withtabs {
       width: 100%;
-      margin-top: 0px;
+      margin-top: -32px;
       form {margin-left: 0px; margin-right: 0px;}
     }
     #card-body {
