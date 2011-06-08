@@ -23,11 +23,11 @@ end
 
 task :default => :test
 
-require 'rdoc/task'
-Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = 'FluxxEngine'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README.rdoc')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
+#require 'rdoc/task'
+#Rake::RDocTask.new(:rdoc) do |rdoc|
+#  rdoc.rdoc_dir = 'rdoc'
+#  rdoc.title = 'FluxxEngine'
+#  rdoc.options << '--line-numbers' << '--inline-source'
+#  rdoc.rdoc_files.include('README.rdoc')
+#  rdoc.rdoc_files.include('lib/**/*.rb')
+#end
