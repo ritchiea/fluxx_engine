@@ -1,6 +1,13 @@
 class MultiElementGroup < ActiveRecord::Base
   has_many :multi_element_values
   
+  SEARCH_ATTRIBUTES = [:created_at, :updated_at, :name, :attribute_type, :model_type]
+  
+  insta_search do |insta|
+    insta.filter_fields = SEARCH_ATTRIBUTES
+    insta.derived_filters = {}
+  end
+
   # Allow for STI; look for the specific name first, then bump up to the superclass; we might call it Request for GrantRequest/FipRequest.  First look for GrantRequest then Request
   def self.find_for_model_or_super model, name
     klass = if model.is_a? Class
