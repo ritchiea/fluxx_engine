@@ -49,7 +49,9 @@ module Formtastic #:nodoc:
       amount = ActionView::Helpers::InstanceTag.value(@object, method) 
       amount = amount.to_currency if amount.is_a?(BigDecimal)
       options[:value] = amount if amount
-      label("#{method}:", :label => options[:label]) + text_field(method, options)
+      html_options = options.delete(:input_html) || {}
+      html_options = default_string_options(method, type).merge(html_options)
+      label("#{method}:", :label => options[:label]) + text_field(method, html_options)
     end
     
     def date_or_datetime_input(method, options)
