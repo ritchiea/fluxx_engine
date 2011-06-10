@@ -1,6 +1,10 @@
 @import "../_common/_helpers.scss";
 @import "core.scss";
 
+html {
+  background-color: #cccccc;
+}
+
 body {
   @include bg(#cccccc, black);
   @include linear-gradient(#f9f9f9, #cccccc);
