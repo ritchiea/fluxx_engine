@@ -86,6 +86,7 @@ class ActionController::Base
                   controller = self
                   render :text => @report.compute_index_document_data(controller, index_object, params, @models)
                 else
+                  @icon_style = index_object.report_icon_style
                   @report_data = @report.compute_index_plot_data self, index_object, params, @models
                   @report_label = @report.report_label
                   @report_filter_text = @report.report_filter_text self, index_object, params, @models
@@ -173,6 +174,7 @@ class ActionController::Base
                   add_headers headers[0], headers[1]
                   render :text => @report.compute_show_document_data(self, show_object, params)
                 else
+                  @icon_style = index_object.report_icon_style
                   @report_data = @report.compute_show_plot_data self, show_object, params
                   @report_label = @report.report_label
                   @report_filter_text = @report.report_filter_text self, show_object, params

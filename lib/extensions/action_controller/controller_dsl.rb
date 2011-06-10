@@ -21,6 +21,8 @@ class ActionController::ControllerDsl
   attr_accessor :exclude_related_data
   # Specify the style for this type of card
   attr_accessor :icon_style
+  # Specify the style for reports related to this type of card
+  attr_accessor :report_icon_style
   # Don't display flash message
   attr_accessor :dont_display_flash_message
   # use redirect not 201

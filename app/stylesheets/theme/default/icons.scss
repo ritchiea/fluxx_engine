@@ -223,7 +223,7 @@
       .link {
         @include no-box-shadow;
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_reports.png")} transparent no-repeat 50% 50%;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_visuals.png")} transparent no-repeat 50% 50%;
       }
     }
     &.style-transactions {
@@ -307,7 +307,7 @@
       }
      &.style-modal-reports {
         border: none;
-        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_reports.png")} transparent no-repeat 50% 50%;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_visuals.png")} transparent no-repeat 50% 50%;
       }
       &.style-transactions {
         border: none;
