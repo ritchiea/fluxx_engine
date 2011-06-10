@@ -755,7 +755,7 @@
               }
               var criterion = [];
               $filterText.val('');
-              $card.data('locked', $('#lock-card').attr('checked'));
+              $card.data('locked', $('#lock-card').attr('checked') == 'checked');
               $filters.find(':input').each(function(index, elem) {
                 var $elem = $(elem);
                 var id = $elem.attr('id');
