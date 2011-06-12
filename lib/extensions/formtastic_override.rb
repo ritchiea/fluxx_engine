@@ -57,7 +57,11 @@ module Formtastic #:nodoc:
     def date_or_datetime_input(method, options)
       date_time = ActionView::Helpers::InstanceTag.value(@object, method) 
       formatted_date_time = if date_time
-        date_time.mdy
+        if date_time.is_a? Time
+          date_time.mdy
+        else
+          date_time
+        end
       else
         nil
       end
