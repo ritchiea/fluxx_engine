@@ -573,6 +573,10 @@
         if (!$submit.hasClass('ignore')) {
           $('<a>').attr('href', $form.attr('action')).text($submit.val()||'Submit').bind('click', function(e){
             $.fluxx.util.itEndsWithMe(e);
+            // Prevent submitting the form multiple times
+            if ($form.data('submitting'))
+              return;
+            $form.data('submitting', true);
             $form.submit();
           }).wrap('<li>').parent().appendTo($flows);
         }
