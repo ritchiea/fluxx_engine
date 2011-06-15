@@ -31,8 +31,8 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
   def perform_update params, model, fluxx_current_user=nil, controller=nil
     post_save_call_proc = self.post_save_call || lambda{|fluxx_current_user, model, params|true}
     skip_validation = model.send :instance_variable_get, ActionController::ControllerDslUpdate.skip_validation_constant
-    
-    if editable?(model, fluxx_current_user) && model.save(:validate => false) && (skip_validation || model.valid?) && post_save_call_proc.call(fluxx_current_user, model, params)
+
+    if editable?(model, fluxx_current_user) && (skip_validation || model.valid?) && model.save(:validate => false) && post_save_call_proc.call(fluxx_current_user, model, params)
       remove_lock model, fluxx_current_user
       true
     else
