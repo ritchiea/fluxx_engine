@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.test_files        = `git ls-files -- {test}/*`.split("\n")
   s.require_paths     = ["lib"]
 
-  s.add_dependency 'rails', '3.0.7'
+  s.add_dependency 'rails', '3.0.3'
   s.add_dependency 'thin', '>= 1.2.7'
   s.add_dependency 'mysql'
   s.add_dependency 'sqlite3'
