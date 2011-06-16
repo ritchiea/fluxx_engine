@@ -171,16 +171,17 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   end
 
   def extract_headers headers, unpaged_models
-    headers
+    unpaged_models.is_a?(Array) ? model_class.columns.map(&:name) : headers
   end
   
   def extract_number_of_records unpaged_models
     unpaged_models.is_a?(Array) ? unpaged_models.size : unpaged_models.num_rows
   end
   
-  def extract_row unpaged_models, offset
+  def extract_row unpaged_models, offset, headers
     if unpaged_models.is_a?(Array)
-      unpaged_models[offset-1]
+      cur_row = unpaged_models[offset]
+      headers.map { |header| cur_row.attributes[header] }
     else
       cur_row = unpaged_models.fetch_row
       cur_row[1, cur_row.size-1]
@@ -192,55 +193,28 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   # More reference: http://support.microsoft.com/kb/319180
   # TODO ESH: generalize a bit and consider contributing to open source as a separate plugin with an API similar to faster_csv
   def stream_xls request, request_headers, filename, extract_type, headers, unpaged_models, model_class
-    add_headers request, request_headers, filename, extract_type
+    add_headers(request, request_headers, filename, extract_type)
+
+    output = StringIO.new
+    workbook = WriteExcel.new(output)
+    worksheet = workbook.add_worksheet
+    ordered_headers = extract_headers(headers, unpaged_models).to_a
     
-    # NOTE ESH: render :text => Proc is currently broken in rails 3.  See Template::Text and https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets?q=render+text
-    xls_processor = (lambda do |response, output|
-      # NOTE ESH: be careful to htmlescape quotes with ss:Format strings
-      output.write '<?xml version="1.0" encoding="UTF-8"?>
-      <Workbook xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office">
-      <Styles>
-        <Style ss:ID="s21"><Font x:Family="Swiss" ss:Bold="1"/></Style>
-        <Style ss:ID="s22"><NumberFormat ss:Format="Short Date"/><Font x:Family="Swiss" ss:Bold="0"/></Style>
-        <Style ss:ID="s18"><NumberFormat ss:Format="_(&quot;$&quot;* #,##0.00_);_(&quot;$&quot;* \(#,##0.00\);_(&quot;$&quot;* &quot;-&quot;??_);_(@_)"/><Font x:Family="Swiss" ss:Bold="0"/></Style>
-      </Styles>
-      <Worksheet ss:Name="Sheet1">
-      <Table>'
-      ordered_headers = extract_headers(headers, unpaged_models)
-      if ordered_headers
-        output.write "<Row>"
-        ordered_headers.each do |header_record| 
-          header = if header_record.is_a?(Array)
-            header_record.first
-          else
-            header_record
-          end
-          output.write "<Cell ss:StyleID=\"s21\"><Data ss:Type=\"String\">#{header}</Data></Cell>" 
-        end
-        output.write "</Row>"
-      end    
+    row = 0
 
-      if unpaged_models.is_a? Array
-        ordered_headers = model_class.columns.map(&:name).sort
-        unpaged_models.each do |element|
-          output.write "<Row>"
-          generate_xls_row ordered_headers.map {|header| element.send header}, output, ordered_headers
-          output.write "</Row>"
-        end
-      else
-        (1..extract_number_of_records(unpaged_models)).each do |offset|
-          output.write "<Row>"
-          generate_xls_row extract_row(unpaged_models, offset), output, ordered_headers
-          output.write "</Row>"
-        end
-      end
+    ordered_headers.each_with_index { |header, index|
+      header = header.is_a?(Array) ? header.first : header.to_s.humanize
+      worksheet.write(row, index, header)
+    }
 
-      output.write '</Table></Worksheet></Workbook>'
-    end)
+    extract_number_of_records(unpaged_models).times { |offset|
+      row += 1
+      attributes = extract_row(unpaged_models, offset, ordered_headers)
+      attributes.each_with_index { |attr,i| worksheet.write(row, i, attr) } # TODO: cell types
+    }
 
-    io = StringIO.new
-    xls_processor.call nil, io
-    io.string
+    workbook.close
+    output.string
   end
   
   def generate_xls_row columns, output, headers
