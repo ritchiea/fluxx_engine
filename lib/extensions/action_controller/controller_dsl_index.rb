@@ -1,4 +1,8 @@
+require 'extensions/action_controller/excel_format_helper'
+
 class ActionController::ControllerDslIndex < ActionController::ControllerDsl
+  include FluxxEngine::ExcelFormatHelper
+
   # delta_type allows the user to override the model class name for the purposes of tracking realtime updates
   attr_accessor :delta_type
   # results per page; pagination default
@@ -187,6 +191,14 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       cur_row[1, cur_row.size-1]
     end
   end
+
+  def extract_column_format_name(model_klass, column)
+    if model_klass and column_definition = model_klass.columns_hash[column]
+      column_definition.type
+    else
+      column.is_a?(Array) ? column.last : :string
+    end
+  end
   
   # Based on formatting tips in http://forums.asp.net/t/1038105.aspx
   # Useful reference: http://msdn.microsoft.com/en-us/library/aa140066(office.10).aspx
@@ -199,58 +211,39 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     workbook = WriteExcel.new(output)
     worksheet = workbook.add_worksheet
     ordered_headers = extract_headers(headers, unpaged_models).to_a
+    model_klass = unpaged_models.is_a?(Array) && !unpaged_models.empty? ? unpaged_models.first.class : nil
+
+    non_wrap_bold_format, bold_format, header_format, solid_black_format, amount_format, number_format, date_format, text_format, header_format, 
+    sub_total_format, sub_total_border_format, total_format, total_border_format, final_total_format, final_total_border_format, 
+    bold_total_format, double_total_format = build_formats(workbook)
     
+    currency_format = decimal_format = amount_format
+    datetime_format = timestamp_format = date_format
+    string_format = text_format
+    ingeger_format = float_format = number_format
+
     row = 0
 
     ordered_headers.each_with_index { |header, index|
-      header = header.is_a?(Array) ? header.first : header.to_s.humanize
-      worksheet.write(row, index, header)
+      header = header.is_a?(Array) ? header.first : header
+      worksheet.write(row, index, header.to_s.humanize, header_format)
     }
 
     extract_number_of_records(unpaged_models).times { |offset|
       row += 1
       attributes = extract_row(unpaged_models, offset, ordered_headers)
-      attributes.each_with_index { |attr,i| worksheet.write(row, i, attr) } # TODO: cell types
+
+      ordered_headers.each_with_index { |attr,i|
+        format_name = extract_column_format_name(model_klass, attr)
+        format = eval("#{format_name}_format") rescue format = string_format
+        worksheet.write(row, i, attributes[i], format) 
+      }
     }
 
     workbook.close
     output.string
   end
   
-  def generate_xls_row columns, output, headers
-    columns.each_with_index do |value, i|
-      val_type = if headers[i].is_a?(Array)
-        headers[i].second
-      end || 'String'
-      ss_style = ''
-      val_type = case val_type
-      when :date
-        # "mso-number-format:\"mm\/dd\/yy\""
-        cur_date = Time.parse value rescue nil
-        value = if cur_date && cur_date > Time.now - 200.years
-          cur_date.msoft 
-        else
-          ''
-        end
-        ss_style = 'ss:StyleID="s22"'
-        "DateTime"
-      when :currency
-        ss_style = 'ss:StyleID="s18"'
-        "Number"
-      when :integer
-        "Number"
-      else
-        'String'
-      end
-      if value.blank? || value.nil?
-        output.write "<Cell><Data ss:Type=\"String\"/></Cell>"
-      else
-        output.write "<Cell #{ss_style}><Data ss:Type=\"#{val_type.to_s}\">#{CGI::escapeHTML(value.to_s)}</Data></Cell>"
-      end
-    end
-    
-  end
-
   def add_headers request, headers, filename, extract_type = :csv
     if request.env['HTTP_USER_AGENT'] =~ /msie/i
       #this is required if you want this to work with IE
