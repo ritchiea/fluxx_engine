@@ -8,16 +8,16 @@ class ActiveRecord::ModelDslUtc < ActiveRecord::ModelDsl
       time_attributes.each do |name|
         model_class.send :define_method, name do
           value = read_attribute(name.to_sym)
-          Time.utc(value.year,value.month,value.day,0,0,0) if value rescue nil
+          value.utc if value rescue nil
         end
-      
+
         model_class.send :define_method, "#{name}=" do |date|
           begin
             date = if date.is_a?(String) && !(date.blank?)
               found_date = Time.parse_localized(date) rescue nil
               found_date = Time.parse(date) unless found_date && found_date.is_a?(Time)
-              # p "--------------------------------------------------------------------------------"
-              # p "#{name} ====== #{date} ------ #{found_date}"
+#              p "--------------------------------------------------------------------------------"
+#              p "#{name} ====== #{date} ------ #{found_date}"
               found_date
             else
               date
