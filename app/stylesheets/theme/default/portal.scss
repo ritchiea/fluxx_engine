@@ -411,7 +411,11 @@ ol li.action-item {
     border-left: 1px solid #ffffff;
   }
 }
-.logo { margin: -10px 0; vertical-align:middle; }
+.logo {
+  margin: -10px 0;
+  vertical-align:middle;
+  display: block;   margin-left: auto;   margin-right: auto;
+}
 .page {
   position: relative;
   width: 950px;
@@ -515,6 +519,31 @@ ol li.action-item {
   }
   .commit input {
     margin-top: 20px;
+  }
+}
+.portal_login {
+  background: transparent url(/images/fluxx_engine/theme/default/misc/vert_line.png) no-repeat 460px 180px;
+  h3 {
+    border: none;
+    padding-top: 0px;
+  }
+  h1 {
+    margin-bottom: 40px;
+    margin-top: 20px;
+  }
+  .c60l {
+    width: 50%;
+    margin-left: 32px;
+  }
+}
+.numbered-list {
+  li {
+    list-style: decimal outside none;
+    margin-left: 20px;
+    ol {
+      margin-top: 10px;
+      li {list-style: lower-alpha outside none; }
+    }
   }
 }
 

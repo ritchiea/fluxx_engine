@@ -23,7 +23,8 @@ def strip_zeros_from_date(marked_date_string)
   marked_date_string.gsub('*0', '').gsub('*', '').gsub(/ 0(\d\D)/, ' \1').gsub(/-0(\d\D)/, '-\1').gsub(/\/0(\d\D)/, '/\1').gsub(/^0(\d\D)/, '\1')
 end
 
-class Time
+
+module FluxxTimeFormatUtilities
   def abbrev_month_year
     self.to_s(:abbrev_month_year)
   end
@@ -98,6 +99,16 @@ class Time
     end
     date
   end
+  
+end
+
+
+class Time
+  include FluxxTimeFormatUtilities
+end
+
+class DateTime
+  include FluxxTimeFormatUtilities
 end
 
 
