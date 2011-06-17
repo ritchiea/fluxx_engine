@@ -536,6 +536,16 @@ ol li.action-item {
     margin-left: 32px;
   }
 }
+.numbered-list {
+  li {
+    list-style: decimal outside none;
+    margin-left: 20px;
+    ol {
+      margin-top: 10px;
+      li {list-style: lower-alpha outside none; }
+    }
+  }
+}
 
 
 /*=============================
