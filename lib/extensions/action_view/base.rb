@@ -51,6 +51,14 @@ class ActionView::Base
       raw msg
     end
   end
-  
-  
+
+  def external_link link
+    link = ((!link || link =~ /^http:/ || link.empty?) ? link : 'http://' + link)
+    link_to link, link, :target => "blank" unless !link || link.empty?
+  end
+
+  def email_link email_address
+    link_to(email_address, "mailto:#{email_address}") unless !email_address || email_address.empty?
+  end
+
 end
