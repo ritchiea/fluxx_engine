@@ -50,7 +50,7 @@ module Formtastic #:nodoc:
       amount = amount.to_currency if amount.is_a?(BigDecimal)
       html_options = options.delete(:input_html) || {}
       html_options[:value] = amount if amount
-      html_options = default_string_options(method, type).merge(html_options)
+      html_options = default_string_options(method, self.class).merge(html_options)
       label("#{method}:", :label => options[:label]) + text_field(method, html_options)
     end
     
