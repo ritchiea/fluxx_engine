@@ -26,11 +26,11 @@
       - work_contact_details = [ |
           ['Direct Phone:', location.phone], |
           ['Fax:',  location.fax], |
-          ['Email:', location.email ], |
+          ['Email:', email_link(location.email) ], |
           ['Other Contact:', location.other_contact ], |
-          ['Website:', ((!location.url || location.url =~ /^http:/ || location.url.empty?) ? location.url : 'http://' + location.url)], |
-          ['Personal Blog:', ((!location.blog_url || location.blog_url =~ /^http:/ || location.blog_url.empty?) ? location.blog_url : 'http://' + location.blog_url) ], |
-          ['Personal Twitter:', ((!location.twitter_url || location.twitter_url =~ /^http:/ || location.twitter_url.empty?) ? location.twitter_url : 'http://' + location.twitter_url) ], |
+          ['Website:', external_link(location.url)], |
+          ['Personal Blog:', external_link((!location.blog_url || location.blog_url =~ /^http:/ || location.blog_url.empty?) ? location.blog_url : 'http://' + location.blog_url) ], |
+          ['Personal Twitter:', external_link((!location.twitter_url || location.twitter_url =~ /^http:/ || location.twitter_url.empty?) ? location.twitter_url : 'http://' + location.twitter_url) ], |
           ['Acronym:', location.acronym ], |
         ].compact.each do |contact_detail| |
         - label, value = contact_detail
