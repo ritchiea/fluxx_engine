@@ -357,6 +357,7 @@ class ActiveRecord::Base
   end
   
   def masquerade_as_persisted
+    self.instance_variable_set '@persisted', true
     self.instance_variable_set '@new_record', false
     self.instance_variable_set '@destroyed', false
   end
