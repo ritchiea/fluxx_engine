@@ -368,6 +368,7 @@ ol li.action-item {
   }
 }
 .error {
+  color: #aa3333;
   label { color: #aa3333; }
   input,textarea,select {
     border-color: #aa3333;
@@ -521,8 +522,8 @@ ol li.action-item {
     margin-top: 20px;
   }
 }
-.portal_login {
-  background: transparent url(/images/fluxx_engine/theme/default/misc/vert_line.png) no-repeat 460px 180px;
+.portal-login {background: transparent url(/images/fluxx_engine/theme/default/misc/vert_line.png) no-repeat 460px 180px;}
+.portal-login, .loi-form {
   h3 {
     border: none;
     padding-top: 0px;
@@ -534,6 +535,19 @@ ol li.action-item {
   .c60l {
     width: 50%;
     margin-left: 32px;
+  }
+  .inputs {
+    width: 300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+   }
+  .loi-information {
+    width: 550px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    p {color: #858585}
   }
 }
 .numbered-list {
