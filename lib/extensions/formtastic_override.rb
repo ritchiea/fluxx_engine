@@ -46,7 +46,7 @@ module Formtastic #:nodoc:
     alias_method_chain :default_input_type, :override
 
     def amount_input(method, options)
-      amount = ActionView::Helpers::InstanceTag.value(@object, method) 
+      amount = ActionView::Helpers::InstanceTag.value(@object, method)
       amount = amount.to_currency if amount.is_a?(BigDecimal)
       html_options = options.delete(:input_html) || {}
       html_options[:value] = amount if amount

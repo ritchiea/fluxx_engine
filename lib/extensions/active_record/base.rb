@@ -240,7 +240,7 @@ class ActiveRecord::Base
   
   def filter_amount amount
     if amount.is_a? String
-      amount.gsub("\$", "").gsub(",","")
+      amount.gsub(CurrencyHelper.current_symbol, "").gsub(",","")
     else
       amount
     end

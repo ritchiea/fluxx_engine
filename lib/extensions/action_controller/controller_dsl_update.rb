@@ -20,10 +20,10 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
   
   def populate_model params, model, fluxx_current_user=nil
     if editable?(model, fluxx_current_user)
-    modified_by_map = {}
-    if model.respond_to?(:updated_by_id) && fluxx_current_user
-      modified_by_map[:updated_by_id] = fluxx_current_user.id
-    end
+      modified_by_map = {}
+      if model.respond_to?(:updated_by_id) && fluxx_current_user
+        modified_by_map[:updated_by_id] = fluxx_current_user.id
+      end
       model.attributes = modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})
     end
   end
