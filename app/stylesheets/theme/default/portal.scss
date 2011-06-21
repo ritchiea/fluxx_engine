@@ -482,7 +482,7 @@ ol li.action-item {
 .simplemodal-overlay {
   background: url("/images/fluxx_engine/theme/default/modal/overlay-bg.png") black;
 }
-.simplemodal-close {
+.simplemodal-close, .ui-icon-closethick {
   display: block;
   position: absolute;
   right: -8px;
@@ -493,6 +493,13 @@ ol li.action-item {
   width: 21px;
   z-index: 1500;
 }
+.ui-icon-closethick {
+  top: 7px;
+
+}
+
+
+
 .file-type {
   display: inline-block;
   min-height: 16px;
