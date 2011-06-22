@@ -428,13 +428,11 @@
 						s = el[0].style;
 
 					s.position = 'absolute';
-          console.log('foooooooooooooooooo');
-          console.log(s);
 					if (i < 2) {
-//						s.removeExpression('height');
-//						s.removeExpression('width');
-//						s.setExpression('height','' + bsh + ' > ' + bch + ' ? ' + bsh + ' : ' + bch + ' + "px"');
-//						s.setExpression('width','' + bsw + ' > ' + bcw + ' ? ' + bsw + ' : ' + bcw + ' + "px"');
+						s.removeExpression('height');
+						s.removeExpression('width');
+						s.setExpression('height','' + bsh + ' > ' + bch + ' ? ' + bsh + ' : ' + bch + ' + "px"');
+						s.setExpression('width','' + bsw + ' > ' + bcw + ' ? ' + bsw + ' : ' + bcw + ' + "px"');
 					}
 					else {
 						var te, le;
