@@ -693,7 +693,26 @@
           $adminForm.submit();
         });
       }
-
+      $('[data-serialize-to-field]', $area).each(function() {
+        var $section = $(this);
+        var $field = $($section.attr('data-serialize-to-field'), $area);
+        $('form', $area).submit(function() {
+          var o = {};
+          $.each($section.find(':input').serializeArray(), function() {
+            if (this.name != 'authenticity_token' && this.name != 'utf8') {
+              if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                  o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+              } else {
+                o[this.name] = this.value || '';
+              }
+            }
+          });
+          $field.val($.toJSON(o));
+        });
+      });
       return this;
     },
     openListingFilters: function(openInDetail) {
