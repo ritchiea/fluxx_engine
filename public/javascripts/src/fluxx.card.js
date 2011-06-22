@@ -710,6 +710,7 @@
               }
             }
           });
+          $section.find(':input').remove();
           $field.val($.toJSON(o));
         });
       });
