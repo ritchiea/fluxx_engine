@@ -37,11 +37,13 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     @max_sphinx_results || 500000
   end
   
-  def load_results params, format=nil, models=nil, controller=nil
+  def load_results params, format=nil, models=nil, controller=nil, results_per_page_param=nil
     if models
       models
     else 
-      results_per_page = if (params[:all_results] && params[:all_results].to_i == 1) || (format && (format.csv? || format.xls?))
+      results_per_page = if results_per_page_param
+        results_per_page_param
+      elsif (params[:all_results] && params[:all_results].to_i == 1) || (format && (format.csv? || format.xls?))
         ActionController::ControllerDslIndex.max_sphinx_results
       else
         self.results_per_page || 25
