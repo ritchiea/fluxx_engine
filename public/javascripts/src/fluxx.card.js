@@ -796,8 +796,6 @@
       var $filters = $(this);
       var found = {};
       _.each(data, function(obj, val) {
-        if (typeof obj == 'string')
-          obj = {name: val, value: obj};
         if (obj.value) {
           var $rollup = $('[data-rollup="' + obj.name.replace(/\w+\[(\w+)\]\[\]/, "$1") + '"]');
           var i = 0;
@@ -896,20 +894,13 @@
         $section.populateFilterForm($.parseJSON($field.val()));
         $form.submit(function() {
           $area.rollupHierarchy($section);
-          var o = {};
-          $.each($section.find(':input').serializeArray(), function() {
+          var o = [];
+          $.each($section.find(':input'), function() {
             var $elem = $(this);
             if ($elem.hasClass('add-another'))
-              $elem.attr('name', $elem.attr('name') + '[]')
+              this.name = $elem.attr('name') + '[]';
             if (this.name != 'authenticity_token' && this.name != 'utf8') {
-              if (o[this.name] !== undefined) {
-                if (!o[this.name].push) {
-                  o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-              } else {
-                o[this.name] = this.value || '';
-              }
+              o.push({name: this.name, value: this.value});
             }
           });
           $section.find(':input').remove();
@@ -1295,7 +1286,6 @@
 							// Don't try and render an entire document, forcing the page to be overwritten
 							if (data.search("<html>") != -1)
 								return;
-              $.fluxx.log('***********');
               var $document = $('<div/>').html(data);
               var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
                 $('#card-header', $document).html() : options.header);
