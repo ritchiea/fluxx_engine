@@ -110,9 +110,9 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   
   # check for an attribute in the params based on the current model object's class name, then the superclass if any from which the search attributes were specified, then just the attribute names
   def grab_param attr_name, local_model_request_params={}, model_request_params={}, request_params={}
-    p "ESH: 555bbb searching for attr_name=#{attr_name} in local_model_request_params=#{local_model_request_params.inspect}, model_request_params=#{model_request_params.inspect}, request_params=#{request_params.inspect}"
+    # p "ESH: searching for attr_name=#{attr_name} in local_model_request_params=#{local_model_request_params.inspect}, model_request_params=#{model_request_params.inspect}, request_params=#{request_params.inspect}"
     ret = local_model_request_params[attr_name.to_s] || model_request_params[attr_name.to_s] || request_params[attr_name.to_s]
-    p "ESH: 444aaa grab_param, found ret=#{ret.inspect} for attr_name=#{attr_name}"
+    # p "ESH: grab_param, found ret=#{ret.inspect} for attr_name=#{attr_name}"
     ret
   end
 
@@ -146,6 +146,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
         end
       end
     end
+    search_with_attributes[:sphinx_internal_id] = search_with_attributes.delete(:id) if search_with_attributes[:id]
     
     with_clause = (search_with_attributes || {})
     sort_attr = grab_param(:sort_attribute, local_model_request_params, model_request_params, request_params)
