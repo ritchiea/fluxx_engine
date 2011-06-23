@@ -723,6 +723,23 @@ table .partial { margin: 0.25em 0; }
     padding:3px;
   }
 }
+.detail, .modal {
+  .body {
+    a.do-add-another {
+      @include inline-block;
+      @include border-box;
+      text-indent: -2000em;
+      line-height: 24px;
+      height: 24px;
+      margin-left: 5px;
+      vertical-align: middle;
+      width: 15px;
+      margin-top: -12px;
+      background: transparent url("/images/fluxx_engine/theme/default/icons/add.png") no-repeat center center;
+    }
+  }
+}
+
 .detail {
   @include inline-block;
   width: 618px;
@@ -736,18 +753,6 @@ table .partial { margin: 0.25em 0; }
     position: relative;
     overflow: auto;
     border-bottom: 1px solid #9b9b9b;
-    a.do-add-another {
-      @include inline-block;
-      @include border-box;
-      text-indent: -2000em;
-      line-height: 24px;
-      height: 24px;
-      margin-left: 5px;
-      vertical-align: middle;
-      width: 15px;
-      margin-top: -12px;
-      background: transparent url("/images/fluxx_engine/theme/default/icons/add.png") no-repeat center center;
-    }
   }
   .footer {
     position: static;
