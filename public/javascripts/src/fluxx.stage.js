@@ -903,7 +903,11 @@
           'a.close-card': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              $(this).removeFluxxCard();
+              var $elem = $(this);
+              if ($elem.hasClass('no-confirm'))
+                $(this).removeFluxxCard();
+              else if (confirm('Are you sure you want to close this card?'))
+                $(this).removeFluxxCard();
             }
           ],
           'a.minimize-card, a.maximize-card': ['click', function (e) {
