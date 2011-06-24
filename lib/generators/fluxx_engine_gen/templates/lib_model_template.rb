@@ -46,7 +46,7 @@ module Fluxx<%= model_class_name %>
     
     send :include, AASM
     add_aasm
-    add_sphinx if base.respond_to?(:sphinx_indexes) && !(base.connection.adapter_name =~ /SQLite/i)
+    add_sphinx if respond_to?(:sphinx_indexes) && !(connection.adapter_name =~ /SQLite/i)
   end
   
 
