@@ -44,18 +44,11 @@ module Fluxx<%= model_class_name %>
       # insta.add_event_to_english :recommend_funding, 'Recommend Funding'
     end
     
-    send :include, AASM
-    add_aasm
-    add_sphinx if respond_to?(:sphinx_indexes) && !(connection.adapter_name =~ /SQLite/i)
+    # add_sphinx if respond_to?(:sphinx_indexes) && !(connection.adapter_name =~ /SQLite/i)
   end
   
 
   class_methods do
-    def add_aasm
-      aasm_column :state
-      aasm_initial_state :new
-    end
-    
     def add_sphinx
       define_index :<%= model_class_singular_table_name %>_first do
         # fields
