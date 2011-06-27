@@ -693,27 +693,7 @@
           $adminForm.submit();
         });
       }
-      $('[data-serialize-to-field]', $area).each(function() {
-        var $section = $(this);
-        var $field = $($section.attr('data-serialize-to-field'), $area);
-        $('form', $area).submit(function() {
-          var o = {};
-          $.each($section.find(':input').serializeArray(), function() {
-            if (this.name != 'authenticity_token' && this.name != 'utf8') {
-              if (o[this.name] !== undefined) {
-                if (!o[this.name].push) {
-                  o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-              } else {
-                o[this.name] = this.value || '';
-              }
-            }
-          });
-          $section.find(':input').remove();
-          $field.val($.toJSON(o));
-        });
-      });
+      $area.serializeToField();
       return this;
     },
     openListingFilters: function(openInDetail) {
@@ -733,50 +713,14 @@
           header: '<span>' + 'Filter Listings' + '</span>',
           init: function (e) {
             $filters.appendTo($card.fluxxCardBody());
-          },
+          }
         }, function () {
           $('.date input', $filters).datepicker({ changeMonth: true, changeYear: true, dateFormat: 'yy-m-d' });
           // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {
               $('input,select', $form).removeAttr("disabled");
-              var extra = {};
-              var rollup_field;
-              $('.hierarchical-filter', $form).each(function() {
-                var $section = $(this);
-                var rollup = [];
-                if (extra[$section.attr('data-rollup')])
-                  rollup = extra[$section.attr('data-rollup')];
-                else
-                  extra[$section.attr('data-rollup')] = rollup;
-                $section.find('select:first').each(function() {
-                  $select = $(this);
-                  if (!rollup_field)
-                    rollup_field = $select.attr('name').replace(/\[.*/, '');
-                  var program_filters = [['','','','']];
-                  for (i=0;i<=3;i++) {
-                    var j = 0;
-                    $('#' + $select.attr('id'), $card).each(function() {
-                      var $sel = $(this);
-                      if (!program_filters[j]) {
-                        program_filters.push(program_filters[j-1].slice(0));
-                      }
-                      program_filters[j][i] = $sel.val();
-                      j++;
-                    });
-                    $select = $select.parent().parent().children().find('select:first').not($select);
-                  }
-                  _.each(program_filters, function(item) {
-                    var values = item.join('-');
-                    if (!values.match(/^\-/) && rollup.indexOf(values) == -1)
-                      rollup.push(values);
-                  });
-                });
-              }).find('select').attr('disabled', true);
-              for (var rollup in extra) {
-                $('<input type="hidden" name="' + rollup_field + '[hierarchies][]" value="' + rollup + '"/>').appendTo($form);
-                $('<input type="hidden" name="' + rollup_field + '[' + rollup + '][]" value="' + extra[rollup] + '"/>').appendTo($form);
-              }
+              $card.rollupHierarchy($form);
               var criterion = [];
               $filterText.val('');
               $card.data('locked', $('#lock-card').attr('checked') == 'checked');
@@ -821,8 +765,6 @@
 
           var $filterText = $('<input type="hidden" name="filter-text" value =""/>').appendTo($form);
 
-          var found = {};
-
           var data = $listing.fluxxCardAreaRequest().data;
           if (typeof data == "string") {
             $form.removeClass('to-listing').addClass('to-detail');
@@ -837,56 +779,7 @@
               }
             });
           }
-          _.each(data, function(obj) {
-            if (obj.value) {
-              var $rollup = $('[data-rollup="' + obj.name.replace(/\w+\[(\w+)\]\[\]/, "$1") + '"]');
-              var i = 0;
-              if ($rollup.length > 0) {
-                var $addNew = $rollup.find('.do-add-another:first');
-                _.each(obj.value.split(','), function(item) {
-                  if (i++ > 0)
-                    $addNew.click();
-                  var $section = $('[data-rollup="' + $rollup.attr('data-rollup') + '"]:last', $card);
-                  $addNew = $section.find('.do-add-another:first');
-                  var vals = item.split('-');
-
-                  var setVal = function(e) {
-                    var $el = $(this);
-                    $el.val(e.data).change();
-                  };
-
-                  for ( var j=0, len=vals.length; j<len; ++j ) {
-                    if (vals[j]) {
-                      var $sel = $section.find('select:eq(' + j + ')');
-                      if (j == 0) {
-                        $sel.val(vals[0]).change();
-                      } else {
-                        $sel.bind('options.updated', vals[j], setVal);
-                      }
-                    }
-                  }
-                });
-
-              } else {
-                var selector = '[name="' + obj.name.replace(/\[\]$/,'') + '"]';
-                var $elem = $(selector, $filters).last();
-                if (found.hasOwnProperty(obj.name)) {
-                  var $add  = $elem.clone();
-                  $elem.after($add);
-                  $add.before($('<label/>'));
-                  $elem = $add;
-                }
-                $elem.val(obj.value);
-                $(selector + ":checkbox", $filters)
-                  .attr('checked', true)
-                  .change(function () {
-                    $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
-                  });
-                if ($elem.hasClass('add-another'))
-                  found[obj.name] = true;
-              }
-            }
-          });
+          $filters.populateFilterForm(data);
         });
       });
     },
@@ -895,6 +788,124 @@
         var $card = $(this).fluxxCard();
         $('.filters', $card).remove();
         $('.actions', $card).click();
+      });
+    },
+    populateFilterForm: function(data) {
+      if (!data)
+        return;
+      var $filters = $(this);
+      var found = {};
+      _.each(data, function(obj, val) {
+        if (obj.value) {
+          var $rollup = $('[data-rollup="' + obj.name.replace(/\w+\[(\w+)\]\[\]/, "$1") + '"]');
+          var i = 0;
+          if ($rollup.length > 0) {
+            var $addNew = $rollup.find('.do-add-another:first');
+            _.each(obj.value.split(','), function(item) {
+              if (i++ > 0)
+                $addNew.click();
+              var $section = $('[data-rollup="' + $rollup.attr('data-rollup') + '"]:last', $filters.fluxxCard());
+              $addNew = $section.find('.do-add-another:first');
+              var vals = item.split('-');
+
+              var setVal = function(e) {
+                var $el = $(this);
+                $el.val(e.data).change();
+              };
+
+              for ( var j=0, len=vals.length; j<len; ++j ) {
+                if (vals[j]) {
+                  var $sel = $section.find('select:eq(' + j + ')');
+                  if (j == 0) {
+                    $sel.val(vals[0]).change();
+                  } else {
+                    $sel.bind('options.updated', vals[j], setVal);
+                  }
+                }
+              }
+            });
+          } else {
+            var selector = '[name="' + obj.name.replace(/\[\]$/,'') + '"]';
+            var $elem = $(selector, $filters).last();
+            if (found.hasOwnProperty(obj.name)) {
+              var $add  = $elem.clone();
+              $elem.after($add);
+              $add.before($('<label/>'));
+              $elem = $add;
+            }
+            $elem.val(obj.value);
+            $(selector + ":checkbox", $filters)
+              .attr('checked', true)
+              .change(function () {
+                $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
+              });
+            if ($elem.hasClass('add-another'))
+              found[obj.name] = true;
+          }
+        }
+      });
+    },
+    rollupHierarchy: function ($form) {
+      $card = $(this);
+      var extra = {};
+      var rollup_field;
+      $('.hierarchical-filter', $form).each(function() {
+        var $section = $(this);
+        var rollup = [];
+        if (extra[$section.attr('data-rollup')])
+          rollup = extra[$section.attr('data-rollup')];
+        else
+          extra[$section.attr('data-rollup')] = rollup;
+        $section.find('select:first').each(function() {
+          $select = $(this);
+          if (!rollup_field)
+            rollup_field = $select.attr('name').replace(/\[.*/, '');
+          var program_filters = [['','','','']];
+          for (i=0;i<=3;i++) {
+            var j = 0;
+            $('#' + $select.attr('id'), $card).each(function() {
+              var $sel = $(this);
+              if (!program_filters[j]) {
+                program_filters.push(program_filters[j-1].slice(0));
+              }
+              program_filters[j][i] = $sel.val();
+              j++;
+            });
+            $select = $select.parent().parent().children().find('select:first').not($select);
+          }
+          _.each(program_filters, function(item) {
+            var values = item.join('-');
+            if (!values.match(/^\-/) && rollup.indexOf(values) == -1)
+              rollup.push(values);
+          });
+        });
+      }).find('select').attr('disabled', true);
+      for (var rollup in extra) {
+        $('<input type="hidden" name="' + rollup_field + '[hierarchies][]" value="' + rollup + '"/>').appendTo($form);
+        $('<input type="hidden" name="' + rollup_field + '[' + rollup + '][]" value="' + extra[rollup] + '"/>').appendTo($form);
+      }
+    },
+    serializeToField: function() {
+      $area = $(this);
+      $('[data-serialize-to-field]', $area).each(function() {
+        var $form = $('form', $area);
+        var $section = $(this);
+        var $field = $($section.attr('data-serialize-to-field'), $area);
+        $section.populateFilterForm($.parseJSON($field.val()));
+        $form.submit(function() {
+          $area.rollupHierarchy($section);
+          var o = [];
+          $.each($section.find(':input'), function() {
+            var $elem = $(this);
+            if ($elem.hasClass('add-another'))
+              this.name = $elem.attr('name') + '[]';
+            if (this.name != 'authenticity_token' && this.name != 'utf8') {
+              o.push({name: this.name, value: this.value});
+            }
+          });
+          $section.find(':input').remove();
+          $field.val($.toJSON(o));
+        });
       });
     },
     openNewCardModal: function(options, onComplete) {
@@ -1275,7 +1286,6 @@
 							// Don't try and render an entire document, forcing the page to be overwritten
 							if (data.search("<html>") != -1)
 								return;
-              $.fluxx.log('***********');
               var $document = $('<div/>').html(data);
               var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
                 $('#card-header', $document).html() : options.header);
