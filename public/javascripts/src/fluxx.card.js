@@ -401,13 +401,22 @@
             url: $partial.attr('data-src'),
             data: options.data,
             beforeSend: function() {
-              $partial
-                .addClass('updating')
-                .children()
-                .fadeTo(300, 0);
+              $partial.addClass('updating');
+              if (!$partial.hasClass('modal'))
+                $partial.children().fadeTo(300, 0);
+              else
+                $partial.find('.edit').addClass('updating').fadeTo(300, 0);
             },
             success: function(data, status, xhr){
-              $partial.html($(data)).removeClass('updating').children().areaDetailTransform().fadeIn();
+              if ($partial.hasClass('modal')) {
+                $partial.find('.edit, .show').html($(data).find('.edit, .show').html());
+                $('.footer .workflow', $partial).html('');
+                $partial.removeClass('updating').areaDetailTransform();
+                $partial.find('.edit').removeClass('updating').fadeTo(300, 1).trigger('refresh.fluxx.area');
+
+              } else {
+                $partial.html($(data)).removeClass('updating').children().areaDetailTransform().fadeIn();
+              }
               if (onComplete)
                 onComplete();
             }
@@ -563,7 +572,6 @@
     },
     areaDetailTransform: function(){
       var $area  = $(this);
-
       var $forms = $('.body form', $area),
           $flows = $('.footer .workflow', $area);
       $forms.each(function(){
@@ -663,11 +671,12 @@
 
       $('.header .notice:not(.error)').delay(2000).find('.close-parent').click();
 
-      $('.partial[data-refresh-onload=1]', $area).refreshAreaPartial({
-        animate: false
-      });
+      if ($('.partial[data-refresh-onload=1]', $area).length > 0)
+        $('.partial[data-refresh-onload=1]', $area).refreshAreaPartial({
+          animate: false
+        });
 
-      var $tabs = $('.horizontal-tabs', $area).each(function() {
+      $('.horizontal-tabs', $area).each(function() {
         var $elem = $(this);
         $area.find('.edit').addClass('withtabs');
         var cookieName = "fluxx_tabs_" + $elem.attr('name');
@@ -679,18 +688,41 @@
           }
         });
       });
+      $( '.sortable' ).sortable().bind('sortupdate', function(e, ui) {
+        var order_list = [];
+        var $elem = $(this);
+        $elem.find('li').each(function() {
+          order_list.push($(this).attr('id'));
+        });
+        var $area = $elem.fluxxCardArea();
+
+        var re = new RegExp('([?&])order_list=[^?&]*');
+        $area.attr('data-src', $area.attr('data-src').replace(re, '') + "&order_list=" + order_list);
+        $area.data('updated', true);
+        $area.refreshAreaPartial();
+      });
+		  $( '.sortable' ).disableSelection();
       if ($('#fluxx-admin').length) {
         $('#admin-buttons').fadeOut();
-        var $adminForm = $('#fluxx-admin form').not('.modal form');
+        var $adminForm = $('#fluxx-admin form').not('.modal form')
         $adminForm.unbind('change').change(function() {
-          $('#admin-buttons').fadeIn();
+          if (!$('#fluxx-admin .form-builder')[0])
+            $('#admin-buttons').fadeIn();
         }).unbind('keydown').keydown(function() {
-          $('#admin-buttons').fadeIn();
+          if (!$('#fluxx-admin .form-builder')[0])
+            $('#admin-buttons').fadeIn();
         });
 
         $('.admin-submit').unbind('click').click(function(e) {
           $.fluxx.util.itEndsWithMe(e);
           $adminForm.submit();
+        });
+        // Disable component interaction in form builder mode
+        $('.form-builder').find('a, img').click(function(e) {
+          var $elem = $(this);
+          if (!$elem.hasClass('edit-form-element')) {
+            $.fluxx.util.itEndsWithMe(e);
+          }
         });
       }
       $area.serializeToField();
@@ -715,7 +747,7 @@
             $filters.appendTo($card.fluxxCardBody());
           }
         }, function () {
-          $('.date input', $filters).datepicker({ changeMonth: true, changeYear: true, dateFormat: 'yy-m-d' });
+          $('.date input', $filters).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
           // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {
@@ -936,51 +968,52 @@
 
           var originalScroll = $('.area', $card).not('.modal').scrollTop();
           $('.area', $card).not('.modal').disableFluxxArea();
-          $modal.resizeModal = function() {
-            return this.each(function() {
-              $modal = $(this);
-              var $card = $('#fluxx-admin') || $modal.fluxxCard();
-              var $arrow = $('.arrow', $modal);
-              // Adjust when not admin
-              var contentHeight = $('.body div', $modal).height();
-              var headerHeight = $('.header', $modal).outerHeight(true);
-              var borderHeight = parseInt($modal.css('borderTopWidth')) + parseInt($modal.css('borderBottomWidth'));
-              var footerHeight = $('.footer', $modal).is(":visible") ? $('.footer', $modal).outerHeight(true) : 0;
-              var maxHeight = $card.height() - (borderHeight + headerHeight + footerHeight);
-              var modalHeight = (contentHeight > maxHeight ? maxHeight : contentHeight) + borderHeight + headerHeight + footerHeight + 41;
-              $modal.height(modalHeight);
-              $('.body', $modal).height(modalHeight - headerHeight - footerHeight - borderHeight);
+          $modal.bind('refresh.fluxx.area', function (e, $target, url) {
+            $modal = $(this);
+            var $card = $('#fluxx-admin') || $modal.fluxxCard();
+            var $arrow = $('.arrow', $modal);
+            // Adjust when not admin
+            var contentHeight = $('.body div', $modal).height();
+            var headerHeight = $('.header', $modal).outerHeight(true);
+            var borderHeight = parseInt($modal.css('borderTopWidth')) + parseInt($modal.css('borderBottomWidth'));
+            var $footer = $('.footer', $modal);
+            if ($footer.find('.workflow').length > 0)
+              $footer.show();
+            else
+              $footer.hide();
+            var footerHeight = $footer.is(":visible") ? $('.footer', $modal).outerHeight(true) : 0;
+            var maxHeight = $card.height() - (borderHeight + headerHeight + footerHeight);
+            var modalHeight = (contentHeight > maxHeight ? maxHeight : contentHeight) + borderHeight + headerHeight + footerHeight + 41;
+            $modal.height(modalHeight);
+            $('.body', $modal).height(modalHeight - headerHeight - footerHeight - borderHeight);
 
-              var modalTop = $modal.data('cardY') - (modalHeight * .2) - $arrow.outerWidth(true) - 7;
-              var modalLeft = 0
+            var modalTop = $modal.data('cardY') - (modalHeight * .2) - $arrow.outerWidth(true) - 7;
+            var modalLeft = 0
 
-              leftArrow = $modal.data('cardX') <= $card.width() / 2;
-              if (leftArrow) {
-                modalLeft = $modal.data('cardX') + 20;
-              } else {
-                $arrow.addClass('right');
-                modalLeft = $modal.data('cardX') - $modal.outerWidth(true) - 20;
-              }
+            leftArrow = $modal.data('cardX') <= $card.width() / 2;
+            if (leftArrow) {
+              modalLeft = $modal.data('cardX') + 20;
+            } else {
+              $arrow.addClass('right');
+              modalLeft = $modal.data('cardX') - $modal.outerWidth(true) - 20;
+            }
 
-              var cardHeight = $card.height();
-              var modalBottom = modalTop + $modal.height();
-              if (modalBottom > cardHeight)
-                modalTop = (cardHeight + 20) - modalHeight;
-              else if (modalTop < -20)
-                modalTop = -20
-              $modal.css({left: modalLeft, top: modalTop});
+            var cardHeight = $card.height();
+            var modalBottom = modalTop + $modal.height();
+            if (modalBottom > cardHeight)
+              modalTop = (cardHeight + 20) - modalHeight;
+            else if (modalTop < -20)
+              modalTop = -20
+            $modal.css({left: modalLeft, top: modalTop});
 
-              $arrow.offset({top: $modal.data('pageY') - 18});
-
-
-            });
-          };
+            $arrow.offset({top: $modal.data('pageY') - 18});
+          });
           if (options.hideFooter)
             $modal.find('.footer').hide();
           }
         },
         function(e) {
-          $modal.resizeModal().fadeTo('slow', 1);
+          $modal.trigger('refresh.fluxx.area').fadeTo('slow', 1);
         }, true);
       });
     },
@@ -1059,13 +1092,23 @@
       return this.each(function(){
         var $modal = $('.modal', $(this).fluxxCard());
         if ($modal.length > 0) {
+          if ($modal.data('target') && $modal.data('target').attr('data-on-close') && $modal.data('updated')) {
+            var onClose = $area.data('target').attr('data-on-close');
+            _.each(onClose.replace(/\s/g, '').split(/,/), function(action){
+              var func = $.fluxx.card.loadingActions[action] || $.noop;
+              (_.bind(func, $area))();
+            });
+          }
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
             $('.area', $card).not('.modal').enableFluxxArea().first().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
-            $card.animate({marginRight: $card.data('lastMarginRight')}, function() {
+            if ($card.hasClass('admin-card'))
               $modal.remove();
-              $card.resizeFluxxCard();
-              $.my.stage.resizeFluxxStage();
+            else
+              $card.animate({marginRight: $card.data('lastMarginRight')}, function() {
+                $modal.remove();
+                $card.resizeFluxxCard();
+                $.my.stage.resizeFluxxStage();
             });
           });
         }
@@ -1191,7 +1234,6 @@
         /* onSuccess for create or update */
         onSuccess: function(e) {
           var $area = $(this);
-
           if (!$area.data('target'))
             return false;
 
@@ -1289,7 +1331,11 @@
               var $document = $('<div/>').html(data);
               var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
                 $('#card-header', $document).html() : options.header);
-              $('.header', options.area).html($.trim(header));
+              var $title = $('.header span', options.area);
+              var $header = $('.header', options.area).html($.trim(header));
+              if ($('span', $header).length == 0)
+                $header.prepend($title);
+
               $('.body',   options.area).html($.trim($('#card-body',   $document).html() || options.body)).scrollTop(0);
               $('.footer', options.area).html($.trim($('#card-footer', $document).html() || options.footer));
               if (!modal) $('.drawer', options.area.fluxxCard()).html($.trim($('#card-drawer', $document).html() || ''));

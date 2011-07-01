@@ -66,7 +66,9 @@ module Formtastic #:nodoc:
         nil
       end
       options[:value] = formatted_date_time if formatted_date_time
-      label("#{method}:", :label => options[:label]) + text_field(method, options)
+      label = options.delete(:label)
+
+      label("#{method}:", :label => label) + text_field(method, options)
     end
     
     # Pass in autocomplete_url as the URL that should be invoked to load the results

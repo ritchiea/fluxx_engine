@@ -26,6 +26,8 @@
   outline: 1px solid #a9a9a9;
   height: 100%;
   overflow: hidden;
+  .ui-icon {display: inline-block;}
+  .sortable li {vertical-align: top; margin: 10px;}
   #admin-buttons {
     position: absolute;
     background: #ebebeb;
@@ -77,6 +79,11 @@
       &:hover {
         @include linear-gradient(rgba(102, 102, 102, 0.4), rgba(51, 51, 51, 0.6));
       }
+    }
+  }
+  .form-builder {
+    .ui-widget-content a {
+      color: blue;
     }
   }
   .detail {
@@ -140,6 +147,16 @@
     background-color: #000;
     @include rounded(12px);
     width: 320px;
+    li {
+      .actions {
+        .as-delete {display:none;}
+      }
+      &:hover {
+        .actions {
+          .as-delete {display:block;}
+        }
+      }
+    }
     .arrow {
       position: absolute;
       height: 35px;
@@ -184,6 +201,10 @@
         }
         input, select, textarea {
           width: 248px;
+        }
+        input[type="checkbox"] {
+          margin-right: 0.25em;
+          width: auto;
         }
       }
     }
