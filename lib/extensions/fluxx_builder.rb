@@ -10,11 +10,11 @@ module Rack
       else
         Sass::Plugin.update_stylesheets
       end
-      
+      @skip_fluxx_builder = defined?(SKIP_FLUXX_BUILDER) ? SKIP_FLUXX_BUILDER : true
       DirectorySync.sync_all
     end
     def call env
-      unless SKIP_FLUXX_BUILDER
+      unless @skip_fluxx_builder
         path = Utils.unescape(env["PATH_INFO"])
         t1 = Time.now
         if path.match('\.css$')
