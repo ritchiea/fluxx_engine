@@ -347,7 +347,8 @@
             'change', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              var $partial = $($elem.attr('data-target'), $elem.fluxxCardArea());
+              var $area = $elem.fluxxCardArea();
+              var $partial = $($elem.attr('data-target'), $area);
               if (!$partial.length) {
                 $partial = $($elem.attr('data-target'), '#fluxx-admin');
               }
@@ -356,7 +357,14 @@
                 if (param) {
                   var re = new RegExp('([?&]' + param + '=)([a-z0-9\-\_]+)(\&)?');
                   if ($partial.attr('data-src').match(re)) {
+                    var req = $area.fluxxCardAreaRequest();
                     $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
+                    req.url += (req.url.match(/\?/) ? '&' : '?') + param + '=' + $elem.val();
+                    if (!$area.data('history')) {
+                      $area.data('history', [req]);
+                    } else {
+                      $area.data('history').unshift(req);
+                    }
                   } else {
                     param = $elem.attr('name').replace(/([\[\]])/, "\\$1");
                     re = new RegExp('([?&]' + param + '=)([a-z0-9\-\_]+)(\&)?');
