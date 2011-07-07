@@ -931,8 +931,8 @@
             var $elem = $(this);
             if ($elem.hasClass('add-another'))
               this.name = $elem.attr('name') + '[]';
-            if (this.name != 'authenticity_token' && this.name != 'utf8') {
-              o.push({name: this.name, value: this.value});
+            if (this.name != 'authenticity_token' && this.name != 'utf8' && ($elem.attr('type') != 'checkbox' || $elem.attr('checked'))) {
+              o.push({name: this.name, value: $elem.val()});
             }
           });
           $section.find(':input').remove();
