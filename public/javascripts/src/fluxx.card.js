@@ -1595,7 +1595,6 @@
           refreshNamed: function(){
             if (! this.data('target')) return;
             if (this.data('target').attr('target')) {
-              $.fluxx.log(this.data('target').attr('target'));
               $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();
             }
           },
@@ -1640,7 +1639,6 @@
                   objectID = objectID.pop();
                   var re = new RegExp('\/([A-Za-z0-9\-]+)\/edit');
                   $partial.attr('data-src', $partial.attr('data-src').replace(re, '/' + objectID + '/edit')).refreshAreaPartial();
-                  $.fluxx.log($partial);
                 }
               }
             } else if (this.data('target').attr('target') && lookupURL) {
