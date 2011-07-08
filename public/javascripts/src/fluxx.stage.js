@@ -724,13 +724,14 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              $elem.openCardModal({
-                url:    $elem.attr('href'),
-                header: $elem.attr('title') || $elem.text(),
-                target: $elem,
-                hideFooter: $elem.hasClass('hide-footer'),
-                event: e
-              });
+              if (!$elem.hasClass('disabled'))
+                $elem.openCardModal({
+                  url:    $elem.attr('href'),
+                  header: $elem.attr('title') || $elem.text(),
+                  target: $elem,
+                  hideFooter: $elem.hasClass('hide-footer'),
+                  event: e
+                });
             }
           ],
           'a.to-div': [
