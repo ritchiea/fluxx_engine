@@ -204,14 +204,15 @@ class ActionController::Base
       end
     end
   end
-
+  
+  
   def self.insta_new model_class, options={}
     if respond_to?(:class_new_object) && class_new_object
       yield class_new_object if block_given?
     else
       new_object = ActionController::ControllerDslNew.new(model_class)
-      class_inheritable_reader :show_object
-      write_inheritable_attribute :show_object, new_object
+      class_inheritable_reader :class_new_object
+      write_inheritable_attribute :class_new_object, new_object
       yield new_object if block_given?
 
       define_method :insta_new_object do
