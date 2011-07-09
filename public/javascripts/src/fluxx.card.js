@@ -767,7 +767,7 @@
                   if (type == 'checkbox') {
                     if ($elem.attr('checked') == true)
                       criterion.push(label);
-                  } else if (type == 'select-one') {
+                  } else if (type == 'select-one' || !type) {
                     criterion.push($("option[value='" + val + "']", $elem).text());
                   } else if (type == 'text') {
                     criterion.push(val);
