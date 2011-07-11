@@ -53,9 +53,15 @@
           white-space: nowrap;
           display: block;
           font-size: 12px;
-          line-height: 24px;
+          line-height: 22px;
+          h3 {
+            padding-top: 5px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #fff;
+          }
           a {
             text-decoration: none;
+            border-bottom: 0px;
             &:hover { text-decoration: underline; }
           }
         }
