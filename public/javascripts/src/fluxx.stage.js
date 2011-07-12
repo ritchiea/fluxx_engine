@@ -734,6 +734,25 @@
                 });
             }
           ],
+          'a.to-prompt': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              $.ajax({
+                url: $elem.attr('href'),
+                success: function(data, status, xhr) {
+                  $.prompt({
+                    title: $elem.attr('title') || $elem.text(),
+                    body: data,
+                    onOK: function(alert) {
+                      $('form', alert.body).submit();
+                      $elem.fluxxCardAreas().refreshCardArea();
+                    }
+                  });
+                }
+              });
+            }
+          ],
           'a.to-div': [
              'click', function(e) {
                $.fluxx.util.itEndsWithMe(e);

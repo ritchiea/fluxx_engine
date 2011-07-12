@@ -19,7 +19,7 @@
   
   var ui = {
     titleBar:     function(o) {return $('<div/>').addClass('title-bar').text(o.text)},
-    promptInput:  function(o) {return $('<form class="prompt-form"><textarea class="prompt-input">'+(o.text || '')+'</textarea>')},
+    promptInput:  function(o) {return o.body? $(o.body) : $('<form class="prompt-form"><textarea class="prompt-input">'+(o.text || '')+'</textarea>')},
     cancelButton: function(o) {return $('<a/>').addClass('cancel-button').attr('href','#').html(o.text)},
     okButton:     function(o) {return $('<ul class="ok-buttons"><li><a href="#" class="ok-button">'+o.text+'</a></li></ul>')},
     clearDiv:     function(o) {return $('<div class="clear"></div>')},
@@ -47,11 +47,14 @@
           });
           $('.ok-button', '.jquery-alert').click(function(e){
             var $colorbox = box.data;
-            var promptInput = $(this).parents('.jquery-alert').find('.prompt-input').val();
+            var $body = $(this).parents('.jquery-alert');
+            var promptInput = $body.parents('.jquery-alert').find('.prompt-input').val();
+
             $colorbox.data('onOK', function(){
               if (onOK) {
                 onOK(AlertClass({
                   text: promptInput,
+                  body: $body,
                   isCanceled: false
                 }));
               }
@@ -97,7 +100,7 @@
       var defaults = {
         elements: [
                     ui.titleBar({text: options.title || 'Prompt'}),
-                    ui.promptInput({}),
+                    ui.promptInput({body: options.body}),
                     ui.cancelButton({text: 'Cancel'}),
                     ui.okButton({text: 'OK'}),
                     ui.clearDiv()

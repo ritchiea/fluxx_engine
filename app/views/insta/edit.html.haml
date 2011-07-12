@@ -6,7 +6,7 @@
         <input type=hidden name='force_load_deleted' value='1'>
       = render :partial => @markup, :locals => { :form => form, :model => @model}
 
-- if @skip_card_footer != true
+- if @skip_card_footer != true && params[:as_modal] != "1"
   %div{:id=>"card-footer"}
     %ul.workflow
     %ul.buttons
