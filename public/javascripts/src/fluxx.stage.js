@@ -722,6 +722,9 @@
           ],
           'a.to-modal': [
             'click', function(e) {
+
+
+
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               if (!$elem.hasClass('disabled'))
