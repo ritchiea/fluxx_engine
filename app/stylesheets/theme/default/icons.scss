@@ -155,6 +155,29 @@
         background: #{inline_image("/images/fluxx_engine/theme/default/ql-icons/Project_32x32.png")} transparent no-repeat 50% 50%;
       }
     }
+    
+    &.style-leads {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_leads.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    
+    &.style-opportunity-deals {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_opportunities.png")} transparent no-repeat 50% 50%;
+      }
+    }
+    &.style-closed-deals {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_closed_deals.png")} transparent no-repeat 50% 50%;
+      }
+    }
     &.style-organizations {
       .link {
         @include no-box-shadow;
@@ -271,6 +294,18 @@
       &.style-green { @include linear-gradient(#ccffcc, #99ff99); }
       &.style-red { @include linear-gradient(#cc9999, #993333); }
       &.style-purple { @include linear-gradient(#cc99cc, #993399); }
+      &.style-leads {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_leads.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-opportunity-deals {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_opportunities.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-closed-deals {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_closed_deals.png")} transparent no-repeat 50% 50%;
+      }
       &.style-organizations {
         border: none;
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_orgs.png")} transparent no-repeat 50% 50%;
