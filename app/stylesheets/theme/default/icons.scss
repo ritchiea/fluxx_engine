@@ -55,13 +55,15 @@
           font-size: 12px;
           line-height: 22px;
           h3 {
-            padding-top: 5px;
-            padding-bottom: 4px;
-            border-bottom: 1px solid #fff;
+            padding-top: 7px;
+            margin-bottom: 6px;
+            border-bottom: 1px dotted #b8e4fc;
+            font-weight: bold;
           }
           a {
             text-decoration: none;
             border-bottom: 0px;
+            padding-left: 14px;
             &:hover { text-decoration: underline; }
           }
         }
