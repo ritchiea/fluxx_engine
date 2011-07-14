@@ -574,6 +574,11 @@
       var $area  = $(this);
       var $forms = $('.body form', $area),
           $flows = $('.footer .workflow', $area);
+      if ($flows.length == 0) {
+        $('.footer', $area).append('<div class="workflow"/>');
+        $flows = $('.footer .workflow', $area);
+      }
+
       $forms.each(function(){
         var $form   = $(this),
             $submit = $(':submit:last', $form);

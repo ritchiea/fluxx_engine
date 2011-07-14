@@ -298,6 +298,14 @@
               $.fn.fluxxAjaxCall($elem, 'PUT');
             }
           ],
+//          'input.as-put': [
+//            'change', function(e) {
+//              $.fluxx.util.itEndsWithMe(e);
+//              var $elem = $(this);
+//              $form = $elem.parents('form').first();
+//              $form.submit();
+//            }
+//          ],
           '.as-post': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
