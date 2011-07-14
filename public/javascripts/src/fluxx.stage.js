@@ -429,7 +429,7 @@
                   success: function(data, status, xhr) {
                     $('.report-filter', $modal).html(data + '<div><a href="#" class="report-modal-back"><</a></div>').fadeIn('slow');
                     $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $modal).selectTransfer();
-                    $('.date input', $modal).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
+                    $('.date input', $modal).fluxxDatePicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
                   }
                 });
               });
@@ -484,7 +484,7 @@
                               $felem.val(value);
                           }
                         });
-                        $('.date input', $form).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
+                        $('.date input', $form).fluxxDatePicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
                         dialog.overlay.fadeIn('fast', function () {
                           dialog.data.hide();
                           dialog.container.fadeIn('fast', function () {

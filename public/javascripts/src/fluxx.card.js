@@ -603,16 +603,7 @@
       }
 
       //Datepicker does not like form elements that have the same ID
-      $('.datetime input', $area).each(function() {
-        var ts = new Date().getTime();
-        var $input = $(this);
-        var id = $input.attr('id');
-        if (!id)
-          $input.attr('id', 'input_' + ts);
-        else if (id.match(/[a-zA-Z]/))
-          $input.attr('id', $input.attr('id') + '_' + ts);
-        $input.datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
-      });
+      $('.datetime input', $area).fluxxDatePicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
 
       $.fluxx.util.autoGrowTextArea($('textarea', $area));
       $('.multiple-select-transfer select[multiple="true"], .multiple-select-transfer select[multiple="multiple"]', $area).selectTransfer();
@@ -733,6 +724,18 @@
       $area.serializeToField();
       return this;
     },
+    fluxxDatePicker: function(options) {
+      return this.each(function() {
+        var unique = $.fluxx.config.datepicker_unique_id++
+        var $input = $(this);
+        var id = $input.attr('id');
+        if (!id)
+          $input.attr('id', 'input_' + unique);
+        else if (id.match(/[a-zA-Z]/))
+          $input.attr('id', $input.attr('id') + '_' + unique);
+        $input.datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
+      });
+    },
     openListingFilters: function(openInDetail) {
       $.fluxx.log("**> openListingFilters");
       return this.each(function(){
@@ -752,7 +755,7 @@
             $filters.appendTo($card.fluxxCardBody());
           }
         }, function () {
-          $('.date input', $filters).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
+          $('.date input', $filters).fluxxDatePicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
           // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {
