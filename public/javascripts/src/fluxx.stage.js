@@ -291,21 +291,22 @@
           ],
           '.as-put': [
             'click', function(e) {
-              $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               if ($elem.hasClass('with-note') && !$elem.data('has_note'))
                 return;
-              $.fn.fluxxAjaxCall($elem, 'PUT');
+              if ($elem.is("input")) {
+                $form = $elem.parents('form').first();
+                $.ajax({
+                  type: 'PUT',
+                  url: $form.attr('action'),
+                  data: $form.serialize()
+                });
+              } else {
+                $.fluxx.util.itEndsWithMe(e);
+                $.fn.fluxxAjaxCall($elem, 'PUT');
+              }
             }
           ],
-//          'input.as-put': [
-//            'change', function(e) {
-//              $.fluxx.util.itEndsWithMe(e);
-//              var $elem = $(this);
-//              $form = $elem.parents('form').first();
-//              $form.submit();
-//            }
-//          ],
           '.as-post': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
@@ -376,7 +377,10 @@
                   } else {
                     param = $elem.attr('name').replace(/([\[\]])/, "\\$1");
                     re = new RegExp('([?&]' + param + '=)([a-z0-9\-\_]+)(\&)?');
-                    $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
+                    if ($partial.attr('data-src').match(re))
+                      $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
+                    else
+                      $partial.attr('data-src', $partial.attr('data-src') + '&' + $elem.attr('name') + '=' +$elem.val()).refreshAreaPartial();
                   }
                 } else {
                   var re = new RegExp('\/([A-Za-z0-9\-]+)\/edit');
