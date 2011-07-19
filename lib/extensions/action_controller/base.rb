@@ -244,7 +244,7 @@ class ActionController::Base
         insta_respond_to new_object do |format|
           @layout = new_object.layout || false
           @skip_card_footer = new_object.skip_card_footer
-          format.html { render((new_object.view || "#{insta_path}/new").to_s, :layout => @layout)}
+          format.html { fluxx_new_card new_object}
           format.xml  { render :xml => @model }
         end
       end
@@ -634,6 +634,10 @@ class ActionController::Base
     @form_url = form_url_param || edit_object.form_url
     @skip_card_footer = edit_object.skip_card_footer
     render((edit_object.view || "#{insta_path}/edit").to_s, :layout => @layout)
+  end
+
+  def fluxx_new_card new_object
+    render((new_object.view || "#{insta_path}/new").to_s, :layout => @layout)
   end
   
   def fluxx_redirect config, url
