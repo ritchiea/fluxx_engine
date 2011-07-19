@@ -592,6 +592,7 @@
             $form.data('submitting', true);
             $form.submit();
           }).wrap('<li>').parent().appendTo($flows);
+          $('.footer', $area).removeClass('empty');
         }
         $submit.hide();
       });
