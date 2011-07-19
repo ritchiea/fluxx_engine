@@ -1597,12 +1597,22 @@
                 resetTarget = function() {
                   var href = $target.attr('href');
                   $this.data('target', $('[href="' + href + '"]', $area));
+                  if ($area.hasClass('fluxx-admin-partial'))
+                    $area.removeClass('updating').children().fadeTo(300, 1);
+
                 };
             if ($target.parents('.partial').length && $target.parents('.partial').attr('data-src')) {
               $.fluxx.log("Refreshing PARTIAL");
               $target.refreshAreaPartial({}, resetTarget);
             } else {
               $.fluxx.log("Refreshing AREA");
+              var $area = $target.fluxxCardArea();
+              if ($area.hasClass('fluxx-admin-partial')) {
+                $area
+                 .addClass('updating')
+                 .children()
+                 .fadeTo(300, 0);
+              }
               $target.refreshCardArea(resetTarget);
             }
           },
