@@ -695,7 +695,10 @@
         var re = new RegExp('([?&])order_list=[^?&]*');
         $area.attr('data-src', $area.attr('data-src').replace(re, '') + "&order_list=" + order_list);
         $area.data('updated', true);
-        $area.refreshAreaPartial();
+        $area.children().fadeTo('fast', 0.33);
+        $area.refreshAreaPartial({}, function() {
+          $area.children().fadeTo('fast', 1);
+        });
       });
 		  $( '.sortable' ).disableSelection();
       if ($('#fluxx-admin').length) {
@@ -978,6 +981,10 @@
           $('.area', $card).not('.modal').disableFluxxArea();
           $modal.bind('refresh.fluxx.area', function (e, $target, url) {
             $modal = $(this);
+            var $title = $('.header span', $modal);
+            if ($title.text().length > 25)
+              $title.text($title.text().slice(0, 30) + '...');
+
             var $card = $('#fluxx-admin') || $modal.fluxxCard();
             var $arrow = $('.arrow', $modal);
             // Adjust when not admin
@@ -1340,6 +1347,7 @@
               var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
                 $('#card-header', $document).html() : options.header);
               var $title = $('.header span', options.area);
+
               var $header = $('.header', options.area).html($.trim(header));
               if ($('span', $header).length == 0)
                 $header.prepend($title);

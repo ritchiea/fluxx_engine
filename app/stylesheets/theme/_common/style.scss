@@ -425,6 +425,11 @@ table .partial { margin: 0.25em 0; }
       background-color: white;
     }
   }
+  .wide-label {
+    label { width: 300px; }
+    input { width: 100px; }
+  }
+
   input,select,textarea {
     font-size:90%;
   }
