@@ -62,9 +62,7 @@ class ActionController::Base
         @skip_wrapper = @skip_wrapper || params[:skip_wrapper] || index_object.always_skip_wrapper
 
         if params[:view] == 'filter'
-          @filter_title = index_object.filter_title || "Filter #{index_object.model_class.name.humanize.downcase.pluralize}"
-          @filter_template = index_object.filter_template
-          render((index_object.filter_view || "#{insta_path}/filter").to_s, :layout => false)
+          fluxx_show_filter index_object
         else
           @markup = index_object.template_file self
           @models = index_object.load_results params, request.format, pre_models, self
@@ -638,6 +636,12 @@ class ActionController::Base
 
   def fluxx_new_card new_object
     render((new_object.view || "#{insta_path}/new").to_s, :layout => @layout)
+  end
+
+  def fluxx_show_filter index_object
+    @filter_title = index_object.filter_title || "Filter #{index_object.model_class.name.humanize.downcase.pluralize}"
+    @filter_template = index_object.filter_template
+    render((index_object.filter_view || "#{insta_path}/filter").to_s, :layout => false)
   end
   
   def fluxx_redirect config, url

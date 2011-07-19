@@ -318,12 +318,16 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              var $area = $elem.fluxxCardArea();
               if ($elem.hasClass('disabled'))
                 alert('This record can not be deleted.');
-              else if ($elem.hasClass('no-confirm'))
-                $.fn.fluxxAjaxCall($elem, 'DELETE');
-              else if (confirm('This record will be deleted. Are you sure?'))
-                $.fn.fluxxAjaxCall($elem, 'DELETE');
+              else {
+                $area.data('updated', true);
+                if ($elem.hasClass('no-confirm'))
+                  $.fn.fluxxAjaxCall($elem, 'DELETE');
+                else if (confirm('This record will be deleted. Are you sure?'))
+                  $.fn.fluxxAjaxCall($elem, 'DELETE');
+              }
             }
           ],
           'a.refresh-card': [
