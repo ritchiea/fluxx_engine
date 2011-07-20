@@ -22,9 +22,9 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
     self.do_not_use_methods = []
 
     @method_list = if inherits_from_activerecord?(self.model_class)
-      self.model_class.column_names
+      self.model_class.column_names rescue []
     else
-      self.public_instance_methods
+      self.public_instance_methods rescue []
     end
   end
   
