@@ -115,7 +115,9 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         end
       end
       models.map do |model|
-        {:label => model.send(name_method), :value => model.id, :url => controller.url_for(model)}
+        # Send the URL back to the invoking controller
+        model_url = controller.send "#{controller.controller_path.singularize}_path", {:id => model.id}
+        {:label => model.send(name_method), :value => model.id, :url => model_url}
       end.to_json
     end
   end
