@@ -26,12 +26,12 @@ class ActiveRecord::Base
       
       # Get a list of all allowed methods that may be exposed to the user
       def allowed_template_methods
-        template_object.all_methods_allowed self
+        template_object.all_methods_allowed self.new
       end
       
       # Get a list of all allowed list methods that may be exposed to the user
       def allowed_template_list_methods
-        template_object.all_list_methods_allowed self
+        template_object.all_list_methods_allowed self.new
       end
     end
     

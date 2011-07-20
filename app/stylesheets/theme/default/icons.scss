@@ -63,9 +63,10 @@
           a {
             text-decoration: none;
             border-bottom: 0px;
-            padding-left: 14px;
             &:hover { text-decoration: underline; }
+            margin-left: -4px;
           }
+          a.indent { padding-left: 14px;}
         }
       }
     }
@@ -278,6 +279,13 @@
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_loi.png")} transparent no-repeat 50% 50%;
       }
     }
+    &.style-zendesk {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_zendesk.png")} transparent no-repeat 50% 50%;
+      }
+    }
   }
 }
 
@@ -363,6 +371,10 @@
       &.style-lois {
         border: none;
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_loi.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-zendesk {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_zendesk.png")} transparent no-repeat 50% 50%;
       }
     }
   }

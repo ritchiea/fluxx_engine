@@ -111,6 +111,10 @@ class ActionController::ControllerDsl
   def force_redirect &block
     @force_redirect_block = block
   end
+
+  def has_custom_template controller
+    (template_map or {}).keys.map { |key| template_map[key] if !!controller.params[key] }.compact.first
+  end
   
   def template_file controller
     local_template = (template_map or {}).keys.map { |key| template_map[key] if !!controller.params[key] }.compact.first || @template

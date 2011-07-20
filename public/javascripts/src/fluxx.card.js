@@ -574,6 +574,11 @@
       var $area  = $(this);
       var $forms = $('.body form', $area),
           $flows = $('.footer .workflow', $area);
+      if ($flows.length == 0) {
+        $('.footer', $area).append('<div class="workflow"/>');
+        $flows = $('.footer .workflow', $area);
+      }
+
       $forms.each(function(){
         var $form   = $(this),
             $submit = $(':submit:last', $form);
@@ -587,6 +592,7 @@
             $form.data('submitting', true);
             $form.submit();
           }).wrap('<li>').parent().appendTo($flows);
+          $('.footer', $area).removeClass('empty');
         }
         $submit.hide();
       });
@@ -598,16 +604,7 @@
       }
 
       //Datepicker does not like form elements that have the same ID
-      $('.datetime input', $area).each(function() {
-        var ts = new Date().getTime();
-        var $input = $(this);
-        var id = $input.attr('id');
-        if (!id)
-          $input.attr('id', 'input_' + ts);
-        else if (id.match(/[a-zA-Z]/))
-          $input.attr('id', $input.attr('id') + '_' + ts);
-        $input.datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
-      });
+      $('.datetime input', $area).fluxxDatePicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
 
       $.fluxx.util.autoGrowTextArea($('textarea', $area));
       $('.multiple-select-transfer select[multiple="true"], .multiple-select-transfer select[multiple="multiple"]', $area).selectTransfer();
@@ -699,7 +696,10 @@
         var re = new RegExp('([?&])order_list=[^?&]*');
         $area.attr('data-src', $area.attr('data-src').replace(re, '') + "&order_list=" + order_list);
         $area.data('updated', true);
-        $area.refreshAreaPartial();
+        $area.children().fadeTo('fast', 0.33);
+        $area.refreshAreaPartial({}, function() {
+          $area.children().fadeTo('fast', 1);
+        });
       });
 		  $( '.sortable' ).disableSelection();
       if ($('#fluxx-admin').length) {
@@ -728,6 +728,18 @@
       $area.serializeToField();
       return this;
     },
+    fluxxDatePicker: function(options) {
+      return this.each(function() {
+        var unique = $.fluxx.config.datepicker_unique_id++
+        var $input = $(this);
+        var id = $input.attr('id');
+        if (!id)
+          $input.attr('id', 'input_' + unique);
+        else if (id.match(/[a-zA-Z]/))
+          $input.attr('id', $input.attr('id') + '_' + unique);
+        $input.datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
+      });
+    },
     openListingFilters: function(openInDetail) {
       $.fluxx.log("**> openListingFilters");
       return this.each(function(){
@@ -747,7 +759,7 @@
             $filters.appendTo($card.fluxxCardBody());
           }
         }, function () {
-          $('.date input', $filters).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
+          $('.date input', $filters).fluxxDatePicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format });
           // Construct the human readable filter text
           var $form = $('form', $filters).submit(
             function() {
@@ -970,6 +982,10 @@
           $('.area', $card).not('.modal').disableFluxxArea();
           $modal.bind('refresh.fluxx.area', function (e, $target, url) {
             $modal = $(this);
+            var $title = $('.header span', $modal);
+            if ($title.text().length > 25)
+              $title.text($title.text().slice(0, 30) + '...');
+
             var $card = $('#fluxx-admin') || $modal.fluxxCard();
             var $arrow = $('.arrow', $modal);
             // Adjust when not admin
@@ -1332,6 +1348,7 @@
               var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
                 $('#card-header', $document).html() : options.header);
               var $title = $('.header span', options.area);
+
               var $header = $('.header', options.area).html($.trim(header));
               if ($('span', $header).length == 0)
                 $header.prepend($title);
@@ -1580,12 +1597,22 @@
                 resetTarget = function() {
                   var href = $target.attr('href');
                   $this.data('target', $('[href="' + href + '"]', $area));
+                  if ($area.hasClass('fluxx-admin-partial'))
+                    $area.removeClass('updating').children().fadeTo(300, 1);
+
                 };
             if ($target.parents('.partial').length && $target.parents('.partial').attr('data-src')) {
               $.fluxx.log("Refreshing PARTIAL");
               $target.refreshAreaPartial({}, resetTarget);
             } else {
               $.fluxx.log("Refreshing AREA");
+              var $area = $target.fluxxCardArea();
+              if ($area.hasClass('fluxx-admin-partial')) {
+                $area
+                 .addClass('updating')
+                 .children()
+                 .fadeTo(300, 0);
+              }
               $target.refreshCardArea(resetTarget);
             }
           },

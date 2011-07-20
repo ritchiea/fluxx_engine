@@ -291,11 +291,20 @@
           ],
           '.as-put': [
             'click', function(e) {
-              $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               if ($elem.hasClass('with-note') && !$elem.data('has_note'))
                 return;
-              $.fn.fluxxAjaxCall($elem, 'PUT');
+              if ($elem.is("input")) {
+                $form = $elem.parents('form').first();
+                $.ajax({
+                  type: 'PUT',
+                  url: $form.attr('action'),
+                  data: $form.serialize()
+                });
+              } else {
+                $.fluxx.util.itEndsWithMe(e);
+                $.fn.fluxxAjaxCall($elem, 'PUT');
+              }
             }
           ],
           '.as-post': [
@@ -309,12 +318,16 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              var $area = $elem.fluxxCardArea();
               if ($elem.hasClass('disabled'))
                 alert('This record can not be deleted.');
-              else if ($elem.hasClass('no-confirm'))
-                $.fn.fluxxAjaxCall($elem, 'DELETE');
-              else if (confirm('This record will be deleted. Are you sure?'))
-                $.fn.fluxxAjaxCall($elem, 'DELETE');
+              else {
+                $area.data('updated', true);
+                if ($elem.hasClass('no-confirm'))
+                  $.fn.fluxxAjaxCall($elem, 'DELETE');
+                else if (confirm('This record will be deleted. Are you sure?'))
+                  $.fn.fluxxAjaxCall($elem, 'DELETE');
+              }
             }
           ],
           'a.refresh-card': [
@@ -368,7 +381,10 @@
                   } else {
                     param = $elem.attr('name').replace(/([\[\]])/, "\\$1");
                     re = new RegExp('([?&]' + param + '=)([a-z0-9\-\_]+)(\&)?');
-                    $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
+                    if ($partial.attr('data-src').match(re))
+                      $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
+                    else
+                      $partial.attr('data-src', $partial.attr('data-src') + '&' + $elem.attr('name') + '=' +$elem.val()).refreshAreaPartial();
                   }
                 } else {
                   var re = new RegExp('\/([A-Za-z0-9\-]+)\/edit');
@@ -421,7 +437,7 @@
                   success: function(data, status, xhr) {
                     $('.report-filter', $modal).html(data + '<div><a href="#" class="report-modal-back"><</a></div>').fadeIn('slow');
                     $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $modal).selectTransfer();
-                    $('.date input', $modal).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
+                    $('.date input', $modal).fluxxDatePicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
                   }
                 });
               });
@@ -476,7 +492,7 @@
                               $felem.val(value);
                           }
                         });
-                        $('.date input', $form).datepicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
+                        $('.date input', $form).fluxxDatePicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
                         dialog.overlay.fadeIn('fast', function () {
                           dialog.data.hide();
                           dialog.container.fadeIn('fast', function () {

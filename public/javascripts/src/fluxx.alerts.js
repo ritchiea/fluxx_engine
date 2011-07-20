@@ -48,7 +48,7 @@
           $('.ok-button', '.jquery-alert').click(function(e){
             var $colorbox = box.data;
             var $body = $(this).parents('.jquery-alert');
-            var promptInput = $body.parents('.jquery-alert').find('.prompt-input').val();
+            var promptInput = $body.find('.prompt-input').val();
 
             $colorbox.data('onOK', function(){
               if (onOK) {
