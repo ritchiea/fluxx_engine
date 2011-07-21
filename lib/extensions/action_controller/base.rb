@@ -638,9 +638,9 @@ class ActionController::Base
     render((new_object.view || "#{insta_path}/new").to_s, :layout => @layout)
   end
 
-  def fluxx_show_filter index_object
+  def fluxx_show_filter index_object, template_param=nil
     @filter_title = index_object.filter_title || "Filter #{index_object.model_class.name.humanize.downcase.pluralize}"
-    @filter_template = index_object.filter_template
+    @filter_template = template_param || index_object.filter_template
     render((index_object.filter_view || "#{insta_path}/filter").to_s, :layout => false)
   end
   

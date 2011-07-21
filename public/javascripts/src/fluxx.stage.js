@@ -1237,10 +1237,19 @@
               }
             }
           ],
+          'h3.collapsible': [
+            'click', function(e) {
+              var $elem = $(this);
+              if ($elem.hasClass('open'))
+                $(this).removeClass('open').next().removeClass('open');
+              else
+                $(this).addClass('open').next().addClass('open');
+            }
+          ],
           '#help-logo': [
             'click', function(e) {
                window.open('https://sites.google.com/a/fluxxlabs.com/fluxxlabs/','_blank');
-             }
+            }
           ],
           '#logo': [
             'click', function(e) {
