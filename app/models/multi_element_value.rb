@@ -9,7 +9,7 @@ class MultiElementValue < ActiveRecord::Base
   end
   
   def to_s
-    description || value
+    description.blank? ? value : description
   end
   
   def children_values
