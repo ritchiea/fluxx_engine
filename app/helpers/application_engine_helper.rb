@@ -33,4 +33,8 @@ module ApplicationEngineHelper
   def current_delete_path model_id, options={}
     send "#{controller.controller_path.singularize}_path", options.merge({:id => model_id})
   end
+  
+  def as_currency(number)
+    number_to_currency(number || 0, :precision => 2)
+  end
 end
