@@ -12,13 +12,15 @@ class ClientStore < ActiveRecord::Base
     funj['cards'].each do |card|
       title = card['title']
       url = card['listing']['url']
-      filters = card['listing']['data'].inject({}) do |acc, name_value|
-        acc[name_value['name']] = name_value['value']
-        acc
-      end.reject{|k, v| v.blank? || k.blank? || k == 'utf8'}
+      filters = if card['listing']['data']
+        card['listing']['data'].inject({}) do |acc, name_value|
+          acc[name_value['name']] = name_value['value']
+          acc
+        end.reject{|k, v| v.blank? || k.blank? || k == 'utf8'}
+      end || []
       
       cards << {:title => title, :url => url, :filters => filters}
     end
-    cards
+    [:name => self.name, :cards => cards]
   end
 end

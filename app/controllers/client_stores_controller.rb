@@ -15,7 +15,11 @@ class ClientStoresController < ApplicationController
     insta.format do |format|
       format.json do |pair, outcome|
         controller_dsl, outcome = pair
-        render :inline => instance_variable_get("@models").map {|model| {:client_store => (model.attributes), :url => url_for(model)}}.to_json
+        if params[:as_dashboard]
+          render :inline => instance_variable_get("@models").map{|model| model.as_dashboard}.to_json
+        else
+          render :inline => instance_variable_get("@models").map {|model| {:client_store => (model.attributes), :url => url_for(model)}}.to_json
+        end
       end
     end
   end
