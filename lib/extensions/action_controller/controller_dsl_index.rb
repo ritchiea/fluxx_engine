@@ -42,13 +42,13 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       models
     else 
       results_per_page = if results_per_page_param
-        results_per_page_param
+        results_per_page_param.to_s.to_i
       elsif (params[:all_results] && params[:all_results].to_i == 1) || (format && (format.csv? || format.xls?))
         ActionController::ControllerDslIndex.max_sphinx_results
       else
         self.results_per_page || 25
       end
-    
+      
       q_search = if params[:q] && params[:q][:q]
         params[:q][:q]
       elsif params[:q]
