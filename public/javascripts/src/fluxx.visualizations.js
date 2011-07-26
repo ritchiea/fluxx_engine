@@ -54,7 +54,8 @@
             title: {show: false},
             width: $chart.css('width'),
             stackSeries: data.stackSeries,
-            grid:{background:'#fefbf3', borderWidth:2.5},
+//            grid:{background:'#fefbf3', borderWidth:2.5},
+            grid:{background:'#ffffff', borderWidth:0, gridLineColor: '#ffffff', shadow: false},
             seriesDefaults: data.seriesDefaults,
             axes: data.axes,
             series: data.series
