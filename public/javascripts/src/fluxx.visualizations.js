@@ -32,6 +32,13 @@
             data.seriesDefaults.renderer = $.jqplot.BarRenderer;
           }
 
+          if (data.series) {
+            _.each(data.series, function(s) {
+              if (s.renderer)
+                s.renderer = eval(s.renderer);
+            });
+          }
+
          if (data.axes && data.axes.xaxis && data.axes.xaxis.ticks.length > 0 && !$.isArray(data.axes.xaxis.ticks[0]))
            data.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
          var error = false;
@@ -46,12 +53,14 @@
             title: {show: false},
             width: $chart.css('width'),
             stackSeries: data.stackSeries,
-            grid:{background:'#fefbf3', borderWidth:2.5},
+//            grid:{background:'#fefbf3', borderWidth:2.5},
+            grid:{background:'#ffffff', borderWidth:0, gridLineColor: '#ffffff', shadow: false},
             seriesDefaults: data.seriesDefaults,
             axes: data.axes,
             series: data.series
            });
          } catch(e) {
+           $.fluxx.log('error', e);
            $chart.html(saveHTML);
            error = true;
          }

@@ -27,14 +27,14 @@ class MultiElementGroup < ActiveRecord::Base
   def self.find_values model, name
     group = MultiElementGroup.find_for_model_or_super model, name
     if group
-      MultiElementValue.find(:all, :conditions => ['multi_element_group_id = ?', group.id], :order => 'description asc, value asc').collect {|p| [ (p.description || p.value), p.id ] }
+      MultiElementValue.find(:all, :conditions => ['multi_element_group_id = ?', group.id], :order => 'description asc, value asc').collect {|p| [ (p.to_s), p.id ] }
     else
       []
     end
   end
   
   def elements_to_dropdown
-    MultiElementValue.find(:all, :conditions => ['multi_element_group_id = ?', self.id], :order => 'description asc, value asc').collect {|p| [ (p.description || p.value), p.id ] }
+    MultiElementValue.find(:all, :conditions => ['multi_element_group_id = ?', self.id], :order => 'description asc, value asc').collect {|p| [ (p.to_s), p.id ] }
   end
   
 end

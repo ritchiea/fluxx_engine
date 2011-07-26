@@ -1,23 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Simple Test</title>
-  <!--[if IE]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
+  <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
   
   <link rel="stylesheet" type="text/css" href="../jquery.jqplot.css" />
   <link rel="stylesheet" type="text/css" href="examples.css" />
   
   <!-- BEGIN: load jquery -->
-  <script language="javascript" type="text/javascript" src="../jquery-1.4.2.min.js"></script>
+  <script language="javascript" type="text/javascript" src="../jquery.js"></script>
   <!-- END: load jquery -->
   
   <!-- BEGIN: load jqplot -->
   <script language="javascript" type="text/javascript" src="../jquery.jqplot.js"></script>
   <script language="javascript" type="text/javascript" src="../plugins/jqplot.mekkoRenderer.js"></script>
   <script language="javascript" type="text/javascript" src="../plugins/jqplot.mekkoAxisRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.canvasTextRenderer.js"></script>
+  <script language="javascript" type="text/javascript" src="../plugins/jqplot.canvasAxisLabelRenderer.js"></script>
   <!-- END: load jqplot -->
   <style type="text/css" media="screen">
     body {
@@ -95,6 +96,12 @@
         axes:{
             xaxis:{
                 barLabels:barLabels,
+				rendererOptions: {
+				    barLabelOptions: {
+				      angle: -35
+				    },
+    				barLabelRenderer: $.jqplot.CanvasAxisLabelRenderer
+				}, 
                 max: 175,
                 tickOptions:{formatString:'$%dM'}
             }, 

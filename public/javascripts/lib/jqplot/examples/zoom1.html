@@ -2,14 +2,12 @@
 
 <html>
 <head>
-  <!-- Use Compatibility mode in IE -->
-  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" >
   <link rel="stylesheet" type="text/css" href="../jquery.jqplot.css" />
   <link rel="stylesheet" type="text/css" href="examples.css" />
   
-  <!--[if IE]><script language="javascript" type="text/javascript" src="../excanvas.min.js"></script><![endif]-->
+  <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
   <!-- BEGIN: load jquery -->
-  <script language="javascript" type="text/javascript" src="../jquery-1.4.2.min.js"></script>
+  <script language="javascript" type="text/javascript" src="../jquery.js"></script>
 
   <!-- END: load jquery -->
   
@@ -89,7 +87,7 @@
     ["8/27/2007",515.25]];
 
 
-    plot = $.jqplot('chart1', [goog], { 
+    var plot1 = $.jqplot('chart1', [goog], { 
         // title: 'Google, Inc.', 
         series: [{ 
             // label: 'Google, Inc.', 
@@ -109,6 +107,28 @@
         }, 
         cursor:{show:true, zoom:true} 
     });
+
+
+    var plot2 = $.jqplot('chart2', [goog], { 
+        // title: 'Google, Inc.', 
+        series: [{ 
+            // label: 'Google, Inc.', 
+            neighborThreshold: -1 
+        }], 
+        axes: { 
+            xaxis: { 
+                renderer:$.jqplot.DateAxisRenderer, 
+                min:'August 1, 2007', 
+                tickInterval: '4 months', 
+                tickOptions:{formatString:'%Y/%#m/%#d'} 
+            }, 
+            yaxis: { 
+                renderer: $.jqplot.LogAxisRenderer, 
+                tickOptions:{formatString:'$%.2f'} 
+            } 
+        }, 
+        cursor:{show: true, zoom: true, looseZoom: true} 
+    });
 });
 </script>
 		
@@ -116,9 +136,12 @@
 <body>
 <?php include "nav.inc"; ?>
 
-<div class="jqPlot" id="chart1" style="height:300px; width:400px;"></div>
+<div class="jqPlot" id="chart1" style="height:400px; width:600px;"></div>
 
-<button onclick="plot.resetZoom()">Reset</button>
+<button onclick="plot1.resetZoom()">Reset</button>
+
+<div class="jqPlot" id="chart2" style="height:400px; width:600px;"></div>
+<button onclick="plot2.resetZoom()">Reset</button>
 </body>
 
 

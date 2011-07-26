@@ -4,17 +4,14 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Bar Charts</title>
-  <!--[if IE]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
+  <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
   
   <link rel="stylesheet" type="text/css" href="../jquery.jqplot.css" />
   <link rel="stylesheet" type="text/css" href="examples.css" />
   
   <!-- BEGIN: load jquery -->
-  <script language="javascript" type="text/javascript" src="../jquery-1.4.2.js"></script>
+  <script language="javascript" type="text/javascript" src="../jquery.js"></script>
   <!-- END: load jquery -->
-  
-  <link type="text/css" href="jquery-ui/css/ui-lightness/jquery-ui-1.8.1.custom.css" rel="Stylesheet" />	
-  <script type="text/javascript" src="jquery-ui/js/jquery-ui-1.8.1.custom.min.js"></script>
 
   
   
@@ -225,6 +222,27 @@
   <script class="code" type="text/javascript">$(document).ready(function(){
         plot6 = $.jqplot('chart6', [[1,2,3,4]], {seriesDefaults:{renderer:$.jqplot.PieRenderer}});
     });</script> 
+
+	<script class="code" type="text/javascript">$(document).ready(function(){
+		var s1 = [2, -6, 7, -5];
+		var ticks = ['a', 'b', 'c', 'd'];
+
+		plot7 = $.jqplot('chart7', [s1], {
+			seriesDefaults:{
+				renderer:$.jqplot.BarRenderer,
+				rendererOptions: { fillToZero: true },
+					pointLabels: { show: true }
+			},
+			axes: {
+                // yaxis: { autoscale: true },
+				xaxis: {
+					renderer: $.jqplot.CategoryAxisRenderer,
+					ticks: ticks
+				}
+			}
+		});
+	});</script> 
+
   
     <script type="text/javascript">    
         $(document).ready(function(){
@@ -277,7 +295,13 @@
 <pre class="code"></pre>
         
 <p>A pie chart is added to test for incompatibilities.</p>
-        <div id="chart6" style="margin-top:20px; margin-left:20px; width:300px; height:200px;"></div>
+    <div id="chart6" style="margin-top:20px; margin-left:20px; width:300px; height:200px;"></div>
 <pre class="code"></pre>
+
+<p>The nex example shows the placement of point labels on negative bars. They shou be placed on the opposite position. That is, if it is placed 'north' to the positive bars, then it should be placed 'south' to the negative bars.</p>
+	<div id="chart7" style="margin-top:20px; margin-left:20px; width:300px; height:300px;"></div>
+<pre class="code"></pre>
+
+
   </body>
 </html>
