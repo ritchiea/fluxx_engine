@@ -952,10 +952,7 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-              if ($elem.hasClass('no-confirm'))
-                $(this).removeFluxxCard();
-              else if (confirm('Are you sure you want to close this card?'))
-                $(this).removeFluxxCard();
+              $(this).removeFluxxCard();
             }
           ],
           'a.minimize-card, a.maximize-card': ['click', function (e) {
