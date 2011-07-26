@@ -1,17 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Simple Test</title>
-  <!--[if IE]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
+  <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
   
   <link rel="stylesheet" type="text/css" href="../jquery.jqplot.css" />
   <link rel="stylesheet" type="text/css" href="examples.css" />
   
   <!-- BEGIN: load jquery -->
-  <script language="javascript" type="text/javascript" src="../jquery-1.4.2.min.js"></script>
+  <script language="javascript" type="text/javascript" src="../jquery.js"></script>
   <!-- END: load jquery -->
   
   <!-- BEGIN: load jqplot -->
@@ -42,7 +41,7 @@
       // axes:{xaxis:{tickInterval:2}},
       axes:{xaxis:{tickInterval:2, min:0},
         yaxis:{renderer:$.jqplot.LogAxisRenderer}},
-      grid:{background:'#dfdfdf', gridLineColor:'#accf9b', borderWidth:2.5}
+      grid:{background:'rgba(0,0,0,0)', gridLineColor:'#accf9b', borderWidth:2.5}
     });
 
 

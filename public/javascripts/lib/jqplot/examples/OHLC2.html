@@ -1,17 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Open Hi Low Close and Canclestick Charts</title>
-  <!--[if IE]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
+  <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
   
   <link rel="stylesheet" type="text/css" href="../jquery.jqplot.css" />
   <link rel="stylesheet" type="text/css" href="examples.css" />
   
   <!-- BEGIN: load jquery -->
-  <script language="javascript" type="text/javascript" src="../jquery-1.4.2.min.js"></script>
+  <script language="javascript" type="text/javascript" src="../jquery.js"></script>
   <!-- END: load jquery -->
   
   <!-- BEGIN: load jqplot -->
@@ -123,6 +122,8 @@ $(document).ready(function(){
        
 
     var ticks = ['08/01/08', '12/01/08', '04/01/09', '08/01/09'];
+
+	$.jsDate.config.defaultCentury = 2000;
     
     plot1 = $.jqplot('chart1',[ohlc],{
       title: 'Chart',
@@ -130,7 +131,7 @@ $(document).ready(function(){
       axes: {
           xaxis: {
               renderer:$.jqplot.DateAxisRenderer,
-              tickOptions:{formatString:'%y.%m.%d'}, 
+              tickOptions:{formatString:'%Y.%m.%d'}, 
               min: "08-01-1908",
               tickInterval: "60 days",
               ticks: ticks
@@ -159,7 +160,7 @@ $(document).ready(function(){
       axes: {
           xaxis: {
               renderer:$.jqplot.DateAxisRenderer,
-              tickOptions:{formatString:'%y.%m'}
+              tickOptions:{formatString:'%Y.%m'}
           },
           yaxis: {
               tickOptions:{formatString:'%.2f'}

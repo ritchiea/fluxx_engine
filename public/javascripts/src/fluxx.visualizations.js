@@ -32,10 +32,18 @@
             data.seriesDefaults.renderer = $.jqplot.BarRenderer;
           }
 
+          if (data.series) {
+            _.each(data.series, function(s) {
+              if (s.renderer)
+                s.renderer = eval(s.renderer);
+            });
+          }
+
          if (data.axes && data.axes.xaxis && data.axes.xaxis.ticks.length > 0 && !$.isArray(data.axes.xaxis.ticks[0]))
            data.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
          var error = false;
-         try {
+//         try {
+            $.fluxx.log('data', data.data);
            plot = $.jqplot(chartID, data.data, {
             axesDefaults: {
               tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
@@ -51,10 +59,11 @@
             axes: data.axes,
             series: data.series
            });
-         } catch(e) {
-           $chart.html(saveHTML);
-           error = true;
-         }
+//         } catch(e) {
+//           $.fluxx.log('error', e);
+//           $chart.html(saveHTML);
+//           error = true;
+//         }
          if (!error) {
             var legend = {};
             _.each(plot.series, function(key) {
