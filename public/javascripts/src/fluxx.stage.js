@@ -482,10 +482,7 @@
                           var $felem = $('[name="' + name + '"]', $form);
                           if ($felem.length) {
                             var type = $felem.attr('type');
-                            if (type == 'select-multiple') {
-                              multiple = value;
-                            }
-                            if (type == 'select-multiple') {
+                            if ($felem.attr('multiple')) {
                               $felem.parent().find('.unselected').val(value);
                               $felem.parent().find('.select').click();
                             } else if (type != 'hidden' && type != 'button')
