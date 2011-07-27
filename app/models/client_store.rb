@@ -12,7 +12,7 @@ class ClientStore < ActiveRecord::Base
     funj['cards'].each do |card|
       title = card['title']
       url = card['listing']['url']
-      uid = card['listing']['uid']
+      uid = card['uid']
       filters = if card['listing']['data']
         card['listing']['data'].inject({}) do |acc, name_value|
           acc[name_value['name']] = name_value['value']
