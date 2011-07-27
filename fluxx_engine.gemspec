@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'paperclip'
   s.add_dependency 'liquid'
   s.add_dependency 'delocalize'
-  s.add_dependency 'pdfkit'
+  s.add_dependency 'pdfkit', '0.5.1'
   s.add_dependency 'writeexcel', '>= 0.6.1'
   s.add_dependency 'fastercsv', '>= 1.5.3'
   s.add_dependency 'linecache', '= 0.43'
