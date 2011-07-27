@@ -49,13 +49,14 @@
       if (!dashboard)
         return;
       if (!dashboard.data)
-        dashboard.data = {"cards": []};
+        dashboard.data = {"cards": [], "nextUid": 1};
       dashboard.data.cards = $.my.stage.serializeFluxxCards();
+      dashboard.data.nextUid = $.fluxx.dashboard.attrs['nextUid'];
       $dashboard.parent().addClass('saving');
       $.fluxx.storage.updateStored({store: dashboard}, function(dashboard){
         $dashboard.data('dashboard', dashboard).parent().removeClass('saving');
       });
-//      $.fluxx.log($dashboard.data('dashboard'), $.my.stage.serializeFluxxCards());
+     // $.fluxx.log($dashboard.data('dashboard'), $.my.stage.serializeFluxxCards());
 
       return this;
     },
@@ -66,8 +67,9 @@
             e.preventDefault();
             var name = $(e.target).val();
             if (name.length > 0) {
-              var dashboard = jQuery.extend(true, {cards: []}, $.fluxx.config.dashboard.default_dashboard);
+              var dashboard = jQuery.extend(true, {cards: [], nextUid: 1}, $.fluxx.config.dashboard.default_dashboard);
               dashboard.name = name;
+              $(dashboard).data('nextUid', 1);
 
               $.fluxx.storage.createStore(dashboard, function(item) {
                 $($.fluxx.dashboard.ui.pickerItem({url: item.url, name: item.name}))
@@ -77,6 +79,7 @@
                 .find('a').trigger('click');
               });
               $(e.target).hide().prev().show();
+              $.fluxx.dashboard.attrs['nextUid'] = 1;
             } else {
               $(e.target).hide().prev().show();
             }
@@ -119,12 +122,18 @@
           default_dashboard: {
             type: 'dashboard',
             name: 'Default',
-            data: {cards: []},
+            data: {cards: [], nextUid: 1},
             url: '#default'
           }
         }
       },
       dashboard: {
+        nextUid: function () {
+          var curNextUid = this.attrs['nextUid'];
+          this.attrs['nextUid'] = curNextUid + 1;
+          return curNextUid;
+        },
+        
         attrs: {
         },
         defaults: {

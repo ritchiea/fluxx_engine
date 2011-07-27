@@ -9,6 +9,7 @@
           options.position($card);
           $card
             .data({
+              uid: ((options && options.uid) ? options.uid : $.fluxx.dashboard.nextUid()),
               listing:   $('.listing:eq(0)',   $card),
               detail:    $('.detail:eq(0)',    $card),
               minimized: $('.minimized:eq(0)',    $card),
@@ -120,6 +121,7 @@
     serializeFluxxCard: function(){
       var $card = $(this).first();
       return {
+        uid: $card.data('uid'),
         title:   $card.fluxxCardTitle(),
         listing: $card.fluxxCardListing().fluxxCardAreaRequest() || {},
         detail:  $card.fluxxCardDetail().fluxxCardAreaRequest() || {},
@@ -534,6 +536,9 @@
     },
     fluxxCardDetail: function () {
       return this.fluxxCard().data('detail');
+    },
+    fluxxCardUid: function () {
+      return this.fluxxCard().data('uid');
     },
     fluxxCardMinimized: function() {
       return this.fluxxCard().data('minimized');
