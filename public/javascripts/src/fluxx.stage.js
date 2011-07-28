@@ -1258,6 +1258,7 @@
                     .change(function(e) {
                       var enabled = $(this).attr('checked') ? true : false;
                       $card.data('emailNotifications', enabled);
+                      $card.trigger('lifetimeComplete.fluxx.card');
                       $card.saveDashboard();
                     })
                 }

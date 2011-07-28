@@ -29,6 +29,12 @@
               ),
               'lifetimeComplete.fluxx.card' :
                 function() {
+                  if ($card.data('emailNotifications')) {
+                    $('.open-subscriptions img' ,$card).attr('src','/images/fluxx_engine/theme/default/icons/email_go.png');
+                  } else {
+                    $('.open-subscriptions img' ,$card).attr('src','/images/fluxx_engine/theme/default/icons/email.png');
+                  }
+
                   var $close = $('.close-detail', $card);
                   if ($('.detail:visible', $card).length > 0 &&
                       $('.listing:visible', $card).length > 0)
@@ -1039,7 +1045,7 @@
         },
         function(e) {
           if (onComplete)
-            oonComplete.call();
+            onComplete.call();
           $modal.trigger('refresh.fluxx.area').fadeTo('slow', 1);
         }, true);
       });
