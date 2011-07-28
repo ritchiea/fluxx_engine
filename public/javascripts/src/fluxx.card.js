@@ -1132,10 +1132,11 @@
               (_.bind(func, $area))();
             });
           }
+
           $modal.fadeOut(function() {
             var $card = $modal.fluxxCard();
             $('.area', $card).not('.modal').enableFluxxArea().first().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
-            if ($card.hasClass('admin-card'))
+            if ($modal.hasClass('new-modal'))
               $modal.remove();
             else
               $card.animate({marginRight: $card.data('lastMarginRight')}, function() {
