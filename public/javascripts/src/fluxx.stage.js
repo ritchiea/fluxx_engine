@@ -1254,13 +1254,14 @@
                 event: e
               },
                 function () {
-                  $('#alert_enable_email_notifications', $card).attr('checked', ($elem.fluxxCard().data('emailNotifications')))
+                  $('#alert_enable_email_notifications', $card)
                     .change(function(e) {
                       var enabled = $(this).attr('checked') ? true : false;
                       $card.data('emailNotifications', enabled);
                       $card.trigger('lifetimeComplete.fluxx.card');
                       $card.saveDashboard();
                     })
+                    .attr('checked', ($elem.fluxxCard().data('emailNotifications')))
                 }
               );
             }
