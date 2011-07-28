@@ -1038,7 +1038,8 @@
           }
         },
         function(e) {
-          onComplete.call();
+          if (onComplete)
+            oonComplete.call();
           $modal.trigger('refresh.fluxx.area').fadeTo('slow', 1);
         }, true);
       });
