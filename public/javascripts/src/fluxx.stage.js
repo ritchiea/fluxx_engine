@@ -1241,6 +1241,29 @@
                 $(this).addClass('open').next().addClass('open');
             }
           ],
+          'a.open-subscriptions': [
+            'click', function(e) {
+              $.fluxx.util.itEndsHere(e);
+              var $elem = $(this);
+              var $card = $elem.fluxxCard();
+              $elem.openNewCardModal({
+                url:    $elem.attr('href'),
+                header: 'Email Notifications',
+                hideFooter: true,
+                target: $elem,
+                event: e
+              },
+                function () {
+                  $('#alert_enable_email_notifications', $card).attr('checked', ($elem.fluxxCard().data('emailNotifications')))
+                    .change(function(e) {
+                      var enabled = $(this).attr('checked') ? true : false;
+                      $card.data('emailNotifications', enabled);
+                      $card.saveDashboard();
+                    })
+                }
+              );
+            }
+          ],
           '#help-logo': [
             'click', function(e) {
                window.open('https://sites.google.com/a/fluxxlabs.com/fluxxlabs/','_blank');

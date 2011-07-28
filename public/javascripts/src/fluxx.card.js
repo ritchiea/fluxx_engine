@@ -16,7 +16,8 @@
               box:       $('.card-box:eq(0)',  $card),
               body:      $('.card-body:eq(0)', $card),
               fromClientStore: fromClientStore,
-              locked:    (options.settings ? options.settings.locked : false)
+              locked:    (options.settings ? options.settings.locked : false),
+              emailNotifications: (options.settings ? options.settings.emailNotifications : false)
             })
             .bind({
               'complete.fluxx.card': _.callAll(
@@ -125,9 +126,11 @@
         title:   $card.fluxxCardTitle(),
         listing: $card.fluxxCardListing().fluxxCardAreaRequest() || {},
         detail:  $card.fluxxCardDetail().fluxxCardAreaRequest() || {},
-        // TODO remove function and use data
-        settings: {minimized: $card.cardIsMinimized(),
-                   locked: $card.data('locked')}
+        settings: {
+          minimized: $card.cardIsMinimized(),
+          locked: $card.data('locked'),
+          emailNotifications: $card.data('emailNotifications')
+        }
       };
     },
     subscribeFluxxCardToUpdates: function () {
@@ -273,7 +276,7 @@
             ).each(function(){
               var $area     = $(this),
                   $areaBody = $('.body', $area);
-              if ($area.hasClass('modal') && $area.data('target')) {
+              if ($area.hasClass('modal') && $area.data('target') && !$area.hasClass('new-modal')) {
                 var $arrow = $('.arrow', $area);
                 if ($card.height() - 8 < $area.data('target').offset().top - $('.card-header', $card).height())
                   $arrow.hide();
@@ -337,7 +340,7 @@
         }
 				if ($card.width() != cardWidth)
         	$card.width(cardWidth);
-        $('.modal .body').height($.my.hand.height() - 102);
+        $('.modal').not('.new-modal').find('.body').height($.my.hand.height() - 102);
       });
 			_.bind($.fn.resizeFluxxStage, $.my.stage)();
     },
@@ -965,7 +968,7 @@
         var $modal = $($.fluxx.util.resultOf(
           $.fluxx.card.ui.area,
           {
-            type: 'modal',
+            type: ['modal', 'new-modal'],
             arrow: 'left',
             closeButton: true
           }
@@ -991,14 +994,15 @@
             if ($title.text().length > 25)
               $title.text($title.text().slice(0, 30) + '...');
 
-            var $card = $('#fluxx-admin') || $modal.fluxxCard();
+            if (!$card[0])
+              $card = $('#fluxx-admin') || $modal.fluxxCard();
             var $arrow = $('.arrow', $modal);
             // Adjust when not admin
             var contentHeight = $('.body div', $modal).height();
             var headerHeight = $('.header', $modal).outerHeight(true);
             var borderHeight = parseInt($modal.css('borderTopWidth')) + parseInt($modal.css('borderBottomWidth'));
             var $footer = $('.footer', $modal);
-            if ($footer.find('.workflow').length > 0)
+            if (!$footer.data('hide') && $footer.find('.workflow').length > 0)
               $footer.show();
             else
               $footer.hide();
@@ -1030,10 +1034,11 @@
             $arrow.offset({top: $modal.data('pageY') - 18});
           });
           if (options.hideFooter)
-            $modal.find('.footer').hide();
+            $modal.find('.footer').hide().data('hide', true);
           }
         },
         function(e) {
+          onComplete.call();
           $modal.trigger('refresh.fluxx.area').fadeTo('slow', 1);
         }, true);
       });
@@ -1322,6 +1327,35 @@
 				data = _.objectWithoutEmpty(options.data, ['filter-text']);
 		  }
 
+      var complete = function (data) {
+        // Don't try and render an entire document, forcing the page to be overwritten
+        if (data.search("<html>") != -1)
+          return;
+        var $document = $('<div/>').html(data);
+        var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
+          $('#card-header', $document).html() : options.header);
+        var $title = $('.header span', options.area);
+
+        var $header = $('.header', options.area).html($.trim(header));
+        if ($('span', $header).length == 0)
+          $header.prepend($title);
+
+        $('.body',   options.area).html($.trim($('#card-body',   $document).html() || options.body)).scrollTop(0);
+        $('.footer', options.area).html($.trim($('#card-footer', $document).html() || options.footer));
+        if (!modal) $('.drawer', options.area.fluxxCard()).html($.trim($('#card-drawer', $document).html() || ''));
+        $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
+        if (options.area.attr('data-has-drawer')) {
+          if ($('.drawer', options.area.fluxxCard()).filter(':empty').length) {
+            $('.drawer', options.area.fluxxCard()).parent().addClass('empty');
+          } else {
+            $('.drawer', options.area.fluxxCard()).parent().removeClass('empty');
+          }
+        }
+        options.area
+          .fluxxAreaSettings({settings: $('#card-settings', $document)})
+          .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
+        options.area.fluxxCard().trigger('lifetimeComplete.fluxx.card');
+      };
       $.ajax({
         url: options.url,
         type: options.type,
@@ -1341,39 +1375,10 @@
             // If one of the loading operations was a close, don't proceed
             if (!closeCard) {
               var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
-							opts.data = [];
+              opts.data = [];
               options.area.fluxxCardLoadContent(opts);
             }
           } else {
-            var complete = function () {
-							// Don't try and render an entire document, forcing the page to be overwritten
-							if (data.search("<html>") != -1)
-								return;
-              var $document = $('<div/>').html(data);
-              var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
-                $('#card-header', $document).html() : options.header);
-              var $title = $('.header span', options.area);
-
-              var $header = $('.header', options.area).html($.trim(header));
-              if ($('span', $header).length == 0)
-                $header.prepend($title);
-
-              $('.body',   options.area).html($.trim($('#card-body',   $document).html() || options.body)).scrollTop(0);
-              $('.footer', options.area).html($.trim($('#card-footer', $document).html() || options.footer));
-              if (!modal) $('.drawer', options.area.fluxxCard()).html($.trim($('#card-drawer', $document).html() || ''));
-              $('.header,.body,.footer', options.area).removeClass('empty').filter(':empty').addClass('empty');
-              if (options.area.attr('data-has-drawer')) {
-                if ($('.drawer', options.area.fluxxCard()).filter(':empty').length) {
-                  $('.drawer', options.area.fluxxCard()).parent().addClass('empty');
-                } else {
-                  $('.drawer', options.area.fluxxCard()).parent().removeClass('empty');
-                }
-              }
-              options.area
-                .fluxxAreaSettings({settings: $('#card-settings', $document)})
-                .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
-              options.area.fluxxCard().trigger('lifetimeComplete.fluxx.card');
-            }
             var $card = options.area.fluxxCard();
             if (options.area.fluxxCardAreaRequest())
               options.area.attr('data-src', options.area.fluxxCardAreaRequest().url);
@@ -1382,7 +1387,7 @@
                 // Wait a bit before displaying content to avoid an animation jump
                 setTimeout(function () {
                   options.area.fadeIn(1000);
-                  complete();
+                  complete(data);
                 }, 50);
                 if (!$card.cardVisibleRight())
                   $card.focusFluxxCard({scrollEdge: 'right'});
@@ -1392,7 +1397,7 @@
             } else {
               if (!$card.cardVisibleRight())
                 $card.focusFluxxCard({scrollEdge: 'right'});
-              complete();
+              complete(data);
             }
           }
         },
@@ -1416,6 +1421,7 @@
         beforeSend: function() { options.area.fluxxCard().showLoadingIndicator() },
         complete: function() { options.area.fluxxCard().hideLoadingIndicator() }
       });
+
 
       return this;
     },
