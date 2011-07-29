@@ -167,12 +167,13 @@
             $dashboards.find('li').each(function() {
               var $item = $('a', $(this));
               var dashboard = $item.data('dashboard');
-              $item.after('<ul class="actions">' +
-                  '<li><a href="#" class="rename-dashboard"></a></li>' +
-                 '<li><a href="#" class="delete-dashboard"></a></li>' +
-                 '</ul><div class="manager-card-count">' +
-                 dashboard.data.cards.length +
-                 ' cards</div>');
+              if (dashboard.data)
+                $item.after('<ul class="actions">' +
+                    '<li><a href="#" class="rename-dashboard"></a></li>' +
+                   '<li><a href="#" class="delete-dashboard"></a></li>' +
+                   '</ul><div class="manager-card-count">' +
+                   dashboard.data.cards.length +
+                   ' cards</div>');
             });
             $dashboards.modal({
               closeHTML: "<a href='#' title='Close' class='modal-close'>x</a>",
