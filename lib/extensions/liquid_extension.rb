@@ -1,0 +1,209 @@
+
+module Liquid
+  class Context
+    def to_hash
+      p "ESH: have @scopes=#{@scopes.inspect}"
+      p "ESH: have @environments=#{@environments.inspect}"
+      p "ESH: have @registers=#{@registers.inspect}"
+      
+      @environments.reverse.inject({}) {|acc, hash| hash.each {|k, v| acc[k] = v}; acc }
+    end
+  end
+end
+
+
+class LiquidRenderer
+  # Cribbed from action_pack's action_view/helpers.rb
+  include ActionView::Helpers::ActiveModelHelper
+  include ActionView::Helpers::AssetTagHelper
+  include ActionView::Helpers::AtomFeedHelper
+  include ActionView::Helpers::CacheHelper
+  include ActionView::Helpers::CaptureHelper
+  include ActionView::Helpers::CsrfHelper
+  include ActionView::Helpers::DateHelper
+  include ActionView::Helpers::DebugHelper
+  include ActionView::Helpers::FormHelper
+  include ActionView::Helpers::FormOptionsHelper
+  include ActionView::Helpers::FormTagHelper
+  include ActionView::Helpers::JavaScriptHelper
+  include ActionView::Helpers::NumberHelper
+  include ActionView::Helpers::PrototypeHelper
+  include ActionView::Helpers::RawOutputHelper
+  include ActionView::Helpers::RecordTagHelper
+  include ActionView::Helpers::SanitizeHelper
+  include ActionView::Helpers::ScriptaculousHelper
+  include ActionView::Helpers::TagHelper
+  include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::TranslationHelper
+  include ActionView::Helpers::UrlHelper
+  
+  def config
+    @config
+  end
+  def controller
+    @config
+  end
+  
+  
+  def initialize file
+    @initial_file = file
+    @initial_file_used = false
+    @initial_file_dir = nil
+    @paths_to_check = []
+    ActionController::Base.view_paths.each {|view_path| @paths_to_check << view_path.instance_variable_get('@path')}
+    @config = ActionController::Base
+  end
+  
+  def exists_file? file_name
+    if File.exist? file_name
+      p "ESH: file_name=#{file_name} exists"
+      file_name 
+    end
+  end
+  
+  def insert_leading_underscore file_name
+    if last_slash_index = file_name.rindex('/')
+      "#{file_name[0..last_slash_index]}_#{file_name[last_slash_index+1..(file_name.length)]}"
+    else
+      "_#{file_name}"
+    end
+  end
+  
+  
+  def render options
+    p "ESH: in render"
+    options = options.stringify_keys
+    file_name = options.delete 'partial'
+    unless file_name || @initial_file_used
+      @initial_file_used = true
+      file_name = @initial_file
+    end
+    local_options = options.delete 'locals'
+    options = options.merge(local_options || {})
+    underscore_file_name = insert_leading_underscore file_name
+    found_file_name = nil
+    
+    # Grab the first file that matches
+    @paths_to_check.each do |view_path|
+      unless found_file_name
+        found_file_name = exists_file?("#{view_path}/#{underscore_file_name}.html.haml") ||
+        exists_file?("#{view_path}/#{underscore_file_name}.haml") ||
+        exists_file?("#{view_path}/#{underscore_file_name}") ||
+        exists_file?("#{view_path}/#{file_name}") ||
+        exists_file?("#{view_path}/#{file_name}.haml") ||
+        exists_file?("#{view_path}/#{file_name}.html.haml")
+      end
+    end
+    
+    p "ESH: have a found file name of #{found_file_name}"
+    # Include the directory of the first file found because there may be references to other files in the same directory
+    unless @initial_file_dir
+      @initial_file_dir = File.dirname(found_file_name) 
+      @paths_to_check << @initial_file_dir if @initial_file_dir
+    end
+      
+    
+    response = nil
+    if found_file_name
+      template = File.read(found_file_name)
+      begin
+        # TODO ESH: create a class that allows for rendering HAML.  Needs to respond to render
+        p "ESH: invoking template #{found_file_name} with options=#{options.inspect}"
+        response = Haml::Engine.new(template).render(self, options)
+      rescue Exception => e
+        p "ESH: have exception=#{e.inspect}, #{e.backtrace.inspect}"
+      end
+      p "ESH: have response=#{response}"
+      response
+    else
+      raise Exception.new "LiquidExtension: could not find file #{file_name} in #{@paths_to_check.inspect}"
+    end
+    
+  end
+end
+
+
+module LiquidFilters
+  include ActionView::Helpers::NumberHelper
+  include ActionView::Helpers::TextHelper
+  
+  
+  def format_date(date, format = 'full')
+    ActiveRecord::Base.logger.debug "ESH: in format_date"
+    date.present? ? date.send(format) : nil
+  end
+  
+  # ex: {{ request_transaction.amount_due | currency: 'Rs. ' }}
+  def currency(number, unit='$', delimiter=',', precision=0, format='%u%n')
+    return '' if number.blank? || number == 0
+    number_to_currency(number, :unit => unit, :delimiter => delimiter, :precision => precision, :format => format)
+  end
+  
+  def titlecase(string)
+    return nil unless string
+    string.titlecase
+  end
+  
+  def capitalize(string)
+    return nil unless string
+    string.capitalize
+  end
+  
+  def to_english(num)
+    return nil unless num
+    num.to_english
+  end
+  
+  # provides the ability to assign a value from the result of a filter
+  # ex: {{ request.request_reports | sort: 'due_at' | assign_to: 'request_reports' }}
+  def assign_to(value, name)
+    @context[name] = value ; nil
+  end
+  
+  def to_rtf(string)
+    # http://en.wikipedia.org/wiki/Rich_Text_Format#Character_encoding
+    # RTF is an 8-bit format. That would limit it to ASCII, but RTF can encode characters beyond ASCII by escape sequences.
+    # For a Unicode escape the control word \u is used, followed by a 16-bit signed decimal integer giving the Unicode code point number.
+    # ... Until RTF specification version 1.5 release in 1997, RTF has only handled 7-bit characters directly and 8-bit characters encoded as hexadecimal (using \'xx).
+    # ... RTF files are usually 7-bit ASCII plain text.
+    return nil unless string
+    string.gsub!("\n", "\\line\n")
+    string.gsub!("\t", "\\tab\t")
+    
+    # unicode rtf output to covert non-ascii chars: 8-bit to hex, 16-bit to code point
+    string.unpack('U*').map { |n| n < 128 ? n.chr : n < 256 ? "\\'#{n.to_s(16)}" : "\\u#{n}\\'3f" }.join('')
+  end
+  
+  def with_line_break(string)
+    string.present? ? "#{string}<br/>" : string
+  end
+  
+  def date_add_months(time, number_months=0)
+    time + number_months.to_i.months
+  end
+
+  def pct(a, b)
+    return 0 if b.blank? || b < 1
+    "#{(a.to_f / b.to_f * 100).to_i}%"
+  end
+  
+  # NOTE if you have images to render and you run this from a rake task, you have to initialize the asset_host and asset_path
+  # ActionController::Base.asset_host = asset_host
+  # ActionController::Base.asset_path = asset_path
+  #
+  # Example:
+  # ActionController::Base.asset_host = 'http://localhost:3000'
+  # ActionController::Base.asset_path = '/'
+  # LiquidFilters
+  # document = "Testing: {{controller_template | haml }}"
+  # Liquid::Template.parse(document).render('model' => Organization.new(:name => 'ericsorg'), 'controller_template' => 'organizations/_organization_show.html.haml', 'params' => {})
+  #  
+  def haml file_name
+    p "ESH: in liquid haml filter"
+    LiquidRenderer.new(file_name).render(@context.to_hash)
+  end
+  
+end
+
+
+Liquid::Template.register_filter(LiquidFilters)

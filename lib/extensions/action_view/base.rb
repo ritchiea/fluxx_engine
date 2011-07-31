@@ -36,29 +36,5 @@ class ActionView::Base
     end
   end
   
-  def flash_info 
-    if flash[:info] 
-      msg = "<div class='notice'><a class='close-parent' href='#fluxx-card-notice'><img src='/images/fluxx_engine/theme/default/icons/cancel.png' /></a>#{flash[:info]}</div>"
-      flash[:info] = nil
-      raw msg
-    end
-  end
-
-  def flash_error
-    if flash[:error] 
-      msg = "<div class='notice error'><a class='close-parent' href='#fluxx-card-notice'><img src='/images/fluxx_engine/theme/default/icons/cancel.png' /></a>#{flash[:error]}</div>"
-      flash[:error] = nil
-      raw msg
-    end
-  end
-
-  def external_link link
-    link = ((!link || link =~ /^http:/ || link.empty?) ? link : 'http://' + link)
-    link_to link, link, :target => "blank" unless !link || link.empty?
-  end
-
-  def email_link email_address
-    link_to(email_address, "mailto:#{email_address}") unless !email_address || email_address.empty?
-  end
 
 end
