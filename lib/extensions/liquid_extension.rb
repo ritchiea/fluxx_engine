@@ -2,10 +2,6 @@
 module Liquid
   class Context
     def to_hash
-      p "ESH: have @scopes=#{@scopes.inspect}"
-      p "ESH: have @environments=#{@environments.inspect}"
-      p "ESH: have @registers=#{@registers.inspect}"
-      
       @environments.reverse.inject({}) {|acc, hash| hash.each {|k, v| acc[k] = v}; acc }
     end
   end
@@ -56,7 +52,6 @@ class LiquidRenderer
   
   def exists_file? file_name
     if File.exist? file_name
-      p "ESH: file_name=#{file_name} exists"
       file_name 
     end
   end
@@ -71,7 +66,6 @@ class LiquidRenderer
   
   
   def render options
-    p "ESH: in render"
     options = options.stringify_keys
     file_name = options.delete 'partial'
     unless file_name || @initial_file_used
@@ -95,7 +89,6 @@ class LiquidRenderer
       end
     end
     
-    p "ESH: have a found file name of #{found_file_name}"
     # Include the directory of the first file found because there may be references to other files in the same directory
     unless @initial_file_dir
       @initial_file_dir = File.dirname(found_file_name) 
@@ -107,13 +100,10 @@ class LiquidRenderer
     if found_file_name
       template = File.read(found_file_name)
       begin
-        # TODO ESH: create a class that allows for rendering HAML.  Needs to respond to render
-        p "ESH: invoking template #{found_file_name} with options=#{options.inspect}"
         response = Haml::Engine.new(template).render(self, options)
       rescue Exception => e
-        p "ESH: have exception=#{e.inspect}, #{e.backtrace.inspect}"
+        p "ESH: LiquidRenderer have exception=#{e.inspect}, #{e.backtrace.inspect}"
       end
-      p "ESH: have response=#{response}"
       response
     else
       raise Exception.new "LiquidExtension: could not find file #{file_name} in #{@paths_to_check.inspect}"
@@ -199,7 +189,6 @@ module LiquidFilters
   # Liquid::Template.parse(document).render('model' => Organization.new(:name => 'ericsorg'), 'controller_template' => 'organizations/_organization_show.html.haml', 'params' => {})
   #  
   def haml file_name
-    p "ESH: in liquid haml filter"
     LiquidRenderer.new(file_name).render(@context.to_hash)
   end
   
