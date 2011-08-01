@@ -107,7 +107,7 @@ class LiquidRenderer
       begin
         response = Haml::Engine.new(template).render(self, options)
       rescue Exception => e
-        ActiveRecord::Base.logger.error LiquidRenderer have exception=#{e.inspect}, #{e.backtrace.inspect}"
+        ActiveRecord::Base.logger.error "LiquidRenderer have exception=#{e.inspect}, #{e.backtrace.inspect}"
       end
       response
     else
