@@ -12,7 +12,7 @@ require "delocalize"
 require "writeexcel"
 
 # Some classes need to be required before or after; put those in these lists
-EXTENSION_CLASSES_TO_PRELOAD = ["#{File.dirname(__FILE__).to_s}/extensions/action_controller/controller_dsl", "#{File.dirname(__FILE__).to_s}/extensions/active_record/model_dsl", "#{File.dirname(__FILE__).to_s}/extensions/blob_struct"]
+EXTENSION_CLASSES_TO_PRELOAD = ["#{File.dirname(__FILE__).to_s}/extensions/action_controller/controller_dsl", "#{File.dirname(__FILE__).to_s}/extensions/active_record/model_dsl", "#{File.dirname(__FILE__).to_s}/extensions/blob_struct", "#{File.dirname(__FILE__).to_s}/extensions/fluxx_module_helper"]
 EXTENSION_CLASSES_TO_POSTLOAD = ["#{File.dirname(__FILE__).to_s}/extensions/action_controller/base", "#{File.dirname(__FILE__).to_s}/extensions/active_record/base"]
 
 EXTENSION_CLASSES_TO_NOT_AUTOLOAD = EXTENSION_CLASSES_TO_PRELOAD + EXTENSION_CLASSES_TO_POSTLOAD
