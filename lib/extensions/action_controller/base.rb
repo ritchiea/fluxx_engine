@@ -100,7 +100,8 @@ class ActionController::Base
             end
             format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
             format.json do
-              render :text => @models.map{|model| h = model.serializable_hash; h['id'] = model.id; h['detail_url'] = url_for(model); h}.to_json
+              derived_models = @models.map{|model| h = model.serializable_hash; h['id'] = model.id; h['detail_url'] = url_for(model); h}
+              render :text => {:models => derived_models}.to_json
             end
             format.autocomplete do
               render :text => index_object.process_autocomplete(@models, params[:name_method], self)

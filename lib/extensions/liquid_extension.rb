@@ -2,7 +2,8 @@
 module Liquid
   class Context
     def to_hash
-      @environments.reverse.inject({}) {|acc, hash| hash.each {|k, v| acc[k] = v}; acc }
+      result_hash = @environments.reverse.inject({}) {|acc, hash| hash.each {|k, v| acc[k] = v}; acc }
+      @scopes.reverse.inject(result_hash) {|acc, hash| hash.each {|k, v| acc[k] = v}; acc }
     end
   end
 end
@@ -32,6 +33,10 @@ class LiquidRenderer
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::TranslationHelper
   include ActionView::Helpers::UrlHelper
+  include ActionDispatch::Routing::UrlFor
+  include ActionDispatch::Routing::PolymorphicRoutes
+  # include Rails.application.routes.url_helpers
+
   
   def config
     @config
@@ -102,10 +107,11 @@ class LiquidRenderer
       begin
         response = Haml::Engine.new(template).render(self, options)
       rescue Exception => e
-        p "ESH: LiquidRenderer have exception=#{e.inspect}, #{e.backtrace.inspect}"
+        ActiveRecord::Base.logger.error LiquidRenderer have exception=#{e.inspect}, #{e.backtrace.inspect}"
       end
       response
     else
+      ActiveRecord::Base.logger.error "LiquidExtension: could not find file #{file_name} in #{@paths_to_check.inspect}"
       raise Exception.new "LiquidExtension: could not find file #{file_name} in #{@paths_to_check.inspect}"
     end
     
@@ -196,3 +202,20 @@ end
 
 
 Liquid::Template.register_filter(LiquidFilters)
+
+
+# TODO ESH: consider making the haml method a tag instead of a filter!!!!  See https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers for details.  Here is an example:
+# class Random < Liquid::Tag                                             
+#   def initialize(tag_name, max, tokens)
+#      super 
+#      @max = max.to_i
+#   end
+# 
+#   def render(context)
+#     rand(@max).to_s 
+#   end    
+# end
+# 
+# Liquid::Template.register_tag('random', Random)
+# @template = Liquid::Template.parse(" {% random 5 %}")
+# @template.render    # => "3"
