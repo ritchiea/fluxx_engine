@@ -56,9 +56,17 @@ class ActionController::ControllerDsl
     model = if model
       model
     else 
-      model_id = params.is_a?(Fixnum) ? params : params[:id]
-      model_class.safe_find(model_id, params[:force_load_deleted] == '1')
+      model_id = load_param_id params
+      model_class.safe_find(model_id, force_load_deleted_param(params))
     end
+  end
+  
+  def load_param_id params
+    params.is_a?(Fixnum) ? params : params[:id]
+  end
+  
+  def force_load_deleted_param params
+    params[:force_load_deleted] == '1'
   end
 
   def load_new_model params, model=nil, fluxx_current_user=nil
