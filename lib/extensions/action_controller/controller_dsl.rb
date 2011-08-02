@@ -151,7 +151,6 @@ class ActionController::ControllerDsl
   def invoke_force_redirect controller
     if @force_redirect_block && @force_redirect_block.is_a?(Proc)
       controller.instance_exec(self, &@force_redirect_block)
-      true
     else
       false
     end
