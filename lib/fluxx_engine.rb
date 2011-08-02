@@ -9,6 +9,7 @@ require "aasm"
 require "paperclip"
 require "liquid"
 require "delocalize"
+require "mail"
 require "writeexcel"
 
 # Some classes need to be required before or after; put those in these lists
