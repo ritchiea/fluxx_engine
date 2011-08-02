@@ -27,7 +27,7 @@ class ClientStoresController < ApplicationController
   insta_post ClientStore do |insta|
     insta.dont_display_flash_message = true
     insta.pre do |conf|
-      self.pre_model = ClientStore.new params[:client_store]
+      self.pre_model ||= ClientStore.new params[:client_store]
       pre_model.user_id = fluxx_current_user.id if fluxx_current_user
     end
   end
