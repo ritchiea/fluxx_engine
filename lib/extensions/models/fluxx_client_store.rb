@@ -41,7 +41,7 @@ module FluxxClientStore
         url = card['listing']['url']
         uid = card['uid']
         filters = ClientStore.dashboard_card_params card
-        cards << {:uid => uid, :title => title, :url => url, :filters => filters}
+        cards << {:uid => uid, :duid => "#{self.id}_#{uid}", :title => title, :url => url, :filters => filters}
       end
       [:id => self.id, :name => self.name, :cards => cards]
     end
