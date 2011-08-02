@@ -16,7 +16,8 @@ class ClientStoresController < ApplicationController
       format.json do |pair, outcome|
         controller_dsl, outcome = pair
         if params[:as_dashboard]
-          render :inline => instance_variable_get("@models").map{|model| model.as_dashboard}.to_json
+          dashboards = instance_variable_get("@models").map{|model| model.as_dashboard}
+          render :inline => {:dashboards => dashboards}.to_json
         else
           render :inline => instance_variable_get("@models").map {|model| {:client_store => (model.attributes), :url => url_for(model)}}.to_json
         end

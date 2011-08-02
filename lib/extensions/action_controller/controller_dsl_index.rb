@@ -23,6 +23,8 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :suppress_model_iteration
   # Send the list of models to the supplied template and do not try to iterate through in the insta index.html.haml file
   attr_accessor :always_skip_wrapper
+  # A method to render extra JSON elements
+  attr_accessor :json_block
   
 
   # block to postprocess autocomplete results
