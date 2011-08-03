@@ -121,7 +121,10 @@
             if ($elem.parents('.partial').length && $elem.parents('.partial').attr('data-src'))
               $elem.refreshAreaPartial({});
             else
-              $elem.refreshCardArea();
+              if (type == 'DELETE' && $elem.hasClass('as-delete') && $elem.parents('.modal')[0]) {
+                $area.runLoadingActions();
+              } else
+                $elem.refreshCardArea();
           }
         });
       } else {

@@ -285,6 +285,7 @@ class ActionController::Base
         @model_name = (@model ? @model.class.name.underscore.downcase : edit_object.model_name) || (@model_class ? @model_class.name.underscore.downcase : nil)
         raise UnauthorizedException.new('update', (@model || @model_class)) unless edit_object.skip_permission_check || fluxx_current_user.has_update_for_model?(@model || @model_class)
         @icon_style = edit_object.icon_style
+        @delete_from_modal = (edit_object.allow_delete_from_modal && params[:as_modal])
         editable = edit_object.editable? @model, fluxx_current_user
         edit_object.invoke_post self, @model, (editable ? :success : :error)
         if @model

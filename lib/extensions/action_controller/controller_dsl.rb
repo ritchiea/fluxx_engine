@@ -35,7 +35,8 @@ class ActionController::ControllerDsl
   attr_accessor :extra_buttons
   # Skip permission check
   attr_accessor :skip_permission_check
-
+  # Show a delete button in the modal
+  attr_accessor :allow_delete_from_modal
   # Allow you to pass in a block to initialize a new model object
   attr_accessor :new_block
   

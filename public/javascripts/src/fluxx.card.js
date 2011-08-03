@@ -1271,19 +1271,8 @@
           if (!$area.data('target'))
             return false;
 
-          var onSuccess = $area.data('target').attr('data-on-success'),
-              closeCard = false;
-          // If we have onSuccess actions, execute them
-          if (onSuccess) {
-            _.each(onSuccess.replace(/\s/g, '').split(/,/), function(action){
-              var func = $.fluxx.card.loadingActions[action] || $.noop;
-              // Return a flag if we have closed this card so that continued loading stops
-              if (action == 'close')
-                closeCard = true;
-              (_.bind(func, $area))();
-            });
-          }
-          return closeCard;
+          var closeCard = $area.runLoadingActions();
+
         }
       };
       options = $.fluxx.util.options_with_callback(defaults,options,onComplete);
@@ -1432,6 +1421,22 @@
 
 
       return this;
+    },
+    runLoadingActions: function() {
+      var $area = $(this);
+      var onSuccess = $area.data('target').attr('data-on-success'),
+          closeCard = false;
+      // If we have onSuccess actions, execute them
+      if (onSuccess) {
+        _.each(onSuccess.replace(/\s/g, '').split(/,/), function(action){
+          var func = $.fluxx.card.loadingActions[action] || $.noop;
+          // Return a flag if we have closed this card so that continued loading stops
+          if (action == 'close')
+            closeCard = true;
+          (_.bind(func, $area))();
+        });
+      }
+      return closeCard;
     },
 		showLoadingIndicator: function() {
 			$('.loading-indicator', $(this)).addClass('loading');
