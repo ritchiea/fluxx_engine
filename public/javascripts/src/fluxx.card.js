@@ -1008,7 +1008,7 @@
             var headerHeight = $('.header', $modal).outerHeight(true);
             var borderHeight = parseInt($modal.css('borderTopWidth')) + parseInt($modal.css('borderBottomWidth'));
             var $footer = $('.footer', $modal);
-            if (!$footer.data('hide') && $footer.find('.workflow').length > 0)
+            if (!$footer.data('hide') && $footer.find('.workflow').children()[0])
               $footer.show();
             else
               $footer.hide();
