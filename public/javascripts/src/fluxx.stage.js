@@ -806,6 +806,7 @@
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+
               $elem.fluxxCardLoadContent({
                 url: $elem.attr('href'),
                 area: $elem.fluxxCardArea(),
@@ -1022,7 +1023,16 @@
 							$('input:password', $elem).removeAttr("disabled");
               if ($elem.attr('method'))
                 properties.type = $elem.attr('method');
-              $elem.fluxxCardLoadContent(properties)							
+              if ($area.hasClass('modal')) {
+                $area.addClass('updating');
+                $area.children().fadeTo('fast', 0.33);
+              }
+              $elem.fluxxCardLoadContent(properties, function() {
+                if ($area.hasClass('modal')) {
+                  $area.removeClass('updating');
+                  $area.children().fadeTo('fast', 1);
+                }
+              });
             },
           ],
           'form.listing-search': [
