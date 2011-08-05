@@ -8,6 +8,8 @@ module ActiveRecord
       # fk_table: name of the table which contains the foreign key
       # fk_field: name of the field which has the foreign key
       def add_constraint main_table, fk_name, main_field, fk_table, fk_field, options={}
+        main_field = main_field.join(', ') if main_field.is_a?(Array)
+        fk_field = fk_field.join(', ') if fk_field.is_a?(Array)
         execute "alter table #{main_table} add constraint #{fk_name} foreign key (#{main_field}) references #{fk_table}(#{fk_field})" unless adapter_name =~ /SQLite/i || Rails.env.test?
       end
       
