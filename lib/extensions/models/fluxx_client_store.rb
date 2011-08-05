@@ -28,9 +28,7 @@ module FluxxClientStore
       funj = self.data.de_json
       if funj
         funj['cards']
-      else
-        []
-      end
+      end || []
     end
     
     
