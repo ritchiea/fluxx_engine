@@ -27,7 +27,7 @@ class ActionController::Base
     if respond_to?(:class_index_object) && class_index_object
       yield class_index_object if block_given?
     else
-      index_object = ActionController::ControllerDslIndex.new(model_class)
+      index_object = ActionController::ControllerDslIndex.new(model_class, self)
       class_inheritable_reader :class_index_object
       write_inheritable_attribute :class_index_object, index_object
       yield index_object if block_given?
@@ -128,7 +128,7 @@ class ActionController::Base
     if respond_to?(:class_show_object) && class_show_object
       yield class_show_object if block_given?
     else
-      show_object = ActionController::ControllerDslShow.new(model_class)
+      show_object = ActionController::ControllerDslShow.new(model_class, self)
       class_inheritable_reader :class_show_object
       write_inheritable_attribute :class_show_object, show_object
       yield show_object if block_given?
@@ -215,7 +215,7 @@ class ActionController::Base
     if respond_to?(:class_new_object) && class_new_object
       yield class_new_object if block_given?
     else
-      new_object = ActionController::ControllerDslNew.new(model_class)
+      new_object = ActionController::ControllerDslNew.new(model_class, self)
       class_inheritable_reader :class_new_object
       write_inheritable_attribute :class_new_object, new_object
       yield new_object if block_given?
@@ -260,7 +260,7 @@ class ActionController::Base
     if respond_to?(:class_edit_object) && class_edit_object
       yield class_edit_object if block_given?
     else
-      edit_object = ActionController::ControllerDslEdit.new(model_class)
+      edit_object = ActionController::ControllerDslEdit.new(model_class, self)
       class_inheritable_reader :class_edit_object
       write_inheritable_attribute :class_edit_object, edit_object
       yield edit_object if block_given?
@@ -317,7 +317,7 @@ class ActionController::Base
     if respond_to?(:class_create_object) && class_create_object
       yield class_create_object if block_given?
     else
-      create_object = ActionController::ControllerDslCreate.new(model_class)
+      create_object = ActionController::ControllerDslCreate.new(model_class, self)
       class_inheritable_reader :class_create_object
       write_inheritable_attribute :class_create_object, create_object
       yield create_object if block_given?
@@ -392,7 +392,7 @@ class ActionController::Base
     if respond_to?(:class_update_object) && class_update_object
       yield class_update_object if block_given?
     else
-      update_object = ActionController::ControllerDslUpdate.new(model_class)
+      update_object = ActionController::ControllerDslUpdate.new(model_class, self)
       class_inheritable_reader :class_update_object
       write_inheritable_attribute :class_update_object, update_object
       yield update_object if block_given?
@@ -477,7 +477,7 @@ class ActionController::Base
     if respond_to?(:class_delete_object) && class_delete_object
       yield class_delete_object if block_given?
     else
-      delete_object = ActionController::ControllerDslDelete.new(model_class)
+      delete_object = ActionController::ControllerDslDelete.new(model_class, self)
       class_inheritable_reader :class_delete_object
       write_inheritable_attribute :class_delete_object, delete_object
       yield delete_object if block_given?
@@ -532,7 +532,7 @@ class ActionController::Base
     if respond_to?(:class_related_object) && class_related_object
       yield class_related_object if block_given?
     else
-      local_related_object = ActionController::ControllerDslRelated.new(model_class)
+      local_related_object = ActionController::ControllerDslRelated.new(model_class, self)
       class_inheritable_reader :class_related_object
       write_inheritable_attribute :class_related_object, local_related_object
       yield local_related_object if block_given?
@@ -557,7 +557,7 @@ class ActionController::Base
     if respond_to?(:class_report_object) && class_report_object
       yield class_report_object if block_given?
     else
-      local_report_object = ActionController::ControllerDslReport.new(self, model_class)
+      local_report_object = ActionController::ControllerDslReport.new(model_class, self)
       class_inheritable_reader :class_report_object
       write_inheritable_attribute :class_report_object, local_report_object
       yield local_report_object if block_given?

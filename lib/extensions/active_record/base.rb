@@ -309,6 +309,16 @@ class ActiveRecord::Base
     class_names
   end
   
+  def self.descendant_base_classes
+    base_klasses = self.extract_classes(self)
+    all_classes = base_klasses.map{|base_klass| base_klass.descendants}.compact.flatten + base_klasses
+    all_classes.uniq
+  end
+  
+  def self.all_controllers
+    ActionController::ControllerDsl.all_controllers_for_model self
+  end
+  
   # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update
   def update_attribute_without_log key, value
     if self.class.respond_to?(:sphinx_indexes) && self.class.sphinx_indexes

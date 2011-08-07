@@ -11,6 +11,8 @@ class ActionController::ControllerDsl
   attr_accessor :view
   # associated model class
   attr_accessor :model_class
+  # associated controller class
+  attr_accessor :controller_class
   # internal singular name of mode
   attr_accessor :singular_model_instance_name
   # internal plural name of mode
@@ -39,9 +41,29 @@ class ActionController::ControllerDsl
   attr_accessor :allow_delete_from_modal
   # Allow you to pass in a block to initialize a new model object
   attr_accessor :new_block
+  ALL_CONTROLLER_MAPPING = {}
   
-  def initialize model_class_param
+  def self.map_model_to_controller model_klass, controller_klass
+    # register a mapping between model_class and controller_class so we can find out if any controller classes map to the model_class
+    mapping = ALL_CONTROLLER_MAPPING[model_klass]
+    mapping ||= []
+    mapping << controller_klass
+    ALL_CONTROLLER_MAPPING[model_klass] = mapping
+  end
+  
+  def self.all_controllers_for_model model_klass
+    
+    klasses = model_klass.descendant_base_classes.map do |klass|
+      ALL_CONTROLLER_MAPPING[klass]
+    end
+    klasses.compact.flatten.uniq
+  end
+  
+  def initialize model_class_param, controller_class_param
     self.model_class = model_class_param
+    self.controller_class = controller_class_param
+    ActionController::ControllerDsl.map_model_to_controller model_class_param, controller_class_param
+    
     if model_class_param
       self.model_name = model_class.name.underscore.downcase
       @model_human_name = @model_name.gsub('_', ' ').titlecase

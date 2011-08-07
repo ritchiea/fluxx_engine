@@ -4,8 +4,8 @@ class ActionController::ControllerDslReport < ActionController::ControllerDsl
   # list of discovered reports for this report_name_path
   attr_accessor :reports
   
-  def initialize controller_class, model_class = nil
-    super model_class
+  def initialize model_class, controller_class
+    super model_class, controller_class
     
     self.report_name_path = controller_class.name.gsub(/Controller$/, '').underscore.pluralize
     self.reports = []
