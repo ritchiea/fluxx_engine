@@ -125,7 +125,6 @@ module LiquidFilters
   
   
   def format_date(date, format = 'full')
-    ActiveRecord::Base.logger.debug "ESH: in format_date"
     date.present? ? date.send(format) : nil
   end
   
