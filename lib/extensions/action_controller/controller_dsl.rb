@@ -5,6 +5,8 @@ class ActionController::ControllerDsl
   attr_accessor :layout
   # template to be used
   attr_accessor :template
+  # English name of the controller
+  attr_accessor :controller_name
   # An array describing the template to display if a given parameter is present
   attr_accessor :template_map
   # view to be used
@@ -63,6 +65,8 @@ class ActionController::ControllerDsl
     self.model_class = model_class_param
     self.controller_class = controller_class_param
     ActionController::ControllerDsl.map_model_to_controller model_class_param, controller_class_param
+    self.controller_name = controller_class_param.name.gsub(/Controller$/, '').titleize if controller_class_param && controller_class_param.name
+    
     
     if model_class_param
       self.model_name = model_class.name.underscore.downcase
