@@ -309,6 +309,10 @@ class ActiveRecord::Base
     class_names
   end
   
+  def primary_uid
+    self.id
+  end
+  
   def self.descendant_base_classes
     base_klasses = self.extract_classes(self)
     all_classes = base_klasses.map{|base_klass| base_klass.descendants}.compact.flatten + base_klasses
