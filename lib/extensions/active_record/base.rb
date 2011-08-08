@@ -315,6 +315,14 @@ class ActiveRecord::Base
     all_classes.uniq
   end
   
+  def primary_uid
+    if respond_to? :client_id
+      "#{self.client_id}_#{self.id}"
+    else
+      "#{self.id}"
+    end
+  end
+  
   def self.all_controllers
     ActionController::ControllerDsl.all_controllers_for_model self
   end
