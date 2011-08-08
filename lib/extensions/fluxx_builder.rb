@@ -1,4 +1,14 @@
+class FluxxManageHost
+  def self.current_host= host
+    Thread.current[:fluxx_current_host] = host
+  end
+  
+  def self.current_host
+    Thread.current[:fluxx_current_host]
+  end
+end
 module Rack
+  
   class FluxxBuilder
     def initialize app
       @app = app
@@ -14,6 +24,7 @@ module Rack
       DirectorySync.sync_all
     end
     def call env
+      FluxxManageHost.current_host = "#{env["rack.url_scheme"]}://#{env["HTTP_HOST"]}"
       unless @skip_fluxx_builder
         path = Utils.unescape(env["PATH_INFO"])
         t1 = Time.now
