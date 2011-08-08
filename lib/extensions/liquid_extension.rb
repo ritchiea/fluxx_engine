@@ -125,7 +125,6 @@ module LiquidFilters
   
   
   def format_date(date, format = 'full')
-    ActiveRecord::Base.logger.debug "ESH: in format_date"
     date.present? ? date.send(format) : nil
   end
   
@@ -183,18 +182,18 @@ module LiquidFilters
     "#{(a.to_f / b.to_f * 100).to_i}%"
   end
   
-  # NOTE if you have images to render and you run this from a rake task, you have to initialize the asset_host and asset_path
-  # ActionController::Base.asset_host = asset_host
-  # ActionController::Base.asset_path = asset_path
+  # NOTE if you have images to render and you run this from a rake task, you have to initialize the current host:
+  # FluxxManageHost.current_host
   #
   # Example:
-  # ActionController::Base.asset_host = 'http://localhost:3000'
-  # ActionController::Base.asset_path = '/'
+  # FluxxManageHost.current_host = 'http://localhost:3000'
+  # ActionController::Base.asset_host will be initialized based on this variable if not already set
   # LiquidFilters
   # document = "Testing: {{controller_template | haml }}"
   # Liquid::Template.parse(document).render('model' => Organization.new(:name => 'ericsorg'), 'controller_template' => 'organizations/_organization_show.html.haml', 'params' => {})
   #  
   def haml file_name
+    ActionController::Base.asset_host = FluxxManageHost.current_host unless ActionController::Base.asset_host
     LiquidRenderer.new(file_name).render(@context.to_hash)
   end
   
