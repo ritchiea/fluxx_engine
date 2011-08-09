@@ -19,6 +19,8 @@ class ClientStoresController < ApplicationController
           dashboards = instance_variable_get("@models").map{|model| model.as_dashboard}
           render :inline => {:dashboards => dashboards}.to_json
         else
+          # May need something like this gsub to strip out :undefined
+          # render :inline => instance_variable_get("@models").map {|model| {:client_store => (model.attributes), :url => url_for(model)}}.to_json.gsub(/\:undefined/, ':"undefined"')
           render :inline => instance_variable_get("@models").map {|model| {:client_store => (model.attributes), :url => url_for(model)}}.to_json
         end
       end
