@@ -88,12 +88,11 @@
             url: settings.documentTypeUrl,
             dataType: 'json',
             success: function(data, status, xhr){
-              if (data.length < 1) {
+              if (!$.isArray(data) || data.length < 1) {
                 showDocumentType = false;
                 return false;
               }
               for (var key in data[0]) {};
-                
               $(data).each(function() {
                 select += '<option value="' + this[key].id + '">' + this[key].name + '</option>'
               })
