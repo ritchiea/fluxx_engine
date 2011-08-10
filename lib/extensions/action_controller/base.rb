@@ -107,7 +107,7 @@ class ActionController::Base
                 extra_elements = index_object.json_block.call(h, model) if index_object.json_block
                 h
               end
-              render :text => {:models => derived_models}.to_json
+              render :text => {@model_class.name => derived_models}.to_json
             end
             format.autocomplete do
               render :text => index_object.process_autocomplete(@models, params[:name_method], self)
