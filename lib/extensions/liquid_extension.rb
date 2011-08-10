@@ -95,7 +95,7 @@ class LiquidRenderer
     end
     
     # Include the directory of the first file found because there may be references to other files in the same directory
-    unless @initial_file_dir
+    if !@initial_file_dir && found_file_name
       @initial_file_dir = File.dirname(found_file_name) 
       @paths_to_check << @initial_file_dir if @initial_file_dir
     end
@@ -194,7 +194,12 @@ module LiquidFilters
   #  
   def haml file_name
     ActionController::Base.asset_host = FluxxManageHost.current_host unless ActionController::Base.asset_host
-    LiquidRenderer.new(file_name).render(@context.to_hash)
+    begin
+      LiquidRenderer.new(file_name).render(@context.to_hash)
+    rescue Exception => e
+      ActiveRecord::Base.logger.error "Liquid::haml have error #{e.inspect}, #{e.backtrace.inspect}"
+      raise e
+    end
   end
   
 end

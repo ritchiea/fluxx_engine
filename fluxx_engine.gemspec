@@ -32,7 +32,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'thinking-sphinx', '>= 2.0.1'
   s.add_dependency "authlogic"
   s.add_dependency 'ruby-net-ldap'
-  s.add_dependency 'paperclip'
+  s.add_dependency 'paperclip', '>= 2.3.16'
   s.add_dependency 'liquid'
   s.add_dependency 'delocalize'
   s.add_dependency 'pdfkit'
