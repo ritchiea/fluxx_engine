@@ -545,11 +545,15 @@
               var $head = $('.listing .header', $(this).fluxxCard());
               var $actions = $('.actions', $head);
               if ($head.hasClass('actions-open')) {
-
                 $('.search', $head).fadeIn();
                 $head.removeClass('actions-open');
-                $actions.animate({left: $head.outerWidth(true)});
+                $actions.animate({left: $head.outerWidth(true)},{
+                  complete: function() {
+                    $('li:not(:first)', $actions).hide();
+                  }
+                });
               } else {
+                $('li', $actions).show();
                 $('.search', $head).fadeOut();
                 var iconWidth = $('li:not(.open-listing-actions):last', $actions).width();
                 $actions.animate({left: $head.outerWidth(true) - (iconWidth * ($('li:not(.open-listing-actions)', $actions).length-1))

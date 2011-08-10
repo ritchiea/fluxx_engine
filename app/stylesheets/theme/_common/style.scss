@@ -663,6 +663,7 @@ table .partial { margin: 0.25em 0; }
       bottom: 0px;
       border-left: #666666 solid 1px;
       li {
+        display: none;
         @include linear-gradient(#cccccc, #aaaaaa);
         width: 25px;
         height: 100%;
@@ -674,6 +675,7 @@ table .partial { margin: 0.25em 0; }
         float: left;
         position: relative;
         &:first-child {
+          display: list-item;
           @include bg(#999999, #666666);
           @include linear-gradient(#bbbbbb, #999999);
           @include rounded-left(3px);
