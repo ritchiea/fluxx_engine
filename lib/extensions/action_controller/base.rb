@@ -100,7 +100,7 @@ class ActionController::Base
             end
             format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
             format.json do
-              derived_models = @models.map do |model| 
+              derived_models = @models.compact.map do |model| 
                 h = model.serializable_hash
                 h['id'] = model.id
                 h['detail_url'] = url_for(model); 
