@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'haml', '>= 3'
   s.add_dependency 'sass'
   s.add_dependency 'formtastic', '= 1.1.0'
-  s.add_dependency 'will_paginate', '~> 3.0.pre2'
+  s.add_dependency 'will_paginate', '~> 3.0.0'
   s.add_dependency 'jsmin', '>= 1.0.1'
   s.add_dependency 'thinking-sphinx', '>= 2.0.1'
   s.add_dependency "authlogic"

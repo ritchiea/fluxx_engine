@@ -104,7 +104,8 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
       :page => page_clause, :per_page => results_per_page, 
       :order => order_clause, :include => options[:include_relation],
       :joins => options[:joins]
-    models.replace models.map(&:id)
+      
+    models = models.replace models.map(&:id)
     models
   end
   

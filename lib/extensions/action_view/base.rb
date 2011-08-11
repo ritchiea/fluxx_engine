@@ -6,7 +6,7 @@ class ActionView::Base
   def fluxx_paginate models
     # TODO ESH: there is a classloading issue around getting WillPaginate initialized.  Get an uninitialized constant WillPaginate::LinkRenderer if we try to put FluxxlinkRenderer in a class of its own
     unless Object.const_defined? 'FluxxLinkRenderer'
-      klass = Object.const_set('FluxxLinkRenderer',Class.new(WillPaginate::ViewHelpers::LinkRenderer))
+      klass = Object.const_set('FluxxLinkRenderer',Class.new(WillPaginate::ActionView::LinkRenderer))
       
       klass.class_eval do
         include ActionView::Helpers::NumberHelper

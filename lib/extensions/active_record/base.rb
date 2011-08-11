@@ -255,9 +255,11 @@ class ActiveRecord::Base
       unpaged_models = [unpaged_models] unless unpaged_models.is_a?(Array)
       model_map = unpaged_models.inject({}) {|acc, model| acc[model.id] = model; acc}
       ordered_list = model_ids.map {|model_id| model_map[model_id]}
-      WillPaginate::Collection.create model_ids.current_page, model_ids.per_page, model_ids.total_entries do |pager|
+      result = WillPaginate::Collection.create model_ids.current_page, model_ids.per_page, model_ids.total_entries do |pager|
         pager.replace ordered_list
       end
+      
+      result
     end
   end
 
