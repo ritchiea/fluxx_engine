@@ -597,7 +597,7 @@
         var $form   = $(this),
             $submit = $(':submit:last', $form);
         /* XXX GENERATE FROM $.fluxx.card.ui.workflowButton() !!! */
-        if (!$submit.hasClass('ignore')) {
+        if (!$submit.hasClass('ignore') && !$form.hasClass('no-submit-button')) {
           $('<a>').attr('href', $form.attr('action')).text($submit.val()||'Submit').bind('click', function(e){
             $.fluxx.util.itEndsWithMe(e);
             // Prevent submitting the form multiple times
