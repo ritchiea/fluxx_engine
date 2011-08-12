@@ -118,16 +118,13 @@
           url: $elem.attr('href'),
           type: type,
           complete: function (){
-            if ($elem.parents('.partial').length && $elem.parents('.partial').attr('data-src')) {
+            if ($elem.parents('.partial').length && $elem.parents('.partial').attr('data-src'))
               $elem.refreshAreaPartial({});
-            } else {
+            else
               if (type == 'DELETE' && $elem.hasClass('as-delete') && $elem.parents('.modal')[0]) {
-                $area.data('target', $elem);
                 $area.runLoadingActions();
-              } else {
+              } else
                 $elem.refreshCardArea();
-              }
-            }
           }
         });
       } else {

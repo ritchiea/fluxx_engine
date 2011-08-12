@@ -1439,10 +1439,16 @@
       return closeCard;
     },
 		showLoadingIndicator: function() {
-			$('.loading-indicator', $(this)).addClass('loading');
+      var $loading = $('.loading-indicator', $(this));
+			$loading.addClass('loading').data('loading-count', Number($loading.data('loading-count')) + 1);
 		},
 		hideLoadingIndicator: function() {
-			$('.loading-indicator', $(this)).removeClass('loading');
+      var $loading = $('.loading-indicator', $(this));
+      if($loading.data('loading-count') > 1) {
+        $loading.data('loading-count', Number($loading.data('loading-count')) - 1);
+      } else {
+			  $loading.removeClass('loading').data('loading-count', 0);
+      }
 		},	
     fluxxCardLoadListing: function (options, onComplete) {
       $.fluxx.log("**> fluxxCardLoadListing");
