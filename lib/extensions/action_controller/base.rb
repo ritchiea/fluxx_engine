@@ -369,8 +369,7 @@ class ActionController::Base
             p "ESH: error saving record #{@model.errors.inspect}"
             flash[:error] = t(:errors_were_found) unless flash[:error]
             logger.debug("Unable to create "+create_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
-            #format.html { render((create_object.view || "#{insta_path}/new").to_s, :layout => create_object.layout) }
-            format.html { fluxx_edit_card create_object }
+            format.html { fluxx_new_card create_object }
             # TODO ESH: revisit what to send back for JSON error
             format.json { head 500 }
             format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
@@ -451,7 +450,6 @@ class ActionController::Base
             flash[:error] = t(:errors_were_found) unless flash[:error]
             insta_respond_to update_object, :error do |format|
               logger.debug("Unable to save "+update_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
-              #format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => update_object.layout) }
               format.html { fluxx_edit_card update_object }
               # TODO ESH: revisit what to send back for JSON error
               format.json { head 500 }
