@@ -15,9 +15,15 @@ class ActiveRecord::ModelDslMultiElement < ActiveRecord::ModelDsl
       groups = MultiElementGroup.find(:all, :conditions => {:target_class_name => model_class.name})
       blank_model_obj = model_class.new
       groups.each do |group|
-        if blank_model_obj.respond_to? "#{group.name.singularize}_id"
-          model_class.belongs_to group.name.singularize.to_sym, :class_name => 'MultiElementValue', :conditions => {:multi_element_group_id => group.id}
-          @single_element_attributes << group.name.singularize
+        singularized_group_name = if blank_model_obj.respond_to? "#{group.name}_id"
+          group.name
+        elsif blank_model_obj.respond_to? "#{group.name.singularize}_id"
+          group.name.singularize
+        end
+        
+        if singularized_group_name && blank_model_obj.respond_to?("#{singularized_group_name}_id")
+          model_class.belongs_to singularized_group_name.to_sym, :class_name => 'MultiElementValue', :conditions => {:multi_element_group_id => group.id}
+          @single_element_attributes << singularized_group_name
         else
           model_class.has_many group.name.to_sym, :class_name => 'MultiElementValue', :through => :multi_element_choices, :source => 'multi_element_value', 
                :conditions => "multi_element_group_id = '#{group.id}' and multi_element_choices.multi_element_value_id = multi_element_values.id"
