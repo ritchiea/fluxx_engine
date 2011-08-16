@@ -28,6 +28,10 @@ class ActiveRecord::Base
       def allowed_template_methods
         template_object.all_methods_allowed self.new
       end
+
+      def extra_template_methods
+        template_object.extra_methods.map {|meth| meth.to_s}
+      end
       
       # Get a list of all allowed list methods that may be exposed to the user
       def allowed_template_list_methods
