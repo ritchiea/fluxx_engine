@@ -4,6 +4,8 @@ module FluxxSphinxChecksController
   ICON_STYLE = 'style-sphinx-checks'
 
   when_included do
+    skip_before_filter :require_user
+
     insta_index SphinxCheck do |insta|
       insta.template = 'sphinx_check_list'
       insta.filter_title = "SphinxChecks Filter"
@@ -36,10 +38,6 @@ module FluxxSphinxChecksController
     insta_delete SphinxCheck do |insta|
       insta.template = 'sphinx_check_form'
       insta.icon_style = ICON_STYLE
-    end
-    insta_related SphinxCheck do |insta|
-      insta.add_related do |related|
-      end
     end
   end
 end
