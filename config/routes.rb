@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :sphinx_checks
+
   resources :realtime_updates
   resources :multi_element_values
   resources :client_stores

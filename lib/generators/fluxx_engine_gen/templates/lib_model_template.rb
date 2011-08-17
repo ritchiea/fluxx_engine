@@ -38,6 +38,9 @@ module Fluxx<%= model_class_name %>
     insta_utc do |insta|
       insta.time_attributes = [] 
     end
+    insta_filter_amount do |insta|
+      insta.amount_attributes = []
+    end
     
     insta_workflow do |insta|
       # insta.add_state_to_english :new, 'New Request'

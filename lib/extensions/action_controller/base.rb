@@ -15,6 +15,16 @@ class ActionController::Base
   def grab_param_or_model form_name, param_name, model
     grab_param(form_name, param_name).blank? ? model.send(param_name) : grab_param(form_name, param_name)
   end
+  
+  def self.insta_skip_require_user
+    skip_before_filter :require_user
+    insta_index{|insta|insta.skip_permission_check=true}
+    insta_show{|insta|insta.skip_permission_check=true}
+    insta_new{|insta|insta.skip_permission_check=true}
+    insta_post{|insta|insta.skip_permission_check=true}
+    insta_put{|insta|insta.skip_permission_check=true}
+    insta_delete{|insta|insta.skip_permission_check=true}
+  end
 
   #
   # model_class is the name of the model to generate CRUD methods for

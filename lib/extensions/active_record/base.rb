@@ -216,9 +216,20 @@ class ActiveRecord::Base
       class_inheritable_reader :utc_object
       write_inheritable_attribute :utc_object, local_utc_object
       yield utc_object if block_given?
-    
-      utc_object.add_utc_time_attributes
     end
+    utc_object.add_utc_time_attributes
+  end
+  
+  def self.insta_filter_amount
+    if respond_to?(:filter_amount_object) && filter_amount_object
+      yield filter_amount_object if block_given?
+    else
+      local_filter_amount_object = ActiveRecord::ModelDslFilterAmount.new(self)
+      class_inheritable_reader :filter_amount_object
+      write_inheritable_attribute :filter_amount_object, local_filter_amount_object
+      yield filter_amount_object if block_given?
+    end
+    filter_amount_object.add_amount_attributes
   end
   
   ############ AASM Extend Methods ###############################
@@ -243,11 +254,7 @@ class ActiveRecord::Base
   end
   
   def filter_amount amount
-    if amount.is_a? String
-      amount.gsub(CurrencyHelper.current_symbol, "").gsub(",","")
-    else
-      amount
-    end
+    ActiveRecord::ModelDslFilterAmount.filter_amount amount
   end
 
   # Take a paginated collection of IDs and load up the related full objects, maintaining the pagination constants

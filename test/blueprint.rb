@@ -28,3 +28,8 @@ end
 
 MusicianInstrument.blueprint do
 end
+SphinxCheck.blueprint do
+end
+
+SphinxCheck.blueprint do
+end
