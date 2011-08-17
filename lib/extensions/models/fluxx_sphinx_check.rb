@@ -17,7 +17,7 @@ module FluxxSphinxCheck
     def add_sphinx
       define_index :sphinx_check_first do
         # fields
-        indexes :check_ts
+        indexes "cast(check_ts as char(255))", :as => :name, :sortable => true
 
         # attributes
         has created_at, updated_at, check_ts

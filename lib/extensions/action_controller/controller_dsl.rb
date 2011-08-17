@@ -79,6 +79,7 @@ class ActionController::ControllerDsl
     @post_blocks = []
   end
   
+  
   def load_existing_model params, model=nil, fluxx_current_user=nil
     model = if model
       model
