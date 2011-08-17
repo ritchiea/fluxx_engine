@@ -254,11 +254,7 @@ class ActiveRecord::Base
   end
   
   def filter_amount amount
-    if amount.is_a? String
-      amount.gsub(CurrencyHelper.current_symbol, "").gsub(",","")
-    else
-      amount
-    end
+    ActiveRecord::ModelDslFilterAmount.filter_amount amount
   end
 
   # Take a paginated collection of IDs and load up the related full objects, maintaining the pagination constants
