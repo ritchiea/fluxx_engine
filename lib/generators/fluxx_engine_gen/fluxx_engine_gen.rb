@@ -108,9 +108,9 @@ end
 
       # Add a new migration
       @migrate_up = "    create_table \"#{@model_singular_name.pluralize}\", :force => true do |t|
-    t.timestamps
-    t.integer :created_by_id, :updated_by_id, :null => true, :limit => 12
-  end
+      t.timestamps
+      t.integer :created_by_id, :updated_by_id, :null => true, :limit => 12
+    end
 
   add_constraint '#{@model_singular_name.pluralize}', '#{@model_singular_name.pluralize}_created_by_id', 'created_by_id', 'users', 'id'
   add_constraint '#{@model_singular_name.pluralize}', '#{@model_singular_name.pluralize}_updated_by_id', 'updated_by_id', 'users', 'id'"
