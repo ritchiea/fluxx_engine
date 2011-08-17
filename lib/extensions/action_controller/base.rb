@@ -16,14 +16,14 @@ class ActionController::Base
     grab_param(form_name, param_name).blank? ? model.send(param_name) : grab_param(form_name, param_name)
   end
   
-  def self.insta_skip_require_user
+  def self.insta_skip_require_user model_class
     skip_before_filter :require_user
-    insta_index{|insta|insta.skip_permission_check=true}
-    insta_show{|insta|insta.skip_permission_check=true}
-    insta_new{|insta|insta.skip_permission_check=true}
-    insta_post{|insta|insta.skip_permission_check=true}
-    insta_put{|insta|insta.skip_permission_check=true}
-    insta_delete{|insta|insta.skip_permission_check=true}
+    insta_index(model_class){|insta|insta.skip_permission_check=true}
+    insta_show(model_class){|insta|insta.skip_permission_check=true}
+    insta_new(model_class){|insta|insta.skip_permission_check=true}
+    insta_post(model_class){|insta|insta.skip_permission_check=true}
+    insta_put(model_class){|insta|insta.skip_permission_check=true}
+    insta_delete(model_class){|insta|insta.skip_permission_check=true}
   end
 
   #
