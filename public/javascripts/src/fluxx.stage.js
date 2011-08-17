@@ -336,7 +336,9 @@
           'a.refresh-card': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
-              $(this).fluxxCardAreas().refreshCardArea();
+              var $elem = $(this);
+              $('.open-listing-actions', $elem.fluxxCard()).click();
+              $elem.fluxxCardAreas().refreshCardArea();
             }
           ],
           'select.visualization-selector' : [
@@ -822,6 +824,7 @@
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              $('.open-listing-actions', $elem.fluxxCard()).click();
               $elem.fluxxCardLoadListing({
                 url: $elem.attr('href')
               });

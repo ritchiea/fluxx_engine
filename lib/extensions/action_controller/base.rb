@@ -67,6 +67,7 @@ class ActionController::Base
           @markup = index_object.template_file self
           @models = index_object.load_results params, request.format, pre_models, self, params[:per_page]
           @show_conversion_funnel = self.respond_to?(:has_conversion_funnel) && has_conversion_funnel
+          @show_summary_view = index_object.has_summary_view?
           @first_report_id = self.respond_to?(:insta_index_report_list) && !(insta_index_report_list.empty?) && insta_index_report_list.first.report_id
           instance_variable_set index_object.plural_model_instance_name, @models if index_object.plural_model_instance_name
 
@@ -95,7 +96,12 @@ class ActionController::Base
                      :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
               else
-                render((index_object.view || "#{insta_path}/index").to_s, :layout => false)
+                if @show_summary_view && params[:summary]
+                  @markup.gsub!(/_list$/, "_summary") if (!index_object.template_map || !index_object.template_map[:summary])
+                  render((index_object.view || "insta/summary").to_s, :layout => false)
+                else
+                  render((index_object.view || "#{insta_path}/index").to_s, :layout => false)
+                end
               end
             end
             format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
@@ -675,7 +681,6 @@ class ActionController::Base
   #   * outcome = :success, :locked, :error
   def insta_respond_to controller_dsl, outcome = :success
     unless has_redirected_already?
-
       if block_given?
         if @class_format_block_map
           yield @class_format_block_map if block_given?
@@ -683,8 +688,9 @@ class ActionController::Base
           @class_format_block_map = BlobStruct.new
           yield @class_format_block_map
         end
+        controller_block_map =  params[:summary] && @show_summary_view ? controller_dsl.summary_view_block_map : controller_dsl.format_block_map
         cloned_controller_block_map = {}
-        cloned_controller_block_map = controller_dsl.format_block_map.store.clone if controller_dsl.format_block_map && controller_dsl.format_block_map.store.is_a?(Hash)
+        cloned_controller_block_map = controller_block_map.store.clone if controller_block_map && controller_block_map.store.is_a?(Hash)
 
         respond_to do |format|
           @class_format_block_map.store.keys.each do |key|

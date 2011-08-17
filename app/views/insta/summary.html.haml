@@ -1,0 +1,19 @@
+- if @skip_wrapper
+  = render :partial => @markup,  :locals => {:models => @models}
+- else
+  #card-header
+  - throw Exception.new "Please specify an index template for the #{@plural_model_name} controller, otherwise we cannot render the page" if @markup.blank?
+  #card-body
+    .carousel
+      = render :partial => @markup,  :locals => {:models => @models, :index_listing_display => true}
+  #card-footer
+    &nbsp;
+    = link_to image_tag("/images/fluxx_engine/theme/default/icons/arrow_left.png"), '#', :class => 'to-modal', :title => "Add Evaluation Metric", 'data-on-success' => 'refreshCaller,close'
+    %ul.carousel-pages
+      %li
+        = link_to image_tag("/images/fluxx_engine/theme/default/icons/bullet_green.png"), '#', :class => 'to-modal', :title => "Add Evaluation Metric", 'data-on-success' => 'refreshCaller,close'
+        = link_to image_tag("/images/fluxx_engine/theme/default/icons/bullet_white.png"), '#', :class => 'to-modal', :title => "Add Evaluation Metric", 'data-on-success' => 'refreshCaller,close'
+    = link_to image_tag("/images/fluxx_engine/theme/default/icons/arrow_right.png"), '#', :class => 'to-modal', :title => "Add Evaluation Metric", 'data-on-success' => 'refreshCaller,close'
+
+
+  = render :partial => 'insta/card_settings'
