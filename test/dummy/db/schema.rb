@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110727124253) do
+ActiveRecord::Schema.define(:version => 20110817104541) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -123,6 +123,12 @@ ActiveRecord::Schema.define(:version => 20110727124253) do
     t.string   "type_name",                      :null => false
     t.string   "model_class",                    :null => false
     t.text     "delta_attributes",               :null => false
+  end
+
+  create_table "sphinx_checks", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "check_ts"
   end
 
   create_table "users", :force => true do |t|
