@@ -699,7 +699,7 @@
           }
         });
       });
-      $( '.sortable' ).sortable().bind('sortupdate', function(e, ui) {
+      $('.sortable', $area).sortable().bind('sortupdate', function(e, ui) {
         var order_list = [];
         var $elem = $(this);
         $elem.find('li').each(function() {
@@ -715,7 +715,7 @@
           $area.children().fadeTo('fast', 1);
         });
       });
-		  $( '.sortable' ).disableSelection();
+		  $('.sortable', $area).disableSelection();
       if ($('#fluxx-admin').length) {
         $('#admin-buttons').fadeOut();
         var $adminForm = $('#fluxx-admin form').not('.modal form')
@@ -739,6 +739,7 @@
           }
         });
       }
+
       $area.serializeToField();
       return this;
     },
@@ -1271,7 +1272,7 @@
           if (!$area.data('target'))
             return false;
 
-          var closeCard = $area.runLoadingActions();
+          return $area.runLoadingActions();
 
         }
       };
@@ -1368,7 +1369,6 @@
             // run the onSuccess actions.
             if (xhr.getResponseHeader('fluxx_result_success'))
               closeCard = _.bind(options.onSuccess, options.area)();
-
             // If one of the loading operations was a close, don't proceed
             if (!closeCard) {
               var opts = $.extend(true, options, {type: 'GET', url: xhr.getResponseHeader('Location')});
