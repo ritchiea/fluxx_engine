@@ -1399,13 +1399,13 @@
                   options.area.fadeIn(1000);
                   complete(data);
                 }, 50);
-                if (!$card.cardVisibleRight())
+                if ($card.is(':visible') && !$card.cardVisibleRight())
                   $card.focusFluxxCard({scrollEdge: 'right'});
               // Animate the card width an additional 12 pixels to account for connected data tabs.
               // This helps prevent a jump when the tabs are displayed
               }, null, (options.area.attr('data-has-drawer') ? 12 : 0));
             } else {
-              if (!$card.cardVisibleRight())
+              if ($card.is(':visible') && !$card.cardVisibleRight())
                 $card.focusFluxxCard({scrollEdge: 'right'});
               complete(data);
             }
