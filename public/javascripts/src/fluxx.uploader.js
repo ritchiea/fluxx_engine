@@ -88,13 +88,14 @@
             url: settings.documentTypeUrl,
             dataType: 'json',
             success: function(data, status, xhr){
+              for (var firstKey in data) break;
+                data = data[firstKey]
               if (!$.isArray(data) || data.length < 1) {
                 showDocumentType = false;
                 return false;
               }
-              for (var key in data[0]) {};
               $(data).each(function() {
-                select += '<option value="' + this[key].id + '">' + this[key].name + '</option>'
+                select += '<option value="' + this.id + '">' + this.name + '</option>'
               })
               documentTypeSelect = '<select name="plupload_file_type"><option value=""></option>' + select + '</select>';
               $('#plupload_file_type', target).html('').append($(documentTypeSelect));
