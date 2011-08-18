@@ -203,15 +203,15 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     # NOTE ESH: render :text => Proc is currently broken in rails 3.  See Template::Text and https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets?q=render+text
     xls_processor = (lambda do |response, output|
       # NOTE ESH: be careful to htmlescape quotes with ss:Format strings
-      output.write '<?xml version="1.0" encoding="UTF-8"?>
-      <Workbook xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office">
+      output.write "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+      <Workbook xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org/TR/REC-html40\" xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">
       <Styles>
-        <Style ss:ID="s21"><Font x:Family="Swiss" ss:Bold="1"/></Style>
-        <Style ss:ID="s22"><NumberFormat ss:Format="Short Date"/><Font x:Family="Swiss" ss:Bold="0"/></Style>
-        <Style ss:ID="s18"><NumberFormat ss:Format="_(&quot;$&quot;* #,##0.00_);_(&quot;$&quot;* \(#,##0.00\);_(&quot;$&quot;* &quot;-&quot;??_);_(@_)"/><Font x:Family="Swiss" ss:Bold="0"/></Style>
+        <Style ss:ID=\"s21\"><Font x:Family=\"Swiss\" ss:Bold=\"1\"/></Style>
+        <Style ss:ID=\"s22\"><NumberFormat ss:Format=\"Short Date\"/><Font x:Family=\"Swiss\" ss:Bold=\"0\"/></Style>
+        <Style ss:ID=\"s18\"><NumberFormat ss:Format=\"_(&quot;#{CurrencyHelper.current_symbol}&quot;* #,##0.00_);_(&quot;#{CurrencyHelper.current_symbol}&quot;* \(#,##0.00\);_(&quot;#{CurrencyHelper.current_symbol}&quot;* &quot;-&quot;??_);_(@_)\"/><Font x:Family=\"Swiss\" ss:Bold=\"0\"/></Style>
       </Styles>
-      <Worksheet ss:Name="Sheet1">
-      <Table>'
+      <Worksheet ss:Name=\"Sheet1\">
+      <Table>"
       ordered_headers = extract_headers(headers, unpaged_models)
       if ordered_headers
         output.write "<Row>"
