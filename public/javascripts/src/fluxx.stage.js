@@ -820,13 +820,50 @@
               });
             }
           ],
+          'a.close-summary': [
+            'click', function (e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var $card = $elem.fluxxCard();
+              req = $card.fluxxCardListing().fluxxCardAreaRequest();
+              $.each(req.data, function(i, obj) {
+                if (obj && obj.name == "summary")
+                  req.data.splice(i, 1)
+              });
+              $elem.fluxxCardLoadListing(req,
+                function() {
+                  $card.fluxxCardListing().find('.body').css({overflow: "auto"});
+                  $card.saveDashboard();
+                });
+            }
+          ],
+          'a.to-summary': [
+            'click', function (e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var $card = $elem.fluxxCard();
+              $('.open-listing-actions', $elem.fluxxCard()).click();
+              req = $card.fluxxCardListing().fluxxCardAreaRequest();
+              if (!$.isArray(req.data))
+                req.data = []
+              req.data.push({name: "summary", value: "1"});
+              $elem.fluxxCardLoadListing(req,
+                function() {
+                  $card.fluxxCardListing().find('.body').css({overflow: "hidden"});
+                  $card.saveDashboard();
+                });
+            }
+          ],
           'a.to-listing': [
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              var $card = $elem.fluxxCard();
               $('.open-listing-actions', $elem.fluxxCard()).click();
               $elem.fluxxCardLoadListing({
                 url: $elem.attr('href')
+              }, function() {
+                $elem.fluxxCard().saveDashboard();
               });
             }
           ],

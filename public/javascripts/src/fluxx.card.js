@@ -1,7 +1,7 @@
  (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
-      $.fluxx.log("*******> addFluxxCard");
+      $.fluxx.log("*******> addFluxxCard", options);
       if ((options.hasOwnProperty("listing") && options.listing.url) || (options.hasOwnProperty("detail") && options.detail.url)) {
         var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
         return this.each(function(){
@@ -739,7 +739,7 @@
           }
         });
       }
-
+      $area.carousel();
       $area.serializeToField();
       return this;
     },
@@ -1453,7 +1453,7 @@
     fluxxCardLoadListing: function (options, onComplete) {
       $.fluxx.log("**> fluxxCardLoadListing");
       var options = $.fluxx.util.options_with_callback({area: this.fluxxCardListing()},options,onComplete);
-      return this.fluxxCardLoadContent(options);
+      return this.fluxxCardLoadContent(options, onComplete);
     },
 
     fluxxCardLoadDetail: function(options, onComplete) {

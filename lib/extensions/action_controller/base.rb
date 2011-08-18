@@ -107,7 +107,7 @@ class ActionController::Base
                 end
               else
                 if @show_summary_view && params[:summary]
-                  @markup.gsub!(/_list$/, "_summary") if (!index_object.template_map || !index_object.template_map[:summary])
+                  @markup = @markup.gsub(/_list$/, "_summary") if (!index_object.template_map || !index_object.template_map[:summary])
                   render((index_object.view || "insta/summary").to_s, :layout => false)
                 else
                   render((index_object.view || "#{insta_path}/index").to_s, :layout => false)

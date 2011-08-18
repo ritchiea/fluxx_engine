@@ -53,7 +53,7 @@
             type: 'GET',
             dataType: 'json',
             success: function(data, xhr, status) {
-            options.callback(_.map($.makeArray(data), function(i) {
+              options.callback(_.map($.makeArray(data), function(i) {
                 var entry = i.client_store;
                 entry.data = $.parseJSON(entry.data);
                 return new Storage($.extend(entry,{url: i.url}));
