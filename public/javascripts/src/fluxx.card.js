@@ -1045,6 +1045,7 @@
           }
         },
         function(e) {
+          $card.hideLoadingIndicator();
           if (onComplete)
             onComplete.call();
           $modal.trigger('refresh.fluxx.area').fadeTo('slow', 1);
