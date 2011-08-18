@@ -1026,8 +1026,13 @@
             if (leftArrow) {
               modalLeft = $modal.data('cardX') + 20;
             } else {
-              $arrow.addClass('right');
               modalLeft = $modal.data('cardX') - $modal.outerWidth(true) - 20;
+              if (modalLeft < 0 ) {
+                leftArrow = true;
+                modalLeft = $modal.data('cardX') + 20;
+              } else {
+                $arrow.addClass('right');
+              }
             }
 
             var cardHeight = $card.height();
