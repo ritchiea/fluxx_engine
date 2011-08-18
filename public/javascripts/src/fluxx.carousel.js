@@ -56,6 +56,7 @@
         });
 
         function scrollIn(last, next, direction) {
+          $('.close-summary', $area).hide();
           showNavigation();
           var $temp;
           if (direction == 'right') {
@@ -93,8 +94,10 @@
               $right.click();
             else
               $left.click();
-          else
+          else {
             $.cookie($carousel.attr('id'), showing);
+            $('.close-summary', $area).fadeIn();
+          }
         }
 
         function showNavigation() {

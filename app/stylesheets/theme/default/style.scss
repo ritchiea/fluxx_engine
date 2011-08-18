@@ -658,10 +658,12 @@
 .nav-left {
   margin: 12px 0px 0px 10px;
   float: left;
+  &:hover { opacity: .7}
 }
 
 .nav-right {
   margin: 12px 10px 0px 0px;
   float: right;
+  &:hover { opacity: .7}
 }
 

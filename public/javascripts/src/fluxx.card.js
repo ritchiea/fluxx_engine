@@ -1213,38 +1213,45 @@
     getFluxxListingUpdate: function (e) {
       $.fluxx.log("**> getFluxxListingUpdate");
       var $area = $(this);
-      var updates = $area.data('updates_seen');
-      if (_.isEmpty(updates)) return;
-      var req  = {url: $area.fluxxCardAreaRequest().url};
+      var $card = $area.fluxxCard();
+      if ($area.find('.carousel')[0]) {
+        $area.refreshCardArea();
+        $('.updates', $card).hide();
+        $card.removeClass('updates-available');
+      } else {
+        var updates = $area.data('updates_seen');
+        if (_.isEmpty(updates)) return;
+        var req  = {url: $area.fluxxCardAreaRequest().url};
 
-      $.extend(
-        true,
-        req,
-        {
-          data: {
-            id: updates,
-            find_by_id: true
-          },
-          success: function (data, status, xhr) {
-            var $document = $(data);
-            var $entries  = $('.entry', $document);
-            var $removals = $();
-            var IDs = _.intersect(
-              _.map($entries, function (e) { return $(e).attr('data-model-id') }),
-              _.map($('.entry', $area), function (e) { return $(e).attr('data-model-id') })
-            );
-            _.each(
-              IDs,
-              function(id) {$removals = $removals.add($('.entry[data-model-id="'+id+'"]', $area))}
-            );
-            $removals.remove();
-            $entries.addClass('latest').prependTo($('.list', $area));
-            $area.data('updates_seen', []);
-            delete _.last($('.listing:first', $area.fluxxCard()).data('history')).data.id;
-            $area.fluxxCard().trigger('update.fluxx.card', [-1 * $entries.length, 'getFluxxListingUpdate'])
+        $.extend(
+          true,
+          req,
+          {
+            data: {
+              id: updates,
+              find_by_id: true
+            },
+            success: function (data, status, xhr) {
+              var $document = $(data);
+              var $entries  = $('.entry', $document);
+              var $removals = $();
+              var IDs = _.intersect(
+                _.map($entries, function (e) { return $(e).attr('data-model-id') }),
+                _.map($('.entry', $area), function (e) { return $(e).attr('data-model-id') })
+              );
+              _.each(
+                IDs,
+                function(id) {$removals = $removals.add($('.entry[data-model-id="'+id+'"]', $area))}
+              );
+              $removals.remove();
+              $entries.addClass('latest').prependTo($('.list', $area));
+              $area.data('updates_seen', []);
+              delete _.last($('.listing:first', $area.fluxxCard()).data('history')).data.id;
+              $area.fluxxCard().trigger('update.fluxx.card', [-1 * $entries.length, 'getFluxxListingUpdate'])
+            }
           }
-        }
-      );
+        );
+      }
 
       $.ajax(req);
     },
