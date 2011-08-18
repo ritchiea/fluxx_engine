@@ -8,9 +8,8 @@
     return this.each(function () {
       var $area = $(this);
       $('.carousel', $area).each(function() {
-        //TODO: persist
-        var showing = 0;
         var $carousel = $(this);
+        var showing = $.cookie($carousel.attr('id')) || 0;
         var $panels = $carousel.find('.panel');
         var $scrollContainer = $('.panels', $area);
         var scrollWidth = $panels.first().width()
