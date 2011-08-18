@@ -9,7 +9,7 @@
       var $area = $(this);
       $('.carousel', $area).each(function() {
         var $carousel = $(this);
-        var showing = $.cookie($carousel.attr('id')) || 0;
+        var showing = parseInt($.cookie($carousel.attr('id'))) || 0;
         var $panels = $carousel.find('.panel');
         var $scrollContainer = $('.panels', $area);
         var scrollWidth = $panels.first().width()
@@ -93,6 +93,8 @@
               $right.click();
             else
               $left.click();
+          else
+            $.cookie($carousel.attr('id'), showing);
         }
 
         function showNavigation() {

@@ -594,3 +594,74 @@
 		list-style: disc inside;
 	}
 }
+
+.carousel {
+  background-color: #323232;
+  height: 100%;
+  width: 336px;
+  overflow: hidden;
+  .panels {
+    width: 2000px;
+    overflow: hidden;
+    .panel {
+      float: left;
+      width: 336px;
+      height: 100%;
+      .panel-header {
+        height: 50px;
+        padding: 10px 10px 10px 20px;
+        background-color: #000;
+        color: #fff;
+        font-size: 1.7em;
+        width: 100%;
+        border-bottom: 1px solid #616161;
+      }
+      .content {
+        margin: 8px 12px 8px 12px;
+        color: #fff;
+      }
+    }
+  }
+}
+.close-summary {
+  float: right;
+  padding-right: 24px;
+  background: url("/images/fluxx_engine/theme/default/icons/circle-x.png") no-repeat bottom left;
+  display: block;
+  text-indent: -2000em;
+}
+.carousel-pages {
+  display: inline-block;
+  text-align:center;
+  width: 240px;
+  padding:15px;
+  li {
+    display: inline;
+  }
+  a {
+    margin-left: -4px;
+    margin-right: -4px;
+  }
+}
+
+.nav.selected {
+  background: transparent url("/images/fluxx_engine/theme/default/icons/bullet_green.png") no-repeat center center;
+}
+
+.nav {
+  width: 18px;
+  display: inline-block;
+  background: transparent url("/images/fluxx_engine/theme/default/icons/bullet_white.png") no-repeat center center;
+  text-indent: -2000em;
+}
+
+.nav-left {
+  margin: 12px 0px 0px 10px;
+  float: left;
+}
+
+.nav-right {
+  margin: 12px 10px 0px 0px;
+  float: right;
+}
+
