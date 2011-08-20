@@ -582,9 +582,15 @@
           'a.open-filters': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
+              var $card = $(this).fluxxCard();
               if ($('.filters', $(this).fluxxCard()).length) {
                 $(this).closeListingFilters();
+                if ($card.data('lastDetailOpen'))
+                  $card.fluxxCardLoadDetail($card.data('lastDetailOpen'));
               } else {
+                var $detail = $card.fluxxCardDetail();
+                $card.data('lastDetailOpen', ($detail && $detail.fluxxCardAreaRequest()));
+                $card.closeDetail();
                 $(this).openListingFilters();
               }
             },
@@ -830,6 +836,8 @@
                 if (obj && obj.name == "summary")
                   req.data.splice(i, 1)
               });
+              if ($card.data('lastDetailOpen'))
+                $card.fluxxCardLoadDetail($card.data('lastDetailOpen'));
               $elem.fluxxCardLoadListing(req,
                 function() {
                   $card.fluxxCardListing().find('.body').css({overflow: "auto"});
@@ -847,6 +855,9 @@
               if (!$.isArray(req.data))
                 req.data = []
               req.data.push({name: "summary", value: "1"});
+              var $detail = $card.fluxxCardDetail();
+              $card.data('lastDetailOpen', ($detail && $detail.fluxxCardAreaRequest()));
+              $elem.closeDetail();
               $elem.fluxxCardLoadListing(req,
                 function() {
                   $card.fluxxCardListing().find('.body').css({overflow: "hidden"});
