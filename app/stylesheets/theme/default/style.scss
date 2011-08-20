@@ -595,6 +595,69 @@
 	}
 }
 
+.social {
+  .twitter-tab { margin: 10px 0 0 10px; }
+  .twitter-profile { font-size: 80% }
+  .twitter-profile .img { 
+    float: left; 
+    margin-right: 10px; 
+    margin-bottom: 5px;
+  }
+  .twitter-profile h1 { margin: 0px; }
+  .twitter-profile .description { clear: both; }
+  ul.twitter-stats {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  ul.twitter-stats li {
+    list-style: none;
+    float: left;
+    border-right: 1px solid #999;
+    padding: 0 5px;
+  }
+  .twitter-stats li:last-child {
+    border-right-width: 0;
+  }
+  .twitter-stats .stat-label {
+    font-size: 90%;
+  }  
+  .tweets {
+    margin-top: 10px; 
+  }
+  .tweet { 
+    clear: both;
+    margin-top: 10px;
+    padding: 5px 0px;
+    border-top: 1px solid #999;
+  }
+  .tweet-image {
+    float: left;
+    height: 48px;
+    width: 48px;
+    margin-top: 3px;
+  }
+  .tweet a {
+    color: blue;
+  }
+  .tweet-content {
+    margin-left: 55px;
+    font-size: 80%;
+  }
+  .tweet .screen-name { 
+    font-weight: bold; 
+    font-size: 110%; 
+  }
+  .tweet .user-name { 
+    color: #999; 
+    font-size: 90%; 
+    margin-left: .5em; 
+  }
+  .tweet .at { 
+    color: #999; 
+    margin-top: 5px; 
+  }
+}
 .carousel {
   background-color: #323232;
   height: 100%;
