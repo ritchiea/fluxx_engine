@@ -33,7 +33,7 @@
           }
 
           if (data.series) {
-            _.each(data.series, function(s) {
+            $.each(data.series, function(i, s) {
               if (s.renderer)
                 s.renderer = eval(s.renderer);
             });
@@ -66,7 +66,8 @@
          }
          if (!error) {
             var legend = {};
-            _.each(plot.series, function(key) {
+            $.each(plot.series, function(index, key) {
+              alert(key.label);
               legend[key.label] = key;
             });
 
