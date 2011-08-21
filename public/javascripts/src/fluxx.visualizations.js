@@ -67,7 +67,6 @@
          if (!error) {
             var legend = {};
             $.each(plot.series, function(index, key) {
-              alert(key.label);
               legend[key.label] = key;
             });
 
