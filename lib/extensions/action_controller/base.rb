@@ -77,7 +77,8 @@ class ActionController::Base
           @markup = index_object.template_file self
           @models = index_object.load_results params, request.format, pre_models, self, params[:per_page]
           @show_conversion_funnel = self.respond_to?(:has_conversion_funnel) && has_conversion_funnel
-          @show_summary_view = index_object.has_summary_view?
+          # TODO DREW: I turned this off for now so we can push :)
+          @show_summary_view = false; index_object.has_summary_view?
           @first_report_id = self.respond_to?(:insta_index_report_list) && !(insta_index_report_list.empty?) && insta_index_report_list.first.report_id
           instance_variable_set index_object.plural_model_instance_name, @models if index_object.plural_model_instance_name
 
