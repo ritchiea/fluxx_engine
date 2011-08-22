@@ -60,7 +60,7 @@
             series: data.series
            });
          } catch(e) {
-           $.fluxx.log('error', e);
+//           $.fluxx.log('error', e);
            $chart.html(saveHTML);
            error = true;
          }
