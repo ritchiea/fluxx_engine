@@ -9,7 +9,7 @@ module FluxxSphinxChecksController
       insta.template = 'sphinx_check_show'
       insta.icon_style = ICON_STYLE
       insta.format do |format|
-        format.html do |triple|
+        format.json do |triple|
           controller_dsl, outcome, default_block = triple
           if params[:check_models] == '1'
             check_results = SphinxCheck.check_all.map{|hash| k, v = hash.first if hash; v}.compact
