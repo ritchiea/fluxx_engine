@@ -6,7 +6,15 @@ module FluxxSphinxCheck
   MODEL_CHECKS = []
   
   def self.add_check model_klass, min_threshold, num_reps=2
+    existing_checks = MODEL_CHECKS.select{|check| check[:klass] == model_klass}
+    existing_checks.each do |existing_check|
+      MODEL_CHECKS.delete(existing_check) if existing_check
+    end
     MODEL_CHECKS << {:klass => model_klass, :threshold => min_threshold, :reps => num_reps}
+  end
+  
+  def self.get_model_checks
+    MODEL_CHECKS
   end
   
   when_included do
