@@ -83,6 +83,7 @@
               var $td = $('td:first', $(this));
               legend[$.trim($td.text())].canvas._elem.css('opacity', '1');
             });
+
           }
         }
       });
