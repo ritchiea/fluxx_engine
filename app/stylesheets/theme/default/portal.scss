@@ -1,5 +1,5 @@
 @import "../_common/_helpers.scss";
-
+@import url(/stylesheets/fluxx_engine/lib/ui-lightness/jquery-ui-1.8.2.custom.css);
 /*=============================
   Reset
 ===============================*/
@@ -862,6 +862,15 @@ li.plupload_droptext {
 
 .select-transfer {
   width: 700px;
+}
+
+.edit {
+  .datetime,.date {
+    input {
+      background: #{inline_image("/images/fluxx_engine/theme/default/icons/calendar.png")} 99% center no-repeat;
+      background-color: white;
+    }
+  }
 }
 
 /*=============================

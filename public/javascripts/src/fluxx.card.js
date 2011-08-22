@@ -745,7 +745,7 @@
     },
     fluxxDatePicker: function(options) {
       return this.each(function() {
-        var unique = $.fluxx.config.datepicker_unique_id++
+        var unique = $.fluxx.config.datepicker_unique_id++;
         var $input = $(this);
         var id = $input.attr('id');
         if (!id)
