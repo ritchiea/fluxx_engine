@@ -34,10 +34,12 @@
 
           if (data.series) {
             $.each(data.series, function(i, s) {
-              if (s.renderer)
+              if (s.renderer) {
                 s.renderer = eval(s.renderer);
+              }
             });
           }
+
 
          if (data.axes && data.axes.xaxis && data.axes.xaxis.ticks.length > 0 && !$.isArray(data.axes.xaxis.ticks[0]))
            data.axes.xaxis.renderer = $.jqplot.CategoryAxisRenderer;
@@ -59,6 +61,7 @@
             axes: data.axes,
             series: data.series
            });
+
          } catch(e) {
 //           $.fluxx.log('error', e);
            $chart.html(saveHTML);

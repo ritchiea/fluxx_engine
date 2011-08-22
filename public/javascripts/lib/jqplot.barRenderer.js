@@ -1,33 +1,45 @@
 /**
- * Copyright (c) 2009 - 2010 Chris Leonello
- * jqPlot is currently available for use in all personal or commercial projects
- * under both the MIT and GPL version 2.0 licenses. This means that you can
- * choose the license that best suits your project and use it accordingly.
+ * jqPlot
+ * Pure JavaScript plotting plugin using jQuery
  *
- * The author would appreciate an email letting him know of any substantial
- * use of jqPlot.  You can reach the author at: chris at jqplot dot com
- * or see http://www.jqplot.com/info.php .  This is, of course,
- * not required.
+ * Version: 1.0.0a_r701
+ *
+ * Copyright (c) 2009-2011 Chris Leonello
+ * jqPlot is currently available for use in all personal or commercial projects 
+ * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
+ * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
+ * choose the license that best suits your project and use it accordingly. 
+ *
+ * Although not required, the author would appreciate an email letting him 
+ * know of any substantial use of jqPlot.  You can reach the author at: 
+ * chris at jqplot dot com or see http://www.jqplot.com/info.php .
  *
  * If you are feeling kind and generous, consider supporting the project by
  * making a donation at: http://www.jqplot.com/donate.php .
  *
- * Thanks for using jqPlot!
+ * sprintf functions contained in jqplot.sprintf.js by Ash Searle:
  *
+ *     version 2007.04.27
+ *     author Ash Searle
+ *     http://hexmen.com/blog/2007/03/printf-sprintf/
+ *     http://hexmen.com/js/sprintf.js
+ *     The author (Ash Searle) has placed this code in the public domain:
+ *     "This code is unrestricted: you are free to use it however you like."
+ * 
  */
 (function($) {
-
+    
     // Class: $.jqplot.BarRenderer
     // A plugin renderer for jqPlot to draw a bar plot.
     // Draws series as a line.
-
+    
     $.jqplot.BarRenderer = function(){
         $.jqplot.LineRenderer.call(this);
     };
-
+    
     $.jqplot.BarRenderer.prototype = new $.jqplot.LineRenderer();
     $.jqplot.BarRenderer.prototype.constructor = $.jqplot.BarRenderer;
-
+    
     // called with scope of series.
     $.jqplot.BarRenderer.prototype.init = function(options, plot) {
         // Group: Properties
@@ -47,11 +59,11 @@
         //Set a max width for bars
         this.barMaxWidth = 50;
         // prop: shadowOffset
-        // offset of the shadow from the slice and offset of
+        // offset of the shadow from the slice and offset of 
         // each succesive stroke of the shadow from the last.
         this.shadowOffset = 2;
         // prop: shadowDepth
-        // number of strokes to apply to the shadow,
+        // number of strokes to apply to the shadow, 
         // each stroke offset shadowOffset from the last.
         this.shadowDepth = 5;
         // prop: shadowAlpha
@@ -82,22 +94,22 @@
         // prop: highlightColors
         // an array of colors to use when highlighting a bar.
         this.highlightColors = [];
-
+        
         // if user has passed in highlightMouseDown option and not set highlightMouseOver, disable highlightMouseOver
         if (options.highlightMouseDown && options.highlightMouseOver == null) {
             options.highlightMouseOver = false;
         }
-
+        
         $.extend(true, this, options);
         // fill is still needed to properly draw the legend.
         // bars have to be filled.
         this.fill = true;
-
+        
         if (this.waterfall) {
             this.fillToZero = false;
             this.disableStack = true;
         }
-
+        
         if (this.barDirection == 'vertical' ) {
             this._primaryAxis = '_xaxis';
             this._stackAxis = 'y';
@@ -115,23 +127,23 @@
         // Array of actual data colors used for each data point.
         this._dataColors = [];
         this._barPoints = [];
-
+        
         // set the shape renderer options
         var opts = {lineJoin:'miter', lineCap:'round', fill:true, isarc:false, strokeStyle:this.color, fillStyle:this.color, closePath:this.fill};
         this.renderer.shapeRenderer.init(opts);
         // set the shadow renderer options
         var sopts = {lineJoin:'miter', lineCap:'round', fill:true, isarc:false, angle:this.shadowAngle, offset:this.shadowOffset, alpha:this.shadowAlpha, depth:this.shadowDepth, closePath:this.fill};
         this.renderer.shadowRenderer.init(sopts);
-
+        
         plot.postInitHooks.addOnce(postInit);
         plot.postDrawHooks.addOnce(postPlotDraw);
         plot.eventListenerHooks.addOnce('jqplotMouseMove', handleMove);
         plot.eventListenerHooks.addOnce('jqplotMouseDown', handleMouseDown);
         plot.eventListenerHooks.addOnce('jqplotMouseUp', handleMouseUp);
         plot.eventListenerHooks.addOnce('jqplotClick', handleClick);
-        plot.eventListenerHooks.addOnce('jqplotRightClick', handleRightClick);
+        plot.eventListenerHooks.addOnce('jqplotRightClick', handleRightClick); 
     };
-
+    
     // called with scope of series
     function barPreInit(target, data, seriesDefaults, options) {
         if (this.rendererOptions.barDirection == 'horizontal') {
@@ -170,9 +182,9 @@
             }
         }
     }
-
+    
     $.jqplot.preSeriesInitHooks.push(barPreInit);
-
+    
     // needs to be called with scope of series, not renderer.
     $.jqplot.BarRenderer.prototype.calcSeriesNumbers = function() {
         var nvals = 0;
@@ -248,7 +260,7 @@
         }
         return ret;
     }
-
+    
     $.jqplot.BarRenderer.prototype.draw = function(ctx, gridData, options) {
         var i;
         var opts = (options != undefined) ? options : {};
@@ -263,16 +275,16 @@
         // clear out data colors.
         this._dataColors = [];
         this._barPoints = [];
-
+        
         if (this.barWidth == null) {
             this.renderer.setBarWidth.call(this);
         }
-
+        
         var temp = this._plotSeriesInfo = this.renderer.calcSeriesNumbers.call(this);
         nvals = temp[0];
         nseries = temp[1];
         pos = temp[2];
-
+        
         if (this._stack) {
             this._barNudge = 0;
         }
@@ -287,7 +299,7 @@
                 negativeColor = opts.fillStyle;
             }
             var positiveColor = opts.fillStyle;
-
+            
             if (this.barDirection == 'vertical') {
                 for (var i=0; i<gridData.length; i++) {
                     if (this.data[i][1] == null) {
@@ -296,7 +308,7 @@
                     points = [];
                     var base = gridData[i][0] + this._barNudge;
                     var ystart;
-
+                    
                     // stacked
                     if (this._stack && this._prevGridData.length) {
                         ystart = this._prevGridData[i][1];
@@ -334,7 +346,7 @@
                             opts.fillStyle = positiveColor;
                         }
                     }
-
+                    
                     points.push([base-this.barWidth/2, ystart]);
                     points.push([base-this.barWidth/2, gridData[i][1]]);
                     points.push([base+this.barWidth/2, gridData[i][1]]);
@@ -350,10 +362,10 @@
                     }
                     var clr = opts.fillStyle || this.color;
                     this._dataColors.push(clr);
-                    this.renderer.shapeRenderer.draw(ctx, points, opts);
+                    this.renderer.shapeRenderer.draw(ctx, points, opts); 
                 }
             }
-
+            
             else if (this.barDirection == 'horizontal'){
                 for (var i=0; i<gridData.length; i++) {
                     if (this.data[i][0] == null) {
@@ -362,7 +374,7 @@
                     points = [];
                     var base = gridData[i][1] - this._barNudge;
                     var xstart;
-
+                    
                     if (this._stack && this._prevGridData.length) {
                         xstart = this._prevGridData[i][0];
                     }
@@ -394,9 +406,9 @@
                         }
                         else {
                             opts.fillStyle = positiveColor;
-                        }
+                        }                    
                     }
-
+                    
                     points.push([xstart, base+this.barWidth/2]);
                     points.push([xstart, base-this.barWidth/2]);
                     points.push([gridData[i][0], base-this.barWidth/2]);
@@ -411,15 +423,15 @@
                     }
                     var clr = opts.fillStyle || this.color;
                     this._dataColors.push(clr);
-                    this.renderer.shapeRenderer.draw(ctx, points, opts);
-                }
+                    this.renderer.shapeRenderer.draw(ctx, points, opts); 
+                }  
             }
-        }
-
+        }                
+        
         if (this.highlightColors.length == 0) {
             this.highlightColors = computeHighlightColors(this._dataColors);
         }
-
+        
         else if (typeof(this.highlightColors) == 'string') {
             var temp = this.highlightColors;
             this.highlightColors = [];
@@ -427,10 +439,10 @@
                 this.highlightColors.push(temp);
             }
         }
-
+        
     };
-
-
+    
+     
     // for stacked plots, shadows will be pre drawn by drawShadow.
     $.jqplot.BarRenderer.prototype.drawShadow = function(ctx, gridData, options) {
         var i;
@@ -443,17 +455,17 @@
         var xp = this._xaxis.series_u2p;
         var yp = this._yaxis.series_u2p;
         var pointx, pointy, nvals, nseries, pos;
-
+        
         if (this._stack && this.shadow) {
             if (this.barWidth == null) {
                 this.renderer.setBarWidth.call(this);
             }
-
+        
             var temp = this._plotSeriesInfo = this.renderer.calcSeriesNumbers.call(this);
             nvals = temp[0];
             nseries = temp[1];
             pos = temp[2];
-
+        
             if (this._stack) {
                 this._barNudge = 0;
             }
@@ -461,7 +473,7 @@
                 this._barNudge = (-Math.abs(nseries/2 - 0.5) + pos) * (this.barWidth + this.barPadding);
             }
             if (showLine) {
-
+            
                 if (this.barDirection == 'vertical') {
                     for (var i=0; i<gridData.length; i++) {
                         if (this.data[i][1] == null) {
@@ -470,7 +482,7 @@
                         points = [];
                         var base = gridData[i][0] + this._barNudge;
                         var ystart;
-
+                    
                         if (this._stack && this._prevGridData.length) {
                             ystart = this._prevGridData[i][1];
                         }
@@ -482,7 +494,7 @@
                                 ystart = ctx.canvas.height;
                             }
                         }
-
+                    
                         points.push([base-this.barWidth/2, ystart]);
                         points.push([base-this.barWidth/2, gridData[i][1]]);
                         points.push([base+this.barWidth/2, gridData[i][1]]);
@@ -490,7 +502,7 @@
                         this.renderer.shadowRenderer.draw(ctx, points, opts);
                     }
                 }
-
+            
                 else if (this.barDirection == 'horizontal'){
                     for (var i=0; i<gridData.length; i++) {
                         if (this.data[i][0] == null) {
@@ -499,26 +511,26 @@
                         points = [];
                         var base = gridData[i][1] - this._barNudge;
                         var xstart;
-
+                    
                         if (this._stack && this._prevGridData.length) {
                             xstart = this._prevGridData[i][0];
                         }
                         else {
                             xstart = 0;
                         }
-
+                    
                         points.push([xstart, base+this.barWidth/2]);
                         points.push([gridData[i][0], base+this.barWidth/2]);
                         points.push([gridData[i][0], base-this.barWidth/2]);
                         points.push([xstart, base-this.barWidth/2]);
                         this.renderer.shadowRenderer.draw(ctx, points, opts);
-                    }
+                    }  
                 }
-            }
-
+            }   
+            
         }
     };
-
+    
     function postInit(target, data, options) {
         for (i=0; i<this.series.length; i++) {
             if (this.series[i].renderer.constructor == $.jqplot.BarRenderer) {
@@ -530,18 +542,18 @@
         }
         this.target.bind('mouseout', {plot:this}, function (ev) { unhighlight(ev.data.plot); });
     }
-
+    
     // called within context of plot
     // create a canvas which we can draw on.
     // insert it before the eventCanvas, so eventCanvas will still capture events.
     function postPlotDraw() {
         this.plugins.barRenderer = {highlightedSeriesIndex:null};
         this.plugins.barRenderer.highlightCanvas = new $.jqplot.GenericCanvas();
-
+        
         this.eventCanvas._elem.before(this.plugins.barRenderer.highlightCanvas.createElement(this._gridPadding, 'jqplot-barRenderer-highlight-canvas', this._plotDimensions));
-        var hctx = this.plugins.barRenderer.highlightCanvas.setContext();
-    }
-
+        this.plugins.barRenderer.highlightCanvas.setContext();
+    }   
+    
     function highlight (plot, sidx, pidx, points) {
         var s = plot.series[sidx];
         var canvas = plot.plugins.barRenderer.highlightCanvas;
@@ -550,8 +562,9 @@
         plot.plugins.barRenderer.highlightedSeriesIndex = sidx;
         var opts = {fillStyle: s.highlightColors[pidx]};
         s.renderer.shapeRenderer.draw(canvas._ctx, points, opts);
+        canvas = null;
     }
-
+    
     function unhighlight (plot) {
         var canvas = plot.plugins.barRenderer.highlightCanvas;
         canvas._ctx.clearRect(0,0, canvas._ctx.canvas.width, canvas._ctx.canvas.height);
@@ -560,9 +573,10 @@
         }
         plot.plugins.barRenderer.highlightedSeriesIndex = null;
         plot.target.trigger('jqplotDataUnhighlight');
+        canvas =  null;
     }
-
-
+    
+    
     function handleMove(ev, gridpos, datapos, neighbor, plot) {
         if (neighbor) {
             var ins = [neighbor.seriesIndex, neighbor.pointIndex, neighbor.data];
@@ -582,7 +596,7 @@
             unhighlight (plot);
         }
     }
-
+    
     function handleMouseDown(ev, gridpos, datapos, neighbor, plot) {
         if (neighbor) {
             var ins = [neighbor.seriesIndex, neighbor.pointIndex, neighbor.data];
@@ -598,14 +612,14 @@
             unhighlight (plot);
         }
     }
-
+    
     function handleMouseUp(ev, gridpos, datapos, neighbor, plot) {
         var idx = plot.plugins.barRenderer.highlightedSeriesIndex;
         if (idx != null && plot.series[idx].highlightMouseDown) {
             unhighlight(plot);
         }
     }
-
+    
     function handleClick(ev, gridpos, datapos, neighbor, plot) {
         if (neighbor) {
             var ins = [neighbor.seriesIndex, neighbor.pointIndex, neighbor.data];
@@ -615,7 +629,7 @@
             plot.target.trigger(evt, ins);
         }
     }
-
+    
     function handleRightClick(ev, gridpos, datapos, neighbor, plot) {
         if (neighbor) {
             var ins = [neighbor.seriesIndex, neighbor.pointIndex, neighbor.data];
@@ -629,6 +643,6 @@
             plot.target.trigger(evt, ins);
         }
     }
-
-
-})(jQuery);
+    
+    
+})(jQuery);    

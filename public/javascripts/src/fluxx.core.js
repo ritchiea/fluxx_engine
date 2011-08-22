@@ -17,7 +17,13 @@
       return function() {
         var this_ = this;
         var args  = arguments;
-        _.each(functions, function(f){f.apply(this_, args)});
+        _.each(functions, function(f){
+          try {
+            f.apply(this_, args);
+          } catch(e) {
+            $.fluxx.log("**Error", e.stack);
+          }
+        });
       }
     },
     intersectProperties: function (one, two, hierarchies) {
