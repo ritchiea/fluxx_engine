@@ -333,10 +333,13 @@
                 alert('This record can not be deleted.');
               else {
                 $area.data('updated', true);
-                if ($elem.hasClass('no-confirm'))
+                if ($elem.hasClass('no-confirm')) {
                   $.fn.fluxxAjaxCall($elem, 'DELETE');
-                else if (confirm('This record will be deleted. Are you sure?'))
+                } else {
+                  var message = $elem.attr('data-message') || 'This record will be deleted. Are you sure?';
+                  if (confirm(message))
                   $.fn.fluxxAjaxCall($elem, 'DELETE');
+                }
               }
             }
           ],
