@@ -114,10 +114,12 @@
     fluxxAjaxCall: function($elem, type) {
       var onSuccess = $elem.attr('data-on-success');
       if (onSuccess && onSuccess.replace(/\s/g, '').split(/,/).indexOf('refreshCaller') != -1) {
+        $elem.fluxxCard().showLoadingIndicator();
         $.ajax({
           url: $elem.attr('href'),
           type: type,
           complete: function (){
+            $elem.fluxxCard().hideLoadingIndicator();
             if ($elem.parents('.partial').length && $elem.parents('.partial').attr('data-src'))
               $elem.refreshAreaPartial({});
             else
@@ -299,10 +301,15 @@
                 return;
               if ($elem.is("input")) {
                 $form = $elem.parents('form').first();
+                var url = $form[0] ? $form.attr('action') : $elem.attr('href');
+                $elem.fluxxCard().showLoadingIndicator();
                 $.ajax({
                   type: 'PUT',
-                  url: $form.attr('action'),
-                  data: $form.serialize()
+                  url: url,
+                  data: $form.serialize(),
+                  complete: function() {
+                    $elem.fluxxCard().hideLoadingIndicator();
+                  }
                 });
               } else {
                 $.fluxx.util.itEndsWithMe(e);
