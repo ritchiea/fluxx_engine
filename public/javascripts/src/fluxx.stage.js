@@ -124,10 +124,9 @@
               $elem.refreshAreaPartial({});
             else
               if (type == 'DELETE' && $elem.hasClass('as-delete') && $elem.parents('.modal')[0]) {
-                $area.data('target', $elem);
                 $area.runLoadingActions();
-              } else
-                $elem.refreshCardArea();
+              }
+              $elem.refreshCardArea();
           }
         });
       } else {
