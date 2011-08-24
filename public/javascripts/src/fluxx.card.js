@@ -1,7 +1,7 @@
  (function($){
   $.fn.extend({
     addFluxxCard: function(options, onComplete, fromClientStore) {
-      $.fluxx.log("*******> addFluxxCard", options);
+      $.fluxx.log("*******> addFluxxCard");
       if ((options.hasOwnProperty("listing") && options.listing.url) || (options.hasOwnProperty("detail") && options.detail.url)) {
         var options = $.fluxx.util.options_with_callback($.fluxx.card.defaults, options, onComplete);
         return this.each(function(){
@@ -619,12 +619,8 @@
 
       //Datepicker does not like form elements that have the same ID
 
-      $('.datetime input', $area).each(function() {
-        var dateOptions = { changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format };
-        if ($(this).attr("data-year-range"))
-          dateOptions.yearRange = $(this).attr("data-year-range");
-        $(this).fluxxDatePicker(dateOptions);
-      });
+      var dateOptions = { changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format };
+      $('.datetime input', $area).fluxxDatePicker(dateOptions);
 
       $.fluxx.util.autoGrowTextArea($('textarea', $area));
       $('.multiple-select-transfer select[multiple="true"], .multiple-select-transfer select[multiple="multiple"]', $area).selectTransfer();
@@ -750,7 +746,12 @@
       return this;
     },
     fluxxDatePicker: function(options) {
+      if (!$.fluxx.config.datepicker_unique_id)
+        $.fluxx.config.datepicker_unique_id = 0;
       return this.each(function() {
+        if ($(this).attr("data-year-range"))
+          options.yearRange = $(this).attr("data-year-range");
+
         var unique = $.fluxx.config.datepicker_unique_id++;
         var $input = $(this);
         var id = $input.attr('id');
