@@ -26,6 +26,10 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
     relations << relationship
   end
   
+  def clear_related
+    self.relations = []
+  end
+  
   # Returns an array of formatted data per related class
   def load_related_data controller, model
     model_relations = []
