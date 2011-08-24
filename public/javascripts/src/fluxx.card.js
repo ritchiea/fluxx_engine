@@ -623,7 +623,6 @@
         var dateOptions = { changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format };
         if ($(this).attr("data-year-range"))
           dateOptions.yearRange = $(this).attr("data-year-range");
-        $.fluxx.log('***', dateOptions);
         $(this).fluxxDatePicker(dateOptions);
       });
 

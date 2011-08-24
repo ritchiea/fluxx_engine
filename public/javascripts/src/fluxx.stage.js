@@ -828,11 +828,12 @@
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
-
+              var $form = $('.body form', $elem.fluxxCard()).first();
               $elem.fluxxCardLoadContent({
                 url: $elem.attr('href'),
                 area: $elem.fluxxCardArea(),
-                target: $elem
+                target: $elem,
+                data: $form.serializeForm()
               });
             }
           ],
