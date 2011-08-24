@@ -682,6 +682,17 @@
       .content {
         margin: 8px 12px 8px 12px;
         color: #fff;
+        margin: 8px 12px 8px 12px;
+        height: 100%;
+        overflow-y: auto;
+        padding-bottom: 52px;
+        hr {
+         margin: 20px 0px 20px -24px;
+         width: 338px;
+        }
+        h1 {
+         font-size: 3em;
+        }
       }
     }
   }

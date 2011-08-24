@@ -50,7 +50,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       else
         self.results_per_page || 25
       end
-      
+
       q_search = if params[:q] && params[:q][:q]
         params[:q][:q]
       elsif params[:q]
