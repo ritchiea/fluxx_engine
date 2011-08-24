@@ -1083,7 +1083,7 @@
               var properties = {
                 area: $elem.fluxxCardArea(),
                 url: $elem.attr('action'),
-                data: $elem.serializeArray()
+                data: $elem.serializeForm()
               };
 							$('input:password', $elem).removeAttr("disabled");
               if ($elem.attr('method'))

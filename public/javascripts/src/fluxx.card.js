@@ -1481,6 +1481,23 @@
       var options = $.fluxx.util.options_with_callback({area: this.fluxxCardDetail()},options,onComplete);
       return this.fluxxCardLoadContent(options);
     },
+    serializeForm: function() {
+      var data = $(this).serializeArray();
+      var found= {};
+      var out = [];
+      $.each(data, function(i, obj) {
+        if (obj.name.match(/\[\]$/)) {
+          out.push(obj);
+        } else {
+          if (!found[obj.name] || obj.value)
+            found[obj.name] = obj.value;
+        }
+      });
+      $.each(found,function(name, value) {
+        out.push({name: name, value: value});
+      });
+      return out;
+    },
     animateWidthTo: function (widthTo, callback, speed, additonalCardWidth) {
       $.my.stage.animating = true;
       if (typeof speed == 'undefined')
