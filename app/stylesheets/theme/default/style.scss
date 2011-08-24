@@ -693,6 +693,17 @@
         h1 {
          font-size: 3em;
         }
+        .pipeline-stats {
+          background-color: #fff;
+          height: 40px;
+          text-align: right;
+          color: #000;
+          padding: 10px 10px 0px 0px;
+          margin: 30px 0px 10px 0px;
+          font-size: 1.6em;
+          border-bottom: 4px solid #a7a7a7;
+          max-width: 240px;
+        }
       }
     }
   }
