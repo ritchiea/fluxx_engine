@@ -441,16 +441,17 @@
               });
             }
           ],
-          'div.report-info' : [
+          '.report-info' : [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               var $modal = $('#report-modal');
-              $elem.parent().hide('slide', { direction: 'left' }, 'slow', function() {
+              var $list = $('.report-list', $modal).css({overflow: "hidden"});
+              $list.hide('slide', { direction: 'left' }, 'slow', function() {
                 $.ajax({
                   url: $elem.attr('data-filter-url'),
                   success: function(data, status, xhr) {
-                    $('.report-filter', $modal).html(data + '<div><a href="#" class="report-modal-back"><</a></div>').fadeIn('slow');
+                    $('.report-filter', $modal).html(data).after('<div><a href="#" class="report-modal-back"><</a></div>').fadeIn('slow');
                     $('.multiple-select-transfer select[multiple=true], .multiple-select-transfer select[multiple=multiple]', $modal).selectTransfer();
                     $('.date input', $modal).fluxxDatePicker({ changeMonth: true, changeYear: true, dateFormat: $.fluxx.config.date_format});
                   }
@@ -464,7 +465,9 @@
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               var $modal = $('#report-modal');
+              $('.report-modal-back', $modal).remove();
               $('.report-filter', $modal).hide('slide', { direction: 'right' }, 'slow', function() {
+                var $list = $('.report-list', $modal).css({overflow: "auto"});
                 $('.report-list', $modal).fadeIn('slow');
               });
             }
