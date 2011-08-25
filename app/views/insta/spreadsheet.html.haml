@@ -1,0 +1,11 @@
+- if @skip_wrapper
+  = render :partial => @markup,  :locals => {:models => @models}
+- else
+  #card-header
+  - throw Exception.new "Please specify an index template for the #{@plural_model_name} controller, otherwise we cannot render the page" if @markup.blank?
+  #card-body
+    .spreadsheet-view
+      = render :partial => @markup,  :locals => {:models => @models, :index_listing_display => true}
+
+  #card-footer= raw(fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>')
+  = render :partial => 'insta/card_settings'

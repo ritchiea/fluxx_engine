@@ -764,13 +764,22 @@
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               if (!$elem.hasClass('disabled'))
-                $elem.openCardModal({
-                  url:    $elem.attr('href'),
-                  header: $elem.attr('title') || $elem.text(),
-                  target: $elem,
-                  hideFooter: $elem.hasClass('hide-footer'),
-                  event: e
-                });
+                if ($elem.hasClass('small-modal'))
+                  $elem.openNewCardModal({
+                    url:    $elem.attr('href'),
+                    header: $elem.attr('title') || $elem.text(),
+                    target: $elem,
+                    hideFooter: $elem.hasClass('hide-footer'),
+                    event: e
+                  });
+                else
+                  $elem.openCardModal({
+                    url:    $elem.attr('href'),
+                    header: $elem.attr('title') || $elem.text(),
+                    target: $elem,
+                    hideFooter: $elem.hasClass('hide-footer'),
+                    event: e
+                  });
             }
           ],
           'a.to-prompt': [
@@ -843,10 +852,24 @@
               var $elem = $(this);
               var $card = $elem.fluxxCard();
               req = $card.fluxxCardListing().fluxxCardAreaRequest();
+              if (req.url.match(/[&?]spreadsheet\=1/)) {
+                req.url = req.url.replace(/[&?]spreadsheet\=1/, '');
+                req.data.push({name: "spreadsheet", value: "1"});
+              }
               $.each(req.data, function(i, obj) {
                 if (obj && obj.name == "summary")
-                  req.data.splice(i, 1)
+                  req.data.splice(i, 1);
+                if (obj && obj.name == "spreadsheet") {
+                  $('.spreadsheet-view', $card).fadeOut('fast', function() {
+                    $card.animateWidthTo(336, function() {
+                      $card.fluxxCardListing().width(336);
+                      $card.removeClass('spreadsheet-card');
+                    });
+                  });
+                  req.data.splice(i, 1);
+                }
               });
+              $('.titlebar .open-filters, .titlebar .close-summary, .titlebar .refresh-card', $card).fadeOut();
               if ($card.data('lastDetailOpen'))
                 $card.fluxxCardLoadDetail($card.data('lastDetailOpen'));
               $elem.fluxxCardLoadListing(req,
@@ -859,21 +882,13 @@
           'a.to-summary': [
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);
-              var $elem = $(this);
-              var $card = $elem.fluxxCard();
-              $('.open-listing-actions', $elem.fluxxCard()).click();
-              req = $card.fluxxCardListing().fluxxCardAreaRequest();
-              if (!$.isArray(req.data))
-                req.data = []
-              req.data.push({name: "summary", value: "1"});
-              var $detail = $card.fluxxCardDetail();
-              $card.data('lastDetailOpen', ($detail && $detail.fluxxCardAreaRequest()));
-              $elem.closeDetail();
-              $elem.fluxxCardLoadListing(req,
-                function() {
-                  $card.fluxxCardListing().find('.body').css({overflow: "hidden"});
-                  $card.saveDashboard();
-                });
+              $(this).changeView('summary');
+            }
+          ],
+          'a.to-spreadsheet': [
+            'click', function (e) {
+              $.fluxx.util.itEndsWithMe(e);
+              $(this).changeView('spreadsheet');
             }
           ],
           'a.to-listing': [
@@ -907,8 +922,14 @@
             'submit', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              var $card = $elem.fluxxCard();
+              var url = $elem.attr('action');
+              if ($card.isSpreadsheetCard())
+                url += '?spreadsheet=1'
+              else if ($card.isDetailCard())
+                url += '?detail=1'
               $elem.fluxxCardLoadListing({
-                url: $elem.attr('action'),
+                url: url,
                 type: $elem.attr('method'),
                 data: $elem.serializeArray()
               });

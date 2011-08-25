@@ -2,5 +2,7 @@
 %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/page_white_excel.png', :alt => "Export to .xls"), url_for(:format => :xls), :class => 'area-data', :title => 'Export to .xls'
 -if @show_summary_view
   %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/chart_pie.png', :alt => 'Show Summary View'), url_for(), :class => 'to-summary', :title =>'Show Summary View'
+-if @show_spreadsheet_view
+  %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/application_view_columns.png', :alt => 'Show Spreadsheet View'), url_for(), :class => 'to-spreadsheet', :title =>'Show Spreadsheet View'
 %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/arrow_refresh.png', :alt => 'Refresh Card'), '#', :class => 'refresh-card', :title => 'Refresh Card'
 %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/cog_edit.png', :alt => 'Open Filters'), '#', :class => 'open-filters', :title => 'Filter Card'

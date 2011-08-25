@@ -76,7 +76,11 @@ class ActionController::Base
         else
           @markup = index_object.template_file self
           @show_summary_view = index_object.has_summary_view?
-          params[:all_results] = 1 if @show_summary_view && params[:summary] && params[:summary].to_i == 1
+          @show_spreadsheet_view = index_object.has_spreadsheet_view?
+          if @show_summary_view && params[:summary] && params[:summary].to_i == 1
+            params[:all_results] = 1
+            params[:page] = nil
+          end
           @models = index_object.load_results params, request.format, pre_models, self, params[:per_page]
           @show_conversion_funnel = self.respond_to?(:has_conversion_funnel) && has_conversion_funnel
           @first_report_id = self.respond_to?(:insta_index_report_list) && !(insta_index_report_list.empty?) && insta_index_report_list.first.report_id
@@ -110,6 +114,9 @@ class ActionController::Base
                 if @show_summary_view && params[:summary]
                   @markup = @markup.gsub(/_list$/, "_summary") if (!index_object.template_map || !index_object.template_map[:summary])
                   render((index_object.view || "insta/summary").to_s, :layout => false)
+                elsif @show_spreadsheet_view && params[:spreadsheet]
+                  @markup = @markup.gsub(/_list$/, "_spreadsheet") if (!index_object.template_map || !index_object.template_map[:summary])
+                  render((index_object.view || "insta/spreadsheet").to_s, :layout => false)
                 else
                   render((index_object.view || "#{insta_path}/index").to_s, :layout => false)
                 end
@@ -699,7 +706,13 @@ class ActionController::Base
           @class_format_block_map = BlobStruct.new
           yield @class_format_block_map
         end
-        controller_block_map =  params[:summary] && @show_summary_view ? controller_dsl.summary_view_block_map : controller_dsl.format_block_map
+        controller_block_map =  if params[:summary] && @show_summary_view
+          controller_dsl.summary_view_block_map
+        elsif params[:spreadsheet] && @show_spreadsheet_view
+          controller_dsl.spreadsheet_view_block_map
+        else
+          controller_dsl.format_block_map
+        end
         cloned_controller_block_map = {}
         cloned_controller_block_map = controller_block_map.store.clone if controller_block_map && controller_block_map.store.is_a?(Hash)
 

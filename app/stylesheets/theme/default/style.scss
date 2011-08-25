@@ -663,6 +663,13 @@
   height: 100%;
   width: 336px;
   overflow: hidden;
+  .close-summary {
+    float: right;
+    padding-right: 24px;
+    background: url("/images/fluxx_engine/theme/default/icons/circle-x.png") no-repeat bottom left;
+    display: block;
+    text-indent: -2000em;
+  }
   .panels {
     width: 2000px;
     overflow: hidden;
@@ -722,13 +729,7 @@
     }
   }
 }
-.close-summary {
-  float: right;
-  padding-right: 24px;
-  background: url("/images/fluxx_engine/theme/default/icons/circle-x.png") no-repeat bottom left;
-  display: block;
-  text-indent: -2000em;
-}
+
 .carousel-pages {
   display: inline-block;
   text-align:center;
@@ -740,6 +741,22 @@
   a {
     margin-left: -4px;
     margin-right: -4px;
+  }
+}
+
+.spreadsheet-card {
+  .listing {
+    width: 710px;
+  }
+  .paginate-info {
+    width: 555px;
+  }
+}
+.spreadsheet-view {
+  height: 100%;
+  width: 100%;
+  .totals-table {
+    background-color: #fff;
   }
 }
 

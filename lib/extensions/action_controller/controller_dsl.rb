@@ -3,6 +3,8 @@ class ActionController::ControllerDsl
   attr_accessor :format_block_map
   # a blob_struct of format blocks broken up by the various names (used for the summary view only)
   attr_accessor :summary_view_block_map
+  # a blob_struct of format blocks broken up by the various names (used for the spreadsheet view only)
+  attr_accessor :spreadsheet_view_block_map
   # Layout to be used
   attr_accessor :layout
   # template to be used
@@ -179,7 +181,17 @@ class ActionController::ControllerDsl
   def has_summary_view?
     self.summary_view_block_map != nil
   end
-  
+
+  # Add a block to be executed for a particular format block when rendering the spreadsheet view
+  def spreadsheet_view &block
+    self.spreadsheet_view_block_map = BlobStruct.new
+    yield spreadsheet_view_block_map if block_given?
+  end
+
+  def has_spreadsheet_view?
+    self.spreadsheet_view_block_map != nil
+  end
+
   def invoke_pre controller
     @pre_blocks.each do |pre_block|
       if pre_block && pre_block.is_a?(Proc)
