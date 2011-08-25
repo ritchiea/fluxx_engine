@@ -666,6 +666,7 @@
   .panels {
     width: 2000px;
     overflow: hidden;
+    height: 100%;
     .panel {
       float: left;
       width: 336px;
@@ -680,17 +681,17 @@
         border-bottom: 1px solid #616161;
       }
       .content {
-        color: #fff;
-        margin: 8px 12px 8px 12px;
         height: 100%;
+        color: #fff;
         overflow-y: auto;
-        padding-bottom: 70px;
+        padding: 0px 0px 49px 0px;
+        margin: 0px;
         hr {
          margin: 20px 0px 20px -24px;
          width: 338px;
         }
         h1 {
-         font-size: 3em;
+         font-size: 2.8em;
         }
         .pipeline-stats {
           background-color: #fff;
@@ -703,6 +704,19 @@
           border-bottom: 4px solid #a7a7a7;
           max-width: 240px;
           min-width: 40px;
+        }
+        table {
+          margin: 0px;
+          padding: 0px;
+          height: 100%;
+          border-collapse:collapse;
+          td {
+            font-size: 1.2em;
+            color: #fff;
+            padding-left: 30px;
+            border-bottom: 1px solid #616161;
+            vertical-align: middle;
+          }
         }
       }
     }
