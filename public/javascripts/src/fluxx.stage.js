@@ -926,8 +926,8 @@
               var url = $elem.attr('action');
               if ($card.isSpreadsheetCard())
                 url += '?spreadsheet=1'
-              else if ($card.isDetailCard())
-                url += '?detail=1'
+              else if ($card.isSummaryCard())
+                url += '?summary=1'
               $elem.fluxxCardLoadListing({
                 url: url,
                 type: $elem.attr('method'),
