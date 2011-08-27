@@ -1078,7 +1078,6 @@
       } else {
         return this.each(function(){
           var $card = $(this).fluxxCard();
-          $card.css('overflow', 'visible');
           $card.data('lastMarginRight', $card.css('marginRight'));
           var $modal = $($.fluxx.util.resultOf(
               $.fluxx.card.ui.area,
@@ -1517,9 +1516,8 @@
       req = $card.fluxxCardListing().fluxxCardAreaRequest();
       if (!$.isArray(req.data))
         req.data = []
-      var data = req.data.map(function(item) {
-        if (item && item.name != 'spreadsheet' && item.name != 'summary')
-          return item;
+      var data = _.select(req.data, function(item) {
+        return (item && item.name != 'spreadsheet' && item.name != 'summary')
       });
       data.push({name: view, value: "1"});
       req.data = data;
@@ -1532,12 +1530,10 @@
             $card.fluxxCardListing().width(708);
             $card.addClass(view + '-card');
             $card.removeClass('summary-card');
-            $card.fluxxCardListing().find('.body').css({overflow: "auto"});
             $card.animateWidthTo(710, function() {
               $card.focusFluxxCard({scrollEdge: 'right'});
             });
           } else {
-            $card.fluxxCardListing().find('.body').css({overflow: "hidden"});
             $card.addClass(view + '-card');
             if ($card.width() > 338) {
               $card.animateWidthTo(338, function() {

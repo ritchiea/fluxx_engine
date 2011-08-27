@@ -747,6 +747,11 @@
   }
 }
 
+.summary-card {
+  .listing {
+    .body {overflow: hidden;}
+  }
+}
 .spreadsheet-card {
   .listing {
     width: 708px;
@@ -778,7 +783,7 @@
     }
     td {
       border: 1px solid #fff;
-      font-size: .8em;
+      font-size: .9em;
       padding: 2px;
     }
     tr:nth-child(even) {

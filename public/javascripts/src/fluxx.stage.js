@@ -869,9 +869,8 @@
               $('.open-listing-actions', $elem.fluxxCard()).click();
               req = $card.fluxxCardListing().fluxxCardAreaRequest();
               if ($.isArray(req.data)) {
-                req.data = req.data.map(function(item) {
-                  if (item && item.name != 'spreadsheet' && item.name != 'summary')
-                  return item;
+                req.data = _.select(req.data, function(item) {
+                  return (item && item.name != 'spreadsheet' && item.name != 'summary')
                 });
               }
               req.url = $elem.attr('href');
