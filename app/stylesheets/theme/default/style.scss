@@ -764,8 +764,25 @@
 .spreadsheet-view {
   height: 100%;
   width: 100%;
-  .totals-table {
-    background-color: #fff;
+  table {
+    background-color: #f8f8f8;
+    margin: 0px;
+    padding: 0px;
+    border-collapse: collapse;
+    th {
+      color: #454545;
+      background-color: #cedeec;
+      padding: 2px 5px 2px 5px;
+      border: 1px solid #fff;
+    }
+    td {
+      border: 1px solid #fff;
+      font-size: .8em;
+      padding: 2px;
+    }
+    tr:nth-child(even) {
+      background-color: #eee;
+    }
   }
 }
 

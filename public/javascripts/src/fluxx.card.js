@@ -868,7 +868,7 @@
       var $filters = $(this);
       var found = {};
       _.each(data, function(obj, val) {
-        if (obj.value) {
+        if (obj && obj.value) {
           var $rollup = $('[data-rollup="' + obj.name.replace(/\w+\[(\w+)\]\[\]/, "$1") + '"]');
           var i = 0;
           if ($rollup.length > 0) {
