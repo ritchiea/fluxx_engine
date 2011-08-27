@@ -1532,6 +1532,7 @@
             $card.fluxxCardListing().width(708);
             $card.addClass(view + '-card');
             $card.removeClass('summary-card');
+            $card.fluxxCardListing().find('.body').css({overflow: "auto"});
             $card.animateWidthTo(710, function() {
               $card.focusFluxxCard({scrollEdge: 'right'});
             });
