@@ -56,7 +56,7 @@
       if ($.isArray(object)) {
         var filled = [];
         _.each(object, function(item) {
-          if ((item['name'] == 'q[q]' || !_.isEmpty(item['value'])) && without.indexOf(item['name']) == -1)
+          if (item && (item['name'] == 'q[q]' || !_.isEmpty(item['value'])) && without.indexOf(item['name']) == -1)
             filled.push(item);
         });
       } else if ($.isPlainObject(object)) {
@@ -244,14 +244,21 @@
         }
         return array;
       },
+      cleanupRequest: function(req) {
+        if (!req.url)
+          return req;
+        var query = req.url.split(/\?/);
+        if (query.length > 1) {
+          req.url = query.splice(0,1)[0];
+          if (!$.isArray(req.data))
+            req.data = []
+          req.data = $.unique(req.data.concat($.fluxx.unparamToArray(query.join('&'))));
+        }
+        return req;
+      },
       cleanupURL: function(url) {
-        if (!url)
-          return url;
-        var query = url.split(/\?/);
-        if (query.length > 1)
-          return query[0];
-        else
-          return url;
+        var req = {url: url, data: []};
+        return $.fluxx.cleanupRequest(req).url;
       },
       scrollBarWidth: function() {
         document.body.style.overflow = 'hidden';

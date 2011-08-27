@@ -46,18 +46,14 @@
                   else
                     $('.close-card', $card).show();
 
+                  if ($card.isSpreadsheetCard())
+                    $card.addClass('spreadsheet-card');
+                  if ($card.isSummaryCard())
+                    $card.addClass('summary-card');
+
                   $refresh = $('.titlebar .refresh-card', $card).hide();
                   if (!$card.fluxxCardListing().is(':visible') && !$card.cardIsMinimized())
                     $refresh.show();
-
-                  if ($card.isSpreadsheetCard() || $card.isSummaryCard()) {
-                      $('.titlebar .open-filters', $card).show();
-                      $('.titlebar .close-summary', $card).show();
-                      $refresh.show();
-                  } else {
-                      $('.titlebar .open-filters', $card).hide();
-                      $('.titlebar .close-summary', $card).hide();
-                  }
 
                   $editReport = $('.titlebar .edit-report-filter', $card).hide();
                   if (($('.report-area', $card).length && !$card.cardIsMinimized()))
@@ -96,7 +92,8 @@
           $('.updates', $card).click(
             function(e) { $card.fluxxCardListing().trigger('get_update.fluxx.area'); }
           );
-          options.listing.url = $.fluxx.cleanupURL(options.listing.url);
+          var params = [];
+          options.listing = $.fluxx.cleanupRequest(options.listing);
           $card.fluxxCardLoadListing(options.listing, function(){
             $card.fluxxCardLoadDetail(options.detail, function(){
               $card.trigger('complete.fluxx.card');
@@ -504,7 +501,7 @@
       var filterText;
       if ($card.fluxxCardListing().fluxxCardAreaRequest())
         _.each($card.fluxxCardListing().fluxxCardAreaData(), function(obj) {
-          if (obj.name && obj.name == 'filter-text')
+          if (obj && obj.name && obj.name == 'filter-text')
             filterText = obj.value
         });
       return filterText;
@@ -1508,11 +1505,7 @@
       return out;
     },
     isSpreadsheetCard: function() {
-      if ($('.body .spreadsheet-view', $(this))[0]) {
-        $(this).addClass('spreadsheet-card');
-        return true;
-      }
-      return false;
+      return $('.body .spreadsheet-view', $(this))[0] != null
     },
     isSummaryCard: function() {
       return $('.body .summary-view', $(this))[0] != null
@@ -1524,22 +1517,33 @@
       req = $card.fluxxCardListing().fluxxCardAreaRequest();
       if (!$.isArray(req.data))
         req.data = []
-      req.data.push({name: view, value: "1"});
+      var data = req.data.map(function(item) {
+        if (item && item.name != 'spreadsheet' && item.name != 'summary')
+          return item;
+      });
+      data.push({name: view, value: "1"});
+      req.data = data;
       var $detail = $card.fluxxCardDetail();
       $card.data('lastDetailOpen', ($detail && $detail.fluxxCardAreaRequest()));
       $elem.closeDetail();
       $elem.fluxxCardLoadListing(req,
         function() {
           if (view == "spreadsheet") {
-            $card.fluxxCardListing().width(710);
-            $card.animateWidthTo(710, function() {
-              $card.addClass(view + '-card');
-            });
+            $card.fluxxCardListing().width(708);
+            $card.addClass(view + '-card');
+            $card.removeClass('summary-card');
+            $card.animateWidthTo(710);
           } else {
             $card.fluxxCardListing().find('.body').css({overflow: "hidden"});
             $card.addClass(view + '-card');
+            if ($card.width() > 338) {
+              $card.animateWidthTo(338, function() {
+                $card.fluxxCardListing().width(336);
+                $card.removeClass('spreadsheet-card');
+              });
+            }
           }
-          $card.saveDashboard();
+//          $card.saveDashboard();
       });
     },
     animateWidthTo: function (widthTo, callback, speed, additonalCardWidth) {
@@ -1563,13 +1567,14 @@
       $card.animate({width: widthTo + additonalCardWidth}, speed);
       // Add 10 to the card-box width initially as the animation momentarily shrinks the
       // card by a few pixels, unexplainably
-      $box.width($box.width() + 10).animate({width: widthTo}, speed, 'swing', function() {
+      $box.width($box.width() + 10).animate({width: widthTo}, speed, function() {
         $('.title', $card).show();
         $('#card-table').width('100%')
         $card.height($card.height() - 20);
         $.my.stage.animating = false;
         $.my.stage.resizeFluxxStage();
-        return _.bind(callback, $card)();
+        if (callback)
+          return _.bind(callback, $card)();
       });
     }
   });
@@ -1837,17 +1842,11 @@
         '<span class="title">',
           options.title,
         '</span>',
-        '<a href="#" class="edit-report-filter" title="Refresh Card">',
+        '<a href="#" class="edit-report-filter" title="Edit Filter">',
         '<img alt="Edit Filter" src="/images/fluxx_engine/theme/default/icons/cog_edit.png">',
-        '</a>',
-        '<a href="#" class="open-filters" title="Refresh Card">',
-        '<img alt="Open Filters" src="/images/fluxx_engine/theme/default/icons/cog_edit.png">',
         '</a>',
         '<a href="#" class="refresh-card" title="Refresh Card">',
         '<img alt="Refresh Card" src="/images/fluxx_engine/theme/default/icons/arrow_refresh.png">',
-        '</a>',
-        '<a href="#" class="close-summary" title="Open List">',
-        '<img alt="Open List" src="/images/fluxx_engine/theme/default/icons/application_view_list.png">',
         '</a>',
       '</div>'
     ];

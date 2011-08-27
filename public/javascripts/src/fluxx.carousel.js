@@ -22,7 +22,7 @@
         $panels.each(function(){
           var $panel = $(this);
           var title = $panel.attr('data-title') || '';
-          $panel.prepend('<div class="panel-header">' + title + '<a href="#" class="close-summary">&nbsp;</a></div>');
+          $panel.prepend('<div class="panel-header">' + title + '</div>');
         });
 
         showNavigation();
@@ -56,7 +56,6 @@
         });
 
         function scrollIn(last, next, direction) {
-          $('.close-summary', $area).hide();
           showNavigation();
           var $temp;
           if (direction == 'right') {
@@ -96,7 +95,6 @@
               $left.click();
           else {
             $.cookie($carousel.attr('id'), showing);
-            $('.close-summary', $area).fadeIn();
           }
         }
 

@@ -673,13 +673,6 @@
   height: 100%;
   width: 336px;
   overflow: hidden;
-  .close-summary {
-    float: right;
-    padding-right: 24px;
-    background: url("/images/fluxx_engine/theme/default/icons/circle-x.png") no-repeat bottom left;
-    display: block;
-    text-indent: -2000em;
-  }
   .panels {
     width: 2000px;
     overflow: hidden;
@@ -689,11 +682,12 @@
       width: 336px;
       height: 100%;
       .panel-header {
-        height: 50px;
-        padding: 10px 10px 10px 20px;
+        height: 40px;
+        padding: 6px 10px 10px 20px;
         background-color: #000;
         color: #fff;
-        font-size: 1.7em;
+        font-size: 1.4em;
+        font-weight: bold;
         width: 100%;
         border-bottom: 1px solid #616161;
       }
@@ -741,10 +735,9 @@
 }
 
 .carousel-pages {
-  display: inline-block;
   text-align:center;
   width: 240px;
-  padding:15px;
+  /*padding:15px;*/
   li {
     display: inline;
   }
@@ -756,10 +749,16 @@
 
 .spreadsheet-card {
   .listing {
-    width: 710px;
+    width: 708px;
   }
   .paginate-info {
-    width: 555px;
+    width: 565px;
+  }
+  .listing .header .actions {
+    left: 708px;
+  }
+  .listing .header .search .filter {
+    width: 670px;
   }
 }
 .spreadsheet-view {
@@ -782,14 +781,10 @@
 }
 
 .nav-left {
-  margin: 12px 0px 0px 10px;
-  float: left;
-  &:hover { opacity: .7}
+  &:hover { cursor: hand;}
 }
 
 .nav-right {
-  margin: 12px 10px 0px 0px;
-  float: right;
-  &:hover { opacity: .7}
+  &:hover { cursor: hand;}
 }
 

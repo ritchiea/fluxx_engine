@@ -571,7 +571,7 @@
                 $('li', $actions).show();
                 $('.search', $head).fadeOut();
                 var iconWidth = $('li:not(.open-listing-actions):last', $actions).width();
-                $actions.animate({left: $head.outerWidth(true) - (iconWidth * ($('li:not(.open-listing-actions)', $actions).length-1))
+                $actions.animate({left: $head.outerWidth(true) - ($('li.divider', $actions).width() + iconWidth * ($('li:not(.open-listing-actions, .divider)', $actions).length-1))
                   }, function() {
                     $head.addClass('actions-open').show()
                   }
@@ -849,39 +849,6 @@
               });
             }
           ],
-          'a.close-summary': [
-            'click', function (e) {
-              $.fluxx.util.itEndsWithMe(e);
-              var $elem = $(this);
-              var $card = $elem.fluxxCard();
-              req = $card.fluxxCardListing().fluxxCardAreaRequest();
-              if (req.url.match(/[&?]spreadsheet\=1/)) {
-                req.url = req.url.replace(/[&?]spreadsheet\=1/, '');
-                req.data.push({name: "spreadsheet", value: "1"});
-              }
-              $.each(req.data, function(i, obj) {
-                if (obj && obj.name == "summary")
-                  req.data.splice(i, 1);
-                if (obj && obj.name == "spreadsheet") {
-                  $('.spreadsheet-view', $card).fadeOut('fast', function() {
-                    $card.animateWidthTo(336, function() {
-                      $card.fluxxCardListing().width(336);
-                      $card.removeClass('spreadsheet-card');
-                    });
-                  });
-                  req.data.splice(i, 1);
-                }
-              });
-              $('.titlebar .open-filters, .titlebar .close-summary, .titlebar .refresh-card', $card).fadeOut();
-              if ($card.data('lastDetailOpen'))
-                $card.fluxxCardLoadDetail($card.data('lastDetailOpen'));
-              $elem.fluxxCardLoadListing(req,
-                function() {
-                  $card.fluxxCardListing().find('.body').css({overflow: "auto"});
-                  $card.saveDashboard();
-                });
-            }
-          ],
           'a.to-summary': [
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);
@@ -900,9 +867,23 @@
               var $elem = $(this);
               var $card = $elem.fluxxCard();
               $('.open-listing-actions', $elem.fluxxCard()).click();
-              $elem.fluxxCardLoadListing({
-                url: $elem.attr('href')
-              }, function() {
+              req = $card.fluxxCardListing().fluxxCardAreaRequest();
+              if ($.isArray(req.data)) {
+                req.data = req.data.map(function(item) {
+                  if (item && item.name != 'spreadsheet' && item.name != 'summary')
+                  return item;
+                });
+              }
+              req.url = $elem.attr('href');
+              $elem.fluxxCardLoadListing(req, function() {
+                if ($card.width() > 338) {
+                  $card.animateWidthTo(338, function() {
+                    $card.fluxxCardListing().width(336);
+                    $card.removeClass('spreadsheet-card');
+                  });
+                } else {
+                  $card.removeClass('summary-card');
+                }
                 $elem.fluxxCard().saveDashboard();
               });
             }
@@ -1123,7 +1104,7 @@
                   $area.children().fadeTo('fast', 1);
                 }
               });
-            },
+            }
           ],
           'form.listing-search': [
              'submit', function (e) {
@@ -1140,9 +1121,9 @@
                  data: data
                };
                if ($elem.attr('method'))
-                 properties.type = $elem.attr('method');								
+                 properties.type = $elem.attr('method');
                $elem.fluxxCardLoadContent(properties)
-             },
+             }
            ],
           'input[data-autocomplete]': [
             'focus', function (e) {

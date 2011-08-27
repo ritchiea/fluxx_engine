@@ -366,7 +366,7 @@
         padding: 0px 5px;
         margin-left: -5px;
       }
-      .refresh-card, .edit-report-filter, .open-filters, .close-summary {
+      .refresh-card, .edit-report-filter, .open-filters {
         margin: 4px 4px;
         float: right;
       }
@@ -666,6 +666,14 @@ table .partial { margin: 0.25em 0; }
         display: none;
         @include linear-gradient(#cccccc, #aaaaaa);
         width: 25px;
+        &.divider {
+          width: 10px;
+          span {
+            border-left: 1px solid #999;
+            position: relative;
+            top: 2px;
+          }
+        }
         height: 100%;
         text-align: center;
         vertical-align: middle;
@@ -1065,7 +1073,7 @@ table .partial { margin: 0.25em 0; }
   .prev { width: 50px; }
   .paginate-info {
     text-align: center;
-    width: 180px;
+    width: 200px;
     border-right: 1px solid #999999;
     border-left: 1px solid #999999;
     .disabled { opacity: 1; }

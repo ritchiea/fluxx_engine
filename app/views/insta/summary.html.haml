@@ -2,16 +2,23 @@
   = render :partial => @markup,  :locals => {:models => @models}
 - else
   #card-header
+    = form_for :q, :url => current_index_path, :html => { :method => :get, :class => 'search listing-search' } do |f|
+      = f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'filter', :placeholder => 'Search...', :type => 'search'
+    %ul.actions
+      = render :partial => 'insta/list_actions',  :locals => {:models => @models, :model_class => @model_class, :view => :summary}
+
   - throw Exception.new "Please specify an index template for the #{@plural_model_name} controller, otherwise we cannot render the page" if @markup.blank?
   #card-body
     .carousel{:id =>  "#{@controller.controller_name}_summary_view", :class => "summary-view"}
       .panels
         = render :partial => @markup,  :locals => {:models => @models, :index_listing_display => true}
   #card-footer
-    &nbsp;
-    = link_to image_tag("/images/fluxx_engine/theme/default/icons/nav_left.png"), '#', :class => 'nav-left', 'data-on-success' => 'refreshCaller,close'
-    .carousel-pages
-    = link_to image_tag("/images/fluxx_engine/theme/default/icons/nav_right.png"), '#', :class => 'nav-right', 'data-on-success' => 'refreshCaller,close'
-
+    .pagination
+      %ul.paginate
+        %li.prev
+          %span.nav-left « Prev
+        %li.paginate-info
+          %span.carousel-pages
+        %li.nav-right Next »
 
   = render :partial => 'insta/card_settings'

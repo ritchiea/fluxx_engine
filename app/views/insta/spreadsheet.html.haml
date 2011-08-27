@@ -2,6 +2,11 @@
   = render :partial => @markup,  :locals => {:models => @models}
 - else
   #card-header
+    = form_for :q, :url => current_index_path, :html => { :method => :get, :class => 'search listing-search' } do |f|
+      = f.text_field :q, :value => (params[:q] ? params[:q][:q] : ''), :class => 'filter', :placeholder => 'Search...', :type => 'search'
+    %ul.actions
+      = render :partial => 'insta/list_actions',  :locals => {:models => @models, :model_class => @model_class, :view => :spreadsheet}
+
   - throw Exception.new "Please specify an index template for the #{@plural_model_name} controller, otherwise we cannot render the page" if @markup.blank?
   #card-body
     .spreadsheet-view
