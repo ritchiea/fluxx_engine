@@ -1532,7 +1532,9 @@
             $card.fluxxCardListing().width(708);
             $card.addClass(view + '-card');
             $card.removeClass('summary-card');
-            $card.animateWidthTo(710);
+            $card.animateWidthTo(710, function() {
+              $card.focusFluxxCard({scrollEdge: 'right'});
+            });
           } else {
             $card.fluxxCardListing().find('.body').css({overflow: "hidden"});
             $card.addClass(view + '-card');
@@ -1543,7 +1545,6 @@
               });
             }
           }
-//          $card.saveDashboard();
       });
     },
     animateWidthTo: function (widthTo, callback, speed, additonalCardWidth) {
