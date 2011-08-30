@@ -6,7 +6,7 @@
 //   - Remove jquery.alerts.js and all styling
 //   - Refactor dashboard manager prompts to use fluxx.ajerts.js
 (function($){
-  var DEBUG = true;
+  var DEBUG = false;
   var D = function (args) { if (DEBUG) console.log('jquery.colorbox.alerts', args) };
   
   var AlertClass = function (options) {
