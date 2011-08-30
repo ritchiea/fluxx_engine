@@ -353,6 +353,8 @@
 				if ($card.width() != cardWidth)
         	$card.width(cardWidth);
         $('.modal').not('.new-modal').find('.body').height($.my.hand.height() - 102);
+        $('.table-scroller', $card).height($card.fluxxCardListing().height() - 73);
+        $('.row-scroller', $card).height($card.fluxxCardListing().height());
       });
 			_.bind($.fn.resizeFluxxStage, $.my.stage)();
     },
