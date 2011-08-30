@@ -13,6 +13,7 @@ Time::DATE_FORMATS[:star_hours_minutes] = "*%H:%M"
 Time::DATE_FORMATS[:hours_minutes_ampm] = "%I:%M %p"
 Time::DATE_FORMATS[:star_hours_minutes_ampm] = "*%I:%M %p"
 Time::DATE_FORMATS[:msoft] = "%Y-%m-%dT%H:%M:%S.000"
+Time::DATE_FORMATS[:sforce] = "%Y-%m-%dT%H:%M:%S%z"
 Time::DATE_FORMATS[:sql] = "%Y-%m-%d"
 Time::DATE_FORMATS[:hgrant] = "%Y%m%dT%H:%M-0000"
 Time::DATE_FORMATS[:month_year] = "%B, %Y"
@@ -33,6 +34,13 @@ module FluxxTimeFormatUtilities
   end
   def msoft
     self.to_s(:msoft)
+  end
+  # This method is needed to insert the colon which the %z normally doesn't give us
+  def sforce
+    # 2011-08-29T11:05:52+02:00
+    #
+    str = self.to_s(:sforce)
+    "#{str[0..(str.length-3)]}:00"
   end
   
   def hgrant
