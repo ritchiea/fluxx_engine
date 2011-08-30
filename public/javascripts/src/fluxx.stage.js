@@ -149,6 +149,7 @@
         url: $elem.attr('data-src'),
 				success: function(data, status, xhr){
 					$drawers.html(data);
+          $drawers.areaDetailTransform();
 					$elem.fluxxCard().hideLoadingIndicator();
         }
       });							
