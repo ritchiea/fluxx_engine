@@ -1013,7 +1013,7 @@
                       if (!$card.cardVisibleRight())
                         $card.focusFluxxCard({scrollEdge: 'right'});
                     });
-                  ;});
+                  });
               }
             }
           ],
