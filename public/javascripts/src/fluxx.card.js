@@ -1324,6 +1324,43 @@
             if ($.fluxx.hasOwnProperty('visualizations')) {
               $('.chart', options.area).renderChart();
             }
+            // Render in card spreadsheet view with fixed column and row labels
+            $('table.spreadsheet', options.area).each(function() {
+              var $table = $(this);
+              $rowLabels = $table.clone();
+              $rowLabels.find('th').remove();
+              var headerHeight = $('td:first', $table).outerHeight() + 1;
+              var rowLabelWidth = $table.find('th:first').outerWidth();
+              var cardHeaderHeight = $('.header', options.area).height() + 5;
+              var $header = $('<div class="spreadsheet-header"/>').width($table.width() + 1000);
+              $table.css({"margin-top": "-" + (headerHeight - 3) + "px", "margin-left": "-" + rowLabelWidth + "px"});
+              $table.find('th').each(function() {
+                var $th = $(this).css({"white-space": "nowrap"});
+                $header.append($('<div>' + $th.text() + '</div>').width($th.outerWidth()));
+              });
+              $table.wrap(
+                $('<div class="table-scroller"></div>').width(options.area.width() - rowLabelWidth - 1).height($('.body', options.area).height() - headerHeight + 2
+              ).css({overflow: "auto", "background-color": "#fff"}));
+              $table.parent().before($header);
+              $header.wrap($('<div class="header-scroller"></div>').css({overflow: "hidden"}).width(options.area.width()));
+              var $headerScroll = $header.parent();
+              $headerScroll.css({position: "relative", left: rowLabelWidth + "px"});
+              $firstHeader = $header.find('div:first').detach().addClass('row-labels');
+              options.area.find('.spreadsheet-view').append($firstHeader);
+              $firstHeader.wrap('<div class="spreadsheet-header first-header"/>');
+              $firstHeader.parent().css({position: "absolute", top: cardHeaderHeight - 1 + "px", left: "0xp"});
+              var $tableScroll = $table.parent();
+              $tableScroll.css({position: "absolute", top: headerHeight + cardHeaderHeight - 3 + "px", left: rowLabelWidth + "px"});
+              $rowLabels.width(rowLabelWidth);
+              $rowLabels.css({"margin-bottom": "100px", "margin-top": "5px"});
+              $table.parent().before($rowLabels);
+              $rowLabels.wrap($('<div class="row-scroller"></div>').css({overflow: "hidden", "background-color": "#fff"}).height($('.body', options.area).height()).width(rowLabelWidth));
+              var $rowScroll = $rowLabels.parent();
+              $tableScroll.scroll(function () {
+                $headerScroll.scrollLeft($tableScroll.scrollLeft());
+                $rowScroll.scrollTop($tableScroll.scrollTop());
+              });
+            });
           }
         ));
 
@@ -1527,10 +1564,10 @@
       $elem.fluxxCardLoadListing(req,
         function() {
           if (view == "spreadsheet") {
-            $card.fluxxCardListing().width(708);
+            $card.fluxxCardListing().width(998);
             $card.addClass(view + '-card');
             $card.removeClass('summary-card');
-            $card.animateWidthTo(710, function() {
+            $card.animateWidthTo(1000, function() {
               $card.focusFluxxCard({scrollEdge: 'right'});
             });
           } else {
