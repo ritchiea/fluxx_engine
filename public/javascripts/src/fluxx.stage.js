@@ -768,22 +768,13 @@
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
               if (!$elem.hasClass('disabled'))
-                if ($elem.hasClass('small-modal'))
-                  $elem.openNewCardModal({
-                    url:    $elem.attr('href'),
-                    header: $elem.attr('title') || $elem.text(),
-                    target: $elem,
-                    hideFooter: $elem.hasClass('hide-footer'),
-                    event: e
-                  });
-                else
-                  $elem.openCardModal({
-                    url:    $elem.attr('href'),
-                    header: $elem.attr('title') || $elem.text(),
-                    target: $elem,
-                    hideFooter: $elem.hasClass('hide-footer'),
-                    event: e
-                  });
+                $elem.openCardModal({
+                  url:    $elem.attr('href'),
+                  header: $elem.attr('title') || $elem.text(),
+                  target: $elem,
+                  hideFooter: $elem.hasClass('hide-footer'),
+                  event: e
+                });
             }
           ],
           'a.to-prompt': [
@@ -1361,7 +1352,7 @@
               $.fluxx.util.itEndsHere(e);
               var $elem = $(this);
               var $card = $elem.fluxxCard();
-              $elem.openNewCardModal({
+              $elem.openCardModal({
                 url:    $elem.attr('href'),
                 header: 'Email Notifications',
                 hideFooter: true,
