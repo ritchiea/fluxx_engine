@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ControllerDslRelatedTest < ActiveSupport::TestCase
   def setup
-    @dsl_related = ActionController::ControllerDslRelated.new Musician
+    @dsl_related = ActionController::ControllerDslRelated.new Musician, MusiciansController
   end
 
   test "test add_related ordering" do
@@ -40,9 +40,9 @@ class ControllerDslRelatedTest < ActiveSupport::TestCase
       insta.display_template = 'template'
     end
    
-   related = @dsl_related.load_related_data InstrumentsController.new, musician 
+   html_related, json_related = @dsl_related.load_related_data InstrumentsController.new, musician 
    musician.instruments.each_with_index do |instrument, i|
-     assert_equal instrument, related.first[:formatted_data][i][:model]
+     assert_equal instrument, html_related.first[:formatted_data][i][:model]
    end
   end
 end

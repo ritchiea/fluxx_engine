@@ -191,7 +191,7 @@ class ActionController::Base
 
         show_object.invoke_post self, @model, (@model ? :success : :error)
         if @model
-          @related = load_related_data(@model) if self.respond_to? :load_related_data
+          @related, @json_relations = load_related_data(@model) if self.respond_to? :load_related_data
           insta_respond_to show_object, :success do |format|
             format.html do
               if @report && @report.filter_template && params[:fluxxreport_filter]
@@ -219,7 +219,7 @@ class ActionController::Base
               end
             end
             format.json do
-              render :inline => {@model.class.name.tableize.singularize => @model.attributes, :url => url_for(@model)}.to_json
+              render :inline => {@model.class.name.tableize.singularize => @model.attributes, :url => url_for(@model), :related => @json_relations}.to_json
             end
             format.xml  { render :xml => @model }
           end

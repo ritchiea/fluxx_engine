@@ -38,7 +38,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
       model_relations = model_relations + relations
     end
     
-    model_relations.map do |rd|
+    html_relations = model_relations.map do |rd|
       if rd.show_tab.nil? || rd.show_tab.call([controller, model])
         if rd.lazy_load
           {:lazy_load_url => rd.generate_url(controller, model), :display_name => rd.display_name}
@@ -48,6 +48,16 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
         end
       end
     end.compact
+    
+    json_relations = html_relations.reject{|rd| rd[:lazy_load_url]}.map do |rd|
+      if rd[:formatted_data]
+        rd[:formatted_data].map do |element|
+          model = element[:model]
+          {model.class.name.tableize.singularize => model.attributes, :url => controller.send(:url_for, model)}
+        end
+      end
+    end.compact.flatten.compact
+    [html_relations, json_relations]
   end
   
   def calculate_related_data_row controller, model, rd
