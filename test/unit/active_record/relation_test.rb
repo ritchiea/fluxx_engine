@@ -7,7 +7,8 @@ class RelationTest < ActiveSupport::TestCase
   end
   
   test "check that we can get top values" do
-    hash, other = SillyAmount.group(:id).select('id, sum(amount) amount').select_top_by_key 'id', 'amount', 5
+    hash = SillyAmount.group(:id).select('id, sum(amount) amount').select_top_by_key 'id', 'amount', 5
+    other = hash.delete(nil)
 
     actual_top_amounts = @amount_array.sort.reverse[0..4]
     calculated_top_amounts = hash.values.map{|amt| amt.to_i}.sort.reverse
@@ -17,7 +18,8 @@ class RelationTest < ActiveSupport::TestCase
   end
   
   test "check that we can top values respects the limit" do
-    hash, other = SillyAmount.group(:id).select('id, sum(amount) amount').select_top_by_key 'id', 'amount', @amount_array.size+5
+    hash = SillyAmount.group(:id).select('id, sum(amount) amount').select_top_by_key 'id', 'amount', @amount_array.size+5
+    other = hash.delete(nil)
     
     assert !other
     assert @amount_array.sum, hash.values.map(&:to_i).sum
