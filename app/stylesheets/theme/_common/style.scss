@@ -1029,6 +1029,16 @@ table .partial { margin: 0.25em 0; }
       @include box-shadow;
       display: block;
       border: 1px solid #444;
+      width: 223px;
+    }
+  }
+  &.open-wide {
+    width: 371px;
+    .drawer {
+      width: 300px;
+    }
+    .tabs {
+      left: 305px;
     }
   }
 }

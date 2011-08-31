@@ -1569,9 +1569,7 @@
             $card.fluxxCardListing().width(998);
             $card.addClass(view + '-card');
             $card.removeClass('summary-card');
-            $card.height($card.height() + 20);
             $card.animateWidthTo(1000, function() {
-              $card.height($card.height() - 20);
               $card.focusFluxxCard({scrollEdge: 'right'});
             });
           } else {

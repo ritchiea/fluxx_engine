@@ -41,10 +41,10 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
     model_relations.map do |rd|
       if rd.show_tab.nil? || rd.show_tab.call([controller, model])
         if rd.lazy_load
-          {:lazy_load_url => rd.generate_url(controller, model), :display_name => rd.display_name}
+          {:lazy_load_url => rd.generate_url(controller, model), :display_name => rd.display_name, :wide_drawer => rd.wide_drawer}
         else
           formatted_data = calculate_related_data_row(controller, model, rd).uniq_by{|element| element[:model]}
-          {:formatted_data => formatted_data, :display_name => rd.display_name}
+          {:formatted_data => formatted_data, :display_name => rd.display_name, :wide_drawer => rd.wide_drawer}
         end
       end
     end.compact
@@ -66,7 +66,9 @@ end
 class ActionController::ModelRelationship
   # Name of the related data tab
   attr_accessor :display_name
-  # block to call to search.  Expect to 
+  # Make the data tab wider than normal
+  attr_accessor :wide_drawer
+  # block to call to search.  Expect to
   attr_accessor :search_block
   # Template used to display the results
   attr_accessor :display_template
