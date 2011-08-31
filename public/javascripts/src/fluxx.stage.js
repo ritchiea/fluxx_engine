@@ -986,11 +986,11 @@
                 $elem.removeClass('selected');
                 $info.css({bottom: '15px'});
                 // Workaround to prevent the bottom dropshadow from disappearing when the drawer is animating
-                $card.height($card.height() + 20);
+                $card.height('+=20');
                 var newWidth = wideDrawer ? 300 : 224;
                 $card.animate({width: '-=' + newWidth}, function() {
                   $info.css({bottom: '-5px'});
-                  $card.height($card.height() - 20);
+                  $card.height('-=20');
                   $.my.stage.animating = false;
                   $info.attr('style', '').removeClass('open-wide').removeClass('open').resizeFluxxCard();
                 });
@@ -1004,7 +1004,11 @@
                 $('.drawer .label:contains('+label+')', $card).siblings().addClass('selected');
                 if ($info.hasClass('open')) {
                   if ($info.hasClass('open-wide') && !wideDrawer) {
+                    $info.css({bottom: '15px'});
+                    $card.height('+=20');
                     $card.animate({width: '-=75'}, function() {
+                      $info.css({bottom: '-5px'});
+                      $card.height('-=20');
                       $card.width('-=40');
                       $info.removeClass('open-wide');
                     });
@@ -1012,7 +1016,14 @@
                       $.my.stage.width('+=115');
                       $info.addClass('open-wide');
                       $card.width('+=40');
-                      $card.animate({width: '+=75'});
+                      $info.css({bottom: '15px'});
+                      $card.height('+=20');
+                      $card.animate({width: '+=75'}, function() {
+                        $info.css({bottom: '-5px'});
+                        $card.height('-=20');
+                        if (!$card.cardVisibleRight())
+                          $card.focusFluxxCard({scrollEdge: 'right'});
+                      });
                   }
                 } else {
                   if (wideDrawer)
@@ -1021,12 +1032,12 @@
                     $info.removeClass('open-wide');
                   $info.addClass('open', 1, function(){
                     $info.css({bottom: '15px'});
-                    $card.height($card.height() + 20);
+                    $card.height('+=20');
                     var newWidth = wideDrawer ? 339 : 226;
                     $.my.stage.width($.my.stage.width() + newWidth);
                     $card.animate({width: '+=' + newWidth}, function() {
                       $info.css({bottom: '-5px'});
-                      $card.height($card.height() - 20);
+                      $card.height('-=20');
                       $.my.stage.animating = false;
                       $card.resizeFluxxCard();
                       if (!$card.cardVisibleRight())
