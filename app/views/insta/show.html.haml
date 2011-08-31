@@ -13,7 +13,7 @@
           - if rd[:display_name]
             %li.section
               - if rd[:lazy_load_url]
-                %span.label{:class => "lazy-load", "data-src".to_sym => rd[:lazy_load_url]}
+                %span.label{:class => "lazy-load#{rd[:wide_drawer] ? ' wide-drawer' : ''}", "data-src".to_sym => rd[:lazy_load_url]}
                   = rd[:display_name]
                 %ol.entries
               - else

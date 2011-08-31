@@ -204,6 +204,12 @@
       }
       input, select, textarea {
         width: 248px;
+        &.add-another {
+          width: 228px;
+        }
+      }
+      a.do-add-another {
+        margin-top: 0px;
       }
       input[type="checkbox"] {
         margin-right: 0.25em;
