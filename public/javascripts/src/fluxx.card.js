@@ -1327,7 +1327,9 @@
           .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
         options.area.fluxxCard().trigger('lifetimeComplete.fluxx.card');
       };
-      $.ajax({
+      if (options.area.data('request'))
+        options.area.data('request').abort();
+      options.area.data('request', $.ajax({
         url: options.url,
         type: options.type,
         data: data,
@@ -1335,7 +1337,7 @@
           if (xhr.status == 201) {
 
             // Store the redirect URL for cases where we need to figure out what was created or updated
-            options.area.data('url', xhr.getResponseHeader('Location'));
+            options.area.data({'url': xhr.getResponseHeader('Location'), request: null});
 
             var closeCard = false;
             // If we have a response indicating a successful operation,
@@ -1372,6 +1374,8 @@
           }
         },
         error: function(xhr, status, error) {
+          if (status == 'abort')
+            return;
           options.area.show();
           var $document = $('<div/>').html(xhr.responseText);
           $('.header', options.area).html('');
@@ -1390,7 +1394,7 @@
         },
         beforeSend: function() { options.area.fluxxCard().showLoadingIndicator() },
         complete: function() { options.area.fluxxCard().hideLoadingIndicator() }
-      });
+      }));
 
 
       return this;
