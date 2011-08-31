@@ -611,6 +611,18 @@
 	}
 }
 
+.social-tabs {
+  .ui-tabs-nav li a { 
+    font-size: 80%; 
+  }
+  .ui-tabs-panel { 
+    padding: 10px; 
+  }
+  .ui-state-active, .ui-widget-header .ui-state-active { 
+    background-color: #E3E7EA; 
+  }
+}
+
 .social {
   .twitter-tab { margin: 10px 0 0 10px; }
   .twitter-profile { font-size: 80% }
@@ -673,6 +685,17 @@
     color: #999; 
     margin-top: 5px; 
   }
+  
+  .facebook-tab { margin: 10px 0 0 10px; }
+  .facebook-profile { font-size: 80% }
+  .facebook-profile .img { 
+    float: left; 
+    margin-right: 10px; 
+    margin-bottom: 5px;
+  }
+  .facebook-profile h1 { margin: 0px; }
+  .facebook-profile .link { clear: both; }
+  
 }
 .carousel {
   background-color: #323232;
