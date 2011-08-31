@@ -1163,6 +1163,9 @@ table .partial { margin: 0.25em 0; }
     }
   }
 }
+.partial .tabular {
+  margin-bottom: -20px;
+}
 .dark-table {
   color: #ffffff;
   td {vertical-align: top}
