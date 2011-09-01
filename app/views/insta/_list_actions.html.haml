@@ -7,7 +7,7 @@
 -if @show_spreadsheet_view
   %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/application_view_columns.png', :alt => 'Show Spreadsheet View'), url_for(), :class => "to-spreadsheet#{view == :spreadsheet ? ' disabled' : ''}", :title =>'Show Spreadsheet View'
 - if @first_report_id
-  %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/chart_bar.png', :alt => "Reports"), url_for(:fluxxreport_id => @first_report_id, :all_results => 1), :class => 'new-detail area-data', 'data-insert' => 'after', :title =>'Visualizations'
+  %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/chart_bar.png', :alt => "Reports"), url_for(:fluxx_first_report=>1, :all_results => 1), :class => 'new-detail area-data', 'data-insert' => 'after', :title =>'Visualizations'
 - if @show_conversion_funnel
   %li= link_to image_tag('/images/fluxx_engine/theme/default/icons/arrow_join.png', :alt => "Conversion Funnel"), url_for(:view_funnel => 1, :all_results => 1), :class => 'new-detail area-data', 'data-insert' => 'after', :title =>'Conversion Funnel'
 -if @show_summary_view || @show_spreadsheet_view

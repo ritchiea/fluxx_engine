@@ -1,5 +1,5 @@
 .visualizations
-  - if @from_request_card
+  - if @from_request_card && @report_list && @report_list.size > 1
     %select.visualization-selector
       %option= '- Select One -'
       - @report_list.each do |report|
