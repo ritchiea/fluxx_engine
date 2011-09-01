@@ -1331,6 +1331,7 @@
           if ($('.drawer', options.area.fluxxCard()).filter(':empty').length) {
             $('.drawer', options.area.fluxxCard()).parent().addClass('empty');
           } else {
+            $('.info', options.area.fluxxCard()).removeClass('open-wide');
             $('.drawer', options.area.fluxxCard()).parent().removeClass('empty');
           }
         }
