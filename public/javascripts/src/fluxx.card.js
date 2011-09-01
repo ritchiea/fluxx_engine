@@ -532,7 +532,7 @@
       }
     },
     fluxxCardAreaData: function() {
-      return this.fluxxCardArea().data('history')[0].data;
+      return this.fluxxCardArea().data('history') ? this.fluxxCardArea().data('history')[0].data : '';
     },
     fluxxCardListing: function() {
       return this.fluxxCard().data('listing') || $([]);
@@ -838,6 +838,7 @@
           var $filterText = $('<input type="hidden" name="filter-text" value =""/>').appendTo($form);
 
           var data = $listing.fluxxCardAreaRequest().data;
+          $.fluxx.log('foooooooooooo', data);
           if (typeof data == "string") {
             $form.removeClass('to-listing').addClass('to-detail');
             data = [];

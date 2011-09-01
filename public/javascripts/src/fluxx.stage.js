@@ -487,7 +487,6 @@
                 }
               } else {
                 $.ajax({
-                  url: $card.fluxxCardDetail().fluxxCardAreaRequest().url + '?fluxxreport_filter=1',
                   success: function(data, status, xhr) {
                     $.modal('<div class="report-modal"><div class="report-filter">' + data + '</div></div>',{
                       position: ["15%",],
@@ -1083,7 +1082,7 @@
           'a.area-data': [
             'click', function(e) {
               var $elem = $(this);
-              $elem.attr('href', $elem.attr('href') + '?' + $.param($elem.fluxxCardAreaData()))
+              $elem.attr('href', $elem.attr('href') + '?' + $.param($elem.fluxxCardAreaData()));
             }
           ],
           'a.dock-list-scroller': [
