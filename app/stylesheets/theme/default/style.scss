@@ -133,6 +133,10 @@
       form {
         margin-right: 32px;
         margin-left: 62px;
+        input[type="radio"] {
+          margin-right: 0.25em;
+          width: 20px;
+        }
       }
     }
     .withtabs {
