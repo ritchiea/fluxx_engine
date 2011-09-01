@@ -2,6 +2,7 @@ require "rails"
 require "action_controller"
 require "active_record"
 require "logger"
+require 'thinking_sphinx/deltas/delayed_delta'
 
 unless defined?(FLUXX_LOGGER)
   FLUXX_LOGGER = Logger.new(STDERR)

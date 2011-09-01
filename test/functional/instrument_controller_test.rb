@@ -37,7 +37,8 @@ class InstrumentsControllerTest < ActionController::TestCase
     get :index, :format => :json, :find_by_id => true, :id => [instrument1.id, instrument2.id, instrument3.id]
     assert_equal 3, assigns(:instruments).size
     instruments = @response.body.de_json
-    assert instruments.map{|instr| instr['instrument']['id']}.include? instrument1.id
+    results = instruments['Instrument'].map{|instr| instr['id']}
+    assert results.include? instrument1.id
   end
 
   test "should get index check on pre and post and format" do

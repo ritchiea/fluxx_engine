@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ControllerDslIndexTest < ActiveSupport::TestCase
   def setup
-    @dsl_index = ActionController::ControllerDslIndex.new Musician
+    @dsl_index = ActionController::ControllerDslIndex.new Musician, MusiciansController
     @musicians = (1..9).map {Musician.make}
   end
 

@@ -7,15 +7,15 @@ class TotalInstrumentsReport < ActionController::ReportBase
     self.filter_template = 'instruments/total_instruments_report_filter'
   end
   
-  def compute_index_plot_data controller, index_object, params, models
+  def compute_index_plot_data controller, index_object, params, models, report_vars
     [1, 2, 3, 4]
   end
   
-  def compute_index_document_headers controller, index_object, params, models
+  def compute_index_document_headers controller, index_object, params, models, report_vars
     ['filename', 'excel']
   end
   
-  def compute_index_document_data controller, index_object, params, models
+  def compute_index_document_data controller, index_object, params, models, report_vars
     "A total instruments index document"
   end
   

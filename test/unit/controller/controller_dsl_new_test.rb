@@ -5,7 +5,7 @@ class ControllerDslNewTest < ActiveSupport::TestCase
   end
 
   test "check that we can load a new model" do
-    @dsl_new = ActionController::ControllerDslNew.new Musician
+    @dsl_new = ActionController::ControllerDslNew.new Musician, MusiciansController
     @musician = Musician.make
     new_musician = @dsl_new.load_new_model({})
     assert new_musician
@@ -13,7 +13,7 @@ class ControllerDslNewTest < ActiveSupport::TestCase
   end
   
   test "check that we can load a model that's already loaded" do
-    @dsl_new = ActionController::ControllerDslNew.new Musician
+    @dsl_new = ActionController::ControllerDslNew.new Musician, MusiciansController
     @musician = Musician.make
     new_musician = @dsl_new.load_new_model({}, @musician)
     assert_equal @musician, new_musician

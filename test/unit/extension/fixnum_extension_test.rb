@@ -5,7 +5,7 @@ class FixnumExtensionTest < ActiveSupport::TestCase
   end
 
   test "try to_currency" do
-    assert_equal "$542.00", 542.to_currency
+    assert_equal "$542", 542.to_currency
   end
   
   test "try to_currency_no_cents" do

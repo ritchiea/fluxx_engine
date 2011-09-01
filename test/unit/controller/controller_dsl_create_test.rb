@@ -5,21 +5,21 @@ class ControllerDslCreateTest < ActiveSupport::TestCase
   end
 
   test "check that we can load a new model" do
-    @dsl_create = ActionController::ControllerDslCreate.new Musician
+    @dsl_create = ActionController::ControllerDslCreate.new Musician, MusiciansController
     musician = @dsl_create.load_new_model({})
     assert musician
     assert musician.is_a? Musician
   end
 
   test "check that we can load a model that's already loaded" do
-    @dsl_create = ActionController::ControllerDslCreate.new Musician
+    @dsl_create = ActionController::ControllerDslCreate.new Musician, MusiciansController
     new_musician = Musician.new
     musician = @dsl_create.load_new_model({}, new_musician)
     assert_equal new_musician, musician
   end
   
   test "check that we can load a new model with params" do
-    @dsl_create = ActionController::ControllerDslCreate.new Musician
+    @dsl_create = ActionController::ControllerDslCreate.new Musician, MusiciansController
     musician = @dsl_create.load_new_model({:musician => {:first_name => 'fred', :last_name => 'hoover'}})
     assert musician
     assert 'fred', musician.first_name
@@ -27,7 +27,7 @@ class ControllerDslCreateTest < ActiveSupport::TestCase
   end
 
   test "check that we can create a model" do
-    @dsl_create = ActionController::ControllerDslCreate.new Musician
+    @dsl_create = ActionController::ControllerDslCreate.new Musician, MusiciansController
     musician = Musician.new(:first_name => 'John', :last_name => 'Smith')
     assert = @dsl_create.perform_create({}, musician)
     assert musician.errors.blank?
@@ -35,7 +35,7 @@ class ControllerDslCreateTest < ActiveSupport::TestCase
   end
 
   test "check that we can create a model with a fluxx user" do
-    @dsl_create = ActionController::ControllerDslCreate.new Instrument
+    @dsl_create = ActionController::ControllerDslCreate.new Instrument, InstrumentsController
     fluxx_user = Musician.make
     instrument = Instrument.new
     assert = @dsl_create.perform_create({}, instrument, fluxx_user)
@@ -46,7 +46,7 @@ class ControllerDslCreateTest < ActiveSupport::TestCase
   end
   
   test "check that we can execute the post process autocomplete block" do
-    @dsl_create = ActionController::ControllerDslCreate.new Instrument
+    @dsl_create = ActionController::ControllerDslCreate.new Instrument, InstrumentsController
     fluxx_user = Musician.make
     new_instrument = Instrument.new
     test_params = {:instrument => {:name => 'clarinet'}}

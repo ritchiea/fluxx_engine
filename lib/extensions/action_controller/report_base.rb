@@ -60,17 +60,17 @@ class ActionController::ReportBase
   end
 
   # optional descrition for this report
-  def report_description controller, index_object, params, *models
+  def report_description controller, index_object, params, models, report_vars
   end
   # optional text describing aspects of the filter for this report, example: date range
-  def report_filter_text controller, index_object, params, *models
+  def report_filter_text controller, index_object, params, models, report_vars
   end
   # optional legend for this report
-  def report_legend controller, index_object, params, *models
+  def report_legend controller, index_object, params, models, report_vars
     [{}]
   end
   # optional summary for this report
-  def report_summary controller, index_object, params, *models
+  def report_summary controller, index_object, params, models, report_vars
   end
   
   def build_formats workbook
@@ -166,18 +166,18 @@ class ActionController::ReportBase
   
   # implement methods such as:
   # INDEX:
-  # compute_index_plot_data controller, index_object, params, models
+  # compute_index_plot_data controller, index_object, params, models, report_vars
   #   * should return a string that contains JSON, etc. to render and be used to draw the chart
-  # compute_index_document_headers controller, index_object, params, models
+  # compute_index_document_headers controller, index_object, params, models, report_vars
   #   * should return an array of the [filename, content-type]
-  # compute_index_document_data controller, index_object, params, models
+  # compute_index_document_data controller, index_object, params, models, report_vars
   #   * should return a string that contains the document to be sent to the browser
   # OR SHOW:
-  # compute_show_plot_data controller, index_object, params
+  # compute_show_plot_data controller, index_object, params, report_vars
   #   * should return a string that contains JSON, etc. to render and be used to draw the chart
-  # compute_show_document_headers controller, index_object, params, models
+  # compute_show_document_headers controller, index_object, params, models, report_vars
   #   * should return an array of the [filename, content-type]
-  # compute_show_document_data controller, index_object, params
+  # compute_show_document_data controller, index_object, params, report_vars
   #   * should return a string that contains the document to be sent to the browser
   # BUT NOT BOTH
 

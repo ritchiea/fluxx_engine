@@ -5,22 +5,22 @@ class ControllerDslUpdateTest < ActiveSupport::TestCase
   end
 
   test "check that we can load an existing model" do
-    @dsl_update = ActionController::ControllerDslUpdate.new Musician
     musician = Musician.make
+    @dsl_update = ActionController::ControllerDslUpdate.new Musician, MusiciansController
     loaded_musician = @dsl_update.load_existing_model({:id => musician.id})
     assert musician
     assert_equal musician, loaded_musician
   end
 
   test "check that we can load a model that's already loaded" do
-    @dsl_update = ActionController::ControllerDslUpdate.new Musician
+    @dsl_update = ActionController::ControllerDslUpdate.new Musician, MusiciansController
     musician = Musician.make
     loaded_musician = @dsl_update.load_existing_model({}, musician)
     assert_equal musician, loaded_musician
   end
   
   test "check that we cannot load a deleted_at model" do
-    @dsl_update = ActionController::ControllerDslUpdate.new Instrument
+    @dsl_update = ActionController::ControllerDslUpdate.new Instrument, InstrumentsController
     instrument = Instrument.make
     instrument.update_attributes :deleted_at => Time.now
     assert !(@dsl_update.load_existing_model({:id => instrument.id}))
@@ -29,7 +29,7 @@ class ControllerDslUpdateTest < ActiveSupport::TestCase
   test "check that we can update a model with a fluxx user" do
     fluxx_user = Musician.make
     instrument = Instrument.make
-    @dsl_update = ActionController::ControllerDslUpdate.new Instrument
+    @dsl_update = ActionController::ControllerDslUpdate.new Instrument, InstrumentsController
     @dsl_update.populate_model({:instrument => {:name => 'trombone'}}, instrument, fluxx_user)
     @dsl_update.perform_update({:instrument => {:name => 'trombone'}}, instrument, fluxx_user)
     assert_equal 'trombone', instrument.reload.name
@@ -39,7 +39,7 @@ class ControllerDslUpdateTest < ActiveSupport::TestCase
   test "check that we can execute the post process autocomplete block" do
     fluxx_user = Musician.make
     new_instrument = Instrument.make
-    @dsl_update = ActionController::ControllerDslUpdate.new Instrument
+    @dsl_update = ActionController::ControllerDslUpdate.new Instrument, InstrumentsController
     test_params = {:instrument => {:name => 'clarinet'}}
     block_invoked = false
     @dsl_update.post_save_call = (lambda do |fluxx_current_user, model, params|

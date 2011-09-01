@@ -5,7 +5,7 @@ class ControllerDslEditTest < ActiveSupport::TestCase
   end
 
   test "check that we can load a new model" do
-    @dsl_edit = ActionController::ControllerDslEdit.new Musician
+    @dsl_edit = ActionController::ControllerDslEdit.new Musician, MusiciansController
     @musician = Musician.make
     edited_musician = @dsl_edit.perform_edit({:id => @musician.id})
     assert edited_musician
@@ -13,14 +13,14 @@ class ControllerDslEditTest < ActiveSupport::TestCase
   end
   
   test "check that we can load a model that's already loaded" do
-    @dsl_edit = ActionController::ControllerDslEdit.new Musician
+    @dsl_edit = ActionController::ControllerDslEdit.new Musician, MusiciansController
     @musician = Musician.make
     edited_musician = @dsl_edit.perform_edit({:id => nil}, @musician)
     assert_equal @musician, edited_musician
   end
   
   test "check that we can lock a record" do
-    @dsl_edit = ActionController::ControllerDslEdit.new Instrument
+    @dsl_edit = ActionController::ControllerDslEdit.new Instrument, InstrumentsController
     @instrument = Instrument.make
     fluxx_user = Musician.make
     edited_instrument = @dsl_edit.perform_edit({:id => nil}, @instrument, fluxx_user)

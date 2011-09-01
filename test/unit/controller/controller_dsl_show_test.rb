@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ControllerDslShowTest < ActiveSupport::TestCase
   def setup
-    @dsl_show = ActionController::ControllerDslShow.new Musician
+    @dsl_show = ActionController::ControllerDslShow.new Musician, MusiciansController
   end
 
   test "check that we can perform_show" do

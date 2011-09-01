@@ -30,6 +30,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'will_paginate', '~> 3.0.0'
   s.add_dependency 'jsmin', '>= 1.0.1'
   s.add_dependency 'thinking-sphinx', '>= 2.0.1'
+  s.add_dependency "delayed_job"
+  s.add_dependency "ts-delayed-delta", ">= 1.1.0"
   s.add_dependency "authlogic"
   s.add_dependency 'ruby-net-ldap'
   s.add_dependency 'paperclip', '>= 2.3.16'

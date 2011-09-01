@@ -5,7 +5,7 @@ class ControllerDslDeleteTest < ActiveSupport::TestCase
   end
 
   test "check that we can load a new model" do
-    @dsl_delete = ActionController::ControllerDslDelete.new Musician
+    @dsl_delete = ActionController::ControllerDslDelete.new Musician, MusiciansController
     musician = Musician.make
     musician = @dsl_delete.load_existing_model({:id => musician.id})
     assert musician
@@ -14,13 +14,13 @@ class ControllerDslDeleteTest < ActiveSupport::TestCase
 
   test "check that we can load a model that's already loaded" do
     new_musician = Musician.new
-    @dsl_delete = ActionController::ControllerDslDelete.new Musician
+    @dsl_delete = ActionController::ControllerDslDelete.new Musician, MusiciansController
     musician = @dsl_delete.load_existing_model({}, new_musician)
     assert_equal new_musician, musician
   end
   
   test "check that we can really delete a model" do
-    @dsl_delete = ActionController::ControllerDslDelete.new Musician
+    @dsl_delete = ActionController::ControllerDslDelete.new Musician, MusiciansController
     musician = Musician.make
     assert_difference('Musician.count', -1) do
       @dsl_delete.perform_delete({}, musician)
@@ -28,7 +28,7 @@ class ControllerDslDeleteTest < ActiveSupport::TestCase
   end
 
   test "check that we can set deleted_at on a model" do
-    @dsl_delete = ActionController::ControllerDslDelete.new Instrument
+    @dsl_delete = ActionController::ControllerDslDelete.new Instrument, InstrumentsController
     instrument = Instrument.make
     assert_difference('Instrument.count', 0) do
       instrument = @dsl_delete.perform_delete({}, instrument)
@@ -38,7 +38,7 @@ class ControllerDslDeleteTest < ActiveSupport::TestCase
   
   test "check that we can delete a model with a fluxx user" do
     fluxx_user = Musician.make
-    @dsl_delete = ActionController::ControllerDslDelete.new Instrument
+    @dsl_delete = ActionController::ControllerDslDelete.new Instrument, InstrumentsController
     instrument = Instrument.make
     assert_difference('Instrument.count', 0) do
       instrument = @dsl_delete.perform_delete({}, instrument)

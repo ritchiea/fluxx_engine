@@ -97,17 +97,19 @@ class ActionController::Base
               if @report
                 @report_list = insta_index_report_list
                 if params[:commit] && params[:commit] =~ /document/i
-                  headers = @report.compute_index_document_headers self, index_object, params, @models
+                  @report_vars = @report.pre_compute(self, index_object, params, @models) if @report.respond_to? :pre_compute
+                  headers = @report.compute_index_document_headers self, index_object, params, @models, @report_vars
                   add_headers headers[0], headers[1]
                   controller = self
-                  render :text => @report.compute_index_document_data(controller, index_object, params, @models)
+                  render :text => @report.compute_index_document_data(controller, index_object, params, @models, @report_vars)
                 else
+                  @report_vars = @report.pre_compute(self, index_object, params, @models) if @report.respond_to? :pre_compute
                   @icon_style = index_object.report_icon_style if index_object.report_icon_style
-                  @report_data = @report.compute_index_plot_data self, index_object, params, @models
+                  @report_data = @report.compute_index_plot_data self, index_object, params, @models, @report_vars
                   @report_label = @report.report_label
-                  @report_filter_text = @report.report_filter_text self, index_object, params, @models
-                  @report_summary = @report.report_summary self, index_object, params, @models
-                  @report_legend = @report.report_legend self, index_object, params, @models
+                  @report_filter_text = @report.report_filter_text self, index_object, params, @models, @report_vars
+                  @report_summary = @report.report_summary self, index_object, params, @models, @report_vars
+                  @report_legend = @report.report_legend self, index_object, params, @models, @report_vars
                   fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'),
                      :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
@@ -201,16 +203,18 @@ class ActionController::Base
                 @from_request_card = false
                 @reports = insta_show_report_list
                 if params[:commit] && params[:commit] =~ /document/i
-                  headers = @report.compute_show_document_headers self, show_object, params
+                  @report_vars = @report.pre_compute(self, show_object, params, @models) if @report.respond_to? :pre_compute
+                  headers = @report.compute_show_document_headers self, show_object, params, @report_vars
                   add_headers headers[0], headers[1]
-                  render :text => @report.compute_show_document_data(self, show_object, params)
+                  render :text => @report.compute_show_document_data(self, show_object, params, @report_vars)
                 else
+                  @report_vars = @report.pre_compute(self, show_object, params, @models) if @report.respond_to? :pre_compute
                   @icon_style = show_object.report_icon_style if show_object.report_icon_style
-                  @report_data = @report.compute_show_plot_data self, show_object, params
+                  @report_data = @report.compute_show_plot_data self, show_object, params, @report_vars
                   @report_label = @report.report_label
-                  @report_filter_text = @report.report_filter_text self, show_object, params
-                  @report_summary = @report.report_summary self, show_object, params
-                  @report_legend = @report.report_legend self, show_object, params
+                  @report_filter_text = @report.report_filter_text self, show_object, params, @report_vars
+                  @report_summary = @report.report_summary self, show_object, params, @report_vars
+                  @report_legend = @report.report_legend self, show_object, params, @report_vars
                   fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'),
                      :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
                 end
