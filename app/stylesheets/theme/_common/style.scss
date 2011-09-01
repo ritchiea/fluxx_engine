@@ -408,7 +408,11 @@
   }
   &.contact-info { margin-top:0.15em;}
   .partial { margin: 0.25em 0;}
+  &[data-src] {
+    margin-bottom: 10px;
+  }
 }
+
 h3.collapsible {
   background: #{inline_image("/images/fluxx_engine/theme/default/icons/section-closed.gif")} no-repeat left 5px;
   &.open {
