@@ -85,6 +85,15 @@
     .ui-widget-content a {
       color: blue;
     }
+  .float_right {
+      position: absolute;
+      top: -30px;
+      left: 214px;
+      width: 500px;
+      .buttons {
+        float: right;
+      }
+    }
   }
   .detail {
     background: #fff;
@@ -105,11 +114,12 @@
       border: none
     }
     .inline-aft {z-index: 1;}
-    #card-footer ul, #card-settings li, {display: none;}
+    #card-footer, #card-settings li, {display: none;}
     #card-header {
       .notice {
         padding: 15px 50px 25px;
       }
+      form, ul, input {display: none;}
     }
     .text,.multiple-select-transfer, textarea {
       label {display: block;}
@@ -132,10 +142,16 @@
     }
     #card-body {
       overflow-x: hidden;
-      position: relative;
+      margin-left: 59px;
+      width: 539px;
+      height: 460px;
+      a {
+        color: blue;
+      }
+      .form-builder .float_right a {color: #000;}
     }
   }
-  .updating {
+  .loading, .updating {
     -webkit-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4);
     box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.4);

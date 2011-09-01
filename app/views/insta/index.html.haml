@@ -1,8 +1,6 @@
 - if @skip_wrapper
   = render :partial => @markup,  :locals => {:models => @models}
 - else
-  %h1
-    Listing #{@plural_model_name}
 
   #card-header
     = form_for :q, :url => current_index_path, :html => { :method => :get, :class => 'search listing-search' } do |f|

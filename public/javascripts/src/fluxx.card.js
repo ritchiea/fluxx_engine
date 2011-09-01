@@ -688,10 +688,22 @@
         $area.find('.edit').addClass('withtabs');
         var cookieName = "fluxx_tabs_" + $elem.attr('name');
         var tab_cookie_id = parseInt($.cookie(cookieName)) || 0;
+        var $card = $area.fluxxCard();
         $elem.tabs({
           selected: tab_cookie_id,
           select: function(e,ui) {
             $.cookie(cookieName, ui.index);
+          },
+          show: function(e, ui) {
+            if ($(ui.tab).attr('href').match(/^#ui-tabs-\d+/)) {
+                $card.showLoadingIndicator();
+              $($(ui.tab).attr('href'), $area).html('');
+            }
+
+          },
+          load: function(e,ui) {
+            $card.hideLoadingIndicator();
+            $(this).areaDetailTransform();
           }
         });
       });
@@ -1416,11 +1428,11 @@
       return closeCard;
     },
 		showLoadingIndicator: function() {
-      var $loading = $('.loading-indicator', $(this));
-			$loading.addClass('loading').data('loading-count', Number($loading.data('loading-count')) + 1);
+      var $loading = $(this).hasClass('admin-card') ? $('#fluxx-admin .fluxx-admin-partial') : $('.loading-indicator', $(this));
+      $loading.addClass('loading').data('loading-count', Number($loading.data('loading-count') || 0) + 1);
 		},
 		hideLoadingIndicator: function() {
-      var $loading = $('.loading-indicator', $(this));
+      var $loading = $(this).hasClass('admin-card') ? $('#fluxx-admin .fluxx-admin-partial') : $('.loading-indicator', $(this));
       if($loading.data('loading-count') > 1) {
         $loading.data('loading-count', Number($loading.data('loading-count')) - 1);
       } else {
