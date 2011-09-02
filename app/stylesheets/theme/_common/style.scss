@@ -1306,6 +1306,15 @@ table .partial { margin: 0.25em 0; }
   }
 }
 
+.todo .desc {
+  background-color: #e1e1e1;
+  display: inline-block;
+  padding: 0px 20px 0px 20px;
+  margin-left: 16px;
+  margin-bottom: 4px;
+  @include rounded(8px);
+}
+
 .list {
   border-bottom: 1px dotted #999;
   ul li {
