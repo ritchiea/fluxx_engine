@@ -532,7 +532,7 @@
       }
     },
     fluxxCardAreaData: function() {
-      return this.fluxxCardArea().data('history')[0].data;
+      return this.fluxxCardArea().data('history') ? this.fluxxCardArea().data('history')[0].data : '';
     },
     fluxxCardListing: function() {
       return this.fluxxCard().data('listing') || $([]);
@@ -822,7 +822,7 @@
             });
           var $lock = $('<li class="boolean optional lock-card"><label for="lock-card"><input id="lock-card" type="checkbox"' +
             ($card.data('locked') ? ' checked="true"' : '') +
-            '(>Lock Card</label></li>').prependTo($form);
+            '>Lock Card</label></li>').prependTo($form);
           $lock.change(function() {
             if ($('#lock-card', $lock).attr('checked')) {
               $form.addClass('locked');
@@ -836,20 +836,22 @@
           }).change();
 
           var $filterText = $('<input type="hidden" name="filter-text" value =""/>').appendTo($form);
-
           var data = $listing.fluxxCardAreaRequest().data;
-          if (typeof data == "string") {
+          if (openInDetail || typeof data == "string") {
             $form.removeClass('to-listing').addClass('to-detail');
-            data = [];
-            _.each($.fluxx.unparam($listing.fluxxCardAreaData()), function(val, key) {
-              if ($.isArray(val)) {
-                _.each(val, function(singleValue) {
-                  data.push({name: key, value: singleValue});
-                });
-              } else {
-                data.push({name: key, value: val});
-              }
-            });
+            if ($listing.fluxxCardAreaData() != '' && typeof $listing.fluxxCardAreaData() != "object") {
+              data = [];
+              var filter = typeof data == "object"
+              _.each(filter, function(val, key) {
+                if ($.isArray($.fluxx.unparam($listing.fluxxCardAreaData()))) {
+                  _.each(val, function(singleValue) {
+                    data.push({name: key, value: singleValue});
+                  });
+                } else {
+                  data.push({name: key, value: val});
+                }
+              });
+            }
           }
           $filters.populateFilterForm(data);
         });
@@ -867,6 +869,7 @@
         return;
       var $filters = $(this);
       var found = {};
+      $.fluxx.log('----', data);
       _.each(data, function(obj, val) {
         if (obj && obj.value) {
           var $rollup = $('[data-rollup="' + obj.name.replace(/\w+\[(\w+)\]\[\]/, "$1") + '"]');
@@ -898,7 +901,7 @@
             });
           } else {
             var selector = '[name="' + obj.name.replace(/\[\]$/,'') + '"]';
-            var $elem = $(selector, $filters).last();
+            var $elem = $(selector, $filters);
             if (found.hasOwnProperty(obj.name)) {
               var $add  = $elem.clone();
               $elem.after($add);

@@ -41,10 +41,10 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
     html_relations = model_relations.map do |rd|
       if rd.show_tab.nil? || rd.show_tab.call([controller, model])
         if rd.lazy_load
-          {:lazy_load_url => rd.generate_url(controller, model), :display_name => rd.display_name, :wide_drawer => rd.wide_drawer}
+          {:lazy_load_url => rd.generate_url(controller, model), :display_name => rd.display_name, :wide_drawer => rd.wide_drawer, :url => rd.generate_url(controller, model)}
         else
           formatted_data = calculate_related_data_row(controller, model, rd).uniq_by{|element| element[:model]}
-          {:formatted_data => formatted_data, :display_name => rd.display_name, :wide_drawer => rd.wide_drawer}
+          {:formatted_data => formatted_data, :display_name => rd.display_name, :wide_drawer => rd.wide_drawer, :url => (rd.generate_url(controller, model) || controller.send(:url_for, model))}
         end
       end
     end.compact
@@ -55,7 +55,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
           model = element[:model]
           h = model.serializable_hash
           h['id'] = model.id
-          h['detail_url'] = controller.send(:url_for, model)
+          h['detail_url'] = element[:model_url]
           {model.class.name => h}
         end
       end
@@ -69,7 +69,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
       rd.search_block.call model
     end || []    
     related_models.compact.map do |model|
-      {:display_template => display_template, :model => model, :title => rd.generate_title(model), :model_url => rd.generate_url(controller, model)}
+      {:display_template => display_template, :model => model, :title => rd.generate_title(model), :model_url => (rd.generate_url(controller, model) || controller.send(:url_for, model))}
     end
   end
   
