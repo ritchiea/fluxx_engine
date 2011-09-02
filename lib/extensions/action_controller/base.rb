@@ -90,7 +90,7 @@ class ActionController::Base
           index_object.invoke_post self, @models
           insta_respond_to index_object do |format|
             format.html do
-              fluxxreport_id = params[:fluxxreport_id] || (params[:fluxx_first_report] == '1' && @first_report_id)
+              fluxxreport_id = (!params[:fluxxreport_id].blank? && params[:fluxxreport_id]) || (params[:fluxx_first_report] == '1' && @first_report_id)
               @report = if fluxxreport_id && @first_report_id
                 @from_request_card = true
                 insta_report_find_by_id fluxxreport_id.to_i
@@ -674,7 +674,6 @@ class ActionController::Base
     @layout = options[:layout] || show_object.layout || params[:printable] ? 'printable_show' : false
     @layout = options[:layout] if !options[:layout].nil? # If options[:layout] is false, respect that
     @skip_card_footer = options[:skip_card_footer]
-    p "ESH: in fluxx_show_card, rendering #{(show_object.view || "#{insta_path}/show").to_s}, with @markup=#{@markup} and @footer_template=#{@footer_template}"
     render((show_object.view || "#{insta_path}/show").to_s, :layout => @layout)
   end
 
