@@ -132,6 +132,7 @@ class ActionController::Base
               derived_models = @models.compact.map do |model| 
                 h = model.serializable_hash
                 h['id'] = model.id
+                h['class_name'] = model.class.name
                 h['detail_url'] = url_for(model); 
                 extra_elements = index_object.json_block.call(h, model) if index_object.json_block
                 h

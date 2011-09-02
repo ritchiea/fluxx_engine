@@ -56,6 +56,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
           h = model.serializable_hash
           h['id'] = model.id
           h['detail_url'] = element[:model_url]
+          h['class_name'] = model.class.name
           {model.class.name => h}
         end
       end
