@@ -225,7 +225,11 @@ class ActionController::Base
               end
             end
             format.json do
-              render :inline => {@model.class.name.tableize.singularize => @model.attributes, :url => url_for(@model), :related => @json_relations}.to_json
+              h = @model.serializable_hash
+              h['id'] = @model.id
+              h['detail_url'] = url_for(@model)
+              h['related'] = @json_relations
+              render :inline => h.to_json
             end
             format.xml  { render :xml => @model }
           end

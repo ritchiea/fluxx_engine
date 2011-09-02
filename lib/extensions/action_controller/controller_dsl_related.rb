@@ -53,7 +53,10 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
       if rd[:formatted_data]
         rd[:formatted_data].map do |element|
           model = element[:model]
-          {model.class.name.tableize.singularize => model.attributes, :url => controller.send(:url_for, model)}
+          h = model.serializable_hash
+          h['id'] = model.id
+          h['detail_url'] = controller.send(:url_for, model)
+          {model.class.name => h}
         end
       end
     end.compact.flatten.compact
