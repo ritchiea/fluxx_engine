@@ -19,7 +19,7 @@ module FluxxClientStore
           acc[name_value['name']] = name_value['value']
           acc
         end.reject{|k, v| v.blank? || k.blank? || k == 'utf8'}
-      end || []
+      end || {}
     end
   end
   
@@ -32,14 +32,24 @@ module FluxxClientStore
     end
     
     
-    def as_dashboard
+    def as_dashboard include_filtered_url=false
       cards = []
       dashboard_cards.each do |card|
         title = card['title']
         url = card['listing']['url']
         uid = card['uid']
         filters = ClientStore.dashboard_card_params card
-        cards << {:uid => uid, :duid => "#{self.id}_#{uid}", :title => title, :url => url, :filters => filters}
+        h = {:uid => uid, :duid => "#{self.id}_#{uid}", :title => title, :url => url}
+        if include_filtered_url
+          if url && filters && !filters.empty?
+            h[:filtered_url] = "#{url}?#{filters.to_params}"
+          else
+            h[:filtered_url] = url
+          end
+        else
+          h[:filters] = filters
+        end
+        cards << h
       end
       {:id => self.id, :name => self.name, :cards => cards}
     end

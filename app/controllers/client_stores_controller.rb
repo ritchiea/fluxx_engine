@@ -16,7 +16,7 @@ class ClientStoresController < ApplicationController
       format.json do |pair, outcome|
         controller_dsl, outcome = pair
         if params[:as_dashboard]
-          dashboards = instance_variable_get("@models").map{|model| model.as_dashboard}
+          dashboards = instance_variable_get("@models").map{|model| model.as_dashboard(true)}
           render :inline => {:dashboards => dashboards}.to_json
         else
           # May need something like this gsub to strip out :undefined
