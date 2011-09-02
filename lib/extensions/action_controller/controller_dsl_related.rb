@@ -41,10 +41,10 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
     html_relations = model_relations.map do |rd|
       if rd.show_tab.nil? || rd.show_tab.call([controller, model])
         if rd.lazy_load
-          {:lazy_load_url => rd.generate_url(controller, model), :display_name => rd.display_name, :wide_drawer => rd.wide_drawer}
+          {:lazy_load_url => rd.generate_url(controller, model), :display_name => rd.display_name, :wide_drawer => rd.wide_drawer, :url => rd.generate_url(controller, model)}
         else
           formatted_data = calculate_related_data_row(controller, model, rd).uniq_by{|element| element[:model]}
-          {:formatted_data => formatted_data, :display_name => rd.display_name, :wide_drawer => rd.wide_drawer}
+          {:formatted_data => formatted_data, :display_name => rd.display_name, :wide_drawer => rd.wide_drawer, :url => rd.generate_url(controller, model)}
         end
       end
     end.compact
@@ -53,7 +53,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
       if rd[:formatted_data]
         rd[:formatted_data].map do |element|
           model = element[:model]
-          {model.class.name.tableize.singularize => model.attributes, :url => controller.send(:url_for, model)}
+          {model.class.name.tableize.singularize => model.attributes, :url => rd[:url]}
         end
       end
     end.compact.flatten.compact
