@@ -229,7 +229,15 @@ class ActionController::Base
               h = @model.serializable_hash
               h['id'] = @model.id
               h['detail_url'] = url_for(@model)
-              h['related'] = @json_relations
+              
+              # This to me is something of a hack.  The idea is to group like relations in their own lists
+              if @json_relations
+                @json_relations.map do |relation| 
+                  list = h[relation['class_name']] || []
+                  h[relation['class_name']] = list
+                  list << relation
+                end
+              end
               render :inline => h.to_json
             end
             format.xml  { render :xml => @model }

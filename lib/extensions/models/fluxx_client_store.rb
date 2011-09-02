@@ -42,9 +42,9 @@ module FluxxClientStore
         h = {:uid => uid, :duid => "#{self.id}_#{uid}", :title => title, :url => url}
         if include_filtered_url
           if url && filters && !filters.empty?
-            h[:filtered_url] = "#{url}?#{filters.to_params}"
+            h[:filtered_url] = "#{url}.json?#{filters.to_params}"
           else
-            h[:filtered_url] = url
+            h[:filtered_url] = "#{url}.json"
           end
         else
           h[:filters] = filters

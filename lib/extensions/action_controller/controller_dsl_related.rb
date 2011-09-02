@@ -57,10 +57,10 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
           h['id'] = model.id
           h['detail_url'] = element[:model_url]
           h['class_name'] = model.class.name
-          {model.class.name => h}
+          h
         end
       end
-    end.compact.flatten.compact
+    end.flatten.compact
     [html_relations, json_relations]
   end
   
@@ -68,7 +68,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
     display_template = rd.display_template    
     related_models = if rd.search_block
       rd.search_block.call model
-    end || []    
+    end || []
     related_models.compact.map do |model|
       {:display_template => display_template, :model => model, :title => rd.generate_title(model), :model_url => (rd.generate_url(controller, model) || controller.send(:url_for, model))}
     end
