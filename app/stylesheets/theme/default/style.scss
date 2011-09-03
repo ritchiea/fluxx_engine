@@ -164,6 +164,41 @@
   }
 }
 
+.fullscreen-view #modal-container {
+    background: none;
+    border: none;
+    outline: none;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    font-size: 22px;
+    text-align: left;
+    height: 100%;
+    min-height: 100%;
+    min-width: 794px;
+    max-width: 794px;
+    width: 794px;
+    border: none;
+    padding-top: 0px;
+    margin-bottom: 0px;
+    .simplemodal-close {
+      top: 11px;
+    }
+    simplemodal-wrap{
+     outline-color: transparent;
+    }
+    #fluxx-admin {
+    outline: none;
+    .updating {
+      left: 100px;
+    }
+    }.detail {
+      margin: 24px 0px 0px 0px;
+      padding: 0px;
+      left: 0px;
+    }
+  }
+
 .new-modal {
   border: 10px solid #000;
   background-color: #000;

@@ -856,6 +856,8 @@
             'click', function (e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              if ($elem.hasClass('disabled'))
+                return;
               var $card = $elem.fluxxCard();
               $('.open-listing-actions', $elem.fluxxCard()).click();
               req = $card.fluxxCardListing().fluxxCardAreaRequest();
@@ -1063,6 +1065,54 @@
               var $elem = $(this);
               $elem.fluxxCardLoadDetail({
                 url: $elem.attr('href')
+              });
+            }
+          ],
+          'a.to-fullscreen': ['click', function (e) {
+            $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              if ($elem.hasClass('disabled'))
+                return;
+              data = '<div id="fluxx-admin" class="simplemodal-data" style=""><ul><li class="card ignore-empty admin-card" id="fluxx-admin-card"><div class="detail area partial fluxx-admin-partial"><div class="body"></div></div></li></ul></div>';
+                $.modal(data, {
+                postition:[0,0],
+                overlayId: 'modal-overlay',
+                containerId: 'modal-container',
+                dataId: $elem.attr('data-container-id') ? $elem.attr('data-container-id') : 'simplemodal-data',
+                onOpen: function(dialog) {
+                  $('.simplemodal-close', dialog.container).hide();
+                  $('body').addClass('fullscreen-view');
+                  var $detail = $('#fluxx-admin .fluxx-admin-partial');
+                  var req = $elem.fluxxCard().fluxxCardDetail().fluxxCardAreaRequest();
+                  if (req) {
+                    req.area = $detail;
+                    $detail
+                      .addClass('updating')
+                      .children()
+                      .fadeTo(300, 0);
+                    $elem.fluxxCardLoadContent(req, function() {
+                      $detail.removeClass('updating').children().fadeTo(300, 1);
+                        $('.simplemodal-close', dialog.container).show();
+                      $.my.stage.resizeFluxxStage();
+                      $(window).resize();
+                    });
+                  }
+                  dialog.overlay.fadeIn(200, function () {
+                    dialog.container.fadeIn(200, function () {
+                      dialog.data.fadeIn(200)
+                    });
+                  });
+                },
+                onClose: function(dialog) {
+                  dialog.data.fadeOut(200, function () {
+                    dialog.container.fadeOut(200, function () {
+                      dialog.overlay.fadeOut(200, function () {
+                        $.modal.close();
+                        $('body').removeClass('fullscreen-view');
+                      });
+                    });
+                  });
+                }
               });
             }
           ],

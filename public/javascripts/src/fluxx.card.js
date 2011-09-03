@@ -36,8 +36,9 @@
                   }
 
                   var $close = $('.close-detail', $card);
-                  if ($('.detail:visible', $card).length > 0 &&
-                      $('.listing:visible', $card).length > 0)
+                  var detailShowing = $('.detail:visible', $card).length > 0;
+                  var listingShowing = $('.listing:visible', $card).length > 0;
+                  if (detailShowing && listingShowing)
                     $close.show();
                   else
                     $close.hide();
@@ -50,6 +51,11 @@
                     $card.addClass('spreadsheet-card');
                   if ($card.isSummaryCard())
                     $card.addClass('summary-card');
+
+                  if (detailShowing)
+                    $('.to-fullscreen', $card).removeClass('disabled');
+                  else
+                    $('.to-fullscreen', $card).addClass('disabled');
 
                   $refresh = $('.titlebar .refresh-card', $card).hide();
                   if (!$card.fluxxCardListing().is(':visible') && !$card.cardIsMinimized())
@@ -1480,6 +1486,8 @@
     changeView: function(view) {
       var $elem = $(this);
       var $card = $elem.fluxxCard();
+      if ($elem.hasClass('disabled'))
+        return;
       $('.open-listing-actions', $elem.fluxxCard()).click();
       req = $card.fluxxCardListing().fluxxCardAreaRequest();
       if (!$.isArray(req.data))
