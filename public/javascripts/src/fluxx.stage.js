@@ -61,7 +61,10 @@
       var allCards = _.addUp($.my.cards, 'outerWidth', true);
       var stageWidth = $.my.stage.width();
       $('#modal-container').css('height', '80%');
-      $('#fluxx-admin .detail').height($('#modal-container').height() - 46);
+      $('#fluxx-admin .detail').each(function() {
+        var $elem = $(this);
+        $elem.height($('#modal-container').height() - 46).find('#card-body').height($elem.height() - 210);
+      });
       if (options.animate && allCards < stageWidth && stageWidth > $(window).width()) {
         $.my.stage.stop().animate({width: allCards + 40}, function(e) {
           $.my.stage

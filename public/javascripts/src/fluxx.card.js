@@ -704,6 +704,7 @@
           load: function(e,ui) {
             $card.hideLoadingIndicator();
             $(this).areaDetailTransform();
+            $.my.stage.resizeFluxxStage();
           }
         });
       });
