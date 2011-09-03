@@ -52,7 +52,7 @@
                   if ($card.isSummaryCard())
                     $card.addClass('summary-card');
 
-                  if (detailShowing || $card.isSpreadsheetCard())
+                  if ((!$card.find('.edit')[0] && detailShowing) || $card.isSpreadsheetCard())
                     $('.to-fullscreen', $card).removeClass('disabled');
                   else
                     $('.to-fullscreen', $card).addClass('disabled');
