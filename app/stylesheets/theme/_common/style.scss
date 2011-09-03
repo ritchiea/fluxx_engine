@@ -1305,7 +1305,6 @@ table .partial { margin: 0.25em 0; }
     .key {width: 100px;}
   }
 }
-
 .todo .desc {
   background-color: #e1e1e1;
   display: inline-block;
@@ -1314,7 +1313,6 @@ table .partial { margin: 0.25em 0; }
   margin-bottom: 4px;
   @include rounded(8px);
 }
-
 .list {
   border-bottom: 1px dotted #999;
   ul li {
@@ -1392,6 +1390,11 @@ table .partial { margin: 0.25em 0; }
     .ui-widget-header {
       background: #fff;
     }
+    .ui-tabs-nav {
+      padding-left: 510px;
+    }
+  }
+  .with-portal-tabs {
     .ui-tabs-nav {
       padding-left: 265px;
     }
