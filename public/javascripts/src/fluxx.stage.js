@@ -1096,7 +1096,7 @@
                   $('body').addClass('fullscreen-view');
                   var $detail = $('#fluxx-admin .fluxx-admin-partial');
                   var req = $elem.fluxxCard().fluxxCardDetail().fluxxCardAreaRequest();
-                  if (!req)
+                  if (!req || $elem.fluxxCard().isSpreadsheetCard())
                     req = $elem.fluxxCard().fluxxCardListing().fluxxCardAreaRequest();
                   if (req) {
                     req.area = $detail;
