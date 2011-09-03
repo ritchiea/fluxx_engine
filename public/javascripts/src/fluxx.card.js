@@ -52,7 +52,7 @@
                   if ($card.isSummaryCard())
                     $card.addClass('summary-card');
 
-                  if (detailShowing)
+                  if (detailShowing || $card.isSpreadsheetCard())
                     $('.to-fullscreen', $card).removeClass('disabled');
                   else
                     $('.to-fullscreen', $card).addClass('disabled');
@@ -1271,8 +1271,9 @@
                 var $th = $(this).css({"white-space": "nowrap"});
                 $header.append($('<div>' + $th.text() + '</div>').width($th.outerWidth()));
               });
+              var offset = $('body').hasClass('fullscreen-view') ? 28 : 1;
               $table.wrap(
-                $('<div class="table-scroller"></div>').width(options.area.width() - rowLabelWidth - 1).height($('.body', options.area).height() - headerHeight + 2
+                $('<div class="table-scroller"></div>').width(options.area.width() - rowLabelWidth - offset).height($('.body', options.area).height() - headerHeight + 2
               ).css({overflow: "auto", "background-color": "#fff"}));
               $table.parent().before($header);
               $header.wrap($('<div class="header-scroller"></div>').css({overflow: "hidden"}).width(options.area.width()));
@@ -1287,7 +1288,7 @@
               $rowLabels.width(rowLabelWidth);
               $rowLabels.css({"margin-bottom": "100px", "margin-top": "5px"});
               $table.parent().before($rowLabels);
-              $rowLabels.wrap($('<div class="row-scroller"></div>').css({overflow: "hidden", "background-color": "#fff"}).height($('.body', options.area).height()).width(rowLabelWidth));
+              $rowLabels.wrap($('<div class="row-scroller"></div>').css({overflow: "hidden", "background-color": "#fff"}).height($('.body', options.area).height() + 5000).width(rowLabelWidth));
               var $rowScroll = $rowLabels.parent();
               $tableScroll.scroll(function () {
                 $headerScroll.scrollLeft($tableScroll.scrollLeft());

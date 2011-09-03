@@ -165,6 +165,7 @@
 }
 
 .fullscreen-view {
+  overflow: hidden;
   #modal-overlay {
     background-image: none;
     background-color: #000;
@@ -186,11 +187,23 @@
     border: none;
     padding-top: 0px;
     margin-bottom: 0px;
+    .spreadsheet-view {
+      .header-scroller {
+        top: 4px;
+      }
+      .table-scroller {
+        margin-top: -2px;
+        margin-right: 20px;
+      }
+    }
     .simplemodal-close {
       top: 11px;
     }
-    simplemodal-wrap{
-     outline-color: transparent;
+    .spreadsheet-view {
+      overflow: hidden;
+      .simplemodal-close {
+        right: -7px;
+      }
     }
     #fluxx-admin {
     outline: none;

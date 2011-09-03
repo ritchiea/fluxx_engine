@@ -64,6 +64,12 @@
       $('#fluxx-admin .detail').each(function() {
         var $elem = $(this);
         $elem.height($('#modal-container').height() - 46).find('#card-body').height($elem.height() - 210);
+        if ($elem.fluxxCard().isSpreadsheetCard()) {
+          $('#modal-container').css({"max-width": 100000}).width("100%");
+          $elem.fluxxCard().width("100%").find('.detail').width("100%");
+          var $sc = $elem.fluxxCard().find('.table-scroller');
+          $sc.width($elem.fluxxCard().width() - 85).height($elem.fluxxCard().height() - 68);
+        }
       });
       if (options.animate && allCards < stageWidth && stageWidth > $(window).width()) {
         $.my.stage.stop().animate({width: allCards + 40}, function(e) {
@@ -210,6 +216,8 @@
           'a.new-detail': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
+              if ($('body').hasClass('fullscreen-view'))
+                return;
               var $elem = $(this);
               var card = {
                 detail: {url: $elem.attr('href')},
@@ -1088,6 +1096,8 @@
                   $('body').addClass('fullscreen-view');
                   var $detail = $('#fluxx-admin .fluxx-admin-partial');
                   var req = $elem.fluxxCard().fluxxCardDetail().fluxxCardAreaRequest();
+                  if (!req)
+                    req = $elem.fluxxCard().fluxxCardListing().fluxxCardAreaRequest();
                   if (req) {
                     req.area = $detail;
                     $detail.addClass('updating').children();
