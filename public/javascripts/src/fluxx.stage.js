@@ -1081,6 +1081,7 @@
                 postition:[0,0],
                 overlayId: 'modal-overlay',
                 containerId: 'modal-container',
+                opacity: 90,
                 dataId: $elem.attr('data-container-id') ? $elem.attr('data-container-id') : 'simplemodal-data',
                 onOpen: function(dialog) {
                   $('.simplemodal-close', dialog.container).hide();
@@ -1089,10 +1090,7 @@
                   var req = $elem.fluxxCard().fluxxCardDetail().fluxxCardAreaRequest();
                   if (req) {
                     req.area = $detail;
-                    $detail
-                      .addClass('updating')
-                      .children()
-                      .fadeTo(300, 0);
+                    $detail.addClass('updating').children();
                     $elem.fluxxCardLoadContent(req, function() {
                       $detail.removeClass('updating').children().fadeTo(300, 1);
                         $('.simplemodal-close', dialog.container).show();

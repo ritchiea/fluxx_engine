@@ -164,7 +164,12 @@
   }
 }
 
-.fullscreen-view #modal-container {
+.fullscreen-view {
+  #modal-overlay {
+    background-image: none;
+    background-color: #000;
+  }
+  #modal-container {
     background: none;
     border: none;
     outline: none;
@@ -198,6 +203,7 @@
       left: 0px;
     }
   }
+}
 
 .new-modal {
   border: 10px solid #000;
