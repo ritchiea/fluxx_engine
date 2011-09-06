@@ -25,10 +25,14 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :always_skip_wrapper
   # A method to render extra JSON elements
   attr_accessor :json_block
-  
-
+  # a blob_struct of format blocks broken up by the various names (used for the summary view only)
+  attr_accessor :summary_view_block_map
+  # a blob_struct of format blocks broken up by the various names (used for the spreadsheet view only)
+  attr_accessor :spreadsheet_view_block_map
   # block to postprocess autocomplete results
   attr_accessor :postprocess_block
+  attr_accessor :has_summary_view_template
+  attr_accessor :has_spreadsheet_view_template
   
   ## Use ActionController::ControllerDslIndex.max_sphinx_results= to set a different value
   def self.max_sphinx_results= max_sphinx_results_param
@@ -299,6 +303,38 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       end
       headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
     end
+  end
+
+  # Add a block to be executed for a particular format block when rendering the summary view
+  def summary_view &block
+    self.summary_view_block_map = BlobStruct.new
+    yield summary_view_block_map if block_given?
+  end
+
+  def has_summary_view?
+    self.has_summary_view_template ||self.summary_view_block_map != nil
+  end
+
+  # Add a block to be executed for a particular format block when rendering the spreadsheet view
+  def spreadsheet_view &block
+    self.spreadsheet_view_block_map = BlobStruct.new
+    yield spreadsheet_view_block_map if block_given?
+  end
+
+  def has_spreadsheet_view?
+    self.has_spreadsheet_view_template || self.spreadsheet_view_block_map != nil
+  end
+
+  def spreadsheet_view_template= value
+    self.template_map = {} if !self.template_map
+    self.template_map[:spreadsheet] = value
+    self.has_spreadsheet_view_template = true
+  end
+
+  def summary_view_template= value
+    self.template_map = {} if !self.template_map
+    self.template_map[:summary] = value
+    self.has_summary_view_template = true
   end
   
 end
