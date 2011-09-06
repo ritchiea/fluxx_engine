@@ -73,20 +73,31 @@
               legend[key.label] = key;
             });
 
-            $('.legend table.legend-table tr', $card).each(function() {
-             var $td = $('td:first', $(this));
-             if ($td.length) {
-               $td.prepend('<span class="legend-color-swatch" style="background-color: ' + legend[$.trim($td.text())].color + '"/>');
-             }
-            })
-            .hover(function(e) {
-              var $td = $('td:first', $(this));
-              legend[$.trim($td.text())].canvas._elem.css('opacity', '.5');
-            }, function(e) {
-              var $td = $('td:first', $(this));
-              legend[$.trim($td.text())].canvas._elem.css('opacity', '1');
-            });
-
+            var $table =  $('.legend table.legend-table', $card);
+            if ($table.hasClass('single-row-legend')) {
+              $table.find('.category').each(function () {
+                var $cat = $(this);
+                var l = legend[$.trim($cat.text())];
+                if (l)
+                  $cat.prepend('<span class="legend-color-swatch" style="background-color: ' + l.color + '"/>');
+              });
+            } else {
+              $table.find('tr').each(function() {
+               var $td = $('td:first', $(this));
+               if ($td.length) {
+                 var l = legend[$.trim($td.text())];
+                 if (l)
+                  $td.prepend('<span class="legend-color-swatch" style="background-color: ' + l.color + '"/>');
+               }
+              })
+              .hover(function(e) {
+                var $td = $('td:first', $(this));
+                legend[$.trim($td.text())].canvas._elem.css('opacity', '.5');
+              }, function(e) {
+                var $td = $('td:first', $(this));
+                legend[$.trim($td.text())].canvas._elem.css('opacity', '1');
+              });
+            }
           }
         }
       });

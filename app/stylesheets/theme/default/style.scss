@@ -559,6 +559,28 @@
       @include rounded(1px);
       margin-right: 5px;
     }
+    &.single-row-legend {
+      width: 100%;
+      margin-left: 0px;
+      background-color: #fafafa;
+      border: none;
+      td {
+        text-align: center;
+        horizontal-align: middle;
+        padding: 30px 0px 30px 0px;
+        border: 1px solid #dcdcdc;
+        font-size: 200%;
+        .category {
+          font-size: 40%;
+        }
+        &:first-child {
+          border-left: 0px;
+        }
+        &:last-child {
+          border-right: 0px;
+        }
+      }
+    }
   }
   .filter {
     margin: 4px 10px 16px 60px;
