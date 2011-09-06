@@ -1120,6 +1120,7 @@
                       dialog.overlay.fadeOut(200, function () {
                         $.modal.close();
                         $('body').removeClass('fullscreen-view');
+                        $.my.cards.resizeFluxxCard();
                       });
                     });
                   });
