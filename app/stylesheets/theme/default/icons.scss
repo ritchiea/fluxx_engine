@@ -286,6 +286,13 @@
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_zendesk.png")} transparent no-repeat 50% 50%;
       }
     }
+    &.style-linkedin {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_linkedin.png")} transparent no-repeat 50% 50%;
+      }
+    }
   }
 }
 
@@ -375,6 +382,10 @@
       &.style-zendesk {
         border: none;
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_zendesk.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-linkedin {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_linkedin.png")} transparent no-repeat 50% 50%;
       }
     }
   }
