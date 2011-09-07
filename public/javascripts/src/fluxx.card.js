@@ -1259,7 +1259,10 @@
             }
             // Render in card spreadsheet view with fixed column and row labels
             $('table.spreadsheet', options.area).each(function() {
-              var $table = $(this);
+              var $table = $(this)
+              var fitsCard = $table.width() < 1000;
+              if (fitsCard)
+                $table.width(options.area.fluxxCard().width() - 5);
               $rowLabels = $table.clone();
               $rowLabels.find('th').remove();
               var headerHeight = $('td:first', $table).outerHeight() + 1;
@@ -1286,7 +1289,7 @@
               $firstHeader.parent().css({position: "absolute", top: cardHeaderHeight - 1 + "px", left: "0xp"});
               var $tableScroll = $table.parent();
               $tableScroll.css({position: "absolute", top: headerHeight + cardHeaderHeight - 3 + "px", left: rowLabelWidth + "px"});
-              $rowLabels.width(rowLabelWidth);
+              $rowLabels.width(rowLabelWidth + (fitsCard ? 10000: 0));
               $rowLabels.css({"margin-bottom": "100px", "margin-top": "5px"});
               $table.parent().before($rowLabels);
               $rowLabels.wrap($('<div class="row-scroller"></div>').css({overflow: "hidden", "background-color": "#fff"}).height($('.body', options.area).height() + 5000).width(rowLabelWidth));
