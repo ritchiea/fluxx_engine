@@ -1271,7 +1271,8 @@
                 var $th = $(this).css({"white-space": "nowrap"});
                 $header.append($('<div>' + $th.text() + '</div>').width($th.outerWidth()));
               });
-              var offset = $('body').hasClass('fullscreen-view') ? 28 : 1;
+              var fullscreen = $('body').hasClass('fullscreen-view');
+              var offset = fullscreen ? 28 : 1;
               $table.wrap(
                 $('<div class="table-scroller"></div>').width(options.area.width() - rowLabelWidth - offset).height($('.body', options.area).height() - headerHeight + 2
               ).css({overflow: "auto", "background-color": "#fff"}));
@@ -1378,7 +1379,7 @@
             var $card = options.area.fluxxCard();
             if (options.area.fluxxCardAreaRequest())
               options.area.attr('data-src', options.area.fluxxCardAreaRequest().url);
-            if (!options.area.is(':visible') && options.area.width() > 0) {
+            if (($card.attr('id') != 'fluxx-admin-card') && !options.area.is(':visible') && options.area.width() > 0) {
               $card.animateWidthTo($card.width() + options.area.width(), function() {
                 // Wait a bit before displaying content to avoid an animation jump
                 setTimeout(function () {

@@ -1108,9 +1108,9 @@
                       $(window).resize();
                     });
                   }
-                  dialog.overlay.fadeIn(200, function () {
-                    dialog.container.fadeIn(200, function () {
-                      dialog.data.fadeIn(200)
+                  dialog.overlay.fadeIn(50, function () {
+                    dialog.container.fadeIn(50, function () {
+                      dialog.data.fadeIn(50)
                     });
                   });
                 },
