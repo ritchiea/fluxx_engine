@@ -1103,7 +1103,9 @@
                     $detail.addClass('updating').children();
                     $elem.fluxxCardLoadContent(req, function() {
                       $detail.removeClass('updating').children().fadeTo(300, 1);
-                        $('.simplemodal-close', dialog.container).show();
+                      var $close = $('.simplemodal-close', dialog.container).show();
+                      if ($detail.find('.spreadsheet-view')[0])
+                        $close.css({right: "0px", top: "0px"});
                       $.my.stage.resizeFluxxStage();
                       $(window).resize();
                     });
