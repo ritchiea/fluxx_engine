@@ -184,6 +184,10 @@ class ActiveRecord::Base
     end
   end
   
+  def self.find_multi_element_object
+    multi_element_object if respond_to?(:multi_element_object)
+  end
+  
   def self.insta_multi
     if respond_to?(:multi_element_object) && multi_element_object
       yield multi_element_object if block_given?
