@@ -789,8 +789,40 @@
   .facebook-profile .link { clear: both; }
   
 }
+.twitter-card {
+  .status {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7));
+    background: -moz-linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%);
+    color: #666;
+    border-left: 6px solid transparent;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    border-top: 1px solid white;
+    overflow: hidden;
+    
+    .tweet .screen-name { 
+      font-weight: bold; 
+      font-size: 110%; 
+    }
+    .tweet .user-name { 
+      color: #999; 
+      font-size: 90%; 
+      margin-left: .5em; 
+    }
+    .at {
+      color: #999;
+      margin-top: 5px;
+      font-size: 80%;
+    }
+    img { 
+      float: left;
+      margin-right: 5px;
+      width: 60px;
+    }
+  }
+}
 .linkedin {
-
   .linkedin_network_update {
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0.8, #F8F8F8), color-stop(1, #E7E7E7));
     background: -moz-linear-gradient(center top, #F8F8F8 80%, #E7E7E7 100%);

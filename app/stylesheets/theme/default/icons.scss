@@ -293,6 +293,13 @@
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_linkedin.png")} transparent no-repeat 50% 50%;
       }
     }
+    &.style-twitter {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_twitter.png")} transparent no-repeat 50% 50%;
+      }
+    }
   }
 }
 
@@ -386,6 +393,10 @@
       &.style-linkedin {
         border: none;
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_linkedin.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-twitter {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_twitter.png")} transparent no-repeat 50% 50%;
       }
     }
   }
