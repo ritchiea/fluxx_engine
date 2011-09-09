@@ -300,6 +300,13 @@
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_twitter.png")} transparent no-repeat 50% 50%;
       }
     }
+    &.style-jira {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_jira.png")} transparent no-repeat 50% 50%;
+      }
+    }    
   }
 }
 
@@ -397,6 +404,10 @@
       &.style-twitter {
         border: none;
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_twitter.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-jira {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_jira.png")} transparent no-repeat 50% 50%;
       }
     }
   }
