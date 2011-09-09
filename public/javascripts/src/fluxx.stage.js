@@ -1200,6 +1200,10 @@
                if ($.isArray(data))
                  data = _.select(data, function(obj){ if ( obj && obj.name && obj.name != 'utf8' && obj.name != 'q[q]') return obj; });
                data = ($.isArray(data) ? data.concat($elem.serializeArray()) : $elem.serializeArray());
+               if ($card.isSpreadsheetCard())
+                 data.push({name: "spreadsheet", value: 1})
+               if ($card.isSummaryCard())
+                 data.push({name: "summary", value: 1})
                var properties = {
                  area: $elem.fluxxCardArea(),
                  url: $.fluxx.cleanupURL($elem.attr('action')),
