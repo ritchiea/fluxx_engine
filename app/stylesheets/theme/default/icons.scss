@@ -27,6 +27,9 @@
       }
     }
     .popup {
+      .quicklinks-min-width {
+        min-width: 240px;
+      }
       $size: 7px;
       @include bg(transparent);
       position: absolute;
