@@ -876,7 +876,6 @@
         return;
       var $filters = $(this);
       var found = {};
-      $.fluxx.log('----', data);
       _.each(data, function(obj, val) {
         if (obj && obj.value) {
           var $rollup = $('[data-rollup="' + obj.name.replace(/\w+\[(\w+)\]\[\]/, "$1") + '"]');
@@ -1495,7 +1494,7 @@
       if ($elem.hasClass('disabled'))
         return;
       $('.open-listing-actions', $elem.fluxxCard()).click();
-      req = $card.fluxxCardListing().fluxxCardAreaRequest();
+      var req = $card.fluxxCardListing().fluxxCardAreaRequest();
       if (!$.isArray(req.data))
         req.data = []
       var data = _.select(req.data, function(item) {
