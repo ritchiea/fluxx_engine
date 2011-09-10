@@ -1508,7 +1508,16 @@ table .partial { margin: 0.25em 0; }
 }
 
 .ipad {
-  display: none;
+  zoom: 150%;
+  .show {
+    margin-left: 20px;
+  }
+  .add-button, .actions, .as-put {
+    display: none;
+  }
+  .to-modal {
+     pointer-events: none;
+  }
 }
 
 
