@@ -709,7 +709,8 @@ table .partial { margin: 0.25em 0; }
   }
   .body {
     border-bottom: 1px solid #9b9b9b;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     .list {
       .entry {
         border-top: 1px solid white;
