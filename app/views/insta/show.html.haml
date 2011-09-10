@@ -3,7 +3,7 @@
 - else
   %div{:id=>"card-header"}= raw "#{raw flash_info} #{raw flash_error}"
 
-  %div{:id=>"card-body"}
+  %div{:id=>"card-body", :class=> (request.env['HTTP_USER_AGENT'] =~ /iPad/ ? 'ipad' : '')}
     %div.show
       = render :partial => @markup, :locals => { :model => @model }
   - if !@skip_card_footer
