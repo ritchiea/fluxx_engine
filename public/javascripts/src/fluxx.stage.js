@@ -808,6 +808,7 @@
                       $('form', alert.body).data('target', $elem).submit();
                     }
                   });
+                  $('#simplemodal-data').areaDetailTransform();
                 }
               });
             }
