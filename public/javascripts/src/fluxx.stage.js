@@ -791,15 +791,21 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              $elem.fluxxCard().showLoadingIndicator();
               $.ajax({
                 url: $elem.attr('href'),
                 success: function(data, status, xhr) {
+                  $elem.fluxxCard().hideLoadingIndicator();
                   $.prompt({
                     title: $elem.attr('title') || $elem.text(),
                     body: data,
                     onOK: function(alert) {
-                      $('form', alert.body).submit();
-                      $elem.fluxxCardAreas().refreshCardArea();
+                      $elem.fluxxCard().showLoadingIndicator();
+                      $elem.bind('after-submit', function() {
+                        $elem.fluxxCard().hideLoadingIndicator();
+                        $elem.fluxxCardAreas().refreshCardArea();
+                      });
+                      $('form', alert.body).data('target', $elem).submit();
                     }
                   });
                 }
@@ -1164,6 +1170,7 @@
             'submit', function (e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              var $area = $elem.fluxxCardArea();
 							// Don't send blank password type input fields, that would force a password change
 							// every time a user was edited.
 							$('input:password', $elem).each(function() {
@@ -1172,7 +1179,7 @@
 									$pwe.attr("disabled", "disabled");
 							});
               var properties = {
-                area: $elem.fluxxCardArea(),
+                area: $area,
                 url: $elem.attr('action'),
                 data: $elem.serializeForm()
               };
@@ -1183,7 +1190,10 @@
                 $area.addClass('updating');
                 $area.children().fadeTo('fast', 0.33);
               }
+              var $target = $elem.data('target');
               $elem.fluxxCardLoadContent(properties, function() {
+                if ($target)
+                  $target.trigger('after-submit');
                 if ($area.hasClass('modal')) {
                   $area.removeClass('updating');
                   $area.children().fadeTo('fast', 1);
