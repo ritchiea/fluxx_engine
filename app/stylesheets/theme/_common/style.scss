@@ -1515,7 +1515,7 @@ table .partial { margin: 0.25em 0; }
   .add-button, .actions, .as-put, .action-item {
     display: none;
   }
-  .to-modal {
+  .to-modal, .new-detail {
      pointer-events: none;
   }
 }
