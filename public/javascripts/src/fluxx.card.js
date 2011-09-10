@@ -908,6 +908,8 @@
           } else {
             var selector = '[name="' + obj.name.replace(/\[\]$/,'') + '"]';
             var $elem = $(selector, $filters);
+            if (!$elem[0])
+              $elem = $('[name="' + obj.name + '"]', $filters);
             if (found.hasOwnProperty(obj.name)) {
               var $add  = $elem.clone();
               $elem.after($add);
