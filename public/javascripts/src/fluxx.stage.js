@@ -1152,7 +1152,12 @@
           'a.area-data': [
             'click', function(e) {
               var $elem = $(this);
-              $elem.attr('href', $elem.attr('href') + '?' + $.param($elem.fluxxCardAreaData()));
+              var params = $.param($elem.fluxxCardAreaData());
+              var extra = '';
+              if (params != '') {
+                extra = ($elem.attr('href').match(/\?(.*)$/) ? '&' : '?') + $.param($elem.fluxxCardAreaData());
+              }
+              $elem.attr('href', $elem.attr('href') + extra);
             }
           ],
           'a.dock-list-scroller': [
