@@ -581,10 +581,14 @@
               } else {
                 $('li', $actions).show();
                 $('.search', $head).fadeOut();
-                var iconWidth = $('li:not(.open-listing-actions):last', $actions).width();
+                var $lastIcon = $('li:not(.open-listing-actions):last', $actions);
+                var iconWidth = $lastIcon.width();
                 $actions.animate({left: $head.outerWidth(true) - ($('li.divider', $actions).width() + iconWidth * ($('li:not(.open-listing-actions, .divider)', $actions).length-1))
                   }, function() {
                     $head.addClass('actions-open').show()
+
+                    while ($lastIcon.position().top > 1)
+                      $actions.css({left: "-=1"});
                   }
                 );
 
