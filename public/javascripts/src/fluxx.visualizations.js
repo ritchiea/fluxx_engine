@@ -64,7 +64,7 @@
 
          } catch(e) {
 //           $.fluxx.log('error', e);
-           $chart.html('<h4>No data availabled</h4>').height(50).css({"text-align": "center"});
+           $chart.html('<h4>No data available</h4>').height(50).css({"text-align": "center"});
            error = true;
          }
          if (!error) {
