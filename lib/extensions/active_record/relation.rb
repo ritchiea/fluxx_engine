@@ -24,7 +24,7 @@ class ActiveRecord::Relation
       result = ClientStore.connection.execute ClientStore.send(:sanitize_sql, ["SELECT SUM(#{amount_field}) total_other from #{table_name} WHERE #{key_field} NOT IN (?)", top_hits.keys])
       row = result.fetch_row
       other_amount = row.first if row
-      top_hits[nil] = other_amount if other_amount
+      top_hits[nil] = BigDecimal(other_amount) if other_amount
       top_hits
     end
   end
