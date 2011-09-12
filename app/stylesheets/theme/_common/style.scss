@@ -1518,6 +1518,11 @@ table .partial { margin: 0.25em 0; }
   .to-modal, .new-detail {
      pointer-events: none;
   }
+  .tabular {
+    span, div {
+      background-color: #F9F7F8
+    }
+  }
 }
 
 
