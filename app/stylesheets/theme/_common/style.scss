@@ -1520,7 +1520,10 @@ table .partial { margin: 0.25em 0; }
   }
   .tabular {
     span, div, .caption {
-      background-color: #F9F7F8
+      background-color: #F9F7F8;
+    }
+    thead span {
+      background-color: #DFDFDF;
     }
   }
 }
