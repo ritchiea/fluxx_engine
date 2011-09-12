@@ -1035,7 +1035,7 @@
             var $footer = $('.footer', $modal);
             if (!$footer.data('hide') && $footer.find('.workflow').children()[0])
               $footer.show();
-            else
+            else if (!$('a.show-footer', $card)[0])
               $footer.remove().hide();
             var footerHeight = $footer.is(":visible") ? $('.footer', $modal).outerHeight(true) : 0;
             var maxHeight = $card.height() - (borderHeight + headerHeight + footerHeight);
