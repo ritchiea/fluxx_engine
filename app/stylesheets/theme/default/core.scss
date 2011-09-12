@@ -19,7 +19,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   outline:0;
   font-size:100%;
   vertical-align:baseline;
-  background:transparent;
+  background-color:transparent;
 }
 div,ul,ol,li,table,tr,td,th,dl,dt,dd {
   @include border-box; }
