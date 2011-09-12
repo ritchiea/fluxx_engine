@@ -1519,7 +1519,7 @@ table .partial { margin: 0.25em 0; }
      pointer-events: none;
   }
   .tabular {
-    span, div {
+    span, div, .caption {
       background-color: #F9F7F8
     }
   }
