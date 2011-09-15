@@ -147,7 +147,7 @@
         settings: {
           minimized: $card.cardIsMinimized(),
           locked: $card.data('locked'),
-          emailNotifications: $card.data('emailNotifications')
+          emailNotifications: ($card.data('emailNotifications') || false)
         }
       };
     },
