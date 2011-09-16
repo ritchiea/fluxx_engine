@@ -609,21 +609,21 @@ class ActionController::Base
       define_method :insta_report_object do
         local_report_object
       end
-
+      
       define_method :insta_report_find_by_id do |report_id|
-        class_report_object.reports.select{|rep| rep.report_id == report_id}.first
+        class_report_object.find_report_by_id
       end
 
       define_method :insta_report_list do
-        class_report_object.reports
+        class_report_object.all_reports
       end
 
       define_method :insta_show_report_list do
-        class_report_object.reports.select{|rep| rep.class.is_show?}
+        class_report_object.all_reports.select{|rep| p "ESH: 55555 have rep=#{rep.inspect}, repclass=#{rep.class.name}"; rep.class.is_show?}
       end
 
       define_method :insta_index_report_list do
-        class_report_object.reports.select{|rep| rep.class.is_index?}
+        class_report_object.all_reports.select{|rep| rep.class.is_index?}
       end
 
       self.instance_eval do

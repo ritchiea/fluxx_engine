@@ -134,6 +134,14 @@ module LiquidFilters
     number_to_currency(number, :unit => unit, :delimiter => delimiter, :precision => precision, :format => format)
   end
   
+  def comma_join list, delimiter=', '
+    if list && list.is_a?(Array)
+      list.join(delimiter)
+    else
+      list
+    end
+  end
+  
   def titlecase(string)
     return nil unless string
     string.titlecase
