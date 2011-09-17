@@ -123,9 +123,10 @@ module LiquidFilters
   include ActionView::Helpers::NumberHelper
   include ActionView::Helpers::TextHelper
   
-  
   def format_date(date, format = 'full')
-    date.present? ? date.send(format) : nil
+    return nil if date.blank?
+    date = Time.now if date == 'now'
+    date.send(format)
   end
   
   # ex: {{ request_transaction.amount_due | currency: 'Rs. ' }}
