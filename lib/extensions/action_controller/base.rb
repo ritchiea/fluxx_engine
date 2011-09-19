@@ -611,7 +611,7 @@ class ActionController::Base
       end
       
       define_method :insta_report_find_by_id do |report_id|
-        class_report_object.find_report_by_id
+        class_report_object.find_report_by_id report_id
       end
 
       define_method :insta_report_list do
