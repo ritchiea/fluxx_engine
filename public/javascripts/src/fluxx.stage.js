@@ -129,13 +129,14 @@
           type: type,
           complete: function (){
             $elem.fluxxCard().hideLoadingIndicator();
-            if ($elem.parents('.partial').length && $elem.parents('.partial').attr('data-src'))
+            if ($elem.parents('.partial').length && $elem.parents('.partial').attr('data-src')) {
               $elem.refreshAreaPartial({});
-            else
+            } else {
               if (type == 'DELETE' && $elem.hasClass('as-delete') && $elem.parents('.modal')[0]) {
                 $area.runLoadingActions();
               }
               $elem.refreshCardArea();
+            }
           }
         });
       } else {
@@ -350,7 +351,7 @@
                 } else {
                   var message = $elem.attr('data-message') || 'This record will be deleted. Are you sure?';
                   if (confirm(message))
-                  $.fn.fluxxAjaxCall($elem, 'DELETE');
+                    $.fn.fluxxAjaxCall($elem, 'DELETE');
                 }
               }
             }
