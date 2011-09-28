@@ -119,7 +119,7 @@ $header_height: 78px;
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
   border-radius: $radius;
-  behavior: url(border-radius.htc);
+  /*behavior: url(border-radius.htc);*/
 }
 // Shadow
 @mixin no-box-shadow {
