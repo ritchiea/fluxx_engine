@@ -127,6 +127,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     end || {}
     
     search_with_attributes.keys.each do |k|
+      # TODO ESH: this is not really correct; we should interrogate sphinx for the name k to determine whether it exists and what the type is...
       search_with_attributes[k] = search_with_attributes[k].to_s.to_crc32 unless search_with_attributes[k].to_s.is_numeric?
     end
 
