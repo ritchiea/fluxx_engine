@@ -619,7 +619,7 @@ class ActionController::Base
       end
 
       define_method :insta_show_report_list do
-        class_report_object.all_reports.select{|rep| p "ESH: 55555 have rep=#{rep.inspect}, repclass=#{rep.class.name}"; rep.class.is_show?}
+        class_report_object.all_reports.select{|rep| rep.class.is_show?}
       end
 
       define_method :insta_index_report_list do
