@@ -254,6 +254,11 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   end
   
   def generate_xls_row columns, output, headers
+    p "ESH: in generate_xls_row have columns=#{columns.inspect}, output=#{output.inspect}, headers=#{headers.inspect}"
+    unless columns.is_a? Array
+      columns = headers.map{|header| columns.send(header) rescue nil}
+    end
+    
     columns.each_with_index do |value, i|
       val_type = if headers[i].is_a?(Array)
         headers[i].second

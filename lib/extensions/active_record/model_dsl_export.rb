@@ -14,7 +14,7 @@ class ActiveRecord::ModelDslExport < ActiveRecord::ModelDsl
     if headers.is_a?(Proc)
       (headers.call with_clause)
     elsif !headers || headers.blank? 
-      model_class.columns.map(&:name).sort
+      model_class.columns.reject{|col| col.name.to_s == 'client_id'}.map(&:name).sort
     else
       headers
     end
