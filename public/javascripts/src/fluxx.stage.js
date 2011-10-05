@@ -275,7 +275,7 @@
                $.fluxx.util.itEndsWithMe(e);
                var $elem = $(this);
                var $form = $elem.parents('form:eq(0)');
-               window.open($form.attr('action') + '?' + $form.serializeForm() + '&' + $elem.attr('name') + '=' + $elem.val());
+               window.open($form.attr('action') + '?' + $form.serialize() + '&' + $elem.attr('name') + '=' + $elem.val());
                $.modal.close();
              }
            ],
