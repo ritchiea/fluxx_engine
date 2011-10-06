@@ -673,8 +673,10 @@
           if ($elem.val()) {
             // Put the organization ID into the link to create a new user
             // TODO This field name should not be hardcoded
-            $link.attr('href', $link.show().attr('href')
-              .replace(/([\&\?])user\[temp_organization_id\]=\n*/, "$1user[temp_organization_id]=" + $elem.val()));
+            var org_id = parseInt($elem.val());
+            if (org_id)
+              $link.attr('href', $link.show().attr('href')
+                .replace(/([\&\?])user\[temp_organization_id\]=[0-9]*/, "$1user[temp_organization_id]=" + org_id ));
           } else {
             // Hide "add new" links if no organization is selected
             $link.hide();
