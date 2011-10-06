@@ -684,7 +684,7 @@
         }).change();
       });
 
-      $('.header .notice:not(.error)').delay(2000).find('.close-parent').click();
+      $('.header .notice:not(.error)', $area).delay(2000).find('.close-parent').click();
 
       if ($('.partial[data-refresh-onload=1]', $area).length > 0)
         $('.partial[data-refresh-onload=1]', $area).refreshAreaPartial({
@@ -1334,7 +1334,7 @@
           return;
         var $document = $('<div/>').html(data);
         var header = ($('#card-header', $document).html() && $('#card-header', $document).html().length > 1 ?
-          $('#card-header', $document).html() : options.header);
+          $('#card-header', $document).html() + options.header : options.header);
         var $title = $('.header span', options.area);
 
         var $header = $('.header', options.area).html($.trim(header));

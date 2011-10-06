@@ -1,7 +1,7 @@
 - if @skip_wrapper
   = render :partial => @markup,  :locals => {:model => @model}
 - else
-  %div{:id=>"card-header"}= raw "#{raw flash_info} #{raw flash_error}"
+  %div{:id=>"card-header"}= raw "#{raw flash_info} #{raw flash_error}" if ! params[:as_modal]
 
   %div{:id=>"card-body", :class=> (request.env['HTTP_USER_AGENT'] =~ /iPad/ ? 'ipad' : '')}
     %div.show
