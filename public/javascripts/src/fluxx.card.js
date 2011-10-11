@@ -428,7 +428,12 @@
                 $partial.find('.edit').removeClass('updating').fadeTo(300, 1).trigger('refresh.fluxx.area');
 
               } else {
-                $partial.html($(data)).removeClass('updating').children().areaDetailTransform().fadeIn();
+                var $data = $('<div/>').html(data);
+                if ($data.find('#card-body')[0]) {
+                  $partial.find('.body').css({opacity: 1}).html($data.find('#card-body').html()).end().removeClass('updating').children().areaDetailTransform().fadeIn();
+                } else {
+                  $partial.html($(data)).removeClass('updating').children().areaDetailTransform().fadeIn();
+                }
               }
               if (onComplete)
                 onComplete();
