@@ -859,7 +859,7 @@
                 url: $elem.attr('href'),
                 area: $elem.fluxxCardArea(),
                 target: $elem,
-                data: $form.serializeForm()
+                data: $elem.hasClass('with-data') ? $form.serializeForm() : ''
               });
             }
           ],
