@@ -395,6 +395,15 @@ class ActiveRecord::Base
     end
   end
   
+  # A method that can be overridden to display warning messages to the user.  Pass back an array of warning messages  
+  # The form will be hidden but still present.  
+  # The user can either go back to editing, or submit as-is and ignore the warnings
+  # If you do not override this in the model, warnings will never be displayed and life will go on as usual.
+  attr_accessor :ignore_fluxx_warnings
+  def fluxx_warnings
+    []
+  end
+  
   def masquerade_as_persisted
     self.instance_variable_set '@persisted', true
     self.instance_variable_set '@new_record', false

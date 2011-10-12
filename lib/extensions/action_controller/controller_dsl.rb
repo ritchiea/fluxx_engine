@@ -87,6 +87,7 @@ class ActionController::ControllerDsl
       model_id = load_param_id params
       model_class.safe_find(model_id, force_load_deleted_param(params))
     end
+
   end
   
   def load_param_id params
@@ -98,7 +99,7 @@ class ActionController::ControllerDsl
   end
 
   def load_new_model params, model=nil, fluxx_current_user=nil
-    if model
+    retval = if model
       model
     elsif self.new_block && self.new_block.is_a?(Proc)
       self.new_block.call params

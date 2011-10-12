@@ -3,7 +3,13 @@
   %div.edit
     = semantic_form_for @model, :url => (@form_url || (@model.id.nil? ? current_create_path : current_put_path(@model.id))), :html => {:class => ('to-self ' + (@form_class || ''))} do |form|
       <input type=hidden name='force_load_deleted' value='1'>
-      = render :partial => @markup, :locals => { :form => form, :model => @model}
+      - if @fluxx_warnings && @fluxx_warnings.is_a?(Array) && !@fluxx_warnings.empty?
+        = form.input :ignore_fluxx_warnings, :as => :hidden
+        = raw @fluxx_warnings.join("<br>")
+        %div{:style => 'display:none'}
+          = render :partial => @markup, :locals => { :form => form, :model => @model}
+      - else
+        = render :partial => @markup, :locals => { :form => form, :model => @model}
 - if !@skip_card_footer
   %div{:id=>"card-footer"}
     %ul.workflow

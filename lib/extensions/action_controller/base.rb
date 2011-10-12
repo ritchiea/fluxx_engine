@@ -383,6 +383,7 @@ class ActionController::Base
         return if create_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
 
         @model = create_object.load_new_model params, pre_model, fluxx_current_user
+        
         @model_class = create_object.model_class
         raise UnauthorizedException.new('create', @model_class) unless create_object.skip_permission_check || fluxx_current_user.has_create_for_model?(@model_class)
         @icon_style = create_object.icon_style
@@ -392,6 +393,7 @@ class ActionController::Base
         @form_url = create_object.form_url
         @link_to_method = create_object.link_to_method
         create_result = create_object.perform_create params, @model, fluxx_current_user
+        @model.updated_by = fluxx_current_user if @model && @model.respond_to?(:updated_by) && fluxx_current_user
 
         create_object.invoke_post self, @model, (create_result ? :success : :error)
         if create_result
@@ -410,9 +412,15 @@ class ActionController::Base
         else
           response.headers['fluxx_result_failure'] = 'create'
           insta_respond_to create_object, :error do |format|
-            p "ESH: error saving record #{@model.errors.inspect}"
-            flash[:error] = t(:errors_were_found) unless flash[:error]
-            logger.debug("Unable to create "+create_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
+            if !@model.ignore_fluxx_warnings && @model.fluxx_warnings && @model.fluxx_warnings.is_a?(Array) && !@model.fluxx_warnings.empty?
+              @fluxx_warnings = @model.fluxx_warnings
+              p "ESH: fluxx_warnings saving record #{@fluxx_warnings.inspect}"
+              logger.debug("Unable to create "+create_object.singular_model_instance_name.to_s+" with fluxx warnings="+@fluxx_warnings.inspect)
+            else
+              p "ESH: error saving record #{@model.errors.inspect}"
+              logger.debug("Unable to create "+create_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
+              flash[:error] = t(:errors_were_found) unless flash[:error]
+            end
             format.html { fluxx_new_card create_object }
             # TODO ESH: revisit what to send back for JSON error
             format.json { head 500 }
@@ -463,6 +471,9 @@ class ActionController::Base
         update_object.clear_deleted_at_if_pre_create @model, params, fluxx_current_user
         @model_class = update_object.model_class
         update_object.populate_model params, @model, fluxx_current_user # This is important because the has_update_for_model may depend on elements posted to evaluate permissions
+        @model.updated_by = fluxx_current_user if @model && @model.respond_to?(:updated_by) && fluxx_current_user
+        @model.updated_by_id = fluxx_current_user.id if @model.respond_to?(:updated_by_id) && fluxx_current_user
+
         unless update_object.skip_permission_check || fluxx_current_user.has_update_for_model?(@model || @model_class)
           raise UnauthorizedException.new('update', (@model || @model_class))
         end
@@ -491,10 +502,17 @@ class ActionController::Base
             end
           else
             response.headers['fluxx_result_failure'] = 'update'
-            flash[:error] = t(:errors_were_found) unless flash[:error]
             insta_respond_to update_object, :error do |format|
-              logger.debug("Unable to save "+update_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
+              if !@model.ignore_fluxx_warnings && @model.fluxx_warnings && @model.fluxx_warnings.is_a?(Array) && !@model.fluxx_warnings.empty?
+                @fluxx_warnings = @model.fluxx_warnings
+                p "ESH: fluxx_warnings saving record #{@fluxx_warnings.inspect}"
+                logger.debug("Unable to update "+update_object.singular_model_instance_name.to_s+" with fluxx warnings="+@fluxx_warnings.inspect)
+              else
+                logger.debug("Unable to save "+update_object.singular_model_instance_name.to_s+" with errors="+@model.errors.inspect)
+                flash[:error] = t(:errors_were_found) unless flash[:error]
+              end
               format.html { fluxx_edit_card update_object }
+                
               # TODO ESH: revisit what to send back for JSON error
               format.json { head 500 }
               format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }

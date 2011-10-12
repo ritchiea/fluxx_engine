@@ -46,10 +46,12 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   def load_results params, format=nil, models=nil, controller=nil, results_per_page_param=nil
     if models
       models
-    else 
+    else
+      ignore_page = false 
       results_per_page = if results_per_page_param
         results_per_page_param.to_s.to_i
       elsif (params[:all_results] && params[:all_results].to_i == 1) || (format && (format.csv? || format.xls?))
+        ignore_page = true
         ActionController::ControllerDslIndex.max_sphinx_results
       else
         self.results_per_page || 25
@@ -78,7 +80,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         end
       else
         model_class.model_search(q_search, params, results_per_page, 
-          {:search_conditions => extra_search_conditions, :order_clause => self.order_clause, :include_relation => include_relation, :joins => joins})
+          {:search_conditions => extra_search_conditions, :order_clause => self.order_clause, :include_relation => include_relation, :joins => joins, :ignore_page => ignore_page})
       end
       instance_variable_set @plural_model_instance_name, model_ids
       
@@ -254,7 +256,6 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   end
   
   def generate_xls_row columns, output, headers
-    p "ESH: in generate_xls_row have columns=#{columns.inspect}, output=#{output.inspect}, headers=#{headers.inspect}"
     unless columns.is_a? Array
       columns = headers.map{|header| columns.send(header) rescue nil}
     end

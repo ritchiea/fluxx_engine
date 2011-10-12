@@ -24,6 +24,6 @@ class ActionController::ControllerDslCreate < ActionController::ControllerDsl
       model.updated_by_id = fluxx_current_user.id
     end
     
-    model.save && post_save_call_proc.call(fluxx_current_user, model, params)
+    (model.ignore_fluxx_warnings || (model.fluxx_warnings && model.fluxx_warnings.is_a?(Array) && model.fluxx_warnings.empty?)) && model.save && post_save_call_proc.call(fluxx_current_user, model, params)
   end
 end

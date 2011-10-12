@@ -80,7 +80,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     else
       options[:order_clause]
     end
-    page_clause = grab_param(:page, local_model_request_params, model_request_params, request_params)
+    page_clause = options[:ignore_page] ? nil : grab_param(:page, local_model_request_params, model_request_params, request_params)
     
     modified_search_conditions = if options[:search_conditions] && options[:search_conditions].is_a?(Hash)
       options[:search_conditions].keys.map do |key| 
@@ -160,7 +160,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     else
       options[:order_clause]
     end
-    page_clause = grab_param(:page, local_model_request_params, model_request_params, request_params)
+    page_clause = options[:ignore_page] ? nil : grab_param(:page, local_model_request_params, model_request_params, request_params)
 
     Fluxx.logger.info "searching for #{local_model_class.name}, '#{q_search}', with_clause = #{with_clause.merge(options[:with] || {}).merge(extra_sphinx_conditions || {}).inspect}, order_clause=#{order_clause.inspect}, page=#{page_clause}, per_page=#{results_per_page}"
     model_ids = local_model_class.search_for_ids(
