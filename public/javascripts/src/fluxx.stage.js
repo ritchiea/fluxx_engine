@@ -913,8 +913,10 @@
               $area.find('.tab-open').not($elem).removeClass('disabled');
               if ($elem.hasClass('hide-footer'))
                 $area.find('.footer').hide();
-              else if ($elem.hasClass('show-footer'))
+              else if ($elem.hasClass('show-footer')) {
                 $area.find('.footer').show();
+                $area.trigger('refresh.fluxx.area');
+              }
             }
           ],
           'form.to-listing': [
