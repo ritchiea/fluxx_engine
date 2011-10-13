@@ -796,7 +796,7 @@
         $card.fluxxCardLoadContent({
           area: $filters,
           url: $listing.attr('data-listing-filter'),
-          header: '<span>' + 'Filter Listings' + '</span>',
+          header: '<span>' + '' + '</span>',
           init: function (e) {
             $filters.appendTo($card.fluxxCardBody());
           }
