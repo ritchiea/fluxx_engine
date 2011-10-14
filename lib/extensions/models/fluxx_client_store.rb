@@ -25,7 +25,7 @@ module FluxxClientStore
   
   instance_methods do
     def dashboard_cards
-      funj = self.data.de_json
+      funj = self.data.de_json if self.data
       if funj
         funj['cards']
       end || []
@@ -42,7 +42,7 @@ module FluxxClientStore
         h = {:uid => uid, :duid => "#{self.id}_#{uid}", :title => title, :url => url}
         if include_filtered_url
           if url && filters && !filters.empty?
-            h[:filtered_url] = "#{url}.json?#{filters.to_params}"
+            h[:filtered_url] = "#{url}.json?#{filters.to_param}"
           else
             h[:filtered_url] = "#{url}.json"
           end
