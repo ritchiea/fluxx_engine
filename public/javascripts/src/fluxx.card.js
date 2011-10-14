@@ -916,23 +916,25 @@
             var $elem = $(selector, $filters);
             if (!$elem[0])
               $elem = $('[name="' + obj.name + '"]:last', $filters);
-            if (found.hasOwnProperty(obj.name) && obj.value && found[obj.name].indexOf(obj.value) == -1) {
-              var $add  = $elem.clone();
-              $elem.after($add);
-              $add.before($('<label/>'));
-              $elem = $add;
-            }
-            $elem.val(obj.value);
+            if (!$elem.parent().parent().data('rollup')) {
+              if (found.hasOwnProperty(obj.name) && obj.value && found[obj.name].indexOf(obj.value) == -1) {
+                var $add  = $elem.clone();
+                $elem.after($add);
+                $add.before($('<label/>'));
+                $elem = $add;
+              }
+              $elem.val(obj.value);
 
-            $(selector + ":checkbox", $filters)
-              .attr('checked', true)
-              .change(function () {
-                $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
-              });
-            if ($elem.hasClass('add-another') && obj.value) {
-              if(!found[obj.name])
-                found[obj.name] = [];
-              found[obj.name].push(obj.value)
+              $(selector + ":checkbox", $filters)
+                .attr('checked', true)
+                .change(function () {
+                  $(selector + ":hidden", $filters).val(this.checked ? this.value : "");
+                });
+              if ($elem.hasClass('add-another') && obj.value) {
+                if(!found[obj.name])
+                  found[obj.name] = [];
+                found[obj.name].push(obj.value)
+              }
             }
           }
         }
