@@ -687,7 +687,8 @@
 				s.d.iframe && s.d.iframe.hide().remove();
 				setTimeout(function(){
 					// opera work-around
-					s.d.overlay.remove();
+          if (s.d.overlay)
+					  s.d.overlay.remove();
 
 					// reset the dialog object
 					s.d = {};
