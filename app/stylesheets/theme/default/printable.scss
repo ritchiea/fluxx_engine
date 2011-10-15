@@ -19,7 +19,15 @@ form, input, #card-drawer, #card-settings, .actions, #card-footer
  {
    display: none;
  }
- 
+
+div.collapsible {
+  display: block
+}
+
+h3.collapsible {
+  background: #{inline_image("/images/fluxx_engine/theme/default/icons/section-open.gif")} no-repeat left 5px;
+}
+
 #card-table {
   margin: 0px;
   position: static;
