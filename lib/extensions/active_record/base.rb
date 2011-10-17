@@ -410,6 +410,12 @@ class ActiveRecord::Base
     self.instance_variable_set '@destroyed', false
   end
   
+  # Force the delta indices to reindex inline
+  def self.force_inline_delta_index
+    temp_index = ThinkingSphinx::Deltas::DefaultDelta.new '', {}
+    temp_index.send :update_delta_indexes, self
+  end
+  
   # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update
   def update_attributes_without_log attr_map
     if self.class.respond_to?(:sphinx_indexes) && self.class.sphinx_indexes
