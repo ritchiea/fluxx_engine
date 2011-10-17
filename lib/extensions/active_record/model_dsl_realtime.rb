@@ -5,6 +5,8 @@ class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl
   attr_accessor :updated_by_field
   # post hooks
   attr_accessor :after_realtime_blocks
+  # lambda block that expresses when RTUs should be suppressed
+  attr_accessor :suppress_when
   
   def initialize model_class
     super model_class
@@ -70,11 +72,17 @@ class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl
   end
   
   def realtime_destroy_callback model
-    write_realtime(model, :action => 'delete', :user_id => realtime_user_id(model), :model_id => realtime_model_id(model), :model_class => realtime_class_name(model), :type_name => model.class.name, :delta_attributes => calculate_attributes(model).to_json)
+    write_realtime(model, :action => 'delete', :user_id => realtime_user_id(model), :model_id => realtime_model_id(model), :model_class => realtime_class_name(model), :type_name => model.class.name, :delta_attributes => calculate_attributes(model).to_json) 
+  end
+  
+  def should_suppress? model
+    suppress_when && suppress_when.is_a?(Proc) && suppress_when.call(model)
   end
   
   def write_realtime model, params
-    RealtimeUpdate.create params 
-    call_after_realtimes model, params
+    unless should_suppress?(model)
+      RealtimeUpdate.create params 
+      call_after_realtimes model, params
+    end
   end
 end
