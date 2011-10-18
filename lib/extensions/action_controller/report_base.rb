@@ -51,6 +51,14 @@ class ActionController::ReportBase
   def has_plot?
     self.class.report_has_plot?
   end
+  def visible?
+    true
+  end
+  
+  def format_extension
+    nil
+  end
+  
   def self.report_has_document?
     self.is_show? && self.public_method_defined?(:compute_show_document_data) && self.public_method_defined?(:compute_show_document_headers) ||
       self.is_index? && self.public_method_defined?(:compute_index_document_data) && self.public_method_defined?(:compute_index_document_headers)
