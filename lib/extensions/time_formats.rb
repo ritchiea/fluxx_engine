@@ -19,6 +19,8 @@ Time::DATE_FORMATS[:hgrant] = "%Y%m%dT%H:%M-0000"
 Time::DATE_FORMATS[:month_year] = "%B, %Y"
 Time::DATE_FORMATS[:abbrev_month_year] = "%b, %Y"
 Time::DATE_FORMATS[:iso_date] = "%Y-%m-%d"
+Time::DATE_FORMATS[:year_only] = "%Y"
+
 
 def strip_zeros_from_date(marked_date_string)
   marked_date_string.gsub('*0', '').gsub('*', '').gsub(/ 0(\d\D)/, ' \1').gsub(/-0(\d\D)/, '-\1').gsub(/\/0(\d\D)/, '/\1').gsub(/^0(\d\D)/, '\1')
@@ -28,6 +30,9 @@ end
 module FluxxTimeFormatUtilities
   def abbrev_month_year
     self.to_s(:abbrev_month_year)
+  end
+  def year_only
+    self.to_s(:year_only)
   end
   def month_year
     self.to_s(:month_year)
