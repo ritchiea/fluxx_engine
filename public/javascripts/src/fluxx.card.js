@@ -1376,7 +1376,7 @@
         data: data,
         success: function (data, status, xhr) {
           if (xhr.status == 201) {
-
+            options.area.fluxxCard().hideLoadingIndicator();
             // Store the redirect URL for cases where we need to figure out what was created or updated
             options.area.data({'url': xhr.getResponseHeader('Location'), request: null});
 
