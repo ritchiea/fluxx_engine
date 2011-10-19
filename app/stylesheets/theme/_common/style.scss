@@ -1488,8 +1488,11 @@ table .partial { margin: 0.25em 0; }
   select {width: 203px;}
   .select {margin: 0 0 0 16px;}
 }
-
-
+.rtl {
+  text-align: right;
+  font-size: 120%;
+  margin-bottom: -10px;
+}
 
 
 

@@ -312,7 +312,7 @@ ol li.action-item {
 ===============================*/
 .float_left { float: left; display:inline; margin-right: 7px; margin-bottom: 0.15em; }
 .float_right { float: right; display:inline; margin-left: 7px; margin-bottom: 0.15em; }
-.ar { text-align:right; }
+.ar { text-align:right; font-size: 120%; }
 .al { text-align: left; }
 .ac { text-align: center;}
 .c60l {
@@ -880,7 +880,12 @@ li.plupload_droptext {
     margin-right: 20px;
     margin-top: -2px;
   }
+}
 
+.rtl {
+  text-align: right;
+  font-size: 120%;
+  margin-bottom: -10px;
 }
 
 /*=============================
