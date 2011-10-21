@@ -129,15 +129,7 @@ class ActionController::Base
             end
             format.xml  { render :xml => instance_variables[@plural_model_instance_name] }
             format.json do
-              derived_models = @models.compact.map do |model| 
-                h = model.serializable_hash
-                h['id'] = model.id
-                h['class_name'] = model.class.name
-                h['detail_url'] = url_for(model); 
-                extra_elements = index_object.json_block.call(h, model) if index_object.json_block
-                h
-              end
-              render :text => {@model_class.name => derived_models}.to_json
+              render :text => @models.to_json
             end
             format.autocomplete do
               render :text => index_object.process_autocomplete(@models, params[:name_method], self)
@@ -196,7 +188,7 @@ class ActionController::Base
 
         show_object.invoke_post self, @model, (@model ? :success : :error)
         if @model
-          @related, @json_relations = load_related_data(@model) if self.respond_to? :load_related_data
+          @related = load_related_data(@model) if self.respond_to? :load_related_data
           insta_respond_to show_object, :success do |format|
             format.html do
               if @report && @report.filter_template && params[:fluxxreport_filter]
@@ -226,19 +218,7 @@ class ActionController::Base
               end
             end
             format.json do
-              h = @model.serializable_hash
-              h['id'] = @model.id
-              h['detail_url'] = url_for(@model)
-              
-              # This to me is something of a hack.  The idea is to group like relations in their own lists
-              if @json_relations
-                @json_relations.map do |relation| 
-                  list = h[relation['class_name']] || []
-                  h[relation['class_name']] = list
-                  list << relation
-                end
-              end
-              render :inline => h.to_json
+              render :inline => @model.to_json :fluxx_render_style => :detailed
             end
             format.xml  { render :xml => @model }
           end

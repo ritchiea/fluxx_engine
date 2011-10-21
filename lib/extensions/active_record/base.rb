@@ -250,7 +250,6 @@ class ActiveRecord::Base
     self.class.name
   end
   
-  self.include_root_in_json = false
   def self.insta_json
     if respond_to?(:model_json_object) && model_json_object
       yield model_json_object if block_given?

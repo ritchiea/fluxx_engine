@@ -49,19 +49,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
       end
     end.compact
     
-    json_relations = html_relations.reject{|rd| rd[:lazy_load_url]}.map do |rd|
-      if rd[:formatted_data]
-        rd[:formatted_data].map do |element|
-          model = element[:model]
-          h = model.serializable_hash
-          h['id'] = model.id
-          h['detail_url'] = element[:model_url]
-          h['class_name'] = model.class.name
-          h
-        end
-      end
-    end.flatten.compact
-    [html_relations, json_relations]
+    html_relations
   end
   
   def calculate_related_data_row controller, model, rd
