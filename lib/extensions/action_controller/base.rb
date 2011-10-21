@@ -218,7 +218,7 @@ class ActionController::Base
               end
             end
             format.json do
-              render :inline => @model.to_json :fluxx_render_style => :detailed
+              render :inline => @model.to_json(:fluxx_render_style => :detailed)
             end
             format.xml  { render :xml => @model }
           end

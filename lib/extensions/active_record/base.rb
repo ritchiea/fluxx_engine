@@ -238,12 +238,18 @@ class ActiveRecord::Base
   
   PSEUDO_HOST = "ZZSSSSZZZZZS222kkjkjjasflkjasfd"
   def default_url_options
-    { :host => FluxxManageHost.current_host || PSEUDO_HOST }
+    hostname, protocol = if FluxxManageHost.current_host && FluxxManageHost.current_host =~ /^(.*):\/\/(.*)$/
+      [($2 || FluxxManageHost.current_host), ($1 || 'http')]
+    end || [PSEUDO_HOST, 'http']
+    
+    { :host => hostname, :protocol => protocol }
   end
   
   def detail_url
     url_response = url_for(self)
-    url_response.gsub(/http:\/\/#{PSEUDO_HOST}/, '') if url_response
+    if url_response
+      url_response = url_response.gsub(/http:\/\/#{PSEUDO_HOST}/, '') 
+    end
   end
   
   def class_name
