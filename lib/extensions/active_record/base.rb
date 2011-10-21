@@ -236,6 +236,41 @@ class ActiveRecord::Base
     filter_amount_object.add_amount_attributes
   end
   
+  PSEUDO_HOST = "ZZSSSSZZZZZS222kkjkjjasflkjasfd"
+  def default_url_options
+    { :host => FluxxManageHost.current_host || PSEUDO_HOST }
+  end
+  
+  def detail_url
+    url_response = url_for(self)
+    url_response.gsub(/http:\/\/#{PSEUDO_HOST}/, '') if url_response
+  end
+  
+  def class_name
+    self.class.name
+  end
+  
+  self.include_root_in_json = false
+  def self.insta_json
+    if respond_to?(:model_json_object) && model_json_object
+      yield model_json_object if block_given?
+    else
+      local_model_json_object = ActiveRecord::ModelDslJson.new(self)
+      class_inheritable_reader :model_json_object
+      write_inheritable_attribute :model_json_object, local_model_json_object
+      yield model_json_object if block_given?
+    end
+  end
+  
+  def as_json(options={})
+    if respond_to?(:model_json_object) && model_json_object
+      calc_options = model_json_object.calculate_json_options(options)
+      super calc_options
+    else
+      super options
+    end
+  end
+  
   ############ AASM Extend Methods ###############################
   def self.aasm_event_extend name, options = {}, &block
     events = AASM::StateMachine[self].events

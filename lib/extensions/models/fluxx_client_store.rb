@@ -10,6 +10,7 @@ module FluxxClientStore
 
     validates_presence_of :name
     acts_as_audited({:full_model_enabled => false, :except => [:created_by_id, :modified_by_id, :locked_until, :locked_by_id, :delta, :updated_by, :created_by, :audits]})
+    self.include_root_in_json = true
   end
   
   class_methods do

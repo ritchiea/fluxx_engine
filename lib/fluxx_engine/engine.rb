@@ -35,6 +35,9 @@ module FluxxEngine
     initializer 'fluxx_engine.add_compass_hooks', :after=> :disable_dependency_loading do |app|
       Fluxx.logger.debug "Loaded FluxxEngine"
       Sass::Plugin.add_template_location "#{File.dirname(__FILE__).to_s}/../../app/stylesheets", "public/stylesheets/compiled/fluxx_engine"
+      
+      # Need to include this at this event; when the base.rb class is loaded, the Rails.application has not yet been initialized so we get a npe
+      ActiveRecord::Base.send :include, Rails.application.routes.url_helpers
     end
     rake_tasks do
       load File.expand_path('../../tasks.rb', __FILE__)

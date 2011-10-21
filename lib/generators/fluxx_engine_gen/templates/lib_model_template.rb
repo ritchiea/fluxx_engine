@@ -18,6 +18,12 @@ module Fluxx<%= model_class_name %>
       insta.delta_attributes = SEARCH_ATTRIBUTES
       insta.updated_by_field = :updated_by_id
     end
+    base.insta_json do |insta|
+      # insta.add_method 'primary_org_name'
+      # insta.copy_style :simple, :detailed
+      # insta.add_method 'related_organizations', :detailed
+    end
+    
     insta_multi
     insta_export do |insta|
       insta.filename = '<%= model_class_singular_table_name %>'
