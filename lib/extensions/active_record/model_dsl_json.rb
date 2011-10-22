@@ -60,7 +60,7 @@ class ActiveRecord::ModelDslJson < ActiveRecord::ModelDsl
     raise Exception.new "From Style #{from_style} is not allowed" unless ALLOWED_STYLES.include? from_style
     raise Exception.new "To Style #{to_style} is not allowed" unless ALLOWED_STYLES.include? to_style
     
-    settings[from_style].keys do |k|
+    settings[from_style].keys.each do |k|
       settings[to_style][k] = settings[from_style][k].clone
     end
     
