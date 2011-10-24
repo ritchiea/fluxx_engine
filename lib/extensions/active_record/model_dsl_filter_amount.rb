@@ -3,7 +3,9 @@ class ActiveRecord::ModelDslFilterAmount < ActiveRecord::ModelDsl
   attr_accessor :amount_attributes
   
   def self.filter_amount new_amount
-    if new_amount.is_a? String
+    if new_amount.blank?
+      nil
+    elsif new_amount.is_a? String
       new_amount.gsub(CurrencyHelper.current_symbol, "").gsub(",","")
     else
       new_amount
