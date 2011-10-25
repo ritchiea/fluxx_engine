@@ -40,7 +40,7 @@ class ControllerDslRelatedTest < ActiveSupport::TestCase
       insta.display_template = 'template'
     end
    
-   html_related, json_related = @dsl_related.load_related_data InstrumentsController.new, musician 
+   html_related = @dsl_related.load_related_data InstrumentsController.new, musician 
    musician.instruments.each_with_index do |instrument, i|
      assert_equal instrument, html_related.first[:formatted_data][i][:model]
    end

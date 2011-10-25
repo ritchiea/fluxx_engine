@@ -8,10 +8,10 @@ class ActionController::ReportDslPlot < ActionController::ReportDslShow
   def calculate report, controller, models=nil
     params = controller.params
     report_vars = report.pre_compute(controller, self, params, models) if report.respond_to? :pre_compute
-    report_data = report.compute_plot_data controller, self, params, report_vars, models
-    report_filter_text = report.report_filter_text controller, self, params, report_vars, models
-    report_summary = report.report_summary controller, self, params, report_vars, models
-    report_legend = report.report_legend controller, self, params, report_vars, models
+    report_data = report.compute_plot_data controller, self, params, report_vars, models if report.respond_to? :compute_plot_data
+    report_filter_text = report.report_filter_text controller, self, params, report_vars, models if report.respond_to? :report_filter_text
+    report_summary = report.report_summary controller, self, params, report_vars, models if report.respond_to? :report_summary
+    report_legend = report.report_legend controller, self, params, report_vars, models if report.respond_to? :report_legend
     
     controller.send :instance_variable_set, "@report_vars", report_vars
     controller.send :instance_variable_set, "@icon_style", self.report_icon_style

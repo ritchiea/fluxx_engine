@@ -58,7 +58,7 @@ class ActionController::ControllerDslRelated < ActionController::ControllerDsl
       rd.search_block.call model
     end || []
     related_models.compact.map do |model|
-      {:display_template => display_template, :model => model, :title => rd.generate_title(model), :model_url => (rd.generate_url(controller, model) || controller.send(:url_for, model))}
+      {:display_template => display_template, :model => model, :title => rd.generate_title(model), :model_url => (rd.generate_url(controller, model) || controller.send(:url_for, model) rescue nil)}
     end
   end
   

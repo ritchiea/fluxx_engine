@@ -37,7 +37,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     get :index, :format => :json, :find_by_id => true, :id => [instrument1.id, instrument2.id, instrument3.id]
     assert_equal 3, assigns(:instruments).size
     instruments = @response.body.de_json
-    results = instruments['Instrument'].map{|instr| instr['id']}
+    results = instruments.map{|instr| instr.values.first['id']}
     assert results.include? instrument1.id
   end
 
@@ -205,7 +205,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     assert_equal 2, controller.insta_report_list.size
     assert_equal controller.insta_report_list.first.class.name.hash, controller.insta_report_list.first.report_id
     assert controller.insta_report_list.map{|rep| rep.class}.include?(TotalInstrumentsReport)
-    assert_equal 0, controller.insta_show_report_list.size
+    assert_equal 2, controller.insta_show_report_list.size
     assert controller.insta_index_report_list.first.is_a?(TotalInstrumentsReport)
     assert controller.insta_index_report_list.last.is_a?(AverageInstrumentsReport)
   end
