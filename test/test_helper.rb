@@ -30,6 +30,11 @@ def setup_multi
   Instrument.insta_multi
 end
 
+def new_alert_path(options={})
+  'dummy'
+end
+
+
 def add_multi_elements
   @instrument_group = MultiElementGroup.make :target_class_name => 'Instrument', :name => 'categories', :description => 'categories'
   @woodwind_value = MultiElementValue.make :description => 'woodwind', :value => 'woodwind', :multi_element_group => @instrument_group
