@@ -10,7 +10,7 @@ class DummyReportsControllerTest < ActionController::TestCase
     controller = DummyReportsController.new
     reports = controller.insta_show_report_list
     dummy_rep = reports.select{|rep| rep.is_a? TotalDummyReport}.first
-    get :show, :id => dummy_rep.report_id
+    get :show, :id => dummy_rep.local_configuration.report_id
     assert @response.body =~ /visualizations/
     assert @response.body =~ /#{dummy_rep.report_label}/
   end
@@ -19,7 +19,7 @@ class DummyReportsControllerTest < ActionController::TestCase
     controller = DummyReportsController.new
     reports = controller.insta_show_report_list
     dummy_rep = reports.select{|rep| rep.is_a? TotalDummyReport}.first
-    get :show, :id => dummy_rep.report_id, :fluxxreport_filter => 1
+    get :show, :id => dummy_rep.local_configuration.report_id, :fluxxreport_filter => 1
     assert_response :success
   end
   
@@ -27,7 +27,7 @@ class DummyReportsControllerTest < ActionController::TestCase
     controller = DummyReportsController.new
     reports = controller.insta_show_report_list
     dummy_rep = reports.select{|rep| rep.is_a? TotalDummyReport}.first
-    get :show, :id => dummy_rep.report_id, :document => 1
+    get :show, :id => dummy_rep.local_configuration.report_id, :document => 1
     assert_response :success
   end
 end

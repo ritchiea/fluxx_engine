@@ -2,13 +2,13 @@
   .report-title
     = @report.report_label
   - report_form_url_hash = {:controller => controller.controller_name, :action => 'show'}
-  - report_form_url_hash[:format] = @report.format_extension if @report.format_extension
+  - report_form_url_hash[:format] = @report.format_extension if @report.respond_to?(:format_extension) && @report.format_extension
   = semantic_form_for ModelStub.generate_class_instance(ActiveRecord::Base), :url => report_form_url_hash, :html => {:method => 'get', 'data-title' => @report.report_label} do |form|
     %input{:type=>'hidden', :name=>'id', :value => @report.report_id}
 
     = render :partial => @filter_template, :locals => { :form => form} if @filter_template
     
-    - if @report.has_plot?
+    - if @report.is_show?
       %input{:type => 'button', :name => 'commit', :class => 'commit new-detail', :value => 'View Report'}
-    - if @report.has_document?
+    - if @report.is_download?
       %input{:type => 'button', :name => 'commit', :class => 'commit new-page', :value => 'View Document'}

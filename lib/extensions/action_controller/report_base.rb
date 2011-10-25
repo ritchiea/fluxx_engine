@@ -1,86 +1,94 @@
 require 'writeexcel'
 class ActionController::ReportBase
   include ActionView::Helpers::NumberHelper
-  # unique identifier for this report
-  attr_accessor :report_id
-  # label for this report
-  attr_accessor :report_label
-  # description for this report
-  attr_accessor :report_description
-  # report type; list or show
-  attr_accessor :report_type
-  # template path for rendering the page that displays the plot; nil will just use the default
-  attr_accessor :plot_template
-  # template path for rendering the filter; nil would suggest that there is no filter to be supplied
-  attr_accessor :filter_template
-  # footer template path for rendering the report footer; nil will just use the default
-  attr_accessor :plot_template_footer
 
   def initialize report_id
-    self.report_id = report_id
+    @report_id = report_id
+    self.class.class_report_object.report_id = @report_id 
+  end
+  
+  # Note that you can call insta_report multiple times, but you have to choose just one report_type; that determines the type of object returned.
+  # Subsequent calls will simply return the already instantiated object
+  def self.insta_report report_type
+    if respond_to?(:class_report_object) && class_report_object
+      yield class_report_object if block_given?
+    else
+      local_report_object = case report_type.to_sym
+      when :plot
+        ActionController::ReportDslPlot.new(self)
+      when :show
+        ActionController::ReportDslShow.new(self)
+      when :download
+        ActionController::ReportDslDownload.new(self)
+      else
+        raise Exception.new "Unrecognized report_type #{report_type}"
+      end
+      
+      class_inheritable_reader :class_report_object
+      write_inheritable_attribute :class_report_object, local_report_object
+      yield local_report_object if block_given?
+    end
   end
 
-  def self.set_type_as_show
-    @report_type = :show
-  end
 
-  def self.set_type_as_index
-    @report_type = :index
+  def is_download?
+    local_configuration.is_a?(ActionController::ReportDslDownload)
   end
-
-  def self.set_order order
-    @order = order
+  
+  def is_show?
+    local_configuration.is_a?(ActionController::ReportDslShow)
   end
-
-  def self.get_order
-    @order
+  
+  def is_plot?
+    local_configuration.is_a?(ActionController::ReportDslPlot)
   end
-
-  def self.is_show?
-    @report_type == :show
+  
+  def template
+    local_configuration.template if local_configuration.respond_to? :template
   end
-
-  def self.is_index?
-    @report_type == :index
+  
+  def footer_template
+    local_configuration.template_footer if local_configuration.respond_to? :template_footer
   end
-
-  def self.report_has_plot?
-    self.is_show? && self.public_method_defined?(:compute_show_plot_data) ||
-      self.is_index? && self.public_method_defined?(:compute_index_plot_data)
+  
+  def self.configuration
+    class_report_object
   end
-  def has_plot?
-    self.class.report_has_plot?
-  end
-  def visible?
-    true
+  
+  def local_configuration
+    self.class.class_report_object
   end
   
   def format_extension
-    nil
+    local_configuration.format_extension if local_configuration.respond_to?(:format_extension)
   end
   
-  def self.report_has_document?
-    self.is_show? && self.public_method_defined?(:compute_show_document_data) && self.public_method_defined?(:compute_show_document_headers) ||
-      self.is_index? && self.public_method_defined?(:compute_index_document_data) && self.public_method_defined?(:compute_index_document_headers)
+  def report_id
+    local_configuration.report_id
   end
-  def has_document?
-    self.class.report_has_document?
+  
+  def calculate controller, models=nil
+    local_configuration.calculate self, controller, models
+  end
+  
+  def report_label
+    local_configuration.generate_report_label self
+  end
+  
+  def visible?
+    local_configuration.visible? self
+  end
+  
+  def filter_template
+    local_configuration.filter_template
+  end
+  
+  def report_description
+    local_configuration.report_description
   end
 
-  # optional descrition for this report
-  def report_description controller, index_object, params, models, report_vars
-  end
-  # optional text describing aspects of the filter for this report, example: date range
-  def report_filter_text controller, index_object, params, models, report_vars
-  end
-  # optional legend for this report
-  def report_legend controller, index_object, params, models, report_vars
-    [{}]
-  end
-  # optional summary for this report
-  def report_summary controller, index_object, params, models, report_vars
-  end
-  
+  # Common utility methods
+  # TODO ESH: consider moving into a module so we don't have to rely on inheritance for this; plus many classes don't need excel methods
   def build_formats workbook
     # Set up some basic formats:
     non_wrap_bold_format = workbook.add_format()

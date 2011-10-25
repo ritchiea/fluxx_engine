@@ -98,22 +98,11 @@ class ActionController::Base
               
               if @report
                 @report_list = insta_index_report_list
-                if params[:commit] && params[:commit] =~ /document/i
-                  @report_vars = @report.pre_compute(self, index_object, params, @models) if @report.respond_to? :pre_compute
-                  headers = @report.compute_index_document_headers self, index_object, params, @models, @report_vars
-                  add_headers headers[0], headers[1]
-                  controller = self
-                  render :text => @report.compute_index_document_data(controller, index_object, params, @models, @report_vars)
-                else
-                  @report_vars = @report.pre_compute(self, index_object, params, @models) if @report.respond_to? :pre_compute
-                  @icon_style = index_object.report_icon_style if index_object.report_icon_style
-                  @report_data = @report.compute_index_plot_data self, index_object, params, @models, @report_vars
-                  @report_label = @report.report_label
-                  @report_filter_text = @report.report_filter_text self, index_object, params, @models, @report_vars
-                  @report_summary = @report.report_summary self, index_object, params, @models, @report_vars
-                  @report_legend = @report.report_legend self, index_object, params, @models, @report_vars
-                  fluxx_show_card index_object, {:template => (@report.plot_template || 'insta/show/report_template'),
-                     :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
+                if @report.is_download?
+                  render :text => @report.calculate(self, @models)
+                elsif @report.is_show?
+                  @report.calculate(self, @models)
+                  fluxx_show_card index_object, {:template => @report.local_configuration.template, :footer_template => @report.local_configuration.template_footer}
                 end
               else
                 if @show_summary_view && params[:summary]
@@ -191,27 +180,19 @@ class ActionController::Base
           @related = load_related_data(@model) if self.respond_to? :load_related_data
           insta_respond_to show_object, :success do |format|
             format.html do
-              if @report && @report.filter_template && params[:fluxxreport_filter]
-                @filter_template = @report.filter_template
+              if @report && @report.local_configuration.filter_template && params[:fluxxreport_filter]
+                @filter_template = @report.local_configuration.filter_template
                 render 'insta/report_filter', :layout => false
               elsif @report
                 @from_request_card = false
                 @reports = insta_show_report_list
-                if params[:commit] && params[:commit] =~ /document/i
-                  @report_vars = @report.pre_compute(self, show_object, params, @models) if @report.respond_to? :pre_compute
-                  headers = @report.compute_show_document_headers self, show_object, params, @report_vars
-                  add_headers headers[0], headers[1]
-                  render :text => @report.compute_show_document_data(self, show_object, params, @report_vars)
-                else
-                  @report_vars = @report.pre_compute(self, show_object, params, @models) if @report.respond_to? :pre_compute
-                  @icon_style = show_object.report_icon_style if show_object.report_icon_style
-                  @report_data = @report.compute_show_plot_data self, show_object, params, @report_vars
-                  @report_label = @report.report_label
-                  @report_filter_text = @report.report_filter_text self, show_object, params, @report_vars
-                  @report_summary = @report.report_summary self, show_object, params, @report_vars
-                  @report_legend = @report.report_legend self, show_object, params, @report_vars
-                  fluxx_show_card show_object, {:template => (@report.plot_template || 'insta/show/report_template'),
-                     :footer_template => (@report.plot_template_footer || 'insta/show/report_template_footer')}
+                
+                @report_list = insta_index_report_list
+                if @report.is_download?
+                  render :text => @report.calculate(self)
+                elsif @report.is_show?
+                  @report.calculate(self)
+                  fluxx_show_card show_object, {:template => @report.local_configuration.template, :footer_template => @report.local_configuration.template_footer}
                 end
               else
                 fluxx_show_card show_object, show_object.calculate_show_options(@model, params)
@@ -617,11 +598,11 @@ class ActionController::Base
       end
 
       define_method :insta_show_report_list do
-        class_report_object.all_reports.select{|rep| rep.class.is_show?}
+        class_report_object.all_reports
       end
 
       define_method :insta_index_report_list do
-        class_report_object.all_reports.select{|rep| rep.class.is_index?}
+        class_report_object.all_reports
       end
 
       self.instance_eval do
