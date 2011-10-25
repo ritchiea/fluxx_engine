@@ -160,13 +160,14 @@ class ActionController::Base
         show_object.invoke_pre self
         return if show_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
 
-        @model = if params[:id] && self.respond_to?(:insta_show_report_list) && !(insta_show_report_list.empty?)
+        # TODO ESH: switch to use some other way to distinguish between reports and models
+        @model = show_object.perform_show params, pre_model, fluxx_current_user
+        if !@model && params[:id] && self.respond_to?(:insta_show_report_list) && !(insta_show_report_list.empty?)
           @report = insta_report_find_by_id params[:id].to_i
           @report_list = insta_index_report_list
-          @report
-        else
-          show_object.perform_show params, pre_model, fluxx_current_user
+          @model = @report
         end
+        
         @model_class = show_object.model_class
 
         raise UnauthorizedException.new('view', (@model || @model_class)) unless show_object.skip_permission_check || fluxx_current_user.has_view_for_model?(@model || @model_class)

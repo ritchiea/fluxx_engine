@@ -453,7 +453,11 @@ class ActiveRecord::Base
   # Force the delta indices to reindex inline
   def self.force_inline_delta_index
     temp_index = ThinkingSphinx::Deltas::DefaultDelta.new '', {}
-    temp_index.send :update_delta_indexes, self
+    begin
+      temp_index.send(:update_delta_indexes, self) if temp_index
+    rescue Exception => e
+      logger.debug "Hit an issue forcing inline delta indices: #{e}, backtrace=#{e.backtrace.inspect}"
+    end
   end
   
   # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update

@@ -85,7 +85,7 @@ class ActionController::ControllerDsl
       model
     else 
       model_id = load_param_id params
-      model_class.safe_find(model_id, force_load_deleted_param(params))
+      model_class.safe_find(model_id, force_load_deleted_param(params)) if model_class && model_id
     end
 
   end
