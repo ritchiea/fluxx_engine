@@ -1,7 +1,7 @@
 class ActionController::ReportDslPlot < ActionController::ReportDslShow
   def after_initialize
-    self.template = 'insta/show/report_template' unless self.template
-    self.template_footer = 'insta/show/report_template_footer' unless self.template_footer
+    self.template = 'insta/show/report_plot_template' unless self.template
+    self.template_footer = 'insta/show/report_plot_template_footer' unless self.template_footer
     self.report_icon_style = 'style-modal-reports' unless self.report_icon_style
   end
 
