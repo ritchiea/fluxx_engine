@@ -179,23 +179,4 @@ class ActionController::ReportBase
     column_letters = column_letters + column_letters.map {|letter1| column_letters.map {|letter2| letter1 + letter2 } }
     column_letters.flatten
   end
-  
-  # implement methods such as:
-  # INDEX:
-  # compute_index_plot_data controller, index_object, params, models, report_vars
-  #   * should return a string that contains JSON, etc. to render and be used to draw the chart
-  # compute_index_document_headers controller, index_object, params, models, report_vars
-  #   * should return an array of the [filename, content-type]
-  # compute_index_document_data controller, index_object, params, models, report_vars
-  #   * should return a string that contains the document to be sent to the browser
-  # OR SHOW:
-  # compute_show_plot_data controller, index_object, params, report_vars
-  #   * should return a string that contains JSON, etc. to render and be used to draw the chart
-  # compute_show_document_headers controller, index_object, params, models, report_vars
-  #   * should return an array of the [filename, content-type]
-  # compute_show_document_data controller, index_object, params, report_vars
-  #   * should return a string that contains the document to be sent to the browser
-  # BUT NOT BOTH
-
-
 end
