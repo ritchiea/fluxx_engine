@@ -45,6 +45,11 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
       sql_model_search q_search, request_params, results_per_page, options
     end
   end
+  
+  # Helper method to derive the total list of filter fields we need to search through
+  def calculate_filter_fields local_model_class, options={}
+    filter_fields
+  end
 
   def sql_model_search q_search, request_params, results_per_page=25, options={}
     #p "ESH: in sql_model_search q_search=#{q_search.inspect}, request_params=#{request_params.inspect}"
@@ -63,7 +68,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     end
     
     # Make sure that we search for id
-    ([:id] + (filter_fields || [])).each do |attr_pair|
+    ([:id] + (calculate_filter_fields(local_model_class, options) || [])).each do |attr_pair|
       attr, attr_table = attr_pair
       unless grab_param(attr, local_model_request_params, model_request_params, request_params).blank?
         attr_sql = local_model_class.send :sanitize_sql, [" #{attr_table || local_model_class.table_name}.#{attr} in (?) ", grab_param(attr, local_model_request_params, model_request_params, request_params)]
@@ -111,7 +116,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
   
   # check for an attribute in the params based on the current model object's class name, then the superclass if any from which the search attributes were specified, then just the attribute names
   def grab_param attr_name, local_model_request_params={}, model_request_params={}, request_params={}
-    # p "ESH: searching for attr_name=#{attr_name} in local_model_request_params=#{local_model_request_params.inspect}, model_request_params=#{model_request_params.inspect}, request_params=#{request_params.inspect}"
+    #p "ESH: searching for attr_name=#{attr_name} in local_model_request_params=#{local_model_request_params.inspect}, model_request_params=#{model_request_params.inspect}, request_params=#{request_params.inspect}"
     ret = local_model_request_params[attr_name.to_s] || model_request_params[attr_name.to_s] || request_params[attr_name.to_s]
     # p "ESH: grab_param, found ret=#{ret.inspect} for attr_name=#{attr_name}"
     ret
@@ -134,17 +139,17 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     search_with_attributes[:deleted_at] = 0 unless really_delete
 
     # Make sure that we search for id
-    ([:id] + (filter_fields || [])).each do |attr_pair|
-      attr, attr_table = attr_pair
+    ([:id] + (calculate_filter_fields(local_model_class, options) || [])).each do |attr_pair|
+      attr, sphinx_attr = attr_pair
       unless grab_param(attr, local_model_request_params, model_request_params, request_params).blank?
         if derived_filters && derived_filters[attr] # some attributes have filtering methods; if so call it
           derived_filters[attr].call(search_with_attributes, request_params, attr, grab_param(attr, local_model_request_params, model_request_params, request_params)) # Send the raw un-split value
         elsif grab_param(attr, local_model_request_params, model_request_params, request_params).select{|split_param| !split_param.to_s.is_numeric?}.size > 0 # Check to see if any params are NOT numeric
           # Sphinx doesn't allow string attributes, so if we get a non-numeric value, search for the crc32 hash of it
           values = grab_param(attr, local_model_request_params, model_request_params, request_params).map{|val|val.to_s.to_crc32}
-          search_with_attributes[attr] = values
+          search_with_attributes[sphinx_attr || attr] = values
         else
-          search_with_attributes[attr] = grab_param(attr, local_model_request_params, model_request_params, request_params).map{|val| val.to_i}
+          search_with_attributes[sphinx_attr || attr] = grab_param(attr, local_model_request_params, model_request_params, request_params).map{|val| val.to_i}
         end
       end
     end

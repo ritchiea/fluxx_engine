@@ -82,7 +82,7 @@ class ActionController::Base
             params[:page] = nil
           end
           params[:per_page] = 50 if @show_spreadsheet_view && params[:spreadsheet] && params[:spreadsheet].to_i == 1
-          @models = index_object.load_results params, request.format, pre_models, self, params[:per_page]
+          @models = index_object.load_results params, request.format, pre_models, self, params[:per_page], fluxx_current_user
           @show_conversion_funnel = self.respond_to?(:has_conversion_funnel) && has_conversion_funnel
           @first_report_id = self.respond_to?(:insta_index_report_list) && !(insta_index_report_list.empty?) && insta_index_report_list.first.report_id
           instance_variable_set index_object.plural_model_instance_name, @models if index_object.plural_model_instance_name

@@ -41,7 +41,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     @max_sphinx_results || 500000
   end
   
-  def load_results params, format=nil, models=nil, controller=nil, results_per_page_param=nil
+  def load_results params, format=nil, models=nil, controller=nil, results_per_page_param=nil, fluxx_current_user=nil
     if models
       models
     else
@@ -78,7 +78,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         end
       else
         model_class.model_search(q_search, params, results_per_page, 
-          {:search_conditions => extra_search_conditions, :order_clause => self.order_clause, :include_relation => include_relation, :joins => joins, :ignore_page => ignore_page})
+          {:search_conditions => extra_search_conditions, :order_clause => self.order_clause, :include_relation => include_relation, :joins => joins, :ignore_page => ignore_page, :fluxx_current_user => fluxx_current_user})
       end
       instance_variable_set @plural_model_instance_name, model_ids
       
