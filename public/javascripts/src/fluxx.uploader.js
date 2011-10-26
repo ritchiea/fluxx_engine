@@ -88,11 +88,11 @@
             url: settings.documentTypeUrl,
             dataType: 'json',
             success: function(data, status, xhr){
-              if (!$.isArray(data) || data.length < 1) {
+              if (!$.isPlainObject(data) || !$.isArray(data['records']) || data['records'].length < 1) {
                 showDocumentType = false;
                 return false;
               }
-              $(data).each(function() {
+              $(data['records']).each(function() {
                 var dataMap = null;
                 for (var firstKey in this) break;
                   dataMap = this[firstKey]
