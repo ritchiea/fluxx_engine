@@ -1016,6 +1016,8 @@
             closeButton: true
           }
       )).data({url: options.url, target: options.target});
+      if (options.wide)
+        $modal.addClass('wide');
       $card.fluxxCardLoadContent({
         area: $modal,
         url: options.url,

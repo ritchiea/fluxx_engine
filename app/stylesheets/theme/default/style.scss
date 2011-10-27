@@ -306,6 +306,14 @@
       }
     }
   }
+  &.wide {
+    width: 600px;
+    .body {
+      .rte-toolbar {width: 224px;}
+      form {width: 98%;}
+    }
+  }
+
 }
 
 #manager-overlay {

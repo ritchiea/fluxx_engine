@@ -787,6 +787,7 @@
                   url:    $elem.attr('href'),
                   header: $elem.attr('title') || $elem.text(),
                   target: $elem,
+                  wide: $elem.hasClass('wide'),
                   hideFooter: $elem.hasClass('hide-footer'),
                   event: e
                 });

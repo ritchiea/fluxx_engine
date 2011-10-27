@@ -90,7 +90,8 @@ if(typeof $.fn.rte === "undefined") {
             //      This should not be hardcoded, but I can not find any other way atm.
             var heightAdjust = 260;
             iframe.height=textarea.fluxxCard().height() - heightAdjust;
-            $('.body', textarea.fluxxCardArea()).css('overflow', 'hidden');
+            if (!textarea.parents('.modal')[0])
+              $('.body', textarea.fluxxCardArea()).css('overflow', 'hidden');
             $(window).resize(function(e){
               iframe.height=textarea.fluxxCard().height() - heightAdjust;
             });
