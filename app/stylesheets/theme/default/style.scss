@@ -445,7 +445,7 @@
 
 #popup_prompt { margin: 0.5em 0em; }
 
-.wysiwyg {
+iframe.wysiwyg {
   width: 510px;
   @include rounded(4px);
   border: solid 1px #777777;

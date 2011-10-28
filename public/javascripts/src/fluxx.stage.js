@@ -1463,6 +1463,15 @@
               );
             }
           ],
+          'a.generate-test-document': [
+            'click', function(e) {
+               var $elem = $(this);
+               var modelId = $('.code-model-id', $elem.fluxxCard()).val()
+               var link =
+               $elem.attr('href', $elem.attr('href').replace(/\&test-model-id=(\d)+$/, '') + '&test-model-id=' + modelId);
+
+            }
+          ],
           '#help-logo': [
             'click', function(e) {
                window.open('https://sites.google.com/a/fluxxlabs.com/fluxxlabs/','_blank');
