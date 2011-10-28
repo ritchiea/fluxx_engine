@@ -415,7 +415,7 @@
             data: options.data,
             beforeSend: function() {
               $partial.addClass('updating');
-              if (!$partial.hasClass('modal'))
+              if (!$partial.hasClass('modal') && !$partial.hasClass('fluxx-admin-partial'))
                 $partial.children().fadeTo(300, 0);
               else
                 $partial.find('.edit').addClass('updating').fadeTo(300, 0);
