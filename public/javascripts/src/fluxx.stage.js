@@ -63,7 +63,7 @@
       $('#modal-container').css('height', '80%');
       $('#fluxx-admin .detail').each(function() {
         var $elem = $(this);
-        $elem.height($('#modal-container').height() - 46).find('#card-body').height($elem.height() - 210);
+        $elem.height($('#modal-container').height() - 46).find('#card-body').height($elem.height() - (110 * $('#modal-container #card-body').parents('.horizontal-tabs').length));
         if ($elem.fluxxCard().isSpreadsheetCard()) {
           $('#modal-container').css({"max-width": 100000}).width("100%");
           $elem.fluxxCard().width("100%").find('.detail').width("100%");
@@ -217,6 +217,7 @@
           'a.new-detail': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
+              $('a.simplemodal-close').click();
               if ($('body').hasClass('fullscreen-view'))
                 return;
               var $elem = $(this);
@@ -289,6 +290,7 @@
           'a.new-listing': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
+              $('a.simplemodal-close').click();
               var $elem = $(this);
               var card = {
                 listing: {url: $elem.attr('href')},

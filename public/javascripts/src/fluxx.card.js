@@ -698,7 +698,7 @@
 
       $('.horizontal-tabs', $area).each(function() {
         var $elem = $(this);
-        $area.find('.edit').addClass('withtabs');
+        $area.find('.edit, .show').addClass('withtabs');
         var cookieName = "fluxx_tabs_" + $elem.attr('name');
         var tab_cookie_id = parseInt($.cookie(cookieName)) || 0;
         var $card = $area.fluxxCard();

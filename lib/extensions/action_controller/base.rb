@@ -266,7 +266,7 @@ class ActionController::Base
     end
   end
 
-  def self.insta_edit model_class
+  def self.insta_edit model_class = nil
     if respond_to?(:class_edit_object) && class_edit_object
       yield class_edit_object if block_given?
     else
@@ -289,14 +289,13 @@ class ActionController::Base
       define_method :edit do
         edit_object.invoke_pre self
         return if edit_object.invoke_force_redirect(self) # if a redirect is forced, stop execution
-
-        @model = edit_object.perform_edit params, pre_model, fluxx_current_user
+        @model = edit_object.model_class ? edit_object.perform_edit(params, pre_model, fluxx_current_user) : ModelStub.generate_class_instance(ActiveRecord::Base)
         @model_class = edit_object.model_class
         @model_name = (@model ? @model.class.name.underscore.downcase : edit_object.model_name) || (@model_class ? @model_class.name.underscore.downcase : nil)
         raise UnauthorizedException.new('update', (@model || @model_class)) unless edit_object.skip_permission_check || fluxx_current_user.has_update_for_model?(@model || @model_class)
         @icon_style = edit_object.icon_style
         @delete_from_modal = (edit_object.allow_delete_from_modal && params[:as_modal])
-        editable = edit_object.editable? @model, fluxx_current_user
+        editable = edit_object.editable?(@model, fluxx_current_user) || !@model_class
         edit_object.invoke_post self, @model, (editable ? :success : :error)
         if @model
           unless editable

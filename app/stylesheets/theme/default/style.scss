@@ -26,6 +26,7 @@
   outline: 1px solid #a9a9a9;
   height: 100%;
   overflow: hidden;
+  .inline-list {min-height: 40px;}
   .ui-icon {display: inline-block;}
   .sortable li {vertical-align: top; margin: 10px;}
   #admin-buttons {
@@ -146,8 +147,8 @@
     }
     #card-body {
       overflow-x: hidden;
-      margin-left: 59px;
-      width: 539px;
+      margin-left: 0px;
+      width: 728px;
       height: 452px;
       a {
         color: blue;
