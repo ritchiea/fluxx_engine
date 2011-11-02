@@ -107,7 +107,7 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
       :conditions => "#{sql_conditions} #{(!sql_conditions.blank? && !modified_search_conditions.blank?) ? " AND " : ''} #{modified_search_conditions} 
         #{((!sql_conditions.blank? || !modified_search_conditions.blank?) && !extra_sql_conditions.blank?) ? " AND " : ''} #{extra_sql_conditions }", 
       :page => page_clause, :per_page => results_per_page, 
-      :order => order_clause, :include => options[:include_relation],
+      :order => order_clause,
       :joins => options[:joins]
       
     models = models.replace models.map(&:id)

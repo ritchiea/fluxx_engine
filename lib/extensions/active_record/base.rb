@@ -302,11 +302,13 @@ class ActiveRecord::Base
   end
 
   # Take a paginated collection of IDs and load up the related full objects, maintaining the pagination constants
-  def self.page_by_ids model_ids
+  def self.page_by_ids model_ids, options={}
     if model_ids.nil? || model_ids.empty?
       model_ids
     else
-      unpaged_models = self.where(:id => model_ids).all
+      query = self.where(:id => model_ids)
+      query = query.includes(options[:include_relation]) if options[:include_relation]
+      unpaged_models = query.all
       unpaged_models = [unpaged_models] unless unpaged_models.is_a?(Array)
       model_map = unpaged_models.inject({}) {|acc, model| acc[model.id] = model; acc}
       ordered_list = model_ids.map {|model_id| model_map[model_id]}

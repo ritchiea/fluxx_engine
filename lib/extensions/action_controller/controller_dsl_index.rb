@@ -82,15 +82,19 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         end
         instance_variable_set @plural_model_instance_name, model_ids
 
-        if format && (format.csv? || format.xls?)
+        if should_build_unpaged?(format)
           build_unpaged_models model_ids
         else
-          model_class.page_by_ids model_ids
+          model_class.page_by_ids model_ids, {:include_relation => include_relation}
         end
       else
         []
       end
     end
+  end
+  
+  def should_build_unpaged? format
+    format && (format.csv? || format.xls?)
   end
   
   def build_unpaged_models model_ids
