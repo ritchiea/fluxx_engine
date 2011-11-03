@@ -20,7 +20,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '3.0.3'
   s.add_dependency 'thin', '>= 1.2.7'
-  s.add_dependency 'mysql'
+  # NOte: when upgrading to rails 3.1, remove the ~> 0.2.7
+  s.add_dependency 'mysql2', '~> 0.2.7'
   s.add_dependency 'sqlite3'
   s.add_dependency "aasm", '2.2.0'
   s.add_dependency 'acts_as_audited_rails3', '>= 1.1.2'
@@ -41,12 +42,17 @@ Gem::Specification.new do |s|
   # s.add_dependency 'mail'
   s.add_dependency 'writeexcel', '>= 0.6.1'
   s.add_dependency 'fastercsv', '>= 1.5.3'
-  s.add_dependency 'linecache', '= 0.43'
+  if RUBY_VERSION < '1.9'
+    s.add_dependency 'linecache', '= 0.43'
+    s.add_development_dependency "ruby-debug", ">= 0.10.3"
+  else
+    s.add_dependency 'linecache19'
+    s.add_development_dependency "ruby-debug19", ">= 0.10.3"
+  end
 
   s.add_development_dependency 'capybara', '0.3.7'
   s.add_development_dependency 'machinist', '>= 1.0.6'
   s.add_development_dependency 'faker', '>= 0.3.1'
   s.add_development_dependency 'mocha', '>= 0.9'
   s.add_development_dependency 'rcov'
-  s.add_development_dependency "ruby-debug", ">= 0.10.3"
 end

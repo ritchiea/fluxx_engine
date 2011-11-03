@@ -64,6 +64,7 @@ module ApplicationEngineHelper
   end
 
   def all_model_types
+    # TODO ESH: this needs to be reconsidered
     allowed_models = ["Deal", "Request", "RequestReport", "User", "Organization", "ProjectList", "Project", "Program", "Loi", "FundingSourceAllocationAuthority"]
     Module.constants.select do |constant_name|
       constant = eval constant_name

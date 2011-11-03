@@ -1,3 +1,4 @@
+# encoding: utf-8
 class CurrencyHelper
   CURRENCY_MAPPER_FROM_SIGN = {
     '$' => {:short_name => 'USD', :long_name => 'Dollar'}, 

@@ -141,15 +141,17 @@ class ActiveRecord::ModelDslSearch < ActiveRecord::ModelDsl
     # Make sure that we search for id
     ([:id] + (calculate_filter_fields(local_model_class, options) || [])).each do |attr_pair|
       attr, sphinx_attr = attr_pair
-      unless grab_param(attr, local_model_request_params, model_request_params, request_params).blank?
+      lookup_value = grab_param(attr, local_model_request_params, model_request_params, request_params)
+      unless lookup_value.blank?
+        lookup_value = [lookup_value] unless lookup_value.is_a?(Array)
         if derived_filters && derived_filters[attr] # some attributes have filtering methods; if so call it
-          derived_filters[attr].call(search_with_attributes, request_params, attr, grab_param(attr, local_model_request_params, model_request_params, request_params)) # Send the raw un-split value
-        elsif grab_param(attr, local_model_request_params, model_request_params, request_params).select{|split_param| !split_param.to_s.is_numeric?}.size > 0 # Check to see if any params are NOT numeric
+          derived_filters[attr].call(search_with_attributes, request_params, attr, lookup_value) # Send the raw un-split value
+        elsif lookup_value.select{|split_param| !split_param.to_s.is_numeric?}.size > 0 # Check to see if any params are NOT numeric
           # Sphinx doesn't allow string attributes, so if we get a non-numeric value, search for the crc32 hash of it
-          values = grab_param(attr, local_model_request_params, model_request_params, request_params).map{|val|val.to_s.to_crc32}
+          values = lookup_value.map{|val|val.to_s.to_crc32}
           search_with_attributes[sphinx_attr || attr] = values
         else
-          search_with_attributes[sphinx_attr || attr] = grab_param(attr, local_model_request_params, model_request_params, request_params).map{|val| val.to_i}
+          search_with_attributes[sphinx_attr || attr] = lookup_value.map{|val| val.to_i}
         end
       end
     end
