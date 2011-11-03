@@ -6,5 +6,19 @@ module Mysql2
         yield row
       end
     end
+    
+    def fetch_row
+      @results ||= self.to_a
+      @offset ||= 0
+      
+      retval = @results[@offset] if @offset < @results.size
+      @offset += 1
+      retval
+    end
+    
+    def num_rows
+      self.size
+    end
+    
   end
 end
