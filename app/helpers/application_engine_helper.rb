@@ -62,5 +62,13 @@ module ApplicationEngineHelper
   def email_link email_address
     link_to(email_address, "mailto:#{email_address}") unless !email_address || email_address.empty?
   end
+
+  def all_model_types
+    allowed_models = ["Deal", "Request", "RequestReport", "User", "Organization", "ProjectList", "Project", "Program", "Loi", "FundingSourceAllocationAuthority"]
+    Module.constants.select do |constant_name|
+      constant = eval constant_name
+      constant if not constant.nil? and constant.is_a? Class and constant.superclass == ActiveRecord::Base and allowed_models.include? constant_name
+    end.sort
+  end
   
 end
