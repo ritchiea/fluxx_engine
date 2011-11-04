@@ -631,6 +631,7 @@
           ],
           '[data-related-child]': [
             'change', function (e) {
+              var $area = $(this).fluxxCardArea();
               var updateChild = function ($child, parentId, relatedChildParam) {
                 // Prevent stacking updates
                 $child.data('updating', true);
@@ -643,7 +644,7 @@
                     var names = field.split('=');
                     if (names.length != 2)
                       return;
-                    query[names[0]] = $(names[1]).val();
+                    query[names[0]] = $(names[1], $area).val();
                   });
                 } else {
                   query[relatedChildParam] = parentId;
