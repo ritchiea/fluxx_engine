@@ -92,8 +92,8 @@ class ActiveRecord::Base
         return deletable? if respond_to? :deletable?
         if local_search_object.really_delete && connection.adapter_name =~ /mysql/i && id
           can_delete = true
-          ActiveRecord::Base.connection.execute("SELECT table_name, column_name FROM information_schema.KEY_COLUMN_USAGE where TABLE_SCHEMA='#{ActiveRecord::Base.connection.current_database}' AND REFERENCED_TABLE_NAME='#{self.class.table_name}' and REFERENCED_COLUMN_NAME = 'id'").each_hash do |row|
-            can_delete = false if ActiveRecord::Base.connection.execute("SELECT COUNT(id) FROM #{row['table_name']} WHERE #{row['column_name']} = #{id}").fetch_row.first.to_i > 0
+          ActiveRecord::Base.connection.execute("SELECT table_name, column_name FROM information_schema.KEY_COLUMN_USAGE where TABLE_SCHEMA='#{ActiveRecord::Base.connection.current_database}' AND REFERENCED_TABLE_NAME='#{self.class.table_name}' and REFERENCED_COLUMN_NAME = 'id'").each(:cache_rows => false, :symbolize_keys => true, :as => :hash) do |row|
+            can_delete = false if ActiveRecord::Base.connection.execute("SELECT COUNT(id) FROM #{row[:table_name]} WHERE #{row[:column_name]} = #{id}").to_a.first.first > 0
             break unless can_delete
           end
           can_delete
