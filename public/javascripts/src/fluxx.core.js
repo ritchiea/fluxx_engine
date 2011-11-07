@@ -88,6 +88,10 @@
     },
     isFilterMatch: function (filter, test) {
       $.fluxx.log('--- isFilterMatch ---', filter, test);
+      
+      if(test == null) {
+        return true;
+      }
 
       var keys = _.intersect(_.keys(filter), _.keys(test));
       var hierarchies = (filter.hierarchies ? filter.hierarchies : []);
