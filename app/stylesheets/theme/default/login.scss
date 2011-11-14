@@ -35,6 +35,11 @@ body {
     position: relative;
     padding: 25px 50px;
     width: 400px;
+    .forgot-password-link {
+      padding-top: 20px;
+      font-size: 120%;
+      text-align: center;
+    }
     form {
       margin: 0px;
       padding: 0px; 
