@@ -91,7 +91,7 @@ if(typeof $.fn.rte === "undefined") {
             var heightAdjust = 260;
             iframe.height=textarea.fluxxCard().height() - heightAdjust;
             if (!textarea.parents('.modal')[0])
-              $('.body', textarea.fluxxCardArea()).css('overflow', 'hidden');
+              $('.body', textarea.fluxxCardArea()).css('overflow-x', 'hidden');
             $(window).resize(function(e){
               iframe.height=textarea.fluxxCard().height() - heightAdjust;
             });
