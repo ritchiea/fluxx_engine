@@ -256,7 +256,7 @@
               var $form = $elem.parents('form:eq(0)');
               $card = $form.data('card');
               var req = $card.fluxxCardDetail().fluxxCardAreaRequest();
-              req.data = $form.serializeForm() + '&' + $elem.attr('name') + '=' + $elem.val();
+              req.data = $.param($form.serializeForm()) + '&' + $elem.attr('name') + '=' + $elem.val();
               $card.fluxxCardLoadDetail(req);
               $.modal.close();
             }
@@ -501,6 +501,7 @@
                 }
               } else {
                 $.ajax({
+                  url: $card.fluxxCardDetail().fluxxCardAreaRequest().url + '?fluxxreport_filter=1',
                   success: function(data, status, xhr) {
                     $.modal('<div class="report-modal"><div class="report-filter">' + data + '</div></div>',{
                       position: ["15%",],
