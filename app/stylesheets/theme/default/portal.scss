@@ -483,20 +483,7 @@ ol li.action-item {
 .simplemodal-overlay {
   background: url("/images/fluxx_engine/theme/default/modal/overlay-bg.png") black;
 }
-.simplemodal-close, .ui-icon-closethick {
-  display: block;
-  position: absolute;
-  right: -8px;
-  top: -8px;
-  text-indent: -9999px;
-  background: url("/images/fluxx_engine/theme/default/modal/modal_close.png") no-repeat top left;
-  height: 21px;
-  width: 21px;
-  z-index: 2;
-}
-.ui-icon-closethick {
-  top: 7px;
-}
+
 .plupload_container {
   border: 2px solid #1B1B1B;
 }
