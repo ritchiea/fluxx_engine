@@ -183,11 +183,11 @@
         },
         autoGrowTextArea: function(sel) {
           var options = {
-            minSize: 5
+            minSize: 7
           };
           options.update = function (e) {
             var $ta = $(e.target);
-            var lineHeight = parseInt($ta.css('lineHeight'));
+            var lineHeight = parseInt($ta.css('lineHeight')) || 10;
             var newHeight = lineHeight * ($ta.val().split(/\n/).length + 1);
             if (newHeight < options.minSize * lineHeight) {
               newHeight = options.minSize * lineHeight;
