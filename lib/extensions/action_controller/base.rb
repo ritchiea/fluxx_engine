@@ -102,6 +102,10 @@ class ActionController::Base
                   render :text => @report.calculate(self, @models)
                 elsif @report.is_show?
                   @report.calculate(self, @models)
+                  # You can't edit/delete reports
+                  @edit_enabled = false
+                  @delete_enabled = false
+                  
                   fluxx_show_card index_object, {:template => @report.local_configuration.template, :footer_template => @report.local_configuration.template_footer}
                 end
               else
@@ -197,6 +201,10 @@ class ActionController::Base
                   render :text => @report.calculate(self)
                 elsif @report.is_show?
                   @report.calculate(self)
+                  # You can't edit/delete reports
+                  @edit_enabled = false
+                  @delete_enabled = false
+                  
                   fluxx_show_card show_object, {:template => @report.local_configuration.template, :footer_template => @report.local_configuration.template_footer}
                 end
               else
