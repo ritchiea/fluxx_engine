@@ -125,8 +125,8 @@
       var $scrollers = $('.dock-list-scroller', $.my.viewport);;
       var numIcons = $icons.length;
       var ilWidth =  $ql.offset().left - $.my.iconlist.offset().left - $scrollers.last().outerWidth(true) - 10;
-      var iconWidth = $icons.first().outerWidth(true);
-      var lastIcon = Math.floor(ilWidth / iconWidth)
+      var iconWidth = $icons.last().outerWidth(true);
+      var lastIcon = Math.floor(ilWidth / iconWidth);
       if (lastIcon < numIcons)  {
         $scrollers.css('opacity', 1);
         var firstIcon = $.my.iconlist.data('firstIcon') || 1;
