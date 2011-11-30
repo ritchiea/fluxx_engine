@@ -272,13 +272,6 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       ss_style = ''
       val_type = case val_type
       when :date
-        # "mso-number-format:\"mm\/dd\/yy\""
-        cur_date = Time.parse value rescue nil
-        value = if cur_date && cur_date > Time.now - 200.years
-          cur_date.msoft 
-        else
-          ''
-        end
         ss_style = 'ss:StyleID="s22"'
         "DateTime"
       when :currency
@@ -289,6 +282,10 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       else
         'String'
       end
+      # "mso-number-format:\"mm\/dd\/yy\""
+      value = value.msoft if value.is_a?(Time)
+      
+      
       if value.blank? || value.nil?
         output.write "<Cell><Data ss:Type=\"String\"/></Cell>"
       else
