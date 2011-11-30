@@ -18,4 +18,12 @@ class InflectionsTest < ActiveSupport::TestCase
     assert "2343".is_numeric?
     assert !"asdf2343".is_numeric?
   end
+  
+  test "try methodize" do
+    name = "A very happy boy"
+    assert_equal 'a_very_happy_boy', name.methodize
+
+    name = "3 A very happy boy"
+    assert_equal 'a3_a_very_happy_boy', name.methodize
+  end
 end

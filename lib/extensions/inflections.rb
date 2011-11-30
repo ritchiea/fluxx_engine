@@ -33,4 +33,10 @@ class String
   def is_numeric?
     /^[\d]*$/ === self.strip
   end
+  
+  def methodize
+    name = self.downcase.gsub(/\s+/, '_').gsub(/\W/, '').gsub(/_+/,'_').gsub(/[^0-9A-Za-z_]/, '').gsub(/__/, '').gsub(/_$/, '')
+    name = "a#{name}" if name =~ /^\d/
+    name
+  end
 end
