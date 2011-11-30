@@ -43,9 +43,9 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
   end
 
   def clear_deleted_at_if_pre_create model, params, fluxx_current_user=nil
-    if pre_create_model
+    if pre_create_model && model
 #     AML: Make sure we only clear the deleted_at column in the current user owns this reocrd and the record deleted at time is less than one day before the current time
-      model.deleted_at = nil if (model.created_by_id == fluxx_current_user.id && model.deleted_at && (Time.now - model.deleted_at < 86400))
+      model.deleted_at = nil if ((!model.respond_to?(:created_by_id) || model.created_by_id == fluxx_current_user.id) && model.deleted_at && (Time.now - model.deleted_at < 86400)))
     end
   end
 end
