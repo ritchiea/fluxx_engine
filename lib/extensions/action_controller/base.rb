@@ -300,7 +300,10 @@ class ActionController::Base
         @model = edit_object.model_class ? edit_object.perform_edit(params, pre_model, fluxx_current_user) : ModelStub.generate_class_instance(ActiveRecord::Base)
         @model_class = edit_object.model_class
         @model_name = (@model ? @model.class.name.underscore.downcase : edit_object.model_name) || (@model_class ? @model_class.name.underscore.downcase : nil)
-        raise UnauthorizedException.new('update', (@model || @model_class)) unless edit_object.skip_permission_check || fluxx_current_user.has_update_for_model?(@model || @model_class)
+        unless edit_object.skip_permission_check || fluxx_current_user.has_update_for_model?(@model || @model_class)
+          edit_object.remove_lock @model, fluxx_current_user rescue nil
+          raise UnauthorizedException.new('update', (@model || @model_class)) 
+        end
         @icon_style = edit_object.icon_style
         @delete_from_modal = (edit_object.allow_delete_from_modal && params[:as_modal])
         editable = edit_object.editable?(@model, fluxx_current_user) || !@model_class
@@ -358,7 +361,10 @@ class ActionController::Base
         @model = create_object.load_new_model params, pre_model, fluxx_current_user
         
         @model_class = create_object.model_class
-        raise UnauthorizedException.new('create', @model_class) unless create_object.skip_permission_check || fluxx_current_user.has_create_for_model?(@model_class)
+        unless create_object.skip_permission_check || fluxx_current_user.has_create_for_model?(@model_class)
+          create_object.remove_lock @model, fluxx_current_user rescue nil
+          raise UnauthorizedException.new('create', @model_class) 
+        end
         @icon_style = create_object.icon_style
         instance_variable_set create_object.singular_model_instance_name, @model
         @markup = create_object.template_file self
@@ -448,6 +454,7 @@ class ActionController::Base
         @model.updated_by_id = fluxx_current_user.id if @model.respond_to?(:updated_by_id) && fluxx_current_user
 
         unless update_object.skip_permission_check || fluxx_current_user.has_update_for_model?(@model || @model_class)
+          update_object.remove_lock @model, fluxx_current_user rescue nil
           raise UnauthorizedException.new('update', (@model || @model_class))
         end
         @icon_style = update_object.icon_style
@@ -535,7 +542,10 @@ class ActionController::Base
 
         @model = delete_object.load_existing_model params, pre_model
         @model_class = delete_object.model_class
-        raise UnauthorizedException.new('delete', (@model || @model_class)) unless delete_object.skip_permission_check || fluxx_current_user.has_delete_for_model?(@model || @model_class)
+        unless delete_object.skip_permission_check || fluxx_current_user.has_delete_for_model?(@model || @model_class)
+          update_object.remove_lock @model, fluxx_current_user rescue nil
+          raise UnauthorizedException.new('delete', (@model || @model_class)) 
+        end
         @icon_style = delete_object.icon_style
         instance_variable_set delete_object.singular_model_instance_name, @model
         delete_result = delete_object.perform_delete params, @model, fluxx_current_user
