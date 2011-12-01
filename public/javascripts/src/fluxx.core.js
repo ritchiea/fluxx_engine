@@ -183,16 +183,13 @@
         },
         autoGrowTextArea: function(sel) {
           var options = {
-            minSize: 7
+            minSize: 100
           };
+          sel.height(options.minSize);
           options.update = function (e) {
             var $ta = $(e.target);
-            var lineHeight = parseInt($ta.css('lineHeight')) || 10;
-            var newHeight = lineHeight * ($ta.val().split(/\n/).length + 1);
-            if (newHeight < options.minSize * lineHeight) {
-              newHeight = options.minSize * lineHeight;
-            }
-            $ta.height(newHeight);
+            if ($ta[0].offsetHeight < $ta[0].scrollHeight)
+                $ta.height($ta[0].scrollHeight);
           };
           sel.bind('change keydown', options.update).change();
         },
