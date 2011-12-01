@@ -393,13 +393,17 @@
         || this.data('partial', this.parents('.partial:eq(0)').andSelf().first()).data('partial');
     },
     fluxxCardAreaRequest: function () {
-      var history = this.fluxxCardArea().data('history');
-      if (_.isEmpty(history)) return null;
-      var req = history[0];
-      return {
-        url:  req.url,
-        data: req.data
-      };
+      if (this.fluxxCardArea()) {
+        var history = this.fluxxCardArea().data('history');
+        if (_.isEmpty(history)) return null;
+        var req = history[0];
+        return {
+          url:  req.url,
+          data: req.data
+        };
+      } else {
+        return null;
+      }
     },
     refreshAreaPartial: function(options, onComplete){
       $.fluxx.log("**> refreshAreaPartial");
