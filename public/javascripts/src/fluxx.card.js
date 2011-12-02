@@ -857,9 +857,10 @@
           if (openInDetail || typeof data == "string") {
             $form.removeClass('to-listing').addClass('to-detail');
             if ($listing.fluxxCardAreaData() != '' && typeof $listing.fluxxCardAreaData() != "object") {
+              var filter = typeof data == "object" ? data : $.fluxx.unparam(data);
               data = [];
-              var filter = typeof data == "object"
               _.each(filter, function(val, key) {
+                $.fluxx.log('----', val, key);
                 if ($.isArray($.fluxx.unparam($listing.fluxxCardAreaData()))) {
                   _.each(val, function(singleValue) {
                     data.push({name: key, value: singleValue});
