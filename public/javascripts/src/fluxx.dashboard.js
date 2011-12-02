@@ -139,7 +139,10 @@
         defaults: {
         },
         lastSave: {},
-        ui: function(optoins) {
+        ui: function(options) {
+          if (!options)
+            options = {};
+
           return $('<li>')
             .addClass('dashboard')
             .attr($.fluxx.dashboard.attrs)
@@ -148,7 +151,7 @@
                 '<span class="label">Dashboard:</span>',
                 '<ul class="picker">',
                   '<li class="combo"><div>&#9650;</div><div>&#9660;</div></li>',
-                  '<li class="new"><a href="#" class="new-dashboard">New</a></li>',
+                  '<li class="new"><a href="#" class="' + (options.hasDashboardTemplates ? 'new-dashboard-with-templates' : 'new-dashboard') + '">New</a></li>',
                   '<li class="manage"><a href="#" class="manage-dashboard">Manage</a></li>',
                 '</ul>',
               '</li>'
@@ -221,7 +224,7 @@
   $('.area').live('lifetimeComplete.fluxx.area', function(e) {
     var $area = $(this).fluxxCardArea();
     var history = $area.data('history');
-    if (history && history[0] && (history[0].type.toUpperCase() == 'GET' && ($area.hasClass('detail') || $area.hasClass('listing'))) && !$(this).fluxxCard().fromClientStore()) {
+    if (history && history[0] && history[0].type && (history[0].type.toUpperCase() == 'GET' && ($area.hasClass('detail') || $area.hasClass('listing'))) && !$(this).fluxxCard().fromClientStore()) {
         $(this).saveDashboard();
     }
   });
