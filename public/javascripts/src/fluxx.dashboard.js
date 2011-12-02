@@ -221,7 +221,7 @@
   $('.area').live('lifetimeComplete.fluxx.area', function(e) {
     var $area = $(this).fluxxCardArea();
     var history = $area.data('history');
-    if (history && history[0] && (history[0].type.toUpperCase() == 'GET' && ($area.hasClass('detail') || $area.hasClass('listing'))) && !$(this).fluxxCard().fromClientStore()) {
+    if (history && history[0] && history[0].type && (history[0].type.toUpperCase() == 'GET' && ($area.hasClass('detail') || $area.hasClass('listing'))) && !$(this).fluxxCard().fromClientStore()) {
         $(this).saveDashboard();
     }
   });
