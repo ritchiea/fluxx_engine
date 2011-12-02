@@ -140,6 +140,9 @@
         },
         lastSave: {},
         ui: function(options) {
+          if (!options)
+            options = {};
+
           return $('<li>')
             .addClass('dashboard')
             .attr($.fluxx.dashboard.attrs)
@@ -148,7 +151,7 @@
                 '<span class="label">Dashboard:</span>',
                 '<ul class="picker">',
                   '<li class="combo"><div>&#9650;</div><div>&#9660;</div></li>',
-                  '<li class="new"><a href="#" class="' + (options.hasDashboardTemplates ? 'new-dashboard-with-templates' : 'new-dashboard' + ">New</a></li>',
+                  '<li class="new"><a href="#" class="' + (options.hasDashboardTemplates ? 'new-dashboard-with-templates' : 'new-dashboard') + '">New</a></li>',
                   '<li class="manage"><a href="#" class="manage-dashboard">Manage</a></li>',
                 '</ul>',
               '</li>'
