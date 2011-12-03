@@ -16,22 +16,38 @@ module ApplicationEngineHelper
 
   # Use GET
   def current_edit_path model_id, options={}
-    send "edit_#{controller.controller_path.singularize}_path", options.merge({:id => model_id})
+    if model_id
+      send "edit_#{controller.controller_path.singularize}_path", options.merge({:id => model_id})
+    else
+      '#'
+    end
   end
 
   # Use GET
   def current_show_path model_id, options={}
-    send "#{controller.controller_path.singularize}_path", options.merge({:id => model_id})
+    if model_id
+      send "#{controller.controller_path.singularize}_path", options.merge({:id => model_id})
+    else
+      '#'
+    end
   end
 
   # Use PUT
   def current_put_path model_id, options={}
-    send "#{controller.controller_path.singularize}_path", options.merge({:id => model_id})
+    if model_id
+      send "#{controller.controller_path.singularize}_path", options.merge({:id => model_id})
+    else
+      '#'
+    end
   end
 
   # Use DELETE
   def current_delete_path model_id, options={}
-    send "#{controller.controller_path.singularize}_path", options.merge({:id => model_id})
+    if model_id
+      send "#{controller.controller_path.singularize}_path", options.merge({:id => model_id})
+    else
+      '#'
+    end
   end
   
   def as_currency(number)
