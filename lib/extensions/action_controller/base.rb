@@ -7,6 +7,9 @@ class ActionController::Base
   helper_method :grab_param if respond_to?(:helper_method)
   helper_method :grab_param_or_model if respond_to?(:helper_method)
 
+  def self.grab_params_from_hash params, form_name, param_name
+    params[param_name] || (params[form_name] ? params[form_name][param_name] : nil)
+  end
 
   def grab_param form_name, param_name
     params[param_name] || (params[form_name] ? params[form_name][param_name] : nil)
