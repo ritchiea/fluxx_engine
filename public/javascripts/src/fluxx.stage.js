@@ -724,11 +724,10 @@
                      $('#manager-container').fadeTo(500, 1);
                    if (r) {
                      var newDashboard =  $.fluxx.config.dashboard.default_dashboard;
-                     newDashboard.name = r;
                      if (dashboard && dashboard["dashboard_template"] && dashboard["dashboard_template"].data) {
                        newDashboard.data = dashboard["dashboard_template"].data;
                      }
-                     $.my.dashboardPicker.createDashboardFromTemplate(newDashboard);
+                     $.my.dashboardPicker.createDashboardFromTemplate(newDashboard, r);
                    }
                  });
                } else {
