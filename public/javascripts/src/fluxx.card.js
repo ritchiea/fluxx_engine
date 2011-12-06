@@ -726,20 +726,25 @@
         });
       });
       $('.sortable', $area).sortable().bind('sortupdate', function(e, ui) {
-        var order_list = [];
         var $elem = $(this);
-        $elem.find('li').each(function() {
-          order_list.push($(this).attr('id'));
-        });
         var $area = $elem.fluxxCardArea();
-
-        var re = new RegExp('([?&])order_list=[^?&]*');
-        $area.attr('data-src', $area.attr('data-src').replace(re, '') + "&order_list=" + order_list);
         $area.data('updated', true);
-        $area.children().fadeTo('fast', 0.33);
-        $area.refreshAreaPartial({}, function() {
-          $area.children().fadeTo('fast', 1);
-        });
+        if (!$area[0].hasOwnProperty('saveSortOrder')) {
+          $area[0].saveSortOrder = function() {
+            var order_list = [];
+            $elem.find('li').each(function() {
+              order_list.push($(this).attr('id'));
+            });
+            var $area = $elem.fluxxCardArea();
+
+            var re = new RegExp('([?&])order_list=[^?&]*');
+            $area.attr('data-src', $area.attr('data-src').replace(re, '') + "&order_list=" + order_list);
+            $area.children().fadeTo('fast', 0.33);
+            $area.refreshAreaPartial({}, function() {
+              $area.children().fadeTo('fast', 1);
+            });
+          };
+        }
       });
 		  $('.sortable', $area).disableSelection();
       if ($('#fluxx-admin').length) {
@@ -1106,6 +1111,8 @@
         var $modal = $('.modal', $(this).fluxxCard());
         if ($modal.length > 0) {
           if ($modal.data('target') && $modal.data('target').attr('data-on-close') && $modal.data('updated')) {
+            if ($modal[0] && $modal[0].hasOwnProperty('saveSortOrder'))
+              $modal[0].saveSortOrder();
             var onClose = $area.data('target').attr('data-on-close');
             _.each(onClose.replace(/\s/g, '').split(/,/), function(action){
               var func = $.fluxx.card.loadingActions[action] || $.noop;
