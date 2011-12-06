@@ -1,0 +1,3 @@
+class DashboardTemplatesController < ApplicationController
+  include FluxxDashboardTemplatesController
+end

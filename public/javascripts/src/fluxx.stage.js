@@ -632,7 +632,7 @@
           ],
           '[data-related-child]': [
             'change', function (e) {
-              var $area = $(this).fluxxCardArea();
+              var $area = $(this).hasOwnProperty('fluxxCardArea') ? $(this).fluxxCardArea() : null;
               var updateChild = function ($child, parentId, relatedChildParam) {
                 // Prevent stacking updates
                 $child.data('updating', true);
@@ -714,7 +714,26 @@
           'a.new-dashboard': [
              'click', function(e) {
                $.fluxx.util.itEndsWithMe(e);
-               $.my.dashboardPicker.newDashboard(e);
+               if ($(this).hasClass('from-template')) {
+                 var $selected = $(this);
+                 var $dashboard = $('body').data('dashboard-templates');
+                 var dashboard = $dashboard[$selected.data('dashboard-template-id')];
+                 $('#manager-container').fadeTo(500,0.2);
+                 jPrompt('Please Enter New Dashboard Name:',
+                   $selected.data('dashboard-template-name'),'', function(r) {
+                     $('#manager-container').fadeTo(500, 1);
+                   if (r) {
+                     var newDashboard =  $.fluxx.config.dashboard.default_dashboard;
+                     newDashboard.name = r;
+                     if (dashboard && dashboard["dashboard_template"] && dashboard["dashboard_template"].data) {
+                       newDashboard.data = dashboard["dashboard_template"].data;
+                     }
+                     $.my.dashboardPicker.createDashboardFromTemplate(newDashboard);
+                   }
+                 });
+               } else {
+                 $.my.dashboardPicker.newDashboard(e);
+               }
              }
            ],
            'a.manage-dashboard': [
@@ -726,29 +745,59 @@
            'a.delete-dashboard': [
               'click', function(e) {
                 $.fluxx.util.itEndsWithMe(e);
-                var dashboard = $(this).parent().parent().parent().find('a.to-dashboard').data('dashboard');
+                var $this = $(this);
                 $('#manager-container').fadeTo(500,0.2);
-                jConfirm('<p>You are about to delete the dashboard</p><span class="manager-title">' + dashboard.name + '</span>',
+                var isTemplate = $this.hasClass('dashboard-template');
+                var dashboard = isTemplate ? $this.parent().parent().prev() : this.parent().parent().parent().find('a.to-dashboard').data('dashboard');
+                var itemLabel = isTemplate ? 'dashboard template' : 'dashboard';
+                var itemName = isTemplate ? dashboard.data('dashboard-template-name') : dashboard.name;
+
+                jConfirm('<p>You are about to delete the ' + itemLabel +'</p><span class="manager-title">' + itemName + '</span>',
                   'Can you confirm this?', function(r) {
                     $('#manager-container').fadeTo(500, 1);
                     if (r)
-                      $.my.dashboardPicker.deleteDashboard(dashboard);
+                      if (isTemplate)
+                        $.my.dashboardPicker.deleteDashboardTemplate(dashboard);
+                      else
+                        $.my.dashboardPicker.deleteDashboard(dashboard);
                 });
               }
             ],
             'a.rename-dashboard': [
-               'click', function(e) {
-                 $.fluxx.util.itEndsWithMe(e);
-                 var dashboard = $(this).parent().parent().parent().find('a.to-dashboard').data('dashboard');
-                 $('#manager-container').fadeTo(500,0.2);
-                 jPrompt('Rename dashboard ' + dashboard.name + ' to:',
-                   dashboard.name, '', function(r) {
-                   $('#manager-container').fadeTo(500, 1);
-                   if (r)
-                     $.my.dashboardPicker.renameDashboard(dashboard, r);
-                 });
-               }
-             ],
+              'click', function(e) {
+                $.fluxx.util.itEndsWithMe(e);
+                $('#manager-container').fadeTo(500,0.2);
+                var $this = $(this);
+                var isTemplate = $this.hasClass('dashboard-template');
+                var dashboard = isTemplate ? $this.parent().parent().prev() : $this.parent().parent().parent().find('a.to-dashboard').data('dashboard');
+                var itemLabel = isTemplate ? 'dashboard template' : 'dashboard';
+                var itemName = isTemplate ? dashboard.data('dashboard-template-name') : dashboard.name;
+
+                jPrompt('Rename ' + itemLabel + ' ' + itemName + ' to:',
+                  itemName, '', function(r) {
+                  $('#manager-container').fadeTo(500, 1);
+                  if (r) {
+                    if (isTemplate)
+                      $.my.dashboardPicker.renameDashboardTemplate(dashboard, r);
+                    else
+                      $.my.dashboardPicker.renameDashboard(dashboard, r);
+                  }
+                });
+              }
+            ],
+            'a.add-dashboard-template': [
+             'click', function(e) {
+               $.fluxx.util.itEndsWithMe(e);
+               var dashboard = $(this).parent().find('a.to-dashboard').data('dashboard');
+               $('#manager-container').fadeTo(500,0.2);
+               jPrompt('Please enter a name for this template:',
+                 dashboard.name, '', function(r) {
+                 $('#manager-container').fadeTo(500, 1);
+                 if (r)
+                   $.my.dashboardPicker.addDashboardTemplate(dashboard, r);
+               });
+             }
+           ],
           'a.to-upload': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);

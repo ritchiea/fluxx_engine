@@ -33,3 +33,6 @@ end
 
 SphinxCheck.blueprint do
 end
+
+DashboardTemplate.blueprint do
+end

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :dashboard_templates
+
   resources :sphinx_checks
 
   resources :realtime_updates

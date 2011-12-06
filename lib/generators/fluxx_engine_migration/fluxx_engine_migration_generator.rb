@@ -26,6 +26,7 @@ class FluxxEngineMigrationGenerator < Rails::Generators::Base
     handle_migration 'create_client_stores.rb', 'db/migrate/fluxx_engine_create_client_stores.rb'
     handle_migration 'add_uid_to_all_dashboard_cards.rb', 'db/migrate/fluxx_engine_add_uid_to_all_dashboard_cards.rb'
     handle_migration 'create_sphinx_check.rb', 'db/migrate/fluxx_engine_create_sphinx_check.rb'
+    handle_migration 'create_dashboard_templates.rb', 'db/migrate/fluxx_engine_create_dashboard_templates.rb'
   end
   
   private
