@@ -731,6 +731,7 @@
         $area.data('updated', true);
         if (!$area[0].hasOwnProperty('saveSortOrder')) {
           $area[0].saveSortOrder = function() {
+            var callBack = arguments.length >= 1 ? arguments[0] : null;
             var order_list = [];
             $elem.find('li').each(function() {
               order_list.push($(this).attr('id'));
@@ -741,6 +742,8 @@
             $area.attr('data-src', $area.attr('data-src').replace(re, '') + "&order_list=" + order_list);
             $area.children().fadeTo('fast', 0.33);
             $area.refreshAreaPartial({}, function() {
+              if (callBack)
+                callBack();
               $area.children().fadeTo('fast', 1);
             });
           };
@@ -1111,19 +1114,33 @@
         var $modal = $('.modal', $(this).fluxxCard());
         if ($modal.length > 0) {
           if ($modal.data('target') && $modal.data('target').attr('data-on-close') && $modal.data('updated')) {
-            if ($modal[0] && $modal[0].hasOwnProperty('saveSortOrder'))
-              $modal[0].saveSortOrder();
-            var onClose = $area.data('target').attr('data-on-close');
-            _.each(onClose.replace(/\s/g, '').split(/,/), function(action){
-              var func = $.fluxx.card.loadingActions[action] || $.noop;
-              (_.bind(func, $area))();
+            var onClose = $modal.data('target').attr('data-on-close');
+            var target =  $modal.data('target');
+            var onCloseFunc = function () {
+              _.each(onClose.replace(/\s/g, '').split(/,/), function(action){
+                var func = $.fluxx.card.loadingActions[action] || $.noop;
+                $modal.data('target', target);
+                $.fluxx.log(func, $modal, $modal.data('target'));
+                (_.bind(func, $modal))();
+              });
+              $modal.fadeOut(function() {
+                var $card = $modal.fluxxCard();
+                $('.area', $card).not('.modal').enableFluxxArea().first().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
+                $modal.remove();
+              });
+            }
+            if ($modal[0] && $modal[0].hasOwnProperty('saveSortOrder')) {
+              $modal[0].saveSortOrder(onCloseFunc);
+            } else {
+              onCloseFunc();
+            }
+          } else {
+            $modal.fadeOut(function() {
+              var $card = $modal.fluxxCard();
+              $('.area', $card).not('.modal').enableFluxxArea().first().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
+              $modal.remove();
             });
           }
-          $modal.fadeOut(function() {
-            var $card = $modal.fluxxCard();
-            $('.area', $card).not('.modal').enableFluxxArea().first().trigger('close.fluxx.modal', [$modal.data('target'), $modal.data('url')]);
-            $modal.remove();
-          });
         }
       });
     },
