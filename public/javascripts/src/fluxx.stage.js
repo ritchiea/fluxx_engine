@@ -352,8 +352,16 @@
                   $.fn.fluxxAjaxCall($elem, 'DELETE');
                 } else {
                   var message = $elem.attr('data-message') || 'This record will be deleted. Are you sure?';
-                  if (confirm(message))
-                    $.fn.fluxxAjaxCall($elem, 'DELETE');
+                  if ($area[0] && $area[0].hasOwnProperty('saveSortOrder')) {
+                    if (confirm(message))
+                      $area[0].saveSortOrder(function () {
+                        $area[0].saveSortOrder = null;
+                        $.fn.fluxxAjaxCall($elem, 'DELETE');
+                      });
+                  } else {
+                    if (confirm(message))
+                      $.fn.fluxxAjaxCall($elem, 'DELETE');
+                  }
                 }
               }
             }

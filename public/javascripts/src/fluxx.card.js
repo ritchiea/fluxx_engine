@@ -731,6 +731,7 @@
         $area.data('updated', true);
         if (!$area[0].hasOwnProperty('saveSortOrder')) {
           $area[0].saveSortOrder = function() {
+            var $area = $(this);
             var callBack = arguments.length >= 1 ? arguments[0] : null;
             var order_list = [];
             $elem.find('li').each(function() {
@@ -868,7 +869,6 @@
               var filter = typeof data == "object" ? data : $.fluxx.unparam(data);
               data = [];
               _.each(filter, function(val, key) {
-                $.fluxx.log('----', val, key);
                 if ($.isArray($.fluxx.unparam($listing.fluxxCardAreaData()))) {
                   _.each(val, function(singleValue) {
                     data.push({name: key, value: singleValue});
@@ -1120,7 +1120,6 @@
               _.each(onClose.replace(/\s/g, '').split(/,/), function(action){
                 var func = $.fluxx.card.loadingActions[action] || $.noop;
                 $modal.data('target', target);
-                $.fluxx.log(func, $modal, $modal.data('target'));
                 (_.bind(func, $modal))();
               });
               $modal.fadeOut(function() {
@@ -1129,7 +1128,7 @@
                 $modal.remove();
               });
             }
-            if ($modal[0] && $modal[0].hasOwnProperty('saveSortOrder')) {
+            if ($modal[0] && $modal[0].hasOwnProperty('saveSortOrder') && $modal[0].saveSortOrder) {
               $modal[0].saveSortOrder(onCloseFunc);
             } else {
               onCloseFunc();
