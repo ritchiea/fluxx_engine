@@ -186,7 +186,6 @@
         var dashboard = jQuery.extend(true, {cards: [], nextUid: 1}, template);
         dashboard.name = name;
         $(dashboard).data('nextUid', 1);
-        #test
         $.fluxx.storage.createStore(dashboard, function(item) {
           $($.fluxx.dashboard.ui.pickerItem({url: item.url, name: item.name}))
           .find('a').data('dashboard', item)
