@@ -1,4 +1,7 @@
-%div{:id=>"card-header"}= raw "#{raw flash_info} #{raw flash_error}"
+%div{:id=>"card-header"}
+  = raw "#{raw flash_info} #{raw flash_error}"
+  - if @model.errors
+    = raw "<!-- errors: #{@model.errors.inspect} -->"
 %div{:id=>"card-body"}
   %div.edit
     = semantic_form_for @model, :url => (@form_url || (@model.id.nil? ? current_create_path : current_put_path(@model.id))), :html => {:class => ('to-self ' + (@form_class || ''))} do |form|
