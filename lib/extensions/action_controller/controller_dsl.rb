@@ -150,7 +150,7 @@ class ActionController::ControllerDsl
   end
 
   def has_custom_template controller
-    (template_map or {}).keys.map { |key| template_map[key] if !!controller.params[key] }.compact.first
+    (template_map or {}).keys.map { |key| template_map[key] if controller.params[key] }.compact.first
   end
   
   def template_file controller
