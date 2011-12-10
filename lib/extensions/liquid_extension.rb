@@ -131,6 +131,8 @@ module LiquidFilters
   
   # ex: {{ request_transaction.amount_due | currency: 'Rs. ' }}
   def currency(number, unit='$', delimiter=',', precision=0, format='%u%n')
+    return '' unless number
+    number = number.to_s.to_d
     return '' if number.blank? || number == 0
     number_to_currency(number, :unit => unit, :delimiter => delimiter, :precision => precision, :format => format)
   end
