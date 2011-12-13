@@ -260,6 +260,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     io.string
   end
   
+  EARLIEST_EXCEL_DATE = Time.parse '1/1/1905'
   def generate_xls_row columns, output, headers
     unless columns.is_a? Array
       columns = headers.map{|header| columns.send(header) rescue nil}
@@ -283,7 +284,14 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         'String'
       end
       # "mso-number-format:\"mm\/dd\/yy\""
-      value = value.msoft if value.is_a?(Time)
+      if value.is_a?(Time) || value.is_a?(DateTime)
+        # Excel can't handle dates earlier than 1904; see Earliest date in http://office.microsoft.com/en-us/excel-help/excel-specifications-and-limits-HP005199291.aspx
+        if value < EARLIEST_EXCEL_DATE
+          value = nil
+        else
+          value = value.msoft 
+        end
+      end
       
       
       if value.blank? || value.nil?
