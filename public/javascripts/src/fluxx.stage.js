@@ -1254,7 +1254,7 @@
 							});
               var properties = {
                 area: $area,
-                url: $elem.attr('action'),
+                url: $elem.find('input[name=form-action-override]').val()|| $elem.attr('action'),
                 data: $elem.serializeForm()
               };
 							$('input:password', $elem).removeAttr("disabled");

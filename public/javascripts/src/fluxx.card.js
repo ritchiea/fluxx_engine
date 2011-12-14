@@ -758,12 +758,13 @@
           if (!$('#fluxx-admin .form-builder')[0])
             $('#admin-buttons').fadeIn();
         }).unbind('keydown').keydown(function() {
-          if (!$('#fluxx-admin .form-builder')[0])
+          if (!$('#fluxx-admin .form-builder:visible')[0])
             $('#admin-buttons').fadeIn();
         });
 
         $('.admin-submit').unbind('click').click(function(e) {
           $.fluxx.util.itEndsWithMe(e);
+          $('#fluxx-admin .edit').fadeTo(300, .3);
           $adminForm.submit();
         });
         // Disable component interaction in form builder mode

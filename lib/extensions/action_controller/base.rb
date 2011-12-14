@@ -119,7 +119,7 @@ class ActionController::Base
                   @markup = @markup.gsub(/_list$/, "_spreadsheet") if (!index_object.template_map || !index_object.template_map[:summary])
                   render((index_object.view || "insta/spreadsheet").to_s, :layout => false)
                 else
-                  render((index_object.view || "#{insta_path}/index").to_s, :layout => false)
+                  fluxx_index_card index_object
                 end
               end
             end
@@ -698,6 +698,11 @@ class ActionController::Base
     @filter_title = index_object.filter_title || "Filter #{index_object.model_class.name.humanize.downcase.pluralize}"
     @filter_template = template_param || index_object.filter_template
     render((index_object.filter_view || "#{insta_path}/filter").to_s, :layout => false)
+  end
+
+  def fluxx_index_card index_object, template_param=nil
+    @markup = template_param if template_param
+    render((index_object.view || "#{insta_path}/index").to_s, :layout => false)
   end
   
   def is_ipad_user_agent?
