@@ -633,9 +633,6 @@
                 $card.closeDetail();
                 $(this).openListingFilters();
               }
-            },
-            function(e) {
-              $.fluxx.util.itEndsWithMe(e);
             }
           ],
           '[data-related-child]': [

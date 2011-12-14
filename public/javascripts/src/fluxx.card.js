@@ -755,7 +755,7 @@
         $('#admin-buttons').fadeOut();
         var $adminForm = $('#fluxx-admin form').not('.modal form')
         $adminForm.unbind('change').change(function() {
-          if (!$('#fluxx-admin .form-builder')[0])
+          if (!$('#fluxx-admin .form-builder:visible')[0])
             $('#admin-buttons').fadeIn();
         }).unbind('keydown').keydown(function() {
           if (!$('#fluxx-admin .form-builder:visible')[0])
