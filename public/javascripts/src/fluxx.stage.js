@@ -1249,8 +1249,7 @@
 								if (!$pwe.val())
 									$pwe.attr("disabled", "disabled");
 							});
-              if ($elem.find('input[name=submit-to-javascript]')) {
-//                alert($elem.find('input[name=submit-to-javascript]').val());
+              if ($elem.find('input[name=submit-to-javascript]')[0]) {
                 if (typeof $.fluxx.utility[[$elem.find('input[name=submit-to-javascript]').val()]] == "function") {
                   $.fluxx.utility[[$elem.find('input[name=submit-to-javascript]').val()]]($elem);
                 }
