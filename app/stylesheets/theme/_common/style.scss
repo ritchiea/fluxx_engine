@@ -431,7 +431,8 @@ div.collapsible {
 table .partial { margin: 0.25em 0; }
 
 .edit {
-  position: relative;
+  /*AML: Why do we need position: relative? Commenting out for now.*/
+  /*position: relative;*/
   margin: 20px 38px 20px 0;
   h3 {border-bottom: 1px solid #d6d6d6; margin-bottom:0.5em; padding-bottom:0.2em;}
   @include pretty-forms;

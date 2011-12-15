@@ -1249,27 +1249,34 @@
 								if (!$pwe.val())
 									$pwe.attr("disabled", "disabled");
 							});
-              var properties = {
-                area: $area,
-                url: $elem.find('input[name=form-action-override]').val()|| $elem.attr('action'),
-                data: $elem.serializeForm()
-              };
-							$('input:password', $elem).removeAttr("disabled");
-              if ($elem.attr('method'))
-                properties.type = $elem.attr('method');
-              if ($area.hasClass('modal')) {
-                $area.addClass('updating');
-                $area.children().fadeTo('fast', 0.33);
-              }
-              var $target = $elem.data('target');
-              $elem.fluxxCardLoadContent(properties, function() {
-                if ($target)
-                  $target.trigger('after-submit');
-                if ($area.hasClass('modal')) {
-                  $area.removeClass('updating');
-                  $area.children().fadeTo('fast', 1);
+              if ($elem.find('input[name=submit-to-javascript]')) {
+//                alert($elem.find('input[name=submit-to-javascript]').val());
+                if (typeof $.fluxx.utility[[$elem.find('input[name=submit-to-javascript]').val()]] == "function") {
+                  $.fluxx.utility[[$elem.find('input[name=submit-to-javascript]').val()]]($elem);
                 }
-              });
+              } else {
+                var properties = {
+                  area: $area,
+                  url: $elem.find('input[name=form-action-override]').val()|| $elem.attr('action'),
+                  data: $elem.serializeForm()
+                };
+                $('input:password', $elem).removeAttr("disabled");
+                if ($elem.attr('method'))
+                  properties.type = $elem.attr('method');
+                if ($area.hasClass('modal')) {
+                  $area.addClass('updating');
+                  $area.children().fadeTo('fast', 0.33);
+                }
+                var $target = $elem.data('target');
+                $elem.fluxxCardLoadContent(properties, function() {
+                  if ($target)
+                    $target.trigger('after-submit');
+                  if ($area.hasClass('modal')) {
+                    $area.removeClass('updating');
+                    $area.children().fadeTo('fast', 1);
+                  }
+                });
+              }
             }
           ],
           'form.listing-search': [
