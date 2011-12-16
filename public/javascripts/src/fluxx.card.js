@@ -142,8 +142,8 @@
       return {
         uid: $card.data('uid'),
         title:   $card.fluxxCardTitle(),
-        listing: $card.fluxxCardListing().fluxxCardAreaRequest() || {},
-        detail:  $card.fluxxCardDetail().fluxxCardAreaRequest() || {},
+        listing: $card.fluxxCardListing() && $card.fluxxCardListing().fluxxCardAreaRequest() ? $card.fluxxCardListing().fluxxCardAreaRequest() : {},
+        detail:  $card.fluxxCardDetail() && $card.fluxxCardDetail().fluxxCardAreaRequest() ? $card.fluxxCardDetail().fluxxCardAreaRequest() : {},
         settings: {
           minimized: $card.cardIsMinimized(),
           locked: $card.data('locked'),

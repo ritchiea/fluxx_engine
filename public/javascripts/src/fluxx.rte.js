@@ -309,6 +309,18 @@ if(typeof $.fn.rte === "undefined") {
     
     }; // rte
 
+    $.fn.rteInsertHTML = function(html) {
+      if (document.all) {
+        var oRng = $(this)[0].contentWindow.document.selection.createRange( );
+        oRng.pasteHTML(html);
+        oRng.collapse(false);
+        oRng.select();
+      } else {
+        $(this).focus();
+        $(this)[0].contentWindow.document.execCommand('insertHTML', false, html);
+      }
+    };
+
 } // if
 
 })(jQuery);
