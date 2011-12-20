@@ -752,7 +752,7 @@
                 var $this = $(this);
                 $('#manager-container').fadeTo(500,0.2);
                 var isTemplate = $this.hasClass('dashboard-template');
-                var dashboard = isTemplate ? $this.parent().parent().prev() : this.parent().parent().parent().find('a.to-dashboard').data('dashboard');
+                var dashboard = isTemplate ? $this.parent().parent().prev() : $this.parent().parent().parent().find('a.to-dashboard').data('dashboard');
                 var itemLabel = isTemplate ? 'dashboard template' : 'dashboard';
                 var itemName = isTemplate ? dashboard.data('dashboard-template-name') : dashboard.name;
 
