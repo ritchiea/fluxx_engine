@@ -42,7 +42,7 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
   end
   
   def all_methods_allowed model
-    if model.kind_of? self.model_class
+    if model.kind_of?(self.model_class) || model == self.model_class
       string_extra_methods = extra_methods.map {|meth| meth.to_s}
       string_do_not_use_methods = do_not_use_methods.map {|meth| meth.to_s}
       @method_list + string_extra_methods - string_do_not_use_methods

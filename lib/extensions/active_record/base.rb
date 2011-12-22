@@ -17,6 +17,9 @@ class ActiveRecord::Base
       yield local_template_object if block_given?
     end
 
+    self.liquid_methods *( template_object.all_methods_allowed(self) )
+    
+
     self.instance_eval do
       # TODO ESH: the API for allowed_template_methods needs to be a bit refined:
       #   * combine allowed_template_methods & allowed_template_list_methods
@@ -26,7 +29,7 @@ class ActiveRecord::Base
       
       # Get a list of all allowed methods that may be exposed to the user
       def allowed_template_methods
-        template_object.all_methods_allowed self.new
+        template_object.all_methods_allowed self
       end
 
       def extra_template_methods
@@ -35,7 +38,7 @@ class ActiveRecord::Base
       
       # Get a list of all allowed list methods that may be exposed to the user
       def allowed_template_list_methods
-        template_object.all_list_methods_allowed self.new
+        template_object.all_list_methods_allowed self
       end
     end
     
