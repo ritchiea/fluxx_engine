@@ -29,13 +29,23 @@ class ActiveRecord::ModelDslRealtime < ActiveRecord::ModelDsl
     end
   end
   
-  def calculate_attributes model
+  def all_delta_attributes model
     if delta_attributes
-      delta_attributes.inject({}) do |acc, attribute_pair|
-        attribute, table_name = attribute_pair
-        acc[attribute] = model.send(attribute)
-        acc
+      delta_attributes
+    else
+      []
+    end
+  end
+  
+  def calculate_attributes model
+    all_delta_attributes(model).inject({}) do |acc, attribute_pair|
+      attribute, table_name = attribute_pair
+      begin
+        val = model.send(attribute)
+        acc[attribute] = val
+      rescue Exception => e
       end
+      acc
     end
   end
   
