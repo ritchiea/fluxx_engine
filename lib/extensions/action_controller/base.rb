@@ -3,6 +3,7 @@ class ActionController::Base
 
   attr_accessor :pre_models
   attr_accessor :pre_model
+  attr_accessor :pre_model_type
 
   helper_method :grab_param if respond_to?(:helper_method)
   helper_method :grab_param_or_model if respond_to?(:helper_method)
