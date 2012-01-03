@@ -403,6 +403,9 @@
               if (!$partial.length) {
                 $partial = $($elem.attr('data-target'), '#fluxx-admin');
               }
+              if (!$partial.length && $area.hasClass($elem.attr('data-target').replace(/^\./, ''))) {
+                $partial = $area;
+              }
               if ($partial.length) {
                 var param = $elem.attr('name').replace(/\w+\[(\w+)\]/, "$1");
                 if (param) {
