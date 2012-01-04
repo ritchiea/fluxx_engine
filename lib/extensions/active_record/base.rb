@@ -21,6 +21,10 @@ class ActiveRecord::Base
     
 
     self.instance_eval do
+      def insta_class_template_object
+        template_object
+      end
+      
       # TODO ESH: the API for allowed_template_methods needs to be a bit refined:
       #   * combine allowed_template_methods & allowed_template_list_methods
       #   * identify the english name if any 
@@ -454,6 +458,22 @@ class ActiveRecord::Base
   attr_accessor :ignore_fluxx_warnings
   def fluxx_warnings
     []
+  end
+  
+  def self.non_reflection_columns
+    refl_cols = self.reflection_columns
+    ((self.columns.reject{ |col| col.primary }.map{ |col| col.name } + (self.respond_to?(:allowed_template_methods) ? self.allowed_template_methods : [])).uniq).reject{|col_name| refl_cols.include? col_name.to_s}
+  end
+
+  def self.reflection_columns
+    self.reflections.values.map do |refl| 
+      if refl.respond_to?(:options) && refl.options[:foreign_key]
+        refl.options[:foreign_key].to_s 
+      else
+        possible_key = "#{refl.name}_id"
+        possible_key.to_s if self.column_names.include? possible_key
+      end
+    end.compact
   end
   
   def masquerade_as_persisted
