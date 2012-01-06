@@ -1056,7 +1056,6 @@
             if (!$card[0])
               $card = $('#fluxx-admin') || $modal.fluxxCard();
             var $arrow = $('.arrow', $modal);
-            // Adjust when not admin
             var contentHeight = $('.body div', $modal).height();
             var headerHeight = $('.header', $modal).outerHeight(true);
             var borderHeight = parseInt($modal.css('borderTopWidth')) + parseInt($modal.css('borderBottomWidth'));
@@ -1084,6 +1083,9 @@
                 modalLeft = $modal.data('cardX') + 20;
               } else {
                 $arrow.addClass('right');
+                $arrow.removeClass('left');
+                if (options.wide)
+                  $arrow.css({marginLeft: 280});
               }
             }
 
