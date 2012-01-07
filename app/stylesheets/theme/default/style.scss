@@ -150,6 +150,8 @@
       margin-left: 0px;
       width: 728px;
       height: 452px;
+      font-family: "Helvetica Neue", sans-serif;
+      font-size: 1.1em;
       a {
         color: blue;
       }
@@ -1040,5 +1042,13 @@ iframe.wysiwyg {
 table.loi {
   td {
     span {font-size: 100%;}
+  }
+}
+
+.form-text {
+  ul, ul li {
+    list-style: disc outside none;
+    margin: 4px 0px 4px 15px;
+    ul li {list-style-type: square;}
   }
 }

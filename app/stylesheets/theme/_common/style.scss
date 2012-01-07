@@ -448,7 +448,12 @@ table .partial { margin: 0.25em 0; }
     label { width: 300px; }
     input { width: 100px; }
   }
-
+  div.inline-hints {
+    font-style: italic;
+    color: #444444;
+    padding-top: 2px;
+    margin-bottom: -5px;
+  }
   input,select,textarea {
     font-size:90%;
   }
