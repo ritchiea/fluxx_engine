@@ -1061,9 +1061,13 @@ table .partial { margin: 0.25em 0; }
 }
 .pairs {
   width: 100%;
-  line-height: 1.75em;
+  line-height: 1.3em;
+  margin-top: 10px;
+  margin-bottom: 10px;
   &:hover {background: rgba(0,0,0, 0.05);}
   .key {
+    font-weight: bold;
+    color: #555;
     @include inline-block;
     width: 39%;
     vertical-align:top;
