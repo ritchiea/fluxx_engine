@@ -51,21 +51,21 @@ class ActiveRecord::Base
     #    ** either that or have two methods; evaluate_model_list_method and evaluate_model_object_method
     #    *** if we do that then we should have add_methods, add_list_method, add_object_method
     define_method :evaluate_model_method do |method_name|
-      local_template_object.evaluate_model_method self, method_name
+      template_object.evaluate_model_method self, method_name
     end
 
     define_method :evaluate_model_list_method do |method_name|
-      local_template_object.evaluate_model_list_method self, method_name
+      template_object.evaluate_model_list_method self, method_name
     end
     
     define_method :process_curly_template do |document, view_context|
       # Use the curly-brace markup to annotate the document
-      local_template_object.process_template self, document, view_context
+      template_object.process_template self, document, view_context
     end
 
     define_method :process_liquid_template do |document, view_context|
       # Use liquid markup to annotate the document
-      local_template_object.process_liquid_template self, document, view_context
+      template_object.process_liquid_template self, document, view_context
     end
     
   end
