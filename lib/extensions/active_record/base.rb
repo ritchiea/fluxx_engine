@@ -466,7 +466,7 @@ class ActiveRecord::Base
   end
 
   def self.reflection_columns
-    self.reflections.values.map do |refl| 
+    self.reflections.values.map do |refl|
       if refl.respond_to?(:options) && refl.options[:foreign_key]
         refl.options[:foreign_key].to_s 
       else

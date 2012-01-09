@@ -45,7 +45,8 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
     if model <= self.model_class
       string_extra_methods = extra_methods.map {|meth| meth.to_s}
       string_do_not_use_methods = do_not_use_methods.map {|meth| meth.to_s}
-      @method_list + string_extra_methods - string_do_not_use_methods
+      string_reflections = model.reflection_columns.map {|meth| meth.gsub(/\_id$/, '')}
+      @method_list + string_extra_methods - string_do_not_use_methods + string_reflections
     end || []
   end
 
