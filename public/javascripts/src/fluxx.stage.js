@@ -410,23 +410,26 @@
                 var param = $elem.attr('name').replace(/\w+\[(\w+)\]/, "$1");
                 if (param) {
                   var re = new RegExp('([?&]' + param + '=)([a-z0-9\-\_]+)(\&)?');
-                  if ($partial.attr('data-src').match(re)) {
-                    var req = $area.fluxxCardAreaRequest();
-                    $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
-                    req.url += (req.url.match(/\?/) ? '&' : '?') + param + '=' + $elem.val();
-                    if (!$area.data('history')) {
-                      $area.data('history', [req]);
+                  $partial.each(function() {
+                    var $currentPartial = $(this);
+                    if ($currentPartial.attr('data-src').match(re)) {
+                      var req = $area.fluxxCardAreaRequest();
+                      $currentPartial.attr('data-src', $currentPartial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
+                      req.url += (req.url.match(/\?/) ? '&' : '?') + param + '=' + $elem.val();
+                      if (!$area.data('history')) {
+                        $area.data('history', [req]);
+                      } else {
+                        $area.data('history').unshift(req);
+                      }
                     } else {
-                      $area.data('history').unshift(req);
+                      param = $elem.attr('name').replace(/([\[\]])/, "\\$1");
+                      re = new RegExp('([?&]' + param + '=)([a-z0-9\-\_]+)(\&)?');
+                      if ($currentPartial.attr('data-src').match(re))
+                        $currentPartial.attr('data-src', $currentPartial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
+                      else
+                        $currentPartial.attr('data-src', $currentPartial.attr('data-src') + '&' + $elem.attr('name') + '=' +$elem.val()).refreshAreaPartial();
                     }
-                  } else {
-                    param = $elem.attr('name').replace(/([\[\]])/, "\\$1");
-                    re = new RegExp('([?&]' + param + '=)([a-z0-9\-\_]+)(\&)?');
-                    if ($partial.attr('data-src').match(re))
-                      $partial.attr('data-src', $partial.attr('data-src').replace(re, "$1" + $elem.val() + "$3")).refreshAreaPartial();
-                    else
-                      $partial.attr('data-src', $partial.attr('data-src') + '&' + $elem.attr('name') + '=' +$elem.val()).refreshAreaPartial();
-                  }
+                  });
                 } else {
                   var re = new RegExp('\/([A-Za-z0-9\-]+)\/edit');
                   $partial.attr('data-src', $partial.attr('data-src').replace(re, '/' + $elem.val() + '/edit')).refreshAreaPartial();
