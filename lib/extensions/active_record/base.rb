@@ -100,9 +100,7 @@ class ActiveRecord::Base
         if local_search_object.really_delete && connection.adapter_name =~ /mysql/i && id
           can_delete = true
           ActiveRecord::Base.connection.execute("SELECT table_name, column_name FROM information_schema.KEY_COLUMN_USAGE where TABLE_SCHEMA='#{ActiveRecord::Base.connection.current_database}' AND REFERENCED_TABLE_NAME='#{self.class.table_name}' and REFERENCED_COLUMN_NAME = 'id'").each(:cache_rows => false, :symbolize_keys => true, :as => :hash) do |row|
-            p "ESH: 555 row[:table_name].to_s.camelize.singularize=#{row[:table_name].to_s.camelize.singularize}"
             klass = Kernel.const_get row[:table_name].to_s.camelize.singularize rescue nil
-            p "ESH: 666 klass=#{klass.inspect}, klass.respond_to?(:deleted_at)=#{klass.column_names.include?(:deleted_at)}" if klass
             if klass && klass.column_names.include?("deleted_at")
               can_delete = false if ActiveRecord::Base.connection.execute("SELECT COUNT(id) FROM #{row[:table_name]} WHERE #{row[:column_name]} = #{id} and deleted_at is null").to_a.first.first > 0
             else
