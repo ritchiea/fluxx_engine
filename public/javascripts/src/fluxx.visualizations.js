@@ -92,10 +92,12 @@
               })
               .hover(function(e) {
                 var $td = $('td:first', $(this));
-                legend[$.trim($td.text())].canvas._elem.css('opacity', '.5');
+                if (legend[$.trim($td.text())])
+                  legend[$.trim($td.text())].canvas._elem.css('opacity', '.5');
               }, function(e) {
                 var $td = $('td:first', $(this));
-                legend[$.trim($td.text())].canvas._elem.css('opacity', '1');
+                if (legend[$.trim($td.text())])
+                  legend[$.trim($td.text())].canvas._elem.css('opacity', '1');
               });
             }
           }
