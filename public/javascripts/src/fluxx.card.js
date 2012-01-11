@@ -262,8 +262,8 @@
           .height(
             $.my.cards.height(
               $.my.hand.innerHeight() -
-              $.fluxx.util.marginHeight($.my.cards)
-            ).innerHeight()
+              $.fluxx.util.marginHeight($.my.cards) + 15
+            ).innerHeight() - 15
           )
           .each(function(){
             var $box      = $(this),
