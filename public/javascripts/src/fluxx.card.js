@@ -789,10 +789,7 @@
             browse_button : $elem.attr('id'),
             max_file_size : '10mb',
             url: $elem.attr('href'),
-            filters : [
-                {title : "Image files", extensions : "jpg,gif,png"},
-                {title : "Zip files", extensions : "zip"}
-            ]
+            filters: [{title: "Allowed file types", extensions: $elem.attr('data-extensions')}]
         });
         uploader.init();
         uploader.bind('FilesAdded', function(up, files) {
