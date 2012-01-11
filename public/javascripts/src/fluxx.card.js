@@ -777,6 +777,39 @@
       }
       $area.carousel();
       $area.serializeToField();
+      $('.upload-file').each(function() {
+        if (!$.fluxx.config.uploader_unique_id)
+          $.fluxx.config.uploader_unique_id = 0;
+        var unique = $.fluxx.config.uploader_unique_id++;
+        var $elem = $(this);
+        $elem.attr('id', 'pickfiles_' + unique);
+        var uploader = new plupload.Uploader({
+            runtimes : 'html5',
+            multipart: false,
+            browse_button : $elem.attr('id'),
+            max_file_size : '10mb',
+            url: $elem.attr('href'),
+            filters : [
+                {title : "Image files", extensions : "jpg,gif,png"},
+                {title : "Zip files", extensions : "zip"}
+            ]
+        });
+        uploader.init();
+        uploader.bind('FilesAdded', function(up, files) {
+          uploader.start();
+        });
+        uploader.bind('Error', function(up, err) {
+          alert(err.message + (err.file ? ", File: " + err.file.name : ""));
+          up.refresh(); // Reposition Flash/Silverlight
+        });
+        uploader.bind('FileUploaded', function(up, file) {
+          if ($elem.parents('.partial').length) {
+            $elem.refreshAreaPartial();
+          } else {
+            $elem.refreshCardArea();
+          }
+        });
+      });
       return this;
     },
     fluxxDatePicker: function(options) {
