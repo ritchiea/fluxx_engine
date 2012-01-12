@@ -351,7 +351,8 @@
                 if ($elem.hasClass('no-confirm')) {
                   $.fn.fluxxAjaxCall($elem, 'DELETE');
                 } else {
-                  var message = $elem.attr('data-message') || 'This record will be deleted. Are you sure?';
+                  var numAssociatedRecords = parseInt($elem,attr('data-num-associated-records'));
+                  var message = $elem.attr('data-message') || ( numAssociatedRecords > 0 ? 'There are ' + numAssociatedRecords + ' related items that will be deleted along with this record. Are you sure?' : 'This record will be deleted. Are you sure?');
                   if ($area[0] && $area[0].hasOwnProperty('saveSortOrder')) {
                     if (confirm(message))
                       $area[0].saveSortOrder(function () {
