@@ -43,6 +43,8 @@ class ActionController::ControllerDsl
   attr_accessor :allow_delete_from_modal
   # Allow you to pass in a block to initialize a new model object
   attr_accessor :new_block
+  # Allow detail area's width to be overriden
+  attr_accessor :detail_width
   ALL_CONTROLLER_MAPPING = {}
   
   def self.map_model_to_controller model_klass, controller_klass

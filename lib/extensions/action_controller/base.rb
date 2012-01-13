@@ -71,6 +71,7 @@ class ActionController::Base
 
         @model_class = index_object.model_class
         @icon_style = index_object.icon_style
+        @detail_width = index_object.detail_width
         @suppress_model_anchor_tag = index_object.suppress_model_anchor_tag
         @suppress_model_iteration = index_object.suppress_model_iteration
         @skip_wrapper = @skip_wrapper || params[:skip_wrapper] || index_object.always_skip_wrapper
@@ -184,6 +185,7 @@ class ActionController::Base
 
         raise UnauthorizedException.new('view', (@model || @model_class)) unless show_object.skip_permission_check || fluxx_current_user.has_view_for_model?(@model || @model_class)
         @icon_style = show_object.icon_style
+        @detail_width = show_object.detail_width
         @extra_buttons = show_object.extra_buttons
         @model_name = @model ? @model.class.name.underscore.downcase : show_object.model_name
         @skip_wrapper = @skip_wrapper || params[:skip_wrapper] || show_object.always_skip_wrapper
@@ -261,7 +263,7 @@ class ActionController::Base
         raise UnauthorizedException.new('create', @model_class) unless new_object.skip_permission_check || fluxx_current_user.has_create_for_model?(@model_class)
         @model = new_object.load_new_model params, pre_model, fluxx_current_user
         @icon_style = new_object.icon_style
-
+        @detail_width = new_object.detail_width
         instance_variable_set new_object.singular_model_instance_name, @model
         @markup = new_object.template_file self
         @form_class = new_object.form_class
@@ -309,6 +311,7 @@ class ActionController::Base
           raise UnauthorizedException.new('update', (@model || @model_class)) 
         end
         @icon_style = edit_object.icon_style
+        @detail_width = edit_object.detail_width
         @delete_from_modal = (edit_object.allow_delete_from_modal && params[:as_modal])
         editable = edit_object.editable?(@model, fluxx_current_user) || !@model_class
         edit_object.invoke_post self, @model, (editable ? :success : :error)
@@ -370,6 +373,7 @@ class ActionController::Base
           raise UnauthorizedException.new('create', @model_class) 
         end
         @icon_style = create_object.icon_style
+        @detail_width = create_object.detail_width
         instance_variable_set create_object.singular_model_instance_name, @model
         @markup = create_object.template_file self
         @form_class = create_object.form_class
@@ -462,6 +466,7 @@ class ActionController::Base
           raise UnauthorizedException.new('update', (@model || @model_class))
         end
         @icon_style = update_object.icon_style
+        @detail_width = update_object.detail_width
         instance_variable_set update_object.singular_model_instance_name, @model
 
         if update_object.editable? @model, fluxx_current_user
@@ -551,6 +556,7 @@ class ActionController::Base
           raise UnauthorizedException.new('delete', (@model || @model_class)) 
         end
         @icon_style = delete_object.icon_style
+        @detail_width = delete_object.detail_width
         instance_variable_set delete_object.singular_model_instance_name, @model
         delete_result = delete_object.perform_delete params, @model, fluxx_current_user
         delete_object.invoke_post self, @model, (delete_result ? :success : :error)

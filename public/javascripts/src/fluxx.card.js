@@ -1333,6 +1333,11 @@
             if ($.fluxx.hasOwnProperty('visualizations')) {
               $('.chart', options.area).renderChart();
             }
+            // Allow detail area's width to be overriden
+            var detailWidth = parseInt(options.area.attr('data-detail-width'));
+            if (detailWidth > 0 && options.area.hasClass('detail')) {
+              $area.width(detailWidth);
+            }
             // Render in card spreadsheet view with fixed column and row labels
             $('table.spreadsheet', options.area).each(function() {
               var $table = $(this)
