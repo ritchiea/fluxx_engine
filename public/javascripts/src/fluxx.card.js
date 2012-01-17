@@ -793,14 +793,23 @@
         });
         uploader.init();
         uploader.bind('FilesAdded', function(up, files) {
+          $area.addClass('updating');
+          $area.fadeTo(300, .4);
           uploader.start();
         });
         uploader.bind('Error', function(up, err) {
-          alert(err.message + (err.file ? ", File: " + err.file.name : ""));
-          up.refresh(); // Reposition Flash/Silverlight
+          $area.fadeTo(300, 1, function() {
+            var message = $elem.attr('data-error-message') ? $elem.attr('data-error-message') : err.message + (err.file ? ", File: " + err.file.name : "")
+            alert(message);
+            up.refresh(); // Reposition Flash/Silverlight
+          });
         });
         uploader.bind('FileUploaded', function(up, file) {
-          if ($elem.parents('.partial').length) {
+          $area.fadeTo(300, 1);
+          var actions = $elem.attr('data-on-success');
+          if (actions) {
+            $area.runLoadingActions();
+          } else if ($elem.parents('.partial').length) {
             $elem.refreshAreaPartial();
           } else {
             $elem.refreshCardArea();
