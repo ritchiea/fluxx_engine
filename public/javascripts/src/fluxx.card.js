@@ -976,7 +976,12 @@
                 $add.before($('<label/>'));
                 $elem = $add;
               }
-              $elem.val(obj.value);
+              $elem.val(obj.value).change();
+              if ($elem.val() != obj.value) {
+                $elem.change(function() {
+                  $elem.val(obj.value).change();
+                });
+              }
 
               $(selector + ":checkbox", $filters)
                 .attr('checked', true)
