@@ -560,7 +560,7 @@ ol li.action-item {
   ul, ul li {
     list-style: disc outside none;
     margin: 4px 0px 4px 15px;
-    ul li {list-style-type: square;}
+    ul li {list-style: circle inside none;}
   }
 }
 
