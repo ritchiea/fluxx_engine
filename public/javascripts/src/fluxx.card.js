@@ -22,7 +22,7 @@
             .bind({
               'complete.fluxx.card': _.callAll(
                 $.fluxx.util.itEndsHere,
-                function(){$card.fadeIn('slow');},
+                function(){$card.fadeIn('slow').css('overflow', 'visible');},
                 _.bind($.fn.editableCardTitle, $card),
                 _.bind($.fn.subscribeFluxxCardToUpdates, $card),
                 options.callback
