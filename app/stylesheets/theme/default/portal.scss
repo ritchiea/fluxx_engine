@@ -556,6 +556,13 @@ ol li.action-item {
   }
 }
 
+.form-text {
+  ul, ul li {
+    list-style: disc outside none;
+    margin: 4px 0px 4px 15px;
+    ul li {list-style-type: square;}
+  }
+}
 
 /*=============================
   Forms
