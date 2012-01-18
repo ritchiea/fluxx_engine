@@ -978,7 +978,7 @@
               }
               $elem.val(obj.value).change();
               if ($elem.val() != obj.value) {
-                $elem.change(function() {
+                $elem.one("change", function() {
                   $elem.val(obj.value).change();
                 });
               }
