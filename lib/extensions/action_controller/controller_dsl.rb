@@ -46,6 +46,38 @@ class ActionController::ControllerDsl
   # Allow detail area's width to be overriden
   attr_accessor :detail_width
   ALL_CONTROLLER_MAPPING = {}
+  ALL_TEMPLATE_MAPPING = {}
+  
+  def template= template_name
+    instance_variable_set "@template", template_name
+    # model_class
+    # controller_class
+    prefix = controller_class.controller_path
+    full_template_name = unless template_name =~ /\//
+      "#{prefix}/#{template_name}"
+    end || template_name
+    form_type = if self.is_a?(ActionController::ControllerDslIndex)
+      'list'
+    elsif self.is_a?(ActionController::ControllerDslShow)
+      'show'
+    elsif self.is_a?(ActionController::ControllerDslNew)
+      'form'
+    elsif self.is_a?(ActionController::ControllerDslEdit)
+      'form'
+    elsif self.is_a?(ActionController::ControllerDslCreate)
+      'form'
+    elsif self.is_a?(ActionController::ControllerDslUpdate)
+      'form'
+    elsif self.is_a?(ActionController::ControllerDslDelete)
+      'form'
+    end
+      
+    ALL_TEMPLATE_MAPPING[full_template_name] = {:model_class => self.model_class, :form_type => form_type} if full_template_name && form_type
+  end
+  
+  def self.template_mapping
+    ALL_TEMPLATE_MAPPING
+  end
   
   def self.map_model_to_controller model_klass, controller_klass
     # register a mapping between model_class and controller_class so we can find out if any controller classes map to the model_class

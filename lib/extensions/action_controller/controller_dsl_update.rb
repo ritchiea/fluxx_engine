@@ -24,7 +24,7 @@ class ActionController::ControllerDslUpdate < ActionController::ControllerDsl
       if model.respond_to?(:updated_by_id) && fluxx_current_user
         modified_by_map[:updated_by_id] = fluxx_current_user.id
       end
-      model.attributes = modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {})
+      model.attributes = modified_by_map.merge(params[model_class.name.underscore.downcase.to_sym] || {}) if model
     end
   end
   

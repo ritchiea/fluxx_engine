@@ -32,6 +32,19 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :has_summary_view_template
   attr_accessor :has_spreadsheet_view_template
   
+  
+  def filter_template= filter_template_name
+    instance_variable_set "@filter_template", filter_template_name
+    # model_class
+    # controller_class
+    prefix = controller_class.controller_path
+    full_filter_template_name = unless filter_template_name =~ /\//
+      "#{prefix}/#{filter_template_name}"
+    end || filter_template_name
+      
+    ALL_TEMPLATE_MAPPING[full_filter_template_name] = {:model_class => self.model_class, :form_type => 'filter'} if full_filter_template_name
+  end
+  
   ## Use ActionController::ControllerDslIndex.max_sphinx_results= to set a different value
   def self.max_sphinx_results= max_sphinx_results_param
     @max_sphinx_results = max_sphinx_results_param

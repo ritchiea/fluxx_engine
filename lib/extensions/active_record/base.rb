@@ -331,6 +331,10 @@ class ActiveRecord::Base
       result
     end
   end
+  
+  def self.generate_uuid
+    self.connection.select_value("select uuid()")
+  end
 
   # Make it possible to update AASM event definitions
   def aasm_event_extend name, options = {}, &block
