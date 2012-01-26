@@ -48,6 +48,15 @@ class ActionController::ControllerDsl
   ALL_CONTROLLER_MAPPING = {}
   ALL_TEMPLATE_MAPPING = {}
   
+  def layout current_user=nil
+    cur_layout = instance_variable_get "@layout"
+    if cur_layout.is_a? Proc
+      cur_layout.call current_user
+    else
+      cur_layout
+    end
+  end
+  
   def template= template_name
     instance_variable_set "@template", template_name
     # model_class

@@ -214,7 +214,7 @@ class ActionController::Base
                   fluxx_show_card show_object, {:template => @report.local_configuration.template, :footer_template => @report.local_configuration.template_footer}
                 end
               else
-                fluxx_show_card show_object, show_object.calculate_show_options(@model, params)
+                fluxx_show_card show_object, show_object.calculate_show_options(@model, params, fluxx_current_user)
               end
             end
             format.json do
@@ -271,7 +271,7 @@ class ActionController::Base
 
         new_object.invoke_post self, @model
         insta_respond_to new_object do |format|
-          @layout = new_object.layout || false
+          @layout = new_object.layout(fluxx_current_user) || false
           @skip_card_footer = new_object.skip_card_footer
           format.html { fluxx_new_card new_object}
           format.xml  { render :xml => @model }
@@ -514,7 +514,7 @@ class ActionController::Base
           @not_editable=true
           insta_respond_to update_object, :locked do |format|
             # Provide a locked error message
-            format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => update_object.layout) }
+            format.html { render((update_object.view || "#{insta_path}/edit").to_s, :layout => update_object.layout(fluxx_current_user)) }
             # TODO ESH: revisit what to send back for JSON error
             format.json { head 500 }
             format.xml  { render :xml => @model.errors, :status => :unprocessable_entity }
@@ -682,7 +682,7 @@ class ActionController::Base
     @footer_template = options[:footer_template]
     # TODO ESH: chase down where exclude_related_data and layout comes from...
     @exclude_related_data = show_object.exclude_related_data
-    @layout = options[:layout] || show_object.layout || params[:printable] ? 'printable_show' : false
+    @layout = options[:layout] || show_object.layout(fluxx_current_user) || params[:printable] ? 'printable_show' : false
     @layout = options[:layout] if !options[:layout].nil? # If options[:layout] is false, respect that
     @skip_card_footer = options[:skip_card_footer]
     render((show_object.view || "#{insta_path}/show").to_s, :layout => @layout)
@@ -690,7 +690,7 @@ class ActionController::Base
 
   def fluxx_edit_card edit_object, template_param=nil, form_class_param=nil, form_url_param=nil
     @markup = template_param || edit_object.template_file(self)
-    @layout = edit_object.layout || false
+    @layout = edit_object.layout(fluxx_current_user) || false
     @form_class = form_class_param || edit_object.form_class
     @form_url = form_url_param || edit_object.form_url
     @skip_card_footer = edit_object.skip_card_footer

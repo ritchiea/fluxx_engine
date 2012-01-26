@@ -30,11 +30,11 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
     model
   end
   
-  def calculate_show_options model, params
+  def calculate_show_options model, params, user=nil
     options = {}
     options[:template] = template_map ? template_map.inject(template) {|temp, mapping| params[mapping.first] ? mapping.last : temp} : template
     options[:footer_template] = footer_template
-    options[:layout] = layout
+    options[:layout] = layout(user)
     options[:skip_card_footer] = skip_card_footer
     if params[:audit_id]
       # Allows the user to load up a history record
