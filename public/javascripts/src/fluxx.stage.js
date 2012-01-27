@@ -129,8 +129,8 @@
           type: type,
           complete: function (){
             $elem.fluxxCard().hideLoadingIndicator();
-            if ($elem.parents('.partial').length && $elem.parents('.partial').attr('data-src')) {
-              $elem.refreshAreaPartial({});
+            if ($elem.parents('[data-src]').length) {
+              $elem.parents('[data-src]:first').refreshAreaPartial({});
             } else {
               if (type == 'DELETE' && $elem.hasClass('as-delete') && $elem.parents('.modal')[0]) {
                 $area.runLoadingActions();
