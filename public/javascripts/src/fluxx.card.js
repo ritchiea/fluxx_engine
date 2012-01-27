@@ -694,6 +694,10 @@
       });
 
       $('.header .notice:not(.error)', $area).delay(2000).find('.close-parent').click();
+      // Put notices in a more convient place in modals
+      if ($area.hasClass('modal')) {
+        $('.header .notice', $area).clone().prependTo($('.body', $area));
+      }
 
       if ($('.partial[data-refresh-onload=1]', $area).length > 0)
         $('.partial[data-refresh-onload=1]', $area).refreshAreaPartial({
