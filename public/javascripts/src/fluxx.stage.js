@@ -435,6 +435,9 @@
                   var re = new RegExp('\/([A-Za-z0-9\-]+)\/edit');
                   $partial.attr('data-src', $partial.attr('data-src').replace(re, '/' + $elem.val() + '/edit')).refreshAreaPartial();
                 }
+                if ($elem.hasClass('update-admin-link')) {
+                 $('li.to-admin.selected').attr('href', $partial.attr('data-src'));
+                }
               }
             }
           ],

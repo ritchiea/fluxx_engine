@@ -1403,13 +1403,12 @@ table .partial { margin: 0.25em 0; }
     .ui-widget-header {
       background: #fff;
     }
-    .ui-tabs-nav {
-      padding-left: 510px;
-    }
-  }
-  .with-portal-tabs {
-    .ui-tabs-nav {
-      padding-left: 220px;
+    .ui-tabs-nav li {
+      border-bottom-width:0 !important;
+      float:right;
+      margin:0;
+      padding:0;
+      position:relative;
     }
   }
   .ui-widget-header {

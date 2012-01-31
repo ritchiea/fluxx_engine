@@ -717,7 +717,7 @@
           },
           show: function(e, ui) {
             if ($(ui.tab).attr('href').match(/^#ui-tabs-\d+/)) {
-                $card.showLoadingIndicator();
+              $card.showLoadingIndicator();
               $($(ui.tab).attr('href'), $area).html('');
             }
 
