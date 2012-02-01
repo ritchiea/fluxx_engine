@@ -710,20 +710,25 @@
         var cookieName = "fluxx_tabs_" + $elem.attr('name');
         var tab_cookie_id = parseInt($.cookie(cookieName)) || 0;
         var $card = $area.fluxxCard();
+        $('ul:first li', $elem).each(function() {
+          var $li = $(this);
+          if (!$li.find('a span')[0]) {
+//            Provide a span tag inside tabs so that a loading indicator can be displayed
+            $li.find('a').html('<span>'+ $li.text() + '</span>')
+          }
+        });
         $elem.tabs({
+          spinner: 'Loading...',
           selected: tab_cookie_id,
           select: function(e,ui) {
             $.cookie(cookieName, ui.index);
           },
           show: function(e, ui) {
             if ($(ui.tab).attr('href').match(/^#ui-tabs-\d+/)) {
-              $card.showLoadingIndicator();
               $($(ui.tab).attr('href'), $area).html('');
             }
-
           },
           load: function(e,ui) {
-            $card.hideLoadingIndicator();
             $(this).areaDetailTransform();
             $.my.stage.resizeFluxxStage();
           }
