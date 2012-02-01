@@ -761,20 +761,25 @@
       });
 		  $('.sortable', $area).disableSelection();
       if ($('#fluxx-admin').length) {
-        $('#admin-buttons').fadeOut();
-        var $adminForm = $('#fluxx-admin form').not('.modal form')
+        // Enable and disable admin save buttons
+        // We only use these buttons when the admin section we are working in is a form that may need to be saved.
+        var $adminForm = $('#fluxx-admin form').not('.modal form'),
+            $buttons = $('#fluxx-admin #admin-buttons li a');
+        $buttons.addClass('disabled');
         $adminForm.unbind('change').change(function() {
           if (!$('#fluxx-admin .form-builder:visible')[0])
-            $('#admin-buttons').fadeIn();
+            $buttons.removeClass('disabled')
         }).unbind('keydown').keydown(function() {
           if (!$('#fluxx-admin .form-builder:visible')[0])
-            $('#admin-buttons').fadeIn();
+            $buttons.removeClass('disabled')
         });
 
         $('.admin-submit').unbind('click').click(function(e) {
           $.fluxx.util.itEndsWithMe(e);
-          $('#fluxx-admin .edit').fadeTo(300, .3);
-          $adminForm.submit();
+          if (!$(this).hasClass('disabled')) {
+            $('#fluxx-admin .edit').fadeTo(300, .3);
+            $adminForm.submit();
+          }
         });
         // Disable component interaction in form builder mode
         $('.form-builder').find('a, img').click(function(e) {
