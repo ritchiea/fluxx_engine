@@ -33,9 +33,9 @@
       - else
         %ul.buttons
           - if @model
-            - if (!current_user.respond_to?(:has_update_for_model) || current_user.has_update_for_model?(@model)) && (!defined?(@edit_enabled) || @edit_enabled)
+            - if (!current_user.respond_to?(:has_update_for_model?) || current_user.has_update_for_model?(@model)) && (!defined?(@edit_enabled) || @edit_enabled)
               %li= link_to 'Edit', current_edit_path(@model.id), :class => 'to-self', :link_class => 'btn'
-            - if ((!current_user.respond_to?(:has_delete_for_model) || current_user.has_delete_for_model?(@model)) && (!@model.respond_to?(:can_delete?) || @model.can_delete?)) && (!defined?(@delete_enabled) || @delete_enabled)
+            - if ((!current_user.respond_to?(:has_delete_for_model?) || current_user.has_delete_for_model?(@model)) && (!@model.respond_to?(:can_delete?) || @model.can_delete?)) && (!defined?(@delete_enabled) || @delete_enabled)
               - num_associated_records = @model.respond_to?(:number_of_associated_records) ? @model.number_of_associated_records : nil
               %li= link_to 'Delete', current_delete_path(@model.id), :class => 'as-delete', 'data-on-success' => 'refreshCaller', :link_class => 'btn', 'data-num-associated-records' => num_associated_records
             - if @model.respond_to?(:is_favorite_for?)
