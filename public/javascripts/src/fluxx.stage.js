@@ -63,7 +63,14 @@
       $('#modal-container').css('height', '80%');
       $('#fluxx-admin .detail').each(function() {
         var $elem = $(this);
-        $elem.height($('#modal-container').height() - 46).find('#card-body').height($elem.height() - (110 * $('#modal-container #card-body').parents('.horizontal-tabs').length));
+        $elem.height($('#modal-container').height() - 46 - ($('#fluxx-admin #admin-buttons:visible').outerHeight(true)));
+        $elem.find('#card-body:visible').each(function() {
+          var $wa = $(this);
+          $wa.css('overflow-y', 'auto');
+          var modalBottom = $('#fluxx-admin').offset().top + $('#fluxx-admin').height();
+          $wa.height(modalBottom - $wa.offset().top - 18);
+        });
+
         if ($elem.fluxxCard().isSpreadsheetCard()) {
           $('#modal-container').css({"max-width": 100000}).width("100%");
           $elem.fluxxCard().width("100%").find('.detail').width("100%");
@@ -129,12 +136,11 @@
           type: type,
           complete: function (){
             $elem.fluxxCard().hideLoadingIndicator();
-            if ($elem.parents('[data-src]').length) {
+            if (type == 'DELETE' && $elem.hasClass('as-delete') && $elem.parents('.modal')[0] && $elem.attr('data-on-success')) {
+              $area.runLoadingActions();
+            } else if ($elem.parents('[data-src]').length) {
               $elem.parents('[data-src]:first').refreshAreaPartial({});
             } else {
-              if (type == 'DELETE' && $elem.hasClass('as-delete') && $elem.parents('.modal')[0]) {
-                $area.runLoadingActions();
-              }
               $elem.refreshCardArea();
             }
           }
@@ -392,7 +398,8 @@
 					'a.refresh-partial' : [
 						'click', function(e) {
 							$.fluxx.util.itEndsWithMe(e);
-							($('#fluxx-admin').length ? $('#fluxx-admin .fluxx-admin-partial') : $(this)).refreshAreaPartial();
+							if (!$(this).hasClass('disabled'))
+							  ($('#fluxx-admin').length ? $('#fluxx-admin .fluxx-admin-partial') : $(this)).refreshAreaPartial();
 						}
 					],
           'select.refresh-partial' : [
@@ -434,9 +441,6 @@
                 } else {
                   var re = new RegExp('\/([A-Za-z0-9\-]+)\/edit');
                   $partial.attr('data-src', $partial.attr('data-src').replace(re, '/' + $elem.val() + '/edit')).refreshAreaPartial();
-                }
-                if ($elem.hasClass('update-admin-link')) {
-                 $('li.to-admin.selected').attr('href', $partial.attr('data-src'));
                 }
               }
             }

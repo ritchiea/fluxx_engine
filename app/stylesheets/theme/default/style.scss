@@ -15,31 +15,55 @@
   text-align: left;
   height: 80%;
   min-height: 400px;
-  max-height: 714px;
   width: 1000px;
   background-color: white;
   border: 5px solid #fff;
-  outline: 1px solid #000;
+  border-radius: 7px;
   padding-top: -30px;
 }
 #fluxx-admin {
   outline: 1px solid #a9a9a9;
   height: 100%;
   overflow: hidden;
-  .inline-list {min-height: 40px;}
+  .inline-list {
+    height: 60px;
+    margin-bottom: -20px;
+    margin-left: 1px;
+    margin-right: 1px;
+  }
   .ui-icon {display: inline-block;}
   .sortable li {vertical-align: top; margin: 10px;}
+  .warning {
+    a:visited, a{
+      color: blue;
+    }
+    border: 1px solid;
+    background-position-x: 30px;
+    background-color:  #FEEFB3;
+    color: #111;
+    border-radius: 5px;
+    margin: 100px;
+    padding:15px 10px 15px 50px;
+    font-size: 1.4em;
+    text-align: center;
+  }
+  .export-import-links {
+    padding: 10px;
+  }
   #admin-buttons {
     position: absolute;
-    background: #ebebeb;
-    width: 742px;
-    left: 187px;
+    background: #ededed;
+    width: 937px;
+    left: 1px;
     bottom: 1px;
-    padding: 8px 20px 8px 30px;
-    a {
-      display: inline;
+    padding: 20px;
+    li {
+      margin-left: 10px;
+      float: right;
+      a {
+        padding: 2px 15px 2px 15px;
+      }
     }
-    display: none;
   }
   h1.titlebar {
     font-size: 18px;
@@ -62,7 +86,7 @@
     width: 186px;
     font-size: 12px;
     font-weight: bold;
-    height: 659px;
+    height: 2000px;
     background-color: #ddd;
     list-style:none;
     li.entry {
@@ -83,13 +107,15 @@
     }
   }
   .form-builder, .form-builder-with-save {
+    margin-left: 75px;
+    margin-right: 75px;
     .ui-widget-content a {
       color: blue;
     }
     .float_right {
       position: absolute;
-      top: -26px;
-      right: -4px;
+      top: -30px;
+      right: 14px;
       width: 100%;
       .buttons {
         float: right;
@@ -127,22 +153,28 @@
     }
 
     .edit {
-      padding-top: 32px;
-      margin-top: -20px;
+      padding-top: 0px;
+      margin-top: 0px;
+      margin: 0px 0px 0px 0px;
       height: 100%;
       color: #333;
       form {
+        h1 {
+          padding-top: 10px;
+        }
         margin-right: 32px;
         margin-left: 62px;
         input[type="radio"] {
           margin-right: 0.25em;
           width: 20px;
         }
+        .no-padding {
+          padding: 0px 1px 0px 1px;
+        }
       }
     }
     .withtabs {
       width: 100%;
-      margin-top: -32px;
       overflow: hidden;
       form {margin-left: 0px; margin-right: 0px;}
     }
@@ -151,8 +183,9 @@
       margin-left: 0px;
       width: 728px;
       height: 452px;
+      padding-left: 40px;
       font-family: "Helvetica Neue", sans-serif;
-      font-size: 1.1em;
+      font-size: 1em;
       a {
         color: blue;
       }

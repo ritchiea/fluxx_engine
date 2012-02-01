@@ -710,20 +710,25 @@
         var cookieName = "fluxx_tabs_" + $elem.attr('name');
         var tab_cookie_id = parseInt($.cookie(cookieName)) || 0;
         var $card = $area.fluxxCard();
+        $('ul:first li', $elem).each(function() {
+          var $li = $(this);
+          if (!$li.find('a span')[0]) {
+//            Provide a span tag inside tabs so that a loading indicator can be displayed
+            $li.find('a').html('<span>'+ $li.text() + '</span>')
+          }
+        });
         $elem.tabs({
+          spinner: 'Loading...',
           selected: tab_cookie_id,
           select: function(e,ui) {
             $.cookie(cookieName, ui.index);
           },
           show: function(e, ui) {
             if ($(ui.tab).attr('href').match(/^#ui-tabs-\d+/)) {
-              $card.showLoadingIndicator();
               $($(ui.tab).attr('href'), $area).html('');
             }
-
           },
           load: function(e,ui) {
-            $card.hideLoadingIndicator();
             $(this).areaDetailTransform();
             $.my.stage.resizeFluxxStage();
           }
@@ -756,20 +761,25 @@
       });
 		  $('.sortable', $area).disableSelection();
       if ($('#fluxx-admin').length) {
-        $('#admin-buttons').fadeOut();
-        var $adminForm = $('#fluxx-admin form').not('.modal form')
+        // Enable and disable admin save buttons
+        // We only use these buttons when the admin section we are working in is a form that may need to be saved.
+        var $adminForm = $('#fluxx-admin form').not('.modal form'),
+            $buttons = $('#fluxx-admin #admin-buttons li a');
+        $buttons.addClass('disabled');
         $adminForm.unbind('change').change(function() {
           if (!$('#fluxx-admin .form-builder:visible')[0])
-            $('#admin-buttons').fadeIn();
+            $buttons.removeClass('disabled')
         }).unbind('keydown').keydown(function() {
           if (!$('#fluxx-admin .form-builder:visible')[0])
-            $('#admin-buttons').fadeIn();
+            $buttons.removeClass('disabled')
         });
 
         $('.admin-submit').unbind('click').click(function(e) {
           $.fluxx.util.itEndsWithMe(e);
-          $('#fluxx-admin .edit').fadeTo(300, .3);
-          $adminForm.submit();
+          if (!$(this).hasClass('disabled')) {
+            $('#fluxx-admin .edit').fadeTo(300, .3);
+            $adminForm.submit();
+          }
         });
         // Disable component interaction in form builder mode
         $('.form-builder').find('a, img').click(function(e) {
