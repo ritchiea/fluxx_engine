@@ -4,6 +4,7 @@ class ActionController::Base
   attr_accessor :pre_models
   attr_accessor :pre_model
   attr_accessor :pre_model_type
+  attr_accessor :pre_view_type
 
   helper_method :grab_param if respond_to?(:helper_method)
   helper_method :grab_param_or_model if respond_to?(:helper_method)
@@ -91,17 +92,31 @@ class ActionController::Base
           @show_conversion_funnel = self.respond_to?(:has_conversion_funnel) && has_conversion_funnel
           @first_report_id = self.respond_to?(:insta_index_report_list) && !(insta_index_report_list.empty?) && insta_index_report_list.first.report_id
           instance_variable_set index_object.plural_model_instance_name, @models if index_object.plural_model_instance_name
+          
+          fluxxreport_id = (!params[:fluxxreport_id].blank? && params[:fluxxreport_id]) || (params[:fluxx_first_report] == '1' && @first_report_id)
+          @report = if fluxxreport_id && @first_report_id
+            @from_request_card = true
+            insta_report_find_by_id fluxxreport_id.to_i
+          end
+
+          view_type = pre_view_type
+          unless view_type
+            view_type = if @report
+              :view_type_report
+            elsif @show_summary_view && params[:summary]
+              :view_type_summary
+            elsif @show_spreadsheet_view && params[:spreadsheet]
+              :view_type_spreadsheet
+            else
+              :view_type_normal
+            end
+          end
 
           index_object.invoke_post self, @models
-          insta_respond_to index_object do |format|
+          insta_respond_to index_object, :success, view_type do |format|
             format.html do
-              fluxxreport_id = (!params[:fluxxreport_id].blank? && params[:fluxxreport_id]) || (params[:fluxx_first_report] == '1' && @first_report_id)
-              @report = if fluxxreport_id && @first_report_id
-                @from_request_card = true
-                insta_report_find_by_id fluxxreport_id.to_i
-              end
               
-              if @report
+              if view_type == :view_type_report
                 @report_list = insta_index_report_list
                 if @report.is_download?
                   render :text => @report.calculate(self, @models)
@@ -114,10 +129,10 @@ class ActionController::Base
                   fluxx_show_card index_object, {:template => @report.local_configuration.template, :footer_template => @report.local_configuration.template_footer}
                 end
               else
-                if @show_summary_view && params[:summary]
+                if view_type == :view_type_summary
                   @markup = @markup.gsub(/_list$/, "_summary") if (!index_object.template_map || !index_object.template_map[:summary])
                   render((index_object.view || "insta/summary").to_s, :layout => false)
-                elsif @show_spreadsheet_view && params[:spreadsheet]
+                elsif view_type == :view_type_spreadsheet
                   @markup = @markup.gsub(/_list$/, "_spreadsheet") if (!index_object.template_map || !index_object.template_map[:summary])
                   render((index_object.view || "insta/spreadsheet").to_s, :layout => false)
                 else
@@ -736,7 +751,7 @@ class ActionController::Base
   # Find overridden format blocks and prefer those.  Pass in params of:
   #   * the controller_dsl object
   #   * outcome = :success, :locked, :error
-  def insta_respond_to controller_dsl, outcome = :success
+  def insta_respond_to controller_dsl, outcome = :success, view_type = nil
     unless has_redirected_already?
       if block_given?
         if @class_format_block_map
@@ -745,9 +760,10 @@ class ActionController::Base
           @class_format_block_map = BlobStruct.new
           yield @class_format_block_map
         end
-        controller_block_map =  if params[:summary] && @show_summary_view
+        
+        controller_block_map =  if view_type == :view_type_summary
           controller_dsl.summary_view_block_map
-        elsif params[:spreadsheet] && @show_spreadsheet_view
+        elsif view_type == :view_type_spreadsheet
           controller_dsl.spreadsheet_view_block_map
         else
           controller_dsl.format_block_map
