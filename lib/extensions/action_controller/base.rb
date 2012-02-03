@@ -283,6 +283,7 @@ class ActionController::Base
         @markup = new_object.template_file self
         @form_class = new_object.form_class
         @form_url = new_object.form_url
+        @skip_wrapper = @skip_wrapper || params[:skip_wrapper] || new_object.always_skip_wrapper
 
         new_object.invoke_post self, @model
         insta_respond_to new_object do |format|

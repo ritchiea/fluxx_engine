@@ -414,6 +414,7 @@
               if (!$partial.length && $area.hasClass($elem.attr('data-target').replace(/^\./, ''))) {
                 $partial = $area;
               }
+
               if ($partial.length) {
                 var param = $elem.attr('name').replace(/\w+\[(\w+)\]/, "$1");
                 if (param) {
@@ -905,6 +906,16 @@
                });
              }
            ],
+          'a.to-javascript': [
+            'click', function(e) {
+              $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              var func = $elem.attr('data-javascript-function');
+              if (func && (typeof $.fluxx.utility[[func]] == "function")) {
+                $.fluxx.utility[[func]]($elem);
+              }
+            }
+          ],
           'a.close-modal': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
@@ -1263,6 +1274,7 @@
 								if (!$pwe.val())
 									$pwe.attr("disabled", "disabled");
 							});
+              // TODO AML: Ability to submit for values to a javascript function is currently not used, but may be useful in the future
               if ($elem.find('input[name=submit-to-javascript]')[0]) {
                 if (typeof $.fluxx.utility[[$elem.find('input[name=submit-to-javascript]').val()]] == "function") {
                   $.fluxx.utility[[$elem.find('input[name=submit-to-javascript]').val()]]($elem);

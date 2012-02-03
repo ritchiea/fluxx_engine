@@ -436,7 +436,9 @@
                 if ($data.find('#card-body')[0]) {
                   $partial.find('.body').css({opacity: 1}).html($data.find('#card-body').html()).end().removeClass('updating').children().areaDetailTransform().fadeIn();
                 } else {
-                  $partial.html($(data)).removeClass('updating').children().areaDetailTransform().fadeIn();
+                  var $data = $(data);
+                  $data =  $data.attr('data-src') == $partial.attr('data-src') ? $data.children() : $data;
+                  $partial.html($data).removeClass('updating').children().areaDetailTransform().fadeIn();
                 }
               }
               if (onComplete)
@@ -1361,7 +1363,7 @@
             if ($.fluxx.hasOwnProperty('visualizations')) {
               $('.chart', options.area).renderChart();
             }
-            // Allow detail area's width to be overriden
+            // Allow detail area's width to be over3riden
             var detailWidth = parseInt(options.area.attr('data-detail-width'));
             if (detailWidth > 0 && options.area.hasClass('detail')) {
               $area.width(detailWidth);

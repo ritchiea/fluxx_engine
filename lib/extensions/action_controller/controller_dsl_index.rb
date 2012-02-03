@@ -21,8 +21,6 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :suppress_model_anchor_tag
   # Normally the index.html template will iterate through the models and call the specified partial for each individual model.  If you set suppress_model_iteration to true, a var models will be passed to your partial instead.  This gives greater control to the partial to handle rendering the list.
   attr_accessor :suppress_model_iteration
-  # Send the list of models to the supplied template and do not try to iterate through in the insta index.html.haml file
-  attr_accessor :always_skip_wrapper
   # a blob_struct of format blocks broken up by the various names (used for the summary view only)
   attr_accessor :summary_view_block_map
   # a blob_struct of format blocks broken up by the various names (used for the spreadsheet view only)

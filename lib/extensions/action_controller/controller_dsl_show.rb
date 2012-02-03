@@ -4,8 +4,6 @@ class ActionController::ControllerDslShow < ActionController::ControllerDsl
   attr_accessor :audit_footer_template
   attr_accessor :mode_template
   attr_accessor :footer_template
-  # Send the list of models to the supplied template and do not try to iterate through in the insta index.html.haml file
-  attr_accessor :always_skip_wrapper
 
   def perform_show params, model=nil, fluxx_current_user=nil
     model = if params[:audit_id]

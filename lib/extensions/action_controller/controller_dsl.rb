@@ -45,6 +45,9 @@ class ActionController::ControllerDsl
   attr_accessor :new_block
   # Allow detail area's width to be overriden
   attr_accessor :detail_width
+    # Send the list of models to the supplied template and do not try to iterate through in the insta index.html.haml file
+  attr_accessor :always_skip_wrapper
+
   ALL_CONTROLLER_MAPPING = {}
   ALL_TEMPLATE_MAPPING = {}
   
