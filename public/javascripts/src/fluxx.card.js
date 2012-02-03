@@ -1115,7 +1115,7 @@
 
             if (!$card[0])
               $card = $('#fluxx-admin') || $modal.fluxxCard();
-            var $arrow = $('.arrow', $modal);
+            var $arrow = $('.modal-arrow', $modal);
             var contentHeight = $('.body div', $modal).height();
             var headerHeight = $('.header', $modal).outerHeight(true);
             var borderHeight = parseInt($modal.css('borderTopWidth')) + parseInt($modal.css('borderBottomWidth'));
@@ -1952,7 +1952,7 @@
       '<div class="', types.join(' '), '" data-type="', options.type ,'" ', (options.drawer ? ' data-has-drawer="1" ' : null),
  ,'>',
         (options.closeButton ? ['<ul class="controls"><li><a href="#" class="close-modal">&times;</a></li></ul>'] : null),
-        (options.arrow ? ['<div class="arrow ', options.arrow, '"></div>'] : null),
+        (options.arrow ? ['<div class="modal-arrow ', options.arrow, '"></div>'] : null),
         '<div class="header"></div>',
         '<div class="body"></div>',
         '<div class="footer"></div>',

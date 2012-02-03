@@ -570,16 +570,6 @@ table .partial { margin: 0.25em 0; }
       a.close-modal { background: transparent url("/images/fluxx_engine/theme/default/controls/close.png") no-repeat center center; }
     }
   }
-  .arrow {
-    position: absolute;
-    background: transparent url("/images/fluxx_engine/theme/default/modal/arrow-left.png") no-repeat right center;
-    height: 50px;
-    width: 50px;
-    &.left {
-      left: -50px;
-      top: 0px;
-    }
-  }
   .header {
     @include linear-gradient(#666666, #777777);
     @include rounded-top(10px);
