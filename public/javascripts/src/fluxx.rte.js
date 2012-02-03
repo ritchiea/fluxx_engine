@@ -74,7 +74,7 @@ if(typeof $.fn.rte === "undefined") {
             iframe = document.createElement("iframe");
             iframe.frameBorder=0;
             iframe.frameMargin=0;
-            iframe.framePadding=0;            
+            iframe.framePadding=0;
 
 //            iframe.height=200;
             if(textarea.attr('class'))
@@ -85,7 +85,7 @@ if(typeof $.fn.rte === "undefined") {
                 iframe.title = textarea.attr('name');
 
             textarea.after(iframe);
-            
+
             //TODO: Setting the height of the text input element.
             //      This should not be hardcoded, but I can not find any other way atm.
             var heightAdjust = 260;
