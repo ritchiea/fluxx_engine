@@ -440,6 +440,7 @@
                   $data =  $data.attr('data-src') == $partial.attr('data-src') ? $data.children() : $data;
                   $partial.html($data).removeClass('updating').children().areaDetailTransform().fadeIn();
                 }
+                $partial.children().css({opacity: 1});
               }
               if (onComplete)
                 onComplete();
