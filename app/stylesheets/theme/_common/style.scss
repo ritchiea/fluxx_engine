@@ -1354,15 +1354,7 @@ table .partial { margin: 0.25em 0; }
 	h1.approved { background: url("/images/fluxx_engine/theme/default/icons/accept.png") no-repeat 0px 1px; }
     h1.not-yet-approved { background: url("/images/fluxx_engine/theme/default/icons/cancel.png") no-repeat 0px 1px; }
 	h1.declined	{ background: url("/images/fluxx_engine/theme/default/icons/exclamation.png") no-repeat 0px 1px; }
-    .rating {
-      color: #cd0013;
-      h1 {
-        font-size: 180%;
-        text-align: right;
-        padding: 0xp;
-        margin: 0px;
-      }
-    }
+
     .eval-complete {
       vertical-align: middle;
     }
@@ -1386,6 +1378,21 @@ table .partial { margin: 0.25em 0; }
   table {
     padding: 0px;
   }
+}
+.rating {
+  color: #cd0013;
+  h1 {
+    font-size: 180%;
+    text-align: right;
+    padding: 0xp;
+    margin: 0px;
+  }
+  position: absolute;
+  top: 33px;
+  left: 418px;
+}
+.float_right.rating {
+  position: static;
 }
 .information {
   padding: 4px 20px 4px 20px;
