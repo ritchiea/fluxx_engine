@@ -1340,9 +1340,8 @@ table .partial { margin: 0.25em 0; }
     padding-bottom:0.5em;
   }
 }
-
-.charity-check, .funding_warnings_title {
-	@include rounded;
+.charity-check, .funding_warnings_title, .information {
+  @include rounded;
   background-color: #fcfce5;
 	padding: 20px;
 	margin: 10px 0px 20px 0px;
@@ -1353,7 +1352,20 @@ table .partial { margin: 0.25em 0; }
 		margin-bottom: 14px;
 	}
 	h1.approved { background: url("/images/fluxx_engine/theme/default/icons/accept.png") no-repeat 0px 1px; }
-	h1.declined	{ background: url("/images/fluxx_engine/theme/default/icons/exclamation.png") no-repeat 0px 1px; }	
+    h1.not-yet-approved { background: url("/images/fluxx_engine/theme/default/icons/cancel.png") no-repeat 0px 1px; }
+	h1.declined	{ background: url("/images/fluxx_engine/theme/default/icons/exclamation.png") no-repeat 0px 1px; }
+    .rating {
+      color: #cd0013;
+      h1 {
+        font-size: 180%;
+        text-align: right;
+        padding: 0xp;
+        margin: 0px;
+      }
+    }
+    .eval-complete {
+      vertical-align: middle;
+    }
 	.pairs {
 		font-size: 13px;
 		padding-left: 30px;
@@ -1371,8 +1383,17 @@ table .partial { margin: 0.25em 0; }
     padding-left: 30px;
     ol {padding-left: 20px;}
   }
-
+  table {
+    padding: 0px;
+  }
 }
+.information {
+  padding: 4px 20px 4px 20px;
+  h1 {
+    margin-bottom: 0px;
+  }
+}
+
 
 
 .ui-datepicker { display: none; }
