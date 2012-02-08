@@ -25,8 +25,11 @@
                     - else
                       - element[:model].to_s
                     %li.entry
-                      = link_to((element[:model_url] || element[:model]), :class => 'new-detail', 'data-insert' => 'after', 'title' => truncate(element[:title], :length => 45)) do
+                      -if element[:model_url] && element[:model_url] == '#'
                         %span= section_title
+                      - else
+                        = link_to((element[:model_url] || element[:model]), :class => 'new-detail', 'data-insert' => 'after', 'title' => truncate(element[:title], :length => 45)) do
+                          %span= section_title
     %div{:id=>"card-footer"}
       - if @footer_template
         = render :partial => @footer_template, :locals => { :model => @model}
