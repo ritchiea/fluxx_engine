@@ -441,7 +441,7 @@
 
               } else {
                 var $data = $('<div/>').html(data);
-                if ($data.find('#card-body')[0]) {
+                if ($data.find('#card-header')[0]) {
                   $partial.find('.body').css({opacity: 1}).html($data.find('#card-body').html()).end().removeClass('updating').children().areaDetailTransform().fadeIn();
                 } else {
                   var $data = $(data);
