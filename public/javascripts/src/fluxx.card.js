@@ -421,7 +421,7 @@
         // By doing this we really don't need to give a specific area the partial class when
         // targeting it using the "refreshNamed" action.
         var $partial = ($(this).attr('data-src') ? $(this) : $(this).fluxxCardPartial());
-        if ($partial.hasClass('area') && !$partial.hasClass('fluxx-admin-partial')) {
+        if ($partial.hasClass('detail') && !$partial.hasClass('fluxx-admin-partial')) {
           $card = $partial.fluxxCard();
           var req = $card.fluxxCardDetail().fluxxCardAreaRequest();
           $card.fluxxCardLoadDetail(req);
