@@ -376,6 +376,7 @@
           $card.trigger('lifetimeComplete.fluxx.card');
           $card.width(newWidth);
           $('.tabs', $card).show();
+          $card.css('overflow', 'visible');
         });
         $card.fluxxCardDetail().fluxxCardArea().data('history')[0] = {};
         $('.show', $card.fluxxCardDetail()).remove();

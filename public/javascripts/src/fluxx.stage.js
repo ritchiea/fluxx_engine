@@ -83,14 +83,14 @@
           $.my.stage
           .width(allCards + 40)
           .bind('resize.fluxx.stage', options.callback)
-          .trigger('resize.fluxx.stage');
+          .trigger('resize.fluxx.stage').css('overflow', 'visible');
         });
       } else {
         $.my.stage
         .stop()
         .width(allCards + 40)
         .bind('resize.fluxx.stage', options.callback)
-        .trigger('resize.fluxx.stage');
+        .trigger('resize.fluxx.stage').css('overflow', 'visible');
       }
       return this;
     },
