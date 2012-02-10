@@ -76,6 +76,10 @@ class ActionController::Base
         @suppress_model_anchor_tag = index_object.suppress_model_anchor_tag
         @suppress_model_iteration = index_object.suppress_model_iteration
         @skip_wrapper = @skip_wrapper || params[:skip_wrapper] || index_object.always_skip_wrapper
+        if index_object.create_link_title && !index_object.create_link_title.empty?
+          @create_link, @create_link_class = create_link
+          @create_link_title = index_object.create_link_title
+        end
 
         if params[:view] == 'filter'
           fluxx_show_filter index_object
@@ -747,7 +751,10 @@ class ActionController::Base
   def current_show_path model_id, options={}
     send "#{self.controller_path.singularize}_path", options.merge({:id => model_id})
   end
-  
+
+  def create_link
+    [send("new_#{controller_path.singularize}_path"), "new-detail"]
+  end
 
   # Find overridden format blocks and prefer those.  Pass in params of:
   #   * the controller_dsl object

@@ -366,7 +366,7 @@
         padding: 0px 5px;
         margin-left: -5px;
       }
-      .refresh-card, .edit-report-filter, .open-filters {
+      .refresh-card, .edit-report-filter, .open-filters, .new-model {
         margin: 4px 4px;
         float: right;
       }
@@ -555,6 +555,13 @@ table .partial { margin: 0.25em 0; }
   @include rounded(10px);
   opacity: 0.95;
   border: 3px solid #FFF;
+  .create-links {
+    font-size: 110%;
+    padding: 20px;
+    a {
+      line-height: 1.4em;
+    }
+  }
   .controls {
     position: absolute;
     right: 5px;

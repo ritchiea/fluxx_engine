@@ -223,10 +223,14 @@
           'a.new-detail': [
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
+              var $elem = $(this);
+              if ($elem.hasClass('disabled'))
+                return;
               $('a.simplemodal-close').click();
+
               if ($('body').hasClass('fullscreen-view'))
                 return;
-              var $elem = $(this);
+
               var card = {
                 detail: {url: $elem.attr('href')},
                 title: ($elem.attr('title') || $elem.text())
@@ -239,6 +243,9 @@
                 card.position = function($card) {$card.insertBefore($elem.fluxxCard())};
               }
               $.my.hand.addFluxxCard(card);
+              if ($elem.attr('data-on-success') == 'close') {
+                $elem.closeCardModal();
+              }
             }
           ],
           'input.new-detail': [

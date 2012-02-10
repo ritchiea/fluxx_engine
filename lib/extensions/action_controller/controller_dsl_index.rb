@@ -29,8 +29,9 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :postprocess_block
   attr_accessor :has_summary_view_template
   attr_accessor :has_spreadsheet_view_template
-  
-  
+  # Show a +(add) icon on listing cards
+  attr_accessor :create_link_title
+
   def filter_template= filter_template_name
     instance_variable_set "@filter_template", filter_template_name
     # model_class
@@ -363,5 +364,5 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     self.template_map[:summary] = value
     self.has_summary_view_template = true
   end
-  
+
 end

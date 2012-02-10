@@ -57,9 +57,16 @@
                   else
                     $('.to-fullscreen', $card).addClass('disabled');
 
-                  $refresh = $('.titlebar .refresh-card', $card).hide();
+                  var $refresh = $('.titlebar .refresh-card', $card).hide(),
+                      $create = $('.titlebar .new-model', $card).hide();
                   if (!$card.fluxxCardListing().is(':visible') && !$card.cardIsMinimized())
                     $refresh.show();
+                  else if ($card.fluxxCardListing().data('create-link') && !$card.cardIsMinimized()) {
+                    $create.attr('class', 'new-model ' + $card.fluxxCardListing().data('create-link-class')).attr('href', $card.fluxxCardListing().data('create-link')).show();
+                    if ($card.fluxxCardListing().data('create-link-title')) {
+                      $create.attr('title', $card.fluxxCardListing().data('create-link-title'));
+                    }
+                  }
 
                   $editReport = $('.titlebar .edit-report-filter', $card).hide();
                   if (($('.report-area', $card).length && !$card.cardIsMinimized()))
@@ -1117,7 +1124,7 @@
             if (!$card[0])
               $card = $('#fluxx-admin') || $modal.fluxxCard();
             var $arrow = $('.modal-arrow', $modal);
-            var contentHeight = $('.body div', $modal).height();
+            var contentHeight = $('.body', $modal).find(":nth-child(1)").height();
             var headerHeight = $('.header', $modal).outerHeight(true);
             var borderHeight = parseInt($modal.css('borderTopWidth')) + parseInt($modal.css('borderBottomWidth'));
             var $footer = $('.footer', $modal);
@@ -1938,6 +1945,9 @@
         '</a>',
         '<a href="#" class="refresh-card" title="Refresh Card">',
         '<img alt="Refresh Card" src="/images/fluxx_engine/theme/default/icons/arrow_refresh.png">',
+        '</a>',
+        '<a href="#" class="new-model new-detail" title="Create" data-insert="after">',
+        '<img alt="Create" src="/images/fluxx_engine/theme/default/icons/add.png">',
         '</a>',
       '</div>'
     ];
