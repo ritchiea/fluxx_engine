@@ -421,48 +421,54 @@
         // By doing this we really don't need to give a specific area the partial class when
         // targeting it using the "refreshNamed" action.
         var $partial = ($(this).attr('data-src') ? $(this) : $(this).fluxxCardPartial());
-        if (options.animate) {
-          $.ajax({
-            url: $partial.attr('data-src'),
-            data: options.data,
-            beforeSend: function() {
-              $partial.addClass('updating');
-              if (!$partial.hasClass('modal') && !$partial.hasClass('fluxx-admin-partial'))
-                $partial.children().fadeTo(300, 0);
-              else
-                $partial.find('.edit').addClass('updating').fadeTo(300, 0);
-            },
-            success: function(data, status, xhr){
-              if ($partial.hasClass('modal')) {
-                $partial.find('.edit, .show').html($(data).find('.edit, .show').html());
-                $('.footer .workflow', $partial).html('');
-                $partial.removeClass('updating').areaDetailTransform();
-                $partial.find('.edit').removeClass('updating').fadeTo(300, 1).trigger('refresh.fluxx.area');
-
-              } else {
-                var $data = $('<div/>').html(data);
-                if ($data.find('#card-header')[0]) {
-                  $partial.find('.body').css({opacity: 1}).html($data.find('#card-body').html()).end().removeClass('updating').children().areaDetailTransform().fadeIn();
-                } else {
-                  var $data = $(data);
-                  $data =  $data.attr('data-src') == $partial.attr('data-src') ? $data.children() : $data;
-                  $partial.html($data).removeClass('updating').children().areaDetailTransform().fadeIn();
-                }
-                $partial.children().css({opacity: 1});
-              }
-              if (onComplete)
-                onComplete();
-            }
-          });
+        if ($partial.hasClass('area')) {
+          $card = $partial.fluxxCard();
+          var req = $card.fluxxCardDetail().fluxxCardAreaRequest();
+          $card.fluxxCardLoadDetail(req);
         } else {
-          $.ajax({
-            url: $partial.attr('data-src'),
-            success: function(data, status, xhr){
-              $partial.html(data);
-              if (onComplete)
-                onComplete();
-            }
-          });
+          if (options.animate) {
+            $.ajax({
+              url: $partial.attr('data-src'),
+              data: options.data,
+              beforeSend: function() {
+                $partial.addClass('updating');
+                if (!$partial.hasClass('modal') && !$partial.hasClass('fluxx-admin-partial'))
+                  $partial.children().fadeTo(300, 0);
+                else
+                  $partial.find('.edit').addClass('updating').fadeTo(300, 0);
+              },
+              success: function(data, status, xhr){
+                if ($partial.hasClass('modal')) {
+                  $partial.find('.edit, .show').html($(data).find('.edit, .show').html());
+                  $('.footer .workflow', $partial).html('');
+                  $partial.removeClass('updating').areaDetailTransform();
+                  $partial.find('.edit').removeClass('updating').fadeTo(300, 1).trigger('refresh.fluxx.area');
+
+                } else {
+                  var $data = $('<div/>').html(data);
+                  if ($data.find('#card-header')[0]) {
+                    $partial.find('.body').css({opacity: 1}).html($data.find('#card-body').html()).end().removeClass('updating').children().areaDetailTransform().fadeIn();
+                  } else {
+                    var $data = $(data);
+                    $data =  $data.attr('data-src') == $partial.attr('data-src') ? $data.children() : $data;
+                    $partial.html($data).removeClass('updating').children().areaDetailTransform().fadeIn();
+                  }
+                  $partial.children().css({opacity: 1});
+                }
+                if (onComplete)
+                  onComplete();
+              }
+            });
+          } else {
+            $.ajax({
+              url: $partial.attr('data-src'),
+              success: function(data, status, xhr){
+                $partial.html(data);
+                if (onComplete)
+                  onComplete();
+              }
+            });
+          }
         }
       });
     },
