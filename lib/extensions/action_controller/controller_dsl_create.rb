@@ -16,7 +16,8 @@ class ActionController::ControllerDslCreate < ActionController::ControllerDsl
 
   def perform_create params, model, fluxx_current_user=nil
     post_save_call_proc = self.post_save_call || lambda{|fluxx_current_user, model, params|true}
-    
+
+    return true if model == 'n/a'
     if model.respond_to?(:created_by_id) && fluxx_current_user
       model.created_by_id = fluxx_current_user.id
     end
