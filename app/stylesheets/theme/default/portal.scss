@@ -564,6 +564,19 @@ ol li.action-item {
   }
 }
 
+.request-review-header{
+  margin-left: 10px;
+  h2 {
+    border: none;
+    font-size: 140%;
+    display: inline-block;
+  }
+  .subhead {
+    display: inline-block;
+    margin-left: 20px;
+  }
+}
+
 /*=============================
   Forms
 ===============================*/
@@ -646,17 +659,22 @@ input[type=submit]:hover, input[type=button]:hover{
   }
 }
 .request-review {
-  .text label { display: none;}
+  label {
+    float: none;
+    padding-bottom: 10px;
+    padding-right: 20px;
+  }
+  .text label {display: block;}
+  margin: 20px 10px 10px 10px;
+  padding: 60px 80px 50px 80px;
+  background-color: #f5f5f5;
+  width: 920px;
+
   li { list-style: none; }
   .radio label {display: inline;}
   .text {padding-bottom: 20px;}
   textarea {
     max-width: 765px;
-  }
-  .select label {
-    width: 130px;
-    position: relative;
-    top: -8px;
   }
   .radio {
     input {width: 20px;}
