@@ -359,7 +359,13 @@
       font-size: 19px;
       padding: 0.25em 0.25em 0.25em 0.5em;
       text-shadow: 0 1px 1px white;
-      .title { outline: none; }
+      .title {
+        outline: none;
+        float: left;
+        }
+      .icon {
+        float: left;
+      }
       .title[contenteditable=true] {
         @include box-shadow-inset;
         @include bg(rgba(255, 255, 255, 0.3), #333333);
