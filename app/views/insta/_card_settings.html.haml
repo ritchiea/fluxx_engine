@@ -5,6 +5,7 @@
   %li{:name => "listing-filter"}= url_for(:action => :index, :view => 'filter', :q => (params[:q] ? params[:q][:q] : ''))
   %li{:name => "icon-style"}= @icon_style
   %li{:name => "detail-width"}= @detail_width
-  %li{:name => "create-link"}= @create_link
-  %li{:name => "create-link-class"}= @create_link_class
-  %li{:name => "create-link-title"}= @create_link_title
+  -if current_user.has_create_for_model? @model
+    %li{:name => "create-link"}= @create_link
+    %li{:name => "create-link-class"}= @create_link_class
+    %li{:name => "create-link-title"}= @create_link_title
