@@ -685,7 +685,7 @@
                     $child.html('<option></option>');
                   }
                   _.each(data, function(i){ $('<option></option>').val(i.value).html(i.label).appendTo($child)  });
-                  $child.val(oldVal).trigger('options.updated').change();
+                  $child.val(oldVal).trigger('options_updated').change();
                 });
               };
 

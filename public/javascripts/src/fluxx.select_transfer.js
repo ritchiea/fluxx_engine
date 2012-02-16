@@ -78,7 +78,7 @@
 
         $original.hide();
 
-        $original.bind('options.updated', function () {
+        $original.bind('options_updated', function () {
           var items = [];
           $selected.children().each(function() {items.push($(this).val());});
           $unselected.children().remove();

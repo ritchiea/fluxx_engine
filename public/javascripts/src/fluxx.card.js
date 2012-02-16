@@ -990,7 +990,7 @@
                   if (j == 0) {
                     $sel.val(vals[0]).change();
                   } else {
-                    $sel.bind('options.updated', vals[j], setVal);
+                    $sel.bind('options_updated', vals[j], setVal);
                   }
                 }
               }
@@ -1378,7 +1378,7 @@
             if ($.fluxx.hasOwnProperty('visualizations')) {
               $('.chart', options.area).renderChart();
             }
-            // Allow detail area's width to be over3riden
+            // Allow detail area's width to be overriden
             var detailWidth = parseInt(options.area.attr('data-detail-width'));
             if (detailWidth > 0 && options.area.hasClass('detail')) {
               $area.width(detailWidth);
@@ -1911,7 +1911,7 @@
                         $child.html('<option></option>');
                       }
                       $('<option></option>').val(data.value).html(data.label).appendTo($child);
-                      $child.val($child.children().first().val()).trigger('options.updated').change();
+                      $child.val($child.children().first().val()).trigger('options_updated').change();
                     }
                   } else {
                   $field.val(name);
