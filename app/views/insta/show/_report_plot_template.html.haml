@@ -17,7 +17,10 @@
                 - if index == 0
                   %th
                     =item
-                - else
+                - elsif item.is_a? Hash
+                  %td{:colspan => item[:colspan], :class => "ac"}
+                    =item[:value]
+                -else
                   %td
                     =item
               - if index == 0
