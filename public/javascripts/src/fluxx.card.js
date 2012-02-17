@@ -650,6 +650,7 @@
 
       $.fluxx.util.autoGrowTextArea($('textarea', $area));
       $('.multiple-select-transfer select[multiple="true"], .multiple-select-transfer select[multiple="multiple"]', $area).selectTransfer();
+      $('.delete-this', $area).after($('<a class="do-delete-this" href="#">-</a>'));
       $('.add-another', $area).after($('<a class="do-add-another" href="#">+</a>'));
       if ($('.visualizations', $area).length)
         $area.addClass('report-area');

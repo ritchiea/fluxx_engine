@@ -215,6 +215,23 @@
   }
 }
 
+table.form-builder-table {
+  border: none;
+  border-collapse:collapse;
+  thead {
+    background-color: #e1e1e1;
+  }
+  td {
+    background-color: #fafafa;    
+  }
+  td, th {
+    padding: 5px 10px 5px 10px;
+  }
+  .row-label {
+    background-color: #f1f1f1;
+  }
+}
+
 .fullscreen-view {
   #modal-overlay {
     background-image: none;
@@ -329,7 +346,7 @@
           width: 228px;
         }
       }
-      a.do-add-another {
+      a.do-add-another, a.do-delete-this {
         margin-top: 0px;
       }
       input[type="checkbox"] {

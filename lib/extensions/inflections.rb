@@ -39,4 +39,9 @@ class String
     name = "a#{name}" if name =~ /^\d/
     name
   end
+
+  def cssize
+    name = self.gsub(/[^0-9px%]/, '')
+    "#{name.to_i}#{(name =~/\%$/ ? '%' : 'px')}"
+  end
 end

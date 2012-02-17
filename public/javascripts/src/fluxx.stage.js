@@ -1484,10 +1484,21 @@
                 $parent.after($add);
               } else {
                 var $add  = $elem.clone();
+                $add.find('input, select').val('');
                 $elem.after($add);
                 $add.before($('<label/>'));
               }
               return false;
+            }
+          ],
+          'a.do-delete-this': [
+            'click', function(e) {
+//            TODO AML: Make this more generic so we don't rely on the element's position in the dom
+              $.fluxx.util.itEndsHere(e);
+              var $link = $(e.target);
+              $link.prev().prev().remove();
+              $link.prev().remove();
+              $link.remove();
             }
           ],
           'img.clear-selected-org': [
@@ -1566,6 +1577,23 @@
                var link =
                $elem.attr('href', $elem.attr('href').replace(/\&test-model-id=(\d)+$/, '') + '&test-model-id=' + modelId);
 
+            }
+          ],
+          'input.sum': [
+            'change', function(e) {
+              e.preventDefault();
+              var $elem = $(this);
+              var $card = $elem.fluxxCard();
+              var total = 0;
+              $('[data-result-field="' + $elem.attr('data-result-field') + '"]', $card).not($($elem.attr('data-result-field'))).each(function() {
+                var $field = $(this);
+                var float = parseFloat($.fluxx.getVal($field));
+                if ($field.hasClass('sum') && !isNaN(float)) {
+                  total = total + float;
+                }
+              });
+              if (!isNaN(total))
+                $.fluxx.setVal($($elem.attr('data-result-field'), $card), total);
             }
           ],
           '#help-logo': [

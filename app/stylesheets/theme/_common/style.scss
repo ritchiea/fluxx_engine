@@ -507,7 +507,7 @@ table .partial { margin: 0.25em 0; }
     background: #333333;
     overflow:auto;
     a { color: #ffffff; }
-    a.do-add-another {
+    a.do-add-another, a.do-delete-this {
       @include inline-block;
       @include border-box;
       text-indent: -2000em;
@@ -768,7 +768,7 @@ table .partial { margin: 0.25em 0; }
 }
 .detail, .modal {
   .body {
-    a.do-add-another {
+    a.do-add-another, a.do-delete-this {
       @include inline-block;
       @include border-box;
       text-indent: -2000em;
@@ -779,6 +779,9 @@ table .partial { margin: 0.25em 0; }
       width: 15px;
       margin-top: -12px;
       background: transparent url("/images/fluxx_engine/theme/default/icons/add.png") no-repeat center center;
+    }
+    a.do-delete-this {
+      background: transparent url("/images/fluxx_engine/theme/default/icons/delete.png") no-repeat center center;
     }
   }
 }
