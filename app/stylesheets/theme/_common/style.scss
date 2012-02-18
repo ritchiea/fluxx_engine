@@ -940,7 +940,8 @@ table .partial { margin: 0.25em 0; }
           .file-type { margin-left:-20px; font-weight: 200; }
           .upload-date { font-weight: 200;}
           .fluxx-card-content-metadata-section-title {
-            font-size: 15px;						
+            font-size: 15px;
+            .average-rating { font-size: 200%; }
           }
           .fluxx-card-content-metadata-section-info {
             display: block;
