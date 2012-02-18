@@ -1583,22 +1583,24 @@
             'change', function(e) {
               e.preventDefault();
               var $elem = $(this);
-              //TODO AML: {symbol: "$"}  - set the currency symbol
-              if ($elem.parent().hasClass('amount'))
-                $elem.formatCurrency();
-              else
-                $elem.toNumber();
-              var $card = $elem.fluxxCard();
-              var total = 0;
-              $('[data-result-field="' + $elem.attr('data-result-field') + '"]', $card).not($($elem.attr('data-result-field'))).each(function() {
-                var $field = $(this);
-                var float = $field.asNumber()
-                if ($field.hasClass('sum') && !isNaN(float)) {
-                  total = total + float;
-                }
-              });
-              if (!isNaN(total))
-                $.fluxx.setVal($($elem.attr('data-result-field'), $card), total);
+              if ($elem.parent().hasClass('numeric') || $elem.parent().hasClass('amount')) {
+                //TODO AML: {symbol: "$"}  - set the currency symbol
+                if ($elem.parent().hasClass('amount'))
+                  $elem.formatCurrency();
+                else
+                  $elem.toNumber();
+                var $card = $elem.fluxxCard();
+                var total = 0;
+                $('[data-result-field="' + $elem.attr('data-result-field') + '"]', $card).not($($elem.attr('data-result-field'))).each(function() {
+                  var $field = $(this);
+                  var float = $field.asNumber()
+                  if ($field.hasClass('sum') && !isNaN(float)) {
+                    total = total + float;
+                  }
+                });
+                if (!isNaN(total))
+                  $.fluxx.setVal($($elem.attr('data-result-field'), $card), total);
+              }
             }
           ],
           '#help-logo': [
