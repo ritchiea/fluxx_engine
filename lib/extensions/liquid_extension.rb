@@ -125,6 +125,7 @@ module LiquidFilters
   
   def format_date(date, format = 'full')
     return nil if date.blank?
+    date = date.to_time if date.is_a? String
     date = Time.now if date == 'now'
     date.send(format)
   end

@@ -206,21 +206,17 @@
           _.each(arguments, _.bind(function(a) { this.logger(a) }, this));
         }
       },
-      getVal: function($elem) {
-        var val = $elem.is(':input') ? $elem.val() : $elem.html();
-        return val.replace('$', '');
-      },
-      setVal: function($elem, $val) {
-        var val;
-        if ($elem.hasClass('amount'))
-          val = '$' + parseFloat($val).toFixed(2);
-        else
-          val = parseFloat($val).toFixed(0);
-
-        if ($elem.is(':input'))
-          $elem.val(val).change();
-        else
-          $elem.html(val).change();
+      setVal: function($elems, val) {
+        $elems.each(function() {
+          var $elem = $(this);
+          if ($elem.is(':input'))
+            $elem.val(val);
+          else
+            $elem.html(val);
+          //TODO AML: {symbol: "$"}  - set the currency symbol
+          if ($elem.hasClass('amount'))
+            $elem.formatCurrency();
+        });
       },
       sessionData: function(key, value) {
         if (window.sessionStorage)
