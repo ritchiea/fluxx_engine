@@ -372,6 +372,7 @@ table.form-builder-table {
         width: auto;
       }
     }
+    .show form {margin-left: -14px;}
   }
   .footer {
     @include linear-gradient(#000, #000);
