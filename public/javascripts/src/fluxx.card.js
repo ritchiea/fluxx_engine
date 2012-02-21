@@ -1132,7 +1132,10 @@
             if (!$card[0])
               $card = $('#fluxx-admin') || $modal.fluxxCard();
             var $arrow = $('.modal-arrow', $modal);
-            var contentHeight = $('.body', $modal).find(":nth-child(1)").height();
+            var contentHeight = 0;
+            $('.body', $modal).children().each(function () {
+              contentHeight += $(this).height();
+            });
             var headerHeight = $('.header', $modal).outerHeight(true);
             var borderHeight = parseInt($modal.css('borderTopWidth')) + parseInt($modal.css('borderBottomWidth'));
             var $footer = $('.footer', $modal);
