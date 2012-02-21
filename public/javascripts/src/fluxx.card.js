@@ -1480,7 +1480,7 @@
         options.area
           .fluxxAreaSettings({settings: $('#card-settings', $document)})
           .trigger('complete.fluxx.area').trigger('lifetimeComplete.fluxx.area');
-        options.area.fluxxCard().trigger('lifetimeComplete.fluxx.card');
+        options.area.fluxxCard().css('overflow', 'visible').trigger('lifetimeComplete.fluxx.card');
       };
       if (options.area.data('request'))
         options.area.data('request').abort();
