@@ -861,9 +861,11 @@
             'click', function(e) {
               $.fluxx.util.itEndsWithMe(e);
               var $elem = $(this);
+              var url = $elem.attr('href');
+              url += (url =~ /\?/ ? '?as_modal=1' : '&as_modal=1')
               if (!$elem.hasClass('disabled'))
                 $elem.openCardModal({
-                  url:    $elem.attr('href'),
+                  url:    url,
                   header: $elem.attr('title') || $elem.text(),
                   target: $elem,
                   wide: $elem.hasClass('wide'),
