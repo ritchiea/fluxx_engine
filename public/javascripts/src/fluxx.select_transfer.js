@@ -7,7 +7,7 @@
       };
       var options = $.extend(defaults, options, {callback: callback});
       return this.each(function(){
-        var $original = $(this);
+        var $original = $(this).addClass('include-blank');
         var $container = $([
           '<div class="', options.className, '">',
             '<select class="unselected" multiple="multiple"></select>',

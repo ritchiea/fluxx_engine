@@ -1597,7 +1597,14 @@
       return this.fluxxCardLoadContent(options);
     },
     serializeForm: function() {
-      var data = $(this).serializeArray();
+      var $form = $(this);
+      var data = $form.serializeArray();
+      // Send blank values for select transfers so that values can be blanked
+      $form.find('.include-blank').each(function() {
+        if (!$(this).val())
+          data.push({name: this.name, value: ""});
+      });
+
       var found= {};
       var out = [];
       $.each(data, function(i, obj) {
