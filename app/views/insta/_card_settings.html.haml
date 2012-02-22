@@ -2,7 +2,7 @@
 %ul#card-settings
   %li{:name => "model-param-name"}= @model_class.calculate_form_name if @model_class
   %li{:name => "model-class"}= @delta_type
-  %li{:name => "listing-filter"}= url_for(:action => :index, :view => 'filter', :q => (params[:q] ? params[:q][:q] : ''))
+  %li{:name => "listing-filter"}= url_for(:action => :index, :view => 'filter', :q => (params[:q] ? params[:q][:q] : ''), :type => (@machine_model_type && @machine_model_type.model_type  ? @machine_model_type.model_type : ''))
   %li{:name => "icon-style"}= @icon_style
   %li{:name => "detail-width"}= @detail_width
   -if current_user && current_user.has_create_for_model?(@model)
