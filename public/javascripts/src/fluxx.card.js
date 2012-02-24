@@ -1157,15 +1157,22 @@
               modalLeft = $modal.data('cardX') + 20;
             } else {
               modalLeft = $modal.data('cardX') - $modal.outerWidth(true) - 20;
-              if (modalLeft < 0 ) {
+              if (modalLeft < 0) {
                 leftArrow = true;
+                var oldLeft = modalLeft;
                 modalLeft = $modal.data('cardX') + 20;
-              } else {
-                $arrow.addClass('right');
-                $arrow.removeClass('left');
-                if (options.wide)
-                  $arrow.css({marginLeft: 280});
+//                Special case for admin modals since the stage cannot scroll
+                if ($card.attr('id') == 'fluxx-admin-card' &&  (modalLeft + $modal.outerWidth(true) + 120) > $(window).width()) {
+                  leftArrow = false;
+                  modalLeft = oldLeft;
+                }
               }
+            }
+            if (!leftArrow) {
+              $arrow.addClass('right');
+              $arrow.removeClass('left');
+              if (options.wide)
+                $arrow.css({marginLeft: 280});
             }
 
             var cardHeight = $card.height();
