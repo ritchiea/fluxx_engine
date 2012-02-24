@@ -57,8 +57,11 @@
   }
   .export-import-links {
     position: absolute;
-    top: -55px;
     left: 10px;
+    top: 40px
+  }
+  .form-builder .export-import-links {
+    top: -55px;
   }
   #admin-buttons {
     position: absolute;
