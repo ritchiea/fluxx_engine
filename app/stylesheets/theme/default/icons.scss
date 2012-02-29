@@ -316,7 +316,14 @@
         border: none;
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_jira.png")} transparent no-repeat 50% 50%;
       }
-    }    
+    }
+    &.style-request-reviews {
+      .link {
+        @include no-box-shadow;
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_dock_reviews.png")} transparent no-repeat 50% 50%;
+      }
+    }
   }
 }
 
@@ -422,6 +429,10 @@
       &.style-jira {
         border: none;
         background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_jira.png")} transparent no-repeat 50% 50%;
+      }
+      &.style-request-reviews {
+        border: none;
+        background: #{inline_image("/images/fluxx_engine/theme/default/card-icons/button_card_reviews.png")} transparent no-repeat 50% 50%;
       }
     }
   }
