@@ -137,6 +137,7 @@
           complete: function (){
             $elem.fluxxCard().hideLoadingIndicator();
             if (type == 'DELETE' && $elem.hasClass('as-delete') && $elem.parents('.modal')[0] && $elem.attr('data-on-success')) {
+//            AML: If refreshModal is present in on-success actions, just refresh the contents of the open modal and not the partial behind it
               if ($elem.attr('data-on-success').split(/,/).indexOf('refreshModal') != -1) {
                 $area.runLoadingActions($elem);
               } else {
