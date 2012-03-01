@@ -137,7 +137,11 @@
           complete: function (){
             $elem.fluxxCard().hideLoadingIndicator();
             if (type == 'DELETE' && $elem.hasClass('as-delete') && $elem.parents('.modal')[0] && $elem.attr('data-on-success')) {
-              $area.runLoadingActions();
+              if ($elem.attr('data-on-success').split(/,/).indexOf('refreshModal') != -1) {
+                $area.runLoadingActions($elem);
+              } else {
+                $area.runLoadingActions();
+              }
             } else if ($elem.parents('[data-src]').length) {
               $elem.parents('[data-src]:first').refreshAreaPartial({});
             } else {
