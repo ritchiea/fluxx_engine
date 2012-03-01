@@ -140,7 +140,10 @@ class ActionController::ReportBase
     sub_total_format = workbook.add_format(
       :bold => 1,
       :color => 8,
+      :num_format => "#{I18n.t 'number.currency.format.unit'}#,##0",
       :bg_color => 40)
+    sub_total_format.set_num_format("#{I18n.t 'number.currency.format.unit'}#,##0")
+      
     sub_total_border_format = workbook.add_format(
        :top => 1,
        :bold => 1,
@@ -150,6 +153,7 @@ class ActionController::ReportBase
     total_format = workbook.add_format(
       :bold => 1,
       :color => 8,
+      :num_format => "#{I18n.t 'number.currency.format.unit'}#,##0",
       :bg_color => 22)
     total_border_format = workbook.add_format(
       :top => 1,
@@ -160,6 +164,7 @@ class ActionController::ReportBase
     workbook.set_custom_color(41, 128, 128, 128)      
     final_total_format = workbook.add_format(
       :bold => 1,
+      :num_format => "#{I18n.t 'number.currency.format.unit'}#,##0",
       :color => 8,
       :bg_color => 41)
     final_total_border_format = workbook.add_format(
