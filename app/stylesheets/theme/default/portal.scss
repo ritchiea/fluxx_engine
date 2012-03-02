@@ -557,10 +557,15 @@ ol li.action-item {
 }
 
 .form-text {
+  ul, ul li, ol, ol li {
+    margin: 4px 0px 4px 10px;
+  }
+  ol, ol li {
+    list-style: decimal outside none;
+  }
   ul, ul li {
     list-style: disc outside none;
-    margin: 4px 0px 4px 15px;
-    ul li {list-style: circle inside none;}
+    ul li {list-style-type: square;}
   }
 }
 
