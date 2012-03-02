@@ -660,7 +660,8 @@
         $elem.rte({
           content_css_url: '/stylesheets/fluxx_engine/lib/rte/css/rte.css',
           media_url: '/stylesheets/fluxx_engine/lib/rte/img/',
-          buttons: $(this).data('wysiwyg-buttons').replace(/\s+/, '').split(',')
+          buttons: $(this).data('wysiwyg-buttons').replace(/\s+/, '').split(','),
+          height: $(this).data('height')
         });
       });
 

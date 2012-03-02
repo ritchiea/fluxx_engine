@@ -76,7 +76,6 @@ if(typeof $.fn.rte === "undefined") {
             iframe.frameMargin=0;
             iframe.framePadding=0;
 
-//            iframe.height=200;
             if(textarea.attr('class'))
                 iframe.className = textarea.attr('class');
             if(textarea.attr('id'))
@@ -85,16 +84,19 @@ if(typeof $.fn.rte === "undefined") {
                 iframe.title = textarea.attr('name');
 
             textarea.after(iframe);
-
-            //TODO: Setting the height of the text input element.
-            //      This should not be hardcoded, but I can not find any other way atm.
-            var heightAdjust = 260;
-            iframe.height=textarea.fluxxCard().height() - heightAdjust;
-            if (!textarea.parents('.modal')[0])
-              $('.body', textarea.fluxxCardArea()).css('overflow-x', 'hidden');
-            $(window).resize(function(e){
+            if (opts.height) {
+              iframe.height = opts.height;
+            } else {
+              //TODO: Setting the height of the text input element.
+              //      This should not be hardcoded, but I can not find any other way atm.
+              var heightAdjust = 260;
               iframe.height=textarea.fluxxCard().height() - heightAdjust;
-            });
+              if (!textarea.parents('.modal')[0])
+                $('.body', textarea.fluxxCardArea()).css('overflow-x', 'hidden');
+              $(window).resize(function(e){
+                iframe.height=textarea.fluxxCard().height() - heightAdjust;
+              });
+            }
 
             var css = "";
             if(opts.content_css_url) {
