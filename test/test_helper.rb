@@ -100,7 +100,7 @@ def current_user=(new_user)
 end
 
 def add_perms user
-  [ClientStore, Instrument, Musician, MusicianInstrument, Orchestra, TotalDummyReport].each do |klass|
+  [ClientStore, Instrument, Musician, MusicianInstrument, Orchestra, TotalDummyReport, DashboardTemplate].each do |klass|
     user.has_permission! 'listview', klass
     user.has_permission! 'view', klass
     user.has_permission! 'create', klass

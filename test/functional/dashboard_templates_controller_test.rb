@@ -51,48 +51,10 @@ class DashboardTemplatesControllerTest < ActionController::TestCase
     get :show, :id => @dashboard_template.to_param
     assert_response :success
   end
-
-  test "should show dashboard_template with documents" do
-    model_doc1 = ModelDocument.make(:documentable => @dashboard_template)
-    model_doc2 = ModelDocument.make(:documentable => @dashboard_template)
-    get :show, :id => @dashboard_template.to_param
-    assert_response :success
-  end
-  
-  test "should show dashboard_template with groups" do
-    group = Group.make
-    group_member1 = GroupMember.make :groupable => @dashboard_template, :group => group
-    group_member2 = GroupMember.make :groupable => @dashboard_template, :group => group
-    get :show, :id => @dashboard_template.to_param
-    assert_response :success
-  end
-  
-  test "should show dashboard_template with audits" do
-    Audit.make :auditable_id => @dashboard_template.to_param, :auditable_type => @dashboard_template.class.name
-    get :show, :id => @dashboard_template.to_param
-    assert_response :success
-  end
-  
-  test "should show dashboard_template audit" do
-    get :show, :id => @dashboard_template.to_param, :audit_id => @dashboard_template.audits.first.to_param
-    assert_response :success
-  end
   
   test "should get edit" do
     get :edit, :id => @dashboard_template.to_param
     assert_response :success
-  end
-
-  test "should not be allowed to edit if somebody else is editing" do
-    @dashboard_template.update_attributes :locked_until => (Time.now + 5.minutes), :locked_by_id => User.make.id
-    get :edit, :id => @dashboard_template.to_param
-    assert assigns(:not_editable)
-  end
-
-  test "should not be allowed to update if somebody else is editing" do
-    @dashboard_template.update_attributes :locked_until => (Time.now + 5.minutes), :locked_by_id => User.make.id
-    put :update, :id => @dashboard_template.to_param, :dashboard_template => {}
-    assert assigns(:not_editable)
   end
 
   test "should update dashboard_template" do
@@ -104,7 +66,8 @@ class DashboardTemplatesControllerTest < ActionController::TestCase
   end
 
   test "should destroy dashboard_template" do
-    delete :destroy, :id => @dashboard_template.to_param
-    assert_not_nil @dashboard_template.reload().deleted_at 
+    assert_difference('DashboardTemplate.count', -1) do
+      delete :destroy, :id => @dashboard_template.to_param
+    end
   end
 end

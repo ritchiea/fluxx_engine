@@ -37,7 +37,7 @@ class InstrumentsControllerTest < ActionController::TestCase
     get :index, :format => :json, :find_by_id => true, :id => [instrument1.id, instrument2.id, instrument3.id]
     assert_equal 3, assigns(:instruments).size
     instruments = @response.body.de_json
-    results = instruments.map{|instr| instr.values.first['id']}
+    results = instruments['records'].map{|instr| instr.values.first['id']}
     assert results.include? instrument1.id
   end
 

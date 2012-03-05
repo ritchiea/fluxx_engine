@@ -14,7 +14,6 @@ module FluxxDashboardTemplatesController
     insta_show DashboardTemplate do |insta|
       insta.template = 'dashboard_template_show'
       insta.icon_style = ICON_STYLE
-      insta.add_workflow
     end
     insta_new DashboardTemplate do |insta|
       insta.template = 'dashboard_template_form'
@@ -32,7 +31,6 @@ module FluxxDashboardTemplatesController
     insta_put DashboardTemplate do |insta|
       insta.template = 'dashboard_template_form'
       insta.icon_style = ICON_STYLE
-      insta.add_workflow
     end
     insta_delete DashboardTemplate do |insta|
       insta.template = 'dashboard_template_form'

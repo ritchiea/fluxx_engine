@@ -42,10 +42,16 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
   end
   
   def all_methods_allowed model
-    if model <= self.model_class
+    model_klass = if model.is_a?(Class)
+      model
+    else
+      model.class
+    end
+      
+    if model_klass.class <= self.model_class
       string_extra_methods = extra_methods.map {|meth| meth.to_s}
       string_do_not_use_methods = do_not_use_methods.map {|meth| meth.to_s}
-      string_reflections = model.reflection_columns.map {|meth| meth.gsub(/\_id$/, '')}
+      string_reflections = model_klass.reflection_columns.map {|meth| meth.gsub(/\_id$/, '')}
       @method_list + string_extra_methods - string_do_not_use_methods + string_reflections
     end || []
   end

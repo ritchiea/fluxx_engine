@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110830180000) do
+ActiveRecord::Schema.define(:version => 20111202222446) do
 
   create_table "audits", :force => true do |t|
     t.datetime "created_at"
@@ -43,6 +43,18 @@ ActiveRecord::Schema.define(:version => 20110830180000) do
 
   add_index "client_stores", ["user_id", "client_store_type"], :name => "client_store_idx_usr_id_clt_stor_type"
   add_index "client_stores", ["user_id"], :name => "index_client_stores_on_user_id"
+
+  create_table "dashboard_templates", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.string   "name"
+    t.text     "data"
+  end
+
+  add_index "dashboard_templates", ["created_by_id"], :name => "dashboard_templates_created_by_id"
+  add_index "dashboard_templates", ["updated_by_id"], :name => "dashboard_templates_updated_by_id"
 
   create_table "instruments", :force => true do |t|
     t.datetime "created_at"

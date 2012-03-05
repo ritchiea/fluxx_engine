@@ -18,13 +18,13 @@ class ActiveRecord::Relation
       limit_clause = "limit #{quantity}" if quantity
       result = ClientStore.connection.execute "SELECT #{key_field}, #{amount_field} from #{table_name} order by #{amount_field} #{ordering} #{limit_clause}"
       top_hits = {}
-      while row = result.fetch_hash do
-        top_hits[row[key_field].to_i] = BigDecimal(row[amount_field]) if row[amount_field] && row[key_field]
+      result.each(:cache_rows => false, :as => :hash) do |row|
+        top_hits[row[key_field]] = row[amount_field] if row[amount_field] && row[key_field]
       end
       result = ClientStore.connection.execute ClientStore.send(:sanitize_sql, ["SELECT SUM(#{amount_field}) total_other from #{table_name} WHERE #{key_field} NOT IN (?)", top_hits.keys])
       row = result.fetch_row
       other_amount = row.first if row
-      top_hits[nil] = BigDecimal(other_amount) if other_amount
+      top_hits[nil] = other_amount if other_amount
       top_hits
     end
   end

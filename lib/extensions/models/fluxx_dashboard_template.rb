@@ -40,7 +40,6 @@ module FluxxDashboardTemplate
       insta.remove_methods [:id]
     end
 
-    insta_favorite
     insta_utc do |insta|
       insta.time_attributes = [] 
     end
