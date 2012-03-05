@@ -660,7 +660,8 @@
         $elem.rte({
           content_css_url: '/stylesheets/fluxx_engine/lib/rte/css/rte.css',
           media_url: '/stylesheets/fluxx_engine/lib/rte/img/',
-          buttons: $(this).data('wysiwyg-buttons').replace(/\s+/, '').split(',')
+          buttons: $(this).data('wysiwyg-buttons').replace(/\s+/, '').split(','),
+          height: $(this).data('height')
         });
       });
 
@@ -1564,9 +1565,11 @@
 
       return this;
     },
-    runLoadingActions: function() {
+    runLoadingActions: function($target) {
       var $area = $(this);
-      var onSuccess = $area.data('target').attr('data-on-success'),
+      if (!$target)
+        $target = $area.data('target');
+      var onSuccess = $target.attr('data-on-success'),
           closeCard = false;
       // If we have onSuccess actions, execute them
       if (onSuccess) {
@@ -1575,7 +1578,7 @@
           // Return a flag if we have closed this card so that continued loading stops
           if (action == 'close')
             closeCard = true;
-          (_.bind(func, $area))();
+          (_.bind(func, $area, $target))();
         });
       }
       return closeCard;
@@ -1824,19 +1827,22 @@
           close: function(){
             this.closeCardModal();
           },
-          refreshCaller: function(){
+          refreshCaller: function($target){
             // Refresh the card area this modal was called from
-            if (! this.data('target')) return;
+            if (!$target)
+              $target = this.data('target');
+            if (!$target) return;
             $.fluxx.log("Refreshing caller after modal close");
-            var $target = this.data('target'),
-                $this = this,
+            var $this = this,
                 $area = $target.fluxxCardArea(),
                 // resetTarget will use the target elements href attribute to located
                 // the new element after a refresh. This is needed because the original
                 // element is removed from the DOM as new HTML as added after the ajax call.
                 resetTarget = function() {
-                  var href = $target.attr('href');
-                  $this.data('target', $('[href="' + href + '"]', $area));
+                  var href = $target.attr('href'),
+                      newTarget = $('[href="' + href + '"]', $area);
+                  if (newTarget[0])
+                    $this.data('target', newTarget);
                   if ($area.hasClass('fluxx-admin-partial'))
                     $area.removeClass('updating').children().fadeTo(300, 1);
 
@@ -1860,6 +1866,12 @@
           //TODO: The original target becomes orphaned after the refresh. May want to implement
           // resetTarget like in refreshCaller
           refreshNamed: function(){
+            if (! this.data('target')) return;
+            if (this.data('target').attr('target')) {
+              $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();
+            }
+          },
+          refreshModal: function($target){
             if (! this.data('target')) return;
             if (this.data('target').attr('target')) {
               $(this.data('target').attr('target'), this.data('target').fluxxCardArea()).refreshAreaPartial();

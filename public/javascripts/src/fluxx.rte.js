@@ -22,6 +22,7 @@ if(typeof $.fn.rte === "undefined") {
         underline: false,
         strikethrough: false,
         unorderedlist: false,
+        orderedlist: false,
         link: false,
         image: false,
         disable: false
@@ -76,7 +77,6 @@ if(typeof $.fn.rte === "undefined") {
             iframe.frameMargin=0;
             iframe.framePadding=0;
 
-//            iframe.height=200;
             if(textarea.attr('class'))
                 iframe.className = textarea.attr('class');
             if(textarea.attr('id'))
@@ -85,16 +85,19 @@ if(typeof $.fn.rte === "undefined") {
                 iframe.title = textarea.attr('name');
 
             textarea.after(iframe);
-
-            //TODO: Setting the height of the text input element.
-            //      This should not be hardcoded, but I can not find any other way atm.
-            var heightAdjust = 260;
-            iframe.height=textarea.fluxxCard().height() - heightAdjust;
-            if (!textarea.parents('.modal')[0])
-              $('.body', textarea.fluxxCardArea()).css('overflow-x', 'hidden');
-            $(window).resize(function(e){
+            if (opts.height) {
+              iframe.height = opts.height;
+            } else {
+              //TODO: Setting the height of the text input element.
+              //      This should not be hardcoded, but I can not find any other way atm.
+              var heightAdjust = 260;
               iframe.height=textarea.fluxxCard().height() - heightAdjust;
-            });
+              if (!textarea.parents('.modal')[0])
+                $('.body', textarea.fluxxCardArea()).css('overflow-x', 'hidden');
+              $(window).resize(function(e){
+                iframe.height=textarea.fluxxCard().height() - heightAdjust;
+              });
+            }
 
             var css = "";
             if(opts.content_css_url) {
@@ -102,6 +105,7 @@ if(typeof $.fn.rte === "undefined") {
             }
 
             var doc = "<html><head>"+css+"</head><body class='frameBody'>"+content+"</body></html>";
+
             tryEnableDesignMode(doc, function() {
                 $("#toolbar-" + element_id).remove();
                 textarea.before(toolbar());
@@ -109,16 +113,18 @@ if(typeof $.fn.rte === "undefined") {
                 textarea.hide();
 
             });
-
         }
 
         function tryEnableDesignMode(doc, callback) {
             if(!iframe) { return false; }
-
+//AML: For some reason populating the rich text editor inside of the form builder causes the form builder interface
+//     to scroll partially out of view rendering the form builder un-usable
             try {
-                iframe.contentWindow.document.open();
-                iframe.contentWindow.document.write(doc);
-                iframe.contentWindow.document.close();
+                if (!$(iframe).parents('.form-builder')[0]) {
+                  iframe.contentWindow.document.open();
+                  iframe.contentWindow.document.write(doc);
+                  iframe.contentWindow.document.close();
+                }
             } catch(error) {
                 //console.log(error);
             }
@@ -171,6 +177,7 @@ if(typeof $.fn.rte === "undefined") {
                     (opts.underline ? "<a href='#' class='underline' title='Underline'><img src='"+opts.media_url+"text_underline.png' alt='underline' /></a> " : "") +
                     (opts.strikethrough ? "<a href='#' class='strikethrough' title='Strikethrough'><img src='"+opts.media_url+"text_strikethrough.png' alt='strikethrough' /></a> " : "") +
                     (opts.unorderedlist ? "<a href='#' class='unorderedlist' title='List'><img src='"+opts.media_url+"text_list_bullets.png' alt='unordered list' /></a> " : "") +
+                    (opts.orderedlist ? "<a href='#' class='orderedlist' title='List'><img src='"+opts.media_url+"text_list_numbers.png' alt='ordered list' /></a> " : "") +
                     (opts.link ? "<a href='#' class='link' title='Add Link'><img src='"+opts.media_url+"link.png?t=1' alt='link' /></a> " : "") +
                     (opts.image ? "<a href='#' class='image' title='Add Image'><img src='"+opts.media_url+"image.png?t=1' alt='image' /></a> " : "") +
                     (opts.disable ? "<a href='#' class='disable' title='Plain Text'><img src='"+opts.media_url+"code.png' alt='close rte' /></a> " : "") +
@@ -188,6 +195,7 @@ if(typeof $.fn.rte === "undefined") {
             $('.underline', tb).click(function(){ formatText('underline');return false; });
             $('.strikethrough', tb).click(function(){ formatText('strikethrough');return false; });
             $('.unorderedlist', tb).click(function(){ formatText('insertunorderedlist');return false; });
+            $('.orderedlist', tb).click(function(){ formatText('insertorderedlist');return false; });
             $('.link', tb).click(function(){
                 var p=prompt("URL:");
                 if(p)

@@ -253,6 +253,13 @@ table.form-builder-table {
   }
 }
 
+select.range-selector {
+  width: 50px;
+}
+select.year-selector {
+  width: 70px;
+}
+
 .fullscreen-view {
   #modal-overlay {
     background-image: none;
@@ -399,11 +406,10 @@ table.form-builder-table {
   &.wide {
     width: 600px;
     .body {
-      .rte-toolbar {width: 224px;}
+      .rte-toolbar {width: 254px;}
       form {width: 98%;}
     }
   }
-
 }
 
 #manager-overlay {
@@ -551,8 +557,9 @@ iframe.wysiwyg {
 .rte-toolbar {
   float: right;
   position: relative;
+  margin-right: 4px;
   top: -20px;
-  .bold, .italic, .underline, .strikethrough, .unorderedlist, .link, .image, .disable {
+  .bold, .italic, .underline, .strikethrough, .unorderedlist, .orderedlist, .link, .image, .disable {
     background-color: white;
     padding: 8px 4px 0px 4px;
     @include rounded(4px);
@@ -1130,9 +1137,14 @@ table.loi {
 }
 
 .form-text {
+  ul, ul li, ol, ol li {
+    margin: 4px 0px 4px 10px;
+  }
+  ol, ol li {
+    list-style: decimal outside none;
+  }
   ul, ul li {
     list-style: disc outside none;
-    margin: 4px 0px 4px 15px;
     ul li {list-style-type: square;}
   }
 }
