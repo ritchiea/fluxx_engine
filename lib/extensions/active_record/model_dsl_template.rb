@@ -48,7 +48,7 @@ class ActiveRecord::ModelDslTemplate < ActiveRecord::ModelDsl
       model.class
     end
       
-    if model_klass.class <= self.model_class
+    if model_klass <= self.model_class
       string_extra_methods = extra_methods.map {|meth| meth.to_s}
       string_do_not_use_methods = do_not_use_methods.map {|meth| meth.to_s}
       string_reflections = model_klass.reflection_columns.map {|meth| meth.gsub(/\_id$/, '')}
