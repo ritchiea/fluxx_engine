@@ -1,4 +1,12 @@
 class Array
+  def rand
+    if RUBY_VERSION < '1.9'
+      self.choice
+    else
+      self.sample
+    end
+  end
+  
   def up_to element
     found = false
     select do |x| 
