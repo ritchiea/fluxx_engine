@@ -150,7 +150,7 @@ class ActionController::Base
               total_entries = @models.total_entries if @models.respond_to?(:total_entries)
               current_page = @models.current_page if @models.respond_to?(:current_page)
               per_page = @models.per_page if @models.respond_to?(:per_page)
-              render :text => {:records => @models, :total_pages => total_pages, :total_entries => total_entries, :current_page => current_page, :per_page => per_page}.to_json
+              render :text => {:records => @models, :total_pages => total_pages, :total_entries => total_entries, :current_page => current_page, :per_page => per_page}.to_json(:fluxx_render_style => (params[:detailed] ? :detailed : :simple))
             end
             format.autocomplete do
               render :text => index_object.process_autocomplete(@models, params[:name_method], self)
