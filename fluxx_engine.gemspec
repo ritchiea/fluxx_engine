@@ -42,13 +42,13 @@ Gem::Specification.new do |s|
   # s.add_dependency 'mail'
   s.add_dependency 'writeexcel', '>= 0.6.1'
   s.add_dependency 'fastercsv', '>= 1.5.3'
-  if RUBY_VERSION < '1.9'
-    s.add_dependency 'linecache', '= 0.43'
-    s.add_development_dependency "ruby-debug", ">= 0.10.3"
-  else
-    s.add_dependency 'linecache19'
-    s.add_development_dependency "ruby-debug19", ">= 0.10.3"
-  end
+  #if RUBY_VERSION < '1.9'
+  #  s.add_dependency 'linecache', '= 0.43'
+  #  s.add_development_dependency "ruby-debug", ">= 0.10.3"
+  #else
+  #  s.add_dependency 'linecache19'
+  #  s.add_development_dependency "ruby-debug19", ">= 0.10.3"
+  #end
 
   s.add_development_dependency 'capybara', '0.3.7'
   s.add_development_dependency 'machinist', '~> 1.0.6'
