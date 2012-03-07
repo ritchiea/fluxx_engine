@@ -655,7 +655,7 @@
       if ($('.visualizations', $area).length)
         $area.addClass('report-area');
 
-      $('.wysiwyg', $area).each(function() {
+      $('textarea.wysiwyg', $area).each(function() {
         var $elem = $(this);
         $elem.rte({
           content_css_url: '/stylesheets/fluxx_engine/lib/rte/css/rte.css',
@@ -847,6 +847,14 @@
           } else {
             $elem.refreshCardArea();
           }
+        });
+      });
+      $('[data-char-limit]', $area).each(function() {
+        var $input = $(this),
+            limit = parseInt($input.data('char-limit'));
+        $input.charCount({
+          allowed: limit,
+          counterText: 'Characters left: '
         });
       });
       return this;
