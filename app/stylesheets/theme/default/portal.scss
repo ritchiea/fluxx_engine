@@ -905,6 +905,16 @@ li.plupload_droptext {
   margin-bottom: -10px;
 }
 
+form .counter {
+  display: block;
+  font-size:14px;
+  font-weight:bold;
+  color:#ccc;
+ }
+form .limit_warning{color:#600;}
+form .limit_exceeded{color:#e00;}
+
+
 /*=============================
  Browser Specific Adjustments
 ===============================*/

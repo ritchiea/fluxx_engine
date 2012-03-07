@@ -242,18 +242,27 @@ if(typeof $.fn.rte === "undefined") {
                 return true;
             });
 
+            iframeDoc.keydown(function(e) {
+              if (textarea.hasClass('limit_exceeded') && e.which != 8 && e.which != 46) {
+                e.preventDefault();
+              }
+            });
             iframeDoc.keyup(function() {
-                setSelectedType(getSelectionElement(), select);
+              // Set the value of the original text box to the contents of the iFrame without any HTML.
+              // This allows the character counting functionality to work with the rich text editor.
+              var content = $(iframe).contents().find("body").html().replace(/<\/?[^>]+>/gi, '').replace(/\&nbsp;/, ' ');
+              textarea.val(content).change();
+              setSelectedType(getSelectionElement(), select);
                 var body = $('body', iframeDoc);
                 if(body.scrollTop() > 0) {
-                    var iframe_height = parseInt(iframe.style['height'])
-                    if(isNaN(iframe_height))
+                  var iframe_height = parseInt(iframe.style['height'])
+                  if(isNaN(iframe_height))
                         iframe_height = 0;
 //                    var h = Math.min(opts.max_height, iframe_height+body.scrollTop()) + 'px';
 //                    iframe.style['height'] = h;
                 }
                 return true;
-            });
+            }).keyup();
  
             return tb;
         };

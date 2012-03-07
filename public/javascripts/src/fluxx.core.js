@@ -349,6 +349,49 @@
     }]
   };
 
+  $.fn.charCount = function(options){
+    // default configuration properties
+    var defaults = {
+      allowed: 140,
+      warning: 25,
+      css: 'counter',
+      counterElement: 'span',
+      cssWarning: 'limit_warning',
+      cssExceeded: 'limit_exceeded',
+      counterText: ''
+    };
+
+    var options = $.extend(defaults, options);
+
+    function calculate(obj){
+      var count = $(obj).val().length;
+      var available = options.allowed - count;
+      if(available <= options.warning && available >= 0){
+        $(obj).next().addClass(options.cssWarning);
+      } else {
+        $(obj).next().removeClass(options.cssWarning);
+      }
+      if(available <= 0){
+        $(obj).addClass(options.cssExceeded);
+      } else {
+        $(obj).removeClass(options.cssExceeded);
+      }
+      $(obj).next().html(options.counterText + available);
+    };
+
+    this.each(function() {
+      $(this).after('<'+ options.counterElement +' class="' + options.css + '">'+ options.counterText +'</'+ options.counterElement +'>');
+      calculate(this);
+      $(this).keyup(function(){calculate(this)});
+      $(this).change(function(){calculate(this)});
+      $(this).keydown(function(e) {
+        if ($(this).hasClass('limit_exceeded') && e.which != 8 && e.which != 46) {
+          e.preventDefault();
+        }
+      });
+    });
+  };
+
   $(document).shortkeys(_.extend.apply(_, _.map(keyboardShortcuts, function(v,k){var o={}; o[k] = v[1]; return o})));
   jQuery.fx.interval = 2;
 })(jQuery);
