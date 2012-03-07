@@ -1,3 +1,4 @@
+require 'csv'
 class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   # delta_type allows the user to override the model class name for the purposes of tracking realtime updates
   attr_accessor :delta_type
@@ -190,7 +191,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
       def output.<<(*args)  
         write(*args)  
       end  
-      csv = FasterCSV.new(output, :row_sep => "\r\n")
+      csv = CSV.new(output, :row_sep => "\r\n")
       yield csv
     end)
     
