@@ -99,8 +99,9 @@ class ActiveRecord::Base
         return deletable? if respond_to? :deletable?
         if local_search_object.really_delete && connection.adapter_name =~ /mysql/i && id
           can_delete = true
-          ActiveRecord::Base.connection.execute("SELECT table_name, column_name FROM information_schema.KEY_COLUMN_USAGE where TABLE_SCHEMA='#{ActiveRecord::Base.connection.current_database}' AND REFERENCED_TABLE_NAME='#{self.class.table_name}' and REFERENCED_COLUMN_NAME = 'id'").each(:cache_rows => false, :symbolize_keys => true, :as => :hash) do |row|
-            klass = Kernel.const_get row[:table_name].to_s.camelize.singularize rescue nil
+          ActiveRecord::Base.connection.execute("SELECT table_name, column_name FROM information_schema.KEY_COLUMN_USAGE where TABLE_SCHEMA='#{ActiveRecord::Base.connection.current_database}' AND REFERENCED_TABLE_NAME='#{self.class.rationalized_table_name}' and REFERENCED_COLUMN_NAME = 'id'").each(:cache_rows => false, :symbolize_keys => true, :as => :hash) do |row|
+            klass = self.class.rationalize_klass_from_name row[:table_name]
+            
             if klass && klass.column_names.include?("deleted_at")
               can_delete = false if ActiveRecord::Base.connection.execute("SELECT COUNT(id) FROM #{row[:table_name]} WHERE #{row[:column_name]} = #{id} and deleted_at is null").to_a.first.first > 0
             else
@@ -404,6 +405,14 @@ class ActiveRecord::Base
   
   def self.all_controllers
     ActionController::ControllerDsl.all_controllers_for_model self
+  end
+  
+  def self.rationalized_table_name
+    self.table_name
+  end
+  
+  def rationalize_klass_from_name table_name
+    Kernel.const_get table_name.to_s.camelize.singularize rescue nil
   end
   
   # Make it so that we do not emit a realtime update or thinking sphinx delta change record based on this update
