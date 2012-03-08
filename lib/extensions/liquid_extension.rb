@@ -138,13 +138,6 @@ module LiquidFilters
     number_to_currency(number, :unit => unit, :delimiter => delimiter, :precision => precision, :format => format)
   end
 
-  def column hash, col
-    return unless hash.is_a? Hash
-    hash.map do |cell, val|
-      val if !val.empty? && cell =~ /^#{col}[0-9]+/
-    end.compact
-  end
-  
   def comma_join list, delimiter=', '
     if list && list.is_a?(Array)
       list.join(delimiter)
@@ -227,7 +220,29 @@ module LiquidFilters
     return nil unless lat && lng
     "<img src='https://maps.googleapis.com/maps/api/staticmap?center=#{lat},#{lng}&markers=#{lat},#{lng}&size=#{width}x#{height}&maptype=#{type}&zoom=#{zoom}&sensor=false' width='#{width}' height='#{height}' />"
   end
-  
+
+  def column hash, col
+    return unless hash.is_a? Hash
+    hash.map do |cell, val|
+      val if !val.empty? && cell =~ /^#{col}[0-9]+/
+    end.compact
+  end
+
+  def format_pair value, name
+    "<div class=\"pairs\">
+    <div class=\"key\">#{name}</div>
+    <div class=\"value\">#{value ? "" : value}</div>
+    </div>"
+  end
+
+  def format_qa value, name
+    "<dl class=\"qa\">
+    <dt>#{name}</dt>
+    <dd>
+    <div class=\"form-text\">#{value ? "" : value}</div>
+    </dd></dl>"
+  end
+
 end
 
 
