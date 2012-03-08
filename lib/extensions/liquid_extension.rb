@@ -213,6 +213,13 @@ module LiquidFilters
       raise e
     end
   end
+
+  # generate static/image google map
+  # ex: {{ request.program_organization.latitude | static_map: request.program_organization.longitude }}
+  def static_map(lat, lng, width=540, height=200, type='roadmap', zoom=15)
+    return nil unless lat && lng
+    "<img src='https://maps.googleapis.com/maps/api/staticmap?center=#{lat},#{lng}&markers=#{lat},#{lng}&size=#{width}x#{height}&maptype=#{type}&zoom=#{zoom}&sensor=false' width='#{width}' height='#{height}' />"
+  end
   
 end
 
