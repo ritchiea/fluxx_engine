@@ -444,8 +444,9 @@ class ActionController::Base
         if create_object.render_inline
           render :inline => create_object.render_inline
         else
-          extra_options = {:id => @model.id}
-          fluxx_redirect create_object.redirect ? self.send(create_object.redirect, extra_options) : current_show_path(@model.id), create_object
+          model_id = @model.is_a?(String) ? 0 : @model.id
+          extra_options = {:id => model_id}
+          fluxx_redirect create_object.redirect ? self.send(create_object.redirect, extra_options) : current_show_path(model_id), create_object
         end
       end
     end
