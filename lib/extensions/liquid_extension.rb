@@ -137,6 +137,13 @@ module LiquidFilters
     return '' if number.blank? || number == 0
     number_to_currency(number, :unit => unit, :delimiter => delimiter, :precision => precision, :format => format)
   end
+
+  def column hash, col
+    return unless hash.is_a? Hash
+    hash.map do |cell, val|
+      val if !val.empty? && cell =~ /^#{col}[0-9]+/
+    end.compact
+  end
   
   def comma_join list, delimiter=', '
     if list && list.is_a?(Array)
