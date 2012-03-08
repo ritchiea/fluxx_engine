@@ -242,7 +242,6 @@ module LiquidFilters
     <div class=\"form-text\">#{value ? "" : value}</div>
     </dd></dl>"
   end
-
 end
 
 
