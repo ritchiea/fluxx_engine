@@ -231,7 +231,7 @@ module LiquidFilters
   def format_pair value, name
     "<div class=\"pairs\">
     <div class=\"key\">#{name}</div>
-    <div class=\"value\">#{value ? "" : value}</div>
+    <div class=\"value\">#{value.is_a?(String) ? value : ""}</div>
     </div>"
   end
 
@@ -239,7 +239,7 @@ module LiquidFilters
     "<dl class=\"qa\">
     <dt>#{name}</dt>
     <dd>
-    <div class=\"form-text\">#{value ? "" : value}</div>
+    <div class=\"form-text\">#{value.is_a?(String) ? value : ""}</div>
     </dd></dl>"
   end
 end
