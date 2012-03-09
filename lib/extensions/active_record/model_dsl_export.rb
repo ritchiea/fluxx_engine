@@ -5,6 +5,9 @@ class ActiveRecord::ModelDslExport < ActiveRecord::ModelDsl
   attr_accessor :headers
   # The name of the file to be exported
   attr_accessor :filename
+  # Custom spreadsheet view template
+  attr_accessor :spreadsheet_template
+  attr_accessor :spreadsheet_cells
   
   def csv_sql_query with_clause=nil
     sql_query.is_a?(Proc) ? (sql_query.call with_clause) : sql_query

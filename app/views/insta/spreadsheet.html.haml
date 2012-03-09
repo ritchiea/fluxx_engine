@@ -1,3 +1,6 @@
+-#Test data
+-#-@spreadsheet_columns = [{:label => "Request ID", :attribute => "grant_or_request_id"}, {:label => "Status", :attribute => "state"}, {:label => "Amount Requested", :attribute => "amount_requested", :format => :currency}, {:label => "Amount Recommended", :attribute => "amount_recommended", :format => :currency}, {:label => "Grantee", :attribute => [:program_organization, :name]}, {:label => "Created", :attribute => "created_at", :format => :date}]
+
 - if @skip_wrapper
   = render :partial => @markup,  :locals => {:models => @models}
 - else
@@ -7,10 +10,47 @@
     %ul.actions
       = render :partial => 'insta/list_actions',  :locals => {:models => @models, :model_class => @model_class, :view => :spreadsheet}
 
-  - throw Exception.new "Please specify an index template for the #{@plural_model_name} controller, otherwise we cannot render the page" if @markup.blank?
   #card-body
     .spreadsheet-view
-      = render :partial => @markup,  :locals => {:models => @models, :index_listing_display => true}
+      -if @markup
+        = render :partial => @markup,  :locals => {:models => @models, :index_listing_display => true}
+      -elsif @spreadsheet_columns
+        %table.spreadsheet
+          %thead
+            %tr
+              -@spreadsheet_columns.each do |col|
+                %th= col[:label]
+          %tbody
+            -@models.each do |model|
+              %tr
+                -first = true
+                -@spreadsheet_columns.each do |col|
+                  -if col[:attribute].is_a? Array
+                    -val = col[:attribute].inject(model){|acc, att| (acc = acc.send(att) rescue nil) if att} if col[:attribute]
+                  -elsif col[:attribute]
+                    -val = model.send col[:attribute]
+
+                  -# Format value
+                  -case col[:format]
+                  -when :currency
+                    -val = dollars_format val
+                  -when :date
+                    -val = mdy_date_format val
+                  -when :integer
+                    -val = val.to_i if val
+
+                  -# Make the first column link out to a detail card for the model
+                  -if first
+                    -first = false
+                    -val= link_to val, current_show_path(model.id), :class => "new-detail", 'data-insert' => 'after'
+
+                  -# Present the state progression modal when clicking on the state column
+                  -if col[:attribute].to_s == "state"
+                    -val= link_to model.state_to_english,  url_for(:action => :show, :view_states => true, :id => model.id), :class => 'to-modal small-modal', :title => 'View Workflow', 'data-on-success' => 'refreshCaller'
+
+                  -#TODO AML: Should we automatically provide a link to the detail card for any related models
+
+                  %td{:nowrap => 1}= val
 
   #card-footer= raw(fluxx_paginate(@models) || '<div class="no-pagination">' + pluralize(@models.length, "Entry") + '</div>')
   = render :partial => 'insta/card_settings'

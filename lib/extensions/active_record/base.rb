@@ -136,6 +136,14 @@ class ActiveRecord::Base
         def csv_filename with_clause
           export_object.csv_filename with_clause
         end
+        # The location of the template that will be used for the spreadsheet view, bypassing the default spreadsheet behavior
+        def spreadsheet_template
+          export_object.spreadsheet_template
+        end
+        # attributes used to populate the cells in the default spreadsheet view
+        def spreadsheet_cells
+          export_object.spreadsheet_cells
+        end
       end
     end
   end

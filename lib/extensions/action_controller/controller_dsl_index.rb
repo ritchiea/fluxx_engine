@@ -24,12 +24,9 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   attr_accessor :suppress_model_iteration
   # a blob_struct of format blocks broken up by the various names (used for the summary view only)
   attr_accessor :summary_view_block_map
-  # a blob_struct of format blocks broken up by the various names (used for the spreadsheet view only)
-  attr_accessor :spreadsheet_view_block_map
   # block to postprocess autocomplete results
   attr_accessor :postprocess_block
   attr_accessor :has_summary_view_template
-  attr_accessor :has_spreadsheet_view_template
   # Show a +(add) icon on listing cards
   attr_accessor :create_link_title
 
@@ -96,7 +93,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         instance_variable_set @plural_model_instance_name, model_ids
 
         if should_build_unpaged?(format)
-          build_unpaged_models model_ids
+          build_unpaged_models model_ids, params
         else
           model_class.page_by_ids model_ids, {:include_relation => include_relation}
         end
@@ -110,7 +107,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
     format && (format.csv? || format.xls?)
   end
   
-  def build_unpaged_models model_ids
+  def build_unpaged_models model_ids, params = nil
     unless model_csv_query.blank?
       unpaged_models = model_class.connection.execute(model_class.send(:sanitize_sql, ["select #{model_class.extract_base_class.name.tableize.singularize.downcase.pluralize}.id, #{model_csv_query}", model_ids]))
     else
@@ -146,6 +143,10 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
         {:label => model.send(name_method), :value => model.id, :url => model_url}
       end.to_json
     end
+  end
+
+  def spreadsheet_columns search_conditions, params
+    model_class.csv_headers(search_conditions).each_with_index.map {|col, i| {:label => col.is_a?(Array) ? col[0] : col, :format => (col[1] if col.is_a?(Array)), :attribute => (model_class.spreadsheet_cells[i] if model_class.spreadsheet_cells)}}
   end
   
   def stream_extract request, request_headers, unpaged_models, search_conditions, extract_type
@@ -342,22 +343,6 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
 
   def has_summary_view?
     self.has_summary_view_template ||self.summary_view_block_map != nil
-  end
-
-  # Add a block to be executed for a particular format block when rendering the spreadsheet view
-  def spreadsheet_view &block
-    self.spreadsheet_view_block_map = BlobStruct.new
-    yield spreadsheet_view_block_map if block_given?
-  end
-
-  def has_spreadsheet_view?
-    self.has_spreadsheet_view_template || self.spreadsheet_view_block_map != nil
-  end
-
-  def spreadsheet_view_template= value
-    self.template_map = {} if !self.template_map
-    self.template_map[:spreadsheet] = value
-    self.has_spreadsheet_view_template = true
   end
 
   def summary_view_template= value

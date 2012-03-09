@@ -90,12 +90,11 @@ class ActionController::Base
         else
           @markup = index_object.template_file self
           @show_summary_view = index_object.has_summary_view?
-          @show_spreadsheet_view = index_object.has_spreadsheet_view?
           if @show_summary_view && params[:summary] && params[:summary].to_i == 1
             params[:all_results] = 1
             params[:page] = nil
           end
-          params[:per_page] = 50 if @show_spreadsheet_view && params[:spreadsheet] && params[:spreadsheet].to_i == 1
+          params[:per_page] = 50 if params[:spreadsheet] && params[:spreadsheet].to_i == 1
           @models = index_object.load_results params, request.format, pre_models, self, params[:per_page], fluxx_current_user
           @show_conversion_funnel = self.respond_to?(:has_conversion_funnel) && has_conversion_funnel
           @first_report_id = self.respond_to?(:insta_index_report_list) && !(insta_index_report_list.empty?) && insta_index_report_list.first.report_id
@@ -113,7 +112,7 @@ class ActionController::Base
               :view_type_report
             elsif @show_summary_view && params[:summary]
               :view_type_summary
-            elsif @show_spreadsheet_view && params[:spreadsheet]
+            elsif params[:spreadsheet]
               :view_type_spreadsheet
             else
               :view_type_normal
@@ -141,7 +140,9 @@ class ActionController::Base
                   @markup = @markup.gsub(/_list$/, "_summary") if (!index_object.template_map || !index_object.template_map[:summary])
                   render((index_object.view || "insta/summary").to_s, :layout => false)
                 elsif view_type == :view_type_spreadsheet
-                  @markup = @markup.gsub(/_list$/, "_spreadsheet") if (!index_object.template_map || !index_object.template_map[:summary])
+                  # only set @markup if a spreadsheet template was specifically specified, otherwise use the default spreadsheet logic
+                  @markup = @model_class.spreadsheet_template if @model_class
+                  @spreadsheet_columns = index_object.spreadsheet_columns(index_object.search_conditions, params) unless @markup
                   render((index_object.view || "insta/spreadsheet").to_s, :layout => false)
                 else
                   fluxx_index_card index_object
@@ -776,8 +777,6 @@ class ActionController::Base
         
         controller_block_map =  if view_type == :view_type_summary
           controller_dsl.summary_view_block_map
-        elsif view_type == :view_type_spreadsheet
-          controller_dsl.spreadsheet_view_block_map
         else
           controller_dsl.format_block_map
         end
