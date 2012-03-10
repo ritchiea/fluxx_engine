@@ -244,14 +244,16 @@ module LiquidFilters
   end
 
   def format_table_row values, row, num_cols
-    row = row.to_i
-    col = "a"
-    cols = []
-    for i in 1..num_cols.to_i
-      cols.push values["#{col}#{row}"]
-      col.succ!
+    if values
+      row = row.to_i
+      col = "a"
+      cols = []
+      for i in 1..num_cols.to_i
+        cols.push values["#{col}#{row}"]
+        col.succ!
+      end
+      "<td>#{cols.join('</td><td>')}</td>" if cols[0]
     end
-    "<td>#{cols.join('</td><td>')}</td>" if cols[0]
   end
 end
 
