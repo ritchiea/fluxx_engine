@@ -49,7 +49,7 @@
                   -# Present the state progression modal when clicking on the state column
                   -if col[:attribute].to_s == "state"
                     -state = model.state_to_english
-                    -val= link_to (state.empty? ? model.state : state),  url_for(:action => :show, :view_states => true, :id => model.id), :class => 'to-modal small-modal', :title => 'View Workflow', 'data-on-success' => 'refreshCaller'
+                    -val= link_to((state.empty? ? model.state : state),  url_for(:action => :show, :view_states => true, :id => model.id), :class => 'to-modal small-modal', :title => 'View Workflow', 'data-on-success' => 'refreshCaller')
 
                   -#TODO AML: Should we automatically provide a link to the detail card for any related models
 
