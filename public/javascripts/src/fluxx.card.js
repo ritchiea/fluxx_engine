@@ -1414,7 +1414,7 @@
               var headerHeight = $('td:first', $table).outerHeight() + 1;
               var rowLabelWidth = $table.find('th:first').outerWidth();
               var cardHeaderHeight = $('.header', options.area).height() + 5;
-              var $header = $('<div class="spreadsheet-header"/>').width(10000);
+              var $header = $('<div class="spreadsheet-header"/>').width(100000);
               $table.css({"margin-top": "-" + (headerHeight - 3) + "px", "margin-left": "-" + rowLabelWidth + "px"});
               $table.find('th').each(function() {
                 var $th = $(this).css({"white-space": "nowrap"});

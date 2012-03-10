@@ -141,8 +141,8 @@ class ActiveRecord::Base
           export_object.spreadsheet_template
         end
         # attributes used to populate the cells in the default spreadsheet view
-        def spreadsheet_cells
-          export_object.spreadsheet_cells
+        def spreadsheet_cells with_clause
+          export_object.spreadsheet_row_data with_clause
         end
       end
     end

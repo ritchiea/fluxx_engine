@@ -26,4 +26,8 @@ class ActiveRecord::ModelDslExport < ActiveRecord::ModelDsl
   def csv_filename with_clause=nil
     filename.is_a?(Proc) ? (filename.call with_clause) : filename
   end
+
+  def spreadsheet_row_data with_clause=nil
+    spreadsheet_cells.is_a?(Proc) ? (spreadsheet_cells.call with_clause) : spreadsheet_cells
+  end
 end

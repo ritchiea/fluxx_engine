@@ -146,7 +146,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
   end
 
   def spreadsheet_columns search_conditions, params
-    model_class.csv_headers(search_conditions).each_with_index.map {|col, i| {:label => col.is_a?(Array) ? col[0] : col, :format => (col[1] if col.is_a?(Array)), :attribute => (model_class.spreadsheet_cells[i] if model_class.spreadsheet_cells)}}
+    model_class.csv_headers(search_conditions).each_with_index.map {|col, i| {:label => col.is_a?(Array) ? col[0] : col, :format => (col[1] if col.is_a?(Array)), :attribute => (model_class.spreadsheet_cells(search_conditions)[i] if model_class.spreadsheet_cells(search_conditions))}}
   end
   
   def stream_extract request, request_headers, unpaged_models, search_conditions, extract_type
