@@ -106,7 +106,7 @@ class ActionController::ModelRelationship
     if self.title_block && self.title_block.is_a?(Proc)
       self.title_block.call model
     else
-      model.class.to_s.humanize
+      model.class.name.humanize
     end
   end
   
