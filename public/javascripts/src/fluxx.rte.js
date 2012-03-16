@@ -121,9 +121,9 @@ if(typeof $.fn.rte === "undefined") {
 //     to scroll partially out of view rendering the form builder un-usable
             try {
                 if (!$(iframe).parents('.form-builder')[0]) {
-                  iframe.contentWindow.document.open();
+//                  iframe.contentWindow.document.open();
                   iframe.contentWindow.document.write(doc);
-                  iframe.contentWindow.document.close();
+//                  iframe.contentWindow.document.close();
                 }
             } catch(error) {
                 //console.log(error);
@@ -263,7 +263,14 @@ if(typeof $.fn.rte === "undefined") {
                 }
                 return true;
             }).keyup();
- 
+            iframeDoc.find('.framebody').blur(function() {
+              tb.hide();
+            });
+            iframeDoc.find('.framebody').focus(function() {
+              tb.fadeIn();
+            });
+
+            tb.hide();
             return tb;
         };
 

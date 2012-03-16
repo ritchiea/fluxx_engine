@@ -551,14 +551,14 @@ iframe.wysiwyg {
   background-color: #f9f7f8;
   padding: 10px;
   position: relative;
-  top: -20px;
+  top: 10px;
 }
 
 .rte-toolbar {
   float: right;
   position: relative;
   margin-right: 4px;
-  top: -20px;
+  top: 10px;
   .bold, .italic, .underline, .strikethrough, .unorderedlist, .orderedlist, .link, .image, .disable {
     background-color: white;
     padding: 8px 4px 0px 4px;
@@ -1152,13 +1152,10 @@ table.loi {
 form .counter {
   position:absolute;
   left:0;
-  bottom:-7px;
+  bottom:-9px;
   font-size:14px;
   font-weight:bold;
   color:#ccc;
- }
- form li.wysiwyg .counter {
-   bottom: 20px;
  }
 form .limit_warning{color:#600;}
 form .limit_exceeded{color:#e00;}
