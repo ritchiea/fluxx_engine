@@ -910,10 +910,35 @@ form .counter {
   font-size:14px;
   font-weight:bold;
   color:#ccc;
+  margin-top: 14px;
  }
 form .limit_warning{color:#600;}
 form .limit_exceeded{color:#e00;}
 
+iframe.wysiwyg {
+  width: 510px;
+  @include rounded(4px);
+  border: solid 1px #777777;
+  background-color: #f9f7f8;
+  padding: 10px;
+  position: relative;
+  top: 10px;
+}
+
+.rte-toolbar {
+  float: right;
+  position: relative;
+  margin-right: 4px;
+  top: 14px;
+  width: 254px;
+  right: 77px;
+  .bold, .italic, .underline, .strikethrough, .unorderedlist, .orderedlist, .link, .image, .disable {
+    background-color: white;
+    padding: 8px 4px 0px 4px;
+    @include rounded(4px);
+    @include box-shadow-with-inset;
+  }
+}
 
 /*=============================
  Browser Specific Adjustments

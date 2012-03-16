@@ -376,7 +376,10 @@
       } else {
         $(obj).removeClass(options.cssExceeded);
       }
-      $(obj).next().html(options.counterText + available);
+      var $counter = $(obj).next();
+      if (!$counter.hasClass('counter'))
+        $counter = $counter.next();
+      $counter.html(options.counterText + available);
     };
 
     this.each(function() {
