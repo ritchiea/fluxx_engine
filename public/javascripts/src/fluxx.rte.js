@@ -263,13 +263,14 @@ if(typeof $.fn.rte === "undefined") {
                 }
                 return true;
             }).keyup();
-            iframeDoc.find('.framebody').blur(function() {
+            $(iframe).parents('form').focusin(function() {
               tb.hide();
             });
             iframeDoc.find('.framebody').focus(function() {
               tb.fadeIn();
             });
 
+            $.fluxx.log('888', $(iframe).parent());
             tb.hide();
             return tb;
         };
