@@ -246,7 +246,7 @@ class ActionController::ControllerDslIndex < ActionController::ControllerDsl
           else
             header_record
           end
-          output.write "<Cell ss:StyleID=\"s21\"><Data ss:Type=\"String\">#{header}</Data></Cell>" 
+          output.write "<Cell ss:StyleID=\"s21\"><Data ss:Type=\"String\">#{CGI::escapeHTML(header)}</Data></Cell>" 
         end
         output.write "</Row>"
       end    
